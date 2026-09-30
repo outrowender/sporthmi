@@ -25,78 +25,63 @@ implements IPopupKeyConsuptionStrategy {
         this.popupID = n;
     }
 
-    @Override
     public int getPopupID() {
         return this.popupID;
     }
 
-    @Override
     public void setConsumeHKReturn(int n) {
         this.consumeHKReturn = n;
     }
 
-    @Override
     public void setConsumeDDSPress(int n) {
         this.consumeDDSPress = n;
     }
 
-    @Override
     public void setConsumeKeyTurned(int n) {
         this.consumeKeyTurned = n;
     }
 
-    @Override
     public void setConsumeSKPress(int n) {
         this.consumeSKPress = n;
     }
 
-    @Override
     public void setConsumeTouchPad(int n) {
         this.consumeTouchpad = n;
     }
 
-    @Override
     public int getConsumeHKReturn() {
         return this.consumeHKReturn;
     }
 
-    @Override
     public int getConsumeDDSPress() {
         return this.consumeDDSPress;
     }
 
-    @Override
     public int getConsumeKeyTurned() {
         return this.consumeKeyTurned;
     }
 
-    @Override
     public int getConsumeSKPress() {
         return this.consumeSKPress;
     }
 
-    @Override
     public int getConsumeTouchPad() {
         return this.consumeTouchpad;
     }
 
-    @Override
     public void setConsumeGenericKeys(int n, int[] nArray) {
         this.consumeGeneric = n;
         this.consumeGenericKeyIDs = nArray;
     }
 
-    @Override
     public int getConsumeGenericStrategy() {
         return this.consumeGeneric;
     }
 
-    @Override
     public int[] getConsumeGenericKeys() {
         return this.consumeGenericKeyIDs;
     }
 
-    @Override
     public void setHKPressFilter(int[] nArray) {
         this.hKFilterKeys = nArray;
         if (this.hKFilterKeys != null) {
@@ -104,12 +89,10 @@ implements IPopupKeyConsuptionStrategy {
         }
     }
 
-    @Override
     public int[] getHKPressFilter() {
         return null == this.hKFilterKeys ? new int[]{} : this.hKFilterKeys;
     }
 
-    @Override
     public void registerPopupKeyConsumptionListener(IPopupKeyConsumptionListener iPopupKeyConsumptionListener) {
         this.listenerRef = new WeakReference(iPopupKeyConsumptionListener);
     }
@@ -124,7 +107,6 @@ implements IPopupKeyConsuptionStrategy {
         }
     }
 
-    @Override
     public boolean doesHKFilterContainsKey(int n) {
         if (this.hKFilterKeys != null) {
             if (Arrays.binarySearch(this.hKFilterKeys, n) < 0) {

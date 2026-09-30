@@ -3,20 +3,18 @@
  */
 package de.audi.atip.job;
 
-import de.audi.atip.job.ReplaceJobFilter$IJobReplaceChecker;
 import de.esolutions.fw.util.commons.job.BaseJobFilter;
 import de.esolutions.fw.util.commons.job.Job;
 
 public class ReplaceJobFilter
 extends BaseJobFilter {
     private Job current = null;
-    private final ReplaceJobFilter$IJobReplaceChecker comp;
+    private final IJobReplaceChecker comp;
 
-    public ReplaceJobFilter(ReplaceJobFilter$IJobReplaceChecker iJobReplaceChecker) {
+    public ReplaceJobFilter(IJobReplaceChecker iJobReplaceChecker) {
         this.comp = iJobReplaceChecker;
     }
 
-    @Override
     public void enqueue(Job job, int n) {
         if (job != null && this.comp.shouldReplace(job)) {
             if (this.current != null) {
@@ -25,6 +23,10 @@ extends BaseJobFilter {
             this.current = job;
         }
         super.enqueue(job, n);
+    }
+
+    static interface IJobReplaceChecker {
+        public boolean shouldReplace(Job var1);
     }
 }
 

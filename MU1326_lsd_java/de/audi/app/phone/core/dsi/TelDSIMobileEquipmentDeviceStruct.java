@@ -166,312 +166,250 @@ implements ITelDSIMobileEquipmentDeviceState {
         return false;
     }
 
-    @Override
     public ActivationStateStruct getActivationState() {
         return this.activationState;
     }
 
-    @Override
     public boolean isAutomaticPinEntryActive() {
         return this.automaticPinEntryActive;
     }
 
-    @Override
     public boolean isAutomaticRedialActive() {
         return this.automaticRedialActive;
     }
 
-    @Override
     public int getBatteryChargeLevel() {
         return this.batteryChargeLevel;
     }
 
-    @Override
     public CallDuration[] getCallDurationList() {
         return this.callDurationList;
     }
 
-    @Override
     public CallInformation[] getCallList() {
         return this.callList;
     }
 
-    @Override
     public boolean isCdmaThreeWayCallingSetting() {
         return this.cdmaThreeWayCallingSetting;
     }
 
-    @Override
     public int getCradlePlugInState() {
         return this.cradlePlugInState;
     }
 
-    @Override
     public DisconnectReason getDisconnectReason() {
         return this.disconnectReason;
     }
 
-    @Override
     public String getDtmfTone() {
         return this.dtmfTone;
     }
 
-    @Override
     public EmergencyCallSetting getEmergencyCallActive() {
         return this.emergencyCallActive;
     }
 
-    @Override
     public boolean isEnhancedPrivacyMode() {
         return this.enhancedPrivacyMode;
     }
 
-    @Override
     public int getHandsFreeMode() {
         return this.handsFreeMode;
     }
 
-    @Override
     public LockStateStruct getLockState() {
         return this.lockState;
     }
 
-    @Override
     public MailboxDialingNumber[] getMailboxContent() {
         return this.mailboxContent;
     }
 
-    @Override
     public int getMicGainLevel() {
         return this.micGainLevel;
     }
 
-    @Override
     public int getmICMuteState() {
         return this.mICMuteState;
     }
 
-    @Override
     public int getNadMode() {
         return this.nadMode;
     }
 
-    @Override
     public NADTemperatureStruct getnADTemperature() {
         return this.nADTemperature;
     }
 
-    @Override
     public NetworkProviderName getNetworkProvider() {
         return this.networkProvider;
     }
 
-    @Override
     public int getNetworkType() {
         return this.networkType;
     }
 
-    @Override
     public int getOptimizationMode() {
         return this.optimizationMode;
     }
 
-    @Override
     public boolean isOtherSIMAvailable() {
         return this.otherSIMAvailable;
     }
 
-    @Override
     public PhoneInformation getPhoneInformation() {
         return this.phoneInformation;
     }
 
-    @Override
     public boolean isPrivacyMode() {
         return this.privacyMode;
     }
 
-    @Override
     public RegisterStateStruct getRegisterState() {
         return this.registerState;
     }
 
-    @Override
     public ServiceCodeTypeStruct getServiceCodeType() {
         return this.serviceCodeType;
     }
 
-    @Override
     public ServiceNumbers getServiceNumbers() {
         return this.serviceNumbers;
     }
 
-    @Override
     public ServiceProvider getServiceProvider() {
         return this.serviceProvider;
     }
 
-    @Override
     public int getSignalQuality() {
         return this.signalQuality;
     }
 
-    @Override
     public SIMAliasInformation getSimAliasInformation() {
         return this.simAliasInformation;
     }
 
-    @Override
     public boolean isSimPINRequired() {
         return this.simPINRequired;
     }
 
-    @Override
     public SuppServiceResponseStruct getSuppServiceResponse() {
         return this.suppServiceResponse;
     }
 
-    @Override
     public EmergencyNumbers getTelEmerNums() {
         return this.telEmerNums;
     }
 
-    @Override
     public CallStateStruct getCallState() {
         return this.callState;
     }
 
-    @Override
     public boolean isCallStackReverted() {
         return this.callStackReverted;
     }
 
-    @Override
     public CallStackEntry[] getLastAnsweredNumbers() {
         return this.lastAnsweredNumbers;
     }
 
-    @Override
     public CallStackEntry[] getLastDialedNumbers() {
         return this.lastDialedNumbers;
     }
 
-    @Override
     public CallStackEntry[] getMissedNumbers() {
         return this.missedNumbers;
     }
 
-    @Override
     public CallStackEntry[] getCombinedCallStackEntries() {
         return this.combinedCallStackEntries;
     }
 
-    @Override
     public MissedCallIndicator getMissedCallIndicator() {
         return this.missedCallIndicator;
     }
 
-    @Override
     public int getmEDataValidity() {
         return this.mEDataValidity;
     }
 
-    @Override
     public boolean isWidebandSpeechActive() {
         return this.widebandSpeechActive;
     }
 
-    @Override
     public int getRingtoneIndex() {
         return this.ringtoneIndex;
     }
 
-    @Override
     public String getRingtonePath() {
         return this.ringtonePath;
     }
 
-    @Override
     public boolean isSapUpgradeActive() {
         return this.sapUpgradeActive;
     }
 
-    @Override
     public boolean isRingtoneMuteSettingOn() {
         return this.ringtoneMuteSettingOn;
     }
 
-    @Override
     public boolean isRingtoneMuteActive() {
         return this.ringtoneMuteActive;
     }
 
-    @Override
     public String geteUICCID() {
         return this.eUICCID;
     }
 
-    @Override
     public String geteSIMMSISDN() {
         return this.eSIMMSISDN;
     }
 
-    @Override
     public boolean iseSIMActive() {
         return this.eSIMActive;
     }
 
-    @Override
     public boolean iseSIMB2BModeActive() {
         return this.eSIMB2BModeActive;
     }
 
-    @Override
     public int getDeviceRole() {
         return this.deviceRole;
     }
 
-    @Override
     public boolean isRolePrimary() {
-        return this.deviceRole == 256;
+        return this.deviceRole == 65536;
     }
 
-    @Override
     public boolean isRoleAssociated() {
-        return this.deviceRole == 512;
+        return this.deviceRole == 131072;
     }
 
-    @Override
     public boolean isRoleData() {
-        return this.deviceRole == 768;
+        return this.deviceRole == 196608;
     }
 
-    @Override
     public int getInstanceID() {
         return this.instanceID;
     }
 
-    @Override
     public boolean isCallStacksReverted() {
         return this.isCallStacksReverted;
     }
 
-    @Override
     public boolean isPhoneReminderSetting() {
         return this.phoneReminderSetting;
     }
 
-    @Override
     public boolean isPrefixActivated() {
         return this.prefixActivated;
     }
 
-    @Override
     public String getPrefixContent() {
         return this.prefixContent;
     }
 
-    @Override
     public boolean isMailboxNumberAvailable() {
         if (this.mailboxContent != null) {
             for (int i2 = 0; i2 < this.mailboxContent.length; ++i2) {
@@ -482,13 +420,11 @@ implements ITelDSIMobileEquipmentDeviceState {
         return false;
     }
 
-    @Override
     public boolean isMultipartySupported() {
         boolean bl = this.callState != null ? this.callState.isHasBCall() || this.callState.isHasPCall() : false;
         return !bl && this.supportsFeature(8) && this.supportsFeature(32);
     }
 
-    @Override
     public CallInformation getCall(int n) {
         if (this.callList != null) {
             for (int i2 = 0; i2 < this.callList.length; ++i2) {
@@ -499,67 +435,54 @@ implements ITelDSIMobileEquipmentDeviceState {
         return null;
     }
 
-    @Override
     public boolean inbandRingingSupported() {
         return this.supportsFeature(1);
     }
 
-    @Override
     public boolean isRejectCallSupported() {
         return this.supportsFeature(2);
     }
 
-    @Override
     public boolean isRejectMobileSupported() {
         return this.supportsFeature(256);
     }
 
-    @Override
     public boolean isResponseAndHoldSupported() {
         return this.supportsFeature(4);
     }
 
-    @Override
     public boolean isThreeWaySupported() {
         return this.supportsFeature(8);
     }
 
-    @Override
     public boolean isEnhancedCallFeaturesSupported() {
         return this.supportsFeature(16);
     }
 
-    @Override
     public boolean isEnhancedStatSupported() {
         return this.supportsFeature(32);
     }
 
-    @Override
     public boolean isAddToConferenceSupported() {
         return this.supportsFeature(64);
     }
 
-    @Override
     public boolean isEnhancedConferenceTransferSupported() {
         return this.supportsFeature(128);
     }
 
-    @Override
     public boolean isAudiServiceAvailable() {
         return this.isInfoCallSupported() || this.isBreakdownCallSupported();
     }
 
-    @Override
     public boolean isInfoCallSupported() {
         return this.serviceNumbers != null && this.serviceNumbers.getInfonumber() != null && this.serviceNumbers.getInfonumber().length() > 0 && this.serviceNumbers.getInfonumberRoaming() != null && this.serviceNumbers.getInfonumberRoaming().length() > 0;
     }
 
-    @Override
     public boolean isBreakdownCallSupported() {
         return this.serviceNumbers != null && this.serviceNumbers.getBreakdownNumber() != null && this.serviceNumbers.getBreakdownNumber().length() > 0 && this.serviceNumbers.getBreakdownNumberRoaming() != null && this.serviceNumbers.getBreakdownNumberRoaming().length() > 0;
     }
 
-    @Override
     public CallStackEntry getLastDialedNumber() {
         if (this.lastDialedNumbers != null && this.lastDialedNumbers.length > 0) {
             return this.lastDialedNumbers[0];
@@ -567,12 +490,10 @@ implements ITelDSIMobileEquipmentDeviceState {
         return null;
     }
 
-    @Override
     public int getTelMode() {
         return this.activationState != null ? this.activationState.getTelMode() : -1;
     }
 
-    @Override
     public int getPhoneModuleState() {
         if (this.activationState != null) {
             return this.activationState.getTelPhoneModuleState();
@@ -580,7 +501,6 @@ implements ITelDSIMobileEquipmentDeviceState {
         return -1;
     }
 
-    @Override
     public String getDisplayProviderName() {
         StringBuffer stringBuffer = new StringBuffer();
         if (this.registerState != null) {
@@ -613,7 +533,6 @@ implements ITelDSIMobileEquipmentDeviceState {
         return string2;
     }
 
-    @Override
     public String getDisplayNetworkName() {
         if (this.registerState != null) {
             String string = this.registerState.getTelLongProviderName();
@@ -626,7 +545,6 @@ implements ITelDSIMobileEquipmentDeviceState {
         return "";
     }
 
-    @Override
     public boolean isEmergencyNumber(String string) {
         if (string != null && this.telEmerNums != null) {
             if (PhoneUtils.compareTelNumber(string, this.telEmerNums.getMainEmergencyNumber())) {
@@ -641,7 +559,6 @@ implements ITelDSIMobileEquipmentDeviceState {
         return false;
     }
 
-    @Override
     public boolean isMailboxNumber(String string) {
         if (string != null && this.mailboxContent != null) {
             for (int i2 = 0; i2 < this.mailboxContent.length; ++i2) {
@@ -652,7 +569,6 @@ implements ITelDSIMobileEquipmentDeviceState {
         return false;
     }
 
-    @Override
     public boolean isInfoNumber(String string) {
         if (string != null && this.serviceNumbers != null) {
             return PhoneUtils.compareTelNumber(string, this.serviceNumbers.getInfonumber()) || PhoneUtils.compareTelNumber(string, this.serviceNumbers.getInfonumberRoaming());
@@ -660,7 +576,6 @@ implements ITelDSIMobileEquipmentDeviceState {
         return false;
     }
 
-    @Override
     public boolean isBreakdownNumber(String string) {
         if (string != null && this.serviceNumbers != null) {
             return PhoneUtils.compareTelNumber(string, this.serviceNumbers.getBreakdownNumber()) || PhoneUtils.compareTelNumber(string, this.serviceNumbers.getBreakdownNumberRoaming());
@@ -668,7 +583,6 @@ implements ITelDSIMobileEquipmentDeviceState {
         return false;
     }
 
-    @Override
     public String getMailboxNumber() {
         if (this.mailboxContent != null && this.mailboxContent.length > 0) {
             return this.mailboxContent[0].getMailboxNumber();
@@ -676,7 +590,6 @@ implements ITelDSIMobileEquipmentDeviceState {
         return null;
     }
 
-    @Override
     public boolean isPhoneReady() {
         if (this.activationState != null && this.lockState != null) {
             return (this.activationState.getTelActivationState() == 5 || this.activationState.getTelActivationState() == 2) && this.lockState.getTelLockState() == 2;
@@ -684,7 +597,6 @@ implements ITelDSIMobileEquipmentDeviceState {
         return false;
     }
 
-    @Override
     public boolean hasMissedCalls() {
         if (this.missedCallIndicator != null) {
             return this.missedCallIndicator.isMissedCall();
@@ -692,7 +604,6 @@ implements ITelDSIMobileEquipmentDeviceState {
         return false;
     }
 
-    @Override
     public boolean isDialingPossible() {
         boolean bl = false;
         if (this.callState != null && this.isPhoneReady()) {
@@ -710,7 +621,6 @@ implements ITelDSIMobileEquipmentDeviceState {
         return bl;
     }
 
-    @Override
     public boolean isDialNumberPossible(String string) {
         boolean bl = false;
         if (this.callState != null && this.isPhoneReady()) {
@@ -728,7 +638,6 @@ implements ITelDSIMobileEquipmentDeviceState {
         return bl;
     }
 
-    @Override
     public String getDisplayName(String string, String string2) {
         if (string2 != null && !string2.equals("") && this.isEmergencyNumber(string2)) {
             return this.textFactory.getText(4);
@@ -751,7 +660,6 @@ implements ITelDSIMobileEquipmentDeviceState {
         return string;
     }
 
-    @Override
     public String getDisplayNumber(String string, String string2) {
         String string3 = this.getDisplayName(string, string2);
         if (string2 == null || string3 != null && string3.equals(string2) || this.isSomeServiceCall(string2)) {
@@ -764,19 +672,18 @@ implements ITelDSIMobileEquipmentDeviceState {
         return this.isInfoNumber(string) || this.isBreakdownNumber(string) || this.isMailboxNumber(string) || this.isEmergencyNumber(string);
     }
 
-    @Override
     public String getDisplayName(AbstractPhoneCall abstractPhoneCall) {
         if (abstractPhoneCall != null) {
             if (abstractPhoneCall instanceof ConferenceCall) {
                 return this.textFactory.getText(1);
             }
-            if (abstractPhoneCall.getTelCallType() == 768) {
+            if (abstractPhoneCall.getTelCallType() == 196608) {
                 return this.textFactory.getText(7);
             }
-            if (abstractPhoneCall.getTelCallType() == 256) {
+            if (abstractPhoneCall.getTelCallType() == 65536) {
                 return this.textFactory.getText(5);
             }
-            if (abstractPhoneCall.getTelCallType() == 512) {
+            if (abstractPhoneCall.getTelCallType() == 131072) {
                 return this.textFactory.getText(6);
             }
             return this.getDisplayName(abstractPhoneCall.getTelRemName(), abstractPhoneCall.getTelRemNumber());
@@ -784,7 +691,6 @@ implements ITelDSIMobileEquipmentDeviceState {
         return null;
     }
 
-    @Override
     public String getDisplayNumber(AbstractPhoneCall abstractPhoneCall) {
         String string = this.getDisplayName(abstractPhoneCall);
         String string2 = abstractPhoneCall.getTelRemNumber();
@@ -794,7 +700,6 @@ implements ITelDSIMobileEquipmentDeviceState {
         return string2;
     }
 
-    @Override
     public boolean isEmergencyNumberAvailable() {
         if (this.telEmerNums != null) {
             if (this.telEmerNums.getMainEmergencyNumber() != null && this.telEmerNums.getMainEmergencyNumber().length() > 0) {
@@ -811,7 +716,6 @@ implements ITelDSIMobileEquipmentDeviceState {
         return false;
     }
 
-    @Override
     public ITelMESlotState getDevice() {
         return new TelMESlotState(this.activationState, this.lockState, this.phoneInformation, this.networkType, this.callState, this.registerState);
     }

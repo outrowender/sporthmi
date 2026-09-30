@@ -7,13 +7,10 @@ import de.audi.atip.interapp.navigation.previewmap.gui.GuiTooltipInformationCont
 import org.dsi.ifc.global.NavLocation;
 
 public interface GuiModelAccessForPreviewMapDetailScreen {
-    default public void onUpdateLocation(NavLocation navLocation) {
-    }
+    public void onUpdateLocation(NavLocation var1);
 
-    default public void onUpdateLocationsForTour(NavLocation[] navLocationArray, String string) {
-    }
+    public void onUpdateLocationsForTour(NavLocation[] var1, String var2);
 
-    default public GuiTooltipInformationContainer createMapTooltipInformationContainer(NavLocation navLocation, String string) {
-    }
+    public GuiTooltipInformationContainer createMapTooltipInformationContainer(NavLocation var1, String var2);
 }
 

@@ -12,10 +12,10 @@ import de.audi.atip.log.LogChannel;
 
 public class SystemConnectionAcceptCommand
 extends AbstractSystemCallCommand {
-    private static final int CONNECTION_DECLINE_ONCE;
-    private static final int CONNECTION_ACCEPT_ONCE;
-    private static final int CONNECTION_ACCEPT_ALWAYS;
-    private static final int CONNECTION_DECLINE_ALWAYS;
+    private static final int CONNECTION_DECLINE_ONCE = 0;
+    private static final int CONNECTION_ACCEPT_ONCE = 1;
+    private static final int CONNECTION_ACCEPT_ALWAYS = 2;
+    private static final int CONNECTION_DECLINE_ALWAYS = 3;
     private final int acceptConnection;
     private final ISdsConnectivityService connectivity;
 
@@ -25,32 +25,31 @@ extends AbstractSystemCallCommand {
         this.connectivity = iSdsConnectivityService;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: acceptConnection=%2", (Object)this.getName(), (long)this.acceptConnection);
+        this.logger.log(10000000, "%1#execute: acceptConnection=%2", (Object)this.getName(), (long)this.acceptConnection);
         switch (this.acceptConnection) {
             case 0: {
-                this.logger.log(-2137614336, "%1#execute: decline connection", (Object)this.getName());
+                this.logger.log(10000000, "%1#execute: decline connection", (Object)this.getName());
                 this.connectivity.reject();
                 break;
             }
             case 1: {
-                this.logger.log(-2137614336, "%1#execute: accept connection once", (Object)this.getName());
+                this.logger.log(10000000, "%1#execute: accept connection once", (Object)this.getName());
                 this.connectivity.acceptOnce();
                 break;
             }
             case 2: {
-                this.logger.log(-2137614336, "%1#execute: accept connection always", (Object)this.getName());
+                this.logger.log(10000000, "%1#execute: accept connection always", (Object)this.getName());
                 this.connectivity.acceptAlways();
                 break;
             }
             case 3: {
-                this.logger.log(-2137614336, "%1#execute: decline connection forever", (Object)this.getName());
+                this.logger.log(10000000, "%1#execute: decline connection forever", (Object)this.getName());
                 this.connectivity.deactivateOnlineConnection();
                 break;
             }
             default: {
-                this.logger.log(-1601830656, "%1#execute: unhandled accept mode %2", (Object)this.getName(), (long)this.acceptConnection);
+                this.logger.log(100000, "%1#execute: unhandled accept mode %2", (Object)this.getName(), (long)this.acceptConnection);
                 this.sendResult(3001);
                 return;
             }

@@ -4,18 +4,18 @@
 package de.audi.app.car.common.mer;
 
 public final class MenuEntryType {
-    private static final int ME_TYPE_NORMAL;
-    private static final int ME_TYPE_MMI_COMBI;
-    private static final int ME_TYPE_SLOT;
-    private static final int ME_TYPE_INCLUDE;
-    private static final int ME_TYPE_PERSISTENT;
+    private static final int ME_TYPE_NORMAL = 0;
+    private static final int ME_TYPE_MMI_COMBI = 1;
+    private static final int ME_TYPE_SLOT = 2;
+    private static final int ME_TYPE_INCLUDE = 3;
+    private static final int ME_TYPE_PERSISTENT = 4;
     private final String typeName;
     private final int typeID;
-    public static final MenuEntryType MENU_ENTRY;
-    public static final MenuEntryType INCLUDE_MENU_ENTRY;
-    public static final MenuEntryType SLOT_MENU_ENTRY;
-    public static final MenuEntryType MMICOMBI_MENU_ENTRY;
-    public static final MenuEntryType PERSISTENT_MENU_ENTRY;
+    public static final MenuEntryType MENU_ENTRY = new MenuEntryType("MenuEntry", 0);
+    public static final MenuEntryType INCLUDE_MENU_ENTRY = new MenuEntryType("IncludeMenuEntry", 3);
+    public static final MenuEntryType SLOT_MENU_ENTRY = new MenuEntryType("SlotMenuEntry", 2);
+    public static final MenuEntryType MMICOMBI_MENU_ENTRY = new MenuEntryType("MenuEntryMMICombi", 1);
+    public static final MenuEntryType PERSISTENT_MENU_ENTRY = new MenuEntryType("PersistentMenuEntry", 4);
 
     private MenuEntryType(String string, int n) {
         this.typeName = string;
@@ -46,14 +46,6 @@ public final class MenuEntryType {
 
     public String toString() {
         return this.typeName;
-    }
-
-    static {
-        MENU_ENTRY = new MenuEntryType("MenuEntry", 0);
-        INCLUDE_MENU_ENTRY = new MenuEntryType("IncludeMenuEntry", 3);
-        SLOT_MENU_ENTRY = new MenuEntryType("SlotMenuEntry", 2);
-        MMICOMBI_MENU_ENTRY = new MenuEntryType("MenuEntryMMICombi", 1);
-        PERSISTENT_MENU_ENTRY = new MenuEntryType("PersistentMenuEntry", 4);
     }
 }
 

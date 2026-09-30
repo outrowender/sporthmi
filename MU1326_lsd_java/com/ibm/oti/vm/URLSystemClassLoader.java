@@ -21,14 +21,12 @@ extends URLClassLoader {
         super(uRLArray, classLoader);
     }
 
-    @Override
-    public Class findClass(String string) {
+    public Class findClass(String string) throws ClassNotFoundException {
         Class clazz = super.findClass(string);
         return clazz;
     }
 
-    @Override
-    protected synchronized Class loadClass(String string, boolean bl) {
+    protected synchronized Class loadClass(String string, boolean bl) throws ClassNotFoundException {
         int n;
         SecurityManager securityManager = System.getSecurityManager();
         if (securityManager != null && !this.checkingPackageAccess && (n = string.lastIndexOf(46)) > 0) {
@@ -43,10 +41,8 @@ extends URLClassLoader {
         return super.loadClass(string, bl);
     }
 
-    abstract boolean addExitPermission() {
-    }
+    abstract boolean addExitPermission();
 
-    @Override
     protected PermissionCollection getPermissions(CodeSource codeSource) {
         PermissionCollection permissionCollection = super.getPermissions(codeSource);
         if (this.addExitPermission()) {

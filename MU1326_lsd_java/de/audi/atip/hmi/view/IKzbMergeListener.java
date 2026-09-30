@@ -4,10 +4,8 @@
 package de.audi.atip.hmi.view;
 
 public interface IKzbMergeListener {
-    default public String getWidgetName() {
-    }
+    public String getWidgetName();
 
-    default public void mergeFinished(String string) {
-    }
+    public void mergeFinished(String var1);
 }
 

@@ -22,12 +22,11 @@ extends AbstractSystemCallCommand {
         this.slotIndex = SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: slotIndex=%2", (Object)this.getName(), (long)this.slotIndex);
+        this.logger.log(10000000, "%1#execute: slotIndex=%2", (Object)this.getName(), (long)this.slotIndex);
         SDSModelAccess.setTagModel(0);
         int n = (int)this.nBestStorage.getSlotObjID(this.slotIndex, 0);
-        this.logger.log(-2137614336, "%1#execute: objectID=%2!", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "%1#execute: objectID=%2!", (Object)this.getName(), (long)n);
         if (n >= 1 && n <= 8) {
             SDSModelAccess.setTagModel(n);
         }

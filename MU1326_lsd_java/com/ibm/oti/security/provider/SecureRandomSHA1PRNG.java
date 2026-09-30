@@ -9,17 +9,12 @@ import java.security.SecureRandomSpi;
 
 public class SecureRandomSHA1PRNG
 extends SecureRandomSpi {
-    private static final int SHA_SIZE;
-    private static final byte[] NO_SEED;
+    private static final int SHA_SIZE = 20;
+    private static final byte[] NO_SEED = new byte[0];
     private transient SHAOutputStream sha = new SHAOutputStream();
     private int count = 20;
     private byte[] state;
 
-    static {
-        NO_SEED = new byte[0];
-    }
-
-    @Override
     protected byte[] engineGenerateSeed(int n) {
         if (n < 0) {
             throw new IllegalArgumentException();
@@ -33,7 +28,6 @@ extends SecureRandomSpi {
         return byArray;
     }
 
-    @Override
     protected void engineNextBytes(byte[] byArray) {
         if (this.state == null) {
             this.state = this.engineGenerateSeed(20);
@@ -57,7 +51,6 @@ extends SecureRandomSpi {
         }
     }
 
-    @Override
     protected void engineSetSeed(byte[] byArray) {
         if (this.state != null) {
             this.sha.write(this.state, 0, this.state.length);

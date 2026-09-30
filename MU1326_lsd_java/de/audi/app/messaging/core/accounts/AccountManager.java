@@ -5,9 +5,6 @@ package de.audi.app.messaging.core.accounts;
 
 import de.audi.app.messaging.core.accounts.AccountFilter;
 import de.audi.app.messaging.core.accounts.AccountList;
-import de.audi.app.messaging.core.accounts.AccountManager$DiagPlugIn;
-import de.audi.app.messaging.core.accounts.AccountManager$MyDsiMessagingListener;
-import de.audi.app.messaging.core.accounts.AccountManager$NewMessageIndicationManagerObserver;
 import de.audi.app.messaging.core.accounts.Accounts;
 import de.audi.app.messaging.core.accounts.IAccountFilter;
 import de.audi.app.messaging.core.accounts.IAccountManagerListener;
@@ -15,6 +12,8 @@ import de.audi.app.messaging.core.application.AbstractMsgApplication;
 import de.audi.app.messaging.core.component.AbstractMessagingComponent;
 import de.audi.app.messaging.core.component.IMessagingComponent;
 import de.audi.app.messaging.core.concurrent.CopyOnWriteArrayList;
+import de.audi.app.messaging.core.dsi.messaging.DsiMessagingEmptyListener;
+import de.audi.app.messaging.core.indication.INewMessageIndicationManagerObserver;
 import de.audi.app.messaging.core.osgi.MessagingBundleContext;
 import de.audi.app.messaging.core.setup.SetupManager;
 import de.audi.app.messaging.core.swdiagnosis.IDiagPlugIn;
@@ -24,7 +23,6 @@ import de.audi.app.messaging.core.util.Logs;
 import de.audi.app.messaging.core.util.Maps;
 import de.audi.app.messaging.core.util.Strings;
 import de.audi.atip.hmi.IHMIServiceApp;
-import de.audi.atip.log.LogChannel;
 import de.audi.atip.util.Util;
 import de.esolutions.fw.util.commons.Buffer;
 import java.util.ArrayList;
@@ -38,12 +36,12 @@ public final class AccountManager
 extends AbstractMessagingComponent
 implements IMessagingComponent,
 IDiagProvider {
-    public static final int NUM_ACCOUNTS_MAX;
-    public static final int ACCOUNT_TEXT_TYPE_MOBILE_DYNAMIC;
-    public static final int ACCOUNT_TEXT_TYPE_MOBILE_STATIC;
-    public static final int ACCOUNT_TEXT_TYPE_SIM;
-    private static final int MESSAGING_MODE_SMS;
-    private static final int MESSAGING_MODE_EMAIL;
+    public static final int NUM_ACCOUNTS_MAX = 12;
+    public static final int ACCOUNT_TEXT_TYPE_MOBILE_DYNAMIC = 0;
+    public static final int ACCOUNT_TEXT_TYPE_MOBILE_STATIC = 1;
+    public static final int ACCOUNT_TEXT_TYPE_SIM = 2;
+    private static final int MESSAGING_MODE_SMS = 0;
+    private static final int MESSAGING_MODE_EMAIL = 1;
     private MessagingAccount[] accounts = new MessagingAccount[0];
     private final Map accountMap = new HashMap(Maps.getInitialHashMapCapacity(12, 75));
     private final AccountList dialogAccountList;
@@ -61,30 +59,28 @@ IDiagProvider {
     public AccountManager(MessagingBundleContext messagingBundleContext) {
         super(messagingBundleContext, "App.Messaging.Main");
         IHMIServiceApp iHMIServiceApp = this.framework.getHmiServiceApp();
-        this.dialogAccountList = new AccountList(messagingBundleContext, iHMIServiceApp.getBaseListModel(-829218560), "Dialog");
-        this.smsAccountList = new AccountList(messagingBundleContext, iHMIServiceApp.getBaseListModel(-795664128), "SMS");
-        this.emailAccountList = new AccountList(messagingBundleContext, iHMIServiceApp.getBaseListModel(-812441344), "E-Mail");
+        this.dialogAccountList = new AccountList(messagingBundleContext, iHMIServiceApp.getBaseListModel(2200526), "Dialog");
+        this.smsAccountList = new AccountList(messagingBundleContext, iHMIServiceApp.getBaseListModel(2200528), "SMS");
+        this.emailAccountList = new AccountList(messagingBundleContext, iHMIServiceApp.getBaseListModel(2200527), "E-Mail");
         this.addComponent(this.dialogAccountList);
         this.addComponent(this.smsAccountList);
         this.addComponent(this.emailAccountList);
     }
 
-    @Override
     public void init(AbstractMsgApplication abstractMsgApplication) {
         super.init(abstractMsgApplication);
         this.smsAccountList.addAccountFilter(AccountFilter.ACCOUNT_FILTER_SMS_ONLY);
         this.emailAccountList.addAccountFilter(AccountFilter.ACCOUNT_FILTER_EMAIL_ONLY);
         this.setAvailableAccounts();
         this.setSelectedAccount(null);
-        abstractMsgApplication.getDsiMessagingPrimaryListener().addSubscriber(new AccountManager$MyDsiMessagingListener(this, null));
-        abstractMsgApplication.getNewMessageIndicationManager().addObserver(new AccountManager$NewMessageIndicationManagerObserver(this, null));
+        abstractMsgApplication.getDsiMessagingPrimaryListener().addSubscriber(new MyDsiMessagingListener());
+        abstractMsgApplication.getNewMessageIndicationManager().addObserver(new NewMessageIndicationManagerObserver());
         abstractMsgApplication.getMessagingSwDiagnosis().registerDiagProvider(this);
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void dispose() {
         Object object = this.messagingBundleContext.getMessagingHmiLock();
         synchronized (object) {
@@ -139,7 +135,7 @@ IDiagProvider {
     }
 
     public boolean isEmailMode() {
-        int n = this.framework.getHmiServiceApp().getChoiceModel(-1181540096).getValue();
+        int n = this.framework.getHmiServiceApp().getChoiceModel(2200505).getValue();
         return n == 1;
     }
 
@@ -151,7 +147,7 @@ IDiagProvider {
         synchronized (object) {
             MessagingAccount messagingAccount;
             if (this.log.isDebug()) {
-                this.log.log(-2137614336, "[AccountManager#selectAccount] accountId = %1", (long)n);
+                this.log.log(10000000, "[AccountManager#selectAccount] accountId = %1", (long)n);
             }
             if ((messagingAccount = this.getAccount(n)) == null) {
                 this.log.log(10000, "[AccountManager#selectAccount] Cannot find account ID = %1", (long)n);
@@ -242,7 +238,7 @@ IDiagProvider {
         Object object = this.messagingBundleContext.getMessagingHmiLock();
         synchronized (object) {
             if (this.isAccountLoss(this.selectedAccount)) {
-                this.log.log(1078071040, "[AccountManager#checkAccountLoss] Selected account lost: %1", (Object)this.selectedAccount);
+                this.log.log(1000000, "[AccountManager#checkAccountLoss] Selected account lost: %1", (Object)this.selectedAccount);
                 this.setSelectedAccount(null);
             }
         }
@@ -255,7 +251,7 @@ IDiagProvider {
         Object object = this.messagingBundleContext.getMessagingHmiLock();
         synchronized (object) {
             if (this.isAccountLoss(this.lastSelectedAccount)) {
-                this.log.log(1078071040, "[AccountManager#checkLastAccountLoss] Last account lost: %1", (Object)this.lastSelectedAccount);
+                this.log.log(1000000, "[AccountManager#checkLastAccountLoss] Last account lost: %1", (Object)this.lastSelectedAccount);
                 this.lastSelectedAccount = null;
             }
         }
@@ -283,13 +279,13 @@ IDiagProvider {
     private void setSelectedAccount(MessagingAccount messagingAccount) {
         Object object = this.messagingBundleContext.getMessagingHmiLock();
         synchronized (object) {
-            this.log.log(-2137614336, "[AccountManager#setSelectedAccount] messagingAccount = %1, lastMessagingAccount = %2", (Object)String.valueOf(messagingAccount), (Object)String.valueOf(this.selectedAccount));
+            this.log.log(10000000, "[AccountManager#setSelectedAccount] messagingAccount = %1, lastMessagingAccount = %2", (Object)String.valueOf(messagingAccount), (Object)String.valueOf(this.selectedAccount));
             this.lastSelectedAccount = this.selectedAccount;
             this.selectedAccount = messagingAccount;
             this.setMessagingMode(this.selectedAccount != null ? this.selectedAccount.isSupportsEMail() : false);
             this.setSelectedAccountCapabilities();
             int n = messagingAccount == null ? 1 : 0;
-            this.framework.getHmiServiceApp().getChoiceModel(1334976768).setValue(n);
+            this.framework.getHmiServiceApp().getChoiceModel(2200143).setValue(n);
             SetupManager setupManager = this.msgApp.getSetupManager();
             if (messagingAccount != null && setupManager != null) {
                 this.msgApp.getSetupManager().logSystemProperties();
@@ -305,18 +301,18 @@ IDiagProvider {
         Object object = this.messagingBundleContext.getMessagingHmiLock();
         synchronized (object) {
             int n;
-            this.log.log(-2137614336, "[AccountManager#setMessagingMode] isEmailMode = %1", bl);
+            this.log.log(10000000, "[AccountManager#setMessagingMode] isEmailMode = %1", bl);
             int n2 = n = bl ? 1 : 0;
             if (this.messagingMode != n) {
                 this.msgApp.getNewMessage().clear();
             }
             this.messagingMode = n;
-            this.framework.getHmiServiceApp().getChoiceModel(-1181540096).setValue(n);
+            this.framework.getHmiServiceApp().getChoiceModel(2200505).setValue(n);
         }
     }
 
     private void setSelectedAccountCapabilities() {
-        this.log.log(-2137614336, "[AccountManager#setSelectedAccountCapabilities]");
+        this.log.log(10000000, "[AccountManager#setSelectedAccountCapabilities]");
         MessagingAccount messagingAccount = this.getSelectedAccount();
         this.signalSendSupport(messagingAccount);
         this.signalDraftSupport(messagingAccount);
@@ -332,7 +328,7 @@ IDiagProvider {
             this.numEmailAccounts = this.emailAccountList.getNumEmailAccounts();
             this.numSmsSendSupportAccounts = this.smsAccountList.getNumSendSmsAccounts();
             this.numEmailSendSupportAccounts = this.emailAccountList.getNumSendEmailAccounts();
-            this.log.log(1078071040, new StringBuffer().append("[AccountManager#setAvailableAccounts] numSmsSendSupportAccounts = %1, numEmailSendSupportAccounts = %2, isSendSmsSupportedByPrimaryDevice = ").append(this.smsAccountList.isSendSmsSupportedByPrimaryDevice()).append(", isSendEmailSupportedByPrimaryDevice = ").append(this.emailAccountList.isSendEmailSupportedByPrimaryDevice()).toString(), (long)this.numSmsSendSupportAccounts, (long)this.numEmailSendSupportAccounts);
+            this.log.log(1000000, new StringBuffer().append("[AccountManager#setAvailableAccounts] numSmsSendSupportAccounts = %1, numEmailSendSupportAccounts = %2, isSendSmsSupportedByPrimaryDevice = ").append(this.smsAccountList.isSendSmsSupportedByPrimaryDevice()).append(", isSendEmailSupportedByPrimaryDevice = ").append(this.emailAccountList.isSendEmailSupportedByPrimaryDevice()).toString(), (long)this.numSmsSendSupportAccounts, (long)this.numEmailSendSupportAccounts);
             IHMIServiceApp iHMIServiceApp = this.framework.getHmiServiceApp();
             iHMIServiceApp.getChoiceModel(4170).setValue(this.numSmsAccounts);
             iHMIServiceApp.getChoiceModel(4171).setValue(this.numEmailAccounts);
@@ -349,20 +345,20 @@ IDiagProvider {
 
     private void signalSendSupport(MessagingAccount messagingAccount) {
         boolean bl = messagingAccount != null ? Accounts.supportsSend(messagingAccount) : false;
-        this.log.log(-2137614336, "[AccountManager#signalSendSupport] Account supports sending messages: %1", bl);
+        this.log.log(10000000, "[AccountManager#signalSendSupport] Account supports sending messages: %1", bl);
         int n = bl ? 1 : 0;
-        this.framework.getHmiServiceApp().getChoiceModel(1116872960).setValue(n);
+        this.framework.getHmiServiceApp().getChoiceModel(2200130).setValue(n);
     }
 
     private void signalDraftSupport(MessagingAccount messagingAccount) {
         boolean bl = messagingAccount != null ? Accounts.supportsDrafts(messagingAccount) : false;
-        this.log.log(-2137614336, "[AccountManager#signalDraftSupport] Account supports drafts: %1", bl);
+        this.log.log(10000000, "[AccountManager#signalDraftSupport] Account supports drafts: %1", bl);
         int n = bl ? 1 : 0;
-        this.framework.getHmiServiceApp().getChoiceModel(1821516032).setValue(n);
+        this.framework.getHmiServiceApp().getChoiceModel(2200172).setValue(n);
     }
 
     public void addListener(IAccountManagerListener iAccountManagerListener) {
-        this.log.log(-2137614336, "[AccountManager#addListener] listener = %1", (Object)iAccountManagerListener);
+        this.log.log(10000000, "[AccountManager#addListener] listener = %1", (Object)iAccountManagerListener);
         this.accountManagerListeners.add(iAccountManagerListener);
         ArrayList arrayList = new ArrayList(1);
         arrayList.add(iAccountManagerListener);
@@ -400,33 +396,8 @@ IDiagProvider {
         }
     }
 
-    @Override
     public IDiagPlugIn[] createDiagPlugIns() {
-        return new IDiagPlugIn[]{new AccountManager$DiagPlugIn(this)};
-    }
-
-    static /* synthetic */ LogChannel access$200(AccountManager accountManager) {
-        return accountManager.log;
-    }
-
-    static /* synthetic */ AccountList access$300(AccountManager accountManager) {
-        return accountManager.dialogAccountList;
-    }
-
-    static /* synthetic */ AccountList access$400(AccountManager accountManager) {
-        return accountManager.smsAccountList;
-    }
-
-    static /* synthetic */ AccountList access$500(AccountManager accountManager) {
-        return accountManager.emailAccountList;
-    }
-
-    static /* synthetic */ MessagingBundleContext access$600(AccountManager accountManager) {
-        return accountManager.messagingBundleContext;
-    }
-
-    static /* synthetic */ LogChannel access$700(AccountManager accountManager) {
-        return accountManager.log;
+        return new IDiagPlugIn[]{new DiagPlugIn()};
     }
 
     static /* synthetic */ MessagingAccount[] access$802(AccountManager accountManager, MessagingAccount[] messagingAccountArray) {
@@ -434,29 +405,70 @@ IDiagProvider {
         return messagingAccountArray;
     }
 
-    static /* synthetic */ Map access$900(AccountManager accountManager) {
-        return accountManager.accountMap;
+    final class DiagPlugIn
+    implements IDiagPlugIn {
+        DiagPlugIn() {
+        }
+
+        public Object getDialogAccountList() {
+            return AccountManager.this.dialogAccountList;
+        }
+
+        public Object getSmsAccountList() {
+            return AccountManager.this.smsAccountList;
+        }
+
+        public Object getEmailAccountList() {
+            return AccountManager.this.emailAccountList;
+        }
+
+        public Object getAccountManager() {
+            return AccountManager.this;
+        }
     }
 
-    static /* synthetic */ MessagingAccount access$1000(AccountManager accountManager) {
-        return accountManager.selectedAccount;
+    private class MyDsiMessagingListener
+    extends DsiMessagingEmptyListener {
+        private MyDsiMessagingListener() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void updateMessagingAccounts(MessagingAccount[] messagingAccountArray, int n) {
+            Object object = AccountManager.this.messagingBundleContext.getMessagingHmiLock();
+            synchronized (object) {
+                MessagingAccount messagingAccount;
+                AccountManager.this.log.log(10000000, "[AccountManager#updateMessagingAccounts] accounts.length = %1", (long)messagingAccountArray.length);
+                AccountManager.access$802(AccountManager.this, messagingAccountArray);
+                AccountManager.this.accountMap.clear();
+                for (int i2 = 0; i2 < messagingAccountArray.length; ++i2) {
+                    MessagingAccount messagingAccount2 = messagingAccountArray[i2];
+                    AccountManager.this.accountMap.put(Util.createInteger(messagingAccount2.getAccountID()), messagingAccount2);
+                }
+                if (AccountManager.this.selectedAccount != null && (messagingAccount = AccountManager.this.getAccount(AccountManager.this.selectedAccount.getAccountID())) != null) {
+                    AccountManager.this.selectedAccount = messagingAccount;
+                }
+                AccountManager.this.checkAccountLoss();
+                AccountManager.this.setSelectedAccountCapabilities();
+                AccountManager.this.setAvailableAccounts();
+            }
+        }
     }
 
-    static /* synthetic */ MessagingAccount access$1002(AccountManager accountManager, MessagingAccount messagingAccount) {
-        accountManager.selectedAccount = messagingAccount;
-        return accountManager.selectedAccount;
-    }
+    private class NewMessageIndicationManagerObserver
+    implements INewMessageIndicationManagerObserver {
+        private NewMessageIndicationManagerObserver() {
+        }
 
-    static /* synthetic */ void access$1100(AccountManager accountManager) {
-        accountManager.checkAccountLoss();
-    }
-
-    static /* synthetic */ void access$1200(AccountManager accountManager) {
-        accountManager.setSelectedAccountCapabilities();
-    }
-
-    static /* synthetic */ void access$1300(AccountManager accountManager) {
-        accountManager.setAvailableAccounts();
+        public void indicateIndicationStateChanged(int n) {
+            AccountManager.this.log.log(10000000, "[AccountManager#indicateIndicationStateChanged] stateAspect = %1", (long)n);
+            if (n == 0) {
+                AccountManager.this.dialogAccountList.refresh();
+                AccountManager.this.smsAccountList.refresh();
+                AccountManager.this.emailAccountList.refresh();
+            }
+        }
     }
 }
 

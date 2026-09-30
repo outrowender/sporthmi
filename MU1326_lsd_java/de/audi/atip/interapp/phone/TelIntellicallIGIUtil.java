@@ -7,7 +7,7 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class TelIntellicallIGIUtil {
     private static final Buffer NUMBER_VALID;
-    public static final String VALID_SPECIAL_SYMBOLS_FOR_NUMBER;
+    public static final String VALID_SPECIAL_SYMBOLS_FOR_NUMBER = "+*#";
     public static final String VALID_PHONE_NUMBER_SYMBOLS;
 
     public static boolean isSpecialPhoneCharacter(char c2) {
@@ -73,7 +73,7 @@ public class TelIntellicallIGIUtil {
         for (n = 0; n <= 9; ++n) {
             NUMBER_VALID.append(n);
         }
-        NUMBER_VALID.append("+*#");
+        NUMBER_VALID.append(VALID_SPECIAL_SYMBOLS_FOR_NUMBER);
         VALID_PHONE_NUMBER_SYMBOLS = NUMBER_VALID.toString();
     }
 }

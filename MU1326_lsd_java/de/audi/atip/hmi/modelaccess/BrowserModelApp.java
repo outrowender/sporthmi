@@ -8,7 +8,6 @@ import de.audi.atip.hmi.modelaccess.HMIModelApp;
 
 public interface BrowserModelApp
 extends HMIModelApp {
-    default public void setBrowserListener(BrowserListener browserListener) {
-    }
+    public void setBrowserListener(BrowserListener var1);
 }
 

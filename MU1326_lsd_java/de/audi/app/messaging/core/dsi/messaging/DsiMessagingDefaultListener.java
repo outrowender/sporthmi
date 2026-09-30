@@ -40,12 +40,10 @@ implements DSIMessagingListener {
         return objectArray;
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
-        this.log.log(-1601830656, "[DsiMessagingDefaultListener#asyncException] Not implemented.");
+        this.log.log(100000, "[DsiMessagingDefaultListener#asyncException] Not implemented.");
     }
 
-    @Override
     public void indicateMessageStatus(StatusInformation statusInformation) {
         DSIMessagingListener[] dSIMessagingListenerArray = this.getCurrentSubscribers();
         for (int i2 = 0; i2 < dSIMessagingListenerArray.length; ++i2) {
@@ -59,7 +57,6 @@ implements DSIMessagingListener {
         }
     }
 
-    @Override
     public void indicateListChanged(ListChangedInformation listChangedInformation) {
         if (listChangedInformation == null) {
             Logs.logNullParameter(this.log, "[DsiMessagingDefaultListener#indicateListChanged]");
@@ -77,7 +74,6 @@ implements DSIMessagingListener {
         }
     }
 
-    @Override
     public void updateSynchInProgress(boolean bl, int n) {
         DSIMessagingListener[] dSIMessagingListenerArray = this.getCurrentSubscribers();
         for (int i2 = 0; i2 < dSIMessagingListenerArray.length; ++i2) {
@@ -91,7 +87,6 @@ implements DSIMessagingListener {
         }
     }
 
-    @Override
     public void updateMessagingAccounts(MessagingAccount[] messagingAccountArray, int n) {
         if (messagingAccountArray == null) {
             Logs.logNullParameter(this.log, "[DsiMessagingDefaultListener#updateMessagingAccounts]");
@@ -109,7 +104,6 @@ implements DSIMessagingListener {
         }
     }
 
-    @Override
     public void indicateNewMessage(boolean bl, String string, int n, int n2) {
         DSIMessagingListener[] dSIMessagingListenerArray = this.getCurrentSubscribers();
         for (int i2 = 0; i2 < dSIMessagingListenerArray.length; ++i2) {
@@ -124,70 +118,57 @@ implements DSIMessagingListener {
     }
 
     public void indicateNewMessageOverflow(boolean bl, int n) {
-        this.log.log(-1601830656, "[DsiMessagingDefaultListener#indicateNewMessageOverflow] Not implemented.");
+        this.log.log(100000, "[DsiMessagingDefaultListener#indicateNewMessageOverflow] Not implemented.");
     }
 
-    @Override
     public void listEntriesResponse(int n, int n2, ListEntry[] listEntryArray, int n3, int n4, int n5) {
-        this.log.log(-1601830656, "[DsiMessagingDefaultListener#listEntriesResponse] Not implemented.");
+        this.log.log(100000, "[DsiMessagingDefaultListener#listEntriesResponse] Not implemented.");
     }
 
-    @Override
     public void getPositionOfMessageResponse(int n, int n2) {
-        this.log.log(-1601830656, "[DsiMessagingDefaultListener#getPositionOfMessageResponse] Not implemented.");
+        this.log.log(100000, "[DsiMessagingDefaultListener#getPositionOfMessageResponse] Not implemented.");
     }
 
-    @Override
     public void changeFolderResponse(FolderEntry folderEntry, int n) {
-        this.log.log(-1601830656, "[DsiMessagingDefaultListener#changeFolderResponse] Not implemented.");
+        this.log.log(100000, "[DsiMessagingDefaultListener#changeFolderResponse] Not implemented.");
     }
 
-    @Override
     public void deleteMessageResponse(int n, int n2, int n3) {
-        this.log.log(-1601830656, "[DsiMessagingDefaultListener#deleteMessageResponse] Not implemented.");
+        this.log.log(100000, "[DsiMessagingDefaultListener#deleteMessageResponse] Not implemented.");
     }
 
-    @Override
     public void sendMessageResponse(int n, int n2) {
-        this.log.log(-1601830656, "[DsiMessagingDefaultListener#sendMessageResponse] Not implemented.");
+        this.log.log(100000, "[DsiMessagingDefaultListener#sendMessageResponse] Not implemented.");
     }
 
-    @Override
     public void getMessageContentsResponse(int n, MessageDetails messageDetails) {
-        this.log.log(-1601830656, "[DsiMessagingDefaultListener#getMessageContentsResponse] Not implemented.");
+        this.log.log(100000, "[DsiMessagingDefaultListener#getMessageContentsResponse] Not implemented.");
     }
 
-    @Override
     public void setMessageReadStatusResponse(int n) {
-        this.log.log(-1601830656, "[DsiMessagingDefaultListener#setMessageReadStatusResponse] Not implemented.");
+        this.log.log(100000, "[DsiMessagingDefaultListener#setMessageReadStatusResponse] Not implemented.");
     }
 
-    @Override
     public void parseVCardResponse(int n, String string) {
-        this.log.log(-1601830656, "[DsiMessagingDefaultListener#parseVCardResponse] Not implemented.");
+        this.log.log(100000, "[DsiMessagingDefaultListener#parseVCardResponse] Not implemented.");
     }
 
-    @Override
     public void saveAsDraftResponse(int n, String string) {
-        this.log.log(-1601830656, "[DsiMessagingDefaultListener#saveAsDraftResponse] Not implemented.");
+        this.log.log(100000, "[DsiMessagingDefaultListener#saveAsDraftResponse] Not implemented.");
     }
 
-    @Override
     public void extractInformationResponse(int n, ExtractedItem[] extractedItemArray) {
-        this.log.log(-1601830656, "[DsiMessagingDefaultListener#extractInformationResponse] Not implemented.");
+        this.log.log(100000, "[DsiMessagingDefaultListener#extractInformationResponse] Not implemented.");
     }
 
-    @Override
     public void changeTemplateResponse(int n, int n2) {
-        this.log.log(-1601830656, "[DsiMessagingDefaultListener#changeTemplateResponse] Not implemented.");
+        this.log.log(100000, "[DsiMessagingDefaultListener#changeTemplateResponse] Not implemented.");
     }
 
-    @Override
     public void getTemplateResponse(int n, Template template) {
-        this.log.log(-1601830656, "[DsiMessagingDefaultListener#getTemplateResponse] Not implemented.");
+        this.log.log(100000, "[DsiMessagingDefaultListener#getTemplateResponse] Not implemented.");
     }
 
-    @Override
     public void getTemplatesResponse(int n, Template[] templateArray) {
         DSIMessagingListener[] dSIMessagingListenerArray = this.getCurrentSubscribers();
         for (int i2 = 0; i2 < dSIMessagingListenerArray.length; ++i2) {
@@ -201,12 +182,10 @@ implements DSIMessagingListener {
         }
     }
 
-    @Override
     public void deleteTemplateResponse(int n) {
-        this.log.log(-1601830656, "[DsiMessagingDefaultListener#deleteTemplateResponse] Not implemented.");
+        this.log.log(100000, "[DsiMessagingDefaultListener#deleteTemplateResponse] Not implemented.");
     }
 
-    @Override
     public void indicatePushMessageFailed(int n, int n2, int n3, String string) {
         DSIMessagingListener[] dSIMessagingListenerArray = this.getCurrentSubscribers();
         for (int i2 = 0; i2 < dSIMessagingListenerArray.length; ++i2) {
@@ -220,7 +199,6 @@ implements DSIMessagingListener {
         }
     }
 
-    @Override
     public void indicateFolderInformation(FolderEntry folderEntry) {
         DSIMessagingListener[] dSIMessagingListenerArray = this.getCurrentSubscribers();
         for (int i2 = 0; i2 < dSIMessagingListenerArray.length; ++i2) {
@@ -234,7 +212,6 @@ implements DSIMessagingListener {
         }
     }
 
-    @Override
     public void getPositionOfFolderResponse(int n, int n2) {
         DSIMessagingListener[] dSIMessagingListenerArray = this.getCurrentSubscribers();
         for (int i2 = 0; i2 < dSIMessagingListenerArray.length; ++i2) {
@@ -248,7 +225,6 @@ implements DSIMessagingListener {
         }
     }
 
-    @Override
     public void indicateSendMessage(int[] nArray, int n, int n2, RecipientList recipientList, String string, String string2, AttachmentInformation[] attachmentInformationArray, int n3) {
         DSIMessagingListener[] dSIMessagingListenerArray = this.getCurrentSubscribers();
         for (int i2 = 0; i2 < dSIMessagingListenerArray.length; ++i2) {
@@ -262,7 +238,6 @@ implements DSIMessagingListener {
         }
     }
 
-    @Override
     public void deleteSimCardMessagesResponse(int n) {
         DSIMessagingListener[] dSIMessagingListenerArray = this.getCurrentSubscribers();
         for (int i2 = 0; i2 < dSIMessagingListenerArray.length; ++i2) {
@@ -276,7 +251,6 @@ implements DSIMessagingListener {
         }
     }
 
-    @Override
     public void decodeAttachmentResponse(int n, ResourceLocator resourceLocator) {
         DSIMessagingListener[] dSIMessagingListenerArray = this.getCurrentSubscribers();
         for (int i2 = 0; i2 < dSIMessagingListenerArray.length; ++i2) {

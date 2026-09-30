@@ -29,12 +29,10 @@ extends AbstractDataConnectionComponent {
         this.tracker2 = new ServiceTracker(this.bundleContext, (class$de$audi$atip$interapp$INaviConnectivityStateListener == null ? (class$de$audi$atip$interapp$INaviConnectivityStateListener = OnlineConnectionStateProvider.class$("de.audi.atip.interapp.INaviConnectivityStateListener")) : class$de$audi$atip$interapp$INaviConnectivityStateListener).getName(), (ServiceTrackerCustomizer)this);
     }
 
-    @Override
     protected int[] getAttributeNotifications() {
         return ATTRIBUTE_NOTIFICATIONS;
     }
 
-    @Override
     public void updateStateDataConnection(DataConnectionStateStruct dataConnectionStateStruct, int n) {
         if (n != 1 || dataConnectionStateStruct == null) {
             return;
@@ -55,7 +53,7 @@ extends AbstractDataConnectionComponent {
     }
 
     private void updateState() {
-        this.log.log(-2137614336, "OnlineConnectionStateProvider#updateState(): connection active=%1", this.connectionActive);
+        this.log.log(10000000, "OnlineConnectionStateProvider#updateState(): connection active=%1", this.connectionActive);
         if (this.bapService != null) {
             this.bapService.updateDataConnection2Active(this.connectionActive);
         }
@@ -64,7 +62,6 @@ extends AbstractDataConnectionComponent {
         }
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof CombiBAPServiceConnectivity) {
@@ -80,7 +77,6 @@ extends AbstractDataConnectionComponent {
         return super.addingService(serviceReference);
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
         if (object instanceof CombiBAPServiceConnectivity) {
             this.bapService = (CombiBAPServiceConnectivity)object;
@@ -93,7 +89,6 @@ extends AbstractDataConnectionComponent {
         }
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof CombiBAPServiceConnectivity) {
             this.bapService = (CombiBAPServiceConnectivity)object;
@@ -106,14 +101,12 @@ extends AbstractDataConnectionComponent {
         }
     }
 
-    @Override
     public void init() {
         super.init();
         this.tracker.open();
         this.tracker2.open();
     }
 
-    @Override
     public void deinit() {
         this.tracker.close();
         this.tracker2.close();

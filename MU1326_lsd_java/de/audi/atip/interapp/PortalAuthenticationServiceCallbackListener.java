@@ -4,13 +4,10 @@
 package de.audi.atip.interapp;
 
 public interface PortalAuthenticationServiceCallbackListener {
-    default public void validatePairingCodeResult(boolean bl, int n, int n2) {
-    }
+    public void validatePairingCodeResult(boolean var1, int var2, int var3);
 
-    default public void validateCredentialsResult(boolean bl, int n, int n2) {
-    }
+    public void validateCredentialsResult(boolean var1, int var2, int var3);
 
-    default public void loginResult(int n) {
-    }
+    public void loginResult(int var1);
 }
 

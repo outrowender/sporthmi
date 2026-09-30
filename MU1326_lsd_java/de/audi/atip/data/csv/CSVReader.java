@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CSVReader {
-    static final char QUOTE;
-    static final char DEFAULT_DELIMITER;
+    static final char QUOTE = '\"';
+    static final char DEFAULT_DELIMITER = ';';
     private final List tmpColumnList = new ArrayList(10);
     private final String delimiterSequence;
     private final char delimiterChar;
@@ -21,31 +21,31 @@ public class CSVReader {
     private final File file;
     private BufferedReader reader;
 
-    public CSVReader(File file) {
+    public CSVReader(File file) throws IllegalArgumentException, IOException {
         this(file, ';');
     }
 
-    public CSVReader(File file, char c2) {
+    public CSVReader(File file, char c2) throws IllegalArgumentException, IOException {
         if (file == null) {
             throw new IllegalArgumentException("Parameter csvFile is null!");
         }
         if (!file.exists()) {
-            throw new FileNotFoundException(new StringBuffer().append("CSV file \"").append(file).append("\" not found!").toString());
+            throw new FileNotFoundException("CSV file \"" + file + "\" not found!");
         }
         if (!file.isFile()) {
-            throw new IOException(new StringBuffer().append("CSV file \"").append(file).append("\" is not a file!").toString());
+            throw new IOException("CSV file \"" + file + "\" is not a file!");
         }
         if (!file.canRead()) {
-            throw new IOException(new StringBuffer().append("CSV file \"").append(file).append("\" is not readable!").toString());
+            throw new IOException("CSV file \"" + file + "\" is not readable!");
         }
         String string = String.valueOf('\"');
-        this.delimiterSequence = new StringBuffer().append(string).append(c2).append(string).toString();
+        this.delimiterSequence = string + c2 + string;
         this.delimiterChar = c2;
         this.delimiterString = String.valueOf(c2);
         this.file = file;
     }
 
-    public String[] readLine() {
+    public String[] readLine() throws IOException {
         try {
             String string;
             if (this.reader == null) {

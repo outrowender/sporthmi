@@ -17,7 +17,6 @@ implements IEvoListRowBuilder {
         this.iconHandler = iconHandler;
     }
 
-    @Override
     public EvoListRow buildListRow(LIValueListElement lIValueListElement, int n) {
         return new PoiIconedListRow(this.iconHandler, lIValueListElement, n);
     }

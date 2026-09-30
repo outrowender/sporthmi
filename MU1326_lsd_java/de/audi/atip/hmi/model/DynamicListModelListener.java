@@ -8,13 +8,11 @@ import de.audi.atip.hmi.model.ListRow;
 
 public interface DynamicListModelListener
 extends AbstractListModelListener {
-    public static final int LIST_START;
-    public static final int LIST_END;
+    public static final int LIST_START = 0;
+    public static final int LIST_END = 1;
 
-    default public void runningOutOfData(int n, ListRow listRow, int n2, int n3) {
-    }
+    public void runningOutOfData(int var1, ListRow var2, int var3, int var4);
 
-    default public void itemReleased(int n, ListRow listRow, int n2) {
-    }
+    public void itemReleased(int var1, ListRow var2, int var3);
 }
 

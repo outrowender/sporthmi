@@ -22,8 +22,8 @@ public final class JxeDataUnloader {
         return this.fPointer;
     }
 
-    protected void finalize() {
-        System.out.println(new StringBuffer("JxeDataUnloader.finalize() ").append(this.fAllocated).append(" ").append(this.fPointer).toString());
+    protected void finalize() throws Throwable {
+        System.out.println("JxeDataUnloader.finalize() " + this.fAllocated + " " + this.fPointer);
         if (this.fAllocated) {
             XIPClassLoader.unloadJXEDataimpl(this.fPointer);
         }

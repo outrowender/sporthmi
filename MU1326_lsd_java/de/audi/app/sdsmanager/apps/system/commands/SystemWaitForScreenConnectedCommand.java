@@ -26,38 +26,36 @@ implements ISDSScreenConnectedUpdatable {
         this.screenModeIndex = SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: screenModeIndex=%2", (Object)this.getName(), (long)this.screenModeIndex);
+        this.logger.log(10000000, "%1#execute: screenModeIndex=%2", (Object)this.getName(), (long)this.screenModeIndex);
         if (this.screenModeIndex < 0 || this.screenModeIndex > screenModeIndexToMapping.length - 1) {
-            this.logger.log(-1601830656, "%1#execute: screenModeIndex is out of bounds!", (Object)this.getName());
+            this.logger.log(100000, "%1#execute: screenModeIndex is out of bounds!", (Object)this.getName());
             this.sendResult(3001);
             return;
         }
         int n = screenModeIndexToMapping[this.screenModeIndex];
         this.screenIdToWaitFor = SDSManagerBaseActivator.getMapping().getScreenID(n);
         if (this.screenIdToWaitFor == -1) {
-            this.logger.log(-1601830656, "%1#execute: no mapping for screenModeIndex!", (Object)this.getName());
+            this.logger.log(100000, "%1#execute: no mapping for screenModeIndex!", (Object)this.getName());
             this.sendResult(3001);
             return;
         }
-        this.logger.log(-2137614336, "%1#execute: screenIdMapping=%2 with screenIdToWaitFor=%3.", (Object)this.getName(), (long)n, (long)this.screenIdToWaitFor);
+        this.logger.log(10000000, "%1#execute: screenIdMapping=%2 with screenIdToWaitFor=%3.", (Object)this.getName(), (long)n, (long)this.screenIdToWaitFor);
         int n2 = this.sdsHMIListener.getCurrentSDSScreenId();
         if (n2 == this.screenIdToWaitFor) {
-            this.logger.log(-2137614336, "%1#execute: currentScreenId is expected screenIdToWaitFor.", (Object)this.getName());
+            this.logger.log(10000000, "%1#execute: currentScreenId is expected screenIdToWaitFor.", (Object)this.getName());
             this.sendResult(3000);
             return;
         }
     }
 
-    @Override
     public void updateSDSScreenConnected(int n) {
-        this.logger.log(-2137614336, "%1#updateSDSScreenConnected: screenID=%2", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "%1#updateSDSScreenConnected: screenID=%2", (Object)this.getName(), (long)n);
         if (this.screenIdToWaitFor != n) {
-            this.logger.log(-1601830656, "%1#updateSDSScreenConnected: screenID %2 was not expected screenIdToWaitFor=%3!", (Object)this.getName(), (long)n, (long)this.screenIdToWaitFor);
+            this.logger.log(100000, "%1#updateSDSScreenConnected: screenID %2 was not expected screenIdToWaitFor=%3!", (Object)this.getName(), (long)n, (long)this.screenIdToWaitFor);
             return;
         }
-        this.logger.log(-2137614336, "%1#updateSDSScreenConnected: connected screenID %2 is expected screenIdToWaitFor!", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "%1#updateSDSScreenConnected: connected screenID %2 is expected screenIdToWaitFor!", (Object)this.getName(), (long)n);
         this.sendResult(3000);
     }
 }

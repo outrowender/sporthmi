@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package de.audi.atip.diag.sw;
 
@@ -14,7 +11,6 @@ public class OriginalParser
 implements IParamParser {
     static /* synthetic */ Class class$java$lang$String;
 
-    @Override
     public boolean parseParams(String string, LinkedList linkedList, LinkedList linkedList2) {
         boolean bl;
         boolean bl2 = bl = string != null && linkedList != null && linkedList2 != null;
@@ -44,7 +40,7 @@ implements IParamParser {
                         }
                         catch (NumberFormatException numberFormatException3) {
                             try {
-                                double d2 = Double.parseDouble((String)string2);
+                                double d2 = Double.parseDouble(string2);
                                 linkedList.add(Double.TYPE);
                                 linkedList2.add(new Double(d2));
                             }

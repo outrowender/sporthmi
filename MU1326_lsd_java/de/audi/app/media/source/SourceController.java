@@ -3,13 +3,13 @@
  */
 package de.audi.app.media.source;
 
+import de.audi.app.media.AbstractDispatcherRunnable;
 import de.audi.app.media.AbstractMediaTerminalComponent;
 import de.audi.app.media.IMediaTerminal;
 import de.audi.app.media.content.IContent;
 import de.audi.app.media.content.IContentListener;
 import de.audi.app.media.dsi.IDSIControllerStateListener;
 import de.audi.app.media.dsi.media.IMediaDSIPlayerController;
-import de.audi.app.media.logger.IMediaLogger;
 import de.audi.app.media.logger.LogUtil;
 import de.audi.app.media.source.AbstractSource;
 import de.audi.app.media.source.ActivationContext;
@@ -29,7 +29,6 @@ import de.audi.app.media.source.ISourceSlotListener;
 import de.audi.app.media.source.ISourceStartupListener;
 import de.audi.app.media.source.LastModeManager;
 import de.audi.app.media.source.MediaSourceSlot;
-import de.audi.app.media.source.SourceController$1;
 import de.audi.app.media.source.SourceControllerHMIHandler;
 import de.audi.app.media.source.SourceControllerParameterFactory;
 import de.audi.app.media.source.SourceListProvider;
@@ -61,8 +60,8 @@ ISourceActivationCallbackHandler,
 ISourceStartupListener,
 IContentListener,
 IDSIControllerStateListener {
-    private static final String LOGCLASS;
-    private static final int TV_AV_START_WARMUP_MILLIS;
+    private static final String LOGCLASS = "SourceController";
+    private static final int TV_AV_START_WARMUP_MILLIS = 600;
     private final Object sourceActivationMutex = new Object();
     final ISourceStateHandler sourceStateHandler;
     final IMediaDSIPlayerController mediaDSIPlayerController;
@@ -101,7 +100,7 @@ IDSIControllerStateListener {
     }
 
     public void init() {
-        this.logger.main().log(1078071040, "[%1.init]", (Object)"SourceController");
+        this.logger.main().log(1000000, "[%1.init]", (Object)LOGCLASS);
         ISource[] iSourceArray = new ISource[14];
         for (int i2 = 0; i2 < 14; ++i2) {
             boolean bl = this.getTerminal().getConfiguration().isSourceInstalled(i2);
@@ -109,7 +108,7 @@ IDSIControllerStateListener {
                 iSourceArray[i2] = this.initSource(i2);
                 continue;
             }
-            this.logger.main().log(1078071040, "[%1.init] '%2' disabled.", (Object)"SourceController", (Object)LogUtil.getSourceTypeStr(i2));
+            this.logger.main().log(1000000, "[%1.init] '%2' disabled.", (Object)LOGCLASS, (Object)LogUtil.getSourceTypeStr(i2));
         }
         this.sourceList = iSourceArray;
         this.hmiHandler.init();
@@ -122,7 +121,7 @@ IDSIControllerStateListener {
     }
 
     public void deinit() {
-        this.logger.main().log(-2137614336, "[%1.deinit]", (Object)"SourceController");
+        this.logger.main().log(10000000, "[%1.deinit]", (Object)LOGCLASS);
         this.mediaDSIPlayerController.setStateListener(null);
         this.hmiHandler.deinit();
         this.sourceListProvider.deinit();
@@ -134,9 +133,8 @@ IDSIControllerStateListener {
         }
     }
 
-    @Override
     public void addSourceListener(ISourceListener iSourceListener) {
-        this.logger.main().log(1078071040, "[%1.addSourceListener] '%2'", (Object)"SourceController", (Object)iSourceListener);
+        this.logger.main().log(1000000, "[%1.addSourceListener] '%2'", (Object)LOGCLASS, (Object)iSourceListener);
         for (int i2 = 0; i2 < 14; ++i2) {
             ISource iSource = this.getSource(i2);
             if (iSource == null) continue;
@@ -144,33 +142,27 @@ IDSIControllerStateListener {
         }
     }
 
-    @Override
     public void addSlotListener(IMultipleSourceSlotListener iMultipleSourceSlotListener) {
-        this.logger.main().log(1078071040, "[%1.addSlotListener] '%2'", (Object)"SourceController", (Object)iMultipleSourceSlotListener);
+        this.logger.main().log(1000000, "[%1.addSlotListener] '%2'", (Object)LOGCLASS, (Object)iMultipleSourceSlotListener);
         this.sourceStateHandler.addSourceSlotListener(iMultipleSourceSlotListener);
     }
 
-    @Override
     public void addSourceSlotListener(ISource iSource, ISourceSlotListener iSourceSlotListener, boolean bl) {
         this.sourceStateHandler.addSourceSlotListener(iSource, iSourceSlotListener, bl);
     }
 
-    @Override
     public void removeSlotListener(ISource iSource, ISourceSlotListener iSourceSlotListener) {
         this.sourceStateHandler.removeSlotListener(iSource, iSourceSlotListener);
     }
 
-    @Override
     public void addSourceListListener(ISourceListListener iSourceListListener) {
         this.sourceListProvider.addSourceListListener(iSourceListListener);
     }
 
-    @Override
     public void addActiveSourceListener(IActiveSourceListener iActiveSourceListener) {
         this.addActiveSourceListener(iActiveSourceListener, false);
     }
 
-    @Override
     public void addActiveSourceListenerAndNotifyState(IActiveSourceListener iActiveSourceListener) {
         this.addActiveSourceListener(iActiveSourceListener, true);
     }
@@ -182,20 +174,20 @@ IDSIControllerStateListener {
         if (iActiveSourceListener == null) {
             throw new IllegalArgumentException();
         }
-        this.logger.main().log(1078071040, "[%1.addActiveSourceListener] '%2' %3", (Object)"SourceController", (Object)super.getClass(), (Object)(bl ? "NOTIFY" : ""));
+        this.logger.main().log(1000000, "[%1.addActiveSourceListener] '%2' %3", (Object)LOGCLASS, (Object)iActiveSourceListener.getClass(), (Object)(bl ? "NOTIFY" : ""));
         Object object = this.sourceActivationMutex;
         synchronized (object) {
             if (this.activeSourceListenerList.contains(iActiveSourceListener)) {
-                this.logger.main().log(1078071040, "[%1.addActiveSourceListener] Already registered", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.addActiveSourceListener] Already registered", (Object)LOGCLASS);
                 return;
             }
             this.activeSourceListenerList.add(iActiveSourceListener);
             if (bl) {
                 if (this.currentNotifiedActiveSourceState != null) {
-                    this.logger.main().log(1078071040, "[%1.addActiveSourceListener] Notify added listener: '%2' (changed)", (Object)"SourceController", (Object)this.currentNotifiedActiveSourceState);
+                    this.logger.main().log(1000000, "[%1.addActiveSourceListener] Notify added listener: '%2' (changed)", (Object)LOGCLASS, (Object)this.currentNotifiedActiveSourceState);
                     iActiveSourceListener.activeSourceChanged(true, this.currentNotifiedActiveSourceState);
                 } else {
-                    this.logger.main().log(1078071040, "[%1.addActiveSourceListener] Notify added listener: No previous notification.", (Object)"SourceController");
+                    this.logger.main().log(1000000, "[%1.addActiveSourceListener] Notify added listener: No previous notification.", (Object)LOGCLASS);
                 }
             }
         }
@@ -204,19 +196,18 @@ IDSIControllerStateListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void removeActiveSourceListener(IActiveSourceListener iActiveSourceListener) {
-        this.logger.main().log(1078071040, "[%1.removeActiveSourceListener] '%2'", (Object)"SourceController", (Object)iActiveSourceListener);
+        this.logger.main().log(1000000, "[%1.removeActiveSourceListener] '%2'", (Object)LOGCLASS, (Object)iActiveSourceListener);
         if (iActiveSourceListener == null) {
             throw new IllegalArgumentException();
         }
         Object object = this.sourceActivationMutex;
         synchronized (object) {
             if (!this.activeSourceListenerList.contains(iActiveSourceListener)) {
-                this.logger.main().log(1078071040, "[%1.removeActiveSourceListener] listener not registered", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.removeActiveSourceListener] listener not registered", (Object)LOGCLASS);
                 return;
             }
-            this.logger.main().log(-2137614336, "[%1.removeActiveSourceListener] listener=%2", (Object)"SourceController", (Object)super.getClass());
+            this.logger.main().log(10000000, "[%1.removeActiveSourceListener] listener=%2", (Object)LOGCLASS, (Object)iActiveSourceListener.getClass());
             this.activeSourceListenerList.remove(iActiveSourceListener);
         }
     }
@@ -227,7 +218,7 @@ IDSIControllerStateListener {
     private void removeAllActiveSourceListener() {
         Object object = this.sourceActivationMutex;
         synchronized (object) {
-            this.logger.main().log(-2137614336, "[%1.removeAllListeners]", (Object)"SourceController");
+            this.logger.main().log(10000000, "[%1.removeAllListeners]", (Object)LOGCLASS);
             this.activeSourceListenerList = new ArrayList(0);
         }
     }
@@ -238,14 +229,14 @@ IDSIControllerStateListener {
     private void notifyActiveSourceChanged(ISourceSlot iSourceSlot, int n) {
         ActiveSourceState activeSourceState = new ActiveSourceState(iSourceSlot, n);
         if (activeSourceState.equals(this.currentNotifiedActiveSourceState)) {
-            this.logger.main().log(1078071040, "[%1.notifyActiveSourceChanged] '%3' '%2' (not changed)", (Object)"SourceController", (Object)activeSourceState, (Object)this.currentNotifiedActiveSourceState);
+            this.logger.main().log(1000000, "[%1.notifyActiveSourceChanged] '%3' '%2' (not changed)", (Object)LOGCLASS, (Object)activeSourceState, (Object)this.currentNotifiedActiveSourceState);
             if (this.noActiveSourceUpdateSinceDeactivation) {
-                this.logger.main().log(1078071040, "[%1.notifyActiveSourceChanged] No active source update since the last deactivation. -> Force notification.", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.notifyActiveSourceChanged] No active source update since the last deactivation. -> Force notification.", (Object)LOGCLASS);
             } else {
                 return;
             }
         }
-        this.logger.main().log(1078071040, "[%1.notifyActiveSourceChanged] '%2'", (Object)"SourceController", (Object)activeSourceState);
+        this.logger.main().log(1000000, "[%1.notifyActiveSourceChanged] '%2'", (Object)LOGCLASS, (Object)activeSourceState);
         this.noActiveSourceUpdateSinceDeactivation = false;
         this.hmiHandler.setActiveSourceState(activeSourceState);
         boolean bl = this.currentNotifiedActiveSourceState == null || !((Object)activeSourceState.getSlot()).equals(this.currentNotifiedActiveSourceState.getSlot());
@@ -258,11 +249,11 @@ IDSIControllerStateListener {
             while (iterator.hasNext()) {
                 try {
                     IActiveSourceListener iActiveSourceListener = (IActiveSourceListener)iterator.next();
-                    this.logger.main().log(-2137614336, "[%1.notifyActiveSourceChanged listener=%2] changed = %3", (Object)"SourceController", (Object)super.getClass(), (Object)Boolean.toString(bl || bl2 || bl3));
+                    this.logger.main().log(10000000, "[%1.notifyActiveSourceChanged listener=%2] changed = %3", (Object)LOGCLASS, (Object)iActiveSourceListener.getClass(), (Object)Boolean.toString(bl || bl2 || bl3));
                     iActiveSourceListener.activeSourceChanged(bl || bl2 || bl3, activeSourceState);
                 }
                 catch (Exception exception) {
-                    this.logger.main().log(-1601830656, "[%1.notifyActiveSourceChanged] %2", (Object)"SourceController", (Throwable)exception);
+                    this.logger.main().log(100000, "[%1.notifyActiveSourceChanged] %2", (Object)LOGCLASS, (Throwable)exception);
                 }
             }
         }
@@ -279,47 +270,46 @@ IDSIControllerStateListener {
             while (iterator.hasNext()) {
                 try {
                     IActiveSourceListener iActiveSourceListener = (IActiveSourceListener)iterator.next();
-                    this.logger.main().log(1078071040, "[%1.notifySourceDeactivated] %2", (Object)"SourceController", (Object)iActiveSourceListener);
+                    this.logger.main().log(1000000, "[%1.notifySourceDeactivated] %2", (Object)LOGCLASS, (Object)iActiveSourceListener);
                     iActiveSourceListener.sourceDeactivated();
                 }
                 catch (Exception exception) {
-                    this.logger.main().log(-1601830656, "[%1.notifySourceDeactivated] %2", (Object)"SourceController", (Throwable)exception);
+                    this.logger.main().log(100000, "[%1.notifySourceDeactivated] %2", (Object)LOGCLASS, (Throwable)exception);
                 }
             }
         }
     }
 
-    @Override
     public int activateSource(IActivationContext iActivationContext) {
         Object object;
         boolean bl;
         if (this.getActivationContext() != null && iActivationContext != null) {
             int n = this.getActivationContext().getSlot().getSource().getType();
             int n2 = iActivationContext.getSlot().getSource().getType();
-            boolean bl2 = bl = System.currentTimeMillis() - this.lastAVActivation < 0;
+            boolean bl2 = bl = System.currentTimeMillis() - this.lastAVActivation < 600L;
             if (n == 8 && n2 == 7 && bl) {
-                this.logger.main().log(1078071040, "[%1.activateSource] [%2] suppress call while already running activation ", (Object)"SourceController", (long)n2);
+                this.logger.main().log(1000000, "[%1.activateSource] [%2] suppress call while already running activation ", (Object)LOGCLASS, (long)n2);
                 return 2;
             }
             if (n2 == 8) {
                 this.lastAVActivation = System.currentTimeMillis();
             }
         }
-        this.logger.main().log(1078071040, "[%1.activateSource] '%2'", (Object)"SourceController", (Object)iActivationContext);
+        this.logger.main().log(1000000, "[%1.activateSource] '%2'", (Object)LOGCLASS, (Object)iActivationContext);
         this.lastModeManager.stopLastModeTracking();
         ISourceSlot iSourceSlot = iActivationContext.getSlot();
         ISourceSlot iSourceSlot2 = this.getSelectedSlot();
         if (((Object)iSourceSlot).equals(iSourceSlot2) && iSourceSlot2.getSource().isActive()) {
-            this.logger.main().log(1078071040, "[%1.activateSource] [%2] Already in activation", (Object)"SourceController", (Object)iSourceSlot.getSource());
+            this.logger.main().log(1000000, "[%1.activateSource] [%2] Already in activation", (Object)LOGCLASS, (Object)iSourceSlot.getSource());
             if (iSourceSlot.getSource().isDeviceActivated()) {
                 this.getTerminal().getAudioManager().resumeAudio(true);
             }
             return 2;
         }
-        this.logger.main().log(1078071040, "[%1.activateSource] [%2] Deactivate old content.", (Object)"SourceController", (Object)iSourceSlot.getSource());
+        this.logger.main().log(1000000, "[%1.activateSource] [%2] Deactivate old content.", (Object)LOGCLASS, (Object)iSourceSlot.getSource());
         this.getTerminal().getContentManager().deactivateActiveContent();
         if (iSourceSlot2 != null) {
-            this.logger.main().log(1078071040, "[%1.activateSource] [%2] Deactivate old source.", (Object)"SourceController", (Object)iSourceSlot.getSource());
+            this.logger.main().log(1000000, "[%1.activateSource] [%2] Deactivate old source.", (Object)LOGCLASS, (Object)iSourceSlot.getSource());
             bl = iSourceSlot2.getSource().getType() == 7 || iSourceSlot2.getSource().getType() == 8;
             boolean bl3 = (iSourceSlot.getSource().getType() == 7 || iSourceSlot.getSource().getType() == 8) && !bl;
             boolean bl4 = iSourceSlot2.getSource().getType() == 13 && iSourceSlot.getSource().getType() == 13 && iSourceSlot2.getSource().isDeviceActivated();
@@ -331,13 +321,13 @@ IDSIControllerStateListener {
                     this.mediaDSIPlayerController.deactivateSource();
                 }
                 catch (InterruptedException interruptedException) {
-                    this.logger.main().log(-1601830656, "[%1.deactivateSource] source deactivion sync interrupted %2", (Object)"SourceController", (Throwable)interruptedException);
+                    this.logger.main().log(100000, "[%1.deactivateSource] source deactivion sync interrupted %2", (Object)LOGCLASS, (Throwable)interruptedException);
                     return 3;
                 }
             }
         }
         if ((object = iActivationContext.getParameter("REQUEST_AUDIO_IN_ADVANCE")) != null && object instanceof Boolean && ((Boolean)object).booleanValue()) {
-            this.logger.main().log(1078071040, "[%1.activateSource] [%2] Requesting audio focus in advance.", (Object)"SourceController");
+            this.logger.main().log(1000000, "[%1.activateSource] [%2] Requesting audio focus in advance.", (Object)LOGCLASS);
             this.getTerminal().getAudioManager().requestAudioFocus();
         }
         ActivationContext activationContext = (ActivationContext)iActivationContext;
@@ -357,31 +347,46 @@ IDSIControllerStateListener {
             return false;
         }
         if (((Object)iSourceSlot).equals(iSourceSlot2)) {
-            this.logger.main().log(1078071040, "[%1.isSlotInActivation] [%2] Already in activation", (Object)"SourceController", (Object)iSourceSlot.getSource());
+            this.logger.main().log(1000000, "[%1.isSlotInActivation] [%2] Already in activation", (Object)LOGCLASS, (Object)iSourceSlot.getSource());
             return true;
         }
         return false;
     }
 
     public void restoreLastModeSource() {
-        this.logger.main().log(1078071040, "[%1.restoreLastModeSource]", (Object)"SourceController");
-        this.getTerminal().getDispatcher().execute(new SourceController$1(this, "SourceController.restoreLastModeSource"));
+        this.logger.main().log(1000000, "[%1.restoreLastModeSource]", (Object)LOGCLASS);
+        this.getTerminal().getDispatcher().execute(new AbstractDispatcherRunnable("SourceController.restoreLastModeSource"){
+
+            public void run() {
+                if (SourceController.this.getSelectedSlot() != null) {
+                    SourceController.this.logger.main().log(1000000, "[%1.restoreLastModeSource] Already restored.", (Object)SourceController.LOGCLASS);
+                    return;
+                }
+                ISource iSource = SourceController.this.lastModeManager.getLastSelectedSource();
+                int n = SourceController.this.lastModeManager.getLastSelectedSlotIdx();
+                ISourceSlot iSourceSlot = iSource.getSlot(n);
+                SourceController.this.logger.main().log(1000000, "[%1.restoreLastModeSource] '%2'", (Object)SourceController.LOGCLASS, (Object)iSourceSlot);
+                SourceController.this.setSelectedSlot(iSourceSlot);
+                SourceController.this.getTerminal().getTitlelineHMIHandler().setSourceIcon(iSourceSlot);
+                SourceController.this.notifyActiveSourceChanged(SourceController.this.selectedSourceSlot, 2);
+                SourceController.this.lastModeManager.startLastModeTracking();
+            }
+        });
     }
 
-    @Override
     public void sourceStartupFinished(ISourceSlot iSourceSlot) {
         ISourceSlot iSourceSlot2;
         Object object;
-        this.logger.main().log(1078071040, "[%1.sourceStartupFinished] '%2'", (Object)"SourceController", (Object)iSourceSlot);
+        this.logger.main().log(1000000, "[%1.sourceStartupFinished] '%2'", (Object)LOGCLASS, (Object)iSourceSlot);
         this.getTerminal().getFramework().getStartupMgr().logStartupEvent(new StringBuffer().append("[MEDIA] Last mode source '").append(iSourceSlot).append("' available. Trigger activation.").toString());
         ISource iSource = iSourceSlot.getSource();
         if (iSource.getType() == 10 && iSourceSlot.isEmpty() && !iSource.isEmpty()) {
-            this.logger.main().log(1078071040, "[%1.sourceStartupFinished] USB not complete empty.", (Object)"SourceController");
+            this.logger.main().log(1000000, "[%1.sourceStartupFinished] USB not complete empty.", (Object)LOGCLASS);
             object = iSource.getSlots().iterator();
             while (object.hasNext()) {
                 iSourceSlot2 = (ISourceSlot)object.next();
                 if (iSourceSlot2.isEmpty()) continue;
-                this.logger.main().log(1078071040, "[%1.sourceStartupFinished] slotIdx '%2' not empty.", (Object)"SourceController", (long)iSourceSlot2.getIndex());
+                this.logger.main().log(1000000, "[%1.sourceStartupFinished] slotIdx '%2' not empty.", (Object)LOGCLASS, (long)iSourceSlot2.getIndex());
                 this.setSelectedSlot(this.selectedSourceSlot);
                 break;
             }
@@ -402,7 +407,7 @@ IDSIControllerStateListener {
             }
         }
         if (iSource.getType() == 13) {
-            this.logger.main().log(1078071040, "[%1.sourceStartupFinished] lastSource is OnlinePlayer update selected slot.", (Object)"SourceController");
+            this.logger.main().log(1000000, "[%1.sourceStartupFinished] lastSource is OnlinePlayer update selected slot.", (Object)LOGCLASS);
             if (!iSource.isLastSelectedSlot(iSourceSlot)) {
                 object = iSource.getActivatableSlot(this.selectedSourceSlot);
                 this.setSelectedSlot((ISourceSlot)object);
@@ -414,18 +419,18 @@ IDSIControllerStateListener {
     private void reactivateSelectedSource(boolean bl) {
         ISourceSlot iSourceSlot = this.getSelectedSlot();
         if (iSourceSlot == null) {
-            this.logger.main().log(-1601830656, "[%1.reactivateSelectedSource] No active source", (Object)"SourceController");
+            this.logger.main().log(100000, "[%1.reactivateSelectedSource] No active source", (Object)LOGCLASS);
             return;
         }
         if (iSourceSlot.getSource().getType() == 4) {
-            this.logger.main().log(1078071040, "[%1.reactivateSelectedSource] FilePlayer active", (Object)"SourceController");
+            this.logger.main().log(1000000, "[%1.reactivateSelectedSource] FilePlayer active", (Object)LOGCLASS);
             return;
         }
         if (iSourceSlot.getSource().isActive()) {
-            this.logger.main().log(1078071040, "[%1.reactivateSelectedSource] '%2' already active", (Object)"SourceController", (Object)iSourceSlot);
+            this.logger.main().log(1000000, "[%1.reactivateSelectedSource] '%2' already active", (Object)LOGCLASS, (Object)iSourceSlot);
             return;
         }
-        this.logger.main().log(1078071040, "[%1.reactivateSelectedSource] slot='%2' isStartup=%3 .", (Object)"SourceController", (Object)iSourceSlot, (Object)bl);
+        this.logger.main().log(1000000, "[%1.reactivateSelectedSource] slot='%2' isStartup=%3 .", (Object)LOGCLASS, (Object)iSourceSlot, (Object)bl);
         int n = iSourceSlot.getSource().getType();
         ActivationContext activationContext = new ActivationContext(iSourceSlot);
         activationContext.addParameter("RESTORE_STATE", Boolean.TRUE);
@@ -434,17 +439,17 @@ IDSIControllerStateListener {
         activationContext.addParameter("RESTORE_BROWSER_PATH_POSSIBLE", n == 11 ? Boolean.FALSE : Boolean.TRUE);
         this.triggerSourceActivation(activationContext, false);
         if (n == 7 && this.getTerminal().getAudioManager().hasFrontAudioFocus()) {
-            this.logger.main().log(1078071040, "[%1.reactivateSelectedSource] Forcing correction of front audio focus for TV", (Object)"SourceController");
+            this.logger.main().log(1000000, "[%1.reactivateSelectedSource] Forcing correction of front audio focus for TV", (Object)LOGCLASS);
             this.getTerminal().getAudioManager().switchAudioFocusToTV();
         }
         if (n == 7 && this.getTerminal().getAudioManager().hasRearSeatAudioFocus()) {
-            this.logger.main().log(1078071040, "[%1.reactivateSelectedSource] Forcing correction of rear audio focus for TV", (Object)"SourceController");
+            this.logger.main().log(1000000, "[%1.reactivateSelectedSource] Forcing correction of rear audio focus for TV", (Object)LOGCLASS);
             this.getTerminal().getAudioManager().switchSDISAudioFocusToTV();
         }
     }
 
     private void triggerSourceActivation(ActivationContext activationContext, boolean bl) {
-        this.logger.main().log(1078071040, "[%1.triggerSourceActivation] '%2' (resumeAudio='%3')", (Object)"SourceController", (Object)activationContext, (Object)bl);
+        this.logger.main().log(1000000, "[%1.triggerSourceActivation] '%2' (resumeAudio='%3')", (Object)LOGCLASS, (Object)activationContext, (Object)bl);
         this.setActivationContext(activationContext);
         ISourceSlot iSourceSlot = activationContext.getSlot();
         this.switchToActiveMedia(iSourceSlot, bl);
@@ -452,7 +457,7 @@ IDSIControllerStateListener {
     }
 
     private void switchToActiveMedia(ISourceSlot iSourceSlot, boolean bl) {
-        this.logger.main().log(1078071040, "[%1.switchToActiveMedia] '%2' (resumeAudio='%3')", (Object)"SourceController", (Object)iSourceSlot, (Object)bl);
+        this.logger.main().log(1000000, "[%1.switchToActiveMedia] '%2' (resumeAudio='%3')", (Object)LOGCLASS, (Object)iSourceSlot, (Object)bl);
         this.lastModeManager.setLastSelectedSource(iSourceSlot);
         this.setSelectedSlot(iSourceSlot);
         if (iSourceSlot.getSource().getType() != 7 && iSourceSlot.getSource().getType() != 8) {
@@ -472,16 +477,15 @@ IDSIControllerStateListener {
         this.hmiHandler.setActiveMediaCapabilities(iSourceSlot.getCapabilities());
     }
 
-    @Override
     public void restorePreviousFilePlayerSource() {
-        this.logger.main().log(1078071040, "[%1.restorePreviousFilePlayerSource] '%2'", (Object)"SourceController", (Object)this.lastFilePlayerSourceSlot);
+        this.logger.main().log(1000000, "[%1.restorePreviousFilePlayerSource] '%2'", (Object)LOGCLASS, (Object)this.lastFilePlayerSourceSlot);
         ISourceSlot iSourceSlot = this.getSelectedSlot();
         if (iSourceSlot == null || iSourceSlot.getSource().getType() != 4) {
-            this.logger.main().log(-1601830656, "[%1.restorePreviousFilePlayerSource] Fileplayer not active.", (Object)"SourceController");
+            this.logger.main().log(100000, "[%1.restorePreviousFilePlayerSource] Fileplayer not active.", (Object)LOGCLASS);
             return;
         }
         if (this.lastFilePlayerSourceSlot == null) {
-            this.logger.main().log(-1601830656, "[%1.lastFilePlayerSourceSlot] No previous file player slot.", (Object)"SourceController");
+            this.logger.main().log(100000, "[%1.lastFilePlayerSourceSlot] No previous file player slot.", (Object)LOGCLASS);
             this.lastFilePlayerSourceSlot = this.getSource(2).getSlot(0);
         }
         boolean bl = this.lastFilePlayerSourceSlot.getSource().getType() == 7 || this.lastFilePlayerSourceSlot.getSource().getType() == 8;
@@ -492,25 +496,22 @@ IDSIControllerStateListener {
     }
 
     private void setActivationContext(ActivationContext activationContext) {
-        this.logger.main().log(1078071040, "[%1.setActivationContext] '%2'", (Object)"SourceController", (Object)activationContext);
+        this.logger.main().log(1000000, "[%1.setActivationContext] '%2'", (Object)LOGCLASS, (Object)activationContext);
         this.currentActivationContext = activationContext;
     }
 
-    @Override
     public IActivationContext getActivationContext() {
         return this.currentActivationContext;
     }
 
-    @Override
     public ISourceSlot getSelectedSlot() {
         if (this.selectedSourceSlot != null) {
             return this.selectedSourceSlot.getSource().getSlot(this.selectedSourceSlot.getIndex());
         }
-        this.logger.main().log(-1601830656, "[%1.getSelectedSlot] slot is null", (Object)"SourceController");
+        this.logger.main().log(100000, "[%1.getSelectedSlot] slot is null", (Object)LOGCLASS);
         return null;
     }
 
-    @Override
     public boolean isSelectedSource(ISource iSource) {
         try {
             return iSource.equals(this.getSelectedSlot().getSource());
@@ -521,7 +522,7 @@ IDSIControllerStateListener {
     }
 
     private void setSelectedSlot(ISourceSlot iSourceSlot) {
-        this.logger.main().log(1078071040, "[%1.setSelectedSlot] '%2'", (Object)"SourceController", (Object)iSourceSlot);
+        this.logger.main().log(1000000, "[%1.setSelectedSlot] '%2'", (Object)LOGCLASS, (Object)iSourceSlot);
         this.selectedSourceSlot = iSourceSlot;
         if (iSourceSlot.getSource().getType() != 4) {
             this.lastFilePlayerSourceSlot = this.selectedSourceSlot;
@@ -533,77 +534,77 @@ IDSIControllerStateListener {
         AbstractSource abstractSource;
         switch (n) {
             case 0: {
-                this.logger.main().log(1078071040, "[%1.initSource] CD", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.initSource] CD", (Object)LOGCLASS);
                 DiscDriveSource discDriveSource = new DiscDriveSource(this.getTerminal(), this.mediaDSIPlayerController, n, "CD");
                 this.sourceStateHandler.registerSource(discDriveSource);
                 abstractSource = discDriveSource;
                 break;
             }
             case 1: {
-                this.logger.main().log(1078071040, "[%1.initSource] CDC", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.initSource] CDC", (Object)LOGCLASS);
                 DiscChangerSource discChangerSource = new DiscChangerSource(this.getTerminal(), this.mediaDSIPlayerController, n, "CDC");
                 this.sourceStateHandler.registerSource(discChangerSource);
                 abstractSource = discChangerSource;
                 break;
             }
             case 2: {
-                this.logger.main().log(1078071040, "[%1.initSource] DVD", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.initSource] DVD", (Object)LOGCLASS);
                 DiscDriveSource discDriveSource = new DiscDriveSource(this.getTerminal(), this.mediaDSIPlayerController, n, "DVD");
                 this.sourceStateHandler.registerSource(discDriveSource);
                 abstractSource = discDriveSource;
                 break;
             }
             case 3: {
-                this.logger.main().log(1078071040, "[%1.initSource] DVDC", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.initSource] DVDC", (Object)LOGCLASS);
                 DiscChangerSource discChangerSource = new DiscChangerSource(this.getTerminal(), this.mediaDSIPlayerController, n, "DVDC");
                 this.sourceStateHandler.registerSource(discChangerSource);
                 abstractSource = discChangerSource;
                 break;
             }
             case 5: {
-                this.logger.main().log(1078071040, "[%1.initSource] SDCARD", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.initSource] SDCARD", (Object)LOGCLASS);
                 SDCardSource sDCardSource = new SDCardSource(this.getTerminal(), this.mediaDSIPlayerController);
                 this.sourceStateHandler.registerSource(sDCardSource);
                 abstractSource = sDCardSource;
                 break;
             }
             case 10: {
-                this.logger.main().log(1078071040, "[%1.initSource] USB", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.initSource] USB", (Object)LOGCLASS);
                 USBSource uSBSource = new USBSource(this.getTerminal(), this.mediaDSIPlayerController, n, "USB");
                 this.sourceStateHandler.registerSource(uSBSource);
                 abstractSource = uSBSource;
                 break;
             }
             case 6: {
-                this.logger.main().log(1078071040, "[%1.initSource] HDD", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.initSource] HDD", (Object)LOGCLASS);
                 HDDSource hDDSource = new HDDSource(this.getTerminal(), this.mediaDSIPlayerController);
                 this.sourceStateHandler.registerSource(hDDSource);
                 abstractSource = hDDSource;
                 break;
             }
             case 7: {
-                this.logger.main().log(1078071040, "[%1.initSource] TV", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.initSource] TV", (Object)LOGCLASS);
                 TVSource tVSource = new TVSource(this.getTerminal(), this.sourceStateHandler.getSourceStateUpdater(), this);
                 this.sourceStateHandler.registerSource(tVSource);
                 abstractSource = tVSource;
                 break;
             }
             case 8: {
-                this.logger.main().log(1078071040, "[%1.initSource] AV", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.initSource] AV", (Object)LOGCLASS);
                 AVSource aVSource = new AVSource(this.getTerminal(), this.sourceStateHandler.getSourceStateUpdater(), this);
                 this.sourceStateHandler.registerSource(aVSource);
                 abstractSource = aVSource;
                 break;
             }
             case 9: {
-                this.logger.main().log(1078071040, "[%1.initSource] AMI", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.initSource] AMI", (Object)LOGCLASS);
                 AUXSource aUXSource = new AUXSource(this.getTerminal(), this.mediaDSIPlayerController, n, "AUX");
                 this.sourceStateHandler.registerSource(aUXSource);
                 abstractSource = aUXSource;
                 break;
             }
             case 11: {
-                this.logger.main().log(1078071040, "[%1.initSource] BLUETOOTH", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.initSource] BLUETOOTH", (Object)LOGCLASS);
                 BluetoothSource bluetoothSource = new BluetoothSource(this.getTerminal(), this.mediaDSIPlayerController);
                 bluetoothSource.init();
                 abstractSource = bluetoothSource;
@@ -611,7 +612,7 @@ IDSIControllerStateListener {
                 break;
             }
             case 12: {
-                this.logger.main().log(1078071040, "[%1.initSource] WLAN.", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.initSource] WLAN.", (Object)LOGCLASS);
                 WLANSource wLANSource = new WLANSource(this.getTerminal(), this.mediaDSIPlayerController);
                 wLANSource.init();
                 abstractSource = wLANSource;
@@ -620,38 +621,36 @@ IDSIControllerStateListener {
             }
             case 4: {
                 FilePlayerSource filePlayerSource;
-                this.logger.main().log(1078071040, "[%1.initSource] FILEPLAYER.", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.initSource] FILEPLAYER.", (Object)LOGCLASS);
                 abstractSource = filePlayerSource = new FilePlayerSource(this.getTerminal(), this.mediaDSIPlayerController);
                 this.sourceStateHandler.registerSource(filePlayerSource);
                 break;
             }
             case 13: {
-                this.logger.main().log(1078071040, "[%1.initSource] ONLINEPLAYER", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.initSource] ONLINEPLAYER", (Object)LOGCLASS);
                 OnlinePlayerSource onlinePlayerSource = new OnlinePlayerSource(this.getTerminal(), this.mediaDSIPlayerController);
                 abstractSource = onlinePlayerSource;
                 this.sourceStateHandler.registerSource(onlinePlayerSource);
                 break;
             }
             default: {
-                this.logger.main().log(-1601830656, "[%1.initSource] '%2' not supported.", (Object)"SourceController", (Object)LogUtil.getSourceTypeStr(n));
+                this.logger.main().log(100000, "[%1.initSource] '%2' not supported.", (Object)LOGCLASS, (Object)LogUtil.getSourceTypeStr(n));
                 return null;
             }
         }
         return abstractSource;
     }
 
-    @Override
     public ISource getSource(int n) {
         try {
             return this.sourceList[n];
         }
         catch (Exception exception) {
-            this.logger.main().log(-1601830656, "[%1.getSource] Invalid ID '%2'.", (Object)"SourceController", (long)n);
+            this.logger.main().log(100000, "[%1.getSource] Invalid ID '%2'.", (Object)LOGCLASS, (long)n);
             return null;
         }
     }
 
-    @Override
     public void setAutomaticSourceChange(int[] nArray) {
         if (nArray == null) {
             throw new IllegalArgumentException();
@@ -661,7 +660,7 @@ IDSIControllerStateListener {
             for (int i2 = 0; i2 < nArray.length; ++i2) {
                 buffer.append(LogUtil.getSourceTypeStr(nArray[i2])).append(",");
             }
-            this.logger.main().log(1078071040, "[%1.setAutomaticSourceChange] '%2'", (Object)"SourceController", (Object)buffer.toString());
+            this.logger.main().log(1000000, "[%1.setAutomaticSourceChange] '%2'", (Object)LOGCLASS, (Object)buffer.toString());
         }
         Arrays.fill(this.automaticSourceChangeRelevantSources, false);
         for (int i3 = 0; i3 < nArray.length; ++i3) {
@@ -687,7 +686,7 @@ IDSIControllerStateListener {
         if (list.isEmpty()) {
             return false;
         }
-        this.logger.main().log(1078071040, "[%1.checkAutomaticSourceChange] Automatic source change relevant sources changed", (Object)"SourceController");
+        this.logger.main().log(1000000, "[%1.checkAutomaticSourceChange] Automatic source change relevant sources changed", (Object)LOGCLASS);
         Iterator iterator = list.iterator();
         while (iterator.hasNext()) {
             ISource iSource = (ISource)iterator.next();
@@ -695,10 +694,10 @@ IDSIControllerStateListener {
             while (iterator2.hasNext()) {
                 ISourceSlot iSourceSlot = (ISourceSlot)iterator2.next();
                 if (!iSourceSlot.isLoading()) continue;
-                this.logger.main().log(1078071040, "[%1.checkAutomaticSourceChange] '%2', slot '%3' inserted", (Object)"SourceController", (Object)iSourceSlot.getSource(), (long)iSourceSlot.getIndex());
+                this.logger.main().log(1000000, "[%1.checkAutomaticSourceChange] '%2', slot '%3' inserted", (Object)LOGCLASS, (Object)iSourceSlot.getSource(), (long)iSourceSlot.getIndex());
                 ISourceSlot iSourceSlot2 = this.getSelectedSlot();
                 if (iSourceSlot2.getSource().getType() == 4) {
-                    this.logger.main().log(1078071040, "[%1.checkAutomaticSourceChange] Fileplayer active", (Object)"SourceController");
+                    this.logger.main().log(1000000, "[%1.checkAutomaticSourceChange] Fileplayer active", (Object)LOGCLASS);
                     this.lastFilePlayerSourceSlot = iSourceSlot;
                     return true;
                 }
@@ -709,13 +708,12 @@ IDSIControllerStateListener {
                 return true;
             }
         }
-        this.logger.main().log(1078071040, "[%1.checkAutomaticSourceChange] No change neccessary", (Object)"SourceController");
+        this.logger.main().log(1000000, "[%1.checkAutomaticSourceChange] No change neccessary", (Object)LOGCLASS);
         return false;
     }
 
-    @Override
     public void slotsChanged(ISource[] iSourceArray) {
-        this.logger.main().log(1078071040, "[%1.slotsChanged]", (Object)"SourceController");
+        this.logger.main().log(1000000, "[%1.slotsChanged]", (Object)LOGCLASS);
         if (this.ipodAMIandA2DPSwitch(iSourceArray)) {
             return;
         }
@@ -730,9 +728,9 @@ IDSIControllerStateListener {
             return;
         }
         ISource iSource = iSourceSlot.getSource();
-        this.logger.main().log(1078071040, "[%1.slotsChanged] Selected source '%2' changed", (Object)"SourceController", (Object)iSource);
+        this.logger.main().log(1000000, "[%1.slotsChanged] Selected source '%2' changed", (Object)LOGCLASS, (Object)iSource);
         if (!iSource.isActive()) {
-            this.logger.main().log(1078071040, "[%1.slotsChanged] Source not active", (Object)"SourceController");
+            this.logger.main().log(1000000, "[%1.slotsChanged] Source not active", (Object)LOGCLASS);
             return;
         }
         if (!iSource.isDeviceActivated() && iSource.isActivateable(iSourceSlot) && iSource.isLastSelectedSlot(iSourceSlot)) {
@@ -740,7 +738,7 @@ IDSIControllerStateListener {
             activationContext.addParameter("RESTORE_STATE", this.restoreLastPlaymodeAfterDeactivation);
             activationContext.addParameter("IS_STARTUP", Boolean.FALSE);
             activationContext.addParameter("RESTORE_BROWSER_PATH_POSSIBLE", iSourceSlot.getSource().getType() == 11 ? Boolean.FALSE : Boolean.TRUE);
-            this.logger.main().log(1078071040, "[%1.slotsChanged] Active media available again. RestoreLastPlayModeAfterDeactivation = '%2', currentSelectedSourceSlot = '%3', id = '%4'.", (Object)"SourceController", (Object)Boolean.toString(this.restoreLastPlaymodeAfterDeactivation), (Object)iSourceSlot.getName(), (long)iSourceSlot.getDeviceIndex());
+            this.logger.main().log(1000000, "[%1.slotsChanged] Active media available again. RestoreLastPlayModeAfterDeactivation = '%2', currentSelectedSourceSlot = '%3', id = '%4'.", (Object)LOGCLASS, (Object)Boolean.toString(this.restoreLastPlaymodeAfterDeactivation), (Object)iSourceSlot.getName(), (long)iSourceSlot.getDeviceIndex());
             this.triggerSourceActivation(activationContext, this.demuteOnActivation);
             return;
         }
@@ -753,15 +751,15 @@ IDSIControllerStateListener {
         this.hmiHandler.setActiveSourceSlot(iSourceSlot);
         this.hmiHandler.setActiveMediaCapabilities(iSourceSlot.getCapabilities());
         if (iSource.isDeviceActivated() && !iSource.isActivateable(iSourceSlot)) {
-            this.logger.main().log(1078071040, "[%1.slotChanged] Active media unavailable.", (Object)"SourceController");
+            this.logger.main().log(1000000, "[%1.slotChanged] Active media unavailable.", (Object)LOGCLASS);
             this.getTerminal().getAudioManager().requestEntSuppression();
             this.getTerminal().getAudioManager().requestVolumelock("Active source unavailable.");
             if (iSourceSlot.getError() == 15 || iSourceSlot.getError() == 4) {
-                this.logger.main().log(1078071040, "[%1.slotChanged] PULS detected.", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.slotChanged] PULS detected.", (Object)LOGCLASS);
                 this.restoreLastPlaymodeAfterDeactivation = true;
                 this.demuteOnActivation = false;
             } else if (12 == iSource.getType()) {
-                this.logger.main().log(1078071040, "[%1.slotChanged] WLAN deactivated.", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.slotChanged] WLAN deactivated.", (Object)LOGCLASS);
                 this.restoreLastPlaymodeAfterDeactivation = true;
                 this.demuteOnActivation = true;
             } else {
@@ -772,7 +770,7 @@ IDSIControllerStateListener {
                     iContent.resetSettings();
                 }
             }
-            this.logger.main().log(-2137614336, "[%2.slotChanged] restorePlaymode='%1'.", this.restoreLastPlaymodeAfterDeactivation, (Object)"SourceController");
+            this.logger.main().log(10000000, "[%2.slotChanged] restorePlaymode='%1'.", this.restoreLastPlaymodeAfterDeactivation, (Object)LOGCLASS);
             this.getTerminal().getContentManager().deactivateActiveContent();
             iSource.deactivateSourceDevice();
             this.getTerminal().getTitlelineHMIHandler().resetIcons();
@@ -789,7 +787,7 @@ IDSIControllerStateListener {
     }
 
     private void setOnLoading(boolean bl) {
-        this.logger.main().log(1078071040, "[%1.setOnLoading] '%2'", (Object)"SourceController", (Object)(bl ? "LOADING" : "NOT LOADING"));
+        this.logger.main().log(1000000, "[%1.setOnLoading] '%2'", (Object)LOGCLASS, (Object)(bl ? "LOADING" : "NOT LOADING"));
         this.onLoading = bl;
     }
 
@@ -806,197 +804,196 @@ IDSIControllerStateListener {
             }
             if (this.isOnLoading()) {
                 boolean bl = n2 == 3;
-                this.logger.main().log(1078071040, "[%1.updateActiveSourceState] %2", (Object)"SourceController", (Object)(bl ? "ON SOURCE CHANGE" : "LOADING"));
+                this.logger.main().log(1000000, "[%1.updateActiveSourceState] %2", (Object)LOGCLASS, (Object)(bl ? "ON SOURCE CHANGE" : "LOADING"));
                 this.notifyActiveSourceChanged(iSourceSlot, bl ? 3 : 2);
                 return;
             }
-            this.logger.main().log(1078071040, "[%1.updateActiveSourceState] READY", (Object)"SourceController");
+            this.logger.main().log(1000000, "[%1.updateActiveSourceState] READY", (Object)LOGCLASS);
             this.notifyActiveSourceChanged(iSourceSlot, 1);
             return;
         }
         switch (n) {
             case 1: {
-                this.logger.main().log(1078071040, "[%1.updateActiveSourceState] ERR_WRONG_REGION_CODE_NO_CHANGES_LEFT", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.updateActiveSourceState] ERR_WRONG_REGION_CODE_NO_CHANGES_LEFT", (Object)LOGCLASS);
                 this.notifyActiveSourceChanged(iSourceSlot, 10);
                 break;
             }
             case 2: {
-                this.logger.main().log(1078071040, "[%1.updateActiveSourceState] ERR_WRONG_REGION_CODE_CHANGES_LEFT", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.updateActiveSourceState] ERR_WRONG_REGION_CODE_CHANGES_LEFT", (Object)LOGCLASS);
                 int n3 = this.getTerminal().getMediaPersistence().getGlobalIntProperty("GLOBAL_KEY_DVDV_REGIONCODE_CHANGES_LEFT");
-                this.getLabelModel(2047804160).setText(Integer.toString(n3));
+                this.getLabelModel(200570).setText(Integer.toString(n3));
                 this.notifyActiveSourceChanged(iSourceSlot, 9);
                 break;
             }
             case 3: {
-                this.logger.main().log(1078071040, "[%1.updateActiveSourceState] ERR_CHILDLOCK.", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.updateActiveSourceState] ERR_CHILDLOCK.", (Object)LOGCLASS);
                 this.notifyActiveSourceChanged(iSourceSlot, 18);
                 break;
             }
             case 16: {
-                this.logger.main().log(1078071040, "[%1.updateActiveSourceState] ERR_UNREADABLE.", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.updateActiveSourceState] ERR_UNREADABLE.", (Object)LOGCLASS);
                 this.notifyActiveSourceChanged(iSourceSlot, 5);
                 break;
             }
             case 17: {
-                this.logger.main().log(1078071040, "[%1.updateActiveSourceState] ERR_UNSUPPORTED.", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.updateActiveSourceState] ERR_UNSUPPORTED.", (Object)LOGCLASS);
                 this.notifyActiveSourceChanged(iSourceSlot, 20);
                 break;
             }
             case 18: {
-                this.logger.main().log(1078071040, "[%1.updateActiveSourceState] ERR_UNSUPPORTED_WRONG_FIRMWARE.", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.updateActiveSourceState] ERR_UNSUPPORTED_WRONG_FIRMWARE.", (Object)LOGCLASS);
                 this.notifyActiveSourceChanged(iSourceSlot, 21);
                 break;
             }
             case 23: {
-                this.logger.main().log(1078071040, "[%1.updateActiveSourceState] ERR_CORRUPTED_PARTITION.", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.updateActiveSourceState] ERR_CORRUPTED_PARTITION.", (Object)LOGCLASS);
                 this.notifyActiveSourceChanged(iSourceSlot, 26);
                 break;
             }
             case 19: {
-                this.logger.main().log(1078071040, "[%1.updateActiveSourceState] ERR_EMPTY.", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.updateActiveSourceState] ERR_EMPTY.", (Object)LOGCLASS);
                 this.notifyActiveSourceChanged(iSourceSlot, 4);
                 break;
             }
             case 4: {
-                this.logger.main().log(1078071040, "[%1.updateActiveSourceState] ERR_IMPORT_RUNNING.", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.updateActiveSourceState] ERR_IMPORT_RUNNING.", (Object)LOGCLASS);
                 this.notifyActiveSourceChanged(iSourceSlot, 16);
                 break;
             }
             case 6: {
-                this.logger.main().log(1078071040, "[%1.updateActiveSourceState] ERR_DELETION_RUNNING.", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.updateActiveSourceState] ERR_DELETION_RUNNING.", (Object)LOGCLASS);
                 this.notifyActiveSourceChanged(iSourceSlot, 17);
                 break;
             }
             case 7: {
-                this.logger.main().log(1078071040, "[%1.updateActiveSourceState] ERR_OVERCURRENT.", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.updateActiveSourceState] ERR_OVERCURRENT.", (Object)LOGCLASS);
                 this.notifyActiveSourceChanged(iSourceSlot, 19);
                 break;
             }
             case 5: {
-                this.logger.main().log(1078071040, "[%1.updateActiveSourceState] ERR_NO_PLAYABLE_FILES.", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.updateActiveSourceState] ERR_NO_PLAYABLE_FILES.", (Object)LOGCLASS);
                 this.notifyActiveSourceChanged(iSourceSlot, 8);
                 break;
             }
             case 22: {
-                this.logger.main().log(1078071040, "[%1.updateActiveSourceState] ERR_JUKEBOX_NOT_FILLED.", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.updateActiveSourceState] ERR_JUKEBOX_NOT_FILLED.", (Object)LOGCLASS);
                 this.notifyActiveSourceChanged(iSourceSlot, 24);
                 break;
             }
             case 8: {
-                this.logger.main().log(1078071040, "[%1.updateActiveSourceState] ERR_TEMPERATURE_TOO_HIGH.", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.updateActiveSourceState] ERR_TEMPERATURE_TOO_HIGH.", (Object)LOGCLASS);
                 this.notifyActiveSourceChanged(iSourceSlot, 6);
                 break;
             }
             case 9: {
-                this.logger.main().log(1078071040, "[%1.updateActiveSourceState] ERR_TEMPERATURE_TOO_LOW.", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.updateActiveSourceState] ERR_TEMPERATURE_TOO_LOW.", (Object)LOGCLASS);
                 this.notifyActiveSourceChanged(iSourceSlot, 7);
                 break;
             }
             case 15: {
-                this.logger.main().log(1078071040, "[%1.updateActiveSourceState] ERR_DEVICE_UNAVAILABLE.", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.updateActiveSourceState] ERR_DEVICE_UNAVAILABLE.", (Object)LOGCLASS);
                 this.notifyActiveSourceChanged(iSourceSlot, 25);
                 break;
             }
             case 10: {
-                this.logger.main().log(1078071040, "[%1.updateActiveSourceState] ERR_BT_AUDIOPLAYER_DEACTIVATED.", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.updateActiveSourceState] ERR_BT_AUDIOPLAYER_DEACTIVATED.", (Object)LOGCLASS);
                 this.notifyActiveSourceChanged(iSourceSlot, 14);
                 break;
             }
             case 11: {
-                this.logger.main().log(1078071040, "[%1.updateActiveSourceState] ERR_BT_AUDIOPLAYER_NOT_CONNECTED.", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.updateActiveSourceState] ERR_BT_AUDIOPLAYER_NOT_CONNECTED.", (Object)LOGCLASS);
                 this.notifyActiveSourceChanged(iSourceSlot, 15);
                 break;
             }
             case 12: {
-                this.logger.main().log(1078071040, "[%1.updateActiveSourceState] ERR_BT_DEACTIVATED.", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.updateActiveSourceState] ERR_BT_DEACTIVATED.", (Object)LOGCLASS);
                 this.notifyActiveSourceChanged(iSourceSlot, 11);
                 break;
             }
             case 13: {
-                this.logger.main().log(1078071040, "[%1.updateActiveSourceState] ERR_BT_DEACTIVATED_CLAMP_S_OFF.", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.updateActiveSourceState] ERR_BT_DEACTIVATED_CLAMP_S_OFF.", (Object)LOGCLASS);
                 this.notifyActiveSourceChanged(iSourceSlot, 12);
                 break;
             }
             case 14: {
-                this.logger.main().log(1078071040, "[%1.updateActiveSourceState] ERR_BT_RECONNECTING.", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.updateActiveSourceState] ERR_BT_RECONNECTING.", (Object)LOGCLASS);
                 this.notifyActiveSourceChanged(iSourceSlot, 13);
                 break;
             }
             case 21: {
-                this.logger.main().log(1078071040, "[%1.updateActiveSourceState] ERR_WLAN_DEACTIVATED.", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.updateActiveSourceState] ERR_WLAN_DEACTIVATED.", (Object)LOGCLASS);
                 this.notifyActiveSourceChanged(iSourceSlot, 22);
                 break;
             }
             case 20: {
-                this.logger.main().log(1078071040, "[%1.updateActiveSourceState] ERR_WLAN_DEACTIVATED_CLAMP_S_OFF.", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.updateActiveSourceState] ERR_WLAN_DEACTIVATED_CLAMP_S_OFF.", (Object)LOGCLASS);
                 this.notifyActiveSourceChanged(iSourceSlot, 23);
                 break;
             }
             case 24: {
-                this.logger.main().log(1078071040, "[%1.updateActiveSourceState] ERR_CHARGING.", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.updateActiveSourceState] ERR_CHARGING.", (Object)LOGCLASS);
                 this.notifyActiveSourceChanged(iSourceSlot, 27);
                 break;
             }
             case 25: {
-                this.logger.main().log(1078071040, "[%1.updateActiveSourceState] ERR_ONLINE_DEACTIVATED_CLAMP_S_OFF.", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.updateActiveSourceState] ERR_ONLINE_DEACTIVATED_CLAMP_S_OFF.", (Object)LOGCLASS);
                 this.notifyActiveSourceChanged(iSourceSlot, 28);
                 break;
             }
             case 27: {
-                this.logger.main().log(1078071040, "[%1.updateActiveSourceState] ERR_ONLINE_DEACTIVATED_WLAN_NO_CONN.", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.updateActiveSourceState] ERR_ONLINE_DEACTIVATED_WLAN_NO_CONN.", (Object)LOGCLASS);
                 this.notifyActiveSourceChanged(iSourceSlot, 30);
                 break;
             }
             case 26: {
-                this.logger.main().log(1078071040, "[%1.updateActiveSourceState] ERR_ONLINE_DEACTIVATED_WLAN_OFF.", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.updateActiveSourceState] ERR_ONLINE_DEACTIVATED_WLAN_OFF.", (Object)LOGCLASS);
                 this.notifyActiveSourceChanged(iSourceSlot, 29);
                 break;
             }
             case 28: {
-                this.logger.main().log(1078071040, "[%1.updateActiveSourceState] ERR_ONLINE_NO_APP.", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.updateActiveSourceState] ERR_ONLINE_NO_APP.", (Object)LOGCLASS);
                 this.notifyActiveSourceChanged(iSourceSlot, 31);
                 break;
             }
             case 29: {
-                this.logger.main().log(1078071040, "[%1.updateActiveSourceState] ERR_WLAN_NO_DEVICE.", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.updateActiveSourceState] ERR_WLAN_NO_DEVICE.", (Object)LOGCLASS);
                 this.notifyActiveSourceChanged(iSourceSlot, 32);
                 break;
             }
             case 30: {
-                this.logger.main().log(1078071040, "[%1.updateActiveSourceState] ERR_WLAN_NO_APP.", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.updateActiveSourceState] ERR_WLAN_NO_APP.", (Object)LOGCLASS);
                 this.notifyActiveSourceChanged(iSourceSlot, 33);
                 break;
             }
             default: {
-                this.logger.main().log(-1601830656, "[%1.updateActiveSourceState] Unexpected media state error (e%2) ", (Object)"SourceController", (long)n);
+                this.logger.main().log(100000, "[%1.updateActiveSourceState] Unexpected media state error (e%2) ", (Object)LOGCLASS, (long)n);
             }
         }
     }
 
-    @Override
     public void sourceDeviceActivated(ISourceSlot iSourceSlot, int n, boolean bl) {
         ISourceSlot iSourceSlot2 = this.getSelectedSlot();
         if (!bl) {
             if (iSourceSlot2 == null) {
-                this.logger.main().log(1078071040, "[%1.sourceDeviceActivated] Pruning detected - Current active source slot is null.", (Object)"SourceController");
+                this.logger.main().log(1000000, "[%1.sourceDeviceActivated] Pruning detected - Current active source slot is null.", (Object)LOGCLASS);
                 return;
             }
-            this.logger.main().log(1078071040, "[%1.sourceDeviceActivated] Pruning detected, device could not be activated.", (Object)"SourceController");
+            this.logger.main().log(1000000, "[%1.sourceDeviceActivated] Pruning detected, device could not be activated.", (Object)LOGCLASS);
             iSourceSlot2.getSource().deactivateSourceDevice();
             return;
         }
         if (iSourceSlot2 != null && iSourceSlot.getSource().getType() != iSourceSlot2.getSource().getType()) {
-            this.logger.main().log(1078071040, "[%1.sourceDeviceActivated] not same source -> ignore '%2'!='%3' ", (Object)"SourceController", (Object)iSourceSlot2, (Object)iSourceSlot);
+            this.logger.main().log(1000000, "[%1.sourceDeviceActivated] not same source -> ignore '%2'!='%3' ", (Object)LOGCLASS, (Object)iSourceSlot2, (Object)iSourceSlot);
             return;
         }
         iSourceSlot.getSource().sourceActivated(iSourceSlot);
-        this.logger.main().log(1078071040, "[%1.sourceDeviceActivated] '%2'", (Object)"SourceController", (Object)iSourceSlot);
+        this.logger.main().log(1000000, "[%1.sourceDeviceActivated] '%2'", (Object)LOGCLASS, (Object)iSourceSlot);
         if (iSourceSlot.getSource().getType() == 13) {
             this.getTerminal().getContentManager().activateContent(this.getActivationContext());
             return;
         }
         if (iSourceSlot.getSource().getType() == 8 || iSourceSlot.getSource().getType() == 7) {
-            this.logger.main().log(1078071040, "[%1.sourceDeviceActivated] activate TV Content: %2 ", (Object)"SourceController", (Object)(iSourceSlot.getSource().getType() == 8 ? "AV" : "TV"));
+            this.logger.main().log(1000000, "[%1.sourceDeviceActivated] activate TV Content: %2 ", (Object)LOGCLASS, (Object)(iSourceSlot.getSource().getType() == 8 ? "AV" : "TV"));
             this.getTerminal().getContentManager().activateContent(this.getActivationContext());
             return;
         }
@@ -1004,7 +1001,7 @@ IDSIControllerStateListener {
             this.getTerminal().getFramework().getMsgDistrib().sendMessage(201);
         }
         if (!((Object)iSourceSlot).equals(iSourceSlot2)) {
-            this.logger.main().log(1078071040, "[%1.sourceDeviceActivated] Not selected source slot activated.", (Object)"SourceController");
+            this.logger.main().log(1000000, "[%1.sourceDeviceActivated] Not selected source slot activated.", (Object)LOGCLASS);
             ActivationContext activationContext = new ActivationContext(iSourceSlot);
             if (iSourceSlot.getSource().getType() != 3) {
                 activationContext.addParameter("RESTORE_STATE", Boolean.FALSE);
@@ -1023,71 +1020,65 @@ IDSIControllerStateListener {
         this.getTerminal().getContentManager().activateContent(this.getActivationContext());
     }
 
-    @Override
     public void sourceDevicePending(long l) {
         ISourceSlot iSourceSlot = this.getActivationContext().getSlot();
         if (!(iSourceSlot instanceof MediaSourceSlot)) {
-            this.logger.main().log(-1601830656, "[%1.sourceDevicePending] active slot is null or no mediaslot -> ignore ", (Object)"SourceController");
+            this.logger.main().log(100000, "[%1.sourceDevicePending] active slot is null or no mediaslot -> ignore ", (Object)LOGCLASS);
             return;
         }
         if (((MediaSourceSlot)iSourceSlot).getDeviceID() != l) {
-            this.logger.main().log(-1601830656, "[%1.sourceDevicePending] pendingSource does not match active source -> ignore ", (Object)"SourceController");
+            this.logger.main().log(100000, "[%1.sourceDevicePending] pendingSource does not match active source -> ignore ", (Object)LOGCLASS);
             return;
         }
-        this.logger.main().log(1078071040, "[%1.sourceDevicePending] active source is pending -> request Entertainment Suppression Connection ", (Object)"SourceController");
+        this.logger.main().log(1000000, "[%1.sourceDevicePending] active source is pending -> request Entertainment Suppression Connection ", (Object)LOGCLASS);
         this.getTerminal().getAudioManager().requestEntSuppression();
         this.setOnLoading(true);
         this.notifyActiveSourceChanged(iSourceSlot, 2);
     }
 
-    @Override
     public void sourceDeviceDeactivated() {
-        this.logger.main().log(1078071040, "[%1.sourceDeviceDeactivated] ", (Object)"SourceController");
+        this.logger.main().log(1000000, "[%1.sourceDeviceDeactivated] ", (Object)LOGCLASS);
         this.getTerminal().getFramework().getMsgDistrib().sendMessage(200);
     }
 
-    @Override
     public void sourceActivationFailed() {
         DiscChangerSource discChangerSource;
-        this.logger.main().log(1078071040, "[%1.sourceActivationFailed]", (Object)"SourceController");
+        this.logger.main().log(1000000, "[%1.sourceActivationFailed]", (Object)LOGCLASS);
         if (this.getSelectedSlot().getSource().getType() == 3 && (discChangerSource = (DiscChangerSource)this.getSelectedSlot().getSource()).wasWildCardActivation()) {
             this.reactivateSelectedSource(true);
         }
     }
 
-    @Override
     public void contentActivationFinished(IContent iContent) {
-        this.logger.main().log(1078071040, "[%1.contentActivationFinished] '%2'", (Object)"SourceController", (Object)LogUtil.getContentTypeStr(iContent.getContentType()));
+        this.logger.main().log(1000000, "[%1.contentActivationFinished] '%2'", (Object)LOGCLASS, (Object)LogUtil.getContentTypeStr(iContent.getContentType()));
         ISourceSlot iSourceSlot = iContent.getActiveSlot();
         if (iSourceSlot == null) {
-            this.logger.main().log(1078071040, "[%1.contentActivationFinished] Content not active any more.", (Object)"SourceController");
+            this.logger.main().log(1000000, "[%1.contentActivationFinished] Content not active any more.", (Object)LOGCLASS);
             return;
         }
         ISourceSlot iSourceSlot2 = this.getSelectedSlot();
         if (iSourceSlot2 == null) {
-            this.logger.main().log(1078071040, "[%1.contentActivationFinished] No selected source slot.", (Object)"SourceController");
+            this.logger.main().log(1000000, "[%1.contentActivationFinished] No selected source slot.", (Object)LOGCLASS);
             return;
         }
         if (!((Object)iSourceSlot2).equals(iSourceSlot)) {
-            this.logger.main().log(1078071040, "[%1.contentActivationFinished] Active slot changed", (Object)"SourceController");
+            this.logger.main().log(1000000, "[%1.contentActivationFinished] Active slot changed", (Object)LOGCLASS);
             return;
         }
         this.setOnLoading(false);
         this.updateActiveSourceState(iSourceSlot);
     }
 
-    @Override
     public void contentActivated(IContent iContent, ISourceSlot iSourceSlot) {
     }
 
-    @Override
     public void contentDeactivated(IContent iContent) {
     }
 
     private boolean ipodAMIandA2DPSwitch(ISource[] iSourceArray) {
         int n;
         if (!this.getTerminal().getConfiguration().isSourceInstalled(11)) {
-            this.logger.main().log(1078071040, "[%1.ipodAMIandA2DPSwitch] No BT source installed.", (Object)"SourceController");
+            this.logger.main().log(1000000, "[%1.ipodAMIandA2DPSwitch] No BT source installed.", (Object)LOGCLASS);
             return false;
         }
         boolean bl = false;
@@ -1107,13 +1098,13 @@ IDSIControllerStateListener {
                 return true;
             }
         } else {
-            this.logger.main().log(-1601830656, "[%1.ipodAMIandA2DPSwitch] IPod list is empty.", (Object)"SourceController");
+            this.logger.main().log(100000, "[%1.ipodAMIandA2DPSwitch] IPod list is empty.", (Object)LOGCLASS);
         }
         return false;
     }
 
     private ISourceSlot[] getIPodSlots() {
-        this.logger.main().log(1078071040, "[%1.getIPodSlot]", (Object)"SourceController");
+        this.logger.main().log(1000000, "[%1.getIPodSlot]", (Object)LOGCLASS);
         ISource iSource = this.getSource(10);
         if (null == iSource) {
             return null;
@@ -1124,7 +1115,7 @@ IDSIControllerStateListener {
         while (objectArray.hasNext()) {
             ISourceSlot iSourceSlot = (ISourceSlot)objectArray.next();
             if (null == iSourceSlot || 24 != iSourceSlot.getMediaType() || 24 == iSourceSlot.getError()) continue;
-            this.logger.main().log(1078071040, "[%1.getIPodSlot] Found '%2'", (Object)"SourceController", (Object)iSourceSlot);
+            this.logger.main().log(1000000, "[%1.getIPodSlot] Found '%2'", (Object)LOGCLASS, (Object)iSourceSlot);
             arrayList.add(iSourceSlot);
         }
         objectArray = new ISourceSlot[arrayList.size()];
@@ -1132,9 +1123,8 @@ IDSIControllerStateListener {
         return objectArray;
     }
 
-    @Override
     public void addSourceChangeListener(ISourceChangeListener iSourceChangeListener) {
-        this.logger.main().log(1078071040, "[%1.addSourceChangeListener]", (Object)"SourceController");
+        this.logger.main().log(1000000, "[%1.addSourceChangeListener]", (Object)LOGCLASS);
         this.sourceChangeListener = iSourceChangeListener;
     }
 
@@ -1142,20 +1132,18 @@ IDSIControllerStateListener {
         return this.sourceChangeListener;
     }
 
-    @Override
     public void dsiAvailable() {
     }
 
-    @Override
     public void dsiUnavailable() {
-        this.logger.main().log(1078071040, "[%1.dsiUnavailable] Player DSI unavailable.", (Object)"SourceController");
+        this.logger.main().log(1000000, "[%1.dsiUnavailable] Player DSI unavailable.", (Object)LOGCLASS);
         ISourceSlot iSourceSlot = this.getSelectedSlot();
         if (iSourceSlot == null) {
             return;
         }
         ISource iSource = iSourceSlot.getSource();
         if (iSource.isDeviceActivated()) {
-            this.logger.main().log(1078071040, "[%1.dsiUnavailable] Deactivate active media.", (Object)"SourceController");
+            this.logger.main().log(1000000, "[%1.dsiUnavailable] Deactivate active media.", (Object)LOGCLASS);
             this.getTerminal().getAudioManager().requestEntSuppression();
             this.getTerminal().getAudioManager().requestVolumelock("Active source unavailable.");
             this.getTerminal().getContentManager().deactivateActiveContent();
@@ -1164,7 +1152,6 @@ IDSIControllerStateListener {
         }
     }
 
-    @Override
     public void setSourceActivationExtension(ISourceActivationExtension iSourceActivationExtension) {
         if (null == iSourceActivationExtension) {
             this.sourceActivationExtension = this.noSourceActivationExtension;
@@ -1175,28 +1162,8 @@ IDSIControllerStateListener {
 
     public String toString() {
         Buffer buffer = new Buffer(20);
-        buffer.append("SourceController").append("@").append(this.hashCode());
+        buffer.append(LOGCLASS).append("@").append(this.hashCode());
         return buffer.toString();
-    }
-
-    static /* synthetic */ IMediaLogger access$000(SourceController sourceController) {
-        return sourceController.logger;
-    }
-
-    static /* synthetic */ IMediaLogger access$100(SourceController sourceController) {
-        return sourceController.logger;
-    }
-
-    static /* synthetic */ void access$200(SourceController sourceController, ISourceSlot iSourceSlot) {
-        sourceController.setSelectedSlot(iSourceSlot);
-    }
-
-    static /* synthetic */ ISourceSlot access$300(SourceController sourceController) {
-        return sourceController.selectedSourceSlot;
-    }
-
-    static /* synthetic */ void access$400(SourceController sourceController, ISourceSlot iSourceSlot, int n) {
-        sourceController.notifyActiveSourceChanged(iSourceSlot, n);
     }
 }
 

@@ -4,10 +4,8 @@
 package de.audi.app.sdsmanager.oneshot;
 
 public interface IOneshotPicklistHandling {
-    default public void handlePicklistTitle(int n) {
-    }
+    public void handlePicklistTitle(int var1);
 
-    default public int getSlotLevelOffset() {
-    }
+    public int getSlotLevelOffset();
 }
 

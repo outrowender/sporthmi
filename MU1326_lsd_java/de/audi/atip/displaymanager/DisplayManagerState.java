@@ -4,7 +4,7 @@
 package de.audi.atip.displaymanager;
 
 public class DisplayManagerState {
-    private static final int INVALID_ID;
+    private static final int INVALID_ID = -1;
     private final int displayableId;
 
     public DisplayManagerState(int n) {

@@ -6,7 +6,6 @@ package de.audi.app.phone.core.interapp;
 import de.audi.app.phone.core.AbstractPhoneComponent;
 import de.audi.app.phone.core.ITelApplication;
 import de.audi.app.phone.core.PhoneServiceTracker;
-import de.audi.app.phone.core.interapp.TelConnectivityHandler$ConnectivityUpdateStruct;
 import de.audi.app.phone.core.state.IGlobalTelephoneStateStruct;
 import de.audi.atip.interapp.IConnectivityPhoneStateListener;
 import de.audi.atip.interapp.phone.ITelMESlotState;
@@ -22,7 +21,7 @@ extends AbstractPhoneComponent
 implements ServiceTrackerCustomizer {
     private volatile PhoneServiceTracker connectivityPhoneStateListenerTracker;
     protected final ArrayList connectivityListeners = new ArrayList();
-    private volatile TelConnectivityHandler$ConnectivityUpdateStruct connectivityUpdateStruct;
+    private volatile ConnectivityUpdateStruct connectivityUpdateStruct;
     private volatile IGlobalTelephoneStateStruct telState;
     private volatile ITelMESlotState primary;
     private volatile ITelMESlotState associated;
@@ -30,16 +29,15 @@ implements ServiceTrackerCustomizer {
     private final Object slotStateMutex = new Object();
     static /* synthetic */ Class class$de$audi$atip$interapp$IConnectivityPhoneStateListener;
 
-    private static TelConnectivityHandler$ConnectivityUpdateStruct getConnectivityUpdate(IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
+    private static ConnectivityUpdateStruct getConnectivityUpdate(IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         int n = iGlobalTelephoneStateStruct.getNadInstanceState() != null ? iGlobalTelephoneStateStruct.getNadInstanceState().getPhoneModuleState() : 0;
-        return new TelConnectivityHandler$ConnectivityUpdateStruct(iGlobalTelephoneStateStruct.getNadMode(), n);
+        return new ConnectivityUpdateStruct(iGlobalTelephoneStateStruct.getNadMode(), n);
     }
 
     public TelConnectivityHandler(ITelApplication iTelApplication, String string) {
         super(iTelApplication, string);
     }
 
-    @Override
     public void init() {
         super.init();
         this.getApplication().getGlobalTelephoneStateManager().registerListener(this);
@@ -47,7 +45,6 @@ implements ServiceTrackerCustomizer {
         this.connectivityPhoneStateListenerTracker.openTracker();
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.getApplication().getGlobalTelephoneStateManager().removeListener(this);
@@ -58,7 +55,6 @@ implements ServiceTrackerCustomizer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.getApplication().getBundleContext().getService(serviceReference);
         if (object instanceof IConnectivityPhoneStateListener) {
@@ -68,7 +64,7 @@ implements ServiceTrackerCustomizer {
             Object object2 = this.connectivityListeners;
             synchronized (object2) {
                 if (!this.connectivityListeners.contains(object)) {
-                    this.log.log(1078071040, "[TelConnectivityHandler#addingService] service=%1", object);
+                    this.log.log(1000000, "[TelConnectivityHandler#addingService] service=%1", object);
                     this.connectivityListeners.add(object);
                 }
             }
@@ -89,20 +85,18 @@ implements ServiceTrackerCustomizer {
         return null;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof IConnectivityPhoneStateListener) {
             this.getApplication().getBundleContext().ungetService(serviceReference);
             ArrayList arrayList = this.connectivityListeners;
             synchronized (arrayList) {
-                this.log.log(-1601830656, "[TelConnectivityHandler#removedService] %1", object);
+                this.log.log(100000, "[TelConnectivityHandler#removedService] %1", object);
                 this.connectivityListeners.remove(object);
             }
         }
@@ -111,29 +105,28 @@ implements ServiceTrackerCustomizer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         if (iGlobalTelephoneStateStruct == null) {
-            this.log.log(-1601830656, "[TelConnectivityHandler#updateGlobalTelephoneStateProperty] state is null --> NOP!");
+            this.log.log(100000, "[TelConnectivityHandler#updateGlobalTelephoneStateProperty] state is null --> NOP!");
             return;
         }
         this.telState = iGlobalTelephoneStateStruct;
-        TelConnectivityHandler$ConnectivityUpdateStruct telConnectivityHandler$ConnectivityUpdateStruct = TelConnectivityHandler.getConnectivityUpdate(iGlobalTelephoneStateStruct);
+        ConnectivityUpdateStruct connectivityUpdateStruct = TelConnectivityHandler.getConnectivityUpdate(iGlobalTelephoneStateStruct);
         List list = null;
         ArrayList arrayList = this.connectivityListeners;
         synchronized (arrayList) {
             list = (List)this.connectivityListeners.clone();
         }
         this.processMESlotStates(iGlobalTelephoneStateStruct, list);
-        if (this.updateListeners(telConnectivityHandler$ConnectivityUpdateStruct) && list != null) {
-            this.updateConnectivityPhoneStateListeners(list, telConnectivityHandler$ConnectivityUpdateStruct);
+        if (this.updateListeners(connectivityUpdateStruct) && list != null) {
+            this.updateConnectivityPhoneStateListeners(list, connectivityUpdateStruct);
         }
         this.updateESIMInfoToListeners(n, iGlobalTelephoneStateStruct, list);
         this.updateConnectedGatewayStateToListeners(n, iGlobalTelephoneStateStruct, list);
     }
 
     private void updateConnectedGatewayStateToListeners(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct, List list) {
-        if (iGlobalTelephoneStateStruct != null && list != null && n == 0xC000400) {
+        if (iGlobalTelephoneStateStruct != null && list != null && n == 262156) {
             Iterator iterator = list.iterator();
             while (iterator.hasNext()) {
                 IConnectivityPhoneStateListener iConnectivityPhoneStateListener = (IConnectivityPhoneStateListener)iterator.next();
@@ -192,7 +185,7 @@ implements ServiceTrackerCustomizer {
                 ((Buffer)object).append("\n");
                 ((Buffer)object).append("dataSlotState=");
                 ((Buffer)object).append(iTelMESlotState);
-                this.log.log(1078071040, "[TelConnectivityHandler#updateSlotState] %1", object);
+                this.log.log(1000000, "[TelConnectivityHandler#updateSlotState] %1", object);
             }
             object = new Buffer();
             Iterator iterator = list.iterator();
@@ -207,7 +200,7 @@ implements ServiceTrackerCustomizer {
                     this.log.log(10000, "[TelConnectivityHandler#processMESlotStates] exception %1", (Throwable)exception);
                 }
             }
-            this.log.log(1078071040, "[TelConnectivityHandler#processMESlotStates] updated Listeners  %1", object);
+            this.log.log(1000000, "[TelConnectivityHandler#processMESlotStates] updated Listeners  %1", object);
         }
     }
 
@@ -220,7 +213,7 @@ implements ServiceTrackerCustomizer {
     }
 
     private void updateESIMInfoToListeners(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct, List list) {
-        if ((n == 0x9000400 || n == 0xA000400 || n == 0x8000400 || n == 0x7000400) && list != null) {
+        if ((n == 262153 || n == 262154 || n == 262152 || n == 262151) && list != null) {
             Iterator iterator = list.iterator();
             while (iterator.hasNext()) {
                 IConnectivityPhoneStateListener iConnectivityPhoneStateListener = (IConnectivityPhoneStateListener)iterator.next();
@@ -241,43 +234,43 @@ implements ServiceTrackerCustomizer {
         }
     }
 
-    private boolean updateListeners(TelConnectivityHandler$ConnectivityUpdateStruct telConnectivityHandler$ConnectivityUpdateStruct) {
-        if (telConnectivityHandler$ConnectivityUpdateStruct != null) {
+    private boolean updateListeners(ConnectivityUpdateStruct connectivityUpdateStruct) {
+        if (connectivityUpdateStruct != null) {
             if (this.connectivityUpdateStruct != null) {
-                if (!this.connectivityUpdateStruct.equals(telConnectivityHandler$ConnectivityUpdateStruct)) {
-                    this.connectivityUpdateStruct = telConnectivityHandler$ConnectivityUpdateStruct;
+                if (!this.connectivityUpdateStruct.equals(connectivityUpdateStruct)) {
+                    this.connectivityUpdateStruct = connectivityUpdateStruct;
                     return true;
                 }
             } else {
-                this.connectivityUpdateStruct = telConnectivityHandler$ConnectivityUpdateStruct;
+                this.connectivityUpdateStruct = connectivityUpdateStruct;
                 return true;
             }
         }
         return false;
     }
 
-    private void updateConnectivityPhoneStateListeners(List list, TelConnectivityHandler$ConnectivityUpdateStruct telConnectivityHandler$ConnectivityUpdateStruct) {
-        if (list != null && telConnectivityHandler$ConnectivityUpdateStruct != null) {
-            this.log.log(1078071040, "[TelConnectivityHandler#updateConnectivityPhoneStateListeners] update=%1", (Object)telConnectivityHandler$ConnectivityUpdateStruct);
+    private void updateConnectivityPhoneStateListeners(List list, ConnectivityUpdateStruct connectivityUpdateStruct) {
+        if (list != null && connectivityUpdateStruct != null) {
+            this.log.log(1000000, "[TelConnectivityHandler#updateConnectivityPhoneStateListeners] update=%1", (Object)connectivityUpdateStruct);
             Buffer buffer = new Buffer();
             Iterator iterator = list.iterator();
             while (iterator.hasNext()) {
                 IConnectivityPhoneStateListener iConnectivityPhoneStateListener = (IConnectivityPhoneStateListener)iterator.next();
                 if (iConnectivityPhoneStateListener == null) continue;
                 buffer.append(new StringBuffer().append(iConnectivityPhoneStateListener).append(",").toString());
-                this.updateConnectivityPhoneStateListener(iConnectivityPhoneStateListener, telConnectivityHandler$ConnectivityUpdateStruct);
+                this.updateConnectivityPhoneStateListener(iConnectivityPhoneStateListener, connectivityUpdateStruct);
             }
-            this.log.log(1078071040, "[TelConnectivityHandler#updateConnectivityPhoneStateListeners] updatedListeners=%1", (Object)buffer);
+            this.log.log(1000000, "[TelConnectivityHandler#updateConnectivityPhoneStateListeners] updatedListeners=%1", (Object)buffer);
         }
     }
 
-    private void updateConnectivityPhoneStateListener(IConnectivityPhoneStateListener iConnectivityPhoneStateListener, TelConnectivityHandler$ConnectivityUpdateStruct telConnectivityHandler$ConnectivityUpdateStruct) {
+    private void updateConnectivityPhoneStateListener(IConnectivityPhoneStateListener iConnectivityPhoneStateListener, ConnectivityUpdateStruct connectivityUpdateStruct) {
         if (iConnectivityPhoneStateListener != null) {
-            if (telConnectivityHandler$ConnectivityUpdateStruct != null) {
-                iConnectivityPhoneStateListener.updatePhoneState(telConnectivityHandler$ConnectivityUpdateStruct.getNadMode(), telConnectivityHandler$ConnectivityUpdateStruct.getPhoneModuleState());
+            if (connectivityUpdateStruct != null) {
+                iConnectivityPhoneStateListener.updatePhoneState(connectivityUpdateStruct.getNadMode(), connectivityUpdateStruct.getPhoneModuleState());
             }
         } else {
-            this.log.log(-1601830656, "[TelConnectivityHandler#updateConnectivityPhoneStateListener] listener is null! --> NOP!");
+            this.log.log(100000, "[TelConnectivityHandler#updateConnectivityPhoneStateListener] listener is null! --> NOP!");
         }
     }
 
@@ -287,6 +280,50 @@ implements ServiceTrackerCustomizer {
         }
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
+        }
+    }
+
+    private static class ConnectivityUpdateStruct {
+        private final int nadMode;
+        private final int phoneModuleState;
+
+        ConnectivityUpdateStruct(int n, int n2) {
+            this.nadMode = n;
+            this.phoneModuleState = n2;
+        }
+
+        int getNadMode() {
+            return this.nadMode;
+        }
+
+        int getPhoneModuleState() {
+            return this.phoneModuleState;
+        }
+
+        public String toString() {
+            Buffer buffer = new Buffer();
+            buffer.append("ConnectivityUpdate: ");
+            buffer.append("nadMode=");
+            buffer.append(this.nadMode);
+            buffer.append(", ");
+            buffer.append("phoneModuleState=");
+            buffer.append(this.phoneModuleState);
+            return buffer.toString();
+        }
+
+        public boolean equals(Object object) {
+            if (object instanceof ConnectivityUpdateStruct) {
+                ConnectivityUpdateStruct connectivityUpdateStruct = (ConnectivityUpdateStruct)object;
+                return connectivityUpdateStruct.nadMode == this.nadMode && connectivityUpdateStruct.phoneModuleState == this.phoneModuleState;
+            }
+            return false;
+        }
+
+        public int hashCode() {
+            int n = 17;
+            n = 31 * n + this.nadMode;
+            n = 31 * n + this.phoneModuleState;
+            return n;
         }
     }
 }

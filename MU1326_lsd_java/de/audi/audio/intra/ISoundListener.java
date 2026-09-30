@@ -4,16 +4,12 @@
 package de.audi.audio.intra;
 
 public interface ISoundListener {
-    default public void updateActiveAmplifiers(int n) {
-    }
+    public void updateActiveAmplifiers(int var1);
 
-    default public void updateVolumeRange(int n, int n2) {
-    }
+    public void updateVolumeRange(int var1, int var2);
 
-    default public void updateVolume(int n, int n2, int n3) {
-    }
+    public void updateVolume(int var1, int var2, int var3);
 
-    default public void menuVolumeRange(int n, int n2, int n3, int n4) {
-    }
+    public void menuVolumeRange(int var1, int var2, int var3, int var4);
 }
 

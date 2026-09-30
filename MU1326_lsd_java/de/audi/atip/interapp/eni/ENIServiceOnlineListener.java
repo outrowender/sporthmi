@@ -8,40 +8,30 @@ import de.audi.atip.interapp.bap.eni.data.Service;
 import de.audi.atip.interapp.bap.eni.data.User;
 
 public interface ENIServiceOnlineListener {
-    public static final int SET_MAIN_USER_RESULT_OK;
-    public static final int SET_MAIN_USER_RESULT_ERROR_WRONG_PIN;
-    public static final int SET_MAIN_USER_RESULT_ERROR_GEN;
-    public static final int SET_MAIN_USER_RESULT_WRONG_MAX_REACHED;
-    public static final int SET_MAIN_USER_RESULT_ERROR_NO_VERIFIED_ACCOUNT;
+    public static final int SET_MAIN_USER_RESULT_OK = 0;
+    public static final int SET_MAIN_USER_RESULT_ERROR_WRONG_PIN = 1;
+    public static final int SET_MAIN_USER_RESULT_ERROR_GEN = 2;
+    public static final int SET_MAIN_USER_RESULT_WRONG_MAX_REACHED = 3;
+    public static final int SET_MAIN_USER_RESULT_ERROR_NO_VERIFIED_ACCOUNT = 4;
 
-    default public void onServiceList(Service[] serviceArray) {
-    }
+    public void onServiceList(Service[] var1);
 
-    default public void onUserList(User[] userArray) {
-    }
+    public void onUserList(User[] var1);
 
-    default public void triggerMainUserSetUsingVehiclePINResponse(int n, int n2) {
-    }
+    public void triggerMainUserSetUsingVehiclePINResponse(int var1, int var2);
 
-    default public void triggerMainUserResetResponse(boolean bl) {
-    }
+    public void triggerMainUserResetResponse(boolean var1);
 
-    default public void triggerUpdateUserListResponse(boolean bl) {
-    }
+    public void triggerUpdateUserListResponse(boolean var1);
 
-    default public void onMonitorings(int n, int n2, int n3) {
-    }
+    public void onMonitorings(int var1, int var2, int var3);
 
-    default public void setAlertServicesPrivacyDisclaimerTextVisible(boolean bl) {
-    }
+    public void setAlertServicesPrivacyDisclaimerTextVisible(boolean var1);
 
-    default public void onPrivacySetup(PrivacySetup privacySetup) {
-    }
+    public void onPrivacySetup(PrivacySetup var1);
 
-    default public void onRemoteProcessPrivacyModeReturnedToIdle() {
-    }
+    public void onRemoteProcessPrivacyModeReturnedToIdle();
 
-    default public void updatePrivacyModeFeatureAvailable(boolean bl) {
-    }
+    public void updatePrivacyModeFeatureAvailable(boolean var1);
 }
 

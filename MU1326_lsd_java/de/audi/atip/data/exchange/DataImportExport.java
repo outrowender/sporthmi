@@ -7,15 +7,12 @@ import de.audi.atip.data.exchange.ExportData;
 import de.audi.atip.data.exchange.ImportData;
 
 public interface DataImportExport {
-    public static final int APP_NAVI;
+    public static final int APP_NAVI = 0;
 
-    default public int getApplicationID() {
-    }
+    public int getApplicationID();
 
-    default public void exportData(ExportData exportData) {
-    }
+    public void exportData(ExportData var1);
 
-    default public boolean importData(ImportData importData) {
-    }
+    public boolean importData(ImportData var1);
 }
 

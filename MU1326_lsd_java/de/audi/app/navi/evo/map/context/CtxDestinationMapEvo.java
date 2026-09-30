@@ -15,7 +15,6 @@ extends CtxDestinationMap {
         super(navigationEnv, abstractMap);
     }
 
-    @Override
     public void enter() {
         super.enter();
         GUIInterface gUIInterface = this.naviMap.getGuiInterface();

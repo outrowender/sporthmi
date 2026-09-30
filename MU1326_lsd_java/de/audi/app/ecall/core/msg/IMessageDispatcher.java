@@ -6,16 +6,12 @@ package de.audi.app.ecall.core.msg;
 import de.audi.atip.msg.MsgListener;
 
 public interface IMessageDispatcher {
-    default public void init() {
-    }
+    public void init();
 
-    default public void deinit() {
-    }
+    public void deinit();
 
-    default public void addMessageListener(int n, MsgListener msgListener) {
-    }
+    public void addMessageListener(int var1, MsgListener var2);
 
-    default public void removeMessageListener(int n, MsgListener msgListener) {
-    }
+    public void removeMessageListener(int var1, MsgListener var2);
 }
 

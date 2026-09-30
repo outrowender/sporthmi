@@ -6,7 +6,6 @@ package de.audi.app.phone.core.adb;
 import org.dsi.ifc.organizer.AdbEntry;
 
 public interface ITelADBGetSpeedDialListFavoritesListener {
-    default public void resultGetADBSpeedDialFavoritesList(AdbEntry[] adbEntryArray) {
-    }
+    public void resultGetADBSpeedDialFavoritesList(AdbEntry[] var1);
 }
 

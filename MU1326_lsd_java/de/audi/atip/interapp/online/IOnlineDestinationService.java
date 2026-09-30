@@ -4,7 +4,6 @@
 package de.audi.atip.interapp.online;
 
 public interface IOnlineDestinationService {
-    default public void enterOnlineDestinationHandling() {
-    }
+    public void enterOnlineDestinationHandling();
 }
 

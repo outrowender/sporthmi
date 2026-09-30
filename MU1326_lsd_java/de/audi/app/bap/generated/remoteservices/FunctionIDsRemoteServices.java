@@ -8,84 +8,83 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public final class FunctionIDsRemoteServices
 implements IFunctionIDs {
-    private static final String DESCRIPTION_GET_ALL;
-    private static final String DESCRIPTION_BAP_CONFIG;
-    private static final String DESCRIPTION_FUNCTION_LIST;
-    private static final String DESCRIPTION_FSG_CONTROL;
-    private static final String DESCRIPTION_FSG_SETUP;
-    private static final String DESCRIPTION_FSG_OPERATION_STATE;
-    private static final String DESCRIPTION_START_ENGINE_CHALLENGE;
-    private static final String DESCRIPTION_START_ENGINE_AUTHENTICATION;
-    private static final String DESCRIPTION_START_ENGINE_SIGNATURE;
-    private static final String DESCRIPTION_MOB_DEV_KEY_CHALLENGE;
-    private static final String DESCRIPTION_MOB_DEV_KEY_AUTH;
-    private static final String DESCRIPTION_MOB_DEV_KEY_COMMAND;
-    private static final String DESCRIPTION_MOB_DEV_KEY_ACTIVE_KEY;
-    private static final String DESCRIPTION_MOB_DEV_KEY_SETUP;
-    private static final String DESCRIPTION_VTAN_AUTH_DATA;
-    private static final String DESCRIPTION_VTAN_DECRYPTION;
-    private static final String DESCRIPTION_MOB_DEV_KEY_CONTROL;
-    private static final String FCT_ID_UNKNOWN;
+    private static final String DESCRIPTION_GET_ALL = "0x1 (GET_ALL)";
+    private static final String DESCRIPTION_BAP_CONFIG = "0x2 (BAP_CONFIG)";
+    private static final String DESCRIPTION_FUNCTION_LIST = "0x3 (FUNCTION_LIST)";
+    private static final String DESCRIPTION_FSG_CONTROL = "0xd (FSG_CONTROL)";
+    private static final String DESCRIPTION_FSG_SETUP = "0xe (FSG_SETUP)";
+    private static final String DESCRIPTION_FSG_OPERATION_STATE = "0xf (FSG_OPERATION_STATE)";
+    private static final String DESCRIPTION_START_ENGINE_CHALLENGE = "0x10 (START_ENGINE_CHALLENGE)";
+    private static final String DESCRIPTION_START_ENGINE_AUTHENTICATION = "0x11 (START_ENGINE_AUTHENTICATION)";
+    private static final String DESCRIPTION_START_ENGINE_SIGNATURE = "0x12 (START_ENGINE_SIGNATURE)";
+    private static final String DESCRIPTION_MOB_DEV_KEY_CHALLENGE = "0x13 (MOB_DEV_KEY_CHALLENGE)";
+    private static final String DESCRIPTION_MOB_DEV_KEY_AUTH = "0x14 (MOB_DEV_KEY_AUTH)";
+    private static final String DESCRIPTION_MOB_DEV_KEY_COMMAND = "0x15 (MOB_DEV_KEY_COMMAND)";
+    private static final String DESCRIPTION_MOB_DEV_KEY_ACTIVE_KEY = "0x16 (MOB_DEV_KEY_ACTIVE_KEY)";
+    private static final String DESCRIPTION_MOB_DEV_KEY_SETUP = "0x17 (MOB_DEV_KEY_SETUP)";
+    private static final String DESCRIPTION_VTAN_AUTH_DATA = "0x18 (VTAN_AUTH_DATA)";
+    private static final String DESCRIPTION_VTAN_DECRYPTION = "0x19 (VTAN_DECRYPTION)";
+    private static final String DESCRIPTION_MOB_DEV_KEY_CONTROL = "0x1a (MOB_DEV_KEY_CONTROL)";
+    private static final String FCT_ID_UNKNOWN = " (UNKNOWN)";
 
-    @Override
     public String getDescription(int n) {
         switch (n) {
             case 1: {
-                return "0x1 (GET_ALL)";
+                return DESCRIPTION_GET_ALL;
             }
             case 2: {
-                return "0x2 (BAP_CONFIG)";
+                return DESCRIPTION_BAP_CONFIG;
             }
             case 3: {
-                return "0x3 (FUNCTION_LIST)";
+                return DESCRIPTION_FUNCTION_LIST;
             }
             case 13: {
-                return "0xd (FSG_CONTROL)";
+                return DESCRIPTION_FSG_CONTROL;
             }
             case 14: {
-                return "0xe (FSG_SETUP)";
+                return DESCRIPTION_FSG_SETUP;
             }
             case 15: {
-                return "0xf (FSG_OPERATION_STATE)";
+                return DESCRIPTION_FSG_OPERATION_STATE;
             }
             case 16: {
-                return "0x10 (START_ENGINE_CHALLENGE)";
+                return DESCRIPTION_START_ENGINE_CHALLENGE;
             }
             case 17: {
-                return "0x11 (START_ENGINE_AUTHENTICATION)";
+                return DESCRIPTION_START_ENGINE_AUTHENTICATION;
             }
             case 18: {
-                return "0x12 (START_ENGINE_SIGNATURE)";
+                return DESCRIPTION_START_ENGINE_SIGNATURE;
             }
             case 19: {
-                return "0x13 (MOB_DEV_KEY_CHALLENGE)";
+                return DESCRIPTION_MOB_DEV_KEY_CHALLENGE;
             }
             case 20: {
-                return "0x14 (MOB_DEV_KEY_AUTH)";
+                return DESCRIPTION_MOB_DEV_KEY_AUTH;
             }
             case 21: {
-                return "0x15 (MOB_DEV_KEY_COMMAND)";
+                return DESCRIPTION_MOB_DEV_KEY_COMMAND;
             }
             case 22: {
-                return "0x16 (MOB_DEV_KEY_ACTIVE_KEY)";
+                return DESCRIPTION_MOB_DEV_KEY_ACTIVE_KEY;
             }
             case 23: {
-                return "0x17 (MOB_DEV_KEY_SETUP)";
+                return DESCRIPTION_MOB_DEV_KEY_SETUP;
             }
             case 24: {
-                return "0x18 (VTAN_AUTH_DATA)";
+                return DESCRIPTION_VTAN_AUTH_DATA;
             }
             case 25: {
-                return "0x19 (VTAN_DECRYPTION)";
+                return DESCRIPTION_VTAN_DECRYPTION;
             }
             case 26: {
-                return "0x1a (MOB_DEV_KEY_CONTROL)";
+                return DESCRIPTION_MOB_DEV_KEY_CONTROL;
             }
         }
         Buffer buffer = new Buffer();
         buffer.append("0x");
         buffer.append(Integer.toHexString(n));
-        buffer.append(" (UNKNOWN)");
+        buffer.append(FCT_ID_UNKNOWN);
         return buffer.toString();
     }
 }

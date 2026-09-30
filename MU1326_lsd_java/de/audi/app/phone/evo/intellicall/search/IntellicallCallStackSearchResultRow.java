@@ -19,12 +19,12 @@ import org.dsi.ifc.telephoneng.CallStackEntry;
 
 public class IntellicallCallStackSearchResultRow
 extends AbstractIntellicallSearchResultRow {
-    private static final int COL_DATE;
-    private static final int COL_TIME;
-    private static final int ICONID_UNDEFINED;
-    private static final int ICONID_CALLSTACK_LD;
-    private static final int ICONID_CALLSTACK_MC;
-    private static final int ICONID_CALLSTACK_RC;
+    private static final int COL_DATE = 5;
+    private static final int COL_TIME = 6;
+    private static final int ICONID_UNDEFINED = -1;
+    private static final int ICONID_CALLSTACK_LD = 0;
+    private static final int ICONID_CALLSTACK_MC = 1;
+    private static final int ICONID_CALLSTACK_RC = 2;
     private final String number;
     private final String name;
     private final CallStackEntry callStackEntry;
@@ -78,18 +78,18 @@ extends AbstractIntellicallSearchResultRow {
     private PropertyListCell getPropertyCell() {
         ArrayList arrayList = new ArrayList(3);
         boolean bl = this.callStackEntry.getClNumber() != null && this.callStackEntry.getClNumber().length() > 0;
-        arrayList.add(new Integer(bl ? -2040561860 : -1708374768));
+        arrayList.add(new Integer(bl ? 1014980486 : 272968858));
         if (this.callStackEntry.getClEntryOrigin() == 1) {
-            arrayList.add(new Integer(-1704199780));
+            arrayList.add(new Integer(-1661375590));
         }
         if (this.callStackEntry.getAdbEntryID() > 0L) {
-            arrayList.add(new Integer(553997474));
+            arrayList.add(new Integer(-1571551967));
         }
         int[] nArray = new int[arrayList.size()];
         for (int i2 = 0; i2 < nArray.length; ++i2) {
             nArray[i2] = (Integer)arrayList.get(i2);
         }
-        return new PropertyListCell(-1635178174, nArray);
+        return new PropertyListCell(1110018462, nArray);
     }
 
     private int getIconID(SearchResult searchResult) {
@@ -113,7 +113,7 @@ extends AbstractIntellicallSearchResultRow {
                 break;
             }
             default: {
-                this.log.log(-1601830656, "[IntellicallCallStackSearchResultRow#getIconID] no call stack type found for %1", (long)n);
+                this.log.log(100000, "[IntellicallCallStackSearchResultRow#getIconID] no call stack type found for %1", (long)n);
                 n2 = -1;
             }
         }
@@ -124,7 +124,6 @@ extends AbstractIntellicallSearchResultRow {
         return this.callStackEntry;
     }
 
-    @Override
     public EvoListRow copy() {
         return new IntellicallCallStackSearchResultRow(this.getSearchResult(), this.log);
     }

@@ -13,43 +13,43 @@ implements ISystemCallNames {
     private static final Map SYSCALL_NAMES = SystemCallNames.createMap();
 
     private static void addAddressbookSystemcalls(Map map) {
-        map.put(new Integer(0x70110100), "ADB_DESTBYIDOPEN");
-        map.put(new Integer(0x71110100), "ADB_DESTSET");
-        map.put(new Integer(1913716992), "ADB_LISTHIDE");
-        map.put(new Integer(1930494208), "ADB_LISTSHOW");
-        map.put(new Integer(1947271424), "ADB_ENTRYSELECTIONINTERRUPT");
-        map.put(new Integer(1964048640), "ADB_NAVIGATETORECOG");
-        map.put(new Integer(1980825856), "ADB_NUMBERBYIDOPEN");
-        map.put(new Integer(2031157504), "ADB_MAILBYIDOPEN");
-        map.put(new Integer(0x77110100), "ADB_CATEGORYSET");
-        map.put(new Integer(2014380288), "ADB_TOPRECENTRYOPEN");
-        map.put(new Integer(2047934720), "ADB_LISTLINEDATAGET");
-        map.put(new Integer(2064711936), "ADB_DETAILLISTLINETYPEGET");
-        map.put(new Integer(2081489152), "ADB_CONTACTLISTLINESET");
+        map.put(new Integer(70000), "ADB_DESTBYIDOPEN");
+        map.put(new Integer(70001), "ADB_DESTSET");
+        map.put(new Integer(70002), "ADB_LISTHIDE");
+        map.put(new Integer(70003), "ADB_LISTSHOW");
+        map.put(new Integer(70004), "ADB_ENTRYSELECTIONINTERRUPT");
+        map.put(new Integer(70005), "ADB_NAVIGATETORECOG");
+        map.put(new Integer(70006), "ADB_NUMBERBYIDOPEN");
+        map.put(new Integer(70009), "ADB_MAILBYIDOPEN");
+        map.put(new Integer(70007), "ADB_CATEGORYSET");
+        map.put(new Integer(70008), "ADB_TOPRECENTRYOPEN");
+        map.put(new Integer(70010), "ADB_LISTLINEDATAGET");
+        map.put(new Integer(70011), "ADB_DETAILLISTLINETYPEGET");
+        map.put(new Integer(70012), "ADB_CONTACTLISTLINESET");
     }
 
     private static void addMessagingSystemcalls(Map map) {
-        map.put(new Integer(-131858176), "MSG_READOUTFINISH");
-        map.put(new Integer(-115080960), "MSG_ADDRECIPIENT");
-        map.put(new Integer(-81526528), "MSG_READOUTRECOG");
-        map.put(new Integer(-64749312), "MSG_READOUTDETAIL");
-        map.put(new Integer(-47972096), "MSG_SEND");
-        map.put(new Integer(-31194880), "MSG_LISTSHOW");
-        map.put(new Integer(-14417664), "MSG_LISTHIDE");
-        map.put(new Integer(2425088), "MSG_LISTLINESET");
-        map.put(new Integer(19202304), "MSG_TYPESET");
+        map.put(new Integer(75000), "MSG_READOUTFINISH");
+        map.put(new Integer(75001), "MSG_ADDRECIPIENT");
+        map.put(new Integer(75003), "MSG_READOUTRECOG");
+        map.put(new Integer(75004), "MSG_READOUTDETAIL");
+        map.put(new Integer(75005), "MSG_SEND");
+        map.put(new Integer(75006), "MSG_LISTSHOW");
+        map.put(new Integer(75007), "MSG_LISTHIDE");
+        map.put(new Integer(75008), "MSG_LISTLINESET");
+        map.put(new Integer(75009), "MSG_TYPESET");
     }
 
     private static void addDictationSystemcalls(Map map) {
-        map.put(new Integer(-936640256), "MSG_DICTATE_ACTIVATE");
-        map.put(new Integer(-919863040), "MSG_DICTATE_CLEARRECIPIENT");
-        map.put(new Integer(-903085824), "MSG_DICTATE_DELETE");
-        map.put(new Integer(-886308608), "MSG_DICTATE_PREPARE");
-        map.put(new Integer(-869531392), "MSG_DICTATE_FINISH");
-        map.put(new Integer(-802422528), "MSG_DICTATE_START");
-        map.put(new Integer(-785645312), "MSG_DICTATE_STOP");
-        map.put(new Integer(-768868096), "MSG_DICTATE_VOICEDATAAVAILABLE");
-        map.put(new Integer(-752090880), "MSG_DICTATE_DIALOGSTEPSET");
+        map.put(new Integer(77000), "MSG_DICTATE_ACTIVATE");
+        map.put(new Integer(77001), "MSG_DICTATE_CLEARRECIPIENT");
+        map.put(new Integer(77002), "MSG_DICTATE_DELETE");
+        map.put(new Integer(77003), "MSG_DICTATE_PREPARE");
+        map.put(new Integer(77004), "MSG_DICTATE_FINISH");
+        map.put(new Integer(77008), "MSG_DICTATE_START");
+        map.put(new Integer(77009), "MSG_DICTATE_STOP");
+        map.put(new Integer(77010), "MSG_DICTATE_VOICEDATAAVAILABLE");
+        map.put(new Integer(77011), "MSG_DICTATE_DIALOGSTEPSET");
     }
 
     private static void addMediaSystemcalls(Map map) {
@@ -72,100 +72,100 @@ implements ISystemCallNames {
     }
 
     private static void addNaviSystemcalls(Map map) {
-        map.put(new Integer(1100742656), "NAVI_BLOCKROUTEVALUESET");
-        map.put(new Integer(1134297088), "NAVI_DESTINATIONDELETE");
-        map.put(new Integer(1151074304), "NAVI_DESTINATIONAVAILABLE");
-        map.put(new Integer(1167851520), "NAVI_DESTINATIONGET");
-        map.put(new Integer(1201405952), "NAVI_DESTINATIONSET");
-        map.put(new Integer(1234960384), "NAVI_DESTINATIONSTATUS");
-        map.put(new Integer(1251737600), "NAVI_SPELLINGMODE");
-        map.put(new Integer(1268514816), "NAVI_SPELLINGMODECORRECTION");
-        map.put(new Integer(1302069248), "NAVI_CHECKROUTEGUIDANCE");
-        map.put(new Integer(1335623680), "NAVI_ALTERNATIVEROUTENUMBERSET");
-        map.put(new Integer(1385955328), "NAVI_HOUSENUMBERCHECK");
-        map.put(new Integer(1402732544), "NAVI_HOUSENUMBERSET");
-        map.put(new Integer(-1768161280), "NAVI_HOUSENUMBERRESOLVE");
-        map.put(new Integer(1419509760), "NAVI_HOMESET");
-        map.put(new Integer(1436286976), "NAVI_GETINFO");
-        map.put(new Integer(1469841408), "NAVI_INPUTMODECHECK");
-        map.put(new Integer(1486618624), "NAVI_INPUTSTARTED");
-        map.put(new Integer(1520173056), "NAVI_LISTHIDE");
-        map.put(new Integer(1553727488), "NAVI_LISTSHOW");
-        map.put(new Integer(1570504704), "NAVI_MAPOPTIONSSET");
-        map.put(new Integer(1604059136), "NAVI_MAPZOOM");
-        map.put(new Integer(1620836352), "NAVI_POICORRECTIONHANDLING");
-        map.put(new Integer(1637613568), "NAVI_POISEARCHAREASET");
-        map.put(new Integer(1654390784), "NAVI_POISHORTCUTSET");
-        map.put(new Integer(1755054080), "NAVI_POIVALUESET");
-        map.put(new Integer(1788608512), "NAVI_POIONLINERECOG");
-        map.put(new Integer(1805385728), "NAVI_POIONLINESEARCHAREASET");
-        map.put(new Integer(1822162944), "NAVI_POIONLINESEARCHDIDYOUMEAN");
-        map.put(new Integer(1838940160), "NAVI_POIONLINESEARCHCANCEL");
-        map.put(new Integer(1855717376), "NAVI_POIONLINESEARCHINIT");
-        map.put(new Integer(1906049024), "NAVI_POIONLINEUNIQUERESULT");
-        map.put(new Integer(1922826240), "NAVI_SPEEDLIMITGET");
-        map.put(new Integer(1939603456), "NAVI_POSTCODECHECK");
-        map.put(new Integer(1956380672), "NAVI_ROUTEOPTIONSSET");
-        map.put(new Integer(1973157888), "NAVI_LISTLINEDATAGET");
-        map.put(new Integer(1989935104), "NAVI_TMCREADOUT");
-        map.put(new Integer(2006712320), "NAVI_VOICEGUIDANCESET");
-        map.put(new Integer(2023489536), "NAVI_VDEONESHOTISAMBIGUOUS");
-        map.put(new Integer(2040266752), "NAVI_VDEONESHOTFILTERPICKLIST");
-        map.put(new Integer(2073821184), "NAVI_HOMESAVE");
-        map.put(new Integer(2090598400), "NAVI_GUIDANCE_START");
-        map.put(new Integer(2107375616), "NAVI_GUIDANCE_STOP");
-        map.put(new Integer(2124152832), "NAVI_ADD_DESTINATION");
-        map.put(new Integer(2140930048), "NAVI_ALTERNATIVEROUTECALC");
-        map.put(new Integer(-2137260032), "NAVI_POIONLINESHOWLIST");
-        map.put(new Integer(-2120482816), "NAVI_FAVORITEDESTINATIONSET");
-        map.put(new Integer(-2103705600), "NAVI_LASTDESTINATIONSET");
-        map.put(new Integer(-2086928384), "NAVI_SUITYPEGET");
-        map.put(new Integer(-2070151168), "NAVI_POIONESHOTAMBIGUOUS");
-        map.put(new Integer(-2053373952), "NAVI_POIONESHOTFILTERPICKLIST");
-        map.put(new Integer(-2036596736), "NAVI_MYAUDICONTACTSELECT");
-        map.put(new Integer(-2019819520), "NAVI_INTELLIDESTSET");
-        map.put(new Integer(-2003042304), "NAVI_POIPROMPTLABELSET");
-        map.put(new Integer(-1986265088), "NAVI_ONESHOTSTOREDATA");
-        map.put(new Integer(-1969487872), "NAVI_CHECKBETTERROUTE");
-        map.put(new Integer(-1952710656), "NAVI_SETBYPASSROUTE");
-        map.put(new Integer(-1935933440), "NAVI_DETAILSPHONECALL");
-        map.put(new Integer(-1919156224), "NAVI_POIONLINESELECTDESTINATION");
-        map.put(new Integer(-1902379008), "NAVI_BLOCKROUTESETNLU");
-        map.put(new Integer(-1885601792), "NAVI_FILLPROMPTLABELS");
-        map.put(new Integer(-1868824576), "NAVI_ENTERGEOCOORDINATES");
-        map.put(new Integer(-1852047360), "NAVI_DESTINATIONAVAILABLE_ASIA");
-        map.put(new Integer(-1835270144), "NAVI_OPERATORCALL");
-        map.put(new Integer(-1818492928), "NAVI_ENTERRUBBERBAND");
-        map.put(new Integer(-1801715712), "NAVI_POIHISTORYENTRYUNIQUE");
-        map.put(new Integer(-1784938496), "NAVI_ROUTEINFOSSET");
-        map.put(new Integer(-1751384064), "NAVI_ONESHOTAMBIGUOUS");
-        map.put(new Integer(-1734606848), "NAVI_ONESHOTFILTERPICKLIST");
-        map.put(new Integer(-1717829632), "NAVI_MAPCODEADD");
-        map.put(new Integer(-1701052416), "NAVI_MAPCODEDELETE");
-        map.put(new Integer(-1684275200), "NAVI_MAPCODEGET");
-        map.put(new Integer(-1667497984), "NAVI_MAPCODERESOLVE");
-        map.put(new Integer(-1432616960), "NAVI_MAPCODENAVIGABLE");
-        map.put(new Integer(-1415839744), "NAVI_FURTHERINPUTPOSSIBLE");
-        map.put(new Integer(-1650720768), "NAVI_PHONENUMBERADD");
-        map.put(new Integer(-1633943552), "NAVI_PHONENUMBERDELETE");
-        map.put(new Integer(-1617166336), "NAVI_PHONENUMBERGET");
-        map.put(new Integer(-1600389120), "NAVI_ENTERPOINAMESEARCH");
-        map.put(new Integer(-1583611904), "NAVI_TRUFFLESSEARCHDESTINATION");
-        map.put(new Integer(-1566834688), "NAVI_TRUFFLESCORRECTION");
-        map.put(new Integer(-1449394176), "NAVI_TRUFFLESEND");
-        map.put(new Integer(-1550057472), "NAVI_ADDRESSINPUTCORRECTION");
-        map.put(new Integer(-1533280256), "NAVI_STARTTPEGPOI");
-        map.put(new Integer(-1516503040), "NAVI_GETTPEGPOIRESULTSBYCATEGORY");
-        map.put(new Integer(-1499725824), "NAVI_SELECTTPEGPOIRESULT");
-        map.put(new Integer(-1482948608), "NAVI_TRIGGERTPEGPOIRETURN");
-        map.put(new Integer(-1466171392), "NAVI_SYNCHRONIZECOUNTRY");
-        map.put(new Integer(-1399062528), "NAVI_TRUFFLESCANCELSEARCH");
-        map.put(new Integer(-1382285312), "NAVI_SIMPLEMAPAREASET");
-        map.put(new Integer(-1365508096), "NAVI_ADDRESSINPUTCURSORCORRECTION");
-        map.put(new Integer(-1348730880), "NAVI_ADDRESSINPUTCURSORSET");
-        map.put(new Integer(-1331953664), "NAVI_SIMPLEMAPFREESELECTIONINIT");
-        map.put(new Integer(-1315176448), "NAVI_HOUSENUMBERJPKRVALIDATE");
-        map.put(new Integer(-1298399232), "NAVI_TRUFFLESSEARCHPREVIOUSDEST");
+        map.put(new Integer(40001), "NAVI_BLOCKROUTEVALUESET");
+        map.put(new Integer(40003), "NAVI_DESTINATIONDELETE");
+        map.put(new Integer(40004), "NAVI_DESTINATIONAVAILABLE");
+        map.put(new Integer(40005), "NAVI_DESTINATIONGET");
+        map.put(new Integer(40007), "NAVI_DESTINATIONSET");
+        map.put(new Integer(40009), "NAVI_DESTINATIONSTATUS");
+        map.put(new Integer(40010), "NAVI_SPELLINGMODE");
+        map.put(new Integer(40011), "NAVI_SPELLINGMODECORRECTION");
+        map.put(new Integer(40013), "NAVI_CHECKROUTEGUIDANCE");
+        map.put(new Integer(40015), "NAVI_ALTERNATIVEROUTENUMBERSET");
+        map.put(new Integer(40018), "NAVI_HOUSENUMBERCHECK");
+        map.put(new Integer(40019), "NAVI_HOUSENUMBERSET");
+        map.put(new Integer(40086), "NAVI_HOUSENUMBERRESOLVE");
+        map.put(new Integer(40020), "NAVI_HOMESET");
+        map.put(new Integer(40021), "NAVI_GETINFO");
+        map.put(new Integer(40023), "NAVI_INPUTMODECHECK");
+        map.put(new Integer(40024), "NAVI_INPUTSTARTED");
+        map.put(new Integer(40026), "NAVI_LISTHIDE");
+        map.put(new Integer(40028), "NAVI_LISTSHOW");
+        map.put(new Integer(40029), "NAVI_MAPOPTIONSSET");
+        map.put(new Integer(40031), "NAVI_MAPZOOM");
+        map.put(new Integer(40032), "NAVI_POICORRECTIONHANDLING");
+        map.put(new Integer(40033), "NAVI_POISEARCHAREASET");
+        map.put(new Integer(40034), "NAVI_POISHORTCUTSET");
+        map.put(new Integer(40040), "NAVI_POIVALUESET");
+        map.put(new Integer(40042), "NAVI_POIONLINERECOG");
+        map.put(new Integer(40043), "NAVI_POIONLINESEARCHAREASET");
+        map.put(new Integer(40044), "NAVI_POIONLINESEARCHDIDYOUMEAN");
+        map.put(new Integer(40045), "NAVI_POIONLINESEARCHCANCEL");
+        map.put(new Integer(40046), "NAVI_POIONLINESEARCHINIT");
+        map.put(new Integer(40049), "NAVI_POIONLINEUNIQUERESULT");
+        map.put(new Integer(40050), "NAVI_SPEEDLIMITGET");
+        map.put(new Integer(40051), "NAVI_POSTCODECHECK");
+        map.put(new Integer(40052), "NAVI_ROUTEOPTIONSSET");
+        map.put(new Integer(40053), "NAVI_LISTLINEDATAGET");
+        map.put(new Integer(40054), "NAVI_TMCREADOUT");
+        map.put(new Integer(40055), "NAVI_VOICEGUIDANCESET");
+        map.put(new Integer(40056), "NAVI_VDEONESHOTISAMBIGUOUS");
+        map.put(new Integer(40057), "NAVI_VDEONESHOTFILTERPICKLIST");
+        map.put(new Integer(40059), "NAVI_HOMESAVE");
+        map.put(new Integer(40060), "NAVI_GUIDANCE_START");
+        map.put(new Integer(40061), "NAVI_GUIDANCE_STOP");
+        map.put(new Integer(40062), "NAVI_ADD_DESTINATION");
+        map.put(new Integer(40063), "NAVI_ALTERNATIVEROUTECALC");
+        map.put(new Integer(40064), "NAVI_POIONLINESHOWLIST");
+        map.put(new Integer(40065), "NAVI_FAVORITEDESTINATIONSET");
+        map.put(new Integer(40066), "NAVI_LASTDESTINATIONSET");
+        map.put(new Integer(40067), "NAVI_SUITYPEGET");
+        map.put(new Integer(40068), "NAVI_POIONESHOTAMBIGUOUS");
+        map.put(new Integer(40069), "NAVI_POIONESHOTFILTERPICKLIST");
+        map.put(new Integer(40070), "NAVI_MYAUDICONTACTSELECT");
+        map.put(new Integer(40071), "NAVI_INTELLIDESTSET");
+        map.put(new Integer(40072), "NAVI_POIPROMPTLABELSET");
+        map.put(new Integer(40073), "NAVI_ONESHOTSTOREDATA");
+        map.put(new Integer(40074), "NAVI_CHECKBETTERROUTE");
+        map.put(new Integer(40075), "NAVI_SETBYPASSROUTE");
+        map.put(new Integer(40076), "NAVI_DETAILSPHONECALL");
+        map.put(new Integer(40077), "NAVI_POIONLINESELECTDESTINATION");
+        map.put(new Integer(40078), "NAVI_BLOCKROUTESETNLU");
+        map.put(new Integer(40079), "NAVI_FILLPROMPTLABELS");
+        map.put(new Integer(40080), "NAVI_ENTERGEOCOORDINATES");
+        map.put(new Integer(40081), "NAVI_DESTINATIONAVAILABLE_ASIA");
+        map.put(new Integer(40082), "NAVI_OPERATORCALL");
+        map.put(new Integer(40083), "NAVI_ENTERRUBBERBAND");
+        map.put(new Integer(40084), "NAVI_POIHISTORYENTRYUNIQUE");
+        map.put(new Integer(40085), "NAVI_ROUTEINFOSSET");
+        map.put(new Integer(40087), "NAVI_ONESHOTAMBIGUOUS");
+        map.put(new Integer(40088), "NAVI_ONESHOTFILTERPICKLIST");
+        map.put(new Integer(40089), "NAVI_MAPCODEADD");
+        map.put(new Integer(40090), "NAVI_MAPCODEDELETE");
+        map.put(new Integer(40091), "NAVI_MAPCODEGET");
+        map.put(new Integer(40092), "NAVI_MAPCODERESOLVE");
+        map.put(new Integer(40106), "NAVI_MAPCODENAVIGABLE");
+        map.put(new Integer(40107), "NAVI_FURTHERINPUTPOSSIBLE");
+        map.put(new Integer(40093), "NAVI_PHONENUMBERADD");
+        map.put(new Integer(40094), "NAVI_PHONENUMBERDELETE");
+        map.put(new Integer(40095), "NAVI_PHONENUMBERGET");
+        map.put(new Integer(40096), "NAVI_ENTERPOINAMESEARCH");
+        map.put(new Integer(40097), "NAVI_TRUFFLESSEARCHDESTINATION");
+        map.put(new Integer(40098), "NAVI_TRUFFLESCORRECTION");
+        map.put(new Integer(40105), "NAVI_TRUFFLESEND");
+        map.put(new Integer(40099), "NAVI_ADDRESSINPUTCORRECTION");
+        map.put(new Integer(40100), "NAVI_STARTTPEGPOI");
+        map.put(new Integer(40101), "NAVI_GETTPEGPOIRESULTSBYCATEGORY");
+        map.put(new Integer(40102), "NAVI_SELECTTPEGPOIRESULT");
+        map.put(new Integer(40103), "NAVI_TRIGGERTPEGPOIRETURN");
+        map.put(new Integer(40104), "NAVI_SYNCHRONIZECOUNTRY");
+        map.put(new Integer(40108), "NAVI_TRUFFLESCANCELSEARCH");
+        map.put(new Integer(40109), "NAVI_SIMPLEMAPAREASET");
+        map.put(new Integer(40110), "NAVI_ADDRESSINPUTCURSORCORRECTION");
+        map.put(new Integer(40111), "NAVI_ADDRESSINPUTCURSORSET");
+        map.put(new Integer(40112), "NAVI_SIMPLEMAPFREESELECTIONINIT");
+        map.put(new Integer(40113), "NAVI_HOUSENUMBERJPKRVALIDATE");
+        map.put(new Integer(40114), "NAVI_TRUFFLESSEARCHPREVIOUSDEST");
     }
 
     private static void addPhoneSystemcalls(Map map) {
@@ -250,17 +250,17 @@ implements ISystemCallNames {
     }
 
     private static void addRemoteHMISystemcalls(Map map) {
-        map.put(new Integer(1887568640), "REMOTEHMI_RESETNAVLOCATIONINPUT");
-        map.put(new Integer(1904345856), "REMOTEHMI_UPDATEHELP");
-        map.put(new Integer(1921123072), "REMOTEHMI_SETRESULT");
-        map.put(new Integer(1937900288), "REMOTEHMI_SETGLOBALRESULT");
-        map.put(new Integer(1954677504), "REMOTEHMI_SETHELPRESULT");
-        map.put(new Integer(1971454720), "REMOTEHMI_REQUESTDIALOGCONTINUATION");
-        map.put(new Integer(1988231936), "REMOTEHMI_DIALOGSTEPFINISHED");
-        map.put(new Integer(2005009152), "REMOTEHMI_HELPOPENED");
-        map.put(new Integer(2021786368), "REMOTEHMI_SETNAVDESTFORMRESULT");
-        map.put(new Integer(2038563584), "REMOTEHMI_SETGLOBALENTER");
-        map.put(new Integer(2055340800), "REMOTEHMI_SETRECOGNIZEDLINENUMBER");
+        map.put(new Integer(230000), "REMOTEHMI_RESETNAVLOCATIONINPUT");
+        map.put(new Integer(230001), "REMOTEHMI_UPDATEHELP");
+        map.put(new Integer(230002), "REMOTEHMI_SETRESULT");
+        map.put(new Integer(230003), "REMOTEHMI_SETGLOBALRESULT");
+        map.put(new Integer(230004), "REMOTEHMI_SETHELPRESULT");
+        map.put(new Integer(230005), "REMOTEHMI_REQUESTDIALOGCONTINUATION");
+        map.put(new Integer(230006), "REMOTEHMI_DIALOGSTEPFINISHED");
+        map.put(new Integer(230007), "REMOTEHMI_HELPOPENED");
+        map.put(new Integer(230008), "REMOTEHMI_SETNAVDESTFORMRESULT");
+        map.put(new Integer(230009), "REMOTEHMI_SETGLOBALENTER");
+        map.put(new Integer(230010), "REMOTEHMI_SETRECOGNIZEDLINENUMBER");
     }
 
     private static Map createMap() {
@@ -277,10 +277,9 @@ implements ISystemCallNames {
         return Collections.unmodifiableMap(hashMap);
     }
 
-    @Override
     public String getName(int n) {
         String string = (String)SYSCALL_NAMES.get(new Integer(n));
-        return string == null ? new StringBuffer().append("SYSTEMCALL_").append(n).toString() : string;
+        return string == null ? "SYSTEMCALL_" + n : string;
     }
 }
 

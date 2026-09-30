@@ -24,22 +24,20 @@ implements ISDSNaviGuidanceStartingCommand {
         this.sdsHandler = naviSDSHandler;
     }
 
-    @Override
     public void execute() {
         byte by = this.sdsHandler.getSDSAddressInputMode();
-        this.logger.log(-2137614336, "%1#execute: sdsAddressInputMode=%2", (Object)this.getName(), (long)by);
+        this.logger.log(10000000, "%1#execute: sdsAddressInputMode=%2", (Object)this.getName(), (long)by);
         if (SDSModelAccess.isPOIOnlineRecogActive()) {
-            this.logger.log(-2137614336, "%1#execute POI online active, marking current POI as used for navigation!");
+            this.logger.log(10000000, "%1#execute POI online active, marking current POI as used for navigation!");
             this.sdsHandler.markCurrentPOIUsedFor((byte)2);
         }
         this.naviService.startRouteGuidance(by, false);
     }
 
-    @Override
     public void responseStartRouteGuidance(byte by) {
-        this.logger.log(-2137614336, "%1#responseStartRouteGuidance: result=%2", (Object)this.getName(), (long)by);
+        this.logger.log(10000000, "%1#responseStartRouteGuidance: result=%2", (Object)this.getName(), (long)by);
         int n = NaviSDSUtils.getSDSResult(by);
-        this.logger.log(-2137614336, "%1#responseStartRouteGuidance: sdsRes=%2", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "%1#responseStartRouteGuidance: sdsRes=%2", (Object)this.getName(), (long)n);
         this.sendResult(n);
     }
 }

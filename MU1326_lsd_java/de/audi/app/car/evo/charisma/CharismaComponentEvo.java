@@ -12,9 +12,8 @@ import de.audi.app.car.core.charisma.AbstractCharismaAddInfoHandler;
 import de.audi.app.car.core.charisma.AbstractCharismaComponent;
 import de.audi.app.car.core.charisma.CharismaAddInfoConfig;
 import de.audi.app.car.core.charisma.CharismaIndivEntryBusinessConfig;
-import de.audi.app.car.core.charisma.CharismaIndivEntryBusinessConfig$BusinessEventProcessingConfig;
 import de.audi.app.car.core.charisma.CharismaIndividualChoiceModelHandler;
-import de.audi.app.car.core.charisma.CharismaIndividualEntryTransactionData$CharismaIndivOptionMapping;
+import de.audi.app.car.core.charisma.CharismaIndividualEntryTransactionData;
 import de.audi.app.car.core.charisma.CharismaIndividualEventBusiness;
 import de.audi.app.car.core.charisma.ScaleCharismaAddInfoHandler;
 import de.audi.atip.base.IFrameworkAccess;
@@ -37,14 +36,14 @@ IScreenStateListener {
     private final int SCREEN_CHANGE_MENU_FOCUS_GAINED;
     private final int SCREEN_CHANGE_MENU_EXITED;
     private final int SCREEN_CHANGE_MENU_ENTERED;
-    private static final int ADD_INFO_NO_POSITION_CHOICE_MODEL_HINT;
+    private static final int ADD_INFO_NO_POSITION_CHOICE_MODEL_HINT = 5;
     private CarServiceTracker jokerKeyServiceTracker;
     private JokerKeyService jokerKeyService;
     private final Object mutex = new Object();
     private final Map individualAvailableModels = new HashMap();
     private boolean isIndividualOperational = false;
     private volatile boolean onlyTrustScreenConnected = false;
-    private static final CharismaIndivEntryBusinessConfig INDIV_BUSINESS_EVENT_CONFIG;
+    private static final CharismaIndivEntryBusinessConfig INDIV_BUSINESS_EVENT_CONFIG = new CharismaIndivEntryBusinessConfig(CharismaIndividualEntryTransactionData.CharismaIndivOptionMapping.DDB_TO_DSI_PROFILE_MAPPER, CharismaIndivEntryBusinessConfig.BusinessEventProcessingConfig.EVENT_PROCESS_CONFIG_ITEM_SELECTED_ONLY, true);
     static /* synthetic */ Class class$de$audi$atip$interapp$JokerKeyService;
 
     public CharismaComponentEvo(ICarApplication iCarApplication) {
@@ -56,9 +55,8 @@ IScreenStateListener {
         this.jokerKeyServiceTracker = new CarServiceTracker(this, iCarApplication.getBundleContext(), this.getLogChannel());
     }
 
-    @Override
     protected void initModels() {
-        this.getChoiceModel(-215086848).setValue(1);
+        this.getChoiceModel(601843).setValue(1);
         super.initModels();
         if (this.isPositionHidden()) {
             super.setAddInfoHints(5);
@@ -75,29 +73,26 @@ IScreenStateListener {
         return iFrameworkAccess.isEvoHigh() && iFrameworkAccess.getScreenRes() == 2;
     }
 
-    @Override
     public void updateCharismaViewOptions(CharismaViewOptions charismaViewOptions, int n) {
         super.updateCharismaViewOptions(charismaViewOptions, n);
-        ChoiceModelApp choiceModelApp = this.getChoiceModel(-215086848);
+        ChoiceModelApp choiceModelApp = this.getChoiceModel(601843);
         if (choiceModelApp != null && choiceModelApp.getValue() == 1) {
-            this.getLogChannel().log(-2137614336, "[CharismaComponentEvo#updateCharismaViewOptions] first CharismaViewOptions trigger leaving INIT-Screen: model='%1', value='%2'", (long)choiceModelApp.getID(), 0L);
+            this.getLogChannel().log(10000000, "[CharismaComponentEvo#updateCharismaViewOptions] first CharismaViewOptions trigger leaving INIT-Screen: model='%1', value='%2'", (long)choiceModelApp.getID(), 0L);
             choiceModelApp.setValue(0);
         }
     }
 
-    @Override
     public void init() {
         super.init();
         this.jokerKeyServiceTracker.startTracking();
-        this.getApplication().getScreenStateDispatcher().addScreenStateListener(-332986112, this);
+        this.getApplication().getScreenStateDispatcher().addScreenStateListener(600044, this);
         this.getApplication().getActionProxyDispatcher().addActionProxyListener(60, this);
         this.getApplication().getActionProxyDispatcher().addActionProxyListener(64, this);
         this.getApplication().getActionProxyDispatcher().addActionProxyListener(65, this);
     }
 
-    @Override
     public void deinit() {
-        this.getApplication().getScreenStateDispatcher().removeScreenStateListener(-332986112, this);
+        this.getApplication().getScreenStateDispatcher().removeScreenStateListener(600044, this);
         this.getApplication().getActionProxyDispatcher().removeActionProxyListener(60, this);
         this.getApplication().getActionProxyDispatcher().removeActionProxyListener(64, this);
         this.getApplication().getActionProxyDispatcher().removeActionProxyListener(65, this);
@@ -105,46 +100,43 @@ IScreenStateListener {
         super.deinit();
     }
 
-    @Override
     protected void initVisibility() {
         this.initIndividualMap();
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(1260914944, (short)17);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(1277692160, (short)17);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(1311246592, (short)17);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(1328023808, (short)17);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(1344801024, (short)17);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(1294469376, (short)17);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(1361578240, (short)17);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(1965689088, (short)17);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(1244137728, (short)17);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600139, (short)17);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600140, (short)17);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600142, (short)17);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600143, (short)17);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600144, (short)17);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600141, (short)17);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600145, (short)17);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600693, (short)17);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600138, (short)17);
         this.getApplication().getMenuEntryRegistry().registerMenuEntry(238, (short)17);
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(1244137728, 1);
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(1965689088, 1);
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600138, 1);
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600693, 1);
     }
 
-    @Override
     protected void deinitVisibility() {
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(1260914944);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(1277692160);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(1311246592);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(1328023808);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(1344801024);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(1294469376);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(1361578240);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(1965689088);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600139);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600140);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600142);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600143);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600144);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600141);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600145);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600693);
         this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(238);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(1244137728);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600138);
     }
 
-    @Override
     protected void updateMenuEntryVisibility(CharismaViewOptions charismaViewOptions) {
         this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(this.getCurrentLiftProfileMenuEntryID(), this.getMenuEntryVisibilityState(new CarViewOption[]{charismaViewOptions.getActiveProfile(), charismaViewOptions.getProfileLift()}));
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(1277692160, this.getMenuEntryVisibilityState(new CarViewOption[]{charismaViewOptions.getActiveProfile(), charismaViewOptions.getProfileOffroadAllroad()}));
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(1311246592, this.getMenuEntryVisibilityState(new CarViewOption[]{charismaViewOptions.getActiveProfile(), charismaViewOptions.getProfileComfort()}));
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(1328023808, this.getMenuEntryVisibilityState(new CarViewOption[]{charismaViewOptions.getActiveProfile(), charismaViewOptions.getProfileAutoNormal()}));
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(1344801024, this.getMenuEntryVisibilityState(new CarViewOption[]{charismaViewOptions.getActiveProfile(), charismaViewOptions.getProfileDynamic()}));
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(1294469376, this.getMenuEntryVisibilityState(new CarViewOption[]{charismaViewOptions.getActiveProfile(), charismaViewOptions.getProfileEfficiency()}));
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(1361578240, this.getMenuEntryVisibilityState(new CarViewOption[]{charismaViewOptions.getActiveProfile(), charismaViewOptions.getProfileIndividual()}));
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600140, this.getMenuEntryVisibilityState(new CarViewOption[]{charismaViewOptions.getActiveProfile(), charismaViewOptions.getProfileOffroadAllroad()}));
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600142, this.getMenuEntryVisibilityState(new CarViewOption[]{charismaViewOptions.getActiveProfile(), charismaViewOptions.getProfileComfort()}));
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600143, this.getMenuEntryVisibilityState(new CarViewOption[]{charismaViewOptions.getActiveProfile(), charismaViewOptions.getProfileAutoNormal()}));
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600144, this.getMenuEntryVisibilityState(new CarViewOption[]{charismaViewOptions.getActiveProfile(), charismaViewOptions.getProfileDynamic()}));
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600141, this.getMenuEntryVisibilityState(new CarViewOption[]{charismaViewOptions.getActiveProfile(), charismaViewOptions.getProfileEfficiency()}));
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600145, this.getMenuEntryVisibilityState(new CarViewOption[]{charismaViewOptions.getActiveProfile(), charismaViewOptions.getProfileIndividual()}));
         this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(238, this.getMenuEntryVisibilityState(new CarViewOption[]{charismaViewOptions.getActiveProfile(), charismaViewOptions.getProfileRaceSport()}));
         this.updateJokerKeyListEntryVisibility(charismaViewOptions);
         this.setProfileIndividualOperationalState(charismaViewOptions);
@@ -152,18 +144,18 @@ IScreenStateListener {
 
     private int getCurrentLiftProfileMenuEntryID() {
         if (this.getLiftProfileName() == 9) {
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(1260914944, 1);
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(1965689088, 1);
-            return 1244137728;
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600139, 1);
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600693, 1);
+            return 600138;
         }
         if (this.getLiftProfileName() == 7) {
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(1260914944, 1);
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(1244137728, 1);
-            return 1965689088;
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600139, 1);
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600138, 1);
+            return 600693;
         }
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(1965689088, 1);
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(1244137728, 1);
-        return 1260914944;
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600693, 1);
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600138, 1);
+        return 600139;
     }
 
     /*
@@ -181,75 +173,68 @@ IScreenStateListener {
         }
     }
 
-    @Override
     public int getID() {
         return 18;
     }
 
-    @Override
     public int getPopUpID() {
-        return -987297536;
+        return 600005;
     }
 
-    @Override
     public int getStandbyPopupID() {
         return 6;
     }
 
-    @Override
     protected boolean isWholeCharismaPopupContentDisabled() {
-        return this.getChoiceModel(-282457856).getValue() != 0;
+        return this.getChoiceModel(600815).getValue() != 0;
     }
 
-    @Override
     public void serviceAvailable(Object object) {
         this.jokerKeyService = (JokerKeyService)object;
         this.updateJokerKeyListEntryVisibility(this.currViewOptions);
     }
 
-    @Override
     public void serviceRemoved() {
         this.jokerKeyService = null;
     }
 
-    @Override
     public String[] getTrackedServiceClazzName() {
         return new String[]{(class$de$audi$atip$interapp$JokerKeyService == null ? (class$de$audi$atip$interapp$JokerKeyService = CharismaComponentEvo.class$("de.audi.atip.interapp.JokerKeyService")) : class$de$audi$atip$interapp$JokerKeyService).getName()};
     }
 
     private void initIndividualMap() {
-        this.individualAvailableModels.put(new Integer(1), this.getChoiceModel(-30799616));
-        this.individualAvailableModels.put(new Integer(3), this.getChoiceModel(2820352));
-        this.individualAvailableModels.put(new Integer(9), this.getChoiceModel(-215348992));
-        this.individualAvailableModels.put(new Integer(13), this.getChoiceModel(-148240128));
-        this.individualAvailableModels.put(new Integer(5), this.getChoiceModel(69929216));
-        this.individualAvailableModels.put(new Integer(6), this.getChoiceModel(204146944));
-        this.individualAvailableModels.put(new Integer(11), this.getChoiceModel(170592512));
-        this.individualAvailableModels.put(new Integer(10), this.getChoiceModel(103483648));
-        this.individualAvailableModels.put(new Integer(4), this.getChoiceModel(774637824));
-        this.individualAvailableModels.put(new Integer(22), this.getChoiceModel(741083392));
-        this.individualAvailableModels.put(new Integer(7), this.getChoiceModel(-64354048));
-        this.individualAvailableModels.put(new Integer(29), this.getChoiceModel(-47380224));
-        this.individualAvailableModels.put(new Integer(52), this.getChoiceModel(-2110912256));
-        this.individualAvailableModels.put(new Integer(34), this.getChoiceModel(0x9300900));
+        this.individualAvailableModels.put(new Integer(1), this.getChoiceModel(600830));
+        this.individualAvailableModels.put(new Integer(3), this.getChoiceModel(600832));
+        this.individualAvailableModels.put(new Integer(9), this.getChoiceModel(600819));
+        this.individualAvailableModels.put(new Integer(13), this.getChoiceModel(600823));
+        this.individualAvailableModels.put(new Integer(5), this.getChoiceModel(600836));
+        this.individualAvailableModels.put(new Integer(6), this.getChoiceModel(600844));
+        this.individualAvailableModels.put(new Integer(11), this.getChoiceModel(600842));
+        this.individualAvailableModels.put(new Integer(10), this.getChoiceModel(600838));
+        this.individualAvailableModels.put(new Integer(4), this.getChoiceModel(601134));
+        this.individualAvailableModels.put(new Integer(22), this.getChoiceModel(601132));
+        this.individualAvailableModels.put(new Integer(7), this.getChoiceModel(600828));
+        this.individualAvailableModels.put(new Integer(29), this.getChoiceModel(601597));
+        this.individualAvailableModels.put(new Integer(52), this.getChoiceModel(601730));
+        this.individualAvailableModels.put(new Integer(34), this.getChoiceModel(602121));
         this.resetIndividualAvailableModels();
     }
 
     private void resetIndividualAvailableModels() {
-        this.getChoiceModel(-30799616).setValue(1);
-        this.getChoiceModel(2820352).setValue(1);
-        this.getChoiceModel(-215348992).setValue(1);
-        this.getChoiceModel(-148240128).setValue(1);
-        this.getChoiceModel(69929216).setValue(1);
-        this.getChoiceModel(204146944).setValue(1);
-        this.getChoiceModel(170592512).setValue(1);
-        this.getChoiceModel(103483648).setValue(1);
-        this.getChoiceModel(-64354048).setValue(1);
-        this.getChoiceModel(774637824).setValue(1);
-        this.getChoiceModel(741083392).setValue(1);
-        this.getChoiceModel(-47380224).setValue(1);
-        this.getChoiceModel(-2110912256).setValue(1);
-        this.getChoiceModel(0x9300900).setValue(1);
+        this.getChoiceModel(600830).setValue(1);
+        this.getChoiceModel(600832).setValue(1);
+        this.getChoiceModel(600819).setValue(1);
+        this.getChoiceModel(600823).setValue(1);
+        this.getChoiceModel(600836).setValue(1);
+        this.getChoiceModel(600844).setValue(1);
+        this.getChoiceModel(600842).setValue(1);
+        this.getChoiceModel(600838).setValue(1);
+        this.getChoiceModel(600828).setValue(1);
+        this.getChoiceModel(601134).setValue(1);
+        this.getChoiceModel(601132).setValue(1);
+        this.getChoiceModel(601597).setValue(1);
+        this.getChoiceModel(601730).setValue(1);
+        this.getChoiceModel(602121).setValue(1);
     }
 
     protected void updateIndividualAvailability(int n) {
@@ -271,12 +256,10 @@ IScreenStateListener {
         charismaIndividualEventBusiness.setAvailableModel(choiceModelApp);
     }
 
-    @Override
     protected void initIndividualBusiness(CharismaIndividualChoiceModelHandler charismaIndividualChoiceModelHandler, CharismaIndividualEventBusiness charismaIndividualEventBusiness) {
         this.initIndividualBusiness(charismaIndividualChoiceModelHandler, charismaIndividualEventBusiness, this.getIndividualAvailableModel(charismaIndividualEventBusiness.getDsiFunctionID()));
     }
 
-    @Override
     protected void initIndividualBusiness(CharismaIndividualChoiceModelHandler charismaIndividualChoiceModelHandler, CharismaIndividualEventBusiness charismaIndividualEventBusiness, ChoiceModelApp choiceModelApp) {
         if (choiceModelApp != null) {
             this.addAvailableModelToIndividualBusiness(charismaIndividualEventBusiness, choiceModelApp);
@@ -285,7 +268,6 @@ IScreenStateListener {
         }
     }
 
-    @Override
     protected boolean isProfileIndividualOperational() {
         return this.isIndividualOperational;
     }
@@ -294,7 +276,6 @@ IScreenStateListener {
         this.isIndividualOperational = charismaViewOptions != null && this.getMenuEntryVisibilityState(new CarViewOption[]{charismaViewOptions.getActiveProfile(), charismaViewOptions.getProfileIndividual(), charismaViewOptions.getCharismaList()}) != 1;
     }
 
-    @Override
     protected AbstractCharismaAddInfoHandler getCharismaAddInfoHandler(ChoiceModelApp choiceModelApp) {
         if (this.isUnitG22()) {
             return super.getCharismaAddInfoHandler(choiceModelApp);
@@ -302,22 +283,20 @@ IScreenStateListener {
         return new ScaleCharismaAddInfoHandler(this.getLogChannel(), choiceModelApp, this.getCharismaAddInfoConfig());
     }
 
-    @Override
     protected CharismaAddInfoConfig[] getCharismaAddInfoConfig() {
         IStorageAccess iStorageAccess = this.getApplication().getFrameworkAccess().getStorageMgr();
-        CharismaAddInfoConfig charismaAddInfoConfig = new CharismaAddInfoConfig(this.getLogChannel(), iStorageAccess, 0, this.getChoiceModel(103549184));
-        CharismaAddInfoConfig charismaAddInfoConfig2 = new CharismaAddInfoConfig(this.getLogChannel(), iStorageAccess, 2, this.getChoiceModel(170658048));
-        CharismaAddInfoConfig charismaAddInfoConfig3 = new CharismaAddInfoConfig(this.getLogChannel(), iStorageAccess, 1, this.getChoiceModel(137103616));
-        CharismaAddInfoConfig charismaAddInfoConfig4 = new CharismaAddInfoConfig(this.getLogChannel(), iStorageAccess, 3, this.getChoiceModel(204212480));
-        CharismaAddInfoConfig charismaAddInfoConfig5 = new CharismaAddInfoConfig(this.getLogChannel(), iStorageAccess, 4, this.getChoiceModel(-1439692544));
-        CharismaAddInfoConfig charismaAddInfoConfig6 = new CharismaAddInfoConfig(this.getLogChannel(), iStorageAccess, 5, this.getChoiceModel(-1422915328));
+        CharismaAddInfoConfig charismaAddInfoConfig = new CharismaAddInfoConfig(this.getLogChannel(), iStorageAccess, 0, this.getChoiceModel(601094));
+        CharismaAddInfoConfig charismaAddInfoConfig2 = new CharismaAddInfoConfig(this.getLogChannel(), iStorageAccess, 2, this.getChoiceModel(601098));
+        CharismaAddInfoConfig charismaAddInfoConfig3 = new CharismaAddInfoConfig(this.getLogChannel(), iStorageAccess, 1, this.getChoiceModel(601096));
+        CharismaAddInfoConfig charismaAddInfoConfig4 = new CharismaAddInfoConfig(this.getLogChannel(), iStorageAccess, 3, this.getChoiceModel(601100));
+        CharismaAddInfoConfig charismaAddInfoConfig5 = new CharismaAddInfoConfig(this.getLogChannel(), iStorageAccess, 4, this.getChoiceModel(602282));
+        CharismaAddInfoConfig charismaAddInfoConfig6 = new CharismaAddInfoConfig(this.getLogChannel(), iStorageAccess, 5, this.getChoiceModel(602283));
         if (this.isUnitG22()) {
             return new CharismaAddInfoConfig[]{charismaAddInfoConfig, charismaAddInfoConfig2, charismaAddInfoConfig3, charismaAddInfoConfig4, charismaAddInfoConfig5, charismaAddInfoConfig6};
         }
         return new CharismaAddInfoConfig[]{charismaAddInfoConfig4, charismaAddInfoConfig5, charismaAddInfoConfig6};
     }
 
-    @Override
     protected void updateCharismaProfileSelection(int n) {
         boolean bl = this.updateActivityStateOfPerformanceMode(n);
         if (bl) {
@@ -328,9 +307,8 @@ IScreenStateListener {
         }
     }
 
-    @Override
     public void actionProxyCallPerformed(int n, Map map) {
-        this.getLogChannel().log(-2137614336, "[CharismaComponentEvo#actionProxyCallPerformed] methodID='%1'", (long)n);
+        this.getLogChannel().log(10000000, "[CharismaComponentEvo#actionProxyCallPerformed] methodID='%1'", (long)n);
         switch (n) {
             case 60: {
                 this.setDriveSelectScreenVisible(true, true);
@@ -345,14 +323,14 @@ IScreenStateListener {
                 break;
             }
             default: {
-                this.getLogChannel().log(-1601830656, "[CharismaComponentEvo#actionProxyCallPerformed] methodID '%1' not supported", (long)n);
+                this.getLogChannel().log(100000, "[CharismaComponentEvo#actionProxyCallPerformed] methodID '%1' not supported", (long)n);
             }
         }
     }
 
     private void changeCharismaMenuScreenState(Map map) {
         if (this.onlyTrustScreenConnected) {
-            this.getLogChannel().log(-2137614336, "[CharismaComponentEvo#changeCharismaMenuScreenState] Wait for screen connected/faded out notifications to determine drive select menu state.");
+            this.getLogChannel().log(10000000, "[CharismaComponentEvo#changeCharismaMenuScreenState] Wait for screen connected/faded out notifications to determine drive select menu state.");
             return;
         }
         Integer n = (Integer)map.get("STATE");
@@ -372,22 +350,21 @@ IScreenStateListener {
     private void notifyCharismaMenuScreenEntered() {
         if (!this.isDriveSelectScreenVisible()) {
             this.setDriveSelectScreenVisible(true, false);
-            this.getLogChannel().log(1078071040, "[CharismaComponentEvo#notifyCharismaMenuScreenEntered] entered CharismaMenu Screen: DSI.showCharismaPopup(%1, %2)", 1L, 1L);
+            this.getLogChannel().log(1000000, "[CharismaComponentEvo#notifyCharismaMenuScreenEntered] entered CharismaMenu Screen: DSI.showCharismaPopup(%1, %2)", 1L, 1L);
             this.showCharismaPopup(1, 1);
         }
     }
 
     private void notifyCharismaMenuScreenExited() {
         this.setDriveSelectScreenVisible(false, false);
-        this.getLogChannel().log(1078071040, "[CharismaComponentEvo#notifyCharismaMenuScreenExited] exited CharismaMenu Screen: DSI.cancelCharismaPopup(%1, %2)", 1L, 1L);
+        this.getLogChannel().log(1000000, "[CharismaComponentEvo#notifyCharismaMenuScreenExited] exited CharismaMenu Screen: DSI.cancelCharismaPopup(%1, %2)", 1L, 1L);
         this.cancelCharismaPopup(1, 1);
     }
 
-    @Override
     public void notifyScreenConnected(int n) {
-        if (n == -332986112) {
+        if (n == 600044) {
             MenuModelApp menuModelApp;
-            this.getLogChannel().log(-2137614336, "[CharismaComponentEvo#notifyScreenConnected] screenID='%1'", (long)n);
+            this.getLogChannel().log(10000000, "[CharismaComponentEvo#notifyScreenConnected] screenID='%1'", (long)n);
             if (this.onlyTrustScreenConnected) {
                 this.notifyCharismaMenuScreenEntered();
                 this.onlyTrustScreenConnected = false;
@@ -398,10 +375,9 @@ IScreenStateListener {
         }
     }
 
-    @Override
     public void notifyScreenFadedOut(int n) {
-        if (n == -332986112) {
-            this.getLogChannel().log(-2137614336, "[CharismaComponentEvo#notifyScreenFadedOut] screenID='%1'", (long)n);
+        if (n == 600044) {
+            this.getLogChannel().log(10000000, "[CharismaComponentEvo#notifyScreenFadedOut] screenID='%1'", (long)n);
             if (this.onlyTrustScreenConnected) {
                 this.notifyCharismaMenuScreenExited();
                 this.onlyTrustScreenConnected = false;
@@ -409,11 +385,9 @@ IScreenStateListener {
         }
     }
 
-    @Override
     public void notifyScreenHidden(int n) {
     }
 
-    @Override
     public void notifyScreenVisible(int n) {
     }
 
@@ -424,10 +398,6 @@ IScreenStateListener {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static {
-        INDIV_BUSINESS_EVENT_CONFIG = new CharismaIndivEntryBusinessConfig(CharismaIndividualEntryTransactionData$CharismaIndivOptionMapping.DDB_TO_DSI_PROFILE_MAPPER, CharismaIndivEntryBusinessConfig$BusinessEventProcessingConfig.EVENT_PROCESS_CONFIG_ITEM_SELECTED_ONLY, true);
     }
 }
 

@@ -16,17 +16,16 @@ extends AbstractFunctionSyncEpilogueAction {
         super(abstractBAPModuleFSG, logChannel);
     }
 
-    @Override
     protected void execute() {
         BAPFunctionMethodFSG bAPFunctionMethodFSG = this.module.getBAPFunctionMethodFSG(24);
         if (bAPFunctionMethodFSG.isResultWaiting()) {
-            this.logChannel.log(-2137614336, "[EpilogueActionDedicatedAudioControlResult#execute] DedicatedAudioControl result waiting -> send now");
+            this.logChannel.log(10000000, "[EpilogueActionDedicatedAudioControlResult#execute] DedicatedAudioControl result waiting -> send now");
             DedicatedAudioControl_Result dedicatedAudioControl_Result = (DedicatedAudioControl_Result)this.module.createResultSerializer(24);
             dedicatedAudioControl_Result.dedicatedAudioControlResult = bAPFunctionMethodFSG.getWaitingResult();
             bAPFunctionMethodFSG.resultREQ(dedicatedAudioControl_Result);
             ((CombiModuleAudio)this.module).getDedicatedAudioControlHandler().processingFinished();
         } else {
-            this.logChannel.log(-2137614336, "[EpilogueActionDedicatedAudioControlResult#execute] DedicatedAudioControl result not waiting");
+            this.logChannel.log(10000000, "[EpilogueActionDedicatedAudioControlResult#execute] DedicatedAudioControl result not waiting");
         }
     }
 }

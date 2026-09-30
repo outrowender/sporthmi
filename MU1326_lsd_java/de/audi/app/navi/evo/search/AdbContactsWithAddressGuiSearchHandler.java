@@ -38,10 +38,9 @@ extends IntelliDestGuiSearchHandler {
         this.registryFormatter.put(new Integer(3), new NoPropertyFormatterADB(aDBInterAppService, navigationEnv));
     }
 
-    @Override
     public void childNodeSelected(EvoListRow evoListRow, int n, int n2) {
         if (this.lc.isDebug2()) {
-            this.lc.log(14808325, "AdbContactsWithAddressGuiSearchHandler#childNodeSelected, row: [%1], terminal: [%2], modelID: [%3]", (Object)evoListRow, (long)n, (long)n2);
+            this.lc.log(100000000, "AdbContactsWithAddressGuiSearchHandler#childNodeSelected, row: [%1], terminal: [%2], modelID: [%3]", (Object)evoListRow, (long)n, (long)n2);
         }
         NaviAdbEntryListRow naviAdbEntryListRow = (NaviAdbEntryListRow)evoListRow;
         NavLocation navLocation = this.searchResultNavLocationExtractor.extractNavLocationFromRow(naviAdbEntryListRow);
@@ -49,12 +48,11 @@ extends IntelliDestGuiSearchHandler {
         this.env.getHMIService().getBaseListModel(n2).fireEvent(n);
     }
 
-    @Override
     public void activate() {
         ((IntelliDestSearch)this.appSearch).setSearchFilterForSource(3);
         this.registerListeners();
         this.mdlSpellerSearchText.clear();
-        this.env.getChoiceModel(1881015808).setValue(1);
+        this.env.getChoiceModel(401008).setValue(1);
         this.performQuery("");
     }
 }

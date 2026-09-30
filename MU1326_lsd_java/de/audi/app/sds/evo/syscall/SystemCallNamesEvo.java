@@ -17,13 +17,12 @@ extends SystemCallNames {
         return Collections.unmodifiableMap(hashMap);
     }
 
-    @Override
     public String getName(int n) {
         String string = (String)SYSCALL_NAMES.get(new Integer(n));
         if (string == null) {
             string = super.getName(n);
         }
-        return string == null ? new StringBuffer().append("SYSTEMCALL_").append(n).toString() : string;
+        return string == null ? "SYSTEMCALL_" + n : string;
     }
 }
 

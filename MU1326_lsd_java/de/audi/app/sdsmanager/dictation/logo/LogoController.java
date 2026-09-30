@@ -5,9 +5,9 @@ package de.audi.app.sdsmanager.dictation.logo;
 
 import de.audi.app.sdsmanager.dictation.DictationComponentManager;
 import de.audi.app.sdsmanager.dictation.component.AbstractDictationComponent;
-import de.audi.app.sdsmanager.dictation.logo.LogoController$DsiDictationAdapterListener;
+import de.audi.app.sdsmanager.dictation.dsiadapter.DsiDictationAdapterEmptyListener;
+import de.audi.app.sdsmanager.dictation.dsiadapter.ServiceProviderInfo;
 import de.audi.app.sdsmanager.dictation.osgi.BundleEnvironment;
-import de.audi.atip.log.LogChannel;
 import de.audi.atip.onlinelogo.OnlineLogoItem;
 
 public final class LogoController
@@ -18,23 +18,27 @@ extends AbstractDictationComponent {
         super(bundleEnvironment, "App.SDS.Dictation");
     }
 
-    @Override
     public void init(DictationComponentManager dictationComponentManager) {
         super.init(dictationComponentManager);
         this.onlineLogoItem = this.createOnlineLogoItem();
-        dictationComponentManager.getDsiDictationAdapter().addListener(new LogoController$DsiDictationAdapterListener(this, null));
+        dictationComponentManager.getDsiDictationAdapter().addListener(new DsiDictationAdapterListener());
     }
 
     private OnlineLogoItem createOnlineLogoItem() {
         return new OnlineLogoItem(this.log, this.framework.getHmiServiceApp().getLabelModel(3879), "/var/hmi/AppSDSManager/provider_logo.png", "/eso/hmi/lsd/images/AppSDSManager/default_provider_logo.png", this.framework);
     }
 
-    static /* synthetic */ LogChannel access$100(LogoController logoController) {
-        return logoController.log;
-    }
+    private class DsiDictationAdapterListener
+    extends DsiDictationAdapterEmptyListener {
+        private DsiDictationAdapterListener() {
+        }
 
-    static /* synthetic */ OnlineLogoItem access$200(LogoController logoController) {
-        return logoController.onlineLogoItem;
+        public void updateServiceProviderInfo(ServiceProviderInfo serviceProviderInfo) {
+            LogoController.this.log.log(1000000, "[LogoController#updateServiceProviderInfo] serviceProviderInfo = %1", (Object)serviceProviderInfo);
+            if (serviceProviderInfo.isValid()) {
+                LogoController.this.onlineLogoItem.update(serviceProviderInfo.getImageVoiceUrl(), serviceProviderInfo.getImageVoiceCheckSum());
+            }
+        }
     }
 }
 

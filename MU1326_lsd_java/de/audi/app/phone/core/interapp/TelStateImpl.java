@@ -25,7 +25,7 @@ implements ITelState {
                 return "ATTR_NO_CHANGE";
             }
         }
-        return new StringBuffer().append("Unknown key ").append(n).toString();
+        return "Unknown key " + n;
     }
 
     private static String getConnectionTypeName(int n) {
@@ -46,7 +46,7 @@ implements ITelState {
                 return "CONNECTION_TYPE_NONE";
             }
         }
-        return new StringBuffer().append("Unknown connection type ").append(n).toString();
+        return "Unknown connection type " + n;
     }
 
     public TelStateImpl(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
@@ -76,7 +76,6 @@ implements ITelState {
         return this.attr;
     }
 
-    @Override
     public boolean getCallActive() {
         ITelDSIMobileEquipmentDeviceState iTelDSIMobileEquipmentDeviceState = this.telState.getCallLeadingDevice();
         if (iTelDSIMobileEquipmentDeviceState != null) {
@@ -85,7 +84,6 @@ implements ITelState {
         return false;
     }
 
-    @Override
     public boolean isCallStateIdle() {
         ITelDSIMobileEquipmentDeviceState iTelDSIMobileEquipmentDeviceState = this.telState.getCallLeadingDevice();
         if (iTelDSIMobileEquipmentDeviceState != null && iTelDSIMobileEquipmentDeviceState.getCallState() != null) {
@@ -94,7 +92,6 @@ implements ITelState {
         return true;
     }
 
-    @Override
     public boolean isIncomingCallPresent() {
         ITelDSIMobileEquipmentDeviceState iTelDSIMobileEquipmentDeviceState = this.telState.getCallLeadingDevice();
         if (iTelDSIMobileEquipmentDeviceState != null && iTelDSIMobileEquipmentDeviceState.getCallState() != null) {
@@ -103,7 +100,6 @@ implements ITelState {
         return false;
     }
 
-    @Override
     public boolean isOutgoingCallPresent() {
         ITelDSIMobileEquipmentDeviceState iTelDSIMobileEquipmentDeviceState = this.telState.getCallLeadingDevice();
         if (iTelDSIMobileEquipmentDeviceState != null && iTelDSIMobileEquipmentDeviceState.getCallState() != null) {
@@ -112,7 +108,6 @@ implements ITelState {
         return false;
     }
 
-    @Override
     public boolean isActiveCallPresent() {
         ITelDSIMobileEquipmentDeviceState iTelDSIMobileEquipmentDeviceState = this.telState.getCallLeadingDevice();
         if (iTelDSIMobileEquipmentDeviceState != null && iTelDSIMobileEquipmentDeviceState.getCallState() != null) {
@@ -121,7 +116,6 @@ implements ITelState {
         return false;
     }
 
-    @Override
     public boolean isHeldCallPresent() {
         ITelDSIMobileEquipmentDeviceState iTelDSIMobileEquipmentDeviceState = this.telState.getCallLeadingDevice();
         if (iTelDSIMobileEquipmentDeviceState != null && iTelDSIMobileEquipmentDeviceState.getCallState() != null) {
@@ -130,7 +124,6 @@ implements ITelState {
         return false;
     }
 
-    @Override
     public boolean isMultipartyActive() {
         ITelDSIMobileEquipmentDeviceState iTelDSIMobileEquipmentDeviceState = this.telState.getCallLeadingDevice();
         if (iTelDSIMobileEquipmentDeviceState != null && iTelDSIMobileEquipmentDeviceState.getCallState() != null) {
@@ -139,18 +132,15 @@ implements ITelState {
         return false;
     }
 
-    @Override
     public boolean isCallStateDisconnecting() {
         ITelDSIMobileEquipmentDeviceState iTelDSIMobileEquipmentDeviceState = this.telState.getCallLeadingDevice();
         return iTelDSIMobileEquipmentDeviceState.getCallState() != null && (iTelDSIMobileEquipmentDeviceState.getCallState().getMpCallState() == 3 || iTelDSIMobileEquipmentDeviceState.getCallState().getMpCallState() == 32);
     }
 
-    @Override
     public boolean isPhoneReady() {
         return this.telState.isPhoneReady();
     }
 
-    @Override
     public int getConnectionType() {
         int n = this.telState.getTelMode();
         switch (n) {

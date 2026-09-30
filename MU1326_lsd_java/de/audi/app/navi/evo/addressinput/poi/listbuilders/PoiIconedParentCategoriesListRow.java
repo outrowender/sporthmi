@@ -13,18 +13,18 @@ import org.dsi.ifc.navigation.PosPosition;
 
 public class PoiIconedParentCategoriesListRow
 extends LiValueListRow {
-    protected static final int PARENT_LAYOUT;
-    protected static final int CATEGORIES_LAYOUT;
-    public static final int COLUMN_LAYOUT;
-    public static final int COLUMN_ICON;
-    public static final int COLUMN_CATEGORY_NAME;
-    public static final int COLUMN_IS_PARENT;
-    public static final int COLUMN_PROPERTY;
-    public static final int COLUMN_DIRECTION;
-    public static final int COLUMN_DISTANCE;
-    public static final int COLUMN_COUNT;
-    protected static final int IS_PARENT;
-    protected static final int IS_CHILD;
+    protected static final int PARENT_LAYOUT = 0;
+    protected static final int CATEGORIES_LAYOUT = 1;
+    public static final int COLUMN_LAYOUT = 0;
+    public static final int COLUMN_ICON = 1;
+    public static final int COLUMN_CATEGORY_NAME = 2;
+    public static final int COLUMN_IS_PARENT = 4;
+    public static final int COLUMN_PROPERTY = 5;
+    public static final int COLUMN_DIRECTION = 6;
+    public static final int COLUMN_DISTANCE = 7;
+    public static final int COLUMN_COUNT = 8;
+    protected static final int IS_PARENT = 1;
+    protected static final int IS_CHILD = 0;
 
     public PoiIconedParentCategoriesListRow(IconHandler iconHandler, LIValueListElement lIValueListElement, int n, PosPosition posPosition) {
         super(n, 8, lIValueListElement);
@@ -45,7 +45,6 @@ extends LiValueListRow {
         return 1 == n;
     }
 
-    @Override
     public EvoListRow copy() {
         return new PoiIconedParentCategoriesListRow(this);
     }

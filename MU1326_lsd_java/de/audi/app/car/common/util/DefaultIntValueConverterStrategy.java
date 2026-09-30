@@ -3,17 +3,16 @@
  */
 package de.audi.app.car.common.util;
 
+import de.audi.app.car.common.exception.ValueConverterStrategyException;
 import de.audi.app.car.common.util.IIntValueConverterStrategy;
 
 public class DefaultIntValueConverterStrategy
 implements IIntValueConverterStrategy {
-    @Override
-    public int getDSIValue(int n) {
+    public int getDSIValue(int n) throws ValueConverterStrategyException {
         return n;
     }
 
-    @Override
-    public int getHMIValue(int n) {
+    public int getHMIValue(int n) throws ValueConverterStrategyException {
         return n;
     }
 }

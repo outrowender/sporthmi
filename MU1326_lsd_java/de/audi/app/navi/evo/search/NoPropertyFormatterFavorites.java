@@ -18,18 +18,16 @@ extends SearchResultFormatterNavDb {
         super(interAppService, iconHandler, logChannel, iNaviFavoriteHandler, navigationEnv);
     }
 
-    @Override
     protected void setPropertyCell(NaviSearchResultListRow naviSearchResultListRow, SearchResult searchResult) {
         naviSearchResultListRow.setPropertiesColumn(null);
     }
 
-    @Override
     protected void configureLayout(SearchResult searchResult, NaviSearchResultListRow naviSearchResultListRow) {
         if (searchResult.source == 5) {
             naviSearchResultListRow.setLayout(1);
             naviSearchResultListRow.setStaticIcon(4);
         } else {
-            this.lc.log(-1601830656, "FavoriteSearchFormatter#configureLayout wrong source for result: %1", (Object)searchResult);
+            this.lc.log(100000, "FavoriteSearchFormatter#configureLayout wrong source for result: %1", (Object)searchResult);
         }
     }
 }

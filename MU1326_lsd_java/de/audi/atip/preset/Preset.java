@@ -7,23 +7,23 @@ import de.audi.atip.hmi.model.PresetListRow;
 import java.io.Serializable;
 
 public final class Preset {
-    public static final int NUMBER_OF_TYPES;
-    public static final String[] TYPE_NAMES;
-    public static final int TYPE_UNDEFINED;
-    public static final int TYPE_SMI;
-    public static final int TYPE_LIST;
-    public static final int TYPE_MAP;
-    public static final int TYPE_CHECKBOX;
-    public static final int NUMBER_OF_EXECUTION_TYPES;
-    public static final int EXECUTION_TYPE_UNDEFINED;
-    public static final int EXECUTION_TYPE_RADIO;
-    public static final int EXECUTION_TYPE_MEDIA;
-    public static final int EXECUTION_TYPE_TELEPHONE;
-    public static final int EXECUTION_TYPE_NAVI;
-    public static final int EXECUTION_TYPE_MAP;
-    public static final int EXECUTION_TYPE_ONLINE;
-    public static final int EXECUTION_TYPE_TV;
-    private static final int NO_ICON;
+    public static final int NUMBER_OF_TYPES = 4;
+    public static final String[] TYPE_NAMES = new String[]{"SMI", "LIST", "MAP", "CHECKBOX"};
+    public static final int TYPE_UNDEFINED = -1;
+    public static final int TYPE_SMI = 0;
+    public static final int TYPE_LIST = 1;
+    public static final int TYPE_MAP = 2;
+    public static final int TYPE_CHECKBOX = 3;
+    public static final int NUMBER_OF_EXECUTION_TYPES = 7;
+    public static final int EXECUTION_TYPE_UNDEFINED = 99;
+    public static final int EXECUTION_TYPE_RADIO = 1;
+    public static final int EXECUTION_TYPE_MEDIA = 2;
+    public static final int EXECUTION_TYPE_TELEPHONE = 3;
+    public static final int EXECUTION_TYPE_NAVI = 4;
+    public static final int EXECUTION_TYPE_MAP = 5;
+    public static final int EXECUTION_TYPE_ONLINE = 6;
+    public static final int EXECUTION_TYPE_TV = 7;
+    private static final int NO_ICON = 99;
     private final int type;
     private int modelId = -1;
     private int iconType = 99;
@@ -79,11 +79,7 @@ public final class Preset {
     }
 
     public String toString() {
-        return new StringBuffer().append("Preset [type=").append(this.type).append(", modelId=").append(this.modelId).append(", smEvent=").append(this.smEvent).append(", preview=").append(this.preview).append("]").toString();
-    }
-
-    static {
-        TYPE_NAMES = new String[]{"SMI", "LIST", "MAP", "CHECKBOX"};
+        return "Preset [type=" + this.type + ", modelId=" + this.modelId + ", smEvent=" + this.smEvent + ", preview=" + this.preview + "]";
     }
 }
 

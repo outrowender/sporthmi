@@ -7,49 +7,34 @@ import de.audi.atip.hmi.KbdService;
 import de.audi.atip.statemachine.sds.TTSASR;
 
 public interface SMServices {
-    default public KbdService getKeyboardService() {
-    }
+    public KbdService getKeyboardService();
 
-    default public TTSASR getSDSService() {
-    }
+    public TTSASR getSDSService();
 
-    default public void showPartialPopup(int n) {
-    }
+    public void showPartialPopup(int var1);
 
-    default public void hidePartialPopup(int n) {
-    }
+    public void hidePartialPopup(int var1);
 
-    default public void enterJointUse(int n, int n2) {
-    }
+    public void enterJointUse(int var1, int var2);
 
-    default public void leaveJointUse(int n, int n2) {
-    }
+    public void leaveJointUse(int var1, int var2);
 
-    default public int getJointUseCount() {
-    }
+    public int getJointUseCount();
 
-    default public void setJumpBackPoint(int n) {
-    }
+    public void setJumpBackPoint(int var1);
 
-    default public void addContext(long l) {
-    }
+    public void addContext(long var1);
 
-    default public void removeContext(long l) {
-    }
+    public void removeContext(long var1);
 
-    default public void pushDrawerIDs(long l, long l2) {
-    }
+    public void pushDrawerIDs(long var1, long var3);
 
-    default public void popDrawerIDs() {
-    }
+    public void popDrawerIDs();
 
-    default public void addScreenAnimation(int n) {
-    }
+    public void addScreenAnimation(int var1);
 
-    default public void setColor(int n) {
-    }
+    public void setColor(int var1);
 
-    default public void setScreenMode(int n) {
-    }
+    public void setScreenMode(int var1);
 }
 

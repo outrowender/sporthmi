@@ -3,14 +3,12 @@
  */
 package de.audi.app.terminalmode.util;
 
-import de.audi.app.terminalmode.util.Streamable$Creator;
+import de.audi.app.terminalmode.util.Streamable;
 import java.util.List;
 
 public interface IStreamableStorageContainer {
-    default public List readListFromStorage(Streamable$Creator streamable$Creator) {
-    }
+    public List readListFromStorage(Streamable.Creator var1);
 
-    default public void writeListToStorage(List list) {
-    }
+    public void writeListToStorage(List var1);
 }
 

@@ -7,13 +7,10 @@ import de.audi.atip.interapp.earlyfunc.core.parking.pla.IPLAStatus;
 import de.audi.atip.interapp.earlyfunc.core.parking.pla.IPLAStatusListener;
 
 public interface IPLAInterappService {
-    default public void registerStatusListener(IPLAStatusListener iPLAStatusListener) {
-    }
+    public void registerStatusListener(IPLAStatusListener var1);
 
-    default public void unregisterStatusListener(IPLAStatusListener iPLAStatusListener) {
-    }
+    public void unregisterStatusListener(IPLAStatusListener var1);
 
-    default public IPLAStatus getDefaultPLAStatus() {
-    }
+    public IPLAStatus getDefaultPLAStatus();
 }
 

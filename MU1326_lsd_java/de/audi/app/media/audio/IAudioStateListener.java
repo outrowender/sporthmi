@@ -6,13 +6,10 @@ package de.audi.app.media.audio;
 import de.audi.app.media.audio.AudioState;
 
 public interface IAudioStateListener {
-    default public void audioStateChanged(AudioState audioState) {
-    }
+    public void audioStateChanged(AudioState var1);
 
-    default public void audioFocusChanged(boolean bl) {
-    }
+    public void audioFocusChanged(boolean var1);
 
-    default public void rearSeatAudioFocusChanged(boolean bl) {
-    }
+    public void rearSeatAudioFocusChanged(boolean var1);
 }
 

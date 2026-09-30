@@ -29,12 +29,10 @@ extends AbstractBluetoothComponent {
         this.tracker = new ServiceTracker(this.bundleContext, (class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServiceConnectivity == null ? (class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServiceConnectivity = BapBluetoothStateProvider.class$("de.audi.atip.interapp.combi.bap.phone.CombiBAPServiceConnectivity")) : class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServiceConnectivity).getName(), (ServiceTrackerCustomizer)this);
     }
 
-    @Override
     protected int[] getAttributeNotifications() {
         return ATTRIBUTE_NOTIFICATIONS;
     }
 
-    @Override
     public void updateBTState(int n, int n2) {
         if (n2 != 1) {
             return;
@@ -71,7 +69,6 @@ extends AbstractBluetoothComponent {
         this.updateState();
     }
 
-    @Override
     public void updateAccessibleMode(int n, boolean bl, int n2) {
         if (n2 != 1) {
             return;
@@ -80,7 +77,6 @@ extends AbstractBluetoothComponent {
         this.updateState();
     }
 
-    @Override
     public void updateTrustedDevices(TrustedDevice[] trustedDeviceArray, int n) {
         if (n != 1 || trustedDeviceArray == null) {
             return;
@@ -93,7 +89,7 @@ extends AbstractBluetoothComponent {
             int n2 = trustedDeviceArray[i2].getActiveServiceTypes();
             bl = (n2 & 4) > 0;
             bl2 = (n2 & 2) > 0;
-            bl3 = (n2 & 0x100) > 0;
+            bl3 = (n2 & 0x10000) > 0;
             bl4 = (n2 & 0x20) > 0;
         }
         this.bluetoothConnections = new CombiBAPBluetoothConnections(bl3, bl2, bl4, bl);
@@ -106,7 +102,6 @@ extends AbstractBluetoothComponent {
         }
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof CombiBAPServiceConnectivity) {
@@ -118,7 +113,6 @@ extends AbstractBluetoothComponent {
         return super.addingService(serviceReference);
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
         if (object instanceof CombiBAPServiceConnectivity) {
             this.bapService = (CombiBAPServiceConnectivity)object;
@@ -127,7 +121,6 @@ extends AbstractBluetoothComponent {
         }
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof CombiBAPServiceConnectivity) {
             this.bapService = (CombiBAPServiceConnectivity)object;
@@ -137,13 +130,11 @@ extends AbstractBluetoothComponent {
         }
     }
 
-    @Override
     public void init() {
         super.init();
         this.tracker.open();
     }
 
-    @Override
     public void deinit() {
         this.tracker.close();
         super.deinit();

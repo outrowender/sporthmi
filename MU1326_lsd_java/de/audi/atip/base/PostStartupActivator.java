@@ -8,13 +8,11 @@ import org.osgi.framework.BundleContext;
 
 public class PostStartupActivator
 extends AbstractActivator {
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         this.getFramework().getStartupMgr().postStartup();
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         this.getFramework().getLogChannel("Fw.Startup").log(10000, "PostStartup service can't be stopped!");
         super.stop(bundleContext);

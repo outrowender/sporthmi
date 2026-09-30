@@ -31,9 +31,8 @@ extends Command {
         this.getCommandList().commandFinished();
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[GetArrayJob#execute] jobID=%1", (long)this.getJobID());
+        this.logger.log(10000000, "[GetArrayJob#execute] jobID=%1", (long)this.getJobID());
         this.arrayHandler.requestListElements(this.indication);
     }
 }

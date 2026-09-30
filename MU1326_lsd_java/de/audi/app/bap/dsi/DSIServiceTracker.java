@@ -52,7 +52,7 @@ implements ServiceTrackerCustomizer {
             if (this.dsiListener != null) {
                 this.registerDSIListener(this.bundleContext);
             }
-            this.logChannel.log(1078071040, "[DSIServiceTracker#startTracking] tracking service: %1", (Object)this.dsiController.getDSIClass().getName());
+            this.logChannel.log(1000000, "[DSIServiceTracker#startTracking] tracking service: %1", (Object)this.dsiController.getDSIClass().getName());
             this.serviceTracker = new ServiceTracker(this.bundleContext, this.dsiController.getDSIClass().getName(), (ServiceTrackerCustomizer)this);
             this.serviceTracker.open();
         } else {
@@ -65,7 +65,7 @@ implements ServiceTrackerCustomizer {
         hashtable.put("DEVICE_NAME", this.dsiListenerClass.getName());
         hashtable.put("DEVICE_INSTANCE", new Integer(0));
         hashtable.put("moduleID", new Integer(20));
-        this.logChannel.log(-2137614336, "[DSIServiceTracker#registerDSIListener] Registering %1", (Object)super.getClass());
+        this.logChannel.log(10000000, "[DSIServiceTracker#registerDSIListener] Registering %1", (Object)this.dsiListener.getClass());
         this.serviceRegistration = bundleContext.registerService((class$org$dsi$ifc$base$DSIListener == null ? (class$org$dsi$ifc$base$DSIListener = DSIServiceTracker.class$("org.dsi.ifc.base.DSIListener")) : class$org$dsi$ifc$base$DSIListener).getName(), (Object)this.dsiListener, (Dictionary)hashtable);
     }
 
@@ -77,16 +77,15 @@ implements ServiceTrackerCustomizer {
             this.serviceRegistration.unregister();
             this.serviceRegistration = null;
         }
-        this.logChannel.log(1078071040, "[DSIServiceTracker#stopTracking] tracking service: %1", (Object)this.dsiController.getDSIClass().getName());
+        this.logChannel.log(1000000, "[DSIServiceTracker#stopTracking] tracking service: %1", (Object)this.dsiController.getDSIClass().getName());
         if (this.serviceTracker != null) {
             this.serviceTracker.close();
             this.serviceTracker = null;
         }
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
-        this.logChannel.log(-2137614336, "[DSIServiceTracker#removedService] service removed: %1", (Object)this.dsiController.getDSIClass().getName());
+        this.logChannel.log(10000000, "[DSIServiceTracker#removedService] service removed: %1", (Object)this.dsiController.getDSIClass().getName());
         this.dsiController.deregisterDSI();
         this.bundleContext.ungetService(serviceReference);
         if (this.listener != null) {
@@ -94,13 +93,11 @@ implements ServiceTrackerCustomizer {
         }
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
-        this.logChannel.log(-2137614336, "[DSIServiceTracker#addingService] service added: %1", (Object)this.dsiController.getDSIClass().getName());
+        this.logChannel.log(10000000, "[DSIServiceTracker#addingService] service added: %1", (Object)this.dsiController.getDSIClass().getName());
         Object object = this.bundleContext.getService(serviceReference);
         if (this.dsiController.getDSIClass().isAssignableFrom(object.getClass())) {
             DSIBase dSIBase = (DSIBase)object;

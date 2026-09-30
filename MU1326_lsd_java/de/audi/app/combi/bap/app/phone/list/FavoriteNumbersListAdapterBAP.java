@@ -22,7 +22,6 @@ extends AbstractListAdapterBAP {
         super(abstractCombiModule, 60, arrayHandler);
     }
 
-    @Override
     protected int getCommonRecordAddress(boolean[] blArray) {
         boolean bl = blArray[0] || blArray[1] || blArray[2];
         boolean bl2 = blArray[0] || blArray[1];
@@ -31,7 +30,6 @@ extends AbstractListAdapterBAP {
         return CombiBAPFavoriteNumberEntry.getRecordAddress(bl4, bl, bl3, bl2);
     }
 
-    @Override
     protected BAPArrayElement convertArrayElement(CombiBAPArrayElement combiBAPArrayElement, ArrayHeader arrayHeader) {
         FavoriteList_Data favoriteList_Data = new FavoriteList_Data(arrayHeader);
         if (combiBAPArrayElement instanceof CombiBAPFavoriteNumberEntry) {
@@ -41,24 +39,21 @@ extends AbstractListAdapterBAP {
             favoriteList_Data.telNumber.setContent(combiBAPFavoriteNumberEntry.getTelNumber());
             favoriteList_Data.numberType = combiBAPFavoriteNumberEntry.getNumberType();
         } else {
-            this.logChannel.log(10000, "[FavoriteNumbersListAdapterBAP#convertArrayElement] invalid element type: %1", (Object)super.getClass());
+            this.logChannel.log(10000, "[FavoriteNumbersListAdapterBAP#convertArrayElement] invalid element type: %1", (Object)combiBAPArrayElement.getClass());
         }
         return favoriteList_Data;
     }
 
-    @Override
     protected BAPArrayElement createArrayElement(ArrayHeader arrayHeader, int n) {
         FavoriteList_Data favoriteList_Data = new FavoriteList_Data(arrayHeader);
         favoriteList_Data.setPos(n);
         return favoriteList_Data;
     }
 
-    @Override
     protected ChangedArray createChangedArraySerializer() {
         return new FavoriteList_ChangedArray();
     }
 
-    @Override
     protected StatusArray createStatusArraySerializer() {
         return new FavoriteList_StatusArray();
     }

@@ -22,7 +22,6 @@ extends AbstractBAPIndicationHandlerFSG {
         super(abstractBAPModuleFSG, logChannel);
     }
 
-    @Override
     public void processIndicationStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG, StartResultMethod startResultMethod) {
         switch (bAPFunctionMethodFSG.getFctID()) {
             default: 
@@ -30,7 +29,6 @@ extends AbstractBAPIndicationHandlerFSG {
         this.logChannel.log(10000, "AbstractBAPIndicationHandlerOnlineFunctions#processIndicationStartResult not implemented for fctID=%1", (Object)bAPFunctionMethodFSG.getFctIDDescription());
     }
 
-    @Override
     public void processIndicationAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
         switch (bAPFunctionMethodFSG.getFctID()) {
             default: 
@@ -38,7 +36,6 @@ extends AbstractBAPIndicationHandlerFSG {
         this.logChannel.log(10000, "AbstractBAPIndicationHandlerOnlineFunctions#processIndicationAbort not implemented for fctID=%1", (Object)bAPFunctionMethodFSG.getFctIDDescription());
     }
 
-    @Override
     public void processIndicationSet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, SetGetProperty setGetProperty) {
         switch (bAPFunctionPropertyFSG.getFctID()) {
             default: 
@@ -46,7 +43,6 @@ extends AbstractBAPIndicationHandlerFSG {
         this.logChannel.log(10000, "AbstractBAPIndicationHandlerOnlineFunctions#processIndicationSet not implemented for fctID=%1", (Object)bAPFunctionPropertyFSG.getFctIDDescription());
     }
 
-    @Override
     public void processIndicationSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, SetGetProperty setGetProperty) {
         switch (bAPFunctionPropertyFSG.getFctID()) {
             case 13: {
@@ -59,7 +55,6 @@ extends AbstractBAPIndicationHandlerFSG {
         }
     }
 
-    @Override
     public void processIndicationAck(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, AckProperty ackProperty) {
         switch (bAPFunctionPropertyFSG.getFctID()) {
             default: 
@@ -67,7 +62,6 @@ extends AbstractBAPIndicationHandlerFSG {
         this.logChannel.log(10000, "AbstractBAPIndicationHandlerOnlineFunctions#processIndicationAck not implemented for fctID=%1", (Object)bAPFunctionPropertyFSG.getFctIDDescription());
     }
 
-    @Override
     public void processIndicationAckArray(BAPFunctionArrayFSG bAPFunctionArrayFSG, BAPArray bAPArray) {
         switch (bAPFunctionArrayFSG.getFctID()) {
             default: 
@@ -75,7 +69,6 @@ extends AbstractBAPIndicationHandlerFSG {
         this.logChannel.log(10000, "AbstractBAPIndicationHandlerOnlineFunctions#processIndicationAck not implemented for fctID=%1", (Object)bAPFunctionArrayFSG.getFctIDDescription());
     }
 
-    @Override
     public void processIndicationSetArray(BAPFunctionArrayFSG bAPFunctionArrayFSG, SetGetArray setGetArray) {
         switch (bAPFunctionArrayFSG.getFctID()) {
             default: 
@@ -83,7 +76,6 @@ extends AbstractBAPIndicationHandlerFSG {
         this.logChannel.log(10000, "AbstractBAPIndicationHandlerOnlineFunctions#processIndicationSetArray not implemented for fctID=%1", (Object)bAPFunctionArrayFSG.getFctIDDescription());
     }
 
-    @Override
     public void processIndicationSetGetArray(BAPFunctionArrayFSG bAPFunctionArrayFSG, SetGetArray setGetArray) {
         switch (bAPFunctionArrayFSG.getFctID()) {
             default: 
@@ -91,7 +83,6 @@ extends AbstractBAPIndicationHandlerFSG {
         this.logChannel.log(10000, "AbstractBAPIndicationHandlerOnlineFunctions#processIndicationSetGetArray not implemented for fctID=%1", (Object)bAPFunctionArrayFSG.getFctIDDescription());
     }
 
-    protected abstract void processFsgControlSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, FSG_Control_SetGet fSG_Control_SetGet) {
-    }
+    protected abstract void processFsgControlSetGet(BAPFunctionPropertyFSG var1, FSG_Control_SetGet var2);
 }
 

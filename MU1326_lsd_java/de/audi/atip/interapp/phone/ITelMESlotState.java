@@ -4,64 +4,44 @@
 package de.audi.atip.interapp.phone;
 
 public interface ITelMESlotState {
-    default public int getActivationState() {
-    }
+    public int getActivationState();
 
-    default public int getTelMode() {
-    }
+    public int getTelMode();
 
-    default public String getSimCardID() {
-    }
+    public String getSimCardID();
 
-    default public String getBTMacAddress() {
-    }
+    public String getBTMacAddress();
 
-    default public int getLockState() {
-    }
+    public int getLockState();
 
-    default public boolean isCallActive() {
-    }
+    public boolean isCallActive();
 
-    default public boolean isNetworkGSM() {
-    }
+    public boolean isNetworkGSM();
 
-    default public int getMpCallState() {
-    }
+    public int getMpCallState();
 
-    default public int getNetworkType() {
-    }
+    public int getNetworkType();
 
-    default public int getRegisterState() {
-    }
+    public int getRegisterState();
 
-    default public boolean isSim() {
-    }
+    public boolean isSim();
 
-    default public boolean isBluetoothPhone() {
-    }
+    public boolean isBluetoothPhone();
 
-    default public boolean isInternalSim() {
-    }
+    public boolean isInternalSim();
 
-    default public boolean isPhoneOn() {
-    }
+    public boolean isPhoneOn();
 
-    default public boolean isDevicePossiblyAvailable() {
-    }
+    public boolean isDevicePossiblyAvailable();
 
-    default public boolean isUnlocked() {
-    }
+    public boolean isUnlocked();
 
-    default public boolean isBluetoothCallActive() {
-    }
+    public boolean isBluetoothCallActive();
 
-    default public boolean isGsmCallActive() {
-    }
+    public boolean isGsmCallActive();
 
-    default public boolean isEqual(ITelMESlotState iTelMESlotState) {
-    }
+    public boolean isEqual(ITelMESlotState var1);
 
-    default public boolean isCallActiveOrPhoneRinging() {
-    }
+    public boolean isCallActiveOrPhoneRinging();
 }
 

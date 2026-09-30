@@ -4,7 +4,7 @@
 package com.ibm.oti.security.provider;
 
 import com.ibm.oti.security.provider.PKCS7;
-import com.ibm.oti.util.ASN1Decoder$Data;
+import com.ibm.oti.util.ASN1Decoder;
 import com.ibm.oti.util.ASN1Encoder;
 import com.ibm.oti.util.ASN1Exception;
 import com.ibm.oti.util.Msg;
@@ -19,16 +19,11 @@ import java.util.List;
 
 public final class CertPathX509
 extends CertPath {
-    static final String PKCS7_ENCODING;
-    static final String PKIPATH_ENCODING;
-    private static String defaultEncoding;
-    private static String[] supportedEncodings;
+    static final String PKCS7_ENCODING = "PKCS7";
+    static final String PKIPATH_ENCODING = "PkiPath";
+    private static String defaultEncoding = "PkiPath";
+    private static String[] supportedEncodings = new String[]{"PKCS7", "PkiPath"};
     private List certificates = null;
-
-    static {
-        defaultEncoding = "PkiPath";
-        supportedEncodings = new String[]{"PKCS7", "PkiPath"};
-    }
 
     public CertPathX509() {
         super("X.509");
@@ -40,28 +35,24 @@ extends CertPath {
         this.certificates = new ArrayList(list);
     }
 
-    @Override
     public Iterator getEncodings() {
         List list = Arrays.asList(supportedEncodings);
         return list.iterator();
     }
 
-    @Override
     public List getCertificates() {
         return Collections.unmodifiableList(this.certificates);
     }
 
-    @Override
-    public byte[] getEncoded() {
+    public byte[] getEncoded() throws CertificateEncodingException {
         return this.getEncoded(defaultEncoding);
     }
 
-    @Override
-    public byte[] getEncoded(String string) {
-        if (string.equals("PKCS7")) {
+    public byte[] getEncoded(String string) throws CertificateEncodingException {
+        if (string.equals(PKCS7_ENCODING)) {
             return CertPathX509.encodeAsPKCS7(this.certificates);
         }
-        if (string.equals("PkiPath")) {
+        if (string.equals(PKIPATH_ENCODING)) {
             return CertPathX509.encodeAsPkiPath(this.certificates);
         }
         throw new CertificateEncodingException(Msg.getString("K0300"));
@@ -76,7 +67,7 @@ extends CertPath {
         return list.iterator();
     }
 
-    private static byte[] encodeAsPKCS7(List list) {
+    private static byte[] encodeAsPKCS7(List list) throws CertificateEncodingException {
         try {
             return PKCS7.encodeCertList(list);
         }
@@ -85,15 +76,15 @@ extends CertPath {
         }
     }
 
-    private static byte[] encodeAsPkiPath(List list) {
+    private static byte[] encodeAsPkiPath(List list) throws CertificateEncodingException {
         Object[] objectArray = new Object[list.size()];
         int n = 0;
         Object object = list.iterator();
         while (object.hasNext()) {
             Certificate certificate = (Certificate)object.next();
             byte[] byArray = certificate.getEncoded();
-            ASN1Decoder$Data aSN1Decoder$Data = new ASN1Decoder$Data(byArray);
-            objectArray[n++] = aSN1Decoder$Data;
+            ASN1Decoder.Data data = new ASN1Decoder.Data(byArray);
+            objectArray[n++] = data;
         }
         object = ASN1Encoder.getEncoding(objectArray);
         return object;

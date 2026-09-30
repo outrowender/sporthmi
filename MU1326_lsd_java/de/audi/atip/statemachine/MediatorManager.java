@@ -7,31 +7,24 @@ import de.audi.atip.base.IFrameworkAccess;
 import de.audi.atip.hmi.model.HMIModel;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.statemachine.MediatorRegistry;
+import java.util.NoSuchElementException;
 
 public interface MediatorManager
 extends MediatorRegistry {
-    default public void fireEvent(int n) {
-    }
+    public void fireEvent(int var1);
 
-    default public void lockScreen() {
-    }
+    public void lockScreen();
 
-    default public void unlockScreen() {
-    }
+    public void unlockScreen();
 
-    default public HMIModel getModel(int n) {
-    }
+    public HMIModel getModel(int var1) throws NoSuchElementException;
 
-    default public LogChannel getLogChannel() {
-    }
+    public LogChannel getLogChannel();
 
-    default public LogChannel getEventLogChannel() {
-    }
+    public LogChannel getEventLogChannel();
 
-    default public IFrameworkAccess getFramework() {
-    }
+    public IFrameworkAccess getFramework();
 
-    default public void resetJumpBackPoint(int n, int n2) {
-    }
+    public void resetJumpBackPoint(int var1, int var2);
 }
 

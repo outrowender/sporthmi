@@ -4,22 +4,16 @@
 package de.audi.atip.interapp;
 
 public interface IConnectivityNaviStateListener {
-    default public void onlineMapEntered() {
-    }
+    public void onlineMapEntered();
 
-    default public void onlineMapLeft() {
-    }
+    public void onlineMapLeft();
 
-    default public void enableOnlineDataConfiguration() {
-    }
+    public void enableOnlineDataConfiguration();
 
-    default public void disableOnlineDataConfiguration() {
-    }
+    public void disableOnlineDataConfiguration();
 
-    default public void connectivityDataOnlineCheckEntered() {
-    }
+    public void connectivityDataOnlineCheckEntered();
 
-    default public void connectivityDataOnlineCheckLeft() {
-    }
+    public void connectivityDataOnlineCheckLeft();
 }
 

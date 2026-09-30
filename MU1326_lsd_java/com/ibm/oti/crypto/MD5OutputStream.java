@@ -18,12 +18,10 @@ extends OutputStream {
         CL3MD5.md5(this.state, byArray, 0, byArray.length, null, 0);
     }
 
-    @Override
     public void write(byte[] byArray, int n, int n2) {
         CL3MD5.md5(this.state, byArray, n, n2, null, 0);
     }
 
-    @Override
     public void write(int n) {
         byte[] byArray = new byte[]{(byte)n};
         this.write(byArray, 0, 1);

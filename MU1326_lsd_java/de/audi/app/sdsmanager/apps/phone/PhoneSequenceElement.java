@@ -13,7 +13,7 @@ public class PhoneSequenceElement {
     }
 
     public String toString() {
-        return this.haptical ? new StringBuffer().append("(").append(this.number).append(")").toString() : this.number;
+        return this.haptical ? "(" + this.number + ")" : this.number;
     }
 
     public String getNumber() {

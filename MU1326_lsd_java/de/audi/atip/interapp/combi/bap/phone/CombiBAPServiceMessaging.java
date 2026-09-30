@@ -7,15 +7,12 @@ import de.audi.atip.interapp.combi.bap.CombiBAPService;
 
 public interface CombiBAPServiceMessaging
 extends CombiBAPService {
-    public static final int MOBILE_SERVICE_SUPPORT_EMAIL_STATE;
+    public static final int MOBILE_SERVICE_SUPPORT_EMAIL_STATE = 5;
 
-    default public void updateMobileServiceSupport(boolean bl, boolean bl2) {
-    }
+    public void updateMobileServiceSupport(boolean var1, boolean var2);
 
-    default public void updateSMSState(boolean bl, int n, int n2) {
-    }
+    public void updateSMSState(boolean var1, int var2, int var3);
 
-    default public void updateEmailState(int n, int n2) {
-    }
+    public void updateEmailState(int var1, int var2);
 }
 

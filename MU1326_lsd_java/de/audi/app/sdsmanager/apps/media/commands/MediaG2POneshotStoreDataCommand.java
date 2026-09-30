@@ -13,7 +13,7 @@ import de.audi.app.sdsmanager.common.SDSUtils;
 import de.audi.app.sdsmanager.nbest.IPicklistSlot;
 import de.audi.app.sdsmanager.nbest.NBestStorageAccess;
 import de.audi.app.sdsmanager.oneshot.OneshotHandler;
-import de.audi.atip.interapp.NaviService$OneshotData;
+import de.audi.atip.interapp.NaviService;
 import de.audi.atip.log.LogChannel;
 
 public class MediaG2POneshotStoreDataCommand
@@ -29,10 +29,9 @@ extends AbstractSystemCallCommand {
         this.mediaSDSHandler = mediaSDSHandler;
     }
 
-    @Override
     public void execute() {
         byte by = this.mediaPicklistHandler.getListmode();
-        this.logger.log(-2137614336, "[%1#execute] current picklist listMode=%2", (Object)this.getName(), (long)by);
+        this.logger.log(10000000, "[%1#execute] current picklist listMode=%2", (Object)this.getName(), (long)by);
         if (MediaSDSUtils.isOneshotListmode(by)) {
             this.handleOneshot(by);
             return;
@@ -41,26 +40,26 @@ extends AbstractSystemCallCommand {
     }
 
     protected void handleOneshot(byte by) {
-        this.logger.log(-2137614336, "[%1#handleOneshot] for picklist commandUsecase %2", (Object)this.getName(), (long)by);
+        this.logger.log(10000000, "[%1#handleOneshot] for picklist commandUsecase %2", (Object)this.getName(), (long)by);
         IPicklistSlot iPicklistSlot = this.nbest.getSlotForPicklistElement(0, 0, (byte)0, true);
-        this.logger.log(-2137614336, "[%1#handleOneshot] picklist slot %2", (Object)this.getName(), (Object)iPicklistSlot);
+        this.logger.log(10000000, "[%1#handleOneshot] picklist slot %2", (Object)this.getName(), (Object)iPicklistSlot);
         byte by2 = SDSUtils.translate(by, MediaSDSUtils.oneshotListModeToDataLevel);
-        this.logger.log(-2137614336, "[%1#handleOneshot] for picklist commandUsecase %2, column %3!", (Object)this.getName(), (long)by, (long)by2);
+        this.logger.log(10000000, "[%1#handleOneshot] for picklist commandUsecase %2, column %3!", (Object)this.getName(), (long)by, (long)by2);
         OneshotHandler oneshotHandler = this.mediaSDSHandler.getOneshotHandler();
         if (oneshotHandler == null) {
-            this.logger.log(-1601830656, "[%1#handleOneshot] oneshot Handler is null", (Object)this.getName());
+            this.logger.log(100000, "[%1#handleOneshot] oneshot Handler is null", (Object)this.getName());
             this.sendResult(20001);
             return;
         }
-        NaviService$OneshotData naviService$OneshotData = oneshotHandler.matchSlotToOneshotPicklist(iPicklistSlot, by);
-        if (naviService$OneshotData == null) {
-            this.logger.log(-1601830656, "[%1#handleOneshot] empty oneshot data -> sending invalid", (Object)this.getName());
+        NaviService.OneshotData oneshotData = oneshotHandler.matchSlotToOneshotPicklist(iPicklistSlot, by);
+        if (oneshotData == null) {
+            this.logger.log(100000, "[%1#handleOneshot] empty oneshot data -> sending invalid", (Object)this.getName());
             this.sendResult(20006);
             return;
         }
-        SDSModelAccess.setSlotModel(by2 + 1, naviService$OneshotData.getText());
-        SDSModelAccess.setSlotModelStringID(by2 + 1, naviService$OneshotData.getStringId());
-        SDSModelAccess.setListLineDataGetModel(naviService$OneshotData.getText());
+        SDSModelAccess.setSlotModel(by2 + 1, oneshotData.getText());
+        SDSModelAccess.setSlotModelStringID(by2 + 1, oneshotData.getStringId());
+        SDSModelAccess.setListLineDataGetModel(oneshotData.getText());
         this.sendResult(20000);
     }
 }

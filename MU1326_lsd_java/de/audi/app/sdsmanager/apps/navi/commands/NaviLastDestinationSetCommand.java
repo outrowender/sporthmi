@@ -29,9 +29,8 @@ extends AbstractSystemCallCommand {
         this.source = (byte)Math.max(SDSUtils.retrieveInteger(iSystemCallParameterArray, 0), 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[%1#execute] source=%2", (Object)this.getName(), (long)this.source);
+        this.logger.log(10000000, "[%1#execute] source=%2", (Object)this.getName(), (long)this.source);
         this.sdsHandler.setSDSAddressInputMode((byte)2);
         switch (this.source) {
             case 0: {
@@ -43,34 +42,34 @@ extends AbstractSystemCallCommand {
                 return;
             }
         }
-        this.logger.log(-1601830656, "[%1#execute] Unhandled source %2!", (Object)this.getName(), (long)this.source);
-        this.sendResult(1100742656);
+        this.logger.log(100000, "[%1#execute] Unhandled source %2!", (Object)this.getName(), (long)this.source);
+        this.sendResult(40001);
     }
 
     private void selectLastDestFromLine() {
-        this.logger.log(-2137614336, "[%1#selectLastDestFromLine] called", (Object)this.getName());
+        this.logger.log(10000000, "[%1#selectLastDestFromLine] called", (Object)this.getName());
         int n = SDSModelAccess.getEnumerationNumberStatus();
         if (n == -1) {
-            this.sendResult(1201405952);
+            this.sendResult(40007);
             return;
         }
-        this.logger.log(-2137614336, "[%1#selectLastDestFromLine] index of selected last destination=%2", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "[%1#selectLastDestFromLine] index of selected last destination=%2", (Object)this.getName(), (long)n);
         SDSModelAccess.setListLineDataGetModel(this.sdsHandler.getLastDestinationByIndex(n));
         this.naviService.setLastDestinationByIndex(n);
     }
 
     private void selectLastDestFromNBest() {
-        this.logger.log(-2137614336, "[%1#selectLastDestFromNBest] called", (Object)this.getName());
+        this.logger.log(10000000, "[%1#selectLastDestFromNBest] called", (Object)this.getName());
         long l = SDSUtils.getSelectedObjectId(this.nBestStorage, this.logger, 0);
-        this.logger.log(-2137614336, "[%1#selectLastDestFromNBest] id of selected last destination=%2", (Object)this.getName(), l);
+        this.logger.log(10000000, "[%1#selectLastDestFromNBest] id of selected last destination=%2", (Object)this.getName(), l);
         SDSModelAccess.setListLineDataGetModel(this.sdsHandler.getLastDestination(l));
         this.naviService.setLastDestinationById(l);
     }
 
     public void responseLastDestinationSet(byte by) {
-        this.logger.log(-2137614336, "[%1#responseLastDestinationSet] result=%2", (Object)this.getName(), (long)by);
+        this.logger.log(10000000, "[%1#responseLastDestinationSet] result=%2", (Object)this.getName(), (long)by);
         int n = NaviSDSUtils.getSDSResult(by);
-        this.logger.log(-2137614336, "[%1#responseLastDestinationSet] sdsRes=%2!", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "[%1#responseLastDestinationSet] sdsRes=%2!", (Object)this.getName(), (long)n);
         this.sendResult(n);
     }
 }

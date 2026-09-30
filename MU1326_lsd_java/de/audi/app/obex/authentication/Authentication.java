@@ -12,10 +12,9 @@ extends AbstractAuthentication {
         super(iObexApplication);
     }
 
-    @Override
     protected void showPopup() {
-        this.log.log(1078071040, "Authentication#showPopup(): Showing OBEX authentication popup");
-        this.application.getFramework().getHMIService().showPopup(-1524292096);
+        this.log.log(1000000, "Authentication#showPopup(): Showing OBEX authentication popup");
+        this.application.getFramework().getHMIService().showPopup(2500005);
     }
 }
 

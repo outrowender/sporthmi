@@ -4,10 +4,8 @@
 package de.audi.atip.interapp.tv;
 
 public interface ITVComponentListener {
-    default public void startComponenCalled() {
-    }
+    public void startComponenCalled();
 
-    default public void stopComponentCalled() {
-    }
+    public void stopComponentCalled();
 }
 

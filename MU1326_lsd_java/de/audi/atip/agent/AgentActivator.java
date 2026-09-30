@@ -4,10 +4,11 @@
 package de.audi.atip.agent;
 
 import de.audi.atip.activator.AbstractActivator;
-import de.audi.atip.agent.AgentActivator$1;
 import de.audi.atip.agent.AgentService;
+import de.audi.atip.agent.IASIProvider;
 import de.audi.atip.log.LogChannel;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
@@ -25,8 +26,7 @@ extends AbstractActivator {
         this.getFramework().getStartupMgr().logStartupEvent(string);
     }
 
-    @Override
-    public final void start(BundleContext bundleContext) {
+    public final void start(final BundleContext bundleContext) {
         super.start(bundleContext);
         this.log = this.getFramework().getLogChannel("Fw.Agent.Activator");
         if (!this.getFramework().isSDISEnabled()) {
@@ -36,7 +36,45 @@ extends AbstractActivator {
             this.logStartupEvent("start Agent service");
             this.agentService = new AgentService(this.getFramework());
             this.sregAgent = bundleContext.registerService((class$de$esolutions$fw$util$commons$error$DumpInfoProvider == null ? (class$de$esolutions$fw$util$commons$error$DumpInfoProvider = AgentActivator.class$("de.esolutions.fw.util.commons.error.DumpInfoProvider")) : class$de$esolutions$fw$util$commons$error$DumpInfoProvider).getName(), (Object)this.agentService, null);
-            this.agentTracker = new ServiceTracker(bundleContext, new String[]{(class$de$audi$atip$agent$IASIProvider == null ? (class$de$audi$atip$agent$IASIProvider = AgentActivator.class$("de.audi.atip.agent.IASIProvider")) : class$de$audi$atip$agent$IASIProvider).getName()}, (ServiceTrackerCustomizer)new AgentActivator$1(this, bundleContext));
+            this.agentTracker = new ServiceTracker(bundleContext, new String[]{(class$de$audi$atip$agent$IASIProvider == null ? (class$de$audi$atip$agent$IASIProvider = AgentActivator.class$("de.audi.atip.agent.IASIProvider")) : class$de$audi$atip$agent$IASIProvider).getName()}, new ServiceTrackerCustomizer(){
+
+                public Object addingService(ServiceReference serviceReference) {
+                    AgentActivator.this.log.log(1000000, "Adding service: %1", (Object)serviceReference);
+                    Object object = null;
+                    try {
+                        object = bundleContext.getService(serviceReference);
+                        if (object instanceof IASIProvider) {
+                            AgentActivator.this.log.log(1000000, "Adding ASIHandler: %1", object);
+                            AgentActivator.this.agentService.register((IASIProvider)object);
+                            return object;
+                        }
+                    }
+                    catch (Exception exception) {
+                        AgentActivator.this.log.log(1000000, "Adding Service failed: %1", (Object)serviceReference, (Throwable)exception);
+                    }
+                    if (object != null) {
+                        bundleContext.ungetService(serviceReference);
+                    }
+                    return null;
+                }
+
+                public void modifiedService(ServiceReference serviceReference, Object object) {
+                }
+
+                public void removedService(ServiceReference serviceReference, Object object) {
+                    AgentActivator.this.log.log(1000000, "Removed service: %1 %2", (Object)serviceReference, object);
+                    try {
+                        bundleContext.ungetService(serviceReference);
+                        if (object instanceof IASIProvider) {
+                            AgentActivator.this.log.log(1000000, "Removed ASIHandler: %1", object);
+                            AgentActivator.this.agentService.unregister((IASIProvider)object);
+                        }
+                    }
+                    catch (Exception exception) {
+                        AgentActivator.this.log.log(1000000, "Removed Service failed: %1", (Object)serviceReference, (Throwable)exception);
+                    }
+                }
+            });
             this.agentTracker.open();
             this.logStartupEvent("started Agent service tracker");
         }
@@ -47,7 +85,6 @@ extends AbstractActivator {
         }
     }
 
-    @Override
     public final void stop(BundleContext bundleContext) {
         if (this.agentTracker != null) {
             this.agentTracker.close();
@@ -71,14 +108,6 @@ extends AbstractActivator {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ LogChannel access$000(AgentActivator agentActivator) {
-        return agentActivator.log;
-    }
-
-    static /* synthetic */ AgentService access$100(AgentActivator agentActivator) {
-        return agentActivator.agentService;
     }
 }
 

@@ -81,17 +81,14 @@ implements RoundingRulesFactory {
         }
     }
 
-    @Override
     public RoundingRules getZoomRoundingRules() {
         return this.zoomRoundingRules;
     }
 
-    @Override
     public RoundingRules getDistanceRoundingRules() {
         return this.distanceRoundingRules;
     }
 
-    @Override
     public String getDiagnosisData() {
         return diagnosisInformation.toString();
     }

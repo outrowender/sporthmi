@@ -31,9 +31,9 @@ import org.osgi.framework.BundleContext;
 
 public final class BAPModuleENI
 extends AbstractBAPModuleASG {
-    private static final int INITIAL_DESTINATION_LIST_ASG_CAPACITY;
+    private static final int INITIAL_DESTINATION_LIST_ASG_CAPACITY = 1;
     private final BAPArrayDataENI bapArrayDataEni;
-    private static final int[] ERROR_MAPPING;
+    private static final int[] ERROR_MAPPING = BAPModuleENI.errorMapping();
     static /* synthetic */ Class class$de$audi$atip$interapp$bap$eni$BAPServiceENI;
     static /* synthetic */ Class class$de$audi$atip$interapp$bap$eni$BAPServiceENIListener;
 
@@ -49,9 +49,8 @@ extends AbstractBAPModuleASG {
         this.bapArrayDataEni = new BAPArrayDataENI(this.logChannel);
     }
 
-    @Override
     protected void initModuleComponents() {
-        this.logChannel.log(-2137614336, "[BAPModuleENI#initModuleComponents]");
+        this.logChannel.log(10000000, "[BAPModuleENI#initModuleComponents]");
         this.indicationHandler = new BAPIndicationHandlerENI(this);
         this.functionRegistration = new FunctionRegistrationENI(this);
         this.functionListAsg = new FunctionListENI();
@@ -59,12 +58,10 @@ extends AbstractBAPModuleASG {
         this.initializationManager = new InitializationManagerENI(this, this.bapApplication.getDSIBAPController(), this.bapApplication.getPowerState());
     }
 
-    @Override
     protected void initServiceManager(BundleContext bundleContext) {
         this.serviceManager = new ServiceManagerENI(this, bundleContext);
     }
 
-    @Override
     protected void setInitialValues() {
         DestinationList_ASGcapacity_SetGet destinationList_ASGcapacity_SetGet = (DestinationList_ASGcapacity_SetGet)this.createSetGetSerializer(17);
         destinationList_ASGcapacity_SetGet.asgcapacity = 1;
@@ -72,37 +69,31 @@ extends AbstractBAPModuleASG {
         if (bAPFunctionPropertyASG != null) {
             bAPFunctionPropertyASG.setSetGetSerializer(destinationList_ASGcapacity_SetGet);
         } else {
-            this.logChannel.log(-1601830656, "[BAPModuleENI#setInitialValues] bapFunctionPropertyASG is NULL");
+            this.logChannel.log(100000, "[BAPModuleENI#setInitialValues] bapFunctionPropertyASG is NULL");
         }
     }
 
-    @Override
     protected String getLSGDescription() {
         return "0x37 (ENI)";
     }
 
-    @Override
     protected IFunctionIDs getFunctionIDs() {
         return new FunctionIDsENI();
     }
 
-    @Override
     protected IErrorCodes getErrorIDs() {
         return new ErrorCodesENI();
     }
 
-    @Override
     public int[] getErrorMapping() {
         this.logChannel.log(10000, "[BAPModuleENI#getErrorMapping]");
         return ERROR_MAPPING;
     }
 
-    @Override
     protected IDataTypeMapping getDataTypeMapping() {
         return new DataTypeMappingENI();
     }
 
-    @Override
     protected void initDiagnosisConnector() {
         this.diagnosisConnectorAsg = new BAPDiagnosisConnectorENI(this.bapApplication, this);
     }
@@ -117,10 +108,10 @@ extends AbstractBAPModuleASG {
     }
 
     public void setAppServiceListenerENI(BAPServiceENIListener bAPServiceENIListener) {
-        this.logChannel.log(-2137614336, "[BAPModuleENI#setAppServiceListenerENI] called");
+        this.logChannel.log(10000000, "[BAPModuleENI#setAppServiceListenerENI] called");
         this.appConnectorENI().setAppServiceListener(bAPServiceENIListener);
         if (bAPServiceENIListener == null) {
-            this.logChannel.log(-2137614336, "[BAPModuleENI#setAppServiceListenerENI] serviceListener is null!");
+            this.logChannel.log(10000000, "[BAPModuleENI#setAppServiceListenerENI] serviceListener is null!");
             return;
         }
         if (this.getBapArrayDataENI().getUserList().isUpToDate()) {
@@ -130,14 +121,13 @@ extends AbstractBAPModuleASG {
             bAPServiceENIListener.onServiceList(this.getBapArrayDataENI().services());
         }
         if (this.communicationState.isUp()) {
-            this.logChannel.log(-2137614336, "[BAPModuleENI#setAppServiceListenerENI] notify onCommunicationUp()");
+            this.logChannel.log(10000000, "[BAPModuleENI#setAppServiceListenerENI] notify onCommunicationUp()");
             this.getAppServiceListenerENI().onCommunicationUp();
         }
     }
 
-    @Override
     protected void onCommunicationUp() {
-        this.logChannel.log(-2137614336, "[BAPModuleENI#onCommunicationUp]");
+        this.logChannel.log(10000000, "[BAPModuleENI#onCommunicationUp]");
         ((AbstractBAPModuleInitializationManagerASG)this.initializationManager).sendSetGetProperties();
         this.getAppServiceListenerENI().onCommunicationUp();
     }
@@ -145,7 +135,7 @@ extends AbstractBAPModuleASG {
     public BAPServiceENIListener getAppServiceListenerENI() {
         BAPServiceENIListener bAPServiceENIListener = (BAPServiceENIListener)this.appConnectorENI().getAppServiceListener();
         if (bAPServiceENIListener == null) {
-            this.logChannel.log(-2137614336, "[BAPModuleENI#getAppServiceListenerENI] No app listener set. Returning a NullListener.");
+            this.logChannel.log(10000000, "[BAPModuleENI#getAppServiceListenerENI] No app listener set. Returning a NullListener.");
             bAPServiceENIListener = (BAPServiceENIListener)NullObjectFactory.makeNullObjectFor(class$de$audi$atip$interapp$bap$eni$BAPServiceENIListener == null ? (class$de$audi$atip$interapp$bap$eni$BAPServiceENIListener = BAPModuleENI.class$("de.audi.atip.interapp.bap.eni.BAPServiceENIListener")) : class$de$audi$atip$interapp$bap$eni$BAPServiceENIListener);
         }
         return bAPServiceENIListener;
@@ -155,7 +145,6 @@ extends AbstractBAPModuleASG {
         return this.bapArrayDataEni;
     }
 
-    @Override
     public void destroy() {
         this.bapArrayDataEni.clear();
         super.destroy();
@@ -170,9 +159,8 @@ extends AbstractBAPModuleASG {
         return nArray;
     }
 
-    @Override
     public void updateInitState(AbstractBAPModule abstractBAPModule, int n) {
-        this.logChannel.log(-2137614336, "[BAPModuleENI#updateInitState] initState: %1", (long)n);
+        this.logChannel.log(10000000, "[BAPModuleENI#updateInitState] initState: %1", (long)n);
         this.communicationState.updateInitState(n);
     }
 
@@ -183,10 +171,6 @@ extends AbstractBAPModuleASG {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static {
-        ERROR_MAPPING = BAPModuleENI.errorMapping();
     }
 }
 

@@ -4,7 +4,6 @@
 package de.audi.app.car.evo.truffle;
 
 public interface ICarTruffleSearchComponent {
-    default public void menuEntrySelected(long l) {
-    }
+    public void menuEntrySelected(long var1);
 }
 

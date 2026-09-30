@@ -4,19 +4,14 @@
 package de.audi.atip.hmi.combi.ddp2;
 
 public interface ICombiSimulationDrawContext {
-    default public void screenConnected() {
-    }
+    public void screenConnected();
 
-    default public void updateText(int n, int n2, String string, int n3) {
-    }
+    public void updateText(int var1, int var2, String var3, int var4);
 
-    default public void updateCursor(int n, int n2, int n3) {
-    }
+    public void updateCursor(int var1, int var2, int var3);
 
-    default public void setFrameStatus(int n, int n2) {
-    }
+    public void setFrameStatus(int var1, int var2);
 
-    default public void setActiveSubterminal(int n) {
-    }
+    public void setActiveSubterminal(int var1);
 }
 

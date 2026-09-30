@@ -8,19 +8,15 @@ import de.audi.atip.wordprediction.IWordPredictionResponseListener;
 import de.audi.atip.wordprediction.WordPredictionUseCase;
 
 public interface IWordPredictionResponseEvent {
-    public static final int TYPE_UPDATE_VALUES;
-    public static final int TYPE_ERROR;
+    public static final int TYPE_UPDATE_VALUES = 120012;
+    public static final int TYPE_ERROR = 120013;
 
-    default public void dispatchToResponseListener(IWordPredictionResponseListener iWordPredictionResponseListener, LogChannel logChannel) {
-    }
+    public void dispatchToResponseListener(IWordPredictionResponseListener var1, LogChannel var2);
 
-    default public int getResponseId() {
-    }
+    public int getResponseId();
 
-    default public int getEventType() {
-    }
+    public int getEventType();
 
-    default public WordPredictionUseCase getSourceUseCase() {
-    }
+    public WordPredictionUseCase getSourceUseCase();
 }
 

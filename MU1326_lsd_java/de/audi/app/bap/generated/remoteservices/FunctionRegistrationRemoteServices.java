@@ -78,16 +78,16 @@ implements IFunctionRegistrationASG {
     }
 
     private void initialize(AbstractBAPModuleASG abstractBAPModuleASG) {
-        this.logChannel.log(-2137614336, "[FunctionRegistrationRemoteServices#initialize] start initialization");
+        this.logChannel.log(10000000, "[FunctionRegistrationRemoteServices#initialize] start initialization");
         this.getAll = abstractBAPModuleASG.createBAPFunctionGetAll(1);
         this.initializeProperties(abstractBAPModuleASG);
         this.initializeMethods(abstractBAPModuleASG);
         this.initialized = true;
-        this.logChannel.log(-2137614336, "[FunctionRegistrationRemoteServices#initialize] initialization completed");
+        this.logChannel.log(10000000, "[FunctionRegistrationRemoteServices#initialize] initialization completed");
     }
 
     private void initializeProperties(AbstractBAPModuleASG abstractBAPModuleASG) {
-        this.logChannel.log(-2137614336, "[FunctionRegistrationRemoteServices#initializeProperties] initialize properties");
+        this.logChannel.log(10000000, "[FunctionRegistrationRemoteServices#initializeProperties] initialize properties");
         this.bapConfig = abstractBAPModuleASG.createBAPFunctionPropertyASG(2);
         this.bapConfig.setResetSerializer(new BAP_Config_Reset());
         this.bapConfig.setStatusSerializer(new BAP_Config_Status());
@@ -125,7 +125,7 @@ implements IFunctionRegistrationASG {
     }
 
     private void initializeMethods(AbstractBAPModuleASG abstractBAPModuleASG) {
-        this.logChannel.log(-2137614336, "[FunctionRegistrationRemoteServices#initializeMethods] initialize methods");
+        this.logChannel.log(10000000, "[FunctionRegistrationRemoteServices#initializeMethods] initialize methods");
         this.startEngineChallenge = abstractBAPModuleASG.createBAPFunctionMethodASG(16);
         this.startEngineChallenge.setResultSerializer(new StartEngineChallenge_Result());
         this.allMethods.add(this.startEngineChallenge);
@@ -145,7 +145,6 @@ implements IFunctionRegistrationASG {
         this.allMethods.add(this.mobDevKeyControl);
     }
 
-    @Override
     public BAPFunctionMethodASG getBAPFunctionMethodASG(int n) {
         try {
             return (BAPFunctionMethodASG)this.getBAPFunction(n);
@@ -156,7 +155,6 @@ implements IFunctionRegistrationASG {
         }
     }
 
-    @Override
     public BAPFunctionPropertyASG getBAPFunctionPropertyASG(int n) {
         try {
             return (BAPFunctionPropertyASG)this.getBAPFunction(n);
@@ -167,7 +165,6 @@ implements IFunctionRegistrationASG {
         }
     }
 
-    @Override
     public BAPFunctionArrayASG getBAPFunctionArrayASG(int n) {
         try {
             return (BAPFunctionArrayASG)this.getBAPFunction(n);
@@ -178,7 +175,6 @@ implements IFunctionRegistrationASG {
         }
     }
 
-    @Override
     public IBAPFunction getBAPFunction(int n) {
         if (!this.initialized) {
             this.logChannel.log(10000, "[FunctionRegistrationRemoteServices#getBAPFunction] function registration not initialized yet for lsgID=%1", (Object)LSGIDs.getDescription(78), (long)n);
@@ -240,24 +236,20 @@ implements IFunctionRegistrationASG {
         return null;
     }
 
-    @Override
     public List getAllProperties() {
         return this.allProperties;
     }
 
-    @Override
     public List getAllMethods() {
         return this.allMethods;
     }
 
-    @Override
     public List getAllArrays() {
         return this.allArrays;
     }
 
-    @Override
     public void resetBAPFunctions() {
-        this.logChannel.log(-2137614336, "[FunctionRegistrationRemoteServices#resetBAPFunctions]");
+        this.logChannel.log(10000000, "[FunctionRegistrationRemoteServices#resetBAPFunctions]");
         Iterator iterator = this.allArrays.iterator();
         while (iterator.hasNext()) {
             ((IBAPFunction)iterator.next()).reset();
@@ -272,7 +264,6 @@ implements IFunctionRegistrationASG {
         }
     }
 
-    @Override
     public StartResultMethod createStartResulForMethodASG(int n) {
         switch (n) {
             case 16: {
@@ -295,7 +286,6 @@ implements IFunctionRegistrationASG {
         return null;
     }
 
-    @Override
     public AbortResultMethod createAbortResulForMethodASG(int n) {
         switch (n) {
             default: 
@@ -304,7 +294,6 @@ implements IFunctionRegistrationASG {
         return null;
     }
 
-    @Override
     public SetGetProperty createSetGetForPropertyASG(int n) {
         switch (n) {
             case 13: {
@@ -318,7 +307,6 @@ implements IFunctionRegistrationASG {
         return null;
     }
 
-    @Override
     public AckProperty createAckForPropertyASG(int n) {
         switch (n) {
             default: 
@@ -327,7 +315,6 @@ implements IFunctionRegistrationASG {
         return null;
     }
 
-    @Override
     public GetArray createGetArrayForArrayASG(int n) {
         switch (n) {
             default: 
@@ -336,7 +323,6 @@ implements IFunctionRegistrationASG {
         return null;
     }
 
-    @Override
     public SetGetArray createSetGetArrayForArrayASG(int n) {
         switch (n) {
             default: 
@@ -345,7 +331,6 @@ implements IFunctionRegistrationASG {
         return null;
     }
 
-    @Override
     public SetGetArray createSetArrayForArrayASG(int n) {
         switch (n) {
             default: 

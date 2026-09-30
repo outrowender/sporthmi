@@ -4,10 +4,8 @@
 package de.audi.app.ecall.core;
 
 public interface IEcallComponent {
-    default public void init() {
-    }
+    public void init();
 
-    default public void deinit() {
-    }
+    public void deinit();
 }
 

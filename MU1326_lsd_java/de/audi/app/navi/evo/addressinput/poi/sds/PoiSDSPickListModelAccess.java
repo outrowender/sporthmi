@@ -22,14 +22,12 @@ implements IPickListModelAccess {
         this.pickListModelApp = navigationEnv.getBaseListModel(n);
     }
 
-    @Override
     public void onStart() {
         this.pickListModelApp.removeAll();
     }
 
-    @Override
     public void onUpdateResultList(SDSListEntry[] sDSListEntryArray) {
-        this.env.getSDSLogChannel().log(-2137614336, "[PoiSDS]PoiSDSPickListModelAccess#onUpdateResultList(%1)", (Object)sDSListEntryArray);
+        this.env.getSDSLogChannel().log(10000000, "[PoiSDS]PoiSDSPickListModelAccess#onUpdateResultList(%1)", (Object)sDSListEntryArray);
         if (sDSListEntryArray == null || sDSListEntryArray.length == 0) {
             this.pickListModelApp.removeAll();
             return;

@@ -4,7 +4,6 @@
 package de.audi.app.media.audio;
 
 public interface IAudioContextStateNotifier {
-    default public void notifyAudioStateChanged(int n, int n2) {
-    }
+    public void notifyAudioStateChanged(int var1, int var2);
 }
 

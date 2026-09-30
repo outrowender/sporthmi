@@ -6,38 +6,36 @@ package de.audi.app.ecall.core.audio;
 import de.audi.app.ecall.core.AbstractEcallComponent;
 import de.audi.app.ecall.core.IEcallApplication;
 import de.audi.app.ecall.core.IEcallComponent;
-import de.audi.app.ecall.core.audio.EcallAudioScenarioHandler$AudioServiceListener;
-import de.audi.app.ecall.core.audio.EcallAudioScenarioHandler$MutePinListener;
+import de.audi.app.ecall.core.audio.cmd.EcallAudioCmdDefaultListener;
 import de.audi.app.ecall.core.audio.cmd.EcallAudioCmdManager;
 import de.audi.app.ecall.core.audio.cmd.IEcallAudioCmdManager;
 import de.audi.app.ecall.core.state.IEcallStateStruct;
 import de.audi.app.ecall.core.state.IGlobalEcallStateListener;
+import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 
 public class EcallAudioScenarioHandler
 extends AbstractEcallComponent
 implements IGlobalEcallStateListener {
-    private static final int AUDIO_SCENARIO_NONE;
+    private static final int AUDIO_SCENARIO_NONE = 0;
     private volatile int currentAudioScenario = 0;
     private volatile IEcallAudioCmdManager ecallAudioCmdManager;
-    private final EcallAudioScenarioHandler$AudioServiceListener audioServiceListener;
-    private final EcallAudioScenarioHandler$MutePinListener mutePinListener;
+    private final AudioServiceListener audioServiceListener;
+    private final MutePinListener mutePinListener;
     private volatile boolean hasActiveCustomerCall;
 
     public EcallAudioScenarioHandler(IEcallApplication iEcallApplication) {
         super(iEcallApplication, "App.Ecall.Audio");
-        this.mutePinListener = new EcallAudioScenarioHandler$MutePinListener(this, iEcallApplication, 4628);
-        this.audioServiceListener = new EcallAudioScenarioHandler$AudioServiceListener(this, iEcallApplication);
+        this.mutePinListener = new MutePinListener(iEcallApplication, 4628);
+        this.audioServiceListener = new AudioServiceListener(iEcallApplication);
         this.ecallAudioCmdManager = new EcallAudioCmdManager(iEcallApplication, this.audioServiceListener, this.mutePinListener);
     }
 
-    @Override
     public void init() {
         super.init();
         this.getApplication().getEcallStateManager().registerListener(this);
         ((EcallAudioCmdManager)this.ecallAudioCmdManager).init();
     }
 
-    @Override
     public void deinit() {
         this.getApplication().getEcallStateManager().removeListener(this);
         if (this.ecallAudioCmdManager != null) {
@@ -50,7 +48,6 @@ implements IGlobalEcallStateListener {
         return this.ecallAudioCmdManager;
     }
 
-    @Override
     public void updateGlobalEcallStateProperty(int n, IEcallStateStruct iEcallStateStruct) {
         if (n == 2) {
             if (this.hasActiveCustomerCall != iEcallStateStruct.isActiveCustomerCallPresent()) {
@@ -62,22 +59,21 @@ implements IGlobalEcallStateListener {
         }
     }
 
-    @Override
     protected IEcallComponent[] getSubComponents() {
         return new IEcallComponent[]{this.audioServiceListener, this.mutePinListener};
     }
 
     private void onCustomerCallStateChanged(IEcallStateStruct iEcallStateStruct) {
         if (iEcallStateStruct.isCallActive()) {
-            this.log.log(1078071040, "EcallAudioScenarioHandler#onCustomerCallStateChanged(): service is active. NOP.");
+            this.log.log(1000000, "EcallAudioScenarioHandler#onCustomerCallStateChanged(): service is active. NOP.");
             return;
         }
         if (iEcallStateStruct.getBapAudioSource() == 3) {
-            this.log.log(1078071040, "EcallAudioScenarioHandler#onCustomerCallStateChanged(): bapAudioSource is ECALL 0x03. NOP");
+            this.log.log(1000000, "EcallAudioScenarioHandler#onCustomerCallStateChanged(): bapAudioSource is ECALL 0x03. NOP");
             return;
         }
         if (iEcallStateStruct.getBapAudioSource() == 4) {
-            this.log.log(1078071040, "EcallAudioScenarioHandler#onCustomerCallStateChanged(): bapAudioSource is ECALL 0x04. NOP");
+            this.log.log(1000000, "EcallAudioScenarioHandler#onCustomerCallStateChanged(): bapAudioSource is ECALL 0x04. NOP");
             return;
         }
         boolean bl = iEcallStateStruct.isActiveCustomerCallPresent();
@@ -117,12 +113,12 @@ implements IGlobalEcallStateListener {
                     break;
                 }
                 default: {
-                    this.log.log(-2137614336, "EcallAudioScenarioHandler#triggerAudioSource(): unsupported audioSource %1 ", (long)n);
+                    this.log.log(10000000, "EcallAudioScenarioHandler#triggerAudioSource(): unsupported audioSource %1 ", (long)n);
                     break;
                 }
             }
         } else {
-            this.log.log(-2137614336, "EcallAudioScenarioHandler#triggerAudioSource(): audioSource has not changed --> NOP!");
+            this.log.log(10000000, "EcallAudioScenarioHandler#triggerAudioSource(): audioSource has not changed --> NOP!");
         }
     }
 
@@ -130,12 +126,52 @@ implements IGlobalEcallStateListener {
         this.ecallAudioCmdManager = iEcallAudioCmdManager;
     }
 
-    static /* synthetic */ int access$000(EcallAudioScenarioHandler ecallAudioScenarioHandler) {
-        return ecallAudioScenarioHandler.currentAudioScenario;
+    private class MutePinListener
+    extends EcallAudioCmdDefaultListener {
+        private final ChoiceModelApp mutePinActiveModel;
+        private static final int MUTE_PIN_INACTIVE = 0;
+        private static final int MUTE_PIN_ACTIVE = 1;
+
+        public MutePinListener(IEcallApplication iEcallApplication, int n) {
+            super(iEcallApplication);
+            this.mutePinActiveModel = iEcallApplication.getFrameworkAccess().getHMIService().getChoiceModel(n);
+        }
+
+        public void updateMutePinState(boolean bl, int n) {
+            this.log.log(1000000, "EcallAudioScenarioHandler.MutePinListener#updateMutePinState(): mutePinState=%1", bl);
+            if (n != 1) {
+                return;
+            }
+            if (this.isECallAudioActive()) {
+                this.log.log(1000000, "EcallAudioScenarioHandler.MutePinListener#updateMutePinState(): ECALL active, do not release ECALL_MUTE!!!");
+                return;
+            }
+            if (bl) {
+                EcallAudioScenarioHandler.this.ecallAudioCmdManager.scheduleMutePinMuteRequest();
+                this.mutePinActiveModel.setValue(1);
+            } else {
+                EcallAudioScenarioHandler.this.ecallAudioCmdManager.scheduleMutePinMuteRelease();
+                this.mutePinActiveModel.setValue(0);
+            }
+        }
+
+        private boolean isECallAudioActive() {
+            return EcallAudioScenarioHandler.this.currentAudioScenario == 4 || EcallAudioScenarioHandler.this.currentAudioScenario == 3 || EcallAudioScenarioHandler.this.currentAudioScenario == 7;
+        }
     }
 
-    static /* synthetic */ IEcallAudioCmdManager access$100(EcallAudioScenarioHandler ecallAudioScenarioHandler) {
-        return ecallAudioScenarioHandler.ecallAudioCmdManager;
+    private class AudioServiceListener
+    extends EcallAudioCmdDefaultListener {
+        public AudioServiceListener(IEcallApplication iEcallApplication) {
+            super(iEcallApplication);
+        }
+
+        public void updateAMAvailable(boolean bl) {
+            this.log.log(1000000, "EcallAudioScenarioHandler.AudioServiceListener#updateAMAvailable(): available=%1", bl);
+            if (bl && EcallAudioScenarioHandler.this.currentAudioScenario != 0) {
+                EcallAudioScenarioHandler.this.forceTriggerAudioSource(EcallAudioScenarioHandler.this.currentAudioScenario);
+            }
+        }
     }
 }
 

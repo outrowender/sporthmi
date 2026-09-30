@@ -17,34 +17,28 @@ extends AbstractSeatPopin {
         this.currentContent.setPneumaticSeatContent(true);
     }
 
-    @Override
     protected boolean isResponsibleForContent(SeatPopinContent seatPopinContent) {
         return seatPopinContent.isPneumaticSeatContent() && !MasterSeatPopinContent.MEMORY.equalsMasterSeatPopinContent(seatPopinContent.getMasterContent(this.isLeft()));
     }
 
-    @Override
     protected void fillContentModel(SeatPopinContent seatPopinContent) {
         this.getConfig().getSeatPopinModel(this.isLeft()).selectContent(seatPopinContent.getMasterContent(this.isLeft()));
     }
 
-    @Override
     protected void showPartialPopinAfterSupportedContentUpdate(SeatPopinContent seatPopinContent) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[%1#showPartialPopinAfterSupportedContentUpdate] SeatContentUpdate takes no effect. A request is necessary to show seat popup: updateContent='%2' ", (Object)this, (Object)seatPopinContent);
+            this.getLogChannel().log(1000000, "[%1#showPartialPopinAfterSupportedContentUpdate] SeatContentUpdate takes no effect. A request is necessary to show seat popup: updateContent='%2' ", (Object)this, (Object)seatPopinContent);
         }
     }
 
-    @Override
     public String getClassName() {
         return "PneumaticSeatPopin";
     }
 
-    @Override
     public void updateAvailabilityModels() {
         this.getConfig().setAvailabilityModels(this.isLeft(), true);
     }
 
-    @Override
     protected boolean discardCurrentContentAfterUnsupportedContentRequest(SeatPopinContent seatPopinContent) {
         return !seatPopinContent.isPneumaticSeatContent();
     }

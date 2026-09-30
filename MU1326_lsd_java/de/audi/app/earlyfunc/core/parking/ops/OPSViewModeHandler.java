@@ -10,14 +10,14 @@ import de.audi.atip.log.LogChannel;
 
 public class OPSViewModeHandler
 implements IScreenStateListener {
-    private static final int OPS_VIEW_MODE_OVER_TOPVIEW_FULL;
-    private static final int OPS_VIEW_MODE_OVER_TOPVIEW_REDUCED;
-    private static final int OPS_VIEW_MODE_STANDALONE;
-    private static final int OPS_BACKGROUND_NONE;
-    private static final int OPS_BACKGROUND_FULL;
-    private static final int OPS_BACKGROUND_REDUCED;
-    private static final int OPS_BACKGROUND_STANDALONE;
-    private static final int OPS_BACKGROUND_STANDALONE_EMPTY;
+    private static final int OPS_VIEW_MODE_OVER_TOPVIEW_FULL = 0;
+    private static final int OPS_VIEW_MODE_OVER_TOPVIEW_REDUCED = 1;
+    private static final int OPS_VIEW_MODE_STANDALONE = 2;
+    private static final int OPS_BACKGROUND_NONE = 0;
+    private static final int OPS_BACKGROUND_FULL = 1;
+    private static final int OPS_BACKGROUND_REDUCED = 2;
+    private static final int OPS_BACKGROUND_STANDALONE = 3;
+    private static final int OPS_BACKGROUND_STANDALONE_EMPTY = 4;
     private ICarApplication application;
     private LogChannel logChannel;
     private int vpsView = -1;
@@ -73,15 +73,15 @@ implements IScreenStateListener {
 
     public void updateOPSViewMode() {
         ChoiceModelApp choiceModelApp;
-        ChoiceModelApp choiceModelApp2 = this.application.getFrameworkAccess().getHmiServiceApp().getChoiceModel(822943744);
+        ChoiceModelApp choiceModelApp2 = this.application.getFrameworkAccess().getHmiServiceApp().getChoiceModel(2100529);
         choiceModelApp2.setValue(this.opsActive ? 1 : 0);
-        ChoiceModelApp choiceModelApp3 = this.application.getFrameworkAccess().getHmiServiceApp().getChoiceModel(1326194688);
+        ChoiceModelApp choiceModelApp3 = this.application.getFrameworkAccess().getHmiServiceApp().getChoiceModel(2100303);
         int n = choiceModelApp3.getValue();
         int n2 = 0;
         String string = "OPS_VIEW_MODE_OVER_TOPVIEW_FULL";
         int n3 = 1;
-        boolean bl = this.application.getFrameworkAccess().getHmiServiceApp().getChoiceModel(-771022848).getValue() == 0;
-        int n4 = this.application.getFrameworkAccess().getHmiServiceApp().getChoiceModel(-737468416).getValue();
+        boolean bl = this.application.getFrameworkAccess().getHmiServiceApp().getChoiceModel(2100178).getValue() == 0;
+        int n4 = this.application.getFrameworkAccess().getHmiServiceApp().getChoiceModel(2100180).getValue();
         if (n4 == 0) {
             n3 = this.currentBackground;
             if (this.opsActive) {
@@ -130,12 +130,12 @@ implements IScreenStateListener {
             n2 = n;
         }
         if (choiceModelApp3.getValue() != n2) {
-            this.logChannel.log(1078071040, "[OPSViewModeHandler#updateOPSViewMode] set model value to show %1: modelID='%2', value='%3'", (Object)string, (long)choiceModelApp3.getID(), (long)n2);
+            this.logChannel.log(1000000, "[OPSViewModeHandler#updateOPSViewMode] set model value to show %1: modelID='%2', value='%3'", (Object)string, (long)choiceModelApp3.getID(), (long)n2);
             choiceModelApp3.setValue(n2);
             this.setCurrentOpsViewMode(this.currentOpsViewMode);
         }
-        if ((choiceModelApp = this.application.getFrameworkAccess().getHmiServiceApp().getChoiceModel(-1257496576)).getValue() != n3) {
-            this.logChannel.log(1078071040, "[OPSViewModeHandler#updateOPSViewMode] update background: modelID='%1', value='%2'", (long)choiceModelApp3.getID(), (long)n3);
+        if ((choiceModelApp = this.application.getFrameworkAccess().getHmiServiceApp().getChoiceModel(2100405)).getValue() != n3) {
+            this.logChannel.log(1000000, "[OPSViewModeHandler#updateOPSViewMode] update background: modelID='%1', value='%2'", (long)choiceModelApp3.getID(), (long)n3);
             choiceModelApp.setValue(n3);
         }
     }
@@ -144,27 +144,23 @@ implements IScreenStateListener {
         return this.opsViewModeSetting;
     }
 
-    @Override
     public void notifyScreenVisible(int n) {
     }
 
-    @Override
     public void notifyScreenHidden(int n) {
     }
 
-    @Override
     public void notifyScreenConnected(int n) {
         if (n == this.vpsScreenID) {
-            this.logChannel.log(-2137614336, "[CharismaComponentEvo#notifyScreenConnected] screenID='%1'", (long)n);
+            this.logChannel.log(10000000, "[CharismaComponentEvo#notifyScreenConnected] screenID='%1'", (long)n);
             this.setVpsScreenConntected(true);
             this.updateOPSViewMode();
         }
     }
 
-    @Override
     public void notifyScreenFadedOut(int n) {
         if (n == this.vpsScreenID) {
-            this.logChannel.log(-2137614336, "[CharismaComponentEvo#notifyScreenFadedOut] screenID='%1'", (long)n);
+            this.logChannel.log(10000000, "[CharismaComponentEvo#notifyScreenFadedOut] screenID='%1'", (long)n);
             this.setVpsScreenConntected(false);
             this.updateOPSViewMode();
         }

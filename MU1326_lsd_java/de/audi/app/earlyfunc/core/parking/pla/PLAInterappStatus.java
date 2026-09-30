@@ -8,9 +8,9 @@ import org.dsi.ifc.carparkingsystem.PDCPLAStatus;
 
 public class PLAInterappStatus
 implements IPLAStatus {
-    private static final int PLA_DEFAULT_ACTIVESIDE;
-    private static final int[] DSI_TO_INTERAPP_DRIVINGDIRECTION_CONSTANT;
-    private static final int[] DSI_TO_INTERAPP_PRESELECTION_CONSTANT;
+    private static final int PLA_DEFAULT_ACTIVESIDE = 2;
+    private static final int[] DSI_TO_INTERAPP_DRIVINGDIRECTION_CONSTANT = new int[]{0, 1, -1, 2, 3};
+    private static final int[] DSI_TO_INTERAPP_PRESELECTION_CONSTANT = new int[]{-1, 5, 2, 4, 1, 3, 0};
     protected int activeSide;
     protected boolean systemActiveOPS;
     protected int drivingDirection;
@@ -112,71 +112,55 @@ implements IPLAStatus {
         if (this == object) {
             return true;
         }
-        if (object == null || super.getClass() != object.getClass()) {
+        if (object == null || this.getClass() != object.getClass()) {
             return false;
         }
         PLAInterappStatus pLAInterappStatus = (PLAInterappStatus)object;
         return this.activeSide == pLAInterappStatus.activeSide && this.brakeSymbol == pLAInterappStatus.brakeSymbol && this.posOKSymbol == pLAInterappStatus.posOKSymbol && this.drivingDirection == pLAInterappStatus.drivingDirection && this.interactionProhibited == pLAInterappStatus.interactionProhibited && this.steeringInterventionSymbol == pLAInterappStatus.steeringInterventionSymbol && this.systemActiveOPS == pLAInterappStatus.systemActiveOPS && this.backwardParallelToRoadSlotFound == pLAInterappStatus.backwardParallelToRoadSlotFound && this.backwardParkboxSlotFound == pLAInterappStatus.backwardParkboxSlotFound && this.forwardParkboxSlotFound == pLAInterappStatus.forwardParkboxSlotFound && this.preSelection == pLAInterappStatus.preSelection;
     }
 
-    @Override
     public int getActiveSide() {
         return this.activeSide;
     }
 
-    @Override
     public boolean isSystemActiveOPS() {
         return this.systemActiveOPS;
     }
 
-    @Override
     public int getDrivingDirection() {
         return this.drivingDirection;
     }
 
-    @Override
     public boolean isBrakeSymbol() {
         return this.brakeSymbol;
     }
 
-    @Override
     public boolean isPosOKSymbol() {
         return this.posOKSymbol;
     }
 
-    @Override
     public int getSteeringInterventionSymbol() {
         return this.steeringInterventionSymbol;
     }
 
-    @Override
     public boolean isInteractionProhibited() {
         return this.interactionProhibited;
     }
 
-    @Override
     public boolean isBackwardParallelToRoadSlotFound() {
         return this.backwardParallelToRoadSlotFound;
     }
 
-    @Override
     public boolean isForwardParkboxSlotFound() {
         return this.forwardParkboxSlotFound;
     }
 
-    @Override
     public boolean isBackwardParkboxSlotFound() {
         return this.backwardParkboxSlotFound;
     }
 
-    @Override
     public int getPreSelection() {
         return this.preSelection;
-    }
-
-    static {
-        DSI_TO_INTERAPP_DRIVINGDIRECTION_CONSTANT = new int[]{0, 1, -1, 2, 3};
-        DSI_TO_INTERAPP_PRESELECTION_CONSTANT = new int[]{-1, 5, 2, 4, 1, 3, 0};
     }
 }
 

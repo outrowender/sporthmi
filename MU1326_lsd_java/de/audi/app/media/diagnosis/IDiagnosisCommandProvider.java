@@ -4,10 +4,8 @@
 package de.audi.app.media.diagnosis;
 
 public interface IDiagnosisCommandProvider {
-    default public String[] getDiagKeys() {
-    }
+    public String[] getDiagKeys();
 
-    default public void executeDiagCommand(String string, String[] stringArray) {
-    }
+    public void executeDiagCommand(String var1, String[] var2);
 }
 

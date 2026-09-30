@@ -17,20 +17,18 @@ extends AbstractTelSearchCmd {
         this.sources = nArray;
     }
 
-    @Override
     public void execute() {
         if (this.dsiSearch != null) {
-            this.logger.log(1078071040, "[TelSearchPrepareSourcesCmd#execute] sources=%1", (Object)Converter.array2String(this.sources));
+            this.logger.log(1000000, "[TelSearchPrepareSourcesCmd#execute] sources=%1", (Object)Converter.array2String(this.sources));
             this.dsiSearch.prepareSources(this.sources);
         } else {
-            this.logger.log(-1601830656, "[TelSearchPrepareSourcesCmd#execute] DSISearch is null --> NOP!");
+            this.logger.log(100000, "[TelSearchPrepareSourcesCmd#execute] DSISearch is null --> NOP!");
             this.getCommandList().commandFinished();
         }
     }
 
-    @Override
     public void prepareSourcesResult(int n) {
-        this.logger.log(1078071040, "[TelSearchPrepareSourcesCmd#prepareSourcesResult] success=%1", (long)n);
+        this.logger.log(1000000, "[TelSearchPrepareSourcesCmd#prepareSourcesResult] success=%1", (long)n);
         this.getCommandList().commandFinished();
     }
 }

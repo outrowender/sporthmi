@@ -3,11 +3,11 @@
  */
 package arc.launcher;
 
-import arc.launcher.BundleLoader$1;
 import arc.launcher.ErrorHelper;
 import arc.launcher.JarValidator;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map$Entry;
+import java.util.Map;
 import java.util.Properties;
 import java.util.StringTokenizer;
 import org.osgi.framework.BundleActivator;
@@ -26,17 +26,17 @@ import org.osgi.framework.BundleContext;
 public class BundleLoader
 implements BundleActivator {
     public static boolean DEBUG = false;
-    private static final String STANDARD_BUNDLESTORE;
-    public static final String PROP_KEY_ARC_DEBUG;
-    public static final String PROP_KEY_CONFIG_FILE;
-    public static final String PROP_KEY_LAUNCHERCLASS;
-    public static final String PROP_KEY_BUNDLESTORE;
-    public static final String PROP_KEY_JAR_VALIDATOR;
-    private static final String DEFAULT_CONFIG_FILE;
-    private static final String DEFAULT_LAUNCHERCLASS;
-    private static final String DEFAULT_BUNDLESTORE;
-    private static final String DEFAULT_JAR_VALIDATOR;
-    private static final String DEBUG_PREFIX_STRING;
+    private static final String STANDARD_BUNDLESTORE = "/mnt/app/eso/bundles";
+    public static final String PROP_KEY_ARC_DEBUG = "arc.debug";
+    public static final String PROP_KEY_CONFIG_FILE = "arc.config";
+    public static final String PROP_KEY_LAUNCHERCLASS = "launcherClass";
+    public static final String PROP_KEY_BUNDLESTORE = "arc.bundle.store";
+    public static final String PROP_KEY_JAR_VALIDATOR = "arc.jar.validator";
+    private static final String DEFAULT_CONFIG_FILE = "/mnt/ota/app/config.ini";
+    private static final String DEFAULT_LAUNCHERCLASS = "arc.internal.ArcStarter";
+    private static final String DEFAULT_BUNDLESTORE = "/mnt/ota/app/bundles";
+    private static final String DEFAULT_JAR_VALIDATOR = "true";
+    private static final String DEBUG_PREFIX_STRING = "[arc.launcher] ";
     static /* synthetic */ Class class$0;
     static /* synthetic */ Class class$1;
     static /* synthetic */ Class class$2;
@@ -80,7 +80,7 @@ implements BundleActivator {
         return objectArray;
     }
 
-    private static HashMap collectJars(String string, boolean bl) {
+    private static HashMap collectJars(String string, boolean bl) throws MalformedURLException {
         HashMap hashMap = new HashMap();
         String string2 = string;
         File file = new File(string2);
@@ -113,8 +113,8 @@ implements BundleActivator {
             string = string.trim();
             HashMap hashMap = BundleLoader.collectJars(string, bl);
             List list = BundleLoader.compareBundles(hashMap.keySet().iterator());
-            if (!"/mnt/app/eso/bundles".equals(string)) {
-                HashMap hashMap2 = BundleLoader.collectJars("/mnt/app/eso/bundles", false);
+            if (!STANDARD_BUNDLESTORE.equals(string)) {
+                HashMap hashMap2 = BundleLoader.collectJars(STANDARD_BUNDLESTORE, false);
                 List list2 = BundleLoader.compareBundles(hashMap2.keySet().iterator());
                 hashMap = BundleLoader.convertListintoHMap(hashMap, list);
                 hashMap2 = BundleLoader.convertListintoHMap(hashMap2, list2);
@@ -178,7 +178,7 @@ implements BundleActivator {
         object2 = new ArrayList(hashMap.size());
         Iterator iterator2 = hashMap.entrySet().iterator();
         while (iterator2.hasNext()) {
-            object = (Map$Entry)iterator2.next();
+            object = (Map.Entry)iterator2.next();
             if (object.getValue() == null) {
                 ((ArrayList)object2).add(new StringBuffer().append(object.getKey()).append(".jar").toString());
                 continue;
@@ -198,11 +198,11 @@ implements BundleActivator {
         return hashMap2;
     }
 
-    private static URL[] getLocationURLs(File file) {
+    private static URL[] getLocationURLs(File file) throws MalformedURLException {
         return BundleLoader.getLocationURLs(file, new String[]{".jar"});
     }
 
-    private static URL[] getLocationURLs(File file, String[] stringArray) {
+    private static URL[] getLocationURLs(File file, final String[] stringArray) throws MalformedURLException {
         URL[] uRLArray = new URL[]{};
         if (!file.exists()) {
             return uRLArray;
@@ -220,7 +220,19 @@ implements BundleActivator {
             }
             return uRLArray;
         }
-        File[] fileArray = file.listFiles(new BundleLoader$1(stringArray));
+        File[] fileArray = file.listFiles(new FilenameFilter(){
+
+            public boolean accept(File file, String string) {
+                int n = 0;
+                while (n < stringArray.length) {
+                    if (string.toLowerCase().endsWith(stringArray[n])) {
+                        return true;
+                    }
+                    ++n;
+                }
+                return false;
+            }
+        });
         if (fileArray != null) {
             uRLArray = new URL[fileArray.length];
             int n = 0;
@@ -234,16 +246,15 @@ implements BundleActivator {
         return uRLArray;
     }
 
-    @Override
-    public void start(BundleContext bundleContext) {
-        if (System.getProperty("arc.debug") != null) {
+    public void start(BundleContext bundleContext) throws Exception {
+        if (System.getProperty(PROP_KEY_ARC_DEBUG) != null) {
             DEBUG = true;
         }
-        ErrorHelper.setDebugPrefix("[arc.launcher] ");
+        ErrorHelper.setDebugPrefix(DEBUG_PREFIX_STRING);
         Properties properties = this.loadProperties();
         URL[] uRLArray = null;
         try {
-            uRLArray = BundleLoader.collectBundleLocations(properties.getProperty("arc.bundle.store"), Boolean.getBoolean(properties.getProperty("arc.jar.validator")));
+            uRLArray = BundleLoader.collectBundleLocations(properties.getProperty(PROP_KEY_BUNDLESTORE), Boolean.getBoolean(properties.getProperty(PROP_KEY_JAR_VALIDATOR)));
         }
         catch (Exception exception) {
             ErrorHelper.println("Error while collecting jars.");
@@ -254,9 +265,9 @@ implements BundleActivator {
 
     private void startArc(BundleContext bundleContext, Properties properties, URL[] uRLArray) {
         if (uRLArray != null && uRLArray.length > 0) {
-            URLClassLoader uRLClassLoader = new URLClassLoader(uRLArray, super.getClass().getClassLoader());
+            URLClassLoader uRLClassLoader = new URLClassLoader(uRLArray, this.getClass().getClassLoader());
             try {
-                Class clazz = uRLClassLoader.loadClass(properties.getProperty("launcherClass"));
+                Class clazz = uRLClassLoader.loadClass(properties.getProperty(PROP_KEY_LAUNCHERCLASS));
                 Class[] classArray = new Class[3];
                 Class clazz2 = class$0;
                 if (clazz2 == null) {
@@ -293,23 +304,23 @@ implements BundleActivator {
                 method.invoke(object, new Object[]{bundleContext, properties, uRLArray});
             }
             catch (Throwable throwable) {
-                ErrorHelper.println(new StringBuffer("Error while starting: ").append(properties.getProperty("launcherClass")).toString());
+                ErrorHelper.println(new StringBuffer("Error while starting: ").append(properties.getProperty(PROP_KEY_LAUNCHERCLASS)).toString());
                 ErrorHelper.printStackTrace(throwable);
             }
         }
     }
 
     private Properties loadProperties() {
-        String string = System.getProperty("arc.config", "/mnt/ota/app/config.ini");
+        String string = System.getProperty(PROP_KEY_CONFIG_FILE, DEFAULT_CONFIG_FILE);
         Properties properties = new Properties();
-        properties.put("launcherClass", "arc.internal.ArcStarter");
-        properties.put("arc.bundle.store", "/mnt/ota/app/bundles");
-        properties.put("arc.jar.validator", "true");
+        properties.put(PROP_KEY_LAUNCHERCLASS, DEFAULT_LAUNCHERCLASS);
+        properties.put(PROP_KEY_BUNDLESTORE, DEFAULT_BUNDLESTORE);
+        properties.put(PROP_KEY_JAR_VALIDATOR, DEFAULT_JAR_VALIDATOR);
         Properties properties2 = new Properties();
         properties2.putAll(properties);
         File file = new File(string);
         if (file.exists()) {
-            properties2.put("arc.config", file.getAbsolutePath());
+            properties2.put(PROP_KEY_CONFIG_FILE, file.getAbsolutePath());
             FileInputStream fileInputStream = null;
             try {
                 try {
@@ -337,8 +348,7 @@ implements BundleActivator {
         return properties2;
     }
 
-    @Override
-    public void stop(BundleContext bundleContext) {
+    public void stop(BundleContext bundleContext) throws Exception {
     }
 
     public String toString() {

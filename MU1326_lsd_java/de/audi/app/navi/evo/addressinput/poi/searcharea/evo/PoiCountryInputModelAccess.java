@@ -26,19 +26,17 @@ implements IMatchspellerModelAccess {
 
     public PoiCountryInputModelAccess(NavigationEnv navigationEnv, MatchSpellerListener matchSpellerListener, TiledListModelListener tiledListModelListener) {
         this.env = navigationEnv;
-        this.matchSpellerModelApp = navigationEnv.getMatchSpellerModel(-1474624000);
+        this.matchSpellerModelApp = navigationEnv.getMatchSpellerModel(400296);
         this.matchSpellerModelApp.setSpellerListener(matchSpellerListener);
         this.matchSpellerModelApp.setMaxLength(128);
-        this.previewListModel = navigationEnv.getTiledListModel(1881081344);
+        this.previewListModel = navigationEnv.getTiledListModel(401264);
         this.previewListModel.setListener(tiledListModelListener);
     }
 
-    @Override
     public void onInputChanged() {
         this.previewListModel.removeAll();
     }
 
-    @Override
     public void onStart(NavLocation navLocation) {
         Util.setModelStatus(this.matchSpellerModelApp, 0);
         this.matchSpellerModelApp.clear();
@@ -47,7 +45,6 @@ implements IMatchspellerModelAccess {
         this.previewListModel.removeAll();
     }
 
-    @Override
     public void onUpdateSpeller(String string, String string2, boolean bl, boolean bl2) {
         int n = bl2 ? 1 : 0;
         this.matchSpellerModelApp.setFullMatch(bl);
@@ -56,7 +53,6 @@ implements IMatchspellerModelAccess {
         Util.setModelStatus(this.matchSpellerModelApp, 1);
     }
 
-    @Override
     public void onElementSelected(NavLocation navLocation) {
         if (navLocation == null) {
             this.env.getLogChannel().log(10000, "PoiCountryInputModelAccess#onElementSelected the given navLocation is null");
@@ -69,10 +65,9 @@ implements IMatchspellerModelAccess {
         if (Util.isEmpty(string)) {
             string = LocationFormatter.formatCountry(navLocation);
         }
-        this.env.getTextfieldModel(-1776613888).setText1(string);
+        this.env.getTextfieldModel(400278).setText1(string);
     }
 
-    @Override
     public void onAmbiguousElementSelected() {
     }
 
@@ -80,7 +75,6 @@ implements IMatchspellerModelAccess {
         return this.matchSpellerModelApp;
     }
 
-    @Override
     public void onUpdateResultList(LIValueList lIValueList, long l, String string, boolean bl, int n, int n2) {
         LIValueListElement[] lIValueListElementArray;
         int n3 = Util.isEmpty(string) ? 0 : 1;
@@ -93,7 +87,7 @@ implements IMatchspellerModelAccess {
         this.previewListModel.setLength((int)l);
         EvoListRow[] evoListRowArray = new AddressInputLIValueListElementListRow[lIValueListElementArray.length];
         for (int i2 = 0; i2 < lIValueListElementArray.length; ++i2) {
-            evoListRowArray[i2] = new AddressInputLIValueListElementListRow(lIValueListElementArray[i2], 160082217, new int[0]);
+            evoListRowArray[i2] = new AddressInputLIValueListElementListRow(lIValueListElementArray[i2], 698976777, new int[0]);
         }
         this.previewListModel.setRows(n, n2, evoListRowArray);
     }
@@ -105,23 +99,18 @@ implements IMatchspellerModelAccess {
         }
     }
 
-    @Override
     public void onUpdateResultList(LIValueList lIValueList, long l, String string, boolean bl) {
     }
 
-    @Override
     public void onRestore() {
     }
 
-    @Override
     public void onUpdateLocation(NavLocation navLocation, Map map) {
     }
 
-    @Override
     public void onSpellerStatusChanged(int n) {
     }
 
-    @Override
     public void unrequestItems(int n, int n2) {
         this.previewListModel.clearRows(n, n2);
     }

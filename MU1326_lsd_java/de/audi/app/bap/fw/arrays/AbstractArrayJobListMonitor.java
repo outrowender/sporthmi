@@ -12,10 +12,8 @@ extends Monitor {
         super(logChannel);
     }
 
-    public abstract void notifyJobFinished(int n) {
-    }
+    public abstract void notifyJobFinished(int var1);
 
-    public abstract void notifyJobCancelled(int n) {
-    }
+    public abstract void notifyJobCancelled(int var1);
 }
 

@@ -5,8 +5,11 @@ package de.audi.app.terminalmode.audio;
 
 import de.audi.app.terminalmode.util.Enum;
 
+/*
+ * This class specifies class file version 49.0 but uses Java 6 signatures.  Assumed Java 6.
+ */
 public class TMAudioConnection
-extends Enum {
+extends Enum<TMAudioConnection> {
     public static final TMAudioConnection INVALID = new TMAudioConnection(0, "INVALID");
     public static final TMAudioConnection MEDIA = new TMAudioConnection(1, "MEDIA");
     public static final TMAudioConnection PHONE = new TMAudioConnection(2, "PHONE");

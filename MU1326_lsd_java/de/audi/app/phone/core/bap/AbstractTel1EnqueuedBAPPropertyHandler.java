@@ -6,7 +6,6 @@ package de.audi.app.phone.core.bap;
 import de.audi.app.phone.core.AbstractPhoneComponent;
 import de.audi.app.phone.core.ITelApplication;
 import de.audi.app.phone.core.PhoneServiceTracker;
-import de.audi.app.phone.core.bap.AbstractTel1EnqueuedBAPPropertyHandler$1;
 import de.audi.app.phone.core.dsi.ITelDSIMobileEquipmentDeviceState;
 import de.audi.app.phone.core.state.IGlobalTelephoneStateStruct;
 import de.audi.atip.interapp.combi.bap.phone.CombiBAPServicePhone;
@@ -29,14 +28,12 @@ implements ServiceTrackerCustomizer {
         this.bapCombiDispatcher = dispatcherBase;
     }
 
-    @Override
     public void init() {
         this.bapServiceTracker = new PhoneServiceTracker(this.getApplication().getBundleContext(), (class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServicePhone == null ? (class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServicePhone = AbstractTel1EnqueuedBAPPropertyHandler.class$("de.audi.atip.interapp.combi.bap.phone.CombiBAPServicePhone")) : class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServicePhone).getName(), (ServiceTrackerCustomizer)this, this.log);
         this.bapServiceTracker.openTracker();
         this.getApplication().getGlobalTelephoneStateManager().registerListener(this);
     }
 
-    @Override
     public void deinit() {
         if (this.bapServiceTracker != null) {
             this.bapServiceTracker.closeTracker();
@@ -46,14 +43,18 @@ implements ServiceTrackerCustomizer {
     }
 
     protected void enqueueUpdate() {
-        this.scheduleExecution(new AbstractTel1EnqueuedBAPPropertyHandler$1(this));
+        this.scheduleExecution(new Runnable(){
+
+            public void run() {
+                AbstractTel1EnqueuedBAPPropertyHandler.this.updateAsync();
+            }
+        });
     }
 
     private void scheduleExecution(Runnable runnable) {
         this.bapCombiDispatcher.execute(runnable);
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         if (serviceReference == null) {
             this.log.log(10000, "AbstractTel1EnqueuedBAPPropertyHandler#addingService reference is null");
@@ -72,11 +73,9 @@ implements ServiceTrackerCustomizer {
         return null;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (serviceReference == null) {
             this.log.log(10000, "AbstractTel1EnqueuedBAPPropertyHandler#removedService reference is null");
@@ -92,7 +91,6 @@ implements ServiceTrackerCustomizer {
         }
     }
 
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         if (iGlobalTelephoneStateStruct == null) {
             this.log.log(10000, "AbstractTel1EnqueuedBAPPropertyHandler#updateGlobalTelephoneStateProperty stateStruct is null");
@@ -110,7 +108,7 @@ implements ServiceTrackerCustomizer {
             if (!bl2 || bl) {
                 this.enqueueUpdate();
             } else {
-                this.log.log(1078071040, "AbstractTelEnqueuedBAPPropertyHandler#updateGlobalTelephoneStateProperty(): unhandled. Ecall has active call.");
+                this.log.log(1000000, "AbstractTelEnqueuedBAPPropertyHandler#updateGlobalTelephoneStateProperty(): unhandled. Ecall has active call.");
             }
         }
     }
@@ -135,11 +133,9 @@ implements ServiceTrackerCustomizer {
         return this.combiService;
     }
 
-    protected abstract boolean doProcessGlobalTelephoneStateUpdate(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
-    }
+    protected abstract boolean doProcessGlobalTelephoneStateUpdate(int var1, IGlobalTelephoneStateStruct var2);
 
-    protected abstract void updateAsync() {
-    }
+    protected abstract void updateAsync();
 
     public void setTelephoneState(IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         this.telephoneState = iGlobalTelephoneStateStruct;

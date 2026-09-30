@@ -23,7 +23,7 @@ extends AbstractTel1EnqueuedBAPPropertyHandler {
     private static String getServiceString(int n) {
         String string = (String)SERVICE_STRING_MAPPING.get(new Integer(n));
         if (string == null) {
-            string = new StringBuffer().append("UnhandledService(").append(n).append(")").toString();
+            string = "UnhandledService(" + n + ")";
         }
         return string;
     }
@@ -163,12 +163,10 @@ extends AbstractTel1EnqueuedBAPPropertyHandler {
         super(iTelApplication, dispatcherBase);
     }
 
-    @Override
     protected boolean doProcessGlobalTelephoneStateUpdate(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         return iGlobalTelephoneStateStruct != null;
     }
 
-    @Override
     protected void updateAsync() {
         CombiBAPServicePhone combiBAPServicePhone = this.getCombiService();
         IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct = this.getTelephoneState();
@@ -217,14 +215,14 @@ extends AbstractTel1EnqueuedBAPPropertyHandler {
                 blArray[42] = BAPPropertyTelMobileServiceSupport.isSupportedServiceNumbers(iGlobalTelephoneStateStruct);
                 blArray[43] = BAPPropertyTelMobileServiceSupport.isFavoriteListSupported(iGlobalTelephoneStateStruct);
                 if (this.checkSupportedServicesChanged(blArray)) {
-                    this.log.log(1078071040, "[BAPPropertyTelMobileServiceSupport#update] %1", (Object)BAPPropertyTelMobileServiceSupport.getSupportedServiceArrayBuffer(this.supportedServices));
+                    this.log.log(1000000, "[BAPPropertyTelMobileServiceSupport#update] %1", (Object)BAPPropertyTelMobileServiceSupport.getSupportedServiceArrayBuffer(this.supportedServices));
                     combiBAPServicePhone.updateMobileServiceSupport(this.supportedServices);
                 }
             } else {
-                this.log.log(-1601830656, "[BAPPropertyTelMobileServiceSupport#update] state is null --> NOP!");
+                this.log.log(100000, "[BAPPropertyTelMobileServiceSupport#update] state is null --> NOP!");
             }
         } else {
-            this.log.log(-1601830656, "[BAPPropertyTelMobileServiceSupport#update] CombiBAPServicePhone is null --> NOP!");
+            this.log.log(100000, "[BAPPropertyTelMobileServiceSupport#update] CombiBAPServicePhone is null --> NOP!");
         }
     }
 

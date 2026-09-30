@@ -19,7 +19,6 @@ IApplicationComponent {
         this.bluetooth = iBluetoothApplication;
     }
 
-    @Override
     public void updateA2LSActive(boolean bl) {
         if (bl) {
             this.bluetooth.getReconnect().setAutomaticReconnect(false);
@@ -28,12 +27,10 @@ IApplicationComponent {
         }
     }
 
-    @Override
     public void init() {
         this.registration = this.bluetooth.getBundleContext().registerService((class$de$audi$atip$interapp$IBluetoothA2LSService == null ? (class$de$audi$atip$interapp$IBluetoothA2LSService = BluetoothA2LSService.class$("de.audi.atip.interapp.IBluetoothA2LSService")) : class$de$audi$atip$interapp$IBluetoothA2LSService).getName(), (Object)this, null);
     }
 
-    @Override
     public void deinit() {
         this.registration.unregister();
         this.registration = null;

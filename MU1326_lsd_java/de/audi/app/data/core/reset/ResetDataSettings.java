@@ -18,21 +18,19 @@ implements ButtonListener,
 MsgListener {
     private static final int[] ATTRIBUTE_NOTIFICATIONS = new int[0];
     private ServiceRegistration registration;
-    protected ButtonModelApp resetButton = this.getButtonModel(1160128000);
+    protected ButtonModelApp resetButton = this.getButtonModel(2500165);
     static /* synthetic */ Class class$de$audi$atip$msg$MsgListener;
 
     public ResetDataSettings(IDataApplication iDataApplication) {
         super(iDataApplication);
     }
 
-    @Override
     protected int[] getAttributeNotifications() {
         return ATTRIBUTE_NOTIFICATIONS;
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.log.log(1078071040, "ResetDataSettings#keyTyped(): resetting configuration");
+        this.log.log(1000000, "ResetDataSettings#keyTyped(): resetting configuration");
         if (n == this.resetButton.getID()) {
             this.resetConfiguration();
         }
@@ -43,22 +41,18 @@ MsgListener {
         CommandAutomaticProfile.schedule(this.dataApplication, this.dsiDataConfiguration);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void processMsg(int n) {
         if (n == 28) {
-            this.log.log(1078071040, "[ResetDataSettings#processMsg] Called, restore factory settings.");
+            this.log.log(1000000, "[ResetDataSettings#processMsg] Called, restore factory settings.");
             this.restoreFactorySettings();
         }
     }
@@ -68,14 +62,12 @@ MsgListener {
         this.resetConfiguration();
     }
 
-    @Override
     public void init() {
         super.init();
         this.resetButton.setButtonListener(this);
         this.registration = this.dataApplication.getBundleContext().registerService((class$de$audi$atip$msg$MsgListener == null ? (class$de$audi$atip$msg$MsgListener = ResetDataSettings.class$("de.audi.atip.msg.MsgListener")) : class$de$audi$atip$msg$MsgListener).getName(), (Object)this, null);
     }
 
-    @Override
     public void deinit() {
         this.registration.unregister();
         this.registration = null;

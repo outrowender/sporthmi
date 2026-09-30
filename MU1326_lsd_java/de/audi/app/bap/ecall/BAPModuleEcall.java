@@ -48,9 +48,8 @@ extends AbstractBAPModuleASG {
         this.dataEcall = new DataEcall(this.logChannel);
     }
 
-    @Override
     protected void initModuleComponents() {
-        this.logChannel.log(-2137614336, "[BAPModuleEcall#initModuleComponents]");
+        this.logChannel.log(10000000, "[BAPModuleEcall#initModuleComponents]");
         this.indicationHandler = new BAPIndicationHandlerEcall(this);
         this.functionRegistration = new FunctionRegistrationEcall(this);
         this.functionListAsg = new FunctionListEcall();
@@ -58,12 +57,10 @@ extends AbstractBAPModuleASG {
         this.initializationManager = new InitializationManagerEcall(this, this.bapApplication.getDSIBAPController(), this.bapApplication.getPowerState());
     }
 
-    @Override
     protected void initServiceManager(BundleContext bundleContext) {
         this.serviceManager = new ServiceManagerEcall(this, bundleContext);
     }
 
-    @Override
     protected void setInitialValues() {
         AudioState_SetGet audioState_SetGet = (AudioState_SetGet)this.createSetGetSerializer(16);
         audioState_SetGet.currentAudioSource = this.getDataEcall().getCurrentAudioSource();
@@ -71,37 +68,31 @@ extends AbstractBAPModuleASG {
         if (bAPFunctionPropertyASG != null) {
             bAPFunctionPropertyASG.setSetGetSerializer(audioState_SetGet);
         } else {
-            this.logChannel.log(-1601830656, "[BAPModuleEcall#setInitialValues] bapFunctionPropertyASG is NULL");
+            this.logChannel.log(100000, "[BAPModuleEcall#setInitialValues] bapFunctionPropertyASG is NULL");
         }
     }
 
-    @Override
     protected String getLSGDescription() {
         return "0x33 (ECALL)";
     }
 
-    @Override
     protected IFunctionIDs getFunctionIDs() {
         return new FunctionIDsEcall();
     }
 
-    @Override
     protected IErrorCodes getErrorIDs() {
         return new ErrorCodesEcall();
     }
 
-    @Override
     public int[] getErrorMapping() {
         this.logChannel.log(10000, "[BAPModuleEcall#getErrorMapping]");
         return ERROR_MAPPING;
     }
 
-    @Override
     protected IDataTypeMapping getDataTypeMapping() {
         return new DataTypeMappingEcall();
     }
 
-    @Override
     protected void initDiagnosisConnector() {
         this.diagnosisConnectorAsg = new BAPDiagnosisConnectorEcall(this.bapApplication, this);
     }
@@ -116,21 +107,20 @@ extends AbstractBAPModuleASG {
     }
 
     public void setAppServiceListenerEcall(BAPServiceEcallListener bAPServiceEcallListener) {
-        this.logChannel.log(-2137614336, "[BAPModuleEcall#setAppServiceListenerEcall] called");
+        this.logChannel.log(10000000, "[BAPModuleEcall#setAppServiceListenerEcall] called");
         this.appConnectorEcall().setAppServiceListener(bAPServiceEcallListener);
         if (bAPServiceEcallListener == null) {
-            this.logChannel.log(-2137614336, "[BAPModuleEcall#setAppServiceListenerEcall] serviceListener is null!");
+            this.logChannel.log(10000000, "[BAPModuleEcall#setAppServiceListenerEcall] serviceListener is null!");
             return;
         }
         if (this.communicationState.isUp()) {
-            this.logChannel.log(-2137614336, "[BAPModuleEcall#setAppServiceListenerEcall] notify onCommunicationUp()");
+            this.logChannel.log(10000000, "[BAPModuleEcall#setAppServiceListenerEcall] notify onCommunicationUp()");
             this.getAppServiceListenerEcall().onCommunicationUp();
         }
     }
 
-    @Override
     protected void onCommunicationUp() {
-        this.logChannel.log(-2137614336, "[BAPModuleEcall#onCommunicationUp]");
+        this.logChannel.log(10000000, "[BAPModuleEcall#onCommunicationUp]");
         ((AbstractBAPModuleInitializationManagerASG)this.initializationManager).sendSetGetProperties();
         this.getAppServiceListenerEcall().onCommunicationUp();
     }
@@ -138,7 +128,7 @@ extends AbstractBAPModuleASG {
     public BAPServiceEcallListener getAppServiceListenerEcall() {
         BAPServiceEcallListener bAPServiceEcallListener = (BAPServiceEcallListener)this.appConnectorEcall().getAppServiceListener();
         if (bAPServiceEcallListener == null) {
-            this.logChannel.log(-2137614336, "[BAPModuleEcall#getAppServiceListenerEcall] No app listener set. Returning a NullListener.");
+            this.logChannel.log(10000000, "[BAPModuleEcall#getAppServiceListenerEcall] No app listener set. Returning a NullListener.");
             bAPServiceEcallListener = (BAPServiceEcallListener)NullObjectFactory.makeNullObjectFor(class$de$audi$atip$interapp$bap$ecall$BAPServiceEcallListener == null ? (class$de$audi$atip$interapp$bap$ecall$BAPServiceEcallListener = BAPModuleEcall.class$("de.audi.atip.interapp.bap.ecall.BAPServiceEcallListener")) : class$de$audi$atip$interapp$bap$ecall$BAPServiceEcallListener);
         }
         return bAPServiceEcallListener;
@@ -148,7 +138,6 @@ extends AbstractBAPModuleASG {
         return this.dataEcall;
     }
 
-    @Override
     public void destroy() {
         this.dataEcall.clear();
         super.destroy();
@@ -163,25 +152,23 @@ extends AbstractBAPModuleASG {
         return nArray;
     }
 
-    @Override
     public void updateInitState(AbstractBAPModule abstractBAPModule, int n) {
-        this.logChannel.log(-2137614336, "[BAPModuleEcall#updateInitState] initState: %1", (long)n);
+        this.logChannel.log(10000000, "[BAPModuleEcall#updateInitState] initState: %1", (long)n);
         this.communicationState.updateInitState(n);
     }
 
-    @Override
     public boolean isErrorHandled(int n) {
         boolean bl = false;
         switch (n) {
             case 148: 
             case 149: 
             case 150: {
-                this.logChannel.log(1078071040, "BAPModuleEcall#isErrorHandled [%1] = true", (long)n);
+                this.logChannel.log(1000000, "BAPModuleEcall#isErrorHandled [%1] = true", (long)n);
                 bl = true;
                 break;
             }
             default: {
-                this.logChannel.log(-2137614336, "BAPModuleEcall#isErrorHandled [%1], = false", (long)n);
+                this.logChannel.log(10000000, "BAPModuleEcall#isErrorHandled [%1], = false", (long)n);
             }
         }
         return bl;

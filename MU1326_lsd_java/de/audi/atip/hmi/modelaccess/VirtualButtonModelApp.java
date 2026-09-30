@@ -8,7 +8,6 @@ import de.audi.atip.hmi.modelaccess.RangeModelApp;
 
 public interface VirtualButtonModelApp
 extends RangeModelApp {
-    default public void setVirtualButtonListener(VirtualButtonListener virtualButtonListener) {
-    }
+    public void setVirtualButtonListener(VirtualButtonListener var1);
 }
 

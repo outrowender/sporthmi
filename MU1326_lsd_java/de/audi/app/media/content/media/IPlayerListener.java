@@ -6,25 +6,18 @@ package de.audi.app.media.content.media;
 import org.dsi.ifc.media.Capabilities;
 
 public interface IPlayerListener {
-    default public void playerStartupComplete() {
-    }
+    public void playerStartupComplete();
 
-    default public void repeatScopeChanged(int n, boolean bl) {
-    }
+    public void repeatScopeChanged(int var1, boolean var2);
 
-    default public void repeatModeChanged(int n) {
-    }
+    public void repeatModeChanged(int var1);
 
-    default public void playbackStateChanged(int n) {
-    }
+    public void playbackStateChanged(int var1);
 
-    default public void capabilitiesChanged(Capabilities capabilities) {
-    }
+    public void capabilitiesChanged(Capabilities var1);
 
-    default public void commandBlocked() {
-    }
+    public void commandBlocked();
 
-    default public void currentPMLevelChanged(int n) {
-    }
+    public void currentPMLevelChanged(int var1);
 }
 

@@ -9,22 +9,16 @@ import de.audi.atip.hmi.model.texteditor.MLCursor;
 import de.audi.atip.hmi.model.texteditor.mlcursorll.MLCursorLL;
 
 public interface IInsertBoundOps {
-    default public boolean checkLimitCharType(MLCursor mLCursor, char c2) {
-    }
+    public boolean checkLimitCharType(MLCursor var1, char var2);
 
-    default public ListNode boundNode(ListNode listNode) {
-    }
+    public ListNode boundNode(ListNode var1);
 
-    default public void insertMove(CursoredLinkedList cursoredLinkedList, MLCursor mLCursor) {
-    }
+    public void insertMove(CursoredLinkedList var1, MLCursor var2);
 
-    default public void insertMove(CursoredLinkedList cursoredLinkedList, String[] stringArray, int n) {
-    }
+    public void insertMove(CursoredLinkedList var1, String[] var2, int var3);
 
-    default public MLCursor move(CursoredLinkedList cursoredLinkedList, MLCursorLL mLCursorLL) {
-    }
+    public MLCursor move(CursoredLinkedList var1, MLCursorLL var2);
 
-    default public boolean checkBoundCharType(MLCursor mLCursor, char c2) {
-    }
+    public boolean checkBoundCharType(MLCursor var1, char var2);
 }
 

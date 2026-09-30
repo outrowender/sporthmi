@@ -22,7 +22,6 @@ extends CoreMapCodeInputManager {
         this.initMapcodeScreenListener();
     }
 
-    @Override
     protected void initMapcodeScreenListener() {
         MapcodeMatchSpellerModelAccess mapcodeMatchSpellerModelAccess = new MapcodeMatchSpellerModelAccess(this.env, this.logChannel, DIScreensEvo.getDiJpMapcodeScreenSpellerModel(), DIScreensEvo.getDiJpMapcodeScreenButtonModel());
         MapcodeInputSequence mapcodeInputSequence = new MapcodeInputSequence(this.env, this.logChannel, this.commandListFactory, mapcodeMatchSpellerModelAccess, this.previewMap, this.spellerStack, this.locationDisambiguatorSequence);

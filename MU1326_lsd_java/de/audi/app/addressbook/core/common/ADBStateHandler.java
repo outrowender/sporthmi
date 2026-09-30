@@ -27,7 +27,7 @@ public class ADBStateHandler {
     }
 
     public void setAdbReady(boolean bl) {
-        this.log.log(1078071040, "ADBStateHandler#setAdbReady(): ready: %1", bl);
+        this.log.log(1000000, "ADBStateHandler#setAdbReady(): ready: %1", bl);
         this.isAdbInstanceReady = bl;
         this.adbStateListener.setAdbReady(this.isAdbInstanceReady);
     }
@@ -48,12 +48,12 @@ public class ADBStateHandler {
 
     public ProfileInfo getActiveProfileInfo() {
         if (this.profileInfo == null || this.activeProfileNum < 0) {
-            this.log.log(this.isAdbReady() ? 10000 : 1078071040, "ADBStateHandler#getActiveProfileInfo(): invalid profile info: %1, activeProfile: %2", (Object)ADBDbgUtils.dbg(this.profileInfo), (long)this.activeProfileNum);
+            this.log.log(this.isAdbReady() ? 10000 : 1000000, "ADBStateHandler#getActiveProfileInfo(): invalid profile info: %1, activeProfile: %2", (Object)ADBDbgUtils.dbg(this.profileInfo), (long)this.activeProfileNum);
             return null;
         }
         for (int i2 = 0; i2 < this.profileInfo.length; ++i2) {
             if (this.profileInfo[i2] == null || this.profileInfo[i2].num != this.activeProfileNum) continue;
-            this.log.log(-2137614336, "ADBStateHandler#getActiveProfileInfo(): returning active profile: %1", (Object)this.profileInfo[i2]);
+            this.log.log(10000000, "ADBStateHandler#getActiveProfileInfo(): returning active profile: %1", (Object)this.profileInfo[i2]);
             return this.profileInfo[i2];
         }
         this.log.log(10000, "ADBStateHandler#getActiveProfileInfo(): no matching profileInfo found for active profile!");

@@ -18,7 +18,7 @@ import javax.microedition.io.UDPDatagramConnection;
 public class Connection
 implements CreateConnection,
 UDPDatagramConnection {
-    static final int DEFAULT_TIMEOUT;
+    static final int DEFAULT_TIMEOUT = 8000;
     private String server;
     private boolean closed = false;
     private int access;
@@ -26,36 +26,30 @@ UDPDatagramConnection {
     private int timeout = 0;
     private DatagramSocket socket;
 
-    @Override
-    public void close() {
+    public void close() throws IOException {
         this.closed = true;
         this.socket.close();
     }
 
-    private static native int netMaxDatagramImpl(DatagramSocket datagramSocket) {
-    }
+    private static native int netMaxDatagramImpl(DatagramSocket var0);
 
-    private static native int netNominalDatagramImpl(DatagramSocket datagramSocket) {
-    }
+    private static native int netNominalDatagramImpl(DatagramSocket var0);
 
-    @Override
-    public int getMaximumLength() {
+    public int getMaximumLength() throws IOException {
         if (this.closed) {
             throw new IOException(Msg.getString("K00ac"));
         }
         return Connection.netMaxDatagramImpl(this.socket);
     }
 
-    @Override
-    public int getNominalLength() {
+    public int getNominalLength() throws IOException {
         if (this.closed) {
             throw new IOException(Msg.getString("K00ac"));
         }
         return Connection.netNominalDatagramImpl(this.socket);
     }
 
-    @Override
-    public Datagram newDatagram(byte[] byArray, int n) {
+    public Datagram newDatagram(byte[] byArray, int n) throws IOException {
         if (this.closed) {
             throw new IOException(Msg.getString("K00ac"));
         }
@@ -74,8 +68,7 @@ UDPDatagramConnection {
         return datagramPacket;
     }
 
-    @Override
-    public Datagram newDatagram(byte[] byArray, int n, String string) {
+    public Datagram newDatagram(byte[] byArray, int n, String string) throws IOException {
         if (this.closed) {
             throw new IOException(Msg.getString("K00ac"));
         }
@@ -88,8 +81,7 @@ UDPDatagramConnection {
         return datagramPacket;
     }
 
-    @Override
-    public Datagram newDatagram(int n) {
+    public Datagram newDatagram(int n) throws IOException {
         if (this.closed) {
             throw new IOException(Msg.getString("K00ac"));
         }
@@ -99,8 +91,7 @@ UDPDatagramConnection {
         return this.newDatagram(new byte[n], n);
     }
 
-    @Override
-    public Datagram newDatagram(int n, String string) {
+    public Datagram newDatagram(int n, String string) throws IOException {
         if (this.closed) {
             throw new IOException(Msg.getString("K00ac"));
         }
@@ -123,8 +114,7 @@ UDPDatagramConnection {
         return false;
     }
 
-    @Override
-    public void receive(Datagram datagram) {
+    public void receive(Datagram datagram) throws IOException {
         DatagramPacket datagramPacket;
         if (this.closed) {
             throw new IOException(Msg.getString("K00ac"));
@@ -151,8 +141,7 @@ UDPDatagramConnection {
         }
     }
 
-    @Override
-    public void send(Datagram datagram) {
+    public void send(Datagram datagram) throws IOException {
         DatagramPacket datagramPacket;
         if (this.closed) {
             throw new IOException(Msg.getString("K00ac"));
@@ -176,7 +165,7 @@ UDPDatagramConnection {
                 datagramPacket = new DatagramPacket();
                 datagramPacket.setData(datagram.getData(), datagram.getOffset(), datagram.getLength());
             }
-            datagramPacket.setAddress(new StringBuffer("datagram://").append(this.server).append(":").append(this.port).toString());
+            datagramPacket.setAddress("datagram://" + this.server + ":" + this.port);
         }
         try {
             this.socket.send(datagramPacket.getNetPacket());
@@ -186,8 +175,7 @@ UDPDatagramConnection {
         }
     }
 
-    @Override
-    public javax.microedition.io.Connection setParameters2(String string, int n, boolean bl) {
+    public javax.microedition.io.Connection setParameters2(String string, int n, boolean bl) throws IOException {
         String[][] stringArray = ConnectionUtil.NO_PARAMETERS;
         int n2 = string.indexOf(59);
         if (n2 != -1) {
@@ -198,7 +186,7 @@ UDPDatagramConnection {
         return this;
     }
 
-    private void setParameters(String string, String[][] stringArray, int n, boolean bl) {
+    private void setParameters(String string, String[][] stringArray, int n, boolean bl) throws IOException {
         this.access = n;
         int n2 = 0;
         int n3 = 0;
@@ -262,8 +250,7 @@ UDPDatagramConnection {
         return bl;
     }
 
-    @Override
-    public String getLocalAddress() {
+    public String getLocalAddress() throws IOException {
         if (this.closed) {
             throw new IOException(Msg.getString("K00ac"));
         }
@@ -278,8 +265,7 @@ UDPDatagramConnection {
         return "127.0.0.1";
     }
 
-    @Override
-    public int getLocalPort() {
+    public int getLocalPort() throws IOException {
         if (this.closed) {
             throw new IOException(Msg.getString("K00ac"));
         }

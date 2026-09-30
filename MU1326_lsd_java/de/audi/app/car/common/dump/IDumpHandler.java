@@ -8,10 +8,8 @@ import java.util.HashMap;
 
 public interface IDumpHandler
 extends IDumpHandlerComponentAccess {
-    default public HashMap getData() {
-    }
+    public HashMap getData();
 
-    default public String getName() {
-    }
+    public String getName();
 }
 

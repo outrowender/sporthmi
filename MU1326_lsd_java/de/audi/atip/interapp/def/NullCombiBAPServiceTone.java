@@ -25,19 +25,16 @@ implements CombiBAPServiceTone {
         return this.mutedDueToActivePhoneCall;
     }
 
-    @Override
     public void updateMuteState(boolean bl, boolean bl2) {
         this.muted = bl;
         this.mutedDueToActivePhoneCall = bl2;
         this.log("updateMuteState save snapshot");
     }
 
-    @Override
     public void updateVolumeProperties(byte by, boolean bl, boolean bl2, boolean bl3, boolean bl4, boolean bl5, boolean bl6, boolean bl7, boolean bl8) {
         this.log();
     }
 
-    @Override
     public void updateVolume(int n, int n2, int n3, boolean bl, boolean bl2) {
         this.log();
     }

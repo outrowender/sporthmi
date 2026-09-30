@@ -37,7 +37,6 @@ implements ServiceTrackerCustomizer {
         return this.errorManager;
     }
 
-    @Override
     protected void startInternal(BundleContext bundleContext) {
         this.errorManager = new ErrorManager(this.framework);
         this.initTracker();
@@ -45,7 +44,6 @@ implements ServiceTrackerCustomizer {
         this.dumpTrigger.start();
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         if (this.dumpTrigger != null) {
             this.dumpTrigger.stop();
@@ -64,7 +62,6 @@ implements ServiceTrackerCustomizer {
         this.dumpInfoProviderTracker.open();
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.getBundleContext().getService(serviceReference);
         if (object instanceof DumpInfoProvider) {
@@ -80,11 +77,9 @@ implements ServiceTrackerCustomizer {
         return object;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof DumpInfoProvider) {
             this.errorManager.unregisterDumpInfoProvider((DumpInfoProvider)object);

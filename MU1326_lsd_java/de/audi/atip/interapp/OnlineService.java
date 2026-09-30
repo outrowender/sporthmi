@@ -7,46 +7,34 @@ import de.audi.atip.interapp.AbstractSDSApplicationService;
 
 public interface OnlineService
 extends AbstractSDSApplicationService {
-    public static final int HELP_TYPE_UNKNOWN;
-    public static final int HELP_TYPE_TOPICS;
-    public static final int HELP_TYPE_SUBTOPIC;
-    public static final byte HELP_ID_TYPE_IDX;
-    public static final byte HELP_ID_TYPE_ID;
+    public static final int HELP_TYPE_UNKNOWN = 0;
+    public static final int HELP_TYPE_TOPICS = 1;
+    public static final int HELP_TYPE_SUBTOPIC = 2;
+    public static final byte HELP_ID_TYPE_IDX = 0;
+    public static final byte HELP_ID_TYPE_ID = 1;
 
-    default public void setRemoteHMIRecognizedID(int n) {
-    }
+    public void setRemoteHMIRecognizedID(int var1);
 
-    default public void setRemoteHMIGlobalRecognizedID(int n) {
-    }
+    public void setRemoteHMIGlobalRecognizedID(int var1);
 
-    default public void setRemoteHMIHelpRecognizedID(int n, byte by) {
-    }
+    public void setRemoteHMIHelpRecognizedID(int var1, byte var2);
 
-    default public void requestDialogContinuation() {
-    }
+    public void requestDialogContinuation();
 
-    default public void dialogStepFinished() {
-    }
+    public void dialogStepFinished();
 
-    default public void helpOpened(int n) {
-    }
+    public void helpOpened(int var1);
 
-    default public void setRemoteHMINavDestFormFinished() {
-    }
+    public void setRemoteHMINavDestFormFinished();
 
-    default public void setRemoteHMIGlobalEnter() {
-    }
+    public void setRemoteHMIGlobalEnter();
 
-    default public void setDisclaimerResult(boolean bl) {
-    }
+    public void setDisclaimerResult(boolean var1);
 
-    default public void remoteHMIUpdateHelp() {
-    }
+    public void remoteHMIUpdateHelp();
 
-    default public void remoteHMISetRecognizedLineNumber() {
-    }
+    public void remoteHMISetRecognizedLineNumber();
 
-    default public void remoteHMIResetNavLocationInput() {
-    }
+    public void remoteHMIResetNavLocationInput();
 }
 

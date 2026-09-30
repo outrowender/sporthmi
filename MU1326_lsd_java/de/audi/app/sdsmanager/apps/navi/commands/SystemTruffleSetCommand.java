@@ -20,11 +20,10 @@ extends AbstractSystemCallCommand {
         this.naviService = naviService;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: called", (Object)this.getName());
+        this.logger.log(10000000, "%1#execute: called", (Object)this.getName());
         String string = this.nBestStorage.getMatchingPicklist((byte)0).getSlot(0, 0).getText();
-        this.logger.log(-2137614336, "%1#execute: Performing IntelliDest query with trufflesString %2!", (Object)this.getName(), (Object)string);
+        this.logger.log(10000000, "%1#execute: Performing IntelliDest query with trufflesString %2!", (Object)this.getName(), (Object)string);
         this.naviService.startTrufflesSearch(string, new String[0]);
         this.sendResult(3000);
     }

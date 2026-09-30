@@ -4,46 +4,39 @@
 package de.audi.atip.interapp.combi.ddp2;
 
 public interface CombiService {
-    public static final int NAVI_RG_INVALID;
-    public static final int NAVI_RG_NOTACTIVE;
-    public static final int NAVI_RG_CALCULATING;
-    public static final int NAVI_RG_NEWCALC;
-    public static final int NAVI_RG_OFFMAP;
-    public static final int NAVI_RG_OFFROAD;
-    public static final int NAVI_RG_ACTIVE;
-    public static final int PHONE_CALLSTATE_INVALID;
-    public static final int PHONE_CALLSTATE_NOACTIVECALL;
-    public static final int PHONE_CALLSTATE_ON_HOLD;
-    public static final int PHONE_CALLSTATE_ACTIVE;
-    public static final int PHONE_CALLSTATE_DISCONNECTING;
-    public static final int PHONE_CALLSTATE_DIALING;
-    public static final int PHONE_CALLSTATE_INCOMING;
-    public static final int PHONE_CALLTYPE_INVALID;
-    public static final int PHONE_CALLTYPE_NORMAL;
-    public static final int PHONE_CALLTYPE_CONFERENCE;
-    public static final int PHONE_CALLTYPE_EMERGENCY;
-    public static final int PHONE_MIC_MUTE_OFF;
-    public static final int PHONE_MIC_MUTE_ON;
+    public static final int NAVI_RG_INVALID = 0;
+    public static final int NAVI_RG_NOTACTIVE = 1;
+    public static final int NAVI_RG_CALCULATING = 2;
+    public static final int NAVI_RG_NEWCALC = 3;
+    public static final int NAVI_RG_OFFMAP = 4;
+    public static final int NAVI_RG_OFFROAD = 5;
+    public static final int NAVI_RG_ACTIVE = 6;
+    public static final int PHONE_CALLSTATE_INVALID = 0;
+    public static final int PHONE_CALLSTATE_NOACTIVECALL = 1;
+    public static final int PHONE_CALLSTATE_ON_HOLD = 2;
+    public static final int PHONE_CALLSTATE_ACTIVE = 3;
+    public static final int PHONE_CALLSTATE_DISCONNECTING = 4;
+    public static final int PHONE_CALLSTATE_DIALING = 5;
+    public static final int PHONE_CALLSTATE_INCOMING = 6;
+    public static final int PHONE_CALLTYPE_INVALID = 0;
+    public static final int PHONE_CALLTYPE_NORMAL = 1;
+    public static final int PHONE_CALLTYPE_CONFERENCE = 2;
+    public static final int PHONE_CALLTYPE_EMERGENCY = 3;
+    public static final int PHONE_MIC_MUTE_OFF = 0;
+    public static final int PHONE_MIC_MUTE_ON = 1;
 
-    default public void updateMicMuteState(int n) {
-    }
+    public void updateMicMuteState(int var1);
 
-    default public void updateRGState(int n) {
-    }
+    public void updateRGState(int var1);
 
-    default public void updateCallStatus(int n, int n2) {
-    }
+    public void updateCallStatus(int var1, int var2);
 
-    default public void updateHUDDisplayContent(boolean bl) {
-    }
+    public void updateHUDDisplayContent(boolean var1);
 
-    default public void showMMIHintFrame(String string, String string2) {
-    }
+    public void showMMIHintFrame(String var1, String var2);
 
-    default public void notifyHookKeyPressed() {
-    }
+    public void notifyHookKeyPressed();
 
-    default public void updateNavInitialized(int n, int n2) {
-    }
+    public void updateNavInitialized(int var1, int var2);
 }
 

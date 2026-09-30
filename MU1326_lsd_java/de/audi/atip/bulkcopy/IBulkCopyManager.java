@@ -3,19 +3,16 @@
  */
 package de.audi.atip.bulkcopy;
 
+import de.audi.atip.bulkcopy.BulkCopyException;
 import de.audi.atip.bulkcopy.IBulkCopyClient;
 
 public interface IBulkCopyManager {
-    default public boolean lock(IBulkCopyClient iBulkCopyClient) {
-    }
+    public boolean lock(IBulkCopyClient var1);
 
-    default public boolean unlock(IBulkCopyClient iBulkCopyClient) {
-    }
+    public boolean unlock(IBulkCopyClient var1);
 
-    default public void setClientState(IBulkCopyClient iBulkCopyClient, int n) {
-    }
+    public void setClientState(IBulkCopyClient var1, int var2) throws BulkCopyException;
 
-    default public boolean isIdle() {
-    }
+    public boolean isIdle();
 }
 

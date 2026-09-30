@@ -6,10 +6,10 @@ package de.audi.atip.hmi.model;
 import de.esolutions.fw.util.commons.Buffer;
 
 public class HMIResourceLocator {
-    public static final int UNDEFINED_ID;
-    public static final String UNDEFINED_URI;
-    public static final int STATUS_VALID;
-    public static final int STATUS_INVALID;
+    public static final int UNDEFINED_ID = -1;
+    public static final String UNDEFINED_URI = null;
+    public static final int STATUS_VALID = 0;
+    public static final int STATUS_INVALID = 1;
     private final int resourceID;
     private final String resourceURI;
     private int pictureConfigUseCase;
@@ -126,10 +126,6 @@ public class HMIResourceLocator {
 
     public void setMinDisplayDuration(int n) {
         this.minDisplayDuration = n;
-    }
-
-    static {
-        UNDEFINED_URI = null;
     }
 }
 

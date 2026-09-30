@@ -9,75 +9,56 @@ import java.util.Map;
 
 public interface PhoneSDSHandler
 extends ISDSApplication {
-    public static final byte SPELLER_PHONE_NUMBER;
-    public static final byte SPELLER_PIN_CODE;
-    public static final byte SPELLER_MAILBOX_NUMBER;
-    public static final int LIST_MODE_CALL_LIST;
-    public static final int LIST_MODE_CALL_LIST_NBEST;
-    public static final int LIST_MODE_CALL_LIST_DETAIL;
-    public static final int LIST_MODE_FAVORITES;
-    public static final int LIST_MODE_FAVORITES_DETAIL;
-    public static final int LIST_MODE_REDIAL_NUMBER;
-    public static final int LIST_MODE_MAILBOX;
-    public static final int LIST_MODE_FIRST_ENTRY;
-    public static final int LIST_MODE_CALL_LIST_TITLE;
-    public static final int LIST_MODE_FAVORITES_TITLE;
+    public static final byte SPELLER_PHONE_NUMBER = 0;
+    public static final byte SPELLER_PIN_CODE = 1;
+    public static final byte SPELLER_MAILBOX_NUMBER = 2;
+    public static final int LIST_MODE_CALL_LIST = 0;
+    public static final int LIST_MODE_CALL_LIST_NBEST = 1;
+    public static final int LIST_MODE_CALL_LIST_DETAIL = 2;
+    public static final int LIST_MODE_FAVORITES = 3;
+    public static final int LIST_MODE_FAVORITES_DETAIL = 4;
+    public static final int LIST_MODE_REDIAL_NUMBER = 5;
+    public static final int LIST_MODE_MAILBOX = 7;
+    public static final int LIST_MODE_FIRST_ENTRY = 8;
+    public static final int LIST_MODE_CALL_LIST_TITLE = 0;
+    public static final int LIST_MODE_FAVORITES_TITLE = 1;
 
-    default public void setPhoneService(ITelServiceSDS iTelServiceSDS) {
-    }
+    public void setPhoneService(ITelServiceSDS var1);
 
-    default public void unsetPhoneService() {
-    }
+    public void unsetPhoneService();
 
-    default public ITelServiceSDS getPhoneService() {
-    }
+    public ITelServiceSDS getPhoneService();
 
-    default public void setPhoneSpeller(byte by, String string, boolean bl) {
-    }
+    public void setPhoneSpeller(byte var1, String var2, boolean var3);
 
-    default public String getCallStackNumber(int n) {
-    }
+    public String getCallStackNumber(int var1);
 
-    default public String getCallStackName(int n) {
-    }
+    public String getCallStackName(int var1);
 
-    default public int getCallStackLength() {
-    }
+    public int getCallStackLength();
 
-    default public int getFavoritesLength() {
-    }
+    public int getFavoritesLength();
 
-    default public long getCallStackAdbId(int n) {
-    }
+    public long getCallStackAdbId(int var1);
 
-    default public short getCallStackPhoneType(int n) {
-    }
+    public short getCallStackPhoneType(int var1);
 
-    default public int getCallStackIndexById(long l) {
-    }
+    public int getCallStackIndexById(long var1);
 
-    default public int getCallStackIndexByADBId(long l) {
-    }
+    public int getCallStackIndexByADBId(long var1);
 
-    default public int getFavoriteIndexById(long l) {
-    }
+    public int getFavoriteIndexById(long var1);
 
-    default public String getFavoriteNumber(int n) {
-    }
+    public String getFavoriteNumber(int var1);
 
-    default public String getFavoriteName(int n) {
-    }
+    public String getFavoriteName(int var1);
 
-    default public Map getAdbToCallStackMapping() {
-    }
+    public Map getAdbToCallStackMapping();
 
-    default public void matchTextWithPINSequenceDirect(String string) {
-    }
+    public void matchTextWithPINSequenceDirect(String var1);
 
-    default public void matchTextWithNumberSequenceDirect(String string) {
-    }
+    public void matchTextWithNumberSequenceDirect(String var1);
 
-    default public void matchTextWithMailboxSequenceDirect(String string) {
-    }
+    public void matchTextWithMailboxSequenceDirect(String var1);
 }
 

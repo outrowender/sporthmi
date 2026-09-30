@@ -9,7 +9,6 @@ import de.audi.audio.volume.VolumeMap;
 
 public class VolumeMapService
 implements IVolumeMapService {
-    @Override
     public int getVolume(int n, int n2) {
         return VolumeMap.INSTANCE.getVolume(TerminalMapper.toAudioTerminal(n2), n);
     }

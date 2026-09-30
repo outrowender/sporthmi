@@ -3,8 +3,6 @@
  */
 package de.audi.atip.interapp.combi.bap.phone.data;
 
-import de.audi.atip.interapp.combi.bap.phone.data.FsgSetup$Builder;
-
 public final class FsgSetup {
     private final boolean internalSimCardReaderPresent;
     private final boolean cableConnectionPossible;
@@ -14,8 +12,8 @@ public final class FsgSetup {
     private final boolean googleLinkConnectionPossible;
     private final int mobileConnectionType;
 
-    public static FsgSetup$Builder builder() {
-        return new FsgSetup$Builder();
+    public static Builder builder() {
+        return new Builder();
     }
 
     private FsgSetup(boolean bl, boolean bl2, boolean bl3, boolean bl4, boolean bl5, boolean bl6, int n) {
@@ -63,7 +61,7 @@ public final class FsgSetup {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         FsgSetup fsgSetup = (FsgSetup)object;
@@ -102,6 +100,55 @@ public final class FsgSetup {
 
     public String toString() {
         return new StringBuffer().append("FsgSetup [internalSimCardReaderPresent=").append(this.internalSimCardReaderPresent).append(", cableConnectionPossible=").append(this.cableConnectionPossible).append(", hfpConnectionPossible=").append(this.hfpConnectionPossible).append(", rsapConnectionPossible=").append(this.rsapConnectionPossible).append(", appleLinkConnectionPossible=").append(this.appleLinkConnectionPossible).append(", googleLinkConnectionPossible=").append(this.googleLinkConnectionPossible).append(", mobileConnectionType=").append(this.mobileConnectionType).append("]").toString();
+    }
+
+    public static final class Builder {
+        private boolean internalSimCardReaderPresent;
+        private boolean cableConnectionPossible;
+        private boolean hfpConnectionPossible;
+        private boolean rsapConnectionPossible;
+        private boolean appleLinkConnectionPossible;
+        private boolean googleLinkConnectionPossible;
+        private int mobileConnectionType;
+
+        public Builder setInternalSimCardReaderPresent(boolean bl) {
+            this.internalSimCardReaderPresent = bl;
+            return this;
+        }
+
+        public Builder setCableConnectionPossible(boolean bl) {
+            this.cableConnectionPossible = bl;
+            return this;
+        }
+
+        public Builder setHfpConnectionPossible(boolean bl) {
+            this.hfpConnectionPossible = bl;
+            return this;
+        }
+
+        public Builder setRsapConnectionPossible(boolean bl) {
+            this.rsapConnectionPossible = bl;
+            return this;
+        }
+
+        public Builder setAppleLinkConnectionPossible(boolean bl) {
+            this.appleLinkConnectionPossible = bl;
+            return this;
+        }
+
+        public Builder setGoogleLinkConnectionPossible(boolean bl) {
+            this.googleLinkConnectionPossible = bl;
+            return this;
+        }
+
+        public Builder setMobileConnectionType(int n) {
+            this.mobileConnectionType = n;
+            return this;
+        }
+
+        public FsgSetup build() {
+            return new FsgSetup(this.internalSimCardReaderPresent, this.cableConnectionPossible, this.hfpConnectionPossible, this.rsapConnectionPossible, this.appleLinkConnectionPossible, this.googleLinkConnectionPossible, this.mobileConnectionType);
+        }
     }
 }
 

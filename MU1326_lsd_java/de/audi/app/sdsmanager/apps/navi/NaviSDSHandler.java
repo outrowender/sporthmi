@@ -16,7 +16,6 @@ import de.audi.atip.interapp.MapService;
 import de.audi.atip.interapp.NaviSDSPOIOnlineService;
 import de.audi.atip.interapp.NaviSDSPOIOnlineServiceListener;
 import de.audi.atip.interapp.NaviService;
-import de.audi.atip.interapp.NaviService$OneshotData;
 import de.audi.atip.interapp.NaviServiceListener;
 import de.audi.atip.interapp.SDSListEntry;
 import de.audi.atip.interapp.car.ICarRemainingRangeListener;
@@ -31,228 +30,157 @@ import org.dsi.ifc.speechrec.VDECapabilities;
 public interface NaviSDSHandler
 extends ISDSApplication,
 ICarRemainingRangeListener {
-    public static final byte LEVEL_1;
-    public static final byte LEVEL_2;
-    public static final byte LEVEL_3;
-    public static final byte LEVEL_4;
-    public static final byte MAX_LEVEL_SIZE;
-    public static final byte POSTCODE_NUMERIC;
-    public static final byte POSTCODE_ALPHANUMERIC;
-    public static final byte LDC_HANDLING_NORMAL;
-    public static final byte LDC_HANDLING_FORCE_LDC_IS_SL;
-    public static final byte LDC_HANDLING_FORCE_LDC_IS_NOT_SL;
+    public static final byte LEVEL_1 = 0;
+    public static final byte LEVEL_2 = 1;
+    public static final byte LEVEL_3 = 2;
+    public static final byte LEVEL_4 = 3;
+    public static final byte MAX_LEVEL_SIZE = 4;
+    public static final byte POSTCODE_NUMERIC = 0;
+    public static final byte POSTCODE_ALPHANUMERIC = 1;
+    public static final byte LDC_HANDLING_NORMAL = 0;
+    public static final byte LDC_HANDLING_FORCE_LDC_IS_SL = 1;
+    public static final byte LDC_HANDLING_FORCE_LDC_IS_NOT_SL = 2;
 
-    default public void setNaviService(NaviService naviService) {
-    }
+    public void setNaviService(NaviService var1);
 
-    default public NaviService getNaviService() {
-    }
+    public NaviService getNaviService();
 
-    default public void setADBService(ADBSDSService aDBSDSService) {
-    }
+    public void setADBService(ADBSDSService var1);
 
-    default public void setOperatorCallService(IOperatorCallSDSService iOperatorCallSDSService) {
-    }
+    public void setOperatorCallService(IOperatorCallSDSService var1);
 
-    default public IOperatorCallSDSService getOperatorCallService() {
-    }
+    public IOperatorCallSDSService getOperatorCallService();
 
-    default public void unsetNaviService() {
-    }
+    public void unsetNaviService();
 
-    default public void unsetADBService() {
-    }
+    public void unsetADBService();
 
-    default public void unsetOperatorCallService() {
-    }
+    public void unsetOperatorCallService();
 
-    default public void setOnlineDestinationService(IOnlineDestinationService iOnlineDestinationService) {
-    }
+    public void setOnlineDestinationService(IOnlineDestinationService var1);
 
-    default public void unsetOnlineDestinationService() {
-    }
+    public void unsetOnlineDestinationService();
 
-    default public void setPOIOnlineService(NaviSDSPOIOnlineService naviSDSPOIOnlineService) {
-    }
+    public void setPOIOnlineService(NaviSDSPOIOnlineService var1);
 
-    default public void unsetPOIOnlineService() {
-    }
+    public void unsetPOIOnlineService();
 
-    default public void setMapService(MapService mapService) {
-    }
+    public void setMapService(MapService var1);
 
-    default public void unsetMapService() {
-    }
+    public void unsetMapService();
 
-    default public void setMyAudiService(IOnlineSDSMyAudiService iOnlineSDSMyAudiService) {
-    }
+    public void setMyAudiService(IOnlineSDSMyAudiService var1);
 
-    default public void unsetMyAudiService() {
-    }
+    public void unsetMyAudiService();
 
-    default public void responseVDECapabilities(int n, VDECapabilities vDECapabilities, String string) {
-    }
+    public void responseVDECapabilities(int var1, VDECapabilities var2, String var3);
 
-    default public void reloadSUIVDERelatedGrammars() {
-    }
+    public void reloadSUIVDERelatedGrammars();
 
-    default public void reloadTruffleVDERelatedGrammars() {
-    }
+    public void reloadTruffleVDERelatedGrammars();
 
-    default public void responseDeleteLastTrufflesSearchText(int n, NBestList nBestList) {
-    }
+    public void responseDeleteLastTrufflesSearchText(int var1, NBestList var2);
 
-    default public void responseClearTrufflesSearchHistory(int n) {
-    }
+    public void responseClearTrufflesSearchHistory(int var1);
 
-    default public byte getSDSAddressInputMode() {
-    }
+    public byte getSDSAddressInputMode();
 
-    default public void setSDSAddressInputMode(byte by) {
-    }
+    public void setSDSAddressInputMode(byte var1);
 
-    default public boolean usesAltRouteCalc() {
-    }
+    public boolean usesAltRouteCalc();
 
-    default public void setUseAltRouteCalc(boolean bl) {
-    }
+    public void setUseAltRouteCalc(boolean var1);
 
-    default public void markCurrentPOIUsedFor(byte by) {
-    }
+    public void markCurrentPOIUsedFor(byte var1);
 
-    default public void setSpeechDSIStatus(boolean bl) {
-    }
+    public void setSpeechDSIStatus(boolean var1);
 
-    default public byte poiOnlineVoiceDataAvailable() {
-    }
+    public byte poiOnlineVoiceDataAvailable();
 
-    default public NaviServiceListener getNaviServiceListener() {
-    }
+    public NaviServiceListener getNaviServiceListener();
 
-    default public NaviSDSPOIOnlineServiceListener getPOIOnlineServiceListener() {
-    }
+    public NaviSDSPOIOnlineServiceListener getPOIOnlineServiceListener();
 
-    default public void setSuggestions(boolean bl) {
-    }
+    public void setSuggestions(boolean var1);
 
-    default public void updateDestinationCountryCode(String string, String string2) {
-    }
+    public void updateDestinationCountryCode(String var1, String var2);
 
-    default public void updateDestinationStateCode(String string, String string2) {
-    }
+    public void updateDestinationStateCode(String var1, String var2);
 
-    default public void setLastDestinations(SDSListEntry[] sDSListEntryArray) {
-    }
+    public void setLastDestinations(SDSListEntry[] var1);
 
-    default public void setFavoriteDestinations(SDSListEntry[] sDSListEntryArray) {
-    }
+    public void setFavoriteDestinations(SDSListEntry[] var1);
 
-    default public String getLastDestination(long l) {
-    }
+    public String getLastDestination(long var1);
 
-    default public String getLastDestinationByIndex(int n) {
-    }
+    public String getLastDestinationByIndex(int var1);
 
-    default public String getFavoriteDestination(long l) {
-    }
+    public String getFavoriteDestination(long var1);
 
-    default public String getFavoriteDestinationByIndex(int n) {
-    }
+    public String getFavoriteDestinationByIndex(int var1);
 
-    default public NaviService$OneshotData getOneshotData(byte by) {
-    }
+    public NaviService.OneshotData getOneshotData(byte var1);
 
-    default public void setOneshotData(NaviService$OneshotData naviService$OneshotData, byte by) {
-    }
+    public void setOneshotData(NaviService.OneshotData var1, byte var2);
 
-    default public boolean setOneshotData(int n) {
-    }
+    public boolean setOneshotData(int var1);
 
-    default public void storeUniqueOneshotData(byte by, byte by2, int n, int n2, int n3) {
-    }
+    public void storeUniqueOneshotData(byte var1, byte var2, int var3, int var4, int var5);
 
-    default public byte getNextPicklistSizeType(byte by, boolean bl) {
-    }
+    public byte getNextPicklistSizeType(byte var1, boolean var2);
 
-    default public OneshotHandler initializeOneshotHandler(int n) {
-    }
+    public OneshotHandler initializeOneshotHandler(int var1);
 
-    default public NaviOneshotHandler getOneshotHandler() {
-    }
+    public NaviOneshotHandler getOneshotHandler();
 
-    default public String[] getOneshotFilterStrings(byte by) {
-    }
+    public String[] getOneshotFilterStrings(byte var1);
 
-    default public boolean initializeEntryPicklist() {
-    }
+    public boolean initializeEntryPicklist();
 
-    default public void setMyAudiContacts(SDSListEntry[] sDSListEntryArray) {
-    }
+    public void setMyAudiContacts(SDSListEntry[] var1);
 
-    default public void storeMyAudiContact(AdbEntry adbEntry) {
-    }
+    public void storeMyAudiContact(AdbEntry var1);
 
-    default public SDSListEntry getMyAudiContactById(long l) {
-    }
+    public SDSListEntry getMyAudiContactById(long var1);
 
-    default public SDSListEntry getMyAudiContactByIndex(int n) {
-    }
+    public SDSListEntry getMyAudiContactByIndex(int var1);
 
-    default public AdbEntry getCurrentMyAudiContact() {
-    }
+    public AdbEntry getCurrentMyAudiContact();
 
-    default public byte getPickListMode() {
-    }
+    public byte getPickListMode();
 
-    default public void setTTSASR(ITTSASR iTTSASR) {
-    }
+    public void setTTSASR(ITTSASR var1);
 
-    default public void setPoiOnlineDestination(NavLocation navLocation) {
-    }
+    public void setPoiOnlineDestination(NavLocation var1);
 
-    default public NavLocation getPoiOnlineDestination() {
-    }
+    public NavLocation getPoiOnlineDestination();
 
-    default public void setPickListMode(byte by) {
-    }
+    public void setPickListMode(byte var1);
 
-    default public IPicklist getEntryPicklist() {
-    }
+    public IPicklist getEntryPicklist();
 
-    default public boolean storePOILineData(int n) {
-    }
+    public boolean storePOILineData(int var1);
 
-    default public boolean storePOIPickList(IPicklist iPicklist) {
-    }
+    public boolean storePOIPickList(IPicklist var1);
 
-    default public boolean storeSUIData(IPicklistElement iPicklistElement, boolean bl) {
-    }
+    public boolean storeSUIData(IPicklistElement var1, boolean var2);
 
-    default public void setLDCHandling(byte by) {
-    }
+    public void setLDCHandling(byte var1);
 
-    default public void updateVDEMediumState(int n) {
-    }
+    public void updateVDEMediumState(int var1);
 
-    default public void setSpokenHouseNumberUnresolved(IPicklistSlot iPicklistSlot) {
-    }
+    public void setSpokenHouseNumberUnresolved(IPicklistSlot var1);
 
-    default public IPicklistSlot getSpokenHouseNumberUnresolved() {
-    }
+    public IPicklistSlot getSpokenHouseNumberUnresolved();
 
-    default public void setAppInfoKrService(AppInfoKrService appInfoKrService) {
-    }
+    public void setAppInfoKrService(AppInfoKrService var1);
 
-    default public void unsetAppInfoKrService() {
-    }
+    public void unsetAppInfoKrService();
 
-    default public void setAIFCountry(boolean bl) {
-    }
+    public void setAIFCountry(boolean var1);
 
-    default public boolean getAIFCountry() {
-    }
+    public boolean getAIFCountry();
 
-    default public NaviSDSPOIOnlineService getPOIOnlineService() {
-    }
+    public NaviSDSPOIOnlineService getPOIOnlineService();
 }
 

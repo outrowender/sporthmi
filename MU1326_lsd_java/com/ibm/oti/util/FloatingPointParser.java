@@ -1,21 +1,14 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package com.ibm.oti.util;
 
-import com.ibm.oti.util.FloatingPointParser$StringExponentPair;
-
 public final class FloatingPointParser {
-    private static native double parseDblImpl(String string, int n) {
-    }
+    private static native double parseDblImpl(String var0, int var1);
 
-    private static native float parseFltImpl(String string, int n) {
-    }
+    private static native float parseFltImpl(String var0, int var1);
 
-    private static FloatingPointParser$StringExponentPair initialParse(String string, int n) {
+    private static StringExponentPair initialParse(String string, int n) {
         boolean bl = false;
         int n2 = 0;
         int n3 = 0;
@@ -53,7 +46,7 @@ public final class FloatingPointParser {
         int n5 = string.indexOf(46);
         if (n5 > -1) {
             n2 -= n4 - n5 - 1;
-            string = new StringBuffer(String.valueOf(string.substring(n3, n5))).append(string.substring(n5 + 1, n4)).toString();
+            string = String.valueOf(string.substring(n3, n5)) + string.substring(n5 + 1, n4);
         } else {
             string = string.substring(n3, n4);
         }
@@ -73,7 +66,7 @@ public final class FloatingPointParser {
             n2 += n - n4;
             string = string.substring(n3, n4);
         }
-        return new FloatingPointParser$StringExponentPair(string, n2, bl);
+        return new StringExponentPair(string, n2, bl);
     }
 
     private static double parseDblName(String string, int n) {
@@ -114,10 +107,10 @@ public final class FloatingPointParser {
             }
         }
         if (string.regionMatches(false, n2, "Infinity", 0, 8)) {
-            return bl ? 33023 : 32895;
+            return bl ? Float.NEGATIVE_INFINITY : Float.POSITIVE_INFINITY;
         }
         if (string.regionMatches(false, n2, "NaN", 0, 3)) {
-            return 49279;
+            return Float.NaN;
         }
         throw new NumberFormatException();
     }
@@ -131,9 +124,9 @@ public final class FloatingPointParser {
         if (c2 == 'y' || c2 == 'N') {
             return FloatingPointParser.parseDblName(string, n);
         }
-        FloatingPointParser$StringExponentPair floatingPointParser$StringExponentPair = FloatingPointParser.initialParse(string, n);
-        double d2 = FloatingPointParser.parseDblImpl(floatingPointParser$StringExponentPair.s, floatingPointParser$StringExponentPair.e);
-        if (floatingPointParser$StringExponentPair.negative) {
+        StringExponentPair stringExponentPair = FloatingPointParser.initialParse(string, n);
+        double d2 = FloatingPointParser.parseDblImpl(stringExponentPair.s, stringExponentPair.e);
+        if (stringExponentPair.negative) {
             d2 = -d2;
         }
         return d2;
@@ -148,12 +141,24 @@ public final class FloatingPointParser {
         if (c2 == 'y' || c2 == 'N') {
             return FloatingPointParser.parseFltName(string, n);
         }
-        FloatingPointParser$StringExponentPair floatingPointParser$StringExponentPair = FloatingPointParser.initialParse(string, n);
-        float f2 = FloatingPointParser.parseFltImpl(floatingPointParser$StringExponentPair.s, floatingPointParser$StringExponentPair.e);
-        if (floatingPointParser$StringExponentPair.negative) {
+        StringExponentPair stringExponentPair = FloatingPointParser.initialParse(string, n);
+        float f2 = FloatingPointParser.parseFltImpl(stringExponentPair.s, stringExponentPair.e);
+        if (stringExponentPair.negative) {
             f2 = -f2;
         }
         return f2;
+    }
+
+    private static final class StringExponentPair {
+        String s;
+        int e;
+        boolean negative;
+
+        StringExponentPair(String string, int n, boolean bl) {
+            this.s = string;
+            this.e = n;
+            this.negative = bl;
+        }
     }
 }
 

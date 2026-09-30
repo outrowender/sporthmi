@@ -62,7 +62,7 @@ public class ListHandlingHelper {
                 break;
             }
         }
-        logChannel.log(1078071040, "copyFromBatteryControlProfileRAx with params source=%1, recordAddress=%2 calls cloneTo()", (Object)batteryControlProfileRAx, (long)n);
+        logChannel.log(1000000, "copyFromBatteryControlProfileRAx with params source=%1, recordAddress=%2 calls cloneTo()", (Object)batteryControlProfileRAx, (long)n);
         return ListHandlingHelper.cloneTo(batteryControlProfileRAx, object);
     }
 
@@ -74,7 +74,7 @@ public class ListHandlingHelper {
             String string = fieldArray[i2].getName();
             try {
                 Object object3 = clazz2.getField(fieldArray[i2].getName()).get(object);
-                logChannel.log(1078071040, "set target field '%1' to value %2", (Object)string, object3);
+                logChannel.log(1000000, "set target field '%1' to value %2", (Object)string, object3);
                 clazz.getField(string).set(object2, object3);
                 continue;
             }
@@ -98,7 +98,7 @@ public class ListHandlingHelper {
     }
 
     public static synchronized BatteryControlProfileRAx copyToBatteryControlProfileRAx(Object object, BatteryControlProfileRAx batteryControlProfileRAx) {
-        logChannel.log(1078071040, "copyToBatteryControlProfileRAx with params source=%1 calls cloneTo()", object);
+        logChannel.log(1000000, "copyToBatteryControlProfileRAx with params source=%1 calls cloneTo()", object);
         if (batteryControlProfileRAx == null) {
             batteryControlProfileRAx = new BatteryControlProfileRAx();
         }
@@ -135,7 +135,7 @@ public class ListHandlingHelper {
     }
 
     public static synchronized BatteryControlPowerProviderRAx[] copyToBatteryControlPowerProviderArray(Object[] objectArray, int n) {
-        logChannel.log(1078071040, "copyToBatteryControlPowerProviderArray: sourceArray=%1, sourceRecordAddress=%2", (long)n);
+        logChannel.log(1000000, "copyToBatteryControlPowerProviderArray: sourceArray=%1, sourceRecordAddress=%2", (long)n);
         BatteryControlPowerProviderRAx[] batteryControlPowerProviderRAxArray = new BatteryControlPowerProviderRAx[objectArray.length];
         for (int i2 = 0; i2 < objectArray.length; ++i2) {
             batteryControlPowerProviderRAxArray[i2] = ListHandlingHelper.copyToBatteryControlPowerProviderRAx(objectArray[i2], n);
@@ -145,7 +145,7 @@ public class ListHandlingHelper {
 
     public static synchronized BatteryControlPowerProviderRAx copyToBatteryControlPowerProviderRAx(Object object, int n) {
         BatteryControlPowerProviderRAx batteryControlPowerProviderRAx = new BatteryControlPowerProviderRAx();
-        logChannel.log(1078071040, "copyToBatteryControlPowerProviderRAx with params source=%1, recordAddress=%2 calls cloneTo()", object, (long)n);
+        logChannel.log(1000000, "copyToBatteryControlPowerProviderRAx with params source=%1, recordAddress=%2 calls cloneTo()", object, (long)n);
         return (BatteryControlPowerProviderRAx)ListHandlingHelper.cloneTo(object, batteryControlPowerProviderRAx);
     }
 

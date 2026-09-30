@@ -3,7 +3,6 @@
  */
 package de.audi.app.tuner.truffles;
 
-import de.audi.app.tuner.truffles.RadioSearchListRow$TokenComparator;
 import de.audi.atip.hmi.model.TextListCellHighlightText;
 import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.search.util.SearchResultListRow;
@@ -11,25 +10,27 @@ import de.audi.atip.search.util.TextLineList;
 import de.audi.tuner.app.RadioObjectIds;
 import de.audi.tuner.app.Utilities;
 import de.audi.tuner.ifc.ISimpleTuner;
+import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Comparator;
 import org.dsi.ifc.search.SearchResult;
 import org.dsi.ifc.search.Token;
 
 public class RadioSearchListRow
 extends SearchResultListRow {
-    static final int MAX_COLUMNS;
-    private static final int LLD_TWO_COLS_EU;
-    private static final int LLD_TWO_COLS_ASIA;
-    private static final int LLD_TWO_COLS_NAR;
-    private static final int LLD_THREE_COLS;
-    private static final int INDEX_RS;
-    private static final int INDEX_FAVORITE;
-    private static final int INDEX_COLUMN1;
-    private static final int INDEX_BAND;
-    private static final int INDEX_COLUMN2;
-    private static final int INDEX_IMAGE;
-    private static final int INDEX_COLUMN3;
-    private static final RadioSearchListRow$TokenComparator TOKEN_COMPARATOR;
+    static final int MAX_COLUMNS = 7;
+    private static final int LLD_TWO_COLS_EU = 0;
+    private static final int LLD_TWO_COLS_ASIA = 1;
+    private static final int LLD_TWO_COLS_NAR = 2;
+    private static final int LLD_THREE_COLS = 3;
+    private static final int INDEX_RS = 0;
+    private static final int INDEX_FAVORITE = 1;
+    private static final int INDEX_COLUMN1 = 2;
+    private static final int INDEX_BAND = 3;
+    private static final int INDEX_COLUMN2 = 4;
+    private static final int INDEX_IMAGE = 5;
+    private static final int INDEX_COLUMN3 = 6;
+    private static final TokenComparator TOKEN_COMPARATOR = new TokenComparator();
 
     RadioSearchListRow(SearchResult searchResult) {
         super(searchResult, 7, searchResult.dataId);
@@ -91,12 +92,11 @@ extends SearchResultListRow {
         }
         this.setInteger(0, 0);
         this.setInteger(1, 0);
-        this.setHighlightTextCell(2, new TextListCellHighlightText(new StringBuffer().append(string).append(string2).toString(), new int[0]));
+        this.setHighlightTextCell(2, new TextListCellHighlightText(string + string2, new int[0]));
         this.setInteger(3, n);
         this.setHMIResourceLocator(5, ISimpleTuner.EMPTY_RL);
     }
 
-    @Override
     public EvoListRow copy() {
         return new RadioSearchListRow(this);
     }
@@ -137,8 +137,25 @@ extends SearchResultListRow {
         return this.getInteger(3);
     }
 
-    static {
-        TOKEN_COMPARATOR = new RadioSearchListRow$TokenComparator(null);
+    private static class TokenComparator
+    implements Comparator,
+    Serializable {
+        private static final long serialVersionUID = -6077009587972727353L;
+
+        private TokenComparator() {
+        }
+
+        public int compare(Object object, Object object2) {
+            Token token = (Token)object;
+            Token token2 = (Token)object2;
+            if (token.wordType == token2.wordType) {
+                return 0;
+            }
+            if (token.wordType == 22 || token.wordType == 23 && token2.wordType == 24) {
+                return -1;
+            }
+            return 1;
+        }
     }
 }
 

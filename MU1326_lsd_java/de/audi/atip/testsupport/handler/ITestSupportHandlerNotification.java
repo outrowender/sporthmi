@@ -6,13 +6,10 @@ package de.audi.atip.testsupport.handler;
 import de.audi.atip.testsupport.TestSupportDataReceiverEntry;
 
 public interface ITestSupportHandlerNotification {
-    default public void debugDataVisible(boolean bl) {
-    }
+    public void debugDataVisible(boolean var1);
 
-    default public void commandEntrySelected(int n) {
-    }
+    public void commandEntrySelected(int var1);
 
-    default public TestSupportDataReceiverEntry[] getCommandEntries() {
-    }
+    public TestSupportDataReceiverEntry[] getCommandEntries();
 }
 

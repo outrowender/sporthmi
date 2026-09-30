@@ -43,10 +43,9 @@ ITestSupportHandler {
         this.listener = iTestSupportHandlerNotification;
         this.bundleContext = bundleContext;
         this.logChannel = logChannel;
-        this.providerSession = new NullTestSupportSession(-1601830656, logChannel);
+        this.providerSession = new NullTestSupportSession(100000, logChannel);
     }
 
-    @Override
     public void init() {
         this.tracker = new ServiceTracker(this.bundleContext, (class$de$audi$atip$testsupport$ITestSupportService == null ? (class$de$audi$atip$testsupport$ITestSupportService = TestSupportHandler.class$("de.audi.atip.testsupport.ITestSupportService")) : class$de$audi$atip$testsupport$ITestSupportService).getName(), (ServiceTrackerCustomizer)this);
         this.tracker.open();
@@ -55,13 +54,12 @@ ITestSupportHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void deinit() {
         Object object = this.mutex;
         synchronized (object) {
             if (this.service != null) {
                 this.providerSession.activateMenuEntry(false);
-                this.providerSession = new NullTestSupportSession(-1601830656, this.logChannel);
+                this.providerSession = new NullTestSupportSession(100000, this.logChannel);
                 this.service.deRegisterDataProvider(this);
             }
             if (this.tracker != null) {
@@ -71,37 +69,30 @@ ITestSupportHandler {
         }
     }
 
-    @Override
     public void updateData(String[] stringArray) {
         this.providerSession.updateData(stringArray);
     }
 
-    @Override
     public void updateCommandList() {
         this.receiverSession.entriesUpdated();
     }
 
-    @Override
     public void updateStatus(int n) {
         this.listener.debugDataVisible(n == 2 || n == 3);
     }
 
-    @Override
     public String getDataProviderName() {
         return this.name;
     }
 
-    @Override
     public String getName() {
         return this.name;
     }
 
-    @Override
     public void entrySelected(int n) {
         this.listener.commandEntrySelected(n);
     }
 
-    @Override
     public TestSupportDataReceiverEntry[] getEntries() {
         return this.listener.getCommandEntries();
     }
@@ -109,7 +100,6 @@ ITestSupportHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.mutex;
         synchronized (object) {
@@ -128,19 +118,17 @@ ITestSupportHandler {
         }
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         Object object2 = this.mutex;
         synchronized (object2) {
             this.bundleContext.ungetService(serviceReference);
-            this.providerSession = new NullTestSupportSession(-1601830656, this.logChannel);
+            this.providerSession = new NullTestSupportSession(100000, this.logChannel);
             this.service = null;
             this.listener.debugDataVisible(false);
         }

@@ -19,30 +19,23 @@ extends AbstractListAdapterFastList {
         super(arrayHandler);
     }
 
-    @Override
     protected final DSIListener getDSIListener() {
         return this.dsiListener;
     }
 
-    @Override
     protected final Class getDSIListenerClass() {
         return class$org$dsi$ifc$kombifastlist$DSIFastListScrollingNavigationListener == null ? (class$org$dsi$ifc$kombifastlist$DSIFastListScrollingNavigationListener = AbstractListAdapterFastListNavi.class$("org.dsi.ifc.kombifastlist.DSIFastListScrollingNavigationListener")) : class$org$dsi$ifc$kombifastlist$DSIFastListScrollingNavigationListener;
     }
 
-    public abstract void setNotificationLastDestinationsList(boolean bl) {
-    }
+    public abstract void setNotificationLastDestinationsList(boolean var1);
 
-    public abstract void setNotificationFavoriteDestinationsList(boolean bl) {
-    }
+    public abstract void setNotificationFavoriteDestinationsList(boolean var1);
 
-    public abstract void setNotificationCurrentListSizes(boolean bl) {
-    }
+    public abstract void setNotificationCurrentListSizes(boolean var1);
 
-    public abstract void addNavBookJob(int n, int n2, ArrayHeader arrayHeader) {
-    }
+    public abstract void addNavBookJob(int var1, int var2, ArrayHeader var3);
 
-    public abstract void addNavBookJobs(int n, int n2, ArrayHeader[] arrayHeaderArray) {
-    }
+    public abstract void addNavBookJobs(int var1, int var2, ArrayHeader[] var3);
 
     static /* synthetic */ Class class$(String string) {
         try {

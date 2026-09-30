@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class ActionProxyDispatcherImpl
 implements IActionProxyDispatcher {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "ActionProxyDispatcherImpl";
     private final LogChannel logger;
     private final Map listenerMap;
 
@@ -29,14 +29,13 @@ implements IActionProxyDispatcher {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void deinit() {
-        this.logger.log(1078071040, "[%1.deinit] Deinit.", (Object)"ActionProxyDispatcherImpl");
+        this.logger.log(1000000, "[%1.deinit] Deinit.", (Object)LOGCLASS);
         Map map = this.listenerMap;
         synchronized (map) {
             this.listenerMap.clear();
         }
     }
 
-    @Override
     public LogChannel getLogChannel() {
         return this.logger;
     }
@@ -44,10 +43,9 @@ implements IActionProxyDispatcher {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void addActionProxyListener(int n, int n2, IActionProxyListener iActionProxyListener) {
         ActionProxyMethod actionProxyMethod = new ActionProxyMethod(n, n2);
-        this.logger.log(1078071040, "[%1.addActionProxyListener] %2, '%3'", (Object)"ActionProxyDispatcherImpl", (Object)actionProxyMethod, (Object)iActionProxyListener);
+        this.logger.log(1000000, "[%1.addActionProxyListener] %2, '%3'", (Object)LOGCLASS, (Object)actionProxyMethod, (Object)iActionProxyListener);
         Map map = this.listenerMap;
         synchronized (map) {
             LinkedList linkedList = (LinkedList)this.listenerMap.get(actionProxyMethod);
@@ -56,7 +54,7 @@ implements IActionProxyDispatcher {
                 this.listenerMap.put(actionProxyMethod, linkedList);
             }
             if (linkedList.contains(iActionProxyListener)) {
-                this.logger.log(1078071040, "[%1.addActionProxyListener] Already added.", (Object)"ActionProxyDispatcherImpl");
+                this.logger.log(1000000, "[%1.addActionProxyListener] Already added.", (Object)LOGCLASS);
                 return;
             }
             linkedList.add(iActionProxyListener);
@@ -66,9 +64,8 @@ implements IActionProxyDispatcher {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void removeActionProxyListener(int n, IActionProxyListener iActionProxyListener) {
-        this.logger.log(1078071040, "[%1.removeActionProxyListener] '%2', '%3'", (Object)"ActionProxyDispatcherImpl", (Object)MediaUtils.getTerminalIDToStr(n), (Object)iActionProxyListener);
+        this.logger.log(1000000, "[%1.removeActionProxyListener] '%2', '%3'", (Object)LOGCLASS, (Object)MediaUtils.getTerminalIDToStr(n), (Object)iActionProxyListener);
         Map map = this.listenerMap;
         synchronized (map) {
             Iterator iterator = this.listenerMap.keySet().iterator();
@@ -84,7 +81,6 @@ implements IActionProxyDispatcher {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void notifyActionProxyCall(int n, int n2, Map map) {
         LinkedList linkedList;
         if (map == null) {
@@ -105,7 +101,7 @@ implements IActionProxyDispatcher {
                 ((IActionProxyListener)object.next()).actionProxyCallPerformed(actionProxyMethod.getMethodID(), map);
             }
             catch (Exception exception) {
-                this.logger.log(-1601830656, "[%1.notifyActionProxyCall] Error: ", (Object)"ActionProxyDispatcherImpl", (Throwable)exception);
+                this.logger.log(100000, "[%1.notifyActionProxyCall] Error: ", (Object)LOGCLASS, (Throwable)exception);
             }
         }
     }

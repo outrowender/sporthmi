@@ -4,7 +4,6 @@
 package de.audi.remotehmi;
 
 public interface IRemoteHMIAuthenticationProvider {
-    default public void deletePairingCode() {
-    }
+    public void deletePairingCode();
 }
 

@@ -10,84 +10,58 @@ import de.audi.atip.hmi.modelaccess.HMIModelApp;
 
 public interface ListModelApp
 extends HMIModelApp {
-    public static final int NO_SELECTION;
+    public static final int NO_SELECTION = -1;
 
-    default public void setCell(int n, int n2, ListCell listCell) {
-    }
+    public void setCell(int var1, int var2, ListCell var3);
 
-    default public ListCell getCell(int n, int n2) {
-    }
+    public ListCell getCell(int var1, int var2);
 
-    default public Class getColumnType(int n) {
-    }
+    public Class getColumnType(int var1);
 
-    default public int getLength() {
-    }
+    public int getLength();
 
-    default public int getLengthOnTransaction() {
-    }
+    public int getLengthOnTransaction();
 
-    default public void setListListener(ListListener listListener) {
-    }
+    public void setListListener(ListListener var1);
 
-    default public void setMaxColumns(int n) {
-    }
+    public void setMaxColumns(int var1);
 
-    default public int getMaxColumns() {
-    }
+    public int getMaxColumns();
 
-    default public void setMaxRows(int n) {
-    }
+    public void setMaxRows(int var1);
 
-    default public int getMaxRows() {
-    }
+    public int getMaxRows();
 
-    default public void setRow(int n, BaseListRow baseListRow) {
-    }
+    public void setRow(int var1, BaseListRow var2);
 
-    default public void setRow(int n, ListCell listCell) {
-    }
+    public void setRow(int var1, ListCell var2);
 
-    default public void setRow(int n, ListCell[] listCellArray) {
-    }
+    public void setRow(int var1, ListCell[] var2);
 
-    default public boolean getRow(int n, ListCell[] listCellArray) {
-    }
+    public boolean getRow(int var1, ListCell[] var2);
 
-    default public BaseListRow getRow(int n) {
-    }
+    public BaseListRow getRow(int var1);
 
-    default public BaseListRow getRowOnTransaction(int n) {
-    }
+    public BaseListRow getRowOnTransaction(int var1);
 
-    default public void setSelected(int n) {
-    }
+    public void setSelected(int var1);
 
-    default public int getSelected() {
-    }
+    public int getSelected();
 
-    default public void addRow(BaseListRow baseListRow) {
-    }
+    public void addRow(BaseListRow var1);
 
-    default public void addRow(ListCell listCell) {
-    }
+    public void addRow(ListCell var1);
 
-    default public void addRow(ListCell[] listCellArray) {
-    }
+    public void addRow(ListCell[] var1);
 
-    default public void clear() {
-    }
+    public void clear();
 
-    default public void insertRow(int n, BaseListRow baseListRow) {
-    }
+    public void insertRow(int var1, BaseListRow var2);
 
-    default public void insertRow(int n, ListCell listCell) {
-    }
+    public void insertRow(int var1, ListCell var2);
 
-    default public void insertRow(int n, ListCell[] listCellArray) {
-    }
+    public void insertRow(int var1, ListCell[] var2);
 
-    default public void removeRow(int n) {
-    }
+    public void removeRow(int var1);
 }
 

@@ -21,9 +21,8 @@ implements NaviSDSPOIOnlineServiceListener {
     NaviSDSPOIOnlineServiceListenerImpl() {
     }
 
-    @Override
     public void poiOnlineSetSearchAreaResult(byte by) {
-        this.lc.log(-2137614336, "NaviSDSPOIOnlineServiceListenerImpl#poiOnlineSetSearchAreaResult: status=%1", (long)by);
+        this.lc.log(10000000, "NaviSDSPOIOnlineServiceListenerImpl#poiOnlineSetSearchAreaResult: status=%1", (long)by);
         try {
             ((NaviPOIOnlineSearchAreaSetCommand)SDSUtils.getActiveSystemCall()).poiOnlineSetSearchAreaResult(by);
         }
@@ -35,9 +34,8 @@ implements NaviSDSPOIOnlineServiceListener {
         }
     }
 
-    @Override
     public void poiOnlineSearchDidYouMeanResult(byte by) {
-        this.lc.log(-2137614336, "NaviSDSPOIOnlineServiceListenerImpl#poiOnlineSearchDidYouMeanResult: status=%1", (long)by);
+        this.lc.log(10000000, "NaviSDSPOIOnlineServiceListenerImpl#poiOnlineSearchDidYouMeanResult: status=%1", (long)by);
         try {
             ((NaviPOIOnlineDidYouMeanCommand)SDSUtils.getActiveSystemCall()).poiOnlineSearchDidYouMeanResult(by);
         }
@@ -49,26 +47,25 @@ implements NaviSDSPOIOnlineServiceListener {
         }
     }
 
-    @Override
     public void updatePOIOnlineSearchResults(byte by, String string, String[] stringArray) {
-        this.lc.log(-2137614336, "[NaviSDSPOIOnlineServiceListenerImpl#updatePOIOnlineSearchResults] status=%3, recognizedTerm=%1, suggestions=%2", (Object)string, (Object)stringArray, (long)by);
+        this.lc.log(10000000, "[NaviSDSPOIOnlineServiceListenerImpl#updatePOIOnlineSearchResults] status=%3, recognizedTerm=%1, suggestions=%2", (Object)string, (Object)stringArray, (long)by);
         if (!this.checkPOIOnlineStatus(by)) {
-            this.lc.log(-2137614336, "[NaviSDSPOIOnlineServiceListenerImpl#updatePOIOnlineSearchResults] POI error detected, status NaviSDSPOIOnlineServiceListenerImpl was handled!", (long)by);
+            this.lc.log(10000000, "[NaviSDSPOIOnlineServiceListenerImpl#updatePOIOnlineSearchResults] POI error detected, status NaviSDSPOIOnlineServiceListenerImpl was handled!", (long)by);
             return;
         }
         if (!SDSUtils.isEmpty(string)) {
             SDSModelAccess.setSlotModel(1, string);
         }
         if (!SDSUtils.isEmpty(stringArray) || this.useSuggestions) {
-            this.lc.log(-2137614336, "[NaviSDSPOIOnlineServiceListenerImpl#updatePOIOnlineSearchResults] useSuggestions=%1, non-empty spelling suggestions assumed!", this.useSuggestions);
+            this.lc.log(10000000, "[NaviSDSPOIOnlineServiceListenerImpl#updatePOIOnlineSearchResults] useSuggestions=%1, non-empty spelling suggestions assumed!", this.useSuggestions);
             SDSModelAccess.setNaviPOIOnlineRecognitionStatus(7, 1);
             return;
         }
-        this.lc.log(-2137614336, "[NaviSDSPOIOnlineServiceListenerImpl#updatePOIOnlineSearchResults] Everything OK!");
+        this.lc.log(10000000, "[NaviSDSPOIOnlineServiceListenerImpl#updatePOIOnlineSearchResults] Everything OK!");
     }
 
     private boolean checkPOIOnlineStatus(byte by) {
-        this.lc.log(-2137614336, "NaviSDSPOIOnlineServiceListenerImpl#checkPOIOnlineStatus: status=%1", (long)by);
+        this.lc.log(10000000, "NaviSDSPOIOnlineServiceListenerImpl#checkPOIOnlineStatus: status=%1", (long)by);
         boolean bl = false;
         byte by2 = by;
         switch (by) {
@@ -85,11 +82,11 @@ implements NaviSDSPOIOnlineServiceListener {
             case 7: 
             case 8: 
             case 9: {
-                this.lc.log(-2137614336, "NaviSDSPOIOnlineServiceListenerImpl#checkPOIOnlineStatus: Handled replyCode %1!", (long)by);
+                this.lc.log(10000000, "NaviSDSPOIOnlineServiceListenerImpl#checkPOIOnlineStatus: Handled replyCode %1!", (long)by);
                 break;
             }
             default: {
-                this.lc.log(-1601830656, "NaviSDSPOIOnlineServiceListenerImpl#checkPOIOnlineStatus: Unhandled replyCode %1!", (long)by);
+                this.lc.log(100000, "NaviSDSPOIOnlineServiceListenerImpl#checkPOIOnlineStatus: Unhandled replyCode %1!", (long)by);
                 by2 = 1;
             }
         }
@@ -97,15 +94,13 @@ implements NaviSDSPOIOnlineServiceListener {
         return bl;
     }
 
-    @Override
     public void setSuggestions(boolean bl) {
-        this.lc.log(-2137614336, "NaviSDSPOIOnlineServiceListenerImpl#setSuggestions: suggestions=%1", bl);
+        this.lc.log(10000000, "NaviSDSPOIOnlineServiceListenerImpl#setSuggestions: suggestions=%1", bl);
         this.useSuggestions = bl;
     }
 
-    @Override
     public void responseSelectDestination(NavLocation navLocation) {
-        this.lc.log(-2137614336, "NaviSDSPOIOnlineServiceListenerImpl#responseSelectDestination: navLocation=%1", (Object)navLocation);
+        this.lc.log(10000000, "NaviSDSPOIOnlineServiceListenerImpl#responseSelectDestination: navLocation=%1", (Object)navLocation);
         try {
             ((NaviPOIOnlineSelectDestinationCommand)SDSUtils.getActiveSystemCall()).responseSelectDestination(navLocation);
         }

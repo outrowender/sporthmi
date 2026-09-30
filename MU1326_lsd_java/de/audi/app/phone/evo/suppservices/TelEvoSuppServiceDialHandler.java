@@ -4,41 +4,36 @@
 package de.audi.app.phone.evo.suppservices;
 
 import de.audi.app.phone.core.ITelApplication;
+import de.audi.app.phone.core.power.TelDefaultPowerEventListener;
 import de.audi.app.phone.core.state.IGlobalTelephoneStateStruct;
 import de.audi.app.phone.core.suppservices.AbstractTelDialSuppServiceHandler;
-import de.audi.app.phone.evo.suppservices.TelEvoSuppServiceDialHandler$ClampListener;
-import de.audi.app.phone.evo.suppservices.TelEvoSuppServiceDialHandler$SuppServiceShowPopupRunnable;
 import de.audi.atip.job.JobLogger;
-import de.audi.atip.log.LogChannel;
 import de.esolutions.fw.util.commons.job.DispatcherBase;
 
 public class TelEvoSuppServiceDialHandler
 extends AbstractTelDialSuppServiceHandler {
     private final DispatcherBase dispatcher;
-    private volatile TelEvoSuppServiceDialHandler$SuppServiceShowPopupRunnable pendingRequestPopup;
-    private final TelEvoSuppServiceDialHandler$ClampListener clampListener;
+    private volatile SuppServiceShowPopupRunnable pendingRequestPopup;
+    private final ClampListener clampListener;
     private volatile boolean isPhoneReady;
 
     public TelEvoSuppServiceDialHandler(ITelApplication iTelApplication) {
         super(iTelApplication);
         this.dispatcher = iTelApplication.getFrameworkAccess().getDispatcherManager().createDispatcher("TelEvoSuppServiceDialHandler#dispatcher", new JobLogger(this.log));
-        this.clampListener = new TelEvoSuppServiceDialHandler$ClampListener(this, iTelApplication);
+        this.clampListener = new ClampListener(iTelApplication);
         this.addSubPhoneComponent(this.clampListener);
     }
 
-    @Override
     public void init() {
         super.init();
         this.dispatcher.start();
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.dispatcher.stop();
     }
 
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         boolean bl;
         super.updateGlobalTelephoneStateProperty(n, iGlobalTelephoneStateStruct);
@@ -60,69 +55,64 @@ extends AbstractTelDialSuppServiceHandler {
     }
 
     private void removeAllPopups() {
-        this.removePopup(-2070674432);
-        this.removePopup(-1970011136);
-        this.removePopup(-1953233920);
-        this.removePopup(-1936456704);
-        this.removePopup(-1919679488);
-        this.removePopup(-1902902272);
-        this.removePopup(-1886125056);
-        this.removePopup(-1986788352);
-        this.removePopup(-2003565568);
-        this.removePopup(-2020342784);
-        this.removePopup(-1869347840);
-        this.removePopup(-2037120000);
-        this.removePopup(-1718352896);
-        this.removePopup(-1701575680);
-        this.removePopup(-1751907328);
-        this.removePopup(-1735130112);
-        this.removePopup(-1785461760);
-        this.removePopup(-1768684544);
+        this.removePopup(300164);
+        this.removePopup(300170);
+        this.removePopup(300171);
+        this.removePopup(300172);
+        this.removePopup(300173);
+        this.removePopup(300174);
+        this.removePopup(300175);
+        this.removePopup(300169);
+        this.removePopup(300168);
+        this.removePopup(300167);
+        this.removePopup(300176);
+        this.removePopup(300166);
+        this.removePopup(300185);
+        this.removePopup(300186);
+        this.removePopup(300183);
+        this.removePopup(300184);
+        this.removePopup(300181);
+        this.removePopup(300182);
     }
 
-    @Override
     protected void updateSuppServiceHFP() {
-        this.showPopup(-2070674432);
+        this.showPopup(300164);
     }
 
     private void hideSuppServiceHFPPartialPopup() {
-        this.removePopup(-2070674432);
+        this.removePopup(300164);
     }
 
-    @Override
     protected void updateSuppServiceRequested() {
-        this.pendingRequestPopup = this.showPartialPopup(-1970011136, true);
+        this.pendingRequestPopup = this.showPartialPopup(300170, true);
     }
 
-    @Override
     protected void updateSuppServiceResponse(boolean bl) {
         if (!bl) {
             this.showRequestNotSuccessful();
         }
     }
 
-    @Override
     protected void responseCWQuery(int n) {
         switch (n) {
             case 1: {
-                this.showResponsePopup(-1902902272);
+                this.showResponsePopup(300174);
                 break;
             }
             case 0: {
-                this.showResponsePopup(-1886125056);
+                this.showResponsePopup(300175);
                 break;
             }
             default: {
-                this.log.log(-1601830656, "[TelEvoSuppServiceDialHandler#responseCWQuery] unhandled CWSTATE %1", (long)n);
+                this.log.log(100000, "[TelEvoSuppServiceDialHandler#responseCWQuery] unhandled CWSTATE %1", (long)n);
             }
         }
     }
 
-    @Override
     protected void responseCWActivate(int n) {
         switch (n) {
             case 1: {
-                this.showResponsePopup(-1785461760);
+                this.showResponsePopup(300181);
                 break;
             }
             case 0: {
@@ -130,19 +120,18 @@ extends AbstractTelDialSuppServiceHandler {
                 break;
             }
             default: {
-                this.log.log(-1601830656, "[TelEvoSuppServiceDialHandler#responseCWQuery] unhandled CWSTATE %1", (long)n);
+                this.log.log(100000, "[TelEvoSuppServiceDialHandler#responseCWQuery] unhandled CWSTATE %1", (long)n);
             }
         }
     }
 
     private void showResponsePopup(int n) {
         if (this.pendingRequestPopup != null) {
-            TelEvoSuppServiceDialHandler$SuppServiceShowPopupRunnable.access$000(this.pendingRequestPopup, n);
+            this.pendingRequestPopup.responseReceived(n);
             this.pendingRequestPopup = null;
         }
     }
 
-    @Override
     protected void responseCWDeactivate(int n) {
         switch (n) {
             case 1: {
@@ -150,163 +139,197 @@ extends AbstractTelDialSuppServiceHandler {
                 break;
             }
             case 0: {
-                this.showResponsePopup(-1768684544);
+                this.showResponsePopup(300182);
                 break;
             }
             default: {
-                this.log.log(-1601830656, "[TelEvoSuppServiceDialHandler#responseCWQuery] unhandled CWSTATE %1", (long)n);
+                this.log.log(100000, "[TelEvoSuppServiceDialHandler#responseCWQuery] unhandled CWSTATE %1", (long)n);
             }
         }
     }
 
-    @Override
     protected void responseCLIRQuery(int n) {
         switch (n) {
             case 0: {
-                this.showResponsePopup(-2037120000);
+                this.showResponsePopup(300166);
                 break;
             }
             case 2: {
-                this.showResponsePopup(-2020342784);
+                this.showResponsePopup(300167);
                 break;
             }
             case 1: {
-                this.showResponsePopup(-1869347840);
+                this.showResponsePopup(300176);
                 break;
             }
             default: {
-                this.log.log(1078071040, "[TelEvoSuppServiceDialHandler#responseCLIRQuery] unhandled telCLIRState=%1", (long)n);
+                this.log.log(1000000, "[TelEvoSuppServiceDialHandler#responseCLIRQuery] unhandled telCLIRState=%1", (long)n);
             }
         }
     }
 
-    @Override
     protected void responseCLIRDoNotSendOwnNumber(int n) {
         if (n == 1) {
-            this.showResponsePopup(-1751907328);
+            this.showResponsePopup(300183);
         } else {
             this.showRequestNotSuccessful();
         }
     }
 
-    @Override
     protected void responseCLIRSendOwnNumber(int n) {
         if (n == 2) {
-            this.showResponsePopup(-1735130112);
+            this.showResponsePopup(300184);
         } else {
             this.showRequestNotSuccessful();
         }
     }
 
-    @Override
     protected void responseCFQuery(boolean bl) {
         if (bl) {
-            this.showResponsePopup(-1986788352);
+            this.showResponsePopup(300169);
         } else {
-            this.showResponsePopup(-2003565568);
+            this.showResponsePopup(300168);
         }
     }
 
-    @Override
     protected void responseCFActivate(boolean bl) {
         if (bl) {
-            this.showResponsePopup(-1718352896);
+            this.showResponsePopup(300185);
         } else {
             this.showRequestNotSuccessful();
         }
     }
 
-    @Override
     protected void responseCFDeactivate(boolean bl) {
         if (bl) {
             this.showRequestNotSuccessful();
         } else {
-            this.showResponsePopup(-1701575680);
+            this.showResponsePopup(300186);
         }
     }
 
-    @Override
     protected void responseCFDelete(boolean bl) {
         if (bl) {
             this.showRequestNotSuccessful();
         } else {
-            this.showResponsePopup(-1701575680);
+            this.showResponsePopup(300186);
         }
     }
 
-    @Override
     protected void responseCFRegistration(boolean bl) {
         if (bl) {
-            this.showResponsePopup(-1718352896);
+            this.showResponsePopup(300185);
         } else {
             this.showRequestNotSuccessful();
         }
     }
 
-    @Override
     protected void responseSimPinChanged(boolean bl) {
         if (bl) {
-            this.showResponsePopup(-1953233920);
+            this.showResponsePopup(300171);
         }
     }
 
-    @Override
     protected void responseUSSD(boolean bl) {
         if (bl) {
-            this.showResponsePopup(-1919679488);
+            this.showResponsePopup(300173);
         } else {
             this.showRequestNotSuccessful();
         }
     }
 
     protected void showRequestNotSuccessful() {
-        this.showResponsePopup(-1936456704);
+        this.showResponsePopup(300172);
     }
 
-    private TelEvoSuppServiceDialHandler$SuppServiceShowPopupRunnable showPartialPopup(int n, boolean bl) {
-        TelEvoSuppServiceDialHandler$SuppServiceShowPopupRunnable telEvoSuppServiceDialHandler$SuppServiceShowPopupRunnable = new TelEvoSuppServiceDialHandler$SuppServiceShowPopupRunnable(this, n, bl, null);
-        this.dispatcher.execute(telEvoSuppServiceDialHandler$SuppServiceShowPopupRunnable);
-        return telEvoSuppServiceDialHandler$SuppServiceShowPopupRunnable;
+    private SuppServiceShowPopupRunnable showPartialPopup(int n, boolean bl) {
+        SuppServiceShowPopupRunnable suppServiceShowPopupRunnable = new SuppServiceShowPopupRunnable(n, bl);
+        this.dispatcher.execute(suppServiceShowPopupRunnable);
+        return suppServiceShowPopupRunnable;
     }
 
-    static /* synthetic */ LogChannel access$200(TelEvoSuppServiceDialHandler telEvoSuppServiceDialHandler) {
-        return telEvoSuppServiceDialHandler.log;
+    private class ClampListener
+    extends TelDefaultPowerEventListener {
+        public ClampListener(ITelApplication iTelApplication) {
+            super(iTelApplication);
+        }
+
+        public void updateClampState(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
+            if (!bl && !bl2) {
+                TelEvoSuppServiceDialHandler.this.hideSuppServiceHFPPartialPopup();
+            }
+        }
     }
 
-    static /* synthetic */ void access$300(TelEvoSuppServiceDialHandler telEvoSuppServiceDialHandler, int n) {
-        telEvoSuppServiceDialHandler.showPopup(n);
-    }
+    private class SuppServiceShowPopupRunnable
+    implements Runnable {
+        private static final long MIN_SHOW_TIME = 3000L;
+        private static final int POPUP_NONE = 0;
+        private final int requestPopupId;
+        private final Object minShowTimeMutext = new Object();
+        private final Object responseMutex = new Object();
+        private final boolean waitForResponse;
+        private volatile boolean responseReceived;
+        private volatile int responsePopupId;
 
-    static /* synthetic */ LogChannel access$400(TelEvoSuppServiceDialHandler telEvoSuppServiceDialHandler) {
-        return telEvoSuppServiceDialHandler.log;
-    }
+        private SuppServiceShowPopupRunnable(int n, boolean bl) {
+            this.requestPopupId = n;
+            this.waitForResponse = bl;
+        }
 
-    static /* synthetic */ LogChannel access$500(TelEvoSuppServiceDialHandler telEvoSuppServiceDialHandler) {
-        return telEvoSuppServiceDialHandler.log;
-    }
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void run() {
+            TelEvoSuppServiceDialHandler.this.log.log(10000000, "[TelEvoSuppServiceDialHandler.SuppServiceShowPopupRunnable#run] showing request popup %1", (long)this.requestPopupId);
+            TelEvoSuppServiceDialHandler.this.showPopup(this.requestPopupId);
+            Object object = this.minShowTimeMutext;
+            synchronized (object) {
+                try {
+                    this.minShowTimeMutext.wait(3000L);
+                }
+                catch (InterruptedException interruptedException) {
+                    TelEvoSuppServiceDialHandler.this.log.log(100000, "[TelEvoSuppServiceDialHandler.SuppServicePopupRunnable#run]", (Throwable)interruptedException);
+                    Thread.interrupted();
+                }
+            }
+            if (this.waitForResponse) {
+                object = this.responseMutex;
+                synchronized (object) {
+                    if (!this.responseReceived) {
+                        try {
+                            this.responseMutex.wait();
+                        }
+                        catch (InterruptedException interruptedException) {
+                            TelEvoSuppServiceDialHandler.this.log.log(100000, "[TelEvoSuppServiceDialHandler.SuppServicePopupRunnable#run]", (Throwable)interruptedException);
+                            Thread.interrupted();
+                        }
+                    }
+                }
+                if (this.responseReceived && this.responsePopupId != 0) {
+                    TelEvoSuppServiceDialHandler.this.log.log(10000000, "[TelEvoSuppServiceDialHandler.SuppServiceShowPopupRunnable#run] showing response popup %1", (long)this.responsePopupId);
+                    TelEvoSuppServiceDialHandler.this.showPopup(this.responsePopupId);
+                    TelEvoSuppServiceDialHandler.this.log.log(10000000, "[TelEvoSuppServiceDialHandler.SuppServiceShowPopupRunnable#run] removing request popup %1", (long)this.requestPopupId);
+                    TelEvoSuppServiceDialHandler.this.removePopup(this.requestPopupId);
+                }
+            } else {
+                TelEvoSuppServiceDialHandler.this.log.log(10000000, "[TelEvoSuppServiceDialHandler.SuppServiceShowPopupRunnable#run] removing request popup %1", (long)this.requestPopupId);
+                TelEvoSuppServiceDialHandler.this.removePopup(this.requestPopupId);
+            }
+        }
 
-    static /* synthetic */ LogChannel access$600(TelEvoSuppServiceDialHandler telEvoSuppServiceDialHandler) {
-        return telEvoSuppServiceDialHandler.log;
-    }
-
-    static /* synthetic */ LogChannel access$700(TelEvoSuppServiceDialHandler telEvoSuppServiceDialHandler) {
-        return telEvoSuppServiceDialHandler.log;
-    }
-
-    static /* synthetic */ void access$800(TelEvoSuppServiceDialHandler telEvoSuppServiceDialHandler, int n) {
-        telEvoSuppServiceDialHandler.removePopup(n);
-    }
-
-    static /* synthetic */ LogChannel access$900(TelEvoSuppServiceDialHandler telEvoSuppServiceDialHandler) {
-        return telEvoSuppServiceDialHandler.log;
-    }
-
-    static /* synthetic */ LogChannel access$1000(TelEvoSuppServiceDialHandler telEvoSuppServiceDialHandler) {
-        return telEvoSuppServiceDialHandler.log;
-    }
-
-    static /* synthetic */ void access$1100(TelEvoSuppServiceDialHandler telEvoSuppServiceDialHandler) {
-        telEvoSuppServiceDialHandler.hideSuppServiceHFPPartialPopup();
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        private void responseReceived(int n) {
+            TelEvoSuppServiceDialHandler.this.log.log(10000000, "[TelEvoSuppServiceDialHandler.SuppServiceShowPopupRunnable#responseReceived] responsePopupId=%1", (long)n);
+            Object object = this.responseMutex;
+            synchronized (object) {
+                this.responsePopupId = n;
+                this.responseReceived = true;
+                this.responseMutex.notifyAll();
+            }
+        }
     }
 }
 

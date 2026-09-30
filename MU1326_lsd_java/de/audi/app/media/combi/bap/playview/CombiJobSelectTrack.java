@@ -13,7 +13,7 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class CombiJobSelectTrack
 extends AbstractCombiPlayViewJob {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "CombiJobSelectTrack";
     private final long entryID;
 
     public CombiJobSelectTrack(LogChannel logChannel, CombiBAPPlayViewContentAdapter combiBAPPlayViewContentAdapter, long l) {
@@ -21,26 +21,23 @@ extends AbstractCombiPlayViewJob {
         this.entryID = l;
     }
 
-    @Override
     public int getType() {
         return 5;
     }
 
-    @Override
     public String getName() {
         return "SELECTTRACK";
     }
 
-    @Override
     public void start() {
         this.getCombiAdapter().getPlayer().playEntry(this.entryID);
     }
 
     public void detailInfoChanged(MediaDetailInfo mediaDetailInfo) {
-        this.logger.log(14808325, "[%1.detailInfoChanged]", (Object)"CombiJobSelectTrack");
+        this.logger.log(100000000, "[%1.detailInfoChanged]", (Object)LOGCLASS);
         this.getCombiAdapter().getState().setCurrentDetailInfo(mediaDetailInfo);
         if (!this.getCombiAdapter().getPlayer().requestPlayViewListEntryBased(this.getCombiAdapter().getClientID(), mediaDetailInfo.getEntryID(), 1)) {
-            this.logger.log(1078071040, "[%1.detailInfoChanged] List request failed.", (Object)"CombiJobSelectTrack");
+            this.logger.log(1000000, "[%1.detailInfoChanged] List request failed.", (Object)LOGCLASS);
             this.getCombiAdapter().getState().setAbsolutePositionCurrentTrack(0);
             this.sendDetailInfo();
             this.getCombiAdapter().getCombiAccessor().selectListEntryResult(true);
@@ -48,27 +45,24 @@ extends AbstractCombiPlayViewJob {
         }
     }
 
-    @Override
     public void abort(boolean bl) {
         if (!bl) {
             return;
         }
-        this.logger.log(1078071040, "[%1.abort]", (Object)"CombiJobSelectTrack");
+        this.logger.log(1000000, "[%1.abort]", (Object)LOGCLASS);
         this.getCombiAdapter().getCombiAccessor().selectListEntryResult(false);
     }
 
-    @Override
     public void responsePlayViewList(int n, MediaListEntry[] mediaListEntryArray) {
-        this.logger.log(14808325, "[%1.responsePlayViewList]", (Object)"CombiJobSelectTrack");
+        this.logger.log(100000000, "[%1.responsePlayViewList]", (Object)LOGCLASS);
         this.getCombiAdapter().getState().setAbsolutePositionCurrentTrack(CombiBAPUtils.getAbsolutePosition(this.getCombiAdapter().getState().getCurrentDetailInfo().getEntryID(), this.getCombiAdapter().getState().getCurrentDetailInfo().getContentType(), mediaListEntryArray, n));
         this.sendDetailInfo();
         this.getCombiAdapter().getCombiAccessor().selectListEntryResult(true);
         this.getExecutionContext().jobFinished();
     }
 
-    @Override
     public void errorListRequestAborted() {
-        this.logger.log(1078071040, "[%1.errorListRequestAborted]", (Object)"CombiJobSelectTrack");
+        this.logger.log(1000000, "[%1.errorListRequestAborted]", (Object)LOGCLASS);
         this.getCombiAdapter().getState().setAbsolutePositionCurrentTrack(0);
         this.sendDetailInfo();
         this.getCombiAdapter().getCombiAccessor().selectListEntryResult(true);

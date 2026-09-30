@@ -4,7 +4,6 @@
 package de.audi.atip.testsupport;
 
 public interface ITestSupportReceiverSession {
-    default public void entriesUpdated() {
-    }
+    public void entriesUpdated();
 }
 

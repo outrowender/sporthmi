@@ -7,7 +7,6 @@ import java.util.ListResourceBundle;
 
 public class Variant
 extends ListResourceBundle {
-    @Override
     protected Object[][] getContents() {
         Object[][] objectArray = new Object[][]{{"EURO", "Euro"}, {"HK", "HK"}, {"NY", "Nynorsk"}, {"PREEURO", "PREEURO"}, {"TH", "TH"}};
         return objectArray;

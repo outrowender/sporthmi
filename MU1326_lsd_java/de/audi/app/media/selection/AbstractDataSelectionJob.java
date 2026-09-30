@@ -36,12 +36,10 @@ implements IDataSelectionJob {
         this.state = 1;
     }
 
-    @Override
     public int getType() {
         return 0;
     }
 
-    @Override
     public void abort(boolean bl) {
         this.selectionBrowser.responseSetSelection(false, this.selectionContainer);
         if (bl) {
@@ -50,13 +48,11 @@ implements IDataSelectionJob {
         }
     }
 
-    @Override
     public void start() {
         this.setState(1);
         this.selectionBrowser.activate(this.selectionContainer.getSourceSlot());
     }
 
-    @Override
     public void browserActivated() {
         this.setState(2);
         this.selectionBrowser.setBrowseMode(this.selectionContainer.getBrowseMode());
@@ -70,7 +66,6 @@ implements IDataSelectionJob {
         return false;
     }
 
-    @Override
     public void browseModeChanged(boolean bl, int n) {
         if (bl) {
             this.browseModeError();
@@ -84,7 +79,6 @@ implements IDataSelectionJob {
         }
     }
 
-    @Override
     public void browseFolderChanged(boolean bl, MediaListEntry[] mediaListEntryArray, int n) {
         if (bl) {
             this.browseFolderError();
@@ -96,14 +90,10 @@ implements IDataSelectionJob {
         this.performSelection();
     }
 
-    @Override
-    public abstract void responseList(boolean bl, MediaListEntry[] mediaListEntryArray, int n) {
-    }
+    public abstract void responseList(boolean var1, MediaListEntry[] var2, int var3);
 
-    public abstract void performSelection() {
-    }
+    public abstract void performSelection();
 
-    @Override
     public void addSelectionResult(boolean bl, int n, int n2, boolean bl2, long l, long l2, long l3, long l4, long l5) {
         if (bl || 0L >= l4) {
             this.abort(true);
@@ -112,20 +102,18 @@ implements IDataSelectionJob {
         }
     }
 
-    @Override
     public void responsePicklist(boolean bl, MediaListEntry[] mediaListEntryArray) {
     }
 
     public void finishJob() {
         if (this.state == 4) {
-            this.logger.log(-1601830656, "[%1.finishJob] Browser already deactivated", (Object)this.getName());
+            this.logger.log(100000, "[%1.finishJob] Browser already deactivated", (Object)this.getName());
             return;
         }
         this.setState(4);
         this.selectionBrowser.deactivate();
     }
 
-    @Override
     public void browserDeactivated(boolean bl) {
         if (this.state == 4 || bl) {
             this.getExecutionContext().jobFinished();
@@ -136,35 +124,32 @@ implements IDataSelectionJob {
         this.state = n;
         switch (this.state) {
             case 1: {
-                this.logger.log(1078071040, "[%1.setState STATE_STARTUP]", (Object)this.getName());
+                this.logger.log(1000000, "[%1.setState STATE_STARTUP]", (Object)this.getName());
                 break;
             }
             case 2: {
-                this.logger.log(1078071040, "[%1.setState STATE_BROWSER_ACTIVATED]", (Object)this.getName());
+                this.logger.log(1000000, "[%1.setState STATE_BROWSER_ACTIVATED]", (Object)this.getName());
                 break;
             }
             case 3: {
-                this.logger.log(1078071040, "[%1.setState STATE_BROWSE_MODE_CHANGED]", (Object)this.getName());
+                this.logger.log(1000000, "[%1.setState STATE_BROWSE_MODE_CHANGED]", (Object)this.getName());
                 break;
             }
             case 4: {
-                this.logger.log(1078071040, "[%1.setState BROWSER_DEACTIVATED]", (Object)this.getName());
+                this.logger.log(1000000, "[%1.setState BROWSER_DEACTIVATED]", (Object)this.getName());
                 break;
             }
             default: {
-                this.logger.log(1078071040, "[%1.setState UNKNOWN]", (Object)this.getName());
+                this.logger.log(1000000, "[%1.setState UNKNOWN]", (Object)this.getName());
             }
         }
     }
 
-    public abstract void playSelection() {
-    }
+    public abstract void playSelection();
 
-    protected abstract void browseModeError() {
-    }
+    protected abstract void browseModeError();
 
-    protected abstract void browseFolderError() {
-    }
+    protected abstract void browseFolderError();
 
     public String toString() {
         Buffer buffer = new Buffer(100);

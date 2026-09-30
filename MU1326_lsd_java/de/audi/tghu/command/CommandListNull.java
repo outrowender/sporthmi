@@ -12,7 +12,6 @@ extends CommandList {
         super(commandListManager, 1);
     }
 
-    @Override
     public String toString() {
         return "CommandListNull";
     }

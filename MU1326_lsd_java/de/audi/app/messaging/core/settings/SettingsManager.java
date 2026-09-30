@@ -6,77 +6,73 @@ package de.audi.app.messaging.core.settings;
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
 import de.audi.app.messaging.core.component.AbstractMessagingComponent;
 import de.audi.app.messaging.core.concurrent.CopyOnWriteArrayList;
+import de.audi.app.messaging.core.dsi.messagingconfig.DsiMessagingConfigEmptyListener;
 import de.audi.app.messaging.core.osgi.IServiceRegistry;
 import de.audi.app.messaging.core.osgi.MessagingBundleContext;
 import de.audi.app.messaging.core.osgi.ServiceProperties;
 import de.audi.app.messaging.core.settings.ActivateStoreSmsOnSentCommand;
 import de.audi.app.messaging.core.settings.ISettingsManagerObserver;
+import de.audi.app.messaging.core.settings.RestoreFactorySettingsCommand;
 import de.audi.app.messaging.core.settings.SetEmailIndicationsCommand;
 import de.audi.app.messaging.core.settings.SetPushSmsCommand;
 import de.audi.app.messaging.core.settings.SetSmsIndicationsCommand;
-import de.audi.app.messaging.core.settings.SettingsManager$CommandResultHandler;
-import de.audi.app.messaging.core.settings.SettingsManager$MyChoiceListener;
-import de.audi.app.messaging.core.settings.SettingsManager$MyDsiMessagingConfigListener;
-import de.audi.app.messaging.core.settings.SettingsManager$MyMsgListener;
 import de.audi.app.messaging.core.util.Logs;
-import de.audi.atip.base.IFrameworkAccess;
 import de.audi.atip.hmi.IHMIServiceApp;
-import de.audi.atip.log.LogChannel;
+import de.audi.atip.hmi.model.listener.DefaultChoiceListener;
+import de.audi.atip.msg.MsgListener;
 import java.util.Iterator;
 
 public final class SettingsManager
 extends AbstractMessagingComponent {
     private final CopyOnWriteArrayList settingsManagerObservers = new CopyOnWriteArrayList();
-    private final SettingsManager$CommandResultHandler commandResultHandler = new SettingsManager$CommandResultHandler(this, null);
+    private final CommandResultHandler commandResultHandler = new CommandResultHandler();
     static /* synthetic */ Class class$de$audi$atip$msg$MsgListener;
 
     public SettingsManager(MessagingBundleContext messagingBundleContext) {
         super(messagingBundleContext, "App.Messaging.Main");
     }
 
-    @Override
     public void init(AbstractMsgApplication abstractMsgApplication) {
         super.init(abstractMsgApplication);
         IHMIServiceApp iHMIServiceApp = this.framework.getHmiServiceApp();
-        SettingsManager$MyChoiceListener settingsManager$MyChoiceListener = new SettingsManager$MyChoiceListener(this, null);
-        iHMIServiceApp.getChoiceModel(848437504).setChoiceListener(settingsManager$MyChoiceListener);
-        iHMIServiceApp.getChoiceModel(881991936).setChoiceListener(settingsManager$MyChoiceListener);
-        iHMIServiceApp.getChoiceModel(915546368).setChoiceListener(settingsManager$MyChoiceListener);
-        iHMIServiceApp.getChoiceModel(1150427392).setChoiceListener(settingsManager$MyChoiceListener);
-        abstractMsgApplication.getDsiMessagingConfigPrimaryListener().addSubscriber(new SettingsManager$MyDsiMessagingConfigListener(this, null));
+        MyChoiceListener myChoiceListener = new MyChoiceListener();
+        iHMIServiceApp.getChoiceModel(2200114).setChoiceListener(myChoiceListener);
+        iHMIServiceApp.getChoiceModel(2200116).setChoiceListener(myChoiceListener);
+        iHMIServiceApp.getChoiceModel(2200118).setChoiceListener(myChoiceListener);
+        iHMIServiceApp.getChoiceModel(2200132).setChoiceListener(myChoiceListener);
+        abstractMsgApplication.getDsiMessagingConfigPrimaryListener().addSubscriber(new MyDsiMessagingConfigListener());
     }
 
-    @Override
     public void connect(IServiceRegistry iServiceRegistry) {
         super.connect(iServiceRegistry);
-        iServiceRegistry.registerService((class$de$audi$atip$msg$MsgListener == null ? (class$de$audi$atip$msg$MsgListener = SettingsManager.class$("de.audi.atip.msg.MsgListener")) : class$de$audi$atip$msg$MsgListener).getName(), (Object)new SettingsManager$MyMsgListener(this, null), ServiceProperties.createServiceProperties());
+        iServiceRegistry.registerService((class$de$audi$atip$msg$MsgListener == null ? (class$de$audi$atip$msg$MsgListener = SettingsManager.class$("de.audi.atip.msg.MsgListener")) : class$de$audi$atip$msg$MsgListener).getName(), (Object)new MyMsgListener(), ServiceProperties.createServiceProperties());
     }
 
     public void addObserver(ISettingsManagerObserver iSettingsManagerObserver) {
-        this.log.log(-2137614336, "[SettingsManager#addObserver] observer = %2", (Object)iSettingsManagerObserver);
+        this.log.log(10000000, "[SettingsManager#addObserver] observer = %2", (Object)iSettingsManagerObserver);
         this.settingsManagerObservers.add(iSettingsManagerObserver);
     }
 
     private void storeMsgOnSendChoice(int n) {
-        this.log.log(1078071040, "[SettingsManager#storeMsgOnSendChoice] itemID = %1", (long)n);
+        this.log.log(1000000, "[SettingsManager#storeMsgOnSendChoice] itemID = %1", (long)n);
         boolean bl = n == 1;
         new ActivateStoreSmsOnSentCommand(this.msgApp, bl).schedule();
     }
 
     private void pushSmsEnabledChoice(int n) {
-        this.log.log(1078071040, "[SettingsManager#pushSmsEnabledChoice] itemID = %1", (long)n);
+        this.log.log(1000000, "[SettingsManager#pushSmsEnabledChoice] itemID = %1", (long)n);
         boolean bl = n == 1;
         new SetPushSmsCommand(this.msgApp, bl).schedule();
     }
 
     private void smsIndicationsEnabledChoice(int n) {
-        this.log.log(1078071040, "[SettingsManager#smsIndicationsEnabledChoice] itemID = %1", (long)n);
+        this.log.log(1000000, "[SettingsManager#smsIndicationsEnabledChoice] itemID = %1", (long)n);
         boolean bl = n == 1;
         new SetSmsIndicationsCommand(this.msgApp, bl).schedule();
     }
 
     private void emailIndicationsEnabledChoice(int n) {
-        this.log.log(1078071040, "[SettingsManager#emailIndicationsEnabledChoice] itemID = %1", (long)n);
+        this.log.log(1000000, "[SettingsManager#emailIndicationsEnabledChoice] itemID = %1", (long)n);
         boolean bl = n == 1;
         new SetEmailIndicationsCommand(this.msgApp, bl).schedule();
     }
@@ -105,76 +101,88 @@ extends AbstractMessagingComponent {
         }
     }
 
-    static /* synthetic */ void access$400(SettingsManager settingsManager, int n) {
-        settingsManager.storeMsgOnSendChoice(n);
+    private class MyMsgListener
+    implements MsgListener {
+        private MyMsgListener() {
+        }
+
+        public void processMsg(int n) {
+            if (n == 35) {
+                SettingsManager.this.log.log(1000000, "[SettingsManager#processMsg] message = %1, resetting to factory settings.", (long)n);
+                new RestoreFactorySettingsCommand(SettingsManager.this.msgApp, SettingsManager.this.commandResultHandler).schedule();
+            }
+        }
     }
 
-    static /* synthetic */ void access$500(SettingsManager settingsManager, int n) {
-        settingsManager.pushSmsEnabledChoice(n);
+    private class MyChoiceListener
+    extends DefaultChoiceListener {
+        private MyChoiceListener() {
+        }
+
+        public void itemSelected(int n, int n2, int n3, int n4) {
+            switch (n) {
+                case 2200114: {
+                    SettingsManager.this.storeMsgOnSendChoice(n2);
+                    break;
+                }
+                case 2200116: {
+                    SettingsManager.this.pushSmsEnabledChoice(n2);
+                    break;
+                }
+                case 2200118: {
+                    SettingsManager.this.smsIndicationsEnabledChoice(n2);
+                    break;
+                }
+                case 2200132: {
+                    SettingsManager.this.emailIndicationsEnabledChoice(n2);
+                    break;
+                }
+                default: {
+                    SettingsManager.this.log.log(10000, "[SettingsManager#itemSelected] Unexpected modelID = %1", (long)n);
+                }
+            }
+        }
     }
 
-    static /* synthetic */ void access$600(SettingsManager settingsManager, int n) {
-        settingsManager.smsIndicationsEnabledChoice(n);
+    private final class CommandResultHandler
+    implements RestoreFactorySettingsCommand.ResultHandler {
+        private CommandResultHandler() {
+        }
+
+        public void handleResult(int n) {
+            SettingsManager.this.log.log(10000000, "[SettingsManager#handleCommandResult] result = %1", (long)n);
+            SettingsManager.this.emitIndicateResetToFactorySettings();
+        }
     }
 
-    static /* synthetic */ void access$700(SettingsManager settingsManager, int n) {
-        settingsManager.emailIndicationsEnabledChoice(n);
-    }
+    private class MyDsiMessagingConfigListener
+    extends DsiMessagingConfigEmptyListener {
+        private MyDsiMessagingConfigListener() {
+        }
 
-    static /* synthetic */ LogChannel access$800(SettingsManager settingsManager) {
-        return settingsManager.log;
-    }
+        public void updateStoreSmsOnSent(boolean bl, int n) {
+            SettingsManager.this.log.log(10000000, "[SettingsManager#updateStoreSmsOnSent] store = %1", bl);
+            int n2 = bl ? 1 : 0;
+            SettingsManager.this.framework.getHmiServiceApp().getChoiceModel(2200114).setValue(n2);
+        }
 
-    static /* synthetic */ LogChannel access$900(SettingsManager settingsManager) {
-        return settingsManager.log;
-    }
+        public void updatePushSms(boolean bl, int n) {
+            SettingsManager.this.log.log(10000000, "[SettingsManager#updatePushSms] pushSms = %1", bl);
+            int n2 = bl ? 1 : 0;
+            SettingsManager.this.framework.getHmiServiceApp().getChoiceModel(2200116).setValue(n2);
+        }
 
-    static /* synthetic */ AbstractMsgApplication access$1000(SettingsManager settingsManager) {
-        return settingsManager.msgApp;
-    }
+        public void updateSmsIndications(boolean bl, int n) {
+            SettingsManager.this.log.log(10000000, "[SettingsManager#updateSmsIndications] smsIndications = %1", bl);
+            int n2 = bl ? 1 : 0;
+            SettingsManager.this.framework.getHmiServiceApp().getChoiceModel(2200118).setValue(n2);
+        }
 
-    static /* synthetic */ SettingsManager$CommandResultHandler access$1100(SettingsManager settingsManager) {
-        return settingsManager.commandResultHandler;
-    }
-
-    static /* synthetic */ LogChannel access$1200(SettingsManager settingsManager) {
-        return settingsManager.log;
-    }
-
-    static /* synthetic */ void access$1300(SettingsManager settingsManager) {
-        settingsManager.emitIndicateResetToFactorySettings();
-    }
-
-    static /* synthetic */ LogChannel access$1400(SettingsManager settingsManager) {
-        return settingsManager.log;
-    }
-
-    static /* synthetic */ IFrameworkAccess access$1500(SettingsManager settingsManager) {
-        return settingsManager.framework;
-    }
-
-    static /* synthetic */ LogChannel access$1600(SettingsManager settingsManager) {
-        return settingsManager.log;
-    }
-
-    static /* synthetic */ IFrameworkAccess access$1700(SettingsManager settingsManager) {
-        return settingsManager.framework;
-    }
-
-    static /* synthetic */ LogChannel access$1800(SettingsManager settingsManager) {
-        return settingsManager.log;
-    }
-
-    static /* synthetic */ IFrameworkAccess access$1900(SettingsManager settingsManager) {
-        return settingsManager.framework;
-    }
-
-    static /* synthetic */ LogChannel access$2000(SettingsManager settingsManager) {
-        return settingsManager.log;
-    }
-
-    static /* synthetic */ IFrameworkAccess access$2100(SettingsManager settingsManager) {
-        return settingsManager.framework;
+        public void updateEmailIndications(boolean bl, int n) {
+            SettingsManager.this.log.log(10000000, "[SettingsManager#updateEmailIndications] emailIndications = %1", bl);
+            int n2 = bl ? 1 : 0;
+            SettingsManager.this.framework.getHmiServiceApp().getChoiceModel(2200132).setValue(n2);
+        }
     }
 }
 

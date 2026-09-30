@@ -16,27 +16,22 @@ implements ITestSupportSession {
         this.loggingLevel = n;
     }
 
-    @Override
     public void activateMenuEntry(boolean bl) {
         this.log();
     }
 
-    @Override
     public void flashText(String string, long l) {
         this.log();
     }
 
-    @Override
     public void flashScreen() {
         this.log();
     }
 
-    @Override
     public void updateData(String[] stringArray) {
         this.log();
     }
 
-    @Override
     public int getStatus() {
         this.log();
         return 0;

@@ -10,11 +10,11 @@ import de.audi.atip.log.LogChannel;
 
 public class CharismaAddInfoConfigChoiceModelHandler
 extends DefaultChoiceModelHandler {
-    private static final int ADDITIONAL_INFO_DISPLAY_NONE;
-    private static final int ADDITIONAL_INFO_DISPLAY_POSITION;
-    private static final int ADDITIONAL_INFO_DISPLAY_ANGLE;
-    private static final int INVISIBLE;
-    private static final int VISIBLE;
+    private static final int ADDITIONAL_INFO_DISPLAY_NONE = 0;
+    private static final int ADDITIONAL_INFO_DISPLAY_POSITION = 1;
+    private static final int ADDITIONAL_INFO_DISPLAY_ANGLE = 2;
+    private static final int INVISIBLE = 0;
+    private static final int VISIBLE = 1;
     private final CharismaAddInfoConfig[] addInfoConfigsPosition;
     private final CharismaAddInfoConfig[] addInfoConfigsAngle;
     private final ChoiceModelApp[] displayModelsPosition;
@@ -29,7 +29,6 @@ extends DefaultChoiceModelHandler {
         this.readPersistentAdditionalInfo();
     }
 
-    @Override
     public void updateOnItemSelected(int n) {
         this.setSelectionPersistently(n);
         super.updateOnItemSelected(n);
@@ -50,7 +49,7 @@ extends DefaultChoiceModelHandler {
             ChoiceModelApp choiceModelApp = choiceModelAppArray[i2];
             if (choiceModelApp == null) continue;
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "[CharismaAddInfoConfigChoiceModelHandler#updateDisplaySetting] set model value : value='%1' , displayModel='%2'", (Object)new Integer(bl ? 1 : 0), (Object)choiceModelApp);
+                this.getLogChannel().log(1000000, "[CharismaAddInfoConfigChoiceModelHandler#updateDisplaySetting] set model value : value='%1' , displayModel='%2'", (Object)new Integer(bl ? 1 : 0), (Object)choiceModelApp);
             }
             choiceModelApp.setValue(bl ? 1 : 0);
         }
@@ -59,7 +58,7 @@ extends DefaultChoiceModelHandler {
     private void readPersistentAdditionalInfo() {
         int n = this.getSelection(this.displayAddInfoAngle(), this.displayAddInfoPosition());
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[CharismaAddInfoConfigChoiceModelHandler#readPersistentAdditionalInfo] selection for ChoiceModel('%1') read from persistence: choiceValue='%2'", (long)this.getChoiceModel().getID(), (long)n);
+            this.getLogChannel().log(1000000, "[CharismaAddInfoConfigChoiceModelHandler#readPersistentAdditionalInfo] selection for ChoiceModel('%1') read from persistence: choiceValue='%2'", (long)this.getChoiceModel().getID(), (long)n);
         }
         this.updateDisplaySetting(n);
         this.updateChoiceModelValue(n);

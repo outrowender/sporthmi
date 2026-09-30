@@ -16,44 +16,38 @@ extends AbstractGoodbyeComponent
 implements IMERVisibilityChangeListener {
     private boolean auxAcImmediateOn = false;
     private int auxACImmediateVisiblityState = 0;
-    public static final int CLIMATE_SYSTEM_VARIANT_NONE;
-    public static final int CLIMATE_SYSTEM_VARIANT_HEATER;
-    public static final int CLIMATE_SYSTEM_VARIANT_COOLER;
-    public static final int CLIMATE_SYSTEM_VARIANT_COMBINED;
+    public static final int CLIMATE_SYSTEM_VARIANT_NONE = 0;
+    public static final int CLIMATE_SYSTEM_VARIANT_HEATER = 1;
+    public static final int CLIMATE_SYSTEM_VARIANT_COOLER = 2;
+    public static final int CLIMATE_SYSTEM_VARIANT_COMBINED = 3;
     boolean operationModeChargeTimer = false;
-    private static final int ICON_STATE_FUNCTIONAL;
-    private static final int ICON_STATE_DISABLED;
-    private static final int ICON_STATE_INVISIBLE;
+    private static final int ICON_STATE_FUNCTIONAL = 0;
+    private static final int ICON_STATE_DISABLED = 1;
+    private static final int ICON_STATE_INVISIBLE = 13;
 
     public GoodbyeComponentEvo(ICarApplication iCarApplication) {
         super(iCarApplication);
     }
 
-    @Override
     public String getName() {
         return null;
     }
 
-    @Override
     public String getCurrentViewOptions() {
         return null;
     }
 
-    @Override
     public int getPopUpID() {
-        return 604708864;
+        return 2100004;
     }
 
-    @Override
     protected void deinitModels() {
     }
 
-    @Override
     public int getID() {
         return 0;
     }
 
-    @Override
     protected void initVisibility() {
         this.getApplication().getMenuEntryRegistry().registerVisibilityChangeListener(this);
         this.getApplication().getMenuEntryRegistry().registerMenuEntry(226, (short)46);
@@ -68,7 +62,6 @@ implements IMERVisibilityChangeListener {
         this.getApplication().getMenuEntryRegistry().registerMenuEntry(246, (short)41);
     }
 
-    @Override
     protected void deinitVisibility() {
         this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(226);
         this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(227);
@@ -78,7 +71,6 @@ implements IMERVisibilityChangeListener {
         this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(510);
     }
 
-    @Override
     protected void updateMenuEntryVisibility(BatteryControlViewOptions batteryControlViewOptions) {
         if (this.getNextChargeTimerId() == 0) {
             this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(511, 1);
@@ -110,13 +102,12 @@ implements IMERVisibilityChangeListener {
         }
         this.updateAllowParkHeaterMEVisibility(batteryControlViewOptions);
         if (batteryControlViewOptions != null && batteryControlViewOptions.getConfiguration() != null && !batteryControlViewOptions.getConfiguration().isParkheaterInstallation()) {
-            this.getLogChannel().log(1078071040, "updateEntryVisibilityForStateChange for HEAT COIL ICON 1 and 2 = %1", (long)0);
+            this.getLogChannel().log(1000000, "updateEntryVisibilityForStateChange for HEAT COIL ICON 1 and 2 = %1", 13L);
             this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(238, 13);
             this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(239, 13);
         }
     }
 
-    @Override
     protected void updateAllowParkHeaterMEVisibility(BatteryControlViewOptions batteryControlViewOptions) {
         if (batteryControlViewOptions.getConfiguration().isParkheaterInstallation()) {
             if (this.operationModeChargeTimer) {
@@ -177,7 +168,6 @@ implements IMERVisibilityChangeListener {
         this.updateMenuEntryVisibilityNow(this.auxAcImmediateOn, n);
     }
 
-    @Override
     protected void updateAuxACImmediateOn(boolean bl) {
         this.auxAcImmediateOn = bl;
         this.updateMenuEntryVisibilityNow(bl, this.auxACImmediateVisiblityState);
@@ -216,7 +206,6 @@ implements IMERVisibilityChangeListener {
         this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(n, n2);
     }
 
-    @Override
     public void notifyVisibilityChange(List list) {
         Object[] objectArray = list.toArray();
         for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -235,7 +224,6 @@ implements IMERVisibilityChangeListener {
         }
     }
 
-    @Override
     public void initUseOfMenuStructure(IMenuEntryStructure iMenuEntryStructure) {
     }
 }

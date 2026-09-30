@@ -10,9 +10,9 @@ import org.dsi.ifc.media.Capabilities;
 import org.dsi.ifc.media.PlaybackMode;
 
 public class OnlinePlayerState {
-    public static final int INVALID_PLAYMODE;
-    public static final short DEFAULT_INPUT_GAIN;
-    private static final int DEFAULT_AUDIO_TYPE;
+    public static final int INVALID_PLAYMODE = -1;
+    public static final short DEFAULT_INPUT_GAIN = 3;
+    private static final int DEFAULT_AUDIO_TYPE = 0;
     private Capabilities capabilities;
     private int playbackState;
     private AudioState audioState;

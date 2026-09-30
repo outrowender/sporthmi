@@ -3,9 +3,7 @@
  */
 package de.audi.atip.utils.dispatching;
 
-import de.audi.atip.utils.dispatching.DispatcherBaseAdapter$1;
 import de.audi.atip.utils.dispatching.IDispatcher;
-import de.audi.atip.utils.dispatching.IDispatcher$ICancelable;
 import de.esolutions.fw.util.commons.job.DispatcherBase;
 import de.esolutions.fw.util.commons.job.Job;
 
@@ -17,18 +15,20 @@ implements IDispatcher {
         this.dispatcherBase = dispatcherBase;
     }
 
-    @Override
     public void execute(Runnable runnable) {
         this.dispatcherBase.execute(runnable);
     }
 
-    @Override
-    public IDispatcher$ICancelable execute(Runnable runnable, long l) {
-        Job job = this.dispatcherBase.execute(runnable, l);
-        return new DispatcherBaseAdapter$1(this, job);
+    public IDispatcher.ICancelable execute(Runnable runnable, long l) {
+        final Job job = this.dispatcherBase.execute(runnable, l);
+        return new IDispatcher.ICancelable(){
+
+            public void cancel() {
+                job.cancel();
+            }
+        };
     }
 
-    @Override
     public boolean isDispatchThread() {
         return this.dispatcherBase.isDispatchThread();
     }

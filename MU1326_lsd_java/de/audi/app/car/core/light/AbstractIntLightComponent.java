@@ -9,7 +9,6 @@ import de.audi.app.car.common.handler.DefaultMenuModelHandler;
 import de.audi.app.car.common.handler.DefaultRange2DModelHandler;
 import de.audi.app.car.common.handler.DefaultRangeModelHandler;
 import de.audi.app.car.core.light.AbstractDSICarLightAdapter;
-import de.audi.app.car.core.light.AbstractIntLightComponent$AllSetSyncHandler;
 import de.audi.app.car.core.light.IntLightAmbientColorRangeModelEventBusiness;
 import de.audi.app.car.core.light.IntLightChoiceEventBusiness;
 import de.audi.app.car.core.light.IntLightChoiceModelHandler;
@@ -37,15 +36,15 @@ import org.dsi.ifc.global.CarViewOption;
 
 public abstract class AbstractIntLightComponent
 extends AbstractDSICarLightAdapter {
-    private static final int RANGE_2D_STEP_Y_5;
-    private static final int RANGE_2D_STEP_X;
-    private static final int PROFILE_RANGE_2D_MAX_NUMBER;
-    private static final int PROFILE_RANGE_2D_MIN_NUMBER;
-    private static final int BRIGHTNESS_ROTARY_STEP_5;
-    private static final int BRIGHTNESS_MIN_VALUE;
-    private static final int BRIGHTNESS_MAX_VALUE;
-    public static final short CODING_ID;
-    protected static final String LOGCHANNEL_NAME;
+    private static final int RANGE_2D_STEP_Y_5 = 5;
+    private static final int RANGE_2D_STEP_X = 1;
+    private static final int PROFILE_RANGE_2D_MAX_NUMBER = 8;
+    private static final int PROFILE_RANGE_2D_MIN_NUMBER = 0;
+    private static final int BRIGHTNESS_ROTARY_STEP_5 = 5;
+    private static final int BRIGHTNESS_MIN_VALUE = 0;
+    private static final int BRIGHTNESS_MAX_VALUE = 100;
+    public static final short CODING_ID = 1;
+    protected static final String LOGCHANNEL_NAME = "App.Car.IntLight";
     protected volatile IntLightViewOptions currentViewOptions;
     private IntLightChoiceModelHandler choiceHandler;
     protected IntLightRangeModelHandler rangeHandler;
@@ -92,42 +91,39 @@ extends AbstractDSICarLightAdapter {
     private IntLightIndividualBrightnessRangeBusiness surfaceBrightnessBusiness;
 
     public AbstractIntLightComponent(ICarApplication iCarApplication) {
-        super(iCarApplication, "App.Car.IntLight");
+        super(iCarApplication, LOGCHANNEL_NAME);
     }
 
-    @Override
     protected void initModels() {
-        this.choiceHandler = new IntLightChoiceModelHandler(this.getChoiceModel(-1003878144), this.getLogChannel());
-        this.rangeHandler = new IntLightRangeModelHandler(this.getRangeModel(1898645760), this.getLogChannel());
-        this.footWellBrightnessRangeModelHandler = new IntLightIndividualRangeModelHandler(this.getRangeModel(-903214848), this.getLogChannel());
-        this.cockpitBrightnessRangeModelHandler = new IntLightIndividualRangeModelHandler(this.getRangeModel(-886437632), this.getLogChannel());
-        this.doorsBrightnessRangeModelHandler = new IntLightIndividualRangeModelHandler(this.getRangeModel(-919992064), this.getLogChannel());
-        this.sunRoofBrightnessRangeModelHandler = new IntLightIndividualRangeModelHandler(this.getRangeModel(-869660416), this.getLogChannel());
-        this.contoursBrightnessRangeModelHandler = new IntLightIndividualRangeModelHandler(this.getRangeModel(-953546496), this.getLogChannel());
-        this.surfaceBrightnessRangeModelHandler = new IntLightIndividualRangeModelHandler(this.getRangeModel(-617674496), this.getLogChannel());
-        this.ambientColorRangeModelHandler = new DefaultRangeModelHandler(this.getRangeModel(-970323712), this.getLogChannel());
-        this.contourColorRangeModelHandler = new DefaultRangeModelHandler(this.getRangeModel(-936769280), this.getLogChannel());
+        this.choiceHandler = new IntLightChoiceModelHandler(this.getChoiceModel(600772), this.getLogChannel());
+        this.rangeHandler = new IntLightRangeModelHandler(this.getRangeModel(600945), this.getLogChannel());
+        this.footWellBrightnessRangeModelHandler = new IntLightIndividualRangeModelHandler(this.getRangeModel(600778), this.getLogChannel());
+        this.cockpitBrightnessRangeModelHandler = new IntLightIndividualRangeModelHandler(this.getRangeModel(600779), this.getLogChannel());
+        this.doorsBrightnessRangeModelHandler = new IntLightIndividualRangeModelHandler(this.getRangeModel(600777), this.getLogChannel());
+        this.sunRoofBrightnessRangeModelHandler = new IntLightIndividualRangeModelHandler(this.getRangeModel(600780), this.getLogChannel());
+        this.contoursBrightnessRangeModelHandler = new IntLightIndividualRangeModelHandler(this.getRangeModel(600775), this.getLogChannel());
+        this.surfaceBrightnessRangeModelHandler = new IntLightIndividualRangeModelHandler(this.getRangeModel(602075), this.getLogChannel());
+        this.ambientColorRangeModelHandler = new DefaultRangeModelHandler(this.getRangeModel(600774), this.getLogChannel());
+        this.contourColorRangeModelHandler = new DefaultRangeModelHandler(this.getRangeModel(600776), this.getLogChannel());
         this.footWellBrightnessRangeModelHandler.updateRangeModelLimits(0, 100, this.getIndividualBrightnessStepWidth());
         this.cockpitBrightnessRangeModelHandler.updateRangeModelLimits(0, 100, this.getIndividualBrightnessStepWidth());
         this.doorsBrightnessRangeModelHandler.updateRangeModelLimits(0, 100, this.getIndividualBrightnessStepWidth());
         this.sunRoofBrightnessRangeModelHandler.updateRangeModelLimits(0, 100, this.getIndividualBrightnessStepWidth());
         this.contoursBrightnessRangeModelHandler.updateRangeModelLimits(0, 100, this.getIndividualBrightnessStepWidth());
         this.surfaceBrightnessRangeModelHandler.updateRangeModelLimits(0, 100, this.getIndividualBrightnessStepWidth());
-        this.singleRotaryHandler = new DefaultRangeModelHandler(this.getRangeModel(-2094331648), this.getLogChannel());
+        this.singleRotaryHandler = new DefaultRangeModelHandler(this.getRangeModel(600963), this.getLogChannel());
         this.singleRotaryHandler.updateRangeModelLimits(0, 100, 5);
-        this.menuModelHandler = new DefaultMenuModelHandler(this.getMenuModel(-215283456), this.getLogChannel());
-        this.range2DModelHandler = new DefaultRange2DModelHandler(this.getRange2DModel(-248837888), this.getLogChannel());
+        this.menuModelHandler = new DefaultMenuModelHandler(this.getMenuModel(601075), this.getLogChannel());
+        this.range2DModelHandler = new DefaultRange2DModelHandler(this.getRange2DModel(601073), this.getLogChannel());
         this.range2DModelHandler.updateRangeModel2DLimits(0, 8, 1, 0, 100, 5);
         this.range2DModelHandler.updateRangeModelValueX(0);
         this.range2DModelHandler.updateRangeModelValueY(50);
-        this.ambientColorListModel = (BaseListModel)this.getBaseListModel(2066483456);
-        this.contourColorListModel = (BaseListModel)this.getBaseListModel(2083260672);
+        this.ambientColorListModel = (BaseListModel)this.getBaseListModel(601211);
+        this.contourColorListModel = (BaseListModel)this.getBaseListModel(601212);
     }
 
-    protected abstract int getIndividualBrightnessStepWidth() {
-    }
+    protected abstract int getIndividualBrightnessStepWidth();
 
-    @Override
     protected void deinitModels() {
         this.choiceHandler.deinitModel();
         this.rangeHandler.deinitModel();
@@ -149,7 +145,6 @@ extends AbstractDSICarLightAdapter {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     protected void initBusiness() {
         IntLightCurrentFocus intLightCurrentFocus = new IntLightCurrentFocus();
         this.choiceHandler.setBusiness(new IntLightChoiceEventBusiness(this.getDSI(), this.getLogChannel()));
@@ -166,8 +161,8 @@ extends AbstractDSICarLightAdapter {
             this.footwellBrightnessBusiness = new IntLightIndividualBrightnessRangeBusiness(this.getDSI(), this.profileMode, this.getLogChannel());
             this.roofBrightnessBusiness = new IntLightIndividualBrightnessRangeBusiness(this.getDSI(), this.profileMode, this.getLogChannel());
             this.surfaceBrightnessBusiness = new IntLightIndividualBrightnessRangeBusiness(this.getDSI(), this.profileMode, this.getLogChannel());
-            RangeModelApp rangeModelApp = this.getRangeModel(-2094331648);
-            this.singleRotaryBusiness = new IntLightSingleRotaryBusiness(this.getDSI(), this.singleRotaryProfileMode, this.singleRotarySetNum, rangeModelApp, new AbstractIntLightComponent$AllSetSyncHandler(this), this.getLogChannel());
+            RangeModelApp rangeModelApp = this.getRangeModel(600963);
+            this.singleRotaryBusiness = new IntLightSingleRotaryBusiness(this.getDSI(), this.singleRotaryProfileMode, this.singleRotarySetNum, rangeModelApp, new AllSetSyncHandler(), this.getLogChannel());
         }
         this.menuEventBusiness = new IntLightMenuEventBusiness(intLightCurrentFocus, this.getDSI(), this.getLogChannel());
         this.footWellBrightnessRangeModelHandler.setBusiness(this.footwellBrightnessBusiness);
@@ -187,11 +182,10 @@ extends AbstractDSICarLightAdapter {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateIntLightViewOptions(IntLightViewOptions intLightViewOptions, int n) {
         if (n == 1) {
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "updateIntLightViewOptions: intLightViewOptions=%1", (Object)this.limitViewOptionOutput(intLightViewOptions));
+                this.getLogChannel().log(1000000, "updateIntLightViewOptions: intLightViewOptions=%1", (Object)this.limitViewOptionOutput(intLightViewOptions));
             }
             this.currentViewOptions = intLightViewOptions;
             this.intLightSetEvaluator = new IntLightSetEvaluator(intLightViewOptions, this.getLogChannel());
@@ -215,7 +209,7 @@ extends AbstractDSICarLightAdapter {
 
     public void setConfigForProfileNameMapping(IntLightConfig intLightConfig) {
         if (intLightConfig == null) {
-            this.getLogChannel().log(1078071040, "IntLightConfig is null, use default profile mapping");
+            this.getLogChannel().log(1000000, "IntLightConfig is null, use default profile mapping");
             return;
         }
         this.profileNameMapping[1] = intLightConfig.getSetupIlluminationProfile1();
@@ -232,11 +226,10 @@ extends AbstractDSICarLightAdapter {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateIntLightRGBColorListTotalNumberOfElements(int n, int n2) {
         if (n2 == 1) {
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "updateIntLightRGBColorListTotalNumberOfElements: numberOfElementss=%1, validFlag=%2", (long)n, (long)n2);
+                this.getLogChannel().log(1000000, "updateIntLightRGBColorListTotalNumberOfElements: numberOfElementss=%1, validFlag=%2", (long)n, (long)n2);
             }
             Object object = this.colorListMutex;
             synchronized (object) {
@@ -248,11 +241,10 @@ extends AbstractDSICarLightAdapter {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateIntLightRGBColorListUpdateInfo(IntLightRGBColorListUpdateInfo intLightRGBColorListUpdateInfo, int n) {
         if (n == 1) {
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "updateIntLightRGBColorListUpdateInfo: infos=%1, validFlag=%2", (Object)intLightRGBColorListUpdateInfo, (long)n);
+                this.getLogChannel().log(1000000, "updateIntLightRGBColorListUpdateInfo: infos=%1, validFlag=%2", (Object)intLightRGBColorListUpdateInfo, (long)n);
             }
             Object object = this.colorListMutex;
             synchronized (object) {
@@ -265,11 +257,10 @@ extends AbstractDSICarLightAdapter {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void responseIntLightRGBColorListRA0(IntLightRGBColorListUpdateInfo intLightRGBColorListUpdateInfo, IntLightRGBColorListRA0[] intLightRGBColorListRA0Array) {
         if (intLightRGBColorListRA0Array != null) {
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "updateIntLightRGBColorListUpdateInfo: responseIntLightRGBColorListRA0=%1, number of records=%2", (Object)intLightRGBColorListUpdateInfo, (long)intLightRGBColorListRA0Array.length);
+                this.getLogChannel().log(1000000, "updateIntLightRGBColorListUpdateInfo: responseIntLightRGBColorListRA0=%1, number of records=%2", (Object)intLightRGBColorListUpdateInfo, (long)intLightRGBColorListRA0Array.length);
             }
             if (intLightRGBColorListUpdateInfo.getArrayContent() == 1 || intLightRGBColorListUpdateInfo.getArrayContent() == 2) {
                 Object object = this.colorListMutex;
@@ -278,18 +269,17 @@ extends AbstractDSICarLightAdapter {
                 }
                 this.manageColorData();
             } else if (intLightRGBColorListUpdateInfo.getArrayContent() == 3 || intLightRGBColorListUpdateInfo.getArrayContent() == 0 || intLightRGBColorListUpdateInfo.getArrayContent() == 4 || intLightRGBColorListUpdateInfo.getArrayContent() == 5 || intLightRGBColorListUpdateInfo.getArrayContent() == 6) {
-                this.getLogChannel().log(1078071040, "no msc defined for arraycontent = %1", (long)intLightRGBColorListUpdateInfo.getArrayContent());
+                this.getLogChannel().log(1000000, "no msc defined for arraycontent = %1", (long)intLightRGBColorListUpdateInfo.getArrayContent());
             }
         } else {
-            this.getLogChannel().log(1078071040, "updateIntLightRGBColorListUpdateInfo: responseIntLightRGBColorListRA0=%1, IntLightRGBColorListRA0[]=null", (Object)intLightRGBColorListUpdateInfo);
+            this.getLogChannel().log(1000000, "updateIntLightRGBColorListUpdateInfo: responseIntLightRGBColorListRA0=%1, IntLightRGBColorListRA0[]=null", (Object)intLightRGBColorListUpdateInfo);
         }
     }
 
-    @Override
     public void updateIntLightAmbientLightColor(IntLightRGBValues intLightRGBValues, int n) {
         if (n == 1) {
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "updateIntLightAmbientLightColor: color=%1, validFlag=%2", (Object)intLightRGBValues, (long)n);
+                this.getLogChannel().log(1000000, "updateIntLightAmbientLightColor: color=%1, validFlag=%2", (Object)intLightRGBValues, (long)n);
             }
             this.ambientColorListBusiness.setSelectedColor(intLightRGBValues);
             int n2 = this.ambientColorListBusiness.getColorDataIndex(intLightRGBValues);
@@ -300,120 +290,109 @@ extends AbstractDSICarLightAdapter {
         }
     }
 
-    @Override
     public void updateIntLightContourLightColor(IntLightRGBValues intLightRGBValues, int n) {
         if (n == 1) {
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "updateIntLightContourLightColor: color=%1, validFlag=%2", (Object)intLightRGBValues, (long)n);
+                this.getLogChannel().log(1000000, "updateIntLightContourLightColor: color=%1, validFlag=%2", (Object)intLightRGBValues, (long)n);
             }
             this.contourColorListBusiness.setSelectedColor(intLightRGBValues);
             int n2 = this.contourColorListBusiness.getColorDataIndex(intLightRGBValues);
             if (n2 >= 0) {
-                this.getLogChannel().log(1078071040, "updateIntLightContourLightColor: found colorIndex=%1", (long)n2);
+                this.getLogChannel().log(1000000, "updateIntLightContourLightColor: found colorIndex=%1", (long)n2);
                 this.contourColorRangeModelHandler.updateRangeModelValue(n2);
                 this.contourColorListBusiness.setValidSelectedIndex(n2);
             }
         }
     }
 
-    @Override
     public void updateIntLightIlluminationSet1(int n, int n2) {
         if (n2 == 1) {
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "updateIntLightIlluminationSet1: brightness=%1, validFlag=%2", (long)n, (long)n2);
+                this.getLogChannel().log(1000000, "updateIntLightIlluminationSet1: brightness=%1, validFlag=%2", (long)n, (long)n2);
             }
             this.processIlluminationSetUpdate(1, n);
         }
     }
 
-    @Override
     public void updateIntLightIlluminationSet2(int n, int n2) {
         if (n2 == 1) {
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "updateIntLightIlluminationSet2: brightness=%1, validFlag=%2", (long)n, (long)n2);
+                this.getLogChannel().log(1000000, "updateIntLightIlluminationSet2: brightness=%1, validFlag=%2", (long)n, (long)n2);
             }
             this.processIlluminationSetUpdate(2, n);
         }
     }
 
-    @Override
     public void updateIntLightIlluminationSet3(int n, int n2) {
         if (n2 == 1) {
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "updateIntLightIlluminationSet3: brightness=%1, validFlag=%2", (long)n, (long)n2);
+                this.getLogChannel().log(1000000, "updateIntLightIlluminationSet3: brightness=%1, validFlag=%2", (long)n, (long)n2);
             }
             this.processIlluminationSetUpdate(3, n);
         }
     }
 
-    @Override
     public void updateIntLightIlluminationSet4(int n, int n2) {
         if (n2 == 1) {
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "updateIntLightIlluminationSet4: brightness=%1, validFlag=%2", (long)n, (long)n2);
+                this.getLogChannel().log(1000000, "updateIntLightIlluminationSet4: brightness=%1, validFlag=%2", (long)n, (long)n2);
             }
             this.processIlluminationSetUpdate(4, n);
         }
     }
 
-    @Override
     public void updateIntLightIlluminationSet5(int n, int n2) {
         if (n2 == 1) {
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "updateIntLightIlluminationSet5: brightness=%1, validFlag=%2", (long)n, (long)n2);
+                this.getLogChannel().log(1000000, "updateIntLightIlluminationSet5: brightness=%1, validFlag=%2", (long)n, (long)n2);
             }
             this.processIlluminationSetUpdate(5, n);
         }
     }
 
-    @Override
     public void updateIntLightIlluminationSet6(int n, int n2) {
         if (n2 == 1) {
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "updateIntLightIlluminationSet6: brightness=%1, validFlag=%2", (long)n, (long)n2);
+                this.getLogChannel().log(1000000, "updateIntLightIlluminationSet6: brightness=%1, validFlag=%2", (long)n, (long)n2);
             }
             this.processIlluminationSetUpdate(6, n);
         }
     }
 
-    @Override
     public void updateIntLightIlluminationSet7(int n, int n2) {
         if (n2 == 1) {
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "updateIntLightIlluminationSet7: brightness=%1, validFlag=%2", (long)n, (long)n2);
+                this.getLogChannel().log(1000000, "updateIntLightIlluminationSet7: brightness=%1, validFlag=%2", (long)n, (long)n2);
             }
             this.processIlluminationSetUpdate(7, n);
         }
     }
 
-    @Override
     public void updateIntLightIlluminationSet8(int n, int n2) {
         if (n2 == 1) {
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "updateIntLightIlluminationSet8: brightness=%1, validFlag=%2", (long)n, (long)n2);
+                this.getLogChannel().log(1000000, "updateIntLightIlluminationSet8: brightness=%1, validFlag=%2", (long)n, (long)n2);
             }
             this.processIlluminationSetUpdate(8, n);
         }
     }
 
-    @Override
     public void updateIntLightActiveProfile(int n, int n2) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "updateIntLightActiveProfile: profile=%1, validFlag=%2", (long)n, (long)n2);
+            this.getLogChannel().log(1000000, "updateIntLightActiveProfile: profile=%1, validFlag=%2", (long)n, (long)n2);
         }
         if (n2 == 1) {
             this.choiceHandler.updateChoiceModelValue(n);
             this.rangeHandler.setSelectedProfile(n);
             this.range2DModelHandler.getRange2DModel().forceUpdate(true);
             this.range2DModelHandler.updateRange2DModelValue(this.rangeHandler.getSelectedProfile(), this.rangeHandler.getSelectedProfilesValue());
-            this.getChoiceModel(690751744).setValue(n - 1);
+            this.getChoiceModel(601129).setValue(n - 1);
         }
     }
 
-    @Override
     public void updateIntLightIlluminationProfile1(int n, int n2) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "updateIntLightIlluminationProfile1: brightness=%1, validFlag=%2", (long)n, (long)n2);
+            this.getLogChannel().log(1000000, "updateIntLightIlluminationProfile1: brightness=%1, validFlag=%2", (long)n, (long)n2);
         }
         if (n2 == 1) {
             this.rangeHandler.setBrightness(1, n);
@@ -427,10 +406,9 @@ extends AbstractDSICarLightAdapter {
         }
     }
 
-    @Override
     public void updateIntLightIlluminationProfile2(int n, int n2) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "updateIntLightIlluminationProfile2: brightness=%1, validFlag=%2", (long)n, (long)n2);
+            this.getLogChannel().log(1000000, "updateIntLightIlluminationProfile2: brightness=%1, validFlag=%2", (long)n, (long)n2);
         }
         if (n2 == 1) {
             this.rangeHandler.setBrightness(2, n);
@@ -444,10 +422,9 @@ extends AbstractDSICarLightAdapter {
         }
     }
 
-    @Override
     public void updateIntLightIlluminationProfile3(int n, int n2) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "updateIntLightIlluminationProfile3: brightness=%1, validFlag=%2", (long)n, (long)n2);
+            this.getLogChannel().log(1000000, "updateIntLightIlluminationProfile3: brightness=%1, validFlag=%2", (long)n, (long)n2);
         }
         if (n2 == 1) {
             this.rangeHandler.setBrightness(3, n);
@@ -461,10 +438,9 @@ extends AbstractDSICarLightAdapter {
         }
     }
 
-    @Override
     public void updateIntLightIlluminationProfile4(int n, int n2) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "updateIntLightIlluminationProfile4: brightness=%1, validFlag=%2", (long)n, (long)n2);
+            this.getLogChannel().log(1000000, "updateIntLightIlluminationProfile4: brightness=%1, validFlag=%2", (long)n, (long)n2);
         }
         if (n2 == 1) {
             this.rangeHandler.setBrightness(4, n);
@@ -478,10 +454,9 @@ extends AbstractDSICarLightAdapter {
         }
     }
 
-    @Override
     public void updateIntLightIlluminationProfile5(int n, int n2) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "updateIntLightIlluminationProfile5: brightness=%1, validFlag=%2", (long)n, (long)n2);
+            this.getLogChannel().log(1000000, "updateIntLightIlluminationProfile5: brightness=%1, validFlag=%2", (long)n, (long)n2);
         }
         if (n2 == 1) {
             this.rangeHandler.setBrightness(5, n);
@@ -495,10 +470,9 @@ extends AbstractDSICarLightAdapter {
         }
     }
 
-    @Override
     public void updateIntLightIlluminationProfile6(int n, int n2) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "updateIntLightIlluminationProfile6: brightness=%1, validFlag=%2", (long)n, (long)n2);
+            this.getLogChannel().log(1000000, "updateIntLightIlluminationProfile6: brightness=%1, validFlag=%2", (long)n, (long)n2);
         }
         if (n2 == 1) {
             this.rangeHandler.setBrightness(6, n);
@@ -512,10 +486,9 @@ extends AbstractDSICarLightAdapter {
         }
     }
 
-    @Override
     public void updateIntLightIlluminationProfile7(int n, int n2) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "updateIntLightIlluminationProfile7: brightness=%1, validFlag=%2", (long)n, (long)n2);
+            this.getLogChannel().log(1000000, "updateIntLightIlluminationProfile7: brightness=%1, validFlag=%2", (long)n, (long)n2);
         }
         if (n2 == 1) {
             this.rangeHandler.setBrightness(7, n);
@@ -529,10 +502,9 @@ extends AbstractDSICarLightAdapter {
         }
     }
 
-    @Override
     public void updateIntLightIlluminationProfile8(int n, int n2) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "updateIntLightIlluminationProfile8: brightness=%1, validFlag=%2", (long)n, (long)n2);
+            this.getLogChannel().log(1000000, "updateIntLightIlluminationProfile8: brightness=%1, validFlag=%2", (long)n, (long)n2);
         }
         if (n2 == 1) {
             this.rangeHandler.setBrightness(8, n);
@@ -546,10 +518,9 @@ extends AbstractDSICarLightAdapter {
         }
     }
 
-    @Override
     public void updateIntLightBrightness(IntLightBrightness intLightBrightness, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "updateIntLightBrightness: intLightBrightness=%1, validFlag=%2", (Object)intLightBrightness, (long)n);
+            this.getLogChannel().log(1000000, "updateIntLightBrightness: intLightBrightness=%1, validFlag=%2", (Object)intLightBrightness, (long)n);
         }
         if (n == 1 && intLightBrightness != null) {
             this.rangeHandler.setBrightness(0, intLightBrightness.getBrightness());
@@ -614,20 +585,16 @@ extends AbstractDSICarLightAdapter {
         }
     }
 
-    protected abstract void updateMenuEntryVisibility(IntLightViewOptions intLightViewOptions, IntLightSetEvaluator intLightSetEvaluator) {
-    }
+    protected abstract void updateMenuEntryVisibility(IntLightViewOptions var1, IntLightSetEvaluator var2);
 
-    @Override
     public String getName() {
         return "IntLight";
     }
 
-    @Override
     public CarDSIAttributesSet[] getDSIAttributesSets() {
         return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{1}, new int[]{50, 49, 45, 37, 38, 39, 40, 41, 42, 43, 44, 29, 30, 31, 32, 33, 34, 35, 36, 46, 47, 27})};
     }
 
-    @Override
     public String getCurrentViewOptions() {
         if (this.currentViewOptions == null) {
             return "no view options received yet";
@@ -689,7 +656,7 @@ extends AbstractDSICarLightAdapter {
 
     private void requestColorList(IntLightRGBColorListUpdateInfo intLightRGBColorListUpdateInfo) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "calling DSI: requestIntLightRGBColorLis( %1 )", (Object)intLightRGBColorListUpdateInfo);
+            this.getLogChannel().log(1000000, "calling DSI: requestIntLightRGBColorLis( %1 )", (Object)intLightRGBColorListUpdateInfo);
         }
         this.getDSI().requestIntLightRGBColorList(intLightRGBColorListUpdateInfo);
     }
@@ -702,26 +669,26 @@ extends AbstractDSICarLightAdapter {
         synchronized (object) {
             if (this.colorData == null && this.numberOfColors > 0) {
                 if (this.getLogChannel().isInfo()) {
-                    this.getLogChannel().log(1078071040, "creating local color-array with number of entries = %1 ", (long)this.numberOfColors);
+                    this.getLogChannel().log(1000000, "creating local color-array with number of entries = %1 ", (long)this.numberOfColors);
                 }
                 this.colorData = new IntLightRGBColorListRA0[this.numberOfColors];
             }
-            this.getLogChannel().log(-2137614336, "[AbstractIntLightComponent.manageColorData] colorData: %1, numberOfColors: %2, lastReceivedColorArray: %3", (Object)this.colorData, (Object)new Integer(this.numberOfColors), (Object)this.lastReceivedColorArray);
+            this.getLogChannel().log(10000000, "[AbstractIntLightComponent.manageColorData] colorData: %1, numberOfColors: %2, lastReceivedColorArray: %3", (Object)this.colorData, (Object)new Integer(this.numberOfColors), (Object)this.lastReceivedColorArray);
             if (this.colorData != null && this.lastReceivedColorArray != null) {
                 int n;
                 ++this.lastPos;
                 for (n = 0; n < this.lastReceivedColorArray.length; ++n) {
-                    this.getLogChannel().log(-2137614336, "[AbstractIntLightComponent.manageColorData] lastPos: %1, colorData.length: %2, lastReceivedColorArray[%4]: %3", (Object)new Integer(this.lastPos), (Object)new Integer(this.colorData.length), (Object)this.lastReceivedColorArray[n], (long)n);
+                    this.getLogChannel().log(10000000, "[AbstractIntLightComponent.manageColorData] lastPos: %1, colorData.length: %2, lastReceivedColorArray[%4]: %3", (Object)new Integer(this.lastPos), (Object)new Integer(this.colorData.length), (Object)this.lastReceivedColorArray[n], (long)n);
                     if (this.lastReceivedColorArray[n] != null && this.lastPos < this.colorData.length) {
                         IntLightRGBColorListRA0 intLightRGBColorListRA0 = this.lastReceivedColorArray[n];
                         this.colorData[this.lastPos + n] = new IntLightRGBColorListRA0(intLightRGBColorListRA0.getPos(), intLightRGBColorListRA0.getValues());
                         continue;
                     }
                     if (this.lastReceivedColorArray[n] != null) {
-                        this.getLogChannel().log(-1601830656, "trying to add IntLightRGBColorListRA0 with pos = %1 and numberOfColors = %2", (long)this.lastReceivedColorArray[n].getPos(), (long)this.numberOfColors);
+                        this.getLogChannel().log(100000, "trying to add IntLightRGBColorListRA0 with pos = %1 and numberOfColors = %2", (long)this.lastReceivedColorArray[n].getPos(), (long)this.numberOfColors);
                         continue;
                     }
-                    this.getLogChannel().log(-1601830656, "trying to add null IntLightRGBColorListRA0");
+                    this.getLogChannel().log(100000, "trying to add null IntLightRGBColorListRA0");
                 }
                 this.lastPos += this.lastReceivedColorArray.length - 1;
                 this.lastReceivedColorArray = null;
@@ -731,7 +698,7 @@ extends AbstractDSICarLightAdapter {
                     IntLightRGBColorListUpdateInfo intLightRGBColorListUpdateInfo = new IntLightRGBColorListUpdateInfo(2, 0, this.lastPos, n2, this.latestRGBColorListUpdateInfo.getTransactionID() + 1);
                     this.requestColorList(intLightRGBColorListUpdateInfo);
                 } else {
-                    this.getLogChannel().log(-2137614336, "[AbstractIntLightComponent.manageColorData] Fill BaseListModel");
+                    this.getLogChannel().log(10000000, "[AbstractIntLightComponent.manageColorData] Fill BaseListModel");
                     this.ambientColorRangeModelHandler.updateRangeModelLimits(1, this.colorData.length, 1);
                     this.contourColorRangeModelHandler.updateRangeModelLimits(1, this.colorData.length, 1);
                     this.ambientColorListBusiness.fillBaseListModels(this.colorData);
@@ -776,8 +743,20 @@ extends AbstractDSICarLightAdapter {
         return buffer.toString();
     }
 
-    static /* synthetic */ DefaultRangeModelHandler access$000(AbstractIntLightComponent abstractIntLightComponent) {
-        return abstractIntLightComponent.singleRotaryHandler;
+    class AllSetSyncHandler {
+        AllSetSyncHandler() {
+        }
+
+        protected void triggerAllSetSync(boolean bl) {
+            if (AbstractIntLightComponent.this.intLightSetEvaluator.hasAllSetsSyncSet() && AbstractIntLightComponent.this.inOneBrightnessScreen && !bl) {
+                int n = AbstractIntLightComponent.this.singleRotaryHandler.getRangeModel().getValue();
+                if (AbstractIntLightComponent.this.getIntLightSetEvaluator() != null) {
+                    int n2 = AbstractIntLightComponent.this.getIntLightSetEvaluator().getAllSetsSyncSetNumber();
+                    AbstractIntLightComponent.this.getLogChannel().log(1000000, "[IntLightSingleRotaryBusiness: sync: dsi.setIntLightIlluminationSet(%1, %2)]", (long)n2, (long)n);
+                    AbstractIntLightComponent.this.getDSI().setIntLightIlluminationSet(n2, n);
+                }
+            }
+        }
     }
 }
 

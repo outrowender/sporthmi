@@ -9,7 +9,6 @@ import de.audi.audio.store.VolumelockMap;
 
 public class VolumeLockService
 implements IVolumeLockService {
-    @Override
     public boolean isActive(int n, int n2) {
         return VolumelockMap.INSTANCE.isActive(n, TerminalMapper.toAudioTerminal(n2));
     }

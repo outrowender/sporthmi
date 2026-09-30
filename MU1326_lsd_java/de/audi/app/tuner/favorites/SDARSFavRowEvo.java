@@ -14,23 +14,23 @@ import de.audi.tuner.app.sdars.seek.AddToSeeksPossibilityEnum;
 
 public class SDARSFavRowEvo
 extends SDARSMemoryRow {
-    private static final int INDEX_PROPERTIES;
-    private static final int INDEX_DEFAULT_IMAGE_ID;
-    private static final int INDEX_PRESET_POS;
-    private static final int INDEX_ALBUM_COMPOSER;
-    private static final int INDEX_ALBUM_COMPOSER_ICON;
-    private static final int INDEX_ARTIST_ICON;
-    private static final int INDEX_TITLE_ICON;
-    private static final int INDEX_ITUNES_ICON;
-    public static final int NUM_COLS;
+    private static final int INDEX_PROPERTIES = 14;
+    private static final int INDEX_DEFAULT_IMAGE_ID = 15;
+    private static final int INDEX_PRESET_POS = 16;
+    private static final int INDEX_ALBUM_COMPOSER = 18;
+    private static final int INDEX_ALBUM_COMPOSER_ICON = 19;
+    private static final int INDEX_ARTIST_ICON = 20;
+    private static final int INDEX_TITLE_ICON = 21;
+    private static final int INDEX_ITUNES_ICON = 22;
+    public static final int NUM_COLS = 23;
     private final RadioRowProperties props;
-    private static final int ITUNES_ICON_RESET;
-    private static final int ITUNES_ICON_ENABLED;
+    private static final int ITUNES_ICON_RESET = Utilities.isTaggingSupported() ? 1 : 0;
+    private static final int ITUNES_ICON_ENABLED = Utilities.isTaggingSupported() ? 2 : 0;
 
     public SDARSFavRowEvo(StationInfoExt stationInfoExt, int n) {
         super(23, stationInfoExt);
         this.props = new RadioRowProperties();
-        this.props.setCategory(673103840);
+        this.props.setCategory(-524345816);
         this.setPropertyCell(14, new PropertyListCell(this.props.getCategory(), this.props.toArray()));
         this.setInteger(15, 2);
         this.setPresetIndex(n - 1);
@@ -42,12 +42,10 @@ extends SDARSMemoryRow {
         this.props = sDARSFavRowEvo.props;
     }
 
-    @Override
     public EvoListRow copy() {
         return new SDARSFavRowEvo(this);
     }
 
-    @Override
     public void setStationActive(boolean bl) {
         super.setStationActive(bl);
         this.props.setActive(bl);
@@ -62,7 +60,6 @@ extends SDARSMemoryRow {
         this.setPropertyCell(14, new PropertyListCell(this.props.getCategory(), this.props.toArray()));
     }
 
-    @Override
     public void resetProgramData() {
         super.resetProgramData();
         this.setText(18, "");
@@ -73,7 +70,6 @@ extends SDARSMemoryRow {
         this.setInteger(11, 1);
     }
 
-    @Override
     public void setProgramData(SdarsRadioText sdarsRadioText, int n) {
         super.setProgramData(sdarsRadioText, n);
         this.setText(18, sdarsRadioText.composer);
@@ -87,7 +83,6 @@ extends SDARSMemoryRow {
         this.setInteger(11, 2);
     }
 
-    @Override
     public void setSeekPossibility(AddToSeeksPossibilityEnum addToSeeksPossibilityEnum, AddToSeeksPossibilityEnum addToSeeksPossibilityEnum2, AddToSeeksPossibilityEnum addToSeeksPossibilityEnum3, AddToSeeksPossibilityEnum addToSeeksPossibilityEnum4) {
         super.setSeekPossibility(addToSeeksPossibilityEnum, addToSeeksPossibilityEnum2, addToSeeksPossibilityEnum3, addToSeeksPossibilityEnum4);
         this.props.setArtistSeekPossible(addToSeeksPossibilityEnum.showOption ? 1 : 0);
@@ -95,15 +90,9 @@ extends SDARSMemoryRow {
         this.setPropertyCell(14, new PropertyListCell(this.props.getCategory(), this.props.toArray()));
     }
 
-    @Override
     public void setPresetIndex(int n) {
         int n2 = Utilities.adjustPresetPosForNar(n + 1);
         this.setInteger(16, n2);
-    }
-
-    static {
-        ITUNES_ICON_RESET = Utilities.isTaggingSupported() ? 1 : 0;
-        ITUNES_ICON_ENABLED = Utilities.isTaggingSupported() ? 2 : 0;
     }
 }
 

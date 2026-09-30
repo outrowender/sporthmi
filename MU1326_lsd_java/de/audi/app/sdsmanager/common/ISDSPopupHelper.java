@@ -10,115 +10,78 @@ import de.audi.atip.mmicombi.IViewSizeManager;
 
 public interface ISDSPopupHelper
 extends Stoppable {
-    default public int getCurrentHMIPopup() {
-    }
+    public int getCurrentHMIPopup();
 
-    default public void removeAllSDSPopups() {
-    }
+    public void removeAllSDSPopups();
 
-    default public void removeSmallCommandDisplay() {
-    }
+    public void removeSmallCommandDisplay();
 
-    default public void removeAllBigCommandPopups() {
-    }
+    public void removeAllBigCommandPopups();
 
-    default public void removeBigCommandDisplay() {
-    }
+    public void removeBigCommandDisplay();
 
-    default public void removeAllFurtherCommandPopups() {
-    }
+    public void removeAllFurtherCommandPopups();
 
-    default public boolean isFurtherCommandDisplayActive() {
-    }
+    public boolean isFurtherCommandDisplayActive();
 
-    default public void showFurtherCommandDisplay() {
-    }
+    public void showFurtherCommandDisplay();
 
-    default public void removeFurtherCommandDisplay() {
-    }
+    public void removeFurtherCommandDisplay();
 
-    default public void toggleFurtherCommandDisplay() {
-    }
+    public void toggleFurtherCommandDisplay();
 
-    default public void removeAllDisambiguationPopups() {
-    }
+    public void removeAllDisambiguationPopups();
 
-    default public int getCommandScreenPopupMapping(int n) {
-    }
+    public int getCommandScreenPopupMapping(int var1);
 
-    default public int getHelpScreenPopupMapping(int n) {
-    }
+    public int getHelpScreenPopupMapping(int var1);
 
-    default public void triggerHapticalPopup(int n, boolean bl) {
-    }
+    public void triggerHapticalPopup(int var1, boolean var2);
 
-    default public void triggerHapticalPartialPopup(int n, boolean bl) {
-    }
+    public void triggerHapticalPartialPopup(int var1, boolean var2);
 
-    default public void triggerSpeechPopup(int n, boolean bl) {
-    }
+    public void triggerSpeechPopup(int var1, boolean var2);
 
-    default public int getCurrentBigCommandScreenPopupMapping() {
-    }
+    public int getCurrentBigCommandScreenPopupMapping();
 
-    default public void setCurrentBigCommandScreenPopupMapping(int n) {
-    }
+    public void setCurrentBigCommandScreenPopupMapping(int var1);
 
-    default public int getCurrentHelpScreenPopupMappingID() {
-    }
+    public int getCurrentHelpScreenPopupMappingID();
 
-    default public void setCurrentHelpScreenPopupMappingID(int n) {
-    }
+    public void setCurrentHelpScreenPopupMappingID(int var1);
 
-    default public void setViewSizeManager(IViewSizeManager iViewSizeManager) {
-    }
+    public void setViewSizeManager(IViewSizeManager var1);
 
-    default public void setAppSDSManager(AppSDSManager appSDSManager) {
-    }
+    public void setAppSDSManager(AppSDSManager var1);
 
-    default public void setSDSAudioHandler(SDSAudioHandler sDSAudioHandler) {
-    }
+    public void setSDSAudioHandler(SDSAudioHandler var1);
 
-    default public void unsetViewSizeManager() {
-    }
+    public void unsetViewSizeManager();
 
-    default public boolean isSmallStageActive() {
-    }
+    public boolean isSmallStageActive();
 
-    default public boolean isSDSPopup(int n) {
-    }
+    public boolean isSDSPopup(int var1);
 
-    default public void showDebugPopup(String string, String string2, String string3) {
-    }
+    public void showDebugPopup(String var1, String var2, String var3);
 
-    default public boolean isBigCommandDisplay(int n) {
-    }
+    public boolean isBigCommandDisplay(int var1);
 
-    default public void setBigCommandDisplayToRemove(int n) {
-    }
+    public void setBigCommandDisplayToRemove(int var1);
 
-    default public void updateBigCommandDisplayConnected() {
-    }
+    public void updateBigCommandDisplayConnected();
 
-    default public boolean isLogicalPopupRemovedBySDS() {
-    }
+    public boolean isLogicalPopupRemovedBySDS();
 
-    default public void setLogicalPopupRemovedBySDS(boolean bl) {
-    }
+    public void setLogicalPopupRemovedBySDS(boolean var1);
 
-    default public void updateFurtherCommandsRemoved() {
-    }
+    public void updateFurtherCommandsRemoved();
 
-    default public void updateFurtherCommandsShown() {
-    }
+    public void updateFurtherCommandsShown();
 
-    default public void setLastPartialPopupHiddenBySDSDialog() {
-    }
+    public void setLastPartialPopupHiddenBySDSDialog();
 
-    default public void setLogicalPopupCalledToBeRemovedBySDS(boolean bl) {
-    }
+    public void setLogicalPopupCalledToBeRemovedBySDS(boolean var1);
 
-    default public boolean isLogicalPopupCalledToBeRemovedBySDS() {
-    }
+    public boolean isLogicalPopupCalledToBeRemovedBySDS();
 }
 

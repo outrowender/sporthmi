@@ -18,7 +18,7 @@ public abstract class AbstractRSECommandFactory {
         AbstractRSECommand abstractRSECommand = null;
         int n2 = AbstractRSECommand.extractModuleID(n);
         if (n2 != this.moduleID) {
-            throw new IllegalArgumentException(new StringBuffer().append("wrong module id ").append(n2).toString());
+            throw new IllegalArgumentException("wrong module id " + n2);
         }
         abstractRSECommand = this.getRSECommand(n);
         return abstractRSECommand;
@@ -36,7 +36,6 @@ public abstract class AbstractRSECommandFactory {
         log = logChannel;
     }
 
-    protected abstract AbstractRSECommand getRSECommand(int n) {
-    }
+    protected abstract AbstractRSECommand getRSECommand(int var1);
 }
 

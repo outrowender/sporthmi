@@ -68,7 +68,6 @@ extends AbstractAddressInputManagerEvo {
         super(navigationEnv, iCommandListFactory, iAddressInputWorkFlowManager, spellerStack, iPreviewMap, iStartGuidanceToDestinationSequence, iVehicle, locationSerializer, iRouteManager, cityHistory, naviADBHandler, iNaviFavoriteHandler, asyncNavLocationExtractor, aDBInterAppService, homeAddressHandler, mapInterface, asyncNavLocationExtractor2, iAddressInputFormModelAccessHelper, homeAddressHandler2);
     }
 
-    @Override
     protected void initListeners() {
         this.mainScreenListener = this.initMainScreenListener();
         this.countryScreenListener = this.initCountryScreenListener();
@@ -81,10 +80,9 @@ extends AbstractAddressInputManagerEvo {
         this.rightDrawerListener = this.initRightDrawerListener();
     }
 
-    @Override
     public void start(NavLocation navLocation) {
         if (!this.addressInputCommandListMonitor.isActive()) {
-            this.logChannel.log(-2137614336, "%1#start with navLocation=%2", (Object)this.CLASS_NAME, (Object)LocationFormatter.formatLocationShort(navLocation));
+            this.logChannel.log(10000000, "%1#start with navLocation=%2", (Object)this.CLASS_NAME, (Object)LocationFormatter.formatLocationShort(navLocation));
             CommandList commandList = this.commandListFactory.createCommandList();
             commandList.addMonitor(this.addressInputCommandListMonitor);
             this.mainScreenListener.resetPreviousLocation();
@@ -97,11 +95,10 @@ extends AbstractAddressInputManagerEvo {
                 this.executeAddressInputEvent(commandList, 7);
             }
         } else {
-            this.logChannel.log(-2137614336, "%1#start - the command list to start address input is still running - ignoring further calls.", (Object)this.CLASS_NAME);
+            this.logChannel.log(10000000, "%1#start - the command list to start address input is still running - ignoring further calls.", (Object)this.CLASS_NAME);
         }
     }
 
-    @Override
     public void startWithoutStrip(NavLocation navLocation) {
         this.start(navLocation);
     }
@@ -168,7 +165,6 @@ extends AbstractAddressInputManagerEvo {
         return addressInputRightDrawerListenerEU;
     }
 
-    @Override
     public IAddressInputMainScreenListener getMainScreenListener() {
         return this.mainScreenListener;
     }
@@ -205,32 +201,26 @@ extends AbstractAddressInputManagerEvo {
         return this.rightDrawerListener;
     }
 
-    @Override
     public int getAutoSelectLeftElementEventId() {
         return 204;
     }
 
-    @Override
     public int getStreetScreenAmbiguousListElementSelecteEventId() {
         return 304;
     }
 
-    @Override
     public int getStreetScreenNonAmbiguousListElementSelectedEventId() {
         return 303;
     }
 
-    @Override
     public int getStartForOnlineEventId() {
         return 14;
     }
 
-    @Override
     public int getStartForRemoteHMIEventId() {
         return 17;
     }
 
-    @Override
     public int getStartCityInputFromMainScreenEventId() {
         return 3;
     }

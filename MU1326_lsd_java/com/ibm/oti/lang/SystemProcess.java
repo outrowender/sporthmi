@@ -3,7 +3,8 @@
  */
 package com.ibm.oti.lang;
 
-import com.ibm.oti.lang.SystemProcess$1;
+import com.ibm.oti.lang.ProcessInputStream;
+import com.ibm.oti.lang.ProcessOutputStream;
 import com.ibm.oti.util.Util;
 import java.io.File;
 import java.io.IOException;
@@ -26,8 +27,7 @@ extends Process {
         SystemProcess.oneTimeInitialization();
     }
 
-    private static native void oneTimeInitialization() {
-    }
+    private static native void oneTimeInitialization();
 
     private SystemProcess() {
     }
@@ -35,23 +35,64 @@ extends Process {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public static Process create(String[] stringArray, String[] stringArray2, File file) {
-        byte[][] byArray = new byte[stringArray.length][];
+    public static Process create(String[] stringArray, String[] stringArray2, final File file) throws IOException {
+        final byte[][] byArray = new byte[stringArray.length][];
         int n = 0;
         while (n < stringArray.length) {
             byArray[n] = Util.getBytes(stringArray[n]);
             ++n;
         }
-        byte[][] byArray2 = new byte[stringArray2.length][];
+        final byte[][] byArray2 = new byte[stringArray2.length][];
         n = 0;
         while (n < stringArray2.length) {
             byArray2[n] = Util.getBytes(stringArray2[n]);
             ++n;
         }
-        SystemProcess systemProcess = new SystemProcess();
+        final SystemProcess systemProcess = new SystemProcess();
         systemProcess.lock = new Object();
-        SystemProcess$1 systemProcess$1 = new SystemProcess$1(systemProcess, byArray, byArray2, file);
-        Thread thread = new Thread(systemProcess$1);
+        Runnable runnable = new Runnable(){
+
+            /*
+             * WARNING - Removed try catching itself - possible behaviour change.
+             */
+            public void run() {
+                long[] lArray = null;
+                try {
+                    lArray = SystemProcess.createImpl(systemProcess, byArray, byArray2, file == null ? null : Util.getBytes(file.getPath()));
+                }
+                catch (Throwable throwable) {
+                    Object object = systemProcess.lock;
+                    synchronized (object) {
+                        systemProcess.exception = throwable;
+                        systemProcess.waiterStarted = true;
+                        systemProcess.lock.notifyAll();
+                    }
+                    return;
+                }
+                systemProcess.handle = lArray[0];
+                systemProcess.in = new ProcessOutputStream(lArray[1]);
+                systemProcess.out = new ProcessInputStream(lArray[2]);
+                systemProcess.err = new ProcessInputStream(lArray[3]);
+                Object object = systemProcess.lock;
+                synchronized (object) {
+                    systemProcess.waiterStarted = true;
+                    systemProcess.lock.notifyAll();
+                }
+                systemProcess.exitCode = systemProcess.waitForCompletionImpl();
+                object = systemProcess.lock;
+                synchronized (object) {
+                    systemProcess.closeImpl();
+                    systemProcess.handle = -1L;
+                    systemProcess.exitCodeAvailable = true;
+                    try {
+                        systemProcess.in.close();
+                    }
+                    catch (IOException iOException) {}
+                    systemProcess.lock.notifyAll();
+                }
+            }
+        };
+        Thread thread = new Thread(runnable);
         thread.setDaemon(true);
         thread.start();
         Object object = systemProcess.lock;
@@ -82,13 +123,11 @@ extends Process {
         return systemProcess;
     }
 
-    protected static synchronized native long[] createImpl(Process process, byte[][] byArray, byte[][] byArray2, byte[] byArray3) {
-    }
+    protected static synchronized native long[] createImpl(Process var0, byte[][] var1, byte[][] var2, byte[] var3);
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void destroy() {
         Object object = this.lock;
         synchronized (object) {
@@ -98,16 +137,13 @@ extends Process {
         }
     }
 
-    private native void destroyImpl() {
-    }
+    private native void destroyImpl();
 
-    native void closeImpl() {
-    }
+    native void closeImpl();
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int exitValue() {
         Object object = this.lock;
         synchronized (object) {
@@ -118,17 +154,14 @@ extends Process {
         }
     }
 
-    @Override
     public InputStream getErrorStream() {
         return this.err;
     }
 
-    @Override
     public InputStream getInputStream() {
         return this.out;
     }
 
-    @Override
     public OutputStream getOutputStream() {
         return this.in;
     }
@@ -136,8 +169,7 @@ extends Process {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public int waitFor() {
+    public int waitFor() throws InterruptedException {
         Object object = this.lock;
         synchronized (object) {
             while (!this.exitCodeAvailable) {
@@ -147,7 +179,6 @@ extends Process {
         }
     }
 
-    native int waitForCompletionImpl() {
-    }
+    native int waitForCompletionImpl();
 }
 

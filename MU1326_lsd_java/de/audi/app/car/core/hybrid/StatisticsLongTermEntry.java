@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package de.audi.app.car.core.hybrid;
 
@@ -11,7 +8,7 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class StatisticsLongTermEntry
 implements IMemoryBufferEntry {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
     private int valueCounter;
     private int distanceUnit;
     private double distanceCombustion;
@@ -74,7 +71,6 @@ implements IMemoryBufferEntry {
         this.distanceEfficiency = d2;
     }
 
-    @Override
     public void setDefaultValues() {
         this.valueCounter = 255;
         this.distanceUnit = 0;
@@ -83,19 +79,16 @@ implements IMemoryBufferEntry {
         this.distanceEfficiency = 255.0;
     }
 
-    @Override
     public IMemoryBufferEntry copy() {
         return new StatisticsLongTermEntry(this.valueCounter, this.distanceUnit, this.distanceCombustion, this.distanceElectrical, this.distanceEfficiency);
     }
 
-    @Override
     public String[] getFields() {
         return new String[]{"valueCounter", "distanceUnit", "distanceCombustion", "distanceElectrical", "distanceEfficiency"};
     }
 
-    @Override
     public String[] getValuesAsString() {
-        return new String[]{Integer.toHexString(this.valueCounter), Integer.toHexString(this.distanceUnit), Double.toString((double)this.distanceCombustion), Double.toString((double)this.distanceElectrical), Double.toString((double)this.distanceEfficiency)};
+        return new String[]{Integer.toHexString(this.valueCounter), Integer.toHexString(this.distanceUnit), Double.toString(this.distanceCombustion), Double.toString(this.distanceElectrical), Double.toString(this.distanceEfficiency)};
     }
 
     public String toString() {
@@ -103,9 +96,9 @@ implements IMemoryBufferEntry {
         buffer.append("StatisticsLongTermEntry(");
         buffer.append("valueCounter='").append(this.valueCounter).append("', ");
         buffer.append("distanceUnit='").append(this.distanceUnit).append("', ");
-        buffer.append("distanceCombustion='").append(Double.toString((double)this.distanceCombustion)).append("', ");
-        buffer.append("distanceElectrical='").append(Double.toString((double)this.distanceElectrical)).append("', ");
-        buffer.append("distanceEfficiency='").append(Double.toString((double)this.distanceEfficiency)).append("')");
+        buffer.append("distanceCombustion='").append(Double.toString(this.distanceCombustion)).append("', ");
+        buffer.append("distanceElectrical='").append(Double.toString(this.distanceElectrical)).append("', ");
+        buffer.append("distanceEfficiency='").append(Double.toString(this.distanceEfficiency)).append("')");
         return buffer.toString();
     }
 }

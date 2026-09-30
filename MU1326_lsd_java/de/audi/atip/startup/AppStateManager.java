@@ -12,10 +12,6 @@ import de.audi.atip.hmi.modelaccess.LabelModelApp;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.progress.IProgressMonitor;
 import de.audi.atip.progress.NaviProgressMap;
-import de.audi.atip.startup.AppStateManager$1;
-import de.audi.atip.startup.AppStateManager$2;
-import de.audi.atip.startup.AppStateManager$DependentCompomnentStart;
-import de.audi.atip.startup.AppStateManager$StartDomain;
 import de.audi.atip.startup.BundleHandler;
 import de.audi.atip.startup.ComponentState;
 import de.audi.atip.startup.DomainHandler;
@@ -25,6 +21,7 @@ import de.audi.atip.startup.config.Component;
 import de.audi.atip.startup.config.StartupConfigProvider;
 import de.audi.atip.sysapp.ProgressMonitor;
 import de.audi.atip.sysapp.carcoding.CarFuncAdap;
+import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.fw.util.commons.SimpleIntIntMap;
 import de.esolutions.fw.util.commons.error.DumpInfoProvider;
 import java.io.PrintStream;
@@ -35,6 +32,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import org.osgi.framework.Bundle;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
@@ -42,16 +40,16 @@ public final class AppStateManager
 implements IAppStateManager,
 DumpInfoProvider,
 IDomainListener {
-    public static final String BUNDLES_LASTMODE_ORDER;
-    public static final String BUNDLES_STATIC_INIT;
-    public static final String BUNDLES_HMI_BASICS;
-    public static final String BUNDLES_BEFORE_AUDIO;
-    public static final String BUNDLES_BEFORE_APP;
-    public static final String BUNDELS_ADD_ON;
-    public static final String BUNDLES_SWDL_START;
-    public static final int DEVICE_MODE_RELEASE;
-    public static final int DEVICE_MODE_DEVELOPMENT;
-    public static final int DEVICE_MODE_PCSIM;
+    public static final String BUNDLES_LASTMODE_ORDER = "LastmodeOrder";
+    public static final String BUNDLES_STATIC_INIT = "StaticInit";
+    public static final String BUNDLES_HMI_BASICS = "HMIBasics";
+    public static final String BUNDLES_BEFORE_AUDIO = "BeforeAudio";
+    public static final String BUNDLES_BEFORE_APP = "BeforeApp";
+    public static final String BUNDELS_ADD_ON = "Addon";
+    public static final String BUNDLES_SWDL_START = "SWDLReboot";
+    public static final int DEVICE_MODE_RELEASE = 0;
+    public static final int DEVICE_MODE_DEVELOPMENT = 1;
+    public static final int DEVICE_MODE_PCSIM = 2;
     private final LogChannel lc;
     private final List listeners;
     private StartupManager startupManager;
@@ -73,7 +71,7 @@ IDomainListener {
         this.bundleHandler = startupManager.getBundleHandler();
         this.listeners = new ArrayList(10);
         this.lc = this.getFramework().getLogChannel("Fw.Startup.State");
-        this.lc.log(1078071040, "AppStateManager.<init>");
+        this.lc.log(1000000, "AppStateManager.<init>");
         this.initComponentStates();
         this.getFramework().getErrorMgr().registerDumpInfoProvider(this);
         this.initDomainStateListenerTracker();
@@ -81,12 +79,62 @@ IDomainListener {
     }
 
     private void initDomainStateListenerTracker() {
-        this.lc.log(1078071040, "AppStateManager.initDomainStateListenerTracker()");
-        new ServiceTracker(this.getFramework().getBundleCxt(), (class$de$audi$atip$base$IDomainListener == null ? (class$de$audi$atip$base$IDomainListener = AppStateManager.class$("de.audi.atip.base.IDomainListener")) : class$de$audi$atip$base$IDomainListener).getName(), (ServiceTrackerCustomizer)new AppStateManager$1(this)).open();
+        this.lc.log(1000000, "AppStateManager.initDomainStateListenerTracker()");
+        new ServiceTracker(this.getFramework().getBundleCxt(), (class$de$audi$atip$base$IDomainListener == null ? (class$de$audi$atip$base$IDomainListener = AppStateManager.class$("de.audi.atip.base.IDomainListener")) : class$de$audi$atip$base$IDomainListener).getName(), new ServiceTrackerCustomizer(){
+
+            public void removedService(ServiceReference serviceReference, Object object) {
+                AppStateManager.this.lc.log(1000000, "AppStateManager.initDomainStateListenerTracker(): Removing service: %1", object);
+                if (object instanceof IDomainListener) {
+                    AppStateManager.this.unregisterDomainStateListener((IDomainListener)object);
+                } else {
+                    AppStateManager.this.lc.log(10000, "AppStateManager.initDomainStateListenerTracker(): Removed service not an instance of IDomainListener: %1", object);
+                }
+            }
+
+            public void modifiedService(ServiceReference serviceReference, Object object) {
+                AppStateManager.this.lc.log(10000, "AppStateManager.initDomainStateListenerTracker(): Modified service: %1", object);
+            }
+
+            public Object addingService(ServiceReference serviceReference) {
+                Object object = AppStateManager.this.getFramework().getBundleCxt().getService(serviceReference);
+                AppStateManager.this.lc.log(1000000, "AppStateManager.initDomainStateListenerTracker(): Adding service: %1", object);
+                if (object instanceof IDomainListener) {
+                    AppStateManager.this.registerDomainStateListener((IDomainListener)object);
+                } else {
+                    AppStateManager.this.lc.log(10000, "AppStateManager.initDomainStateListenerTracker(): Added service not an instance of IDomainListener: %1", object);
+                }
+                return object;
+            }
+        }).open();
     }
 
     private void initComponentStateListenerTracker() {
-        new ServiceTracker(this.getFramework().getBundleCxt(), (class$de$audi$atip$base$ComponentStateListener == null ? (class$de$audi$atip$base$ComponentStateListener = AppStateManager.class$("de.audi.atip.base.ComponentStateListener")) : class$de$audi$atip$base$ComponentStateListener).getName(), (ServiceTrackerCustomizer)new AppStateManager$2(this)).open();
+        new ServiceTracker(this.getFramework().getBundleCxt(), (class$de$audi$atip$base$ComponentStateListener == null ? (class$de$audi$atip$base$ComponentStateListener = AppStateManager.class$("de.audi.atip.base.ComponentStateListener")) : class$de$audi$atip$base$ComponentStateListener).getName(), new ServiceTrackerCustomizer(){
+
+            public void removedService(ServiceReference serviceReference, Object object) {
+                AppStateManager.this.lc.log(1000000, "AppStateManager.initComponentStateListenerTracker(): Removing service: %1", object);
+                if (object instanceof ComponentStateListener) {
+                    AppStateManager.this.unregisterComponentStateListener((ComponentStateListener)object);
+                } else {
+                    AppStateManager.this.lc.log(10000, "AppStateManager.initComponentStateListenerTracker(): Removed service not an instance of ComponentStateListener: %1", object);
+                }
+            }
+
+            public void modifiedService(ServiceReference serviceReference, Object object) {
+                AppStateManager.this.lc.log(10000, "AppStateManager.initComponentStateListenerTracker(): Modified service: %1", object);
+            }
+
+            public Object addingService(ServiceReference serviceReference) {
+                Object object = AppStateManager.this.getFramework().getBundleCxt().getService(serviceReference);
+                AppStateManager.this.lc.log(1000000, "AppStateManager.initComponentStateListenerTracker(): Adding service: %1", object);
+                if (object instanceof ComponentStateListener) {
+                    AppStateManager.this.registerComponentStateListener((ComponentStateListener)object);
+                } else {
+                    AppStateManager.this.lc.log(10000, "AppStateManager.initComponentStateListenerTracker(): Registered service not an instance of ComponentStateListener: %1", object);
+                }
+                return object;
+            }
+        }).open();
     }
 
     private void initComponentStates() {
@@ -128,7 +176,7 @@ IDomainListener {
             componentState.initSubComponents();
             this.checkStopOnFailDependency(componentState);
         }
-        this.lastmodeOrder = this.getComponentByName("LastmodeOrder");
+        this.lastmodeOrder = this.getComponentByName(BUNDLES_LASTMODE_ORDER);
     }
 
     private void addStopOnFailDependency(String string, String string2) {
@@ -146,14 +194,14 @@ IDomainListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    void addNotStartedDependendComponent(ComponentState componentState, AppStateManager$DependentCompomnentStart appStateManager$DependentCompomnentStart) {
+    void addNotStartedDependendComponent(ComponentState componentState, DependentCompomnentStart dependentCompomnentStart) {
         HashMap hashMap = this.notStartedDependentComponents;
         synchronized (hashMap) {
             ArrayList arrayList = (ArrayList)this.notStartedDependentComponents.get(componentState.getComponentName());
             if (arrayList == null) {
                 arrayList = new ArrayList(5);
             }
-            arrayList.add(appStateManager$DependentCompomnentStart);
+            arrayList.add(dependentCompomnentStart);
             this.notStartedDependentComponents.put(componentState.getComponentName(), arrayList);
         }
     }
@@ -169,9 +217,9 @@ IDomainListener {
                 this.notStartedDependentComponents.remove(string);
                 Iterator iterator = arrayList.iterator();
                 while (iterator.hasNext()) {
-                    AppStateManager$DependentCompomnentStart appStateManager$DependentCompomnentStart = (AppStateManager$DependentCompomnentStart)iterator.next();
-                    if (appStateManager$DependentCompomnentStart == null) continue;
-                    appStateManager$DependentCompomnentStart.reCheckDependency();
+                    DependentCompomnentStart dependentCompomnentStart = (DependentCompomnentStart)iterator.next();
+                    if (dependentCompomnentStart == null) continue;
+                    dependentCompomnentStart.reCheckDependency();
                 }
                 arrayList = null;
             }
@@ -389,29 +437,29 @@ IDomainListener {
     }
 
     ComponentState getStaticInit() {
-        return this.getComponentByName("StaticInit");
+        return this.getComponentByName(BUNDLES_STATIC_INIT);
     }
 
     ComponentState getHMIBasics() {
-        return this.getComponentByName("HMIBasics");
+        return this.getComponentByName(BUNDLES_HMI_BASICS);
     }
 
     ComponentState getBeforeAudio() {
-        return this.getComponentByName("BeforeAudio");
+        return this.getComponentByName(BUNDLES_BEFORE_AUDIO);
     }
 
     ComponentState getBeforeApp() {
-        return this.getComponentByName("BeforeApp");
+        return this.getComponentByName(BUNDLES_BEFORE_APP);
     }
 
     ComponentState getAddon() {
-        return this.getComponentByName("Addon");
+        return this.getComponentByName(BUNDELS_ADD_ON);
     }
 
     boolean isLastmodeApplication(int n) {
         ComponentState componentState = this.getComponentState(n);
         if (componentState != null) {
-            this.lc.log(-2137614336, "AppStateManager.isLastmodeApplication[%2]: %1", componentState.isLastmodeApp(), (long)n);
+            this.lc.log(10000000, "AppStateManager.isLastmodeApplication[%2]: %1", componentState.isLastmodeApp(), (long)n);
             return componentState.isLastmodeApp();
         }
         return false;
@@ -420,7 +468,7 @@ IDomainListener {
     boolean isLastmodeAudioApplication(int n) {
         ComponentState componentState = this.getComponentState(n);
         if (componentState != null) {
-            this.lc.log(-2137614336, "AppStateManager.isLastmodeAudioApp[%2]: %1", componentState.isLastmodeAudioApp(), (long)n);
+            this.lc.log(10000000, "AppStateManager.isLastmodeAudioApp[%2]: %1", componentState.isLastmodeAudioApp(), (long)n);
             return componentState.isLastmodeAudioApp();
         }
         return false;
@@ -431,7 +479,7 @@ IDomainListener {
     }
 
     ComponentState getSwdl() {
-        return this.getComponentByName("SWDLReboot");
+        return this.getComponentByName(BUNDLES_SWDL_START);
     }
 
     ComponentState getComponentState(int n) {
@@ -440,9 +488,9 @@ IDomainListener {
             if (this.lastmodeAppIdMap != null) {
                 componentState = (ComponentState)this.lastmodeAppIdMap.get(new Integer(n));
                 if (componentState != null) {
-                    this.lc.log(-2137614336, "AppstateManager::getComponentState[%2] -> componentName='%1'", (Object)componentState.getComponentName(), (long)n);
+                    this.lc.log(10000000, "AppstateManager::getComponentState[%2] -> componentName='%1'", (Object)componentState.getComponentName(), (long)n);
                 } else {
-                    this.lc.log(-1601830656, "AppstateManager::getComponentState[%1] - not found", (long)n);
+                    this.lc.log(100000, "AppstateManager::getComponentState[%1] - not found", (long)n);
                 }
             } else {
                 this.lc.log(10000, "AppstateManager::getComponentState[%1] - map of lastmode Id is not initialized ", (long)n);
@@ -509,7 +557,6 @@ IDomainListener {
         return null;
     }
 
-    @Override
     public boolean isAppSwdlStarted() {
         ChoiceModelApp choiceModelApp = this.getChoiceModelApp(this.getFramework().isFrontMU() ? 0 : 5, "SWDL");
         if (choiceModelApp != null) {
@@ -521,7 +568,7 @@ IDomainListener {
 
     private void componentNotPresent(String string) {
         ComponentState componentState;
-        this.lc.log(1078071040, "AppStateManager: component %1 not present", (Object)string);
+        this.lc.log(1000000, "AppStateManager: component %1 not present", (Object)string);
         ChoiceModelApp choiceModelApp = this.getChoiceModelApp(0, string);
         if (choiceModelApp != null) {
             choiceModelApp.setValue(1024);
@@ -543,7 +590,7 @@ IDomainListener {
     void updateComponentState(String string) {
         ComponentState componentState = this.getComponentByBundleName(string);
         if (componentState != null) {
-            this.getLog().log(1078071040, "AppStateManager.updateComponentState(bundle:%1), componentState:%2 ", (Object)string, (Object)componentState.getComponentName());
+            this.getLog().log(1000000, "AppStateManager.updateComponentState(bundle:%1), componentState:%2 ", (Object)string, (Object)componentState.getComponentName());
             componentState.stateUpdate();
         }
     }
@@ -564,11 +611,10 @@ IDomainListener {
 
     protected boolean mustWaitForMU(int n) {
         boolean bl = !this.getDomainHandler().isDomainStartedOnMU(n);
-        this.lc.log(1078071040, "AppStateManager.mustWaitForMU( %2 ): %1", bl, (long)n);
+        this.lc.log(1000000, "AppStateManager.mustWaitForMU( %2 ): %1", bl, (long)n);
         return bl;
     }
 
-    @Override
     public void updateDomainState(int n, int n2) {
         Iterator iterator = this.compStateMap.values().iterator();
         while (iterator.hasNext()) {
@@ -578,7 +624,6 @@ IDomainListener {
         }
     }
 
-    @Override
     public void muDomainIsAvailable(int n, int n2) {
     }
 
@@ -586,15 +631,14 @@ IDomainListener {
     }
 
     void enqueueBackgroundApps(List list) {
-        this.lc.log(1078071040, "AppStateManager.enqueueLastmodeApps()");
+        this.lc.log(1000000, "AppStateManager.enqueueLastmodeApps()");
         this.startupManager.enqueueStartComponent(list, this.lastmodeOrder, true);
     }
 
-    @Override
     public IProgressMonitor getNavProgressMonitor() {
         if (null == this.navProgressMonitor) {
             LogChannel logChannel = this.getFramework().getLogChannel("App.Navi.Main");
-            this.navProgressMonitor = new ProgressMonitor("NavProgressMonitor", logChannel, this.getSysChoiceModel(165), (LabelModelApp)((Object)this.getFramework().getHMIService().getModel(166)), new NaviProgressMap(), 0, true);
+            this.navProgressMonitor = new ProgressMonitor("NavProgressMonitor", logChannel, this.getSysChoiceModel(165), (LabelModelApp)((Object)this.getFramework().getHMIService().getModel(166)), new NaviProgressMap(), 1000L, true);
         }
         return this.navProgressMonitor;
     }
@@ -602,9 +646,8 @@ IDomainListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void registerComponentStateListener(ComponentStateListener componentStateListener) {
-        this.lc.log(-2137614336, "registerAppStateListener( %1 )", (Object)componentStateListener);
+        this.lc.log(10000000, "registerAppStateListener( %1 )", (Object)componentStateListener);
         if (null != componentStateListener) {
             Object object = this.listeners;
             synchronized (object) {
@@ -627,9 +670,8 @@ IDomainListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void unregisterComponentStateListener(ComponentStateListener componentStateListener) {
-        this.lc.log(-2137614336, "unregisterComponentStateListener( %1 )", (Object)componentStateListener);
+        this.lc.log(10000000, "unregisterComponentStateListener( %1 )", (Object)componentStateListener);
         if (componentStateListener != null) {
             List list = this.listeners;
             synchronized (list) {
@@ -645,13 +687,11 @@ IDomainListener {
         }
     }
 
-    @Override
     public void enqueueDomainStart(int n, int n2) {
         this.getStartupManager().logStartupEvent(null, 0, new StringBuffer().append("AppStateManager#enqueueDomainStart(").append(this.getDomainName(n)).append(", 0x").append(Integer.toHexString(n2)).append(")").toString());
         this.enqueueDomainStart(this.getStartupManager().getDelayedQueue(), n, n2, n2, null, false, false, null);
     }
 
-    @Override
     public void dump(PrintStream printStream, String string) {
         printStream.println("Lastmode Order:");
         if (this.lastmodeOrder.getSubComponentStates() != null) {
@@ -676,17 +716,14 @@ IDomainListener {
         }
     }
 
-    @Override
     public String getName() {
         return "AppStateManager";
     }
 
-    @Override
     public void registerDomainStateListener(IDomainListener iDomainListener) {
         this.getDomainHandler().addDomainListener(iDomainListener);
     }
 
-    @Override
     public void unregisterDomainStateListener(IDomainListener iDomainListener) {
         this.getDomainHandler().removeDomainListener(iDomainListener);
     }
@@ -701,13 +738,13 @@ IDomainListener {
 
     void enqueueDomainStart(List list, int n, int n2, int n3, Runnable runnable, boolean bl, boolean bl2, ComponentState componentState) {
         if (this.isDomainEnabled(n)) {
-            this.getLog().log(1078071040, "AppStateManager.enqueueDomainStart( %1, 0x%2 )", (long)n, (long)n2);
-            this.getStartupManager().getStartupQueue().enqueue(list, new AppStateManager$StartDomain(this, n, n2, n3, runnable, bl, componentState), bl2);
+            this.getLog().log(1000000, "AppStateManager.enqueueDomainStart( %1, 0x%2 )", (long)n, (long)n2);
+            this.getStartupManager().getStartupQueue().enqueue(list, new StartDomain(n, n2, n3, runnable, bl, componentState), bl2);
         }
     }
 
-    AppStateManager$DependentCompomnentStart getDependentCompomnentStart(String string, List list, boolean bl) {
-        return new AppStateManager$DependentCompomnentStart(this, string, list, bl);
+    DependentCompomnentStart getDependentCompomnentStart(String string, List list, boolean bl) {
+        return new DependentCompomnentStart(string, list, bl);
     }
 
     static /* synthetic */ Class class$(String string) {
@@ -719,16 +756,75 @@ IDomainListener {
         }
     }
 
-    static /* synthetic */ LogChannel access$000(AppStateManager appStateManager) {
-        return appStateManager.lc;
+    class StartDomain
+    implements Runnable {
+        private final int domainId;
+        private final int minumumState;
+        private final int requiredState;
+        private final Runnable onSuccess;
+        private final boolean async;
+        private final ComponentState componentState;
+
+        StartDomain(int n, int n2, int n3, Runnable runnable, boolean bl, ComponentState componentState) {
+            this.domainId = n;
+            this.minumumState = n2;
+            this.requiredState = n3;
+            this.onSuccess = runnable;
+            this.async = bl;
+            this.componentState = componentState;
+        }
+
+        public String toString() {
+            return new Buffer().append(new StringBuffer().append("StartDomain").append(this.async ? "Async" : "").append("(").toString()).append(AppStateManager.this.getDomainName(this.domainId)).append(", 0x").append(Integer.toHexString(this.requiredState)).append(')').toString();
+        }
+
+        public void run() {
+            if (!this.async) {
+                if (this.onSuccess != null && this.componentState != null) {
+                    AppStateManager.this.getLog().log(10000000, "set DomainState to %1", 1L);
+                    this.componentState.setDomainStartState(1);
+                }
+                int n = AppStateManager.this.getDomainHandler().doStartDomain(this.domainId, this.requiredState);
+                AppStateManager.this.getLog().log(1000000, "AppStateManager.StartDomain.run( %1, 0x%2): resultstate: 0x%3", (Object)DomainHandler.getDomainName(this.domainId), (long)this.requiredState, (long)n);
+                if (DomainHandler.isFailed(n)) {
+                    if (this.componentState != null) {
+                        this.componentState.setDomainStartState(-1);
+                    }
+                } else if (DomainHandler.isIncluded(this.minumumState, n) && this.onSuccess != null) {
+                    if (this.componentState != null) {
+                        this.componentState.setDomainStartState(2);
+                    }
+                    this.onSuccess.run();
+                }
+                if (this.domainId == 6) {
+                    AppStateManager.this.getStartupManager().getSyncNav().setupWait();
+                    AppStateManager.this.getStartupManager().getSyncTTS().setupWait();
+                } else if (this.domainId == 10) {
+                    AppStateManager.this.getStartupManager().getSyncSDS().setupWait();
+                }
+            } else {
+                AppStateManager.this.getDomainHandler().doStartDomainAsync(this.domainId, this.requiredState);
+            }
+        }
     }
 
-    static /* synthetic */ String access$100(AppStateManager appStateManager, int n) {
-        return appStateManager.getDomainName(n);
-    }
+    public class DependentCompomnentStart {
+        private final String componentName;
+        private final List queue;
+        private final boolean startSubComponents;
 
-    static /* synthetic */ DomainHandler access$200(AppStateManager appStateManager) {
-        return appStateManager.getDomainHandler();
+        DependentCompomnentStart(String string, List list, boolean bl) {
+            this.componentName = string;
+            this.queue = list;
+            this.startSubComponents = bl;
+        }
+
+        void reCheckDependency() {
+            ComponentState componentState = AppStateManager.this.getComponentByName(this.componentName);
+            if (componentState != null && componentState.hasDependentComponents()) {
+                componentState.enqueueCheckDependencies(this.queue, true, this.startSubComponents);
+            }
+        }
     }
 }
 

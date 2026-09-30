@@ -23,12 +23,10 @@ implements IActivationContext {
         this.slot = iSourceSlot;
     }
 
-    @Override
     public ISourceSlot getSlot() {
         return this.slot.getSource().getSlot(this.slot);
     }
 
-    @Override
     public Object getParameter(String string) {
         return this.parameterMap.get(string);
     }

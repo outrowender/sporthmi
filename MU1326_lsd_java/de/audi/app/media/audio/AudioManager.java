@@ -3,17 +3,10 @@
  */
 package de.audi.app.media.audio;
 
+import de.audi.app.media.AbstractDispatcherRunnable;
 import de.audi.app.media.AbstractMediaTerminalComponent;
 import de.audi.app.media.IMediaTerminal;
 import de.audi.app.media.audio.AudioContext;
-import de.audi.app.media.audio.AudioManager$1;
-import de.audi.app.media.audio.AudioManager$2;
-import de.audi.app.media.audio.AudioManager$3;
-import de.audi.app.media.audio.AudioManager$4;
-import de.audi.app.media.audio.AudioManager$5;
-import de.audi.app.media.audio.AudioManager$6;
-import de.audi.app.media.audio.AudioManager$7;
-import de.audi.app.media.audio.AudioManager$MediaRouterServiceListener;
 import de.audi.app.media.audio.AudioState;
 import de.audi.app.media.audio.IAudioContextStateNotifier;
 import de.audi.app.media.audio.IAudioManager;
@@ -21,35 +14,41 @@ import de.audi.app.media.audio.IAudioStateListener;
 import de.audi.app.media.audio.JobNotifyAudioFocus;
 import de.audi.app.media.audio.JobNotifyAudioState;
 import de.audi.app.media.audio.JobNotifyRearSeatAudioFocus;
+import de.audi.app.media.audio.NullToneService;
 import de.audi.app.media.audio.TunerServiceHandler;
-import de.audi.app.media.logger.IMediaLogger;
+import de.audi.app.media.diagnosis.IDiagnosisDataProvider;
 import de.audi.app.media.osgi.IServiceTracker;
 import de.audi.app.media.util.CopyOnWriteArrayList;
 import de.audi.atip.audio.HMIAudioService;
 import de.audi.atip.audio.HMIAudioServiceListener;
+import de.audi.atip.audio.IAudioFocusClient;
 import de.audi.atip.audio.IAudioFocusManager;
 import de.audi.atip.audio.NullAudioFocusManager;
 import de.audi.atip.interapp.audio.ATIPAudioRoute;
 import de.audi.atip.interapp.audio.ATIPMediaRouterService;
+import de.audi.atip.interapp.audio.ATIPMediaRouterServiceListener;
 import de.audi.atip.interapp.audio.ToneService;
 import de.audi.atip.interapp.audio.drawer.AudioDrawerContext;
 import de.audi.atip.interapp.def.ATIPAudioRouteImpl;
 import de.audi.atip.interapp.def.NullHMIAudioService;
+import de.esolutions.fw.util.commons.Buffer;
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
+import org.osgi.framework.ServiceReference;
 import org.osgi.framework.ServiceRegistration;
+import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
 public class AudioManager
 extends AbstractMediaTerminalComponent
 implements HMIAudioServiceListener,
 IAudioManager,
 IAudioContextStateNotifier {
-    private static final String LOGCLASS;
-    private static final int AUDIO_FOCUS_OTHER;
-    private static final int AUDIO_FOCUS_MEDIA_FRONT;
-    private static final int AUDIO_FOCUS_MEDIA_ONLY_REARSEAT;
+    private static final String LOGCLASS = "AudioManager";
+    private static final int AUDIO_FOCUS_OTHER = 0;
+    private static final int AUDIO_FOCUS_MEDIA_FRONT = 1;
+    private static final int AUDIO_FOCUS_MEDIA_ONLY_REARSEAT = 2;
     private final int CONN_MUTE;
     private final int CONN_STANDBY;
     private final Object audioContextMutex = new Object();
@@ -66,7 +65,7 @@ IAudioContextStateNotifier {
     private volatile CopyOnWriteArrayList audioContextListeners = new CopyOnWriteArrayList();
     private AudioContext activeAudioContext;
     private boolean audioMgrReady;
-    private static final int MAX_RETRIES_ON_ERROR;
+    private static final int MAX_RETRIES_ON_ERROR = 3;
     private int errorRetriesCounter = 0;
     private volatile int prevAudioFocus = 0;
     private volatile boolean prevRearSeatAudioFocus = false;
@@ -103,20 +102,122 @@ IAudioContextStateNotifier {
             }
         }
         this.audioService = new NullHMIAudioService(this.logger.audio());
-        this.audioManagerServiceTracker = this.getTerminal().getServiceManager().createServiceTracker(class$de$audi$atip$audio$HMIAudioService == null ? (class$de$audi$atip$audio$HMIAudioService = AudioManager.class$("de.audi.atip.audio.HMIAudioService")) : class$de$audi$atip$audio$HMIAudioService, new AudioManager$1(this));
-        this.audioFocusManagerTracker = this.getTerminal().getServiceManager().createServiceTracker(class$de$audi$atip$audio$IAudioFocusManager == null ? (class$de$audi$atip$audio$IAudioFocusManager = AudioManager.class$("de.audi.atip.audio.IAudioFocusManager")) : class$de$audi$atip$audio$IAudioFocusManager, new AudioManager$2(this));
-        this.audioDrawerContextTracker = this.getTerminal().getServiceManager().createServiceTracker(class$de$audi$atip$interapp$audio$drawer$AudioDrawerContext == null ? (class$de$audi$atip$interapp$audio$drawer$AudioDrawerContext = AudioManager.class$("de.audi.atip.interapp.audio.drawer.AudioDrawerContext")) : class$de$audi$atip$interapp$audio$drawer$AudioDrawerContext, new AudioManager$3(this));
-        this.mediaRoutesServiceTracker = this.getTerminal().getServiceManager().createServiceTracker(class$de$audi$atip$interapp$audio$ATIPMediaRouterService == null ? (class$de$audi$atip$interapp$audio$ATIPMediaRouterService = AudioManager.class$("de.audi.atip.interapp.audio.ATIPMediaRouterService")) : class$de$audi$atip$interapp$audio$ATIPMediaRouterService, new AudioManager$4(this));
-        this.logger.audio().log(-1601830656, "[%1.init] create a tone service tracker.", (Object)"AudioManager");
-        this.toneServiceTracker = this.getTerminal().getServiceManager().createServiceTracker(class$de$audi$atip$interapp$audio$ToneService == null ? (class$de$audi$atip$interapp$audio$ToneService = AudioManager.class$("de.audi.atip.interapp.audio.ToneService")) : class$de$audi$atip$interapp$audio$ToneService, new AudioManager$5(this));
-        this.getTerminal().getDiagnosisManager().addDataProvider(-1, new AudioManager$6(this));
+        this.audioManagerServiceTracker = this.getTerminal().getServiceManager().createServiceTracker(class$de$audi$atip$audio$HMIAudioService == null ? (class$de$audi$atip$audio$HMIAudioService = AudioManager.class$("de.audi.atip.audio.HMIAudioService")) : class$de$audi$atip$audio$HMIAudioService, new ServiceTrackerCustomizer(){
+
+            public void removedService(ServiceReference serviceReference, Object object) {
+                Object object2 = serviceReference.getProperty("AUDIO_CLIENT_ID");
+                if (!HMIAudioService.CLIENT_MEDIA.equals(object2)) {
+                    return;
+                }
+                AudioManager.this.logger.audio().log(1000000, "[%1.removedService] Audio service removed.", (Object)AudioManager.LOGCLASS);
+                AudioManager.this.getTerminal().getServiceManager().releaseService(serviceReference);
+                AudioManager.this.setAudioService(new NullHMIAudioService(AudioManager.this.logger.audio()));
+            }
+
+            public Object addingService(ServiceReference serviceReference) {
+                Object object = serviceReference.getProperty("AUDIO_CLIENT_ID");
+                if (!HMIAudioService.CLIENT_MEDIA.equals(object)) {
+                    return null;
+                }
+                Object object2 = AudioManager.this.getTerminal().getServiceManager().getService(serviceReference);
+                AudioManager.this.logger.audio().log(1000000, "[%1.addingService] Audio service found.", (Object)AudioManager.LOGCLASS);
+                AudioManager.this.setAudioService((HMIAudioService)object2);
+                return object2;
+            }
+
+            public void modifiedService(ServiceReference serviceReference, Object object) {
+            }
+        });
+        this.audioFocusManagerTracker = this.getTerminal().getServiceManager().createServiceTracker(class$de$audi$atip$audio$IAudioFocusManager == null ? (class$de$audi$atip$audio$IAudioFocusManager = AudioManager.class$("de.audi.atip.audio.IAudioFocusManager")) : class$de$audi$atip$audio$IAudioFocusManager, new ServiceTrackerCustomizer(){
+
+            public Object addingService(ServiceReference serviceReference) {
+                AudioManager.this.logger.audio().log(1000000, "[%1.addingService] Audio focus manager found.", (Object)AudioManager.LOGCLASS);
+                AudioManager.this.audioFocusManager = (IAudioFocusManager)AudioManager.this.getTerminal().getServiceManager().getService(serviceReference);
+                return AudioManager.this.audioFocusManager;
+            }
+
+            public void removedService(ServiceReference serviceReference, Object object) {
+                AudioManager.this.logger.audio().log(1000000, "[%1.addingService] Audio focus manager removed", (Object)AudioManager.LOGCLASS);
+                AudioManager.this.audioFocusManager = new NullAudioFocusManager(AudioManager.this.logger.audio());
+                AudioManager.this.getTerminal().getServiceManager().releaseService(serviceReference);
+            }
+
+            public void modifiedService(ServiceReference serviceReference, Object object) {
+            }
+        });
+        this.audioDrawerContextTracker = this.getTerminal().getServiceManager().createServiceTracker(class$de$audi$atip$interapp$audio$drawer$AudioDrawerContext == null ? (class$de$audi$atip$interapp$audio$drawer$AudioDrawerContext = AudioManager.class$("de.audi.atip.interapp.audio.drawer.AudioDrawerContext")) : class$de$audi$atip$interapp$audio$drawer$AudioDrawerContext, new ServiceTrackerCustomizer(){
+
+            public Object addingService(ServiceReference serviceReference) {
+                AudioManager.this.logger.audio().log(1000000, "[%1.addingService] Audio Drawer manager found.", (Object)AudioManager.LOGCLASS);
+                AudioManager.this.audioDrawerContext = (AudioDrawerContext)AudioManager.this.getTerminal().getServiceManager().getService(serviceReference);
+                AudioManager.this.setDrawerContext();
+                return AudioManager.this.audioDrawerContext;
+            }
+
+            public void removedService(ServiceReference serviceReference, Object object) {
+                AudioManager.this.logger.audio().log(1000000, "[%1.addingService] Audio Drawer manager removed", (Object)AudioManager.LOGCLASS);
+                AudioManager.this.audioDrawerContext = null;
+                AudioManager.this.getTerminal().getServiceManager().releaseService(serviceReference);
+            }
+
+            public void modifiedService(ServiceReference serviceReference, Object object) {
+            }
+        });
+        this.mediaRoutesServiceTracker = this.getTerminal().getServiceManager().createServiceTracker(class$de$audi$atip$interapp$audio$ATIPMediaRouterService == null ? (class$de$audi$atip$interapp$audio$ATIPMediaRouterService = AudioManager.class$("de.audi.atip.interapp.audio.ATIPMediaRouterService")) : class$de$audi$atip$interapp$audio$ATIPMediaRouterService, new ServiceTrackerCustomizer(){
+
+            public void removedService(ServiceReference serviceReference, Object object) {
+                AudioManager.this.logger.audio().log(100000, "[%1.removedService]", (Object)AudioManager.LOGCLASS);
+                AudioManager.this.mediaRouterService = null;
+            }
+
+            public void modifiedService(ServiceReference serviceReference, Object object) {
+            }
+
+            public Object addingService(ServiceReference serviceReference) {
+                AudioManager.this.logger.audio().log(100000000, "[%1.addingService] Media router serrive found.", (Object)AudioManager.LOGCLASS);
+                AudioManager.this.mediaRouterService = (ATIPMediaRouterService)AudioManager.this.getTerminal().getServiceManager().getService(serviceReference);
+                return AudioManager.this.mediaRouterService;
+            }
+        });
+        this.logger.audio().log(100000, "[%1.init] create a tone service tracker.", (Object)LOGCLASS);
+        this.toneServiceTracker = this.getTerminal().getServiceManager().createServiceTracker(class$de$audi$atip$interapp$audio$ToneService == null ? (class$de$audi$atip$interapp$audio$ToneService = AudioManager.class$("de.audi.atip.interapp.audio.ToneService")) : class$de$audi$atip$interapp$audio$ToneService, new ServiceTrackerCustomizer(){
+
+            public void removedService(ServiceReference serviceReference, Object object) {
+                AudioManager.this.logger.audio().log(100000, "[%1.removedService]", (Object)AudioManager.LOGCLASS);
+                AudioManager.this.toneService = new NullToneService(AudioManager.this.logger.audio());
+            }
+
+            public void modifiedService(ServiceReference serviceReference, Object object) {
+                AudioManager.this.logger.audio().log(100000, "[%1.modifiedService]", (Object)AudioManager.LOGCLASS);
+            }
+
+            public Object addingService(ServiceReference serviceReference) {
+                AudioManager.this.logger.audio().log(100000000, "[%1.addingService] media tone service found.", (Object)AudioManager.LOGCLASS);
+                AudioManager.this.toneService = (ToneService)AudioManager.this.getTerminal().getServiceManager().getService(serviceReference);
+                return AudioManager.this.toneService;
+            }
+        });
+        this.getTerminal().getDiagnosisManager().addDataProvider(-1, new IDiagnosisDataProvider(){
+
+            public String getDiagValue() {
+                Buffer buffer = new Buffer();
+                for (int i2 = 0; i2 < 8; ++i2) {
+                    buffer.append("terminal='").append(i2).append("', focus='").append(AudioManager.this.audioFocusOnTerminal[i2]).append("'\n");
+                }
+                return buffer.toString();
+            }
+
+            public String getDiagKey() {
+                return "AudioManager.audioFocus";
+            }
+        });
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void init() {
-        this.logger.main().log(1078071040, "[%1.init]", (Object)"AudioManager");
+        this.logger.main().log(1000000, "[%1.init]", (Object)LOGCLASS);
         Object object = this.audioContextMutex;
         synchronized (object) {
             this.activeAudioContext = new AudioContext(9, this, true);
@@ -131,15 +232,31 @@ IAudioContextStateNotifier {
         this.audioDrawerContextTracker.open();
         this.mediaRoutesServiceTracker.open();
         this.toneServiceTracker.open();
-        this.audioFocusClientRegistration = this.getTerminal().getServiceManager().registerService(class$de$audi$atip$audio$IAudioFocusClient == null ? (class$de$audi$atip$audio$IAudioFocusClient = AudioManager.class$("de.audi.atip.audio.IAudioFocusClient")) : class$de$audi$atip$audio$IAudioFocusClient, new AudioManager$7(this), new Hashtable(0));
+        this.audioFocusClientRegistration = this.getTerminal().getServiceManager().registerService(class$de$audi$atip$audio$IAudioFocusClient == null ? (class$de$audi$atip$audio$IAudioFocusClient = AudioManager.class$("de.audi.atip.audio.IAudioFocusClient")) : class$de$audi$atip$audio$IAudioFocusClient, new IAudioFocusClient(){
+
+            public void updateAudioFocus(final int n, final int n2) {
+                final boolean bl = AudioManager.this.getTerminal().isStartup() && 2 == AudioManager.this.getTerminal().getFramework().getLastmodeHandler().getLastmodeAudio(n);
+                AudioManager.this.getTerminal().getDispatcher().execute(new AbstractDispatcherRunnable("AudioManager.updateAudioFocus"){
+
+                    public void run() {
+                        boolean bl3;
+                        boolean bl2 = bl3 = n2 == 2;
+                        if (AudioManager.this.logger.audio().isInfo()) {
+                            AudioManager.this.logger.audio().log(1000000, "[%1.updateAudioFocus] '%3' (terminalID='%2')", (Object)AudioManager.LOGCLASS, (Object)new Integer(n), (Object)(bl3 ? "MEDIA" : "OTHER"));
+                        }
+                        AudioManager.this.setAudioFocus(n, bl3, !bl);
+                    }
+                });
+            }
+        }, new Hashtable(0));
         object = new Hashtable(1);
         ((Hashtable)object).put("AUDIO_CLIENT_ID", HMIAudioService.CLIENT_MEDIA);
         this.audioServiceListenerRegistration = this.getTerminal().getServiceManager().registerService(class$de$audi$atip$audio$HMIAudioServiceListener == null ? (class$de$audi$atip$audio$HMIAudioServiceListener = AudioManager.class$("de.audi.atip.audio.HMIAudioServiceListener")) : class$de$audi$atip$audio$HMIAudioServiceListener, this, (Dictionary)object);
-        this.mediaRouterListenerRegistration = this.getTerminal().getServiceManager().registerService(class$de$audi$atip$interapp$audio$ATIPMediaRouterServiceListener == null ? (class$de$audi$atip$interapp$audio$ATIPMediaRouterServiceListener = AudioManager.class$("de.audi.atip.interapp.audio.ATIPMediaRouterServiceListener")) : class$de$audi$atip$interapp$audio$ATIPMediaRouterServiceListener, new AudioManager$MediaRouterServiceListener(this, null), new Hashtable(0));
+        this.mediaRouterListenerRegistration = this.getTerminal().getServiceManager().registerService(class$de$audi$atip$interapp$audio$ATIPMediaRouterServiceListener == null ? (class$de$audi$atip$interapp$audio$ATIPMediaRouterServiceListener = AudioManager.class$("de.audi.atip.interapp.audio.ATIPMediaRouterServiceListener")) : class$de$audi$atip$interapp$audio$ATIPMediaRouterServiceListener, new MediaRouterServiceListener(), new Hashtable(0));
     }
 
     public void deinit() {
-        this.logger.main().log(1078071040, "[%1.deinit]", (Object)"AudioManager");
+        this.logger.main().log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         if (this.hasAudioFocus()) {
             this.releaseAudio();
         }
@@ -154,24 +271,20 @@ IAudioContextStateNotifier {
         this.tunerServiceHandler.deinit();
     }
 
-    @Override
     public void requestAudioFocus() {
-        this.logger.audio().log(1078071040, "[%1.requestAudioFocus]", (Object)"AudioManager");
+        this.logger.audio().log(1000000, "[%1.requestAudioFocus]", (Object)LOGCLASS);
         this.audioFocusManager.setActiveAudioApp(this.getTerminal().getTerminalID(), 2);
     }
 
-    @Override
     public void switchAudioFocusToTuner() {
         this.setAudioFocus(this.getTerminal().getTerminalID(), false, false);
         this.audioFocusManager.setActiveAudioApp(this.getTerminal().getTerminalID(), 1);
     }
 
-    @Override
     public void switchAudioFocusToTV() {
         this.audioFocusManager.setActiveAudioApp(this.getTerminal().getTerminalID(), 38);
     }
 
-    @Override
     public void switchSDISAudioFocusToTV() {
         this.audioFocusManager.setActiveAudioApp(2, 38);
     }
@@ -183,7 +296,7 @@ IAudioContextStateNotifier {
         Object object = this.audioContextMutex;
         synchronized (object) {
             int n2;
-            this.logger.audio().log(1078071040, "[%2.setAudioFocus] '%1' (terminal='%3')", bl, (Object)"AudioManager", (Object)new Integer(n));
+            this.logger.audio().log(1000000, "[%2.setAudioFocus] '%1' (terminal='%3')", bl, (Object)LOGCLASS, (Object)new Integer(n));
             this.prevAudioFocus = this.getAudioFocus();
             this.prevRearSeatAudioFocus = this.hasRearSeatAudioFocus();
             this.audioFocusOnTerminal[n] = bl;
@@ -195,16 +308,16 @@ IAudioContextStateNotifier {
                 this.notifyRearSeatAudioFocusChanged(bl3, this.audioContextListeners);
             }
             if (this.prevAudioFocus == (n2 = this.getAudioFocus())) {
-                this.logger.audio().log(1078071040, "[%1.setAudioFocus] Not changed. Ignore.", (Object)"AudioManager");
+                this.logger.audio().log(1000000, "[%1.setAudioFocus] Not changed. Ignore.", (Object)LOGCLASS);
                 return;
             }
-            this.logger.audio().log(1078071040, "[%1.setAudioFocus] '%2'", (Object)"AudioManager", (Object)AudioManager.getFocusStr(n2));
+            this.logger.audio().log(1000000, "[%1.setAudioFocus] '%2'", (Object)LOGCLASS, (Object)AudioManager.getFocusStr(n2));
             this.setDrawerContext();
             if (n2 == 1) {
                 this.restoreCurrentAudioContext(bl2, this.activeAudioContext.isCheckAudioFocus());
             } else if (n2 == 2) {
                 if (this.prevAudioFocus == 1 && this.activeAudioContext.getState() == 3) {
-                    this.logger.audio().log(1078071040, "[%1.setAudioFocus] Media on front and rear is paused. Do not start playback on rear.", (Object)"AudioManager");
+                    this.logger.audio().log(1000000, "[%1.setAudioFocus] Media on front and rear is paused. Do not start playback on rear.", (Object)LOGCLASS);
                 } else {
                     this.changeAudioContextState("audioFocus", this.activeAudioContext.getConnection(), this.getTerminal().getTerminalID(), 2);
                 }
@@ -248,28 +361,24 @@ IAudioContextStateNotifier {
         }
     }
 
-    @Override
     public boolean hasRearSeatAudioFocus() {
         return this.audioFocusOnTerminal[3] | this.audioFocusOnTerminal[4] | this.audioFocusOnTerminal[2];
     }
 
-    @Override
     public boolean hasAudioFocus() {
         return this.getAudioFocus() != 0;
     }
 
-    @Override
     public boolean hasFrontAudioFocus() {
         return this.getAudioFocus() == 1;
     }
 
-    @Override
     public boolean hasRearSeatAudioFocusOnly() {
         return this.getAudioFocus() == 2;
     }
 
     private void setAudioService(HMIAudioService hMIAudioService) {
-        this.logger.audio().log(1078071040, "[%1.setAudioService] '%2'", (Object)"AudioManager", (Object)hMIAudioService);
+        this.logger.audio().log(1000000, "[%1.setAudioService] '%2'", (Object)LOGCLASS, (Object)hMIAudioService);
         this.audioService = hMIAudioService;
     }
 
@@ -280,7 +389,7 @@ IAudioContextStateNotifier {
         Object object = this.audioContextMutex;
         synchronized (object) {
             if (!this.audioMgrReady) {
-                this.logger.audio().log(1078071040, "[%1.getAudioService] Not ready to control.", (Object)"AudioManager");
+                this.logger.audio().log(1000000, "[%1.getAudioService] Not ready to control.", (Object)LOGCLASS);
                 return new NullHMIAudioService(this.logger.audio());
             }
             return this.audioService;
@@ -290,16 +399,15 @@ IAudioContextStateNotifier {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void addAudioContextListener(IAudioStateListener iAudioStateListener) {
         if (iAudioStateListener == null) {
             throw new IllegalArgumentException("Argument is null.");
         }
         if (!this.audioContextListeners.addIfAbsent(iAudioStateListener)) {
-            this.logger.audio().log(1078071040, "[%1.addAudioContextListener] '%2' already added", (Object)"AudioManager", (Object)iAudioStateListener);
+            this.logger.audio().log(1000000, "[%1.addAudioContextListener] '%2' already added", (Object)LOGCLASS, (Object)iAudioStateListener);
             return;
         }
-        this.logger.audio().log(1078071040, "[%1.addAudioContextListener] '%2'", (Object)"AudioManager", (Object)iAudioStateListener);
+        this.logger.audio().log(1000000, "[%1.addAudioContextListener] '%2'", (Object)LOGCLASS, (Object)iAudioStateListener);
         Object object = this.audioContextMutex;
         synchronized (object) {
             ArrayList arrayList = new ArrayList(1);
@@ -309,13 +417,11 @@ IAudioContextStateNotifier {
         }
     }
 
-    @Override
     public void removeAudioContextListener(IAudioStateListener iAudioStateListener) {
-        this.logger.audio().log(1078071040, "[%1.removeAudioContextListener] '%2'.", (Object)"AudioManager", (Object)iAudioStateListener);
+        this.logger.audio().log(1000000, "[%1.removeAudioContextListener] '%2'.", (Object)LOGCLASS, (Object)iAudioStateListener);
         this.audioContextListeners.remove(iAudioStateListener);
     }
 
-    @Override
     public void notifyAudioStateChanged(int n, int n2) {
         this.notifyAudioStateChanged(n, n2, this.audioContextListeners);
     }
@@ -325,7 +431,7 @@ IAudioContextStateNotifier {
             return;
         }
         AudioState audioState = new AudioState(n, n2);
-        this.logger.audio().log(1078071040, "[%1.notifyAudioStateChanged] '%2'", (Object)"AudioManager", (Object)audioState);
+        this.logger.audio().log(1000000, "[%1.notifyAudioStateChanged] '%2'", (Object)LOGCLASS, (Object)audioState);
         this.getTerminal().getDispatcher().execute(new JobNotifyAudioState(this.logger, list, audioState));
     }
 
@@ -333,16 +439,15 @@ IAudioContextStateNotifier {
         if (list.isEmpty()) {
             return;
         }
-        this.logger.audio().log(1078071040, "[%1.notifyAudioFocus] '%2'", (Object)"AudioManager", (Object)bl);
+        this.logger.audio().log(1000000, "[%1.notifyAudioFocus] '%2'", (Object)LOGCLASS, (Object)bl);
         this.getTerminal().getDispatcher().execute(new JobNotifyAudioFocus(this.logger, list, bl));
     }
 
     private void notifyRearSeatAudioFocusChanged(boolean bl, List list) {
-        this.logger.audio().log(1078071040, "[%1.notifyRearSeatAudioFocusChanged] '%2'", (Object)"AudioManager", (Object)bl);
-        this.getTerminal().getDispatcher().execute(new JobNotifyRearSeatAudioFocus(this.logger, this.getChoiceModel(-955251968), bl, list));
+        this.logger.audio().log(1000000, "[%1.notifyRearSeatAudioFocusChanged] '%2'", (Object)LOGCLASS, (Object)bl);
+        this.getTerminal().getDispatcher().execute(new JobNotifyRearSeatAudioFocus(this.logger, this.getChoiceModel(200903), bl, list));
     }
 
-    @Override
     public void requestAudio(int n, boolean bl) {
         this.requestAudio(n, bl, true);
     }
@@ -350,26 +455,25 @@ IAudioContextStateNotifier {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean requestAudio(int n, boolean bl, boolean bl2) {
         Object object = this.audioContextMutex;
         synchronized (object) {
             boolean bl3 = this.activeAudioContext == null || this.activeAudioContext.getConnection() != n;
             this.activeAudioContext = new AudioContext(n, this, bl);
             if (bl && !this.hasAudioFocus()) {
-                this.logger.audio().log(1078071040, "[%1.requestAudio] '%2' (no audio focus)", (Object)"AudioManager", (long)n);
+                this.logger.audio().log(1000000, "[%1.requestAudio] '%2' (no audio focus)", (Object)LOGCLASS, (long)n);
                 return bl3;
             }
             if (this.getAudioFocus() == 2 && !AudioManager.isSDISConnection(n)) {
-                this.logger.audio().log(1078071040, "[%1.requestAudio] '%2' (remote only)", (Object)"AudioManager", (long)n);
+                this.logger.audio().log(1000000, "[%1.requestAudio] '%2' (remote only)", (Object)LOGCLASS, (long)n);
                 if (this.prevAudioFocus == 1 && this.prevRearSeatAudioFocus) {
-                    this.logger.audio().log(1078071040, "[%1.requestAudio] Media was and is only on rear active. Do not change the rear media state.", (Object)"AudioManager");
+                    this.logger.audio().log(1000000, "[%1.requestAudio] Media was and is only on rear active. Do not change the rear media state.", (Object)LOGCLASS);
                 } else {
                     this.changeAudioContextState("requestAudio", n, this.getTerminal().getTerminalID(), 2);
                 }
                 return bl3;
             }
-            this.logger.audio().log(1078071040, "[%1.requestAudio] '%2'", (Object)"AudioManager", (long)n);
+            this.logger.audio().log(1000000, "[%1.requestAudio] '%2'", (Object)LOGCLASS, (long)n);
             this.errorRetriesCounter = 0;
             boolean bl4 = !bl2 && this.CONN_MUTE == this.getAudioService().getActiveConnection(this.getTerminal().getTerminalID());
             this.releaseSDISConnections();
@@ -383,7 +487,7 @@ IAudioContextStateNotifier {
                 }
             }
             if (bl4) {
-                this.logger.audio().log(1078071040, "[%1.requestAudio] demute=false", (Object)"AudioManager");
+                this.logger.audio().log(1000000, "[%1.requestAudio] demute=false", (Object)LOGCLASS);
                 this.mute();
             }
             return bl3;
@@ -393,20 +497,19 @@ IAudioContextStateNotifier {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void requestEntSuppression() {
         Object object = this.audioContextMutex;
         synchronized (object) {
             this.activeAudioContext = new AudioContext(9, this, true);
             if (!this.hasAudioFocus()) {
-                this.logger.audio().log(1078071040, "[%1.requestEntSuppression] No audio focus", (Object)"AudioManager");
+                this.logger.audio().log(1000000, "[%1.requestEntSuppression] No audio focus", (Object)LOGCLASS);
                 return;
             }
             if (this.getAudioFocus() == 2) {
-                this.logger.audio().log(1078071040, "[%1.requestEntSuppression] Remote only.", (Object)"AudioManager");
+                this.logger.audio().log(1000000, "[%1.requestEntSuppression] Remote only.", (Object)LOGCLASS);
                 return;
             }
-            this.logger.audio().log(1078071040, "[%1.requestEntSuppression]", (Object)"AudioManager");
+            this.logger.audio().log(1000000, "[%1.requestEntSuppression]", (Object)LOGCLASS);
             this.errorRetriesCounter = 0;
             this.getAudioService().requestConnection(9, this.getTerminal().getTerminalID(), 0);
         }
@@ -415,23 +518,22 @@ IAudioContextStateNotifier {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void fadeTo() {
         Object object = this.audioContextMutex;
         synchronized (object) {
             if (this.activeAudioContext.getState() != 2) {
-                this.logger.audio().log(1078071040, "[%1.fadeTo] Not STARTED, ignore.", (Object)"AudioManager");
+                this.logger.audio().log(1000000, "[%1.fadeTo] Not STARTED, ignore.", (Object)LOGCLASS);
                 return;
             }
             if (this.activeAudioContext.getConnection() == 9) {
-                this.logger.audio().log(1078071040, "[%1.fadeTo]", (Object)"AudioManager");
+                this.logger.audio().log(1000000, "[%1.fadeTo]", (Object)LOGCLASS);
                 return;
             }
             if (this.getAudioFocus() == 2) {
-                this.logger.audio().log(1078071040, "[%1.fadeTo] Remote only.", (Object)"AudioManager");
+                this.logger.audio().log(1000000, "[%1.fadeTo] Remote only.", (Object)LOGCLASS);
                 return;
             }
-            this.logger.audio().log(1078071040, "[%1.fadeTo] '%2'", (Object)"AudioManager", (long)this.activeAudioContext.getConnection());
+            this.logger.audio().log(1000000, "[%1.fadeTo] '%2'", (Object)LOGCLASS, (long)this.activeAudioContext.getConnection());
             this.getAudioService().fadeToConnection(this.activeAudioContext.getConnection(), this.getTerminal().getTerminalID());
         }
     }
@@ -443,14 +545,14 @@ IAudioContextStateNotifier {
         Object object = this.audioContextMutex;
         synchronized (object) {
             if (this.getAudioFocus() != 1 && bl2) {
-                this.logger.audio().log(1078071040, "[%1.restoreCurrentAudioContext] No audio focus at front.", (Object)"AudioManager");
+                this.logger.audio().log(1000000, "[%1.restoreCurrentAudioContext] No audio focus at front.", (Object)LOGCLASS);
                 return;
             }
             if (!this.audioMgrReady) {
-                this.logger.audio().log(1078071040, "[%1.restoreCurrentAudioContext] Not ready to control", (Object)"AudioManager");
+                this.logger.audio().log(1000000, "[%1.restoreCurrentAudioContext] Not ready to control", (Object)LOGCLASS);
                 return;
             }
-            this.logger.audio().log(1078071040, "[%1.restoreCurrentAudioContext] '%2'", (Object)"AudioManager", (long)this.activeAudioContext.getConnection());
+            this.logger.audio().log(1000000, "[%1.restoreCurrentAudioContext] '%2'", (Object)LOGCLASS, (long)this.activeAudioContext.getConnection());
             if (bl) {
                 this.resumeAudio(false);
             }
@@ -465,12 +567,11 @@ IAudioContextStateNotifier {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void releaseAudio() {
         Object object = this.audioContextMutex;
         synchronized (object) {
             int n = this.activeAudioContext.getConnection();
-            this.logger.audio().log(1078071040, "[%1.releaseAudio] '%2'", (Object)"AudioManager", (long)n);
+            this.logger.audio().log(1000000, "[%1.releaseAudio] '%2'", (Object)LOGCLASS, (long)n);
             if (n != 9) {
                 this.getAudioService().releaseConnection(this.activeAudioContext.getConnection(), this.getTerminal().getTerminalID());
             }
@@ -490,28 +591,25 @@ IAudioContextStateNotifier {
         this.getAudioService().releaseConnection(305, 2);
     }
 
-    @Override
     public void mute() {
-        this.logger.audio().log(1078071040, "[%1.mute] Mute (conn='%2')", (Object)"AudioManager", (long)this.CONN_MUTE);
+        this.logger.audio().log(1000000, "[%1.mute] Mute (conn='%2')", (Object)LOGCLASS, (long)this.CONN_MUTE);
         this.errorRetriesCounter = 0;
         this.getAudioService().requestConnection(this.CONN_MUTE, this.getTerminal().getTerminalID(), 0);
     }
 
-    @Override
     public void demute() {
-        this.logger.audio().log(1078071040, "[%1.demute] Demute (conn='%2')", (Object)"AudioManager", (long)this.CONN_MUTE);
+        this.logger.audio().log(1000000, "[%1.demute] Demute (conn='%2')", (Object)LOGCLASS, (long)this.CONN_MUTE);
         this.getAudioService().releaseConnection(this.CONN_MUTE, this.getTerminal().getTerminalID());
     }
 
-    @Override
     public boolean resumeAudio(boolean bl) {
         if (bl && !this.hasAudioFocus()) {
-            this.logger.audio().log(1078071040, "[%1.resumeAudio] No audio focus", (Object)"AudioManager");
+            this.logger.audio().log(1000000, "[%1.resumeAudio] No audio focus", (Object)LOGCLASS);
             return false;
         }
-        this.logger.audio().log(1078071040, "[%1.resumeAudio] check focus %2", (Object)"AudioManager", (Object)bl);
+        this.logger.audio().log(1000000, "[%1.resumeAudio] check focus %2", (Object)LOGCLASS, (Object)bl);
         if (this.isAudioAudible()) {
-            this.logger.audio().log(1078071040, "[%1.resumeAudio] audible, no demute required", (Object)"AudioManager");
+            this.logger.audio().log(1000000, "[%1.resumeAudio] audible, no demute required", (Object)LOGCLASS);
             return true;
         }
         this.getAudioService().releaseA2LSConnection();
@@ -526,13 +624,12 @@ IAudioContextStateNotifier {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void btMute() {
         if (!this.hasAudioFocus()) {
-            this.logger.audio().log(1078071040, "[%1.btMute] No audio focus", (Object)"AudioManager");
+            this.logger.audio().log(1000000, "[%1.btMute] No audio focus", (Object)LOGCLASS);
             return;
         }
-        this.logger.audio().log(1078071040, "[%1.btMute] BTMute (con='%2').", (Object)"AudioManager", (long)0);
+        this.logger.audio().log(1000000, "[%1.btMute] BTMute (con='%2').", (Object)LOGCLASS, 200L);
         Object object = this.audioContextMutex;
         synchronized (object) {
             this.errorRetriesCounter = 0;
@@ -540,23 +637,19 @@ IAudioContextStateNotifier {
         this.getAudioService().requestConnection(200, this.getTerminal().getTerminalID(), 0);
     }
 
-    @Override
     public void btDemute() {
-        this.logger.audio().log(1078071040, "[%1.btDemute] BTDemute (con='%2')", (Object)"AudioManager", (long)0);
+        this.logger.audio().log(1000000, "[%1.btDemute] BTDemute (con='%2')", (Object)LOGCLASS, 200L);
         this.getAudioService().releaseConnection(200, this.getTerminal().getTerminalID());
     }
 
-    @Override
     public boolean isStandbyMuted() {
         return this.getAudioService().getStatus(this.CONN_STANDBY, this.getTerminal().getTerminalID()) != 5;
     }
 
-    @Override
     public boolean isMuted() {
         return this.getAudioService().getStatus(this.CONN_MUTE, this.getTerminal().getTerminalID()) != 5;
     }
 
-    @Override
     public boolean isBtMuted() {
         return this.getAudioService().getStatus(200, this.getTerminal().getTerminalID()) != 5;
     }
@@ -564,11 +657,10 @@ IAudioContextStateNotifier {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void requestVolumelock(String string) {
         Object object = this.audioContextMutex;
         synchronized (object) {
-            this.logger.audio().log(1078071040, "[%1.requestVolumelock] '%2'", (Object)"AudioManager", (long)this.activeAudioContext.getConnection());
+            this.logger.audio().log(1000000, "[%1.requestVolumelock] '%2'", (Object)LOGCLASS, (long)this.activeAudioContext.getConnection());
             if (AudioManager.isSDISConnection(this.activeAudioContext.getConnection())) {
                 this.getAudioService().setVolumelock(this.activeAudioContext.getConnection(), 2, true, string);
             } else {
@@ -580,11 +672,10 @@ IAudioContextStateNotifier {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void releaseVolumelock(String string) {
         Object object = this.audioContextMutex;
         synchronized (object) {
-            this.logger.audio().log(1078071040, "[%1.releaseVolumelock] '%2'", (Object)"AudioManager", (long)this.activeAudioContext.getConnection());
+            this.logger.audio().log(1000000, "[%1.releaseVolumelock] '%2'", (Object)LOGCLASS, (long)this.activeAudioContext.getConnection());
             if (AudioManager.isSDISConnection(this.activeAudioContext.getConnection())) {
                 this.getAudioService().setVolumelock(this.activeAudioContext.getConnection(), 2, false, string);
             } else {
@@ -599,7 +690,7 @@ IAudioContextStateNotifier {
     private boolean isAudioAudible() {
         Object object = this.audioContextMutex;
         synchronized (object) {
-            this.logger.audio().log(1078071040, "[AudioManager.isAudioAudible] connection %1 state %2", (long)this.activeAudioContext.getConnection(), (long)this.activeAudioContext.getState());
+            this.logger.audio().log(1000000, "[AudioManager.isAudioAudible] connection %1 state %2", (long)this.activeAudioContext.getConnection(), (long)this.activeAudioContext.getState());
             if (this.activeAudioContext.getConnection() == 9 && this.isMuted()) {
                 return false;
             }
@@ -610,11 +701,10 @@ IAudioContextStateNotifier {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateAMAvailable(boolean bl) {
         Object object = this.audioContextMutex;
         synchronized (object) {
-            this.logger.audio().log(1078071040, "[%1.updateAMAvailable] '%2'", (Object)"AudioManager", (Object)(bl ? "AVAILABLE" : "NOT AVAILABLE"));
+            this.logger.audio().log(1000000, "[%1.updateAMAvailable] '%2'", (Object)LOGCLASS, (Object)(bl ? "AVAILABLE" : "NOT AVAILABLE"));
             this.audioMgrReady = bl;
             if (this.audioMgrReady) {
                 boolean bl2 = this.activeAudioContext.getState() != 3 && this.activeAudioContext.getState() != 0;
@@ -629,20 +719,20 @@ IAudioContextStateNotifier {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     private boolean changeAudioContextState(String string, int n, int n2, int n3) {
-        this.logger.audio().log(1078071040, "[%1.changeAudioContextState] Called", (Object)"AudioManager");
-        this.logger.audio().log(1078071040, new StringBuffer().append("[%1.changeAudioContextState] connection:").append(n).append(" terminal: ").append(n2).append(" newState: ").append(n3).toString(), (Object)"AudioManager");
+        this.logger.audio().log(1000000, "[%1.changeAudioContextState] Called", (Object)LOGCLASS);
+        this.logger.audio().log(1000000, new StringBuffer().append("[%1.changeAudioContextState] connection:").append(n).append(" terminal: ").append(n2).append(" newState: ").append(n3).toString(), (Object)LOGCLASS);
         if (n2 != this.getTerminal().getTerminalID()) {
-            this.logger.audio().log(1078071040, new StringBuffer().append("[%1.changeAudioContextState] Not for this terminal. ").append(this.getTerminal().getTerminalID()).toString(), (Object)"AudioManager");
+            this.logger.audio().log(1000000, new StringBuffer().append("[%1.changeAudioContextState] Not for this terminal. ").append(this.getTerminal().getTerminalID()).toString(), (Object)LOGCLASS);
             return false;
         }
         Object object = this.audioContextMutex;
         synchronized (object) {
             if (this.activeAudioContext.getConnection() != n && !AudioManager.isSDISConnection(n)) {
-                this.logger.audio().log(1078071040, "[%1.changeAudioContextState] Not for this audio context.", (Object)"AudioManager");
+                this.logger.audio().log(1000000, "[%1.changeAudioContextState] Not for this audio context.", (Object)LOGCLASS);
                 return false;
             }
-            this.logger.audio().log(1078071040, "[%1.%2] '%3'", (Object)"AudioManager", (Object)string, (long)n);
-            this.logger.audio().log(1078071040, new StringBuffer().append("[%1.changeAudioContextState] old state:").append(this.activeAudioContext.getState()).append(" newState: ").append(n3).toString(), (Object)"AudioManager");
+            this.logger.audio().log(1000000, "[%1.%2] '%3'", (Object)LOGCLASS, (Object)string, (long)n);
+            this.logger.audio().log(1000000, new StringBuffer().append("[%1.changeAudioContextState] old state:").append(this.activeAudioContext.getState()).append(" newState: ").append(n3).toString(), (Object)LOGCLASS);
             this.activeAudioContext.setState(n3);
             return true;
         }
@@ -650,27 +740,26 @@ IAudioContextStateNotifier {
 
     private void setDrawerContext() {
         if (this.audioDrawerContext == null) {
-            this.logger.audio().log(1078071040, "%1.setDrawerContext no drawer context available ", (Object)"AudioManager");
+            this.logger.audio().log(1000000, "%1.setDrawerContext no drawer context available ", (Object)LOGCLASS);
             return;
         }
         if (this.hasFrontAudioFocus()) {
             this.audioDrawerContext.setContext(AudioDrawerContext.SOURCE_MEDIA, AudioDrawerContext.SOURCE_AUDIO_STATE_ACTIVE);
-            this.logger.audio().log(1078071040, "%1.setDrawerContext active ", (Object)"AudioManager");
+            this.logger.audio().log(1000000, "%1.setDrawerContext active ", (Object)LOGCLASS);
         } else {
             this.audioDrawerContext.setContext(AudioDrawerContext.SOURCE_MEDIA, AudioDrawerContext.SOURCE_AUDIO_STATE_INACTIVE);
-            this.logger.audio().log(1078071040, "%1.setDrawerContext inactive", (Object)"AudioManager");
+            this.logger.audio().log(1000000, "%1.setDrawerContext inactive", (Object)LOGCLASS);
         }
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void stopConnection(int n, int n2) {
         Object object = this.audioContextMutex;
         synchronized (object) {
             if (this.getAudioFocus() == 2) {
-                this.logger.audio().log(1078071040, "[%1.stopConnection] %2 REMOTE only. Ignore.", (Object)"AudioManager", (long)n);
+                this.logger.audio().log(1000000, "[%1.stopConnection] %2 REMOTE only. Ignore.", (Object)LOGCLASS, (long)n);
                 return;
             }
             this.changeAudioContextState("stopConnection", n, n2, 5);
@@ -678,7 +767,7 @@ IAudioContextStateNotifier {
         if (201 == n) {
             this.filePlayerACStarted = false;
             if (1 != this.currentMPL1Route && null != this.mediaRouterService) {
-                this.logger.audio().log(1078071040, "[%1.stopConnection] Change audio route %2", (Object)"AudioManager", (long)this.currentMPL1Route);
+                this.logger.audio().log(1000000, "[%1.stopConnection] Change audio route %2", (Object)LOGCLASS, (long)this.currentMPL1Route);
                 this.mediaRouterService.setAudioRoutes(new ATIPAudioRoute[]{new ATIPAudioRouteImpl(this.currentMPL1Route, 1, 0)});
             }
         }
@@ -687,12 +776,11 @@ IAudioContextStateNotifier {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void pauseConnection(int n, int n2) {
         Object object = this.audioContextMutex;
         synchronized (object) {
             if (this.getAudioFocus() == 2) {
-                this.logger.audio().log(1078071040, "[%1.pauseConnection] %2 REMOTE only. Ignore.", (Object)"AudioManager", (long)n);
+                this.logger.audio().log(1000000, "[%1.pauseConnection] %2 REMOTE only. Ignore.", (Object)LOGCLASS, (long)n);
                 return;
             }
             this.changeAudioContextState("pauseConnection", n, n2, 3);
@@ -702,7 +790,6 @@ IAudioContextStateNotifier {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void startConnection(int n, int n2) {
         Object object = this.audioContextMutex;
         synchronized (object) {
@@ -710,7 +797,7 @@ IAudioContextStateNotifier {
                 if (AudioManager.isSDISConnection(n)) {
                     this.changeAudioContextState("startConnection", n, this.getTerminal().getTerminalID(), 2);
                 }
-                this.logger.audio().log(1078071040, "[%1.startConnection] %2 REMOTE only. Ignore.", (Object)"AudioManager", (long)n);
+                this.logger.audio().log(1000000, "[%1.startConnection] %2 REMOTE only. Ignore.", (Object)LOGCLASS, (long)n);
                 return;
             }
             this.changeAudioContextState("startConnection", n, n2, 2);
@@ -718,7 +805,7 @@ IAudioContextStateNotifier {
         if (201 == n) {
             this.filePlayerACStarted = true;
             if (1 != this.currentMPL1Route && null != this.mediaRouterService) {
-                this.logger.audio().log(1078071040, "[%1.startConnection] Change audio route.", (Object)"AudioManager");
+                this.logger.audio().log(1000000, "[%1.startConnection] Change audio route.", (Object)LOGCLASS);
                 this.mediaRouterService.setAudioRoutes(new ATIPAudioRoute[]{new ATIPAudioRouteImpl(1, 1, 0)});
             }
         }
@@ -727,16 +814,15 @@ IAudioContextStateNotifier {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void errorConnection(int n, int n2, int n3) {
         Object object = this.audioContextMutex;
         synchronized (object) {
             if (this.getAudioFocus() == 2) {
-                this.logger.audio().log(1078071040, "[%1.errorConnection] %2 REMOTE only. Ignore.", (Object)"AudioManager", (long)n);
+                this.logger.audio().log(1000000, "[%1.errorConnection] %2 REMOTE only. Ignore.", (Object)LOGCLASS, (long)n);
                 return;
             }
             if (!this.audioMgrReady) {
-                this.logger.audio().log(-2137614336, "[%1.errorConnection] AudioMgt=NOT READY, ignore errorConnection(%2)", (Object)"AudioManager", (long)n);
+                this.logger.audio().log(10000000, "[%1.errorConnection] AudioMgt=NOT READY, ignore errorConnection(%2)", (Object)LOGCLASS, (long)n);
                 return;
             }
             if (this.changeAudioContextState("errorConnection", n, n2, 6)) {
@@ -744,10 +830,10 @@ IAudioContextStateNotifier {
                     return;
                 }
                 if (3 >= this.errorRetriesCounter) {
-                    this.logger.audio().log(1078071040, "[%1.errorConnection] Max retries reached.", (Object)"AudioManager");
+                    this.logger.audio().log(1000000, "[%1.errorConnection] Max retries reached.", (Object)LOGCLASS);
                     return;
                 }
-                this.logger.audio().log(1078071040, "[%1.errorConnection] Request connection again", (Object)"AudioManager");
+                this.logger.audio().log(1000000, "[%1.errorConnection] Request connection again", (Object)LOGCLASS);
                 ++this.errorRetriesCounter;
                 this.getAudioService().requestConnection(this.activeAudioContext.getConnection(), this.getTerminal().getTerminalID(), 0);
             }
@@ -757,19 +843,17 @@ IAudioContextStateNotifier {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void fadedIn(int n, int n2) {
         Object object = this.audioContextMutex;
         synchronized (object) {
             if (this.getAudioFocus() == 2) {
-                this.logger.audio().log(1078071040, "[%1.fadedIn] %2 REMOTE only. Ignore.", (Object)"AudioManager", (long)n);
+                this.logger.audio().log(1000000, "[%1.fadedIn] %2 REMOTE only. Ignore.", (Object)LOGCLASS, (long)n);
                 return;
             }
             this.changeAudioContextState("fadedIn", n, n2, 4);
         }
     }
 
-    @Override
     public void updateVolumeLock(int n, int n2, boolean bl) {
     }
 
@@ -807,17 +891,15 @@ IAudioContextStateNotifier {
         return n;
     }
 
-    @Override
     public void requestSdisConnectionsIfRequired(int n) {
         int n2 = AudioManager.getSDISConnection(n);
         boolean bl = AudioManager.isSDISConnection(n2);
         if (this.hasRearSeatAudioFocus() && bl) {
-            this.logger.audio().log(1078071040, "[%1.requestSdisConnectionsIfRequired] AC:%2", (Object)"AudioManager", (long)n2);
+            this.logger.audio().log(1000000, "[%1.requestSdisConnectionsIfRequired] AC:%2", (Object)LOGCLASS, (long)n2);
             this.getAudioService().requestConnection(n2, 2, 0);
         }
     }
 
-    @Override
     public ToneService getToneService() {
         return this.toneService;
     }
@@ -831,128 +913,22 @@ IAudioContextStateNotifier {
         }
     }
 
-    static /* synthetic */ IMediaLogger access$000(AudioManager audioManager) {
-        return audioManager.logger;
-    }
+    private class MediaRouterServiceListener
+    implements ATIPMediaRouterServiceListener {
+        private MediaRouterServiceListener() {
+        }
 
-    static /* synthetic */ IMediaLogger access$100(AudioManager audioManager) {
-        return audioManager.logger;
-    }
-
-    static /* synthetic */ void access$200(AudioManager audioManager, HMIAudioService hMIAudioService) {
-        audioManager.setAudioService(hMIAudioService);
-    }
-
-    static /* synthetic */ IMediaLogger access$300(AudioManager audioManager) {
-        return audioManager.logger;
-    }
-
-    static /* synthetic */ IMediaLogger access$400(AudioManager audioManager) {
-        return audioManager.logger;
-    }
-
-    static /* synthetic */ IAudioFocusManager access$502(AudioManager audioManager, IAudioFocusManager iAudioFocusManager) {
-        audioManager.audioFocusManager = iAudioFocusManager;
-        return audioManager.audioFocusManager;
-    }
-
-    static /* synthetic */ IAudioFocusManager access$500(AudioManager audioManager) {
-        return audioManager.audioFocusManager;
-    }
-
-    static /* synthetic */ IMediaLogger access$600(AudioManager audioManager) {
-        return audioManager.logger;
-    }
-
-    static /* synthetic */ IMediaLogger access$700(AudioManager audioManager) {
-        return audioManager.logger;
-    }
-
-    static /* synthetic */ IMediaLogger access$800(AudioManager audioManager) {
-        return audioManager.logger;
-    }
-
-    static /* synthetic */ AudioDrawerContext access$902(AudioManager audioManager, AudioDrawerContext audioDrawerContext) {
-        audioManager.audioDrawerContext = audioDrawerContext;
-        return audioManager.audioDrawerContext;
-    }
-
-    static /* synthetic */ void access$1000(AudioManager audioManager) {
-        audioManager.setDrawerContext();
-    }
-
-    static /* synthetic */ AudioDrawerContext access$900(AudioManager audioManager) {
-        return audioManager.audioDrawerContext;
-    }
-
-    static /* synthetic */ IMediaLogger access$1100(AudioManager audioManager) {
-        return audioManager.logger;
-    }
-
-    static /* synthetic */ IMediaLogger access$1200(AudioManager audioManager) {
-        return audioManager.logger;
-    }
-
-    static /* synthetic */ ATIPMediaRouterService access$1302(AudioManager audioManager, ATIPMediaRouterService aTIPMediaRouterService) {
-        audioManager.mediaRouterService = aTIPMediaRouterService;
-        return audioManager.mediaRouterService;
-    }
-
-    static /* synthetic */ IMediaLogger access$1400(AudioManager audioManager) {
-        return audioManager.logger;
-    }
-
-    static /* synthetic */ ATIPMediaRouterService access$1300(AudioManager audioManager) {
-        return audioManager.mediaRouterService;
-    }
-
-    static /* synthetic */ IMediaLogger access$1500(AudioManager audioManager) {
-        return audioManager.logger;
-    }
-
-    static /* synthetic */ ToneService access$1602(AudioManager audioManager, ToneService toneService) {
-        audioManager.toneService = toneService;
-        return audioManager.toneService;
-    }
-
-    static /* synthetic */ IMediaLogger access$1700(AudioManager audioManager) {
-        return audioManager.logger;
-    }
-
-    static /* synthetic */ IMediaLogger access$1800(AudioManager audioManager) {
-        return audioManager.logger;
-    }
-
-    static /* synthetic */ IMediaLogger access$1900(AudioManager audioManager) {
-        return audioManager.logger;
-    }
-
-    static /* synthetic */ ToneService access$1600(AudioManager audioManager) {
-        return audioManager.toneService;
-    }
-
-    static /* synthetic */ boolean[] access$2000(AudioManager audioManager) {
-        return audioManager.audioFocusOnTerminal;
-    }
-
-    static /* synthetic */ IMediaLogger access$2200(AudioManager audioManager) {
-        return audioManager.logger;
-    }
-
-    static /* synthetic */ IMediaLogger access$2300(AudioManager audioManager) {
-        return audioManager.logger;
-    }
-
-    static /* synthetic */ void access$2400(AudioManager audioManager, int n, boolean bl, boolean bl2) {
-        audioManager.setAudioFocus(n, bl, bl2);
-    }
-
-    static /* synthetic */ IMediaLogger access$2600(AudioManager audioManager) {
-        return audioManager.logger;
-    }
-
-    static /* synthetic */ IMediaLogger access$2700(AudioManager audioManager) {
-        return audioManager.logger;
+        public void updateActiveAudioRoutes(ATIPAudioRoute[] aTIPAudioRouteArray) {
+            AudioManager.this.logger.audio().log(1000000, "[%1.updateActiveAudioRoutes]", (Object)AudioManager.LOGCLASS);
+            if (AudioManager.this.filePlayerACStarted) {
+                return;
+            }
+            for (int i2 = 0; i2 < aTIPAudioRouteArray.length; ++i2) {
+                if (1 != aTIPAudioRouteArray[i2].getRoutingOutput()) continue;
+                AudioManager.this.currentMPL1Route = aTIPAudioRouteArray[i2].getRoutingInput();
+                AudioManager.this.logger.audio().log(1000000, "[%1.updateActiveAudioRoutes] %2", (Object)AudioManager.LOGCLASS, (long)AudioManager.this.currentMPL1Route);
+            }
+        }
     }
 }
 

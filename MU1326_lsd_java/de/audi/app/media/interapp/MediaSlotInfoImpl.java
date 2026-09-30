@@ -53,42 +53,34 @@ implements MediaSlotInfo {
         this.sourceType = n;
     }
 
-    @Override
     public String getMountPoint() {
         return this.mountPoint;
     }
 
-    @Override
     public String getName() {
         return this.name;
     }
 
-    @Override
     public int getSlotIdx() {
         return this.slotIdx;
     }
 
-    @Override
     public boolean isEmpty() {
         return this.empty;
     }
 
-    @Override
     public boolean isReadOnly() {
         return this.readOnly;
     }
 
-    @Override
     public int getType() {
         return this.type;
     }
 
-    @Override
     public int getSourceType() {
         return this.sourceType;
     }
 
-    @Override
     public boolean isSyncedSource() {
         return this.synced;
     }

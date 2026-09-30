@@ -8,9 +8,9 @@ import de.audi.atip.interapp.media.IMediaDrawerElement;
 
 public class DrawerContextListRow
 extends EvoListRow {
-    private static final int MAX_COLUMNS;
-    private static final int COL_ID;
-    private static final int DRAWER_OFFSET;
+    private static final int MAX_COLUMNS = 1;
+    private static final int COL_ID = 0;
+    private static final int DRAWER_OFFSET = 20;
     private final IMediaDrawerElement mediaDrawerElement;
 
     public DrawerContextListRow(DrawerContextListRow drawerContextListRow) {
@@ -38,7 +38,6 @@ extends EvoListRow {
         return this.mediaDrawerElement;
     }
 
-    @Override
     public EvoListRow copy() {
         return new DrawerContextListRow(this);
     }

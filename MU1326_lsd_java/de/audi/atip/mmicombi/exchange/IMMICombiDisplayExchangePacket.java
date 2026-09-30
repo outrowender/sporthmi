@@ -8,10 +8,8 @@ import de.audi.atip.mmicombi.exchange.MMICombiDisplayStatus;
 
 public interface IMMICombiDisplayExchangePacket
 extends IMMICombiExchangePacket {
-    default public void setDisplayStatus(MMICombiDisplayStatus mMICombiDisplayStatus) {
-    }
+    public void setDisplayStatus(MMICombiDisplayStatus var1);
 
-    default public MMICombiDisplayStatus getDisplayStatus() {
-    }
+    public MMICombiDisplayStatus getDisplayStatus();
 }
 

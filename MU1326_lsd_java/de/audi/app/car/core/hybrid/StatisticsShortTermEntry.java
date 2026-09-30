@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package de.audi.app.car.core.hybrid;
 
@@ -11,7 +8,7 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class StatisticsShortTermEntry
 implements IMemoryBufferEntry {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
     private int valueCounter;
     private int distanceUnit;
     private int zeroEmissionState;
@@ -63,7 +60,6 @@ implements IMemoryBufferEntry {
         this.zeroEmissionValue = d2;
     }
 
-    @Override
     public void setDefaultValues() {
         this.valueCounter = 255;
         this.distanceUnit = 0;
@@ -71,19 +67,16 @@ implements IMemoryBufferEntry {
         this.zeroEmissionValue = 255.0;
     }
 
-    @Override
     public IMemoryBufferEntry copy() {
         return new StatisticsShortTermEntry(this.valueCounter, this.distanceUnit, this.zeroEmissionState, this.zeroEmissionValue);
     }
 
-    @Override
     public String[] getFields() {
         return new String[]{"valueCounter", "distanceUnit", "zeroEmissionState", "zeroEmissionValue"};
     }
 
-    @Override
     public String[] getValuesAsString() {
-        return new String[]{Integer.toHexString(this.valueCounter), Integer.toHexString(this.distanceUnit), Integer.toHexString(this.zeroEmissionState), Double.toString((double)this.zeroEmissionValue)};
+        return new String[]{Integer.toHexString(this.valueCounter), Integer.toHexString(this.distanceUnit), Integer.toHexString(this.zeroEmissionState), Double.toString(this.zeroEmissionValue)};
     }
 
     public String toString() {
@@ -92,7 +85,7 @@ implements IMemoryBufferEntry {
         buffer.append("valueCounter='").append(this.valueCounter).append("', ");
         buffer.append("distanceUnit='").append(this.distanceUnit).append("', ");
         buffer.append("zeroEmissionState='").append(this.zeroEmissionState).append("', ");
-        buffer.append("zeroEmissionValue='").append(Double.toString((double)this.zeroEmissionValue)).append("')");
+        buffer.append("zeroEmissionValue='").append(Double.toString(this.zeroEmissionValue)).append("')");
         return buffer.toString();
     }
 }

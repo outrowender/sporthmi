@@ -38,22 +38,18 @@ implements IEntryListRow {
         return folderContentSearchListRow;
     }
 
-    @Override
     public EvoListRow copy() {
         return FolderContentSearchListRow.create(this.getSearchResult(), this.entryListRowData.getEntryPropertyFactory(), this.entryListRowDataFactory, this.entryListRowData.getItemOffset(), this.entryListRowData.getCurrentTime(), this.entryListRowData.getTextLookup());
     }
 
-    @Override
     public ListEntry getListEntry() {
         return this.entryListRowData.getListEntry();
     }
 
-    @Override
     public int getItemOffset() {
         return this.entryListRowData.getItemOffset();
     }
 
-    @Override
     public int getIconId() {
         return this.entryListRowData.getIconId();
     }

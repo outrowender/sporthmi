@@ -19,12 +19,10 @@ extends AbstractTel1EnqueuedBAPPropertyHandler {
         super(iTelApplication, dispatcherBase);
     }
 
-    @Override
     protected boolean doProcessGlobalTelephoneStateUpdate(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         return iGlobalTelephoneStateStruct != null && iGlobalTelephoneStateStruct.getCallLeadingDevice() != null;
     }
 
-    @Override
     protected void updateAsync() {
         CombiBAPServicePhone combiBAPServicePhone = this.getCombiService();
         ITelDSIMobileEquipmentDeviceState iTelDSIMobileEquipmentDeviceState = this.getCallLeadingDeviceState();
@@ -34,15 +32,15 @@ extends AbstractTel1EnqueuedBAPPropertyHandler {
                 boolean bl2 = bl = iTelDSIMobileEquipmentDeviceState.getmICMuteState() == 0;
                 if (bl != this.currentCombiMicMuteState || !this.firstUpdateSent) {
                     this.firstUpdateSent = true;
-                    this.log.log(1078071040, "[BAPPropertyTelMicroMuteOnOff#update] micMuteState=%1", bl);
+                    this.log.log(1000000, "[BAPPropertyTelMicroMuteOnOff#update] micMuteState=%1", bl);
                     combiBAPServicePhone.updateMicMuteState(bl);
                     this.currentCombiMicMuteState = bl;
                 }
             } else {
-                this.log.log(-1601830656, "[BAPPropertyTelMicroMuteOnOff#update] state is null --> NOP!");
+                this.log.log(100000, "[BAPPropertyTelMicroMuteOnOff#update] state is null --> NOP!");
             }
         } else {
-            this.log.log(-1601830656, "[BAPPropertyTelMicroMuteOnOff#update] CombiBAPServicePhone is null --> NOP!");
+            this.log.log(100000, "[BAPPropertyTelMicroMuteOnOff#update] CombiBAPServicePhone is null --> NOP!");
         }
     }
 }

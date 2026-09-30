@@ -8,13 +8,10 @@ import de.audi.atip.hmi.modelaccess.HMIModelApp;
 
 public interface ButtonModelApp
 extends HMIModelApp {
-    default public void setButtonListener(ButtonListener buttonListener) {
-    }
+    public void setButtonListener(ButtonListener var1);
 
-    default public void setPressed(boolean bl) {
-    }
+    public void setPressed(boolean var1);
 
-    default public boolean getPressed() {
-    }
+    public boolean getPressed();
 }
 

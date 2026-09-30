@@ -7,7 +7,6 @@ import de.audi.app.terminalmode.audio.AudioConnectionState;
 import de.audi.atip.interapp.audio.ATIPAudioRoute;
 
 public interface IAudioRoutes {
-    default public ATIPAudioRoute[] getAudioRoutes(AudioConnectionState audioConnectionState) {
-    }
+    public ATIPAudioRoute[] getAudioRoutes(AudioConnectionState var1);
 }
 

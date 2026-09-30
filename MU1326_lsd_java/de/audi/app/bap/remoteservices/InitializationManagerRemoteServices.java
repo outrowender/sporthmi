@@ -19,8 +19,8 @@ import de.vw.mib.bap.requests.StatusProperty;
 
 public class InitializationManagerRemoteServices
 extends AbstractBAPModuleInitializationManagerASG {
-    private static final int SUPPORTED_LSG_CLASS;
-    private static final int SUPPORTED_LSG_SUB_CLASS;
+    private static final int SUPPORTED_LSG_CLASS = 78;
+    private static final int SUPPORTED_LSG_SUB_CLASS = 0;
     private final BAPConfig supportedConfig = BAPConfig.getInstance(78, 0, BAPVersion.getInstance(3, 0), LSGVersion.getInstance(3, 1));
     private LogChannel logChannel;
 
@@ -29,7 +29,6 @@ extends AbstractBAPModuleInitializationManagerASG {
         this.logChannel = bAPModuleRemoteServices.getLogChannel();
     }
 
-    @Override
     protected BAPConfig bapConfigFromResetSerializer(BAPEntity bAPEntity) {
         BAP_Config_Reset bAP_Config_Reset = (BAP_Config_Reset)bAPEntity;
         int n = bAP_Config_Reset.lsg_Class;
@@ -39,7 +38,6 @@ extends AbstractBAPModuleInitializationManagerASG {
         return BAPConfig.getInstance(n, n2, bAPVersion, lSGVersion);
     }
 
-    @Override
     protected BAPConfig bapConfigFromStatusSerializer(StatusProperty statusProperty) {
         BAP_Config_Status bAP_Config_Status = (BAP_Config_Status)statusProperty;
         int n = bAP_Config_Status.lsg_Class;
@@ -49,20 +47,17 @@ extends AbstractBAPModuleInitializationManagerASG {
         return BAPConfig.getInstance(n, n2, bAPVersion, lSGVersion);
     }
 
-    @Override
     protected boolean isBapConfigSupported(BAPConfig bAPConfig) {
         return this.supportedConfig.isCompatibleWith(bAPConfig);
     }
 
-    @Override
     public void appStateChanged(String string, int n) {
         if ("AppBapRemoteServices".equals(string)) {
-            this.logChannel.log(1078071040, "[InitializationManagerRemoteServices#appStateChanged] appName=%1, value=%2", (Object)string, (long)n);
+            this.logChannel.log(1000000, "[InitializationManagerRemoteServices#appStateChanged] appName=%1, value=%2", (Object)string, (long)n);
             this.processAppStateChanged(n);
         }
     }
 
-    @Override
     public String appStatesToString() {
         Buffer buffer = new Buffer();
         buffer.append("appStateRemoteServices = ");
@@ -71,7 +66,6 @@ extends AbstractBAPModuleInitializationManagerASG {
         return buffer.toString();
     }
 
-    @Override
     public void updateOperationState() {
     }
 }

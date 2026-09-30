@@ -19,7 +19,6 @@ extends AbstractRemoteHMIComponent {
     private OnlineSearchGUIImpl onlineSearchGUI;
     private static volatile WeakReference staticOnlineSearchImpl;
 
-    @Override
     public void init(LogChannel logChannel, RemoteHMIService remoteHMIService) {
         super.init(logChannel, remoteHMIService);
         boolean bl = Boolean.getBoolean("RHMI_VE_DISABLE_TRUFFEL_INSTANCE");
@@ -28,7 +27,7 @@ extends AbstractRemoteHMIComponent {
             this.dataProvider.init(this.getFrameworkAccess());
         }
         this.onlineSearchImpl = new OnlineSearchImpl(this.getFrameworkAccess().getBundleCxt(), this.getFrameworkAccess(), logChannel, 8);
-        this.onlineSearchGUI = new OnlineSearchGUIImpl(logChannel, this.onlineSearchImpl, remoteHMIService.getModelBankAccess().getSpellerModel(1578836736), bl);
+        this.onlineSearchGUI = new OnlineSearchGUIImpl(logChannel, this.onlineSearchImpl, remoteHMIService.getModelBankAccess().getSpellerModel(2300766), bl);
         this.onlineSearchImpl.setActiveGuiSearchHandler(this.onlineSearchGUI);
         this.onlineSearchImpl.init();
         if (bl) {

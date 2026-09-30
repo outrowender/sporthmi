@@ -4,10 +4,8 @@
 package de.audi.app.messaging.core.drafts;
 
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
+import de.audi.app.messaging.core.commands.AbstractMessagingCommand;
 import de.audi.app.messaging.core.compose.Message;
-import de.audi.app.messaging.core.drafts.SaveAsDraftCommand$1;
-import de.audi.app.messaging.core.drafts.SaveAsDraftCommand$LastSavedMessageGetter;
-import de.audi.app.messaging.core.drafts.SaveAsDraftCommand$ResultHandler;
 import de.audi.app.messaging.core.dsi.messaging.AbstractDsiMessagingCommand;
 import de.audi.app.messaging.core.util.MessageContacts;
 import de.audi.tghu.command.Command;
@@ -16,8 +14,8 @@ import org.dsi.ifc.messaging.RecipientList;
 
 final class SaveAsDraftCommand
 extends AbstractDsiMessagingCommand {
-    private final SaveAsDraftCommand$LastSavedMessageGetter lastSavedMessageGetter;
-    private final SaveAsDraftCommand$ResultHandler resultHandler;
+    private final LastSavedMessageGetter lastSavedMessageGetter;
+    private final ResultHandler resultHandler;
     private Message message;
     private final String messageID;
     private final int type;
@@ -27,7 +25,7 @@ extends AbstractDsiMessagingCommand {
     private final int messagingAccountID;
     private final AttachmentInformation[] attachments;
 
-    SaveAsDraftCommand(AbstractMsgApplication abstractMsgApplication, SaveAsDraftCommand$LastSavedMessageGetter lastSavedMessageGetter, SaveAsDraftCommand$ResultHandler resultHandler, Message message, String string, AttachmentInformation[] attachmentInformationArray) {
+    SaveAsDraftCommand(AbstractMsgApplication abstractMsgApplication, LastSavedMessageGetter lastSavedMessageGetter, ResultHandler resultHandler, Message message, String string, AttachmentInformation[] attachmentInformationArray) {
         super(abstractMsgApplication);
         this.lastSavedMessageGetter = lastSavedMessageGetter;
         this.resultHandler = resultHandler;
@@ -41,10 +39,9 @@ extends AbstractDsiMessagingCommand {
         this.attachments = attachmentInformationArray;
     }
 
-    @Override
     public void execute() {
         try {
-            this.logger.log(-2137614336, "[SaveAsDraftCommand#execute]");
+            this.logger.log(10000000, "[SaveAsDraftCommand#execute]");
             boolean bl = true;
             Message message = this.lastSavedMessageGetter.get();
             String string = this.messageID;
@@ -61,7 +58,7 @@ extends AbstractDsiMessagingCommand {
                 }
             }
             if (this.logger.isInfo()) {
-                this.logger.log(1078071040, "[SaveAsDraftCommand#execute] hasToBeSaved = %1, adjustedMessageId = %2, message = %3, lastSavedMessage = %4", (Object)String.valueOf(bl), (Object)String.valueOf(string), (Object)String.valueOf(this.message), (Object)String.valueOf(message));
+                this.logger.log(1000000, "[SaveAsDraftCommand#execute] hasToBeSaved = %1, adjustedMessageId = %2, message = %3, lastSavedMessage = %4", (Object)String.valueOf(bl), (Object)String.valueOf(string), (Object)String.valueOf(this.message), (Object)String.valueOf(message));
             }
             if (bl) {
                 this.dsiMessagingAccess.saveAsDraftRequest(string, this.type, this.recipients, this.subject, this.body, this.messagingAccountID, this.attachments);
@@ -75,9 +72,8 @@ extends AbstractDsiMessagingCommand {
         }
     }
 
-    @Override
     public void saveAsDraftResponse(int n, String string) {
-        this.logger.log(-2137614336, "[SaveAsDraftCommand#saveAsDraftResponse] result = %2, messageID = %1", (Object)string, (long)n);
+        this.logger.log(10000000, "[SaveAsDraftCommand#saveAsDraftResponse] result = %2, messageID = %1", (Object)string, (long)n);
         this.signalResult(n, string, this.message);
     }
 
@@ -86,7 +82,7 @@ extends AbstractDsiMessagingCommand {
      */
     private void signalResult(int n, String string, Message message) {
         try {
-            this.logger.log(-2137614336, "[SaveAsDraftCommand#signalResult] result = %1", (long)n);
+            this.logger.log(10000000, "[SaveAsDraftCommand#signalResult] result = %1", (long)n);
             this.resultHandler.handleResult(n, string, message);
         }
         catch (Exception exception) {
@@ -97,17 +93,22 @@ extends AbstractDsiMessagingCommand {
         }
     }
 
-    @Override
     public Command getErrorCommand() {
-        return new SaveAsDraftCommand$1(this, this.msgApp);
+        return new AbstractMessagingCommand(this.msgApp){
+
+            public void execute() {
+                this.logger.log(10000000, "[SaveAsDraftErrorCommand#execute]");
+                SaveAsDraftCommand.this.signalResult(1, "", SaveAsDraftCommand.this.message);
+            }
+        };
     }
 
-    static /* synthetic */ Message access$000(SaveAsDraftCommand saveAsDraftCommand) {
-        return saveAsDraftCommand.message;
+    public static interface ResultHandler {
+        public void handleResult(int var1, String var2, Message var3);
     }
 
-    static /* synthetic */ void access$100(SaveAsDraftCommand saveAsDraftCommand, int n, String string, Message message) {
-        saveAsDraftCommand.signalResult(n, string, message);
+    public static interface LastSavedMessageGetter {
+        public Message get();
     }
 }
 

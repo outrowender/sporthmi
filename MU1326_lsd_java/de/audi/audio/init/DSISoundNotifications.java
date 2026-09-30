@@ -31,7 +31,6 @@ extends DefaultAudioListener {
         this.dsiSound = null;
     }
 
-    @Override
     public void updateAMAvailable(boolean bl) {
         this.amAvailable = bl;
         this.setNotifications();
@@ -39,7 +38,7 @@ extends DefaultAudioListener {
 
     private void setNotifications() {
         if (this.dsiSound != null && this.amAvailable) {
-            this.lc.log(1078071040, "[ATIPAudioManager.setNotifications] %2 %1", (Object)this.dsiSound, (Object)ATTRS);
+            this.lc.log(1000000, "[ATIPAudioManager.setNotifications] %2 %1", (Object)this.dsiSound, (Object)ATTRS);
             this.dsiSound.setNotification(ATTRS, (DSIListener)this.dsiSoundListener);
         }
     }

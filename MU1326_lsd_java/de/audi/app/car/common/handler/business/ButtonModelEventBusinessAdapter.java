@@ -19,42 +19,34 @@ implements ButtonModelEventBusiness {
         this.dsi = dSIBase;
     }
 
-    @Override
     public boolean processKeyPressed(int n, ButtonModelHandler buttonModelHandler) {
         return false;
     }
 
-    @Override
     public boolean processKeyReleased(int n, ButtonModelHandler buttonModelHandler) {
         return false;
     }
 
-    @Override
     public boolean processKeyTyped(int n, ButtonModelHandler buttonModelHandler) {
         return false;
     }
 
-    @Override
     public boolean processKeyPressed(HandlerTransactionData handlerTransactionData, ButtonModelHandler buttonModelHandler) {
         return false;
     }
 
-    @Override
     public boolean processKeyReleased(HandlerTransactionData handlerTransactionData, ButtonModelHandler buttonModelHandler) {
         return false;
     }
 
-    @Override
     public boolean processKeyTyped(HandlerTransactionData handlerTransactionData, ButtonModelHandler buttonModelHandler) {
         return false;
     }
 
-    @Override
     public LogChannel getLogChannel() {
         return this.logChannel;
     }
 
-    @Override
     public DSIBase getDSI() {
         return this.dsi;
     }

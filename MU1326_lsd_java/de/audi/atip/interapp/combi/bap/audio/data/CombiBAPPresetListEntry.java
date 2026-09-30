@@ -8,12 +8,12 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public final class CombiBAPPresetListEntry
 implements CombiBAPArrayElement {
-    public static final int ATTRIBUTE_IBOC_SERVICE;
-    public static final int ATTRIBUTE_DAB_SECONDARY_SERVICE;
-    public static final int ATTRIBUTE_DAB_PRIMARY_SERVICE_CONTAINS_SECONDARY_SERVICES;
-    public static final int ATTRIBUTE_TP_AVAILABLE;
-    public static final int ATTRIBUTE_TMC_AVAILABLE;
-    public static final int ATTRIBUTE_SDARS_STATION_SUBSCRIBED_OR_NOT_AN_SDARS_STATION;
+    public static final int ATTRIBUTE_IBOC_SERVICE = 1;
+    public static final int ATTRIBUTE_DAB_SECONDARY_SERVICE = 2;
+    public static final int ATTRIBUTE_DAB_PRIMARY_SERVICE_CONTAINS_SECONDARY_SERVICES = 4;
+    public static final int ATTRIBUTE_TP_AVAILABLE = 32;
+    public static final int ATTRIBUTE_TMC_AVAILABLE = 64;
+    public static final int ATTRIBUTE_SDARS_STATION_SUBSCRIBED_OR_NOT_AN_SDARS_STATION = 128;
     private int posID;
     private int presetIndex = 0;
     private int waveband;
@@ -35,7 +35,6 @@ implements CombiBAPArrayElement {
         this.attributes = n4;
     }
 
-    @Override
     public int getPosID() {
         return this.posID;
     }
@@ -82,7 +81,6 @@ implements CombiBAPArrayElement {
         return buffer.toString();
     }
 
-    @Override
     public boolean hasSameContent(CombiBAPArrayElement combiBAPArrayElement) {
         if (combiBAPArrayElement == this) {
             return true;
@@ -94,7 +92,6 @@ implements CombiBAPArrayElement {
         return false;
     }
 
-    @Override
     public int getDiffRecordAddress(CombiBAPArrayElement combiBAPArrayElement) {
         int n = 0;
         if (combiBAPArrayElement == this) {

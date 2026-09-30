@@ -6,58 +6,40 @@ package de.audi.atip.hmi.view;
 import java.util.List;
 
 public interface IWidgetDiagnosis {
-    default public String getClassName() {
-    }
+    public String getClassName();
 
-    default public int getX() {
-    }
+    public int getX();
 
-    default public int getY() {
-    }
+    public int getY();
 
-    default public int getWidth() {
-    }
+    public int getWidth();
 
-    default public int getHeight() {
-    }
+    public int getHeight();
 
-    default public int getDepth() {
-    }
+    public int getDepth();
 
-    default public String getDiagnosisText() {
-    }
+    public String getDiagnosisText();
 
-    default public String getInternalInfo() {
-    }
+    public String getInternalInfo();
 
-    default public int[] getBitmapIndices() {
-    }
+    public int[] getBitmapIndices();
 
-    default public int[] getColorIndices() {
-    }
+    public int[] getColorIndices();
 
-    default public List getDiagnosisChildren() {
-    }
+    public List getDiagnosisChildren();
 
-    default public boolean isEnabled() {
-    }
+    public boolean isEnabled();
 
-    default public boolean isActive() {
-    }
+    public boolean isActive();
 
-    default public boolean isHighlighted() {
-    }
+    public boolean isHighlighted();
 
-    default public boolean isVisible() {
-    }
+    public boolean isVisible();
 
-    default public boolean isFocused() {
-    }
+    public boolean isFocused();
 
-    default public boolean isFunctional() {
-    }
+    public boolean isFunctional();
 
-    default public int getModelID() {
-    }
+    public int getModelID();
 }
 

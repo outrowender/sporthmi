@@ -17,23 +17,20 @@ extends TelDefaultChoiceListener {
         super(iTelApplication, string, n);
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
         boolean bl;
         boolean bl2 = bl = DrawerFocusUtil.isFocusLost(n2) && !DrawerFocusUtil.isReasonReInit(n2);
         if (bl) {
-            this.log.log(1078071040, "[AbstractTelDefaultLeftDrawerOpenCloseChoiceListener#itemSelected] focus lost.");
+            this.log.log(1000000, "[AbstractTelDefaultLeftDrawerOpenCloseChoiceListener#itemSelected] focus lost.");
             this.focusLost();
         } else {
-            this.log.log(1078071040, "[AbstractTelDefaultLeftDrawerOpenCloseChoiceListener#itemSelected] focus obtained.");
+            this.log.log(1000000, "[AbstractTelDefaultLeftDrawerOpenCloseChoiceListener#itemSelected] focus obtained.");
             this.focusGained();
         }
     }
 
-    protected abstract void focusLost() {
-    }
+    protected abstract void focusLost();
 
-    protected abstract void focusGained() {
-    }
+    protected abstract void focusGained();
 }
 

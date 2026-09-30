@@ -46,21 +46,21 @@ implements ITestSupportReceiverSessionHandler {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public ITestSupportReceiverSession registerDataReceiver(ITestSupportDataReceiver iTestSupportDataReceiver) {
-        this.logChannel.log(1078071040, "[TestSupportReceiverSessionHandler#registerDataReceiver] receiver '%1' has registered", (Object)iTestSupportDataReceiver.getName());
+        this.logChannel.log(1000000, "[TestSupportReceiverSessionHandler#registerDataReceiver] receiver '%1' has registered", (Object)iTestSupportDataReceiver.getName());
         Object object = this.mutex;
         synchronized (object) {
             int n = this.idGenerator.getID();
-            this.logChannel.log(1078071040, "[TestSupportReceiverSessionHandler#registerDataReceiver] using Session-ID '%2' for receiver '%1' internally", (Object)iTestSupportDataReceiver.getName(), (long)n);
+            this.logChannel.log(1000000, "[TestSupportReceiverSessionHandler#registerDataReceiver] using Session-ID '%2' for receiver '%1' internally", (Object)iTestSupportDataReceiver.getName(), (long)n);
             TestSupportReceiverSession testSupportReceiverSession = (TestSupportReceiverSession)this.registeredReceivers.get(new Integer(n));
             if (testSupportReceiverSession != null) {
-                this.logChannel.log(-1601830656, "[TestSupportReceiverSessionHandler#registerDataReceiver] receiver '%1' already registered", (Object)iTestSupportDataReceiver);
+                this.logChannel.log(100000, "[TestSupportReceiverSessionHandler#registerDataReceiver] receiver '%1' already registered", (Object)iTestSupportDataReceiver);
                 return testSupportReceiverSession;
             }
             TestSupportReceiverSession testSupportReceiverSession2 = new TestSupportReceiverSession(iTestSupportDataReceiver, this, this.logChannel, n);
             this.registeredReceivers.put(new Integer(n), testSupportReceiverSession2);
             this.receiverSessionMapping.put(iTestSupportDataReceiver, testSupportReceiverSession2);
             String string = testSupportReceiverSession2.getReceiver().getName();
-            this.menuHandler.addReceiverEntry(testSupportReceiverSession2.getID(), string != null && string.length() > 0 ? string : new StringBuffer().append("UNKNOWN RECEIVER, ID: ").append(n).toString());
+            this.menuHandler.addReceiverEntry(testSupportReceiverSession2.getID(), string != null && string.length() > 0 ? string : "UNKNOWN RECEIVER, ID: " + n);
             return testSupportReceiverSession2;
         }
     }
@@ -69,7 +69,7 @@ implements ITestSupportReceiverSessionHandler {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void deRegisterDataReceiver(ITestSupportDataReceiver iTestSupportDataReceiver) {
-        this.logChannel.log(1078071040, "[TestSupportReceiverSessionHandler#deRegisterDataReceiver] receiver '%1' has de-registered", (Object)iTestSupportDataReceiver.getName());
+        this.logChannel.log(1000000, "[TestSupportReceiverSessionHandler#deRegisterDataReceiver] receiver '%1' has de-registered", (Object)iTestSupportDataReceiver.getName());
         Object object = this.mutex;
         synchronized (object) {
             TestSupportReceiverSession testSupportReceiverSession = (TestSupportReceiverSession)this.receiverSessionMapping.get(iTestSupportDataReceiver);
@@ -80,7 +80,6 @@ implements ITestSupportReceiverSessionHandler {
         }
     }
 
-    @Override
     public void entriesUpdated(int n) {
         this.menuHandler.entriesUpdated(n);
     }

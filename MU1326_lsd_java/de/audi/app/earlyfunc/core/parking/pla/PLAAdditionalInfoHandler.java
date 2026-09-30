@@ -13,35 +13,32 @@ public class PLAAdditionalInfoHandler
 implements IPLAAdditionalInfoHandler {
     private final LogChannel logChannel;
     private final ChoiceModelApp drivingDirectionModel;
-    private static final int DRIVING_DIRECTION_NONE;
-    private static final int DRIVING_DIRECTION_FORWARD;
-    private static final int DRIVING_DIRECTION_BACKWARD;
-    private static final int DRIVING_DIRECTION_OK;
-    private static final int SYMBOL_INVISIBLE;
-    private static final int SYMBOL_VISIBLE;
+    private static final int DRIVING_DIRECTION_NONE = 0;
+    private static final int DRIVING_DIRECTION_FORWARD = 1;
+    private static final int DRIVING_DIRECTION_BACKWARD = 2;
+    private static final int DRIVING_DIRECTION_OK = 3;
+    private static final int SYMBOL_INVISIBLE = 0;
+    private static final int SYMBOL_VISIBLE = 1;
     private final ChoiceModelApp brakeSymbolModel;
     private final ChoiceModelApp steeringInterventionModel;
 
     public PLAAdditionalInfoHandler(ICarApplication iCarApplication, LogChannel logChannel) {
         this.logChannel = logChannel;
-        this.drivingDirectionModel = iCarApplication.getFrameworkAccess().getHmiServiceApp().getChoiceModel(1460412416);
-        this.brakeSymbolModel = iCarApplication.getFrameworkAccess().getHmiServiceApp().getChoiceModel(1477189632);
-        this.steeringInterventionModel = iCarApplication.getFrameworkAccess().getHmiServiceApp().getChoiceModel(1493966848);
+        this.drivingDirectionModel = iCarApplication.getFrameworkAccess().getHmiServiceApp().getChoiceModel(2100311);
+        this.brakeSymbolModel = iCarApplication.getFrameworkAccess().getHmiServiceApp().getChoiceModel(2100312);
+        this.steeringInterventionModel = iCarApplication.getFrameworkAccess().getHmiServiceApp().getChoiceModel(2100313);
     }
 
-    @Override
     public void init() {
-        this.logChannel.log(1078071040, "[PLAAdditionalHandler#init]");
+        this.logChannel.log(1000000, "[PLAAdditionalHandler#init]");
     }
 
-    @Override
     public void deinit() {
-        this.logChannel.log(1078071040, "[PLAAdditionalHandler#deinit]");
+        this.logChannel.log(1000000, "[PLAAdditionalHandler#deinit]");
     }
 
-    @Override
     public void updatePLAStatus(PDCPLAStatus pDCPLAStatus) {
-        this.logChannel.log(1078071040, "[PLAAdditionalInfoHandler#updatePLAStatus]");
+        this.logChannel.log(1000000, "[PLAAdditionalInfoHandler#updatePLAStatus]");
         int n = pDCPLAStatus.getDrivingDirection();
         boolean bl = pDCPLAStatus.getInstructions().isBrakeSymbol();
         if (bl) {

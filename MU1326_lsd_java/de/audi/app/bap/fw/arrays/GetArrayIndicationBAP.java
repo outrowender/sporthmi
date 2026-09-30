@@ -16,14 +16,12 @@ extends GetArrayIndication {
         this.bapFunction = bAPFunctionArrayFSG;
     }
 
-    @Override
     public int hashCode() {
         int n = super.hashCode();
         n = 31 * n + (this.bapFunction == null ? 0 : this.bapFunction.hashCode());
         return n;
     }
 
-    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -31,7 +29,7 @@ extends GetArrayIndication {
         if (!super.equals(object)) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         GetArrayIndicationBAP getArrayIndicationBAP = (GetArrayIndicationBAP)object;

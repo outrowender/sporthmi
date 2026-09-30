@@ -8,11 +8,11 @@ import de.audi.atip.interapp.combi.bap.audio.CombiBAPServiceTone;
 import de.audi.atip.interapp.combi.bap.audio.CombiBAPServiceToneListener;
 import de.audi.atip.interapp.def.NullCombiBAPServiceTone;
 import de.audi.atip.log.LogChannel;
+import de.audi.atip.timer.DefaultTimerListener;
 import de.audi.atip.timer.Timer;
 import de.audi.audio.AudioEnv;
-import de.audi.audio.CombiServiceHandler$HideTimerListener;
-import de.audi.audio.CombiServiceHandler$SoundListenerExt;
 import de.audi.audio.intra.DefaultAudioListener;
+import de.audi.audio.intra.DefaultSoundListener;
 import de.audi.audio.intra.ISoundListener;
 import de.audi.audio.services.BaseAudioService;
 import de.audi.audio.store.ConnectionStore;
@@ -20,11 +20,11 @@ import de.audi.audio.store.ConnectionStore;
 public class CombiServiceHandler
 extends DefaultAudioListener
 implements CombiBAPServiceToneListener {
-    private static final int UNKNOWN;
-    public final ISoundListener soundListener = new CombiServiceHandler$SoundListenerExt(this, null);
+    private static final int UNKNOWN = -1;
+    public final ISoundListener soundListener = new SoundListenerExt();
     private final LogChannel lc;
     private final BaseAudioService audioService;
-    private final Timer combiHideTimer = new Timer("Combi Volume Popup Timer", 0, true, new CombiServiceHandler$HideTimerListener(this, null));
+    private final Timer combiHideTimer = new Timer("Combi Volume Popup Timer", 3000L, true, new HideTimerListener());
     private CombiBAPServiceTone combiService;
     private NullCombiBAPServiceTone combiServiceSnapshot;
     private Boolean userMuteCurrentlyActive;
@@ -45,7 +45,7 @@ implements CombiBAPServiceToneListener {
     }
 
     public void register(CombiBAPServiceTone combiBAPServiceTone) {
-        this.lc.log(-2137614336, "[CombiServiceHandler.register] %1", (Object)combiBAPServiceTone);
+        this.lc.log(10000000, "[CombiServiceHandler.register] %1", (Object)combiBAPServiceTone);
         this.combiService = combiBAPServiceTone;
         this.combiService.updateMuteState(this.combiServiceSnapshot.isMuted(), this.combiServiceSnapshot.isMutedDueToActivePhoneCall());
         if (this.volumeType != -1) {
@@ -57,7 +57,7 @@ implements CombiBAPServiceToneListener {
     }
 
     public void deregister() {
-        this.lc.log(-2137614336, "[CombiServiceHandler.deregister]");
+        this.lc.log(10000000, "[CombiServiceHandler.deregister]");
         this.combiService = this.combiServiceSnapshot;
     }
 
@@ -67,7 +67,7 @@ implements CombiBAPServiceToneListener {
     }
 
     public void showVolumePopup(boolean bl) {
-        this.lc.log(-2137614336, "[CombiServiceHandler.showVolumePopup] show:%1", bl);
+        this.lc.log(10000000, "[CombiServiceHandler.showVolumePopup] show:%1", bl);
         this.showVolumePopup = bl;
         if (bl) {
             this.combiHideTimer.restart();
@@ -116,7 +116,7 @@ implements CombiBAPServiceToneListener {
                 break;
             }
             default: {
-                this.lc.log(-1601830656, "[CombiServiceHandler.setVolumePopupText] Unknown text ID %1 -> fall back entertainment", (long)n);
+                this.lc.log(100000, "[CombiServiceHandler.setVolumePopupText] Unknown text ID %1 -> fall back entertainment", (long)n);
                 this.volumeType = 1;
             }
         }
@@ -131,11 +131,10 @@ implements CombiBAPServiceToneListener {
     }
 
     private void updateVolume(int n, int n2, boolean bl) {
-        this.lc.log(-2137614336, "[CombiServiceHandler.updateVolume] vol:%1 type:%2 show:%3", (long)n, (long)n2, bl);
+        this.lc.log(10000000, "[CombiServiceHandler.updateVolume] vol:%1 type:%2 show:%3", (long)n, (long)n2, bl);
         this.combiService.updateVolume(n, this.maxVolume, n2, bl, this.volumeLockActive);
     }
 
-    @Override
     public void updateConnStatus(int n, int n2, int n3) {
         if (n3 != 0) {
             return;
@@ -148,7 +147,7 @@ implements CombiBAPServiceToneListener {
         this.userMuteCurrentlyActive = bl;
         this.phoneCurrentlyActive = bl2;
         this.combiServiceSnapshot.updateMuteState(bl, bl2);
-        this.lc.log(-2137614336, "[CombiServiceHandler.updateConnStatus] userMuteActive:%1 phoneActive:%2", bl, bl2);
+        this.lc.log(10000000, "[CombiServiceHandler.updateConnStatus] userMuteActive:%1 phoneActive:%2", bl, bl2);
         this.combiService.updateMuteState(bl, bl2);
     }
 
@@ -165,7 +164,7 @@ implements CombiBAPServiceToneListener {
 
     private boolean isPhoneActive() {
         int[] nArray = ConnectionStore.INSTANCE.getConnectionsInUse(1);
-        this.lc.log(-2137614336, "[CombiServiceHandler.isPhoneActive] connection:%1", (Object)nArray);
+        this.lc.log(10000000, "[CombiServiceHandler.isPhoneActive] connection:%1", (Object)nArray);
         for (int i2 = 0; i2 < nArray.length; ++i2) {
             if (AudioConnection.contains(AudioConnection.PHONE_CALL, nArray[i2]) && !this.stopOfMuteConnectionRequested(nArray[i2])) {
                 return true;
@@ -179,13 +178,12 @@ implements CombiBAPServiceToneListener {
     private boolean stopOfMuteConnectionRequested(int n) {
         boolean bl = AudioConnection.contains(AudioConnection.MUTE_RELEASE_CONNECTIONS, n);
         boolean bl2 = ConnectionStore.INSTANCE.getStatus(n, 1) == 6;
-        this.lc.log(-2137614336, "[CombiServiceHandler.stopOfMuteConnectionRequested] isMuteReleaseConnection:%1 stopRequested:%2", bl, bl2);
+        this.lc.log(10000000, "[CombiServiceHandler.stopOfMuteConnectionRequested] isMuteReleaseConnection:%1 stopRequested:%2", bl, bl2);
         return bl && bl2;
     }
 
-    @Override
     public void setMuteState(boolean bl) {
-        this.lc.log(-2137614336, "[CombiServiceHandler.setMuteState] muted:%1", bl);
+        this.lc.log(10000000, "[CombiServiceHandler.setMuteState] muted:%1", bl);
         if (bl) {
             this.audioService.requestConnection(8);
         } else {
@@ -193,9 +191,8 @@ implements CombiBAPServiceToneListener {
         }
     }
 
-    @Override
     public void setVolume(int n, int n2) {
-        this.lc.log(-2137614336, "[CombiServiceHandler.setVolume] Nothing to do here.");
+        this.lc.log(10000000, "[CombiServiceHandler.setVolume] Nothing to do here.");
     }
 
     private void updateVolumeProperties(int n) {
@@ -204,12 +201,25 @@ implements CombiBAPServiceToneListener {
         this.combiService.updateVolumeProperties((byte)n, true, bl, true, true, true, true, true, true);
     }
 
-    static /* synthetic */ LogChannel access$200(CombiServiceHandler combiServiceHandler) {
-        return combiServiceHandler.lc;
+    private class SoundListenerExt
+    extends DefaultSoundListener {
+        private SoundListenerExt() {
+        }
+
+        public void updateVolumeRange(int n, int n2) {
+            CombiServiceHandler.this.updateVolumeProperties(n2);
+        }
     }
 
-    static /* synthetic */ void access$300(CombiServiceHandler combiServiceHandler, int n) {
-        combiServiceHandler.updateVolumeProperties(n);
+    private class HideTimerListener
+    extends DefaultTimerListener {
+        private HideTimerListener() {
+        }
+
+        public void fireTimer(Timer timer) {
+            CombiServiceHandler.this.lc.log(10000000, "[CombiServiceHandler.HideTimerListener.fireTimer]");
+            CombiServiceHandler.this.showVolumePopup(false);
+        }
     }
 }
 

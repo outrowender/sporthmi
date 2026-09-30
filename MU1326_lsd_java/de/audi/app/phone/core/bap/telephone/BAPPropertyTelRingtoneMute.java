@@ -15,16 +15,14 @@ extends AbstractTel1EnqueuedBAPPropertyHandler {
         super(iTelApplication, dispatcherBase);
     }
 
-    @Override
     protected boolean doProcessGlobalTelephoneStateUpdate(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
-        return n == 0x6000400 || n == 0x5000400;
+        return n == 262150 || n == 262149;
     }
 
-    @Override
     protected void updateAsync() {
         IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct = this.getTelephoneState();
         if (iGlobalTelephoneStateStruct == null) {
-            this.log.log(-2137614336, "[BAPPropertyTelRingtoneMute#updateAsync] telephoneState is null --> NOP!");
+            this.log.log(10000000, "[BAPPropertyTelRingtoneMute#updateAsync] telephoneState is null --> NOP!");
             return;
         }
         CombiBAPServicePhone combiBAPServicePhone = this.getCombiService();
@@ -32,7 +30,7 @@ extends AbstractTel1EnqueuedBAPPropertyHandler {
         boolean bl2 = iGlobalTelephoneStateStruct.isRingtoneMuteActive();
         if (combiBAPServicePhone != null) {
             boolean bl3 = bl ? true : bl2;
-            this.log.log(1078071040, "[BAPPropertyTelRingtoneMute#update]  ringtoneMuteSettingActive=%1, ringtoneMuteActive=%2 --> ringToneMuted=%3", bl, bl2, bl3);
+            this.log.log(1000000, "[BAPPropertyTelRingtoneMute#update]  ringtoneMuteSettingActive=%1, ringtoneMuteActive=%2 --> ringToneMuted=%3", bl, bl2, bl3);
             combiBAPServicePhone.updateRingToneMuteState(bl3);
         }
     }

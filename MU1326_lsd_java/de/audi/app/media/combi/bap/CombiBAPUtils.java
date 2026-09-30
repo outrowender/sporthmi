@@ -21,7 +21,7 @@ public class CombiBAPUtils {
     private static final IntMap FOLDERTYPEMAP = new IntMap(40);
     private static final IntMap FILETYPEMAP;
     private static final HashMap INFOSTATESTRINGMAP;
-    public static final int SINGLE_SD_CARD_BAP_SLOT_INDEX;
+    public static final int SINGLE_SD_CARD_BAP_SLOT_INDEX = -1;
 
     public static CombiBAPAudioSource getBAPSource(ISource iSource, ISourceSlot iSourceSlot) {
         int n;

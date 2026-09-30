@@ -8,16 +8,16 @@ import de.esolutions.fw.util.commons.Buffer;
 import org.dsi.ifc.messaging.FolderEntry;
 
 public final class Folder {
-    public static final int HMI_FOLDERTYPE_NONE;
-    public static final int HMI_FOLDERTYPE_ROOT;
-    public static final int HMI_FOLDERTYPE_DELETED;
-    public static final int HMI_FOLDERTYPE_DRAFT;
-    public static final int HMI_FOLDERTYPE_INBOX;
-    public static final int HMI_FOLDERTYPE_OUTBOX;
-    public static final int HMI_FOLDERTYPE_SENT;
-    public static final int HMI_FOLDERTYPE_USER;
-    public static final int FOLDER_LEVEL_NONE;
-    public static final Folder FOLDER_NONE;
+    public static final int HMI_FOLDERTYPE_NONE = 0;
+    public static final int HMI_FOLDERTYPE_ROOT = 1;
+    public static final int HMI_FOLDERTYPE_DELETED = 2;
+    public static final int HMI_FOLDERTYPE_DRAFT = 3;
+    public static final int HMI_FOLDERTYPE_INBOX = 4;
+    public static final int HMI_FOLDERTYPE_OUTBOX = 5;
+    public static final int HMI_FOLDERTYPE_SENT = 6;
+    public static final int HMI_FOLDERTYPE_USER = 7;
+    public static final int FOLDER_LEVEL_NONE = -1;
+    public static final Folder FOLDER_NONE = new Folder(false, null, -1, 0, -1);
     private final boolean isValid;
     private final FolderEntry folderEntry;
     private final int level;
@@ -90,10 +90,6 @@ public final class Folder {
             return this.getFolderEntry().getFolderID();
         }
         return n;
-    }
-
-    static {
-        FOLDER_NONE = new Folder(false, null, -1, 0, -1);
     }
 }
 

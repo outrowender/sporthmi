@@ -14,7 +14,7 @@ import org.dsi.ifc.media.ListEntry;
 
 public class JobTransferring
 extends AbstractJobTransfer {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "TransferJobTransferring";
     private final TransferLockHandler transferLockHandler;
     private long numberOfImportedItems;
     private long numberOfItemsToImport;
@@ -30,19 +30,16 @@ extends AbstractJobTransfer {
         this.importMode = bl2;
     }
 
-    @Override
     public int getType() {
         return 3;
     }
 
-    @Override
     public String getName() {
         return "TransferRunning";
     }
 
-    @Override
     public void asyncException(int n, int n2) {
-        this.logger.log(1078071040, "[%1.asyncException]", (Object)"TransferJobTransferring");
+        this.logger.log(1000000, "[%1.asyncException]", (Object)LOGCLASS);
         if (this.importMode) {
             this.getMediaDSIRecorder().abortImport();
         } else {
@@ -50,13 +47,12 @@ extends AbstractJobTransfer {
         }
     }
 
-    @Override
     public void responseSetSelection(int n, boolean bl) {
         if (this.logger.isInfo()) {
-            this.logger.log(1078071040, "[%1.responseSetSelection] browserID='%2', result='%3'.", (Object)"TransferJobTransferring", (Object)new Integer(n), (Object)bl);
+            this.logger.log(1000000, "[%1.responseSetSelection] browserID='%2', result='%3'.", (Object)LOGCLASS, (Object)new Integer(n), (Object)bl);
         }
         if (n != 7) {
-            this.logger.log(-1601830656, "[%1.responseSetSelection] unexpected browserID '%2'!", (Object)"TransferJobTransferring", (long)n);
+            this.logger.log(100000, "[%1.responseSetSelection] unexpected browserID '%2'!", (Object)LOGCLASS, (long)n);
             return;
         }
         if (this.transferLockHandler.importActive(true)) {
@@ -66,7 +62,7 @@ extends AbstractJobTransfer {
                 this.getMediaDSIRecorder().startDelete();
             }
         } else {
-            this.logger.log(-1601830656, "[%1.responseSetSelection] resources are blocked, aborting", (Object)"TransferJobTransferring");
+            this.logger.log(100000, "[%1.responseSetSelection] resources are blocked, aborting", (Object)LOGCLASS);
             if (this.importMode) {
                 this.getMediaDSIRecorder().abortImport();
             } else {
@@ -75,22 +71,19 @@ extends AbstractJobTransfer {
         }
     }
 
-    @Override
     public void importProgressChanged(long l, ListEntry listEntry) {
-        this.logger.log(1078071040, "[%1.importStatusChanged] '%2'", (Object)"TransferJobTransferring", l);
+        this.logger.log(1000000, "[%1.importStatusChanged] '%2'", (Object)LOGCLASS, l);
         this.getTransferListener().importProgressChanged(l, listEntry);
         this.getTransferController().getTransferStateNotifier().notifyImportProgressChanged((int)l);
     }
 
-    @Override
     public void deletionProgressChanged(long l) {
-        this.logger.log(1078071040, "[%1.deletionProgressChanged] '%2'", (Object)"TransferJobTransferring", l);
+        this.logger.log(1000000, "[%1.deletionProgressChanged] '%2'", (Object)LOGCLASS, l);
         this.getTransferListener().deletionProgressChanged(l);
     }
 
-    @Override
     public void importStatusChanged(int n) {
-        this.logger.log(1078071040, "[%1.importStatusChanged]", (Object)"TransferJobTransferring");
+        this.logger.log(1000000, "[%1.importStatusChanged]", (Object)LOGCLASS);
         switch (n) {
             case 0: {
                 if (!this.importMode) break;
@@ -108,11 +101,11 @@ extends AbstractJobTransfer {
             }
             case 8: {
                 if (this.transferLockHandler.importActive(true)) {
-                    this.logger.log(1078071040, "[%1.importStatusChanged] Start import.", (Object)"TransferJobTransferring");
+                    this.logger.log(1000000, "[%1.importStatusChanged] Start import.", (Object)LOGCLASS);
                     this.getMediaDSIRecorder().startImport(false);
                     break;
                 }
-                this.logger.log(-1601830656, "[%1.importStatusChanged] resources are locked, aborting import!", (Object)"TransferJobTransferring");
+                this.logger.log(100000, "[%1.importStatusChanged] resources are locked, aborting import!", (Object)LOGCLASS);
                 this.getMediaDSIRecorder().abortImport();
                 break;
             }
@@ -127,9 +120,8 @@ extends AbstractJobTransfer {
         }
     }
 
-    @Override
     public void deletionStatusChanged(int n) {
-        this.logger.log(1078071040, "[%1.deletionStatusChanged]", (Object)"TransferJobTransferring");
+        this.logger.log(1000000, "[%1.deletionStatusChanged]", (Object)LOGCLASS);
         switch (n) {
             case 1: {
                 this.getTransferListener().deletionStarted();
@@ -168,26 +160,23 @@ extends AbstractJobTransfer {
         this.jobFinished();
     }
 
-    @Override
     public void updateImportSummary(long l, long l2, long l3, long l4, long l5, long l6) {
-        this.logger.log(1078071040, "[%1.updateImportSummary]", (Object)"TransferJobTransferring");
+        this.logger.log(1000000, "[%1.updateImportSummary]", (Object)LOGCLASS);
         this.numberOfImportedItems = l + l5;
         this.numberOfItemsToImport = l4 + l6;
         this.numberOfErroneousItems = l2;
         this.allItemsSuccessfullyImported = l == l4 && l5 == l6;
     }
 
-    @Override
     public void start() {
-        this.logger.log(1078071040, "[%1.start]", (Object)"TransferJobTransferring");
+        this.logger.log(1000000, "[%1.start]", (Object)LOGCLASS);
         this.getTransferController().setTransferState(8);
         this.getMediaDSIRecorder().setSelection(7);
     }
 
-    @Override
     public void abort(boolean bl) {
         if (bl) {
-            this.logger.log(1078071040, "[%1.abort]", (Object)"TransferJobTransferring");
+            this.logger.log(1000000, "[%1.abort]", (Object)LOGCLASS);
             if (this.importMode) {
                 this.getMediaDSIRecorder().abortImport();
             } else {
@@ -196,7 +185,6 @@ extends AbstractJobTransfer {
         }
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer();
         buffer.append("[name=");

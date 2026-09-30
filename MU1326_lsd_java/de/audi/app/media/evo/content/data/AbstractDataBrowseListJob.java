@@ -17,12 +17,10 @@ extends AbstractQueueJob {
         this.dataBrowserList = dataBrowserList;
     }
 
-    @Override
     public int getType() {
         return 0;
     }
 
-    @Override
     public void abort(boolean bl) {
     }
 

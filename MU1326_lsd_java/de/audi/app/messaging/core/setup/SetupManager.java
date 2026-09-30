@@ -6,15 +6,17 @@ package de.audi.app.messaging.core.setup;
 import de.audi.app.messaging.core.accounts.Accounts;
 import de.audi.app.messaging.core.component.AbstractMessagingComponent;
 import de.audi.app.messaging.core.concurrent.CopyOnWriteArrayList;
+import de.audi.app.messaging.core.osgi.AbstractMessagingTrackerCustomizer;
 import de.audi.app.messaging.core.osgi.IServiceRegistry;
 import de.audi.app.messaging.core.osgi.MessagingBundleContext;
 import de.audi.app.messaging.core.osgi.ServiceFilterBuilder;
 import de.audi.app.messaging.core.setup.ISetupManagerObserver;
-import de.audi.app.messaging.core.setup.SetupManager$1;
 import de.audi.app.messaging.core.util.Logs;
 import de.audi.app.messaging.core.util.Strings;
 import de.esolutions.fw.util.commons.Buffer;
 import java.util.Iterator;
+import org.dsi.ifc.base.DSIListener;
+import org.dsi.ifc.bluetooth.DSIBluetooth;
 import org.dsi.ifc.bluetooth.DSIBluetoothListener;
 import org.dsi.ifc.bluetooth.DiscoveredDevice;
 import org.dsi.ifc.bluetooth.MasterRoleRequestStruct;
@@ -25,6 +27,8 @@ import org.dsi.ifc.bluetooth.ServiceRequestStateStruct;
 import org.dsi.ifc.bluetooth.TrustedDevice;
 import org.dsi.ifc.messaging.MessagingAccount;
 import org.osgi.framework.Filter;
+import org.osgi.framework.InvalidSyntaxException;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
@@ -42,7 +46,6 @@ implements DSIBluetoothListener {
         this.logSystemProperties();
     }
 
-    @Override
     public void connect(IServiceRegistry iServiceRegistry) {
         try {
             super.connect(iServiceRegistry);
@@ -53,7 +56,7 @@ implements DSIBluetoothListener {
         }
     }
 
-    private ServiceTracker createServiceTracker() {
+    private ServiceTracker createServiceTracker() throws InvalidSyntaxException {
         ServiceFilterBuilder serviceFilterBuilder = new ServiceFilterBuilder();
         serviceFilterBuilder.beginAnd();
         serviceFilterBuilder.addProperty("objectClass", (class$org$dsi$ifc$bluetooth$DSIBluetooth == null ? (class$org$dsi$ifc$bluetooth$DSIBluetooth = SetupManager.class$("org.dsi.ifc.bluetooth.DSIBluetooth")) : class$org$dsi$ifc$bluetooth$DSIBluetooth).getName());
@@ -61,8 +64,19 @@ implements DSIBluetoothListener {
         serviceFilterBuilder.endAnd();
         String string = serviceFilterBuilder.createFilterString();
         Filter filter = this.bundleContext.createFilter(string);
-        SetupManager$1 setupManager$1 = new SetupManager$1(this, this.log, this.bundleContext);
-        return new ServiceTracker(this.bundleContext, filter, (ServiceTrackerCustomizer)setupManager$1);
+        AbstractMessagingTrackerCustomizer abstractMessagingTrackerCustomizer = new AbstractMessagingTrackerCustomizer(this.log, this.bundleContext){
+
+            public void addService(ServiceReference serviceReference, Object object) {
+                DSIBluetooth dSIBluetooth = (DSIBluetooth)object;
+                if (dSIBluetooth != null) {
+                    dSIBluetooth.setNotification(6, (DSIListener)SetupManager.this);
+                }
+            }
+
+            public void removeService(ServiceReference serviceReference, Object object) {
+            }
+        };
+        return new ServiceTracker(this.bundleContext, filter, (ServiceTrackerCustomizer)abstractMessagingTrackerCustomizer);
     }
 
     public String getSapDeviceAddress() {
@@ -165,8 +179,8 @@ implements DSIBluetoothListener {
 
     private boolean isMapConnected(TrustedDevice trustedDevice) {
         int n = trustedDevice != null ? trustedDevice.getActiveServiceTypes() : 0;
-        boolean bl = (n & 0x2000) != 0;
-        boolean bl2 = (n & 0x4000) != 0;
+        boolean bl = (n & 0x200000) != 0;
+        boolean bl2 = (n & 0x400000) != 0;
         return bl || bl2;
     }
 
@@ -196,7 +210,7 @@ implements DSIBluetoothListener {
             buffer.append("blockContentWhileDriving = ").append(bl5).append(", ");
             buffer.append("huRegion = ").append(string).append(", ");
             buffer.append("isArabicLanguageAvailable = ").append(bl6);
-            this.log.log(1078071040, buffer.toString());
+            this.log.log(1000000, buffer.toString());
         }
     }
 
@@ -239,12 +253,12 @@ implements DSIBluetoothListener {
     }
 
     public void addObserver(ISetupManagerObserver iSetupManagerObserver) {
-        this.log.log(-2137614336, "[SetupManager#addObserver] observer = %1", (Object)iSetupManagerObserver);
+        this.log.log(10000000, "[SetupManager#addObserver] observer = %1", (Object)iSetupManagerObserver);
         this.setupManagerObservers.add(iSetupManagerObserver);
     }
 
     private void emitIndicateConfigurationChanged() {
-        this.log.log(-2137614336, "[SetupManager#emitIndicateConfigurationChanged]");
+        this.log.log(10000000, "[SetupManager#emitIndicateConfigurationChanged]");
         Iterator iterator = this.setupManagerObservers.iterator();
         while (iterator.hasNext()) {
             try {
@@ -256,109 +270,83 @@ implements DSIBluetoothListener {
         }
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
     }
 
-    @Override
     public void responseAbortConnectService(int n) {
     }
 
-    @Override
     public void responseAbortInquiry(int n) {
     }
 
-    @Override
     public void responseAcceptIncomingServiceRequest(int n) {
     }
 
-    @Override
     public void responseConnectService(String string, String string2, int n, int n2, int n3) {
     }
 
-    @Override
     public void responseConnectServiceToInstance(String string, String string2, int n, int n2, int n3) {
     }
 
-    @Override
     public void responseDisconnectService(String string, int n, int n2) {
     }
 
-    @Override
     public void responseGetServices(String string, String string2, int n, int n2) {
     }
 
-    @Override
     public void responseInquiry(int n, int n2) {
     }
 
-    @Override
     public void responsePasskeyResponse(String string, String string2, int n) {
     }
 
-    @Override
     public void responseRemoveAuthentication(String string, String string2, int n) {
     }
 
-    @Override
     public void responseRestoreFactorySettings(int n) {
     }
 
-    @Override
     public void responseSetA2DPUserSetting(int n) {
     }
 
-    @Override
     public void responseSwitchBTState(int n) {
     }
 
-    @Override
     public void removeAuthenticationNoSupport(String string, String string2) {
     }
 
-    @Override
     public void updateAccessibleMode(int n, boolean bl, int n2) {
     }
 
-    @Override
     public void updateBTState(int n, int n2) {
     }
 
-    @Override
     public void updateDiscoveredDevices(DiscoveredDevice discoveredDevice, int n) {
     }
 
-    @Override
     public void updateHUCandBTHSState(int n, int n2) {
     }
 
-    @Override
     public void updateIncomingServiceRequest(RequestIncomingService requestIncomingService, int n) {
     }
 
-    @Override
     public void updateMasterRoleRequestError(MasterRoleRequestStruct masterRoleRequestStruct, int n) {
     }
 
-    @Override
     public void updatePasskeyState(PasskeyStateStruct passkeyStateStruct, int n) {
     }
 
-    @Override
     public void updateReconnectIndicator(ReconnectInfo reconnectInfo, int n) {
     }
 
-    @Override
     public void updateServiceRequestState(ServiceRequestStateStruct serviceRequestStateStruct, int n) {
     }
 
-    @Override
     public void updateSupportedBTProfiles(int n, int n2) {
     }
 
-    @Override
     public void updateTrustedDevices(TrustedDevice[] trustedDeviceArray, int n) {
-        this.log.log(-2137614336, "[SetupManager#updateTrustedDevices] validFlag = %1", (long)n);
+        this.log.log(10000000, "[SetupManager#updateTrustedDevices] validFlag = %1", (long)n);
         if (n == 1 && trustedDeviceArray != null) {
             TrustedDevice trustedDevice = null;
             TrustedDevice trustedDevice2 = null;
@@ -377,7 +365,7 @@ implements DSIBluetoothListener {
                 if (trustedDevice != null && trustedDevice2 != null && trustedDevice3 != null) break;
             }
             if (this.log.isInfo()) {
-                this.log.log(1078071040, " [SetupManager#updateTrustedDevices] mapDevice = %1, sapDevice = %2, hfpDevice = %3", (Object)trustedDevice, trustedDevice2, trustedDevice3);
+                this.log.log(1000000, " [SetupManager#updateTrustedDevices] mapDevice = %1, sapDevice = %2, hfpDevice = %3", (Object)trustedDevice, trustedDevice2, trustedDevice3);
             }
             this.mapDevice = trustedDevice;
             this.sapDevice = trustedDevice2;
@@ -386,35 +374,27 @@ implements DSIBluetoothListener {
         }
     }
 
-    @Override
     public void updateUserFriendlyName(String string, int n) {
     }
 
-    @Override
     public void updateA2DPUserSetting(boolean bl, int n) {
     }
 
-    @Override
     public void deviceDisonnectionInfo(String string, String string2, int n) {
     }
 
-    @Override
     public void serviceRejectNoSupport(String string, String string2) {
     }
 
-    @Override
     public void responseReconnectSuspend(int n) {
     }
 
-    @Override
     public void updatePriorizedDeviceReconnect(boolean bl, String string, int n) {
     }
 
-    @Override
     public void responseSetPriorizedDeviceReconnect(int n) {
     }
 
-    @Override
     public void responseSetAccessibleMode(int n) {
     }
 

@@ -56,7 +56,7 @@ public class Monitor {
         Set set = this.monitoredCommandlists;
         synchronized (set) {
             boolean bl = this.isActive();
-            this.logChannel.log(-2137614336, "Monitor#stopMonitoredLists( %2 ) - active: %1", bl, (Object)string);
+            this.logChannel.log(10000000, "Monitor#stopMonitoredLists( %2 ) - active: %1", bl, (Object)string);
             if (bl) {
                 Iterator iterator = this.monitoredCommandlists.iterator();
                 while (iterator.hasNext()) {

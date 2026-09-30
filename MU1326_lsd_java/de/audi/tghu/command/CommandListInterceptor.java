@@ -14,7 +14,7 @@ import de.esolutions.fw.util.commons.job.Job;
 
 public class CommandListInterceptor
 extends BaseInterceptor {
-    public static final int WAKEUPS_THRESHOLD;
+    public static final int WAKEUPS_THRESHOLD = 5;
     private final LogChannel logChannel;
     private int wakeUpCount;
     private final ICommandListSupplier supplier;
@@ -28,7 +28,6 @@ extends BaseInterceptor {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void execute(Job job) {
         CommandList commandList;
         Object object = job.getPayload();
@@ -42,20 +41,20 @@ extends BaseInterceptor {
         CommandList commandList2 = commandList = (CommandList)object;
         synchronized (commandList2) {
             long l;
-            this.logChannel.log(1078071040, "CommandListInterceptor#execute() - Starting execution of %1 ", (Object)commandList);
+            this.logChannel.log(1000000, "CommandListInterceptor#execute() - Starting execution of %1 ", (Object)commandList);
             long l2 = commandList.getManager().getFramework().getMonotonicTime();
             block17: while (commandList.hasNext()) {
                 Command command = commandList.next();
                 long l3 = command.getTimeout();
                 int n = commandList.getPos() + 1;
                 int n2 = commandList.size();
-                this.logChannel.log(1078071040, "CommandListInterceptor#execute() - Execute command %2 of %3: '%1'  ", (Object)command, (long)n, (long)n2);
+                this.logChannel.log(1000000, "CommandListInterceptor#execute() - Execute command %2 of %3: '%1'  ", (Object)command, (long)n, (long)n2);
                 l = commandList.getManager().getFramework().getMonotonicTime();
                 try {
                     command.execute();
                 }
                 catch (Exception exception) {
-                    this.logChannel.log(-1601830656, "CommandListInterceptor#execute() - Failed to execute command: %1! Aborting active command list %2! ", (Object)command, (Object)commandList);
+                    this.logChannel.log(100000, "CommandListInterceptor#execute() - Failed to execute command: %1! Aborting active command list %2! ", (Object)command, (Object)commandList);
                     commandList.commandAborted(exception);
                     break;
                 }
@@ -63,7 +62,7 @@ extends BaseInterceptor {
                 if (l3 == -1L) {
                     while (commandList.hasActiveCommand()) {
                         try {
-                            super.wait();
+                            commandList.wait();
                         }
                         catch (InterruptedException interruptedException) {
                             Thread.interrupted();
@@ -78,7 +77,7 @@ extends BaseInterceptor {
                         long l4 = l + l3 + 1L - commandList.getManager().getFramework().getMonotonicTime();
                         if (l4 > 0L) {
                             try {
-                                super.wait(l4);
+                                commandList.wait(l4);
                             }
                             catch (InterruptedException interruptedException) {
                                 Thread.interrupted();
@@ -87,7 +86,7 @@ extends BaseInterceptor {
                             continue;
                         }
                         if (this.supplier != null && !this.supplier.isApplicationOperable()) {
-                            this.logChannel.log(-1601830656, "CommandListInterceptor#execute() - time is up for '%1', but application seems to be not operable any longer!", (Object)command);
+                            this.logChannel.log(100000, "CommandListInterceptor#execute() - time is up for '%1', but application seems to be not operable any longer!", (Object)command);
                             bl = false;
                             continue;
                         }
@@ -96,9 +95,9 @@ extends BaseInterceptor {
                         commandList.commandAborted(string, "timeout");
                         continue block17;
                     }
-                    this.logChannel.log(-1601830656, "CommandListInterceptor#execute() - timeouts currently disabled for '%1'!", (Object)command);
+                    this.logChannel.log(100000, "CommandListInterceptor#execute() - timeouts currently disabled for '%1'!", (Object)command);
                     try {
-                        super.wait();
+                        commandList.wait();
                     }
                     catch (InterruptedException interruptedException) {
                         Thread.interrupted();
@@ -109,7 +108,7 @@ extends BaseInterceptor {
             int n = commandList.getStatus();
             switch (n) {
                 case 1: {
-                    this.logChannel.log(1078071040, "CommandListInterceptor#execute() - Active command list %1 has been stopped!", (Object)commandList);
+                    this.logChannel.log(1000000, "CommandListInterceptor#execute() - Active command list %1 has been stopped!", (Object)commandList);
                     break;
                 }
                 case 2: {
@@ -130,14 +129,14 @@ extends BaseInterceptor {
             long l5 = commandList.getManager().getFramework().getMonotonicTime();
             long l6 = l5 - l2;
             l = l2 - commandList.getQueuingTime();
-            this.logChannel.log(1078071040, "CommandListInterceptor#execute() - '%1' [execution time: %2 ms, queue time: %3 ms] ", (Object)commandList.getName(), l6, l);
+            this.logChannel.log(1000000, "CommandListInterceptor#execute() - '%1' [execution time: %2 ms, queue time: %3 ms] ", (Object)commandList.getName(), l6, l);
         }
     }
 
     private void checkWakeUpCount() {
         ++this.wakeUpCount;
         if (this.wakeUpCount >= 5) {
-            this.logChannel.log(-1601830656, "CommandListInterceptor#checkWakeUpCount() - counted %1 wake-ups during wait!", (long)this.wakeUpCount);
+            this.logChannel.log(100000, "CommandListInterceptor#checkWakeUpCount() - counted %1 wake-ups during wait!", (long)this.wakeUpCount);
         }
     }
 }

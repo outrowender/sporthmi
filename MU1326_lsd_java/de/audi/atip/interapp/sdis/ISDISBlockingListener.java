@@ -4,10 +4,8 @@
 package de.audi.atip.interapp.sdis;
 
 public interface ISDISBlockingListener {
-    default public void updateLockState(int n) {
-    }
+    public void updateLockState(int var1);
 
-    default public void updateBlockState(int n) {
-    }
+    public void updateBlockState(int var1);
 }
 

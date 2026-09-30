@@ -4,7 +4,6 @@
 package de.audi.app.car.core.bcme;
 
 import de.audi.app.car.core.bcme.AbstractConsumerDisplayComponent;
-import de.audi.app.car.core.bcme.ConsumerListHandler$ConsumerListEntry;
 import de.audi.atip.hmi.model.list.BaseListModelApp;
 import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
@@ -21,14 +20,14 @@ public class ConsumerListHandler {
     private final BaseListModelApp consumerListModel;
     private final ChoiceModelApp[] tempConsumerChoiceModels;
     private final LogChannel logChannel;
-    private static final int CONSUMER_LIST_ASG_ID;
-    private static final int INIT_CONSUMER_LIST_START_ELEMENT;
-    private static final int INIT_CONSUMER_LIST_ARRAYCONTENT;
-    private static final int MAX_COLUMNS;
-    private static final int COLUMN_INDEX_CONSUMER_IDENTIFIER;
-    private static final int RANGE_GAIN_VALID;
-    private static final int RANGE_GAIN_MIN;
-    private static final int RANGE_GAIN_MAX;
+    private static final int CONSUMER_LIST_ASG_ID = 1;
+    private static final int INIT_CONSUMER_LIST_START_ELEMENT = 0;
+    private static final int INIT_CONSUMER_LIST_ARRAYCONTENT = 1;
+    private static final int MAX_COLUMNS = 1;
+    private static final int COLUMN_INDEX_CONSUMER_IDENTIFIER = 0;
+    private static final int RANGE_GAIN_VALID = 10;
+    private static final int RANGE_GAIN_MIN = 0;
+    private static final int RANGE_GAIN_MAX = 35535;
     private int consumerListRecordContent = 2;
     private int maxNrTransmittableConsumers;
     private int totalNrOfConsumers = 0;
@@ -55,41 +54,41 @@ public class ConsumerListHandler {
     }
 
     public void updateConsumerListUpdateInfo(BCmEListUpdateInfo bCmEListUpdateInfo) {
-        this.getLogChannel().log(-2137614336, "[ConsumerListHandler#updateConsumerListUpdateInfo] listUpdateInfo='%1' ", (Object)(bCmEListUpdateInfo != null ? bCmEListUpdateInfo.toString() : "null"));
+        this.getLogChannel().log(10000000, "[ConsumerListHandler#updateConsumerListUpdateInfo] listUpdateInfo='%1' ", (Object)(bCmEListUpdateInfo != null ? bCmEListUpdateInfo.toString() : "null"));
         if (this.isConsumerListRequestBlocked()) {
-            this.getLogChannel().log(-1601830656, "[ConsumerListHandler#updateConsumerListUpdateInfo] Consumer list request configuration invalid! No request will be sent!");
+            this.getLogChannel().log(100000, "[ConsumerListHandler#updateConsumerListUpdateInfo] Consumer list request configuration invalid! No request will be sent!");
         } else {
             this.sendInitConsumerListRequest(bCmEListUpdateInfo);
         }
     }
 
     public void responseConsumerList(BCmEListUpdateInfo bCmEListUpdateInfo, BCmEConsumerList[] bCmEConsumerListArray) {
-        this.getLogChannel().log(-2137614336, "[ConsumerListHandler#responseConsumerList] listUpdateInfo='%1' ", (Object)(bCmEListUpdateInfo != null ? bCmEListUpdateInfo.toString() : "null"));
+        this.getLogChannel().log(10000000, "[ConsumerListHandler#responseConsumerList] listUpdateInfo='%1' ", (Object)(bCmEListUpdateInfo != null ? bCmEListUpdateInfo.toString() : "null"));
         if (this.matchesValidResponseUpdate(bCmEListUpdateInfo)) {
             this.updateConsumerList(bCmEConsumerListArray);
             this.updateConsumerListModel(bCmEListUpdateInfo, this.consumerList);
         } else {
-            this.getLogChannel().log(-1601830656, "[ConsumerListHandler#responseConsumerList] listUpdateInfo '%1' is not supported by consumer display (arrayContent/startElement/numElements mismatch)!", (Object)(bCmEListUpdateInfo != null ? bCmEListUpdateInfo.toString() : "null"));
+            this.getLogChannel().log(100000, "[ConsumerListHandler#responseConsumerList] listUpdateInfo '%1' is not supported by consumer display (arrayContent/startElement/numElements mismatch)!", (Object)(bCmEListUpdateInfo != null ? bCmEListUpdateInfo.toString() : "null"));
         }
     }
 
     public void responseConsumerList(BCmEListUpdateInfo bCmEListUpdateInfo, BCmEConsumerListRangeRA0[] bCmEConsumerListRangeRA0Array) {
-        this.getLogChannel().log(-2137614336, "[ConsumerListHandler#responseConsumerList] listUpdateInfo='%1' ", (Object)(bCmEListUpdateInfo != null ? bCmEListUpdateInfo.toString() : "null"));
+        this.getLogChannel().log(10000000, "[ConsumerListHandler#responseConsumerList] listUpdateInfo='%1' ", (Object)(bCmEListUpdateInfo != null ? bCmEListUpdateInfo.toString() : "null"));
         if (this.matchesValidResponseUpdate(bCmEListUpdateInfo)) {
             this.updateConsumerList(bCmEConsumerListRangeRA0Array);
             this.updateConsumerListModel(bCmEListUpdateInfo, this.consumerList);
         } else {
-            this.getLogChannel().log(-1601830656, "[ConsumerListHandler#responseConsumerList] listUpdateInfo '%1' is not supported by consumer display (arrayContent/startElement/numElements mismatch)!", (Object)(bCmEListUpdateInfo != null ? bCmEListUpdateInfo.toString() : "null"));
+            this.getLogChannel().log(100000, "[ConsumerListHandler#responseConsumerList] listUpdateInfo '%1' is not supported by consumer display (arrayContent/startElement/numElements mismatch)!", (Object)(bCmEListUpdateInfo != null ? bCmEListUpdateInfo.toString() : "null"));
         }
     }
 
     public void responseConsumerList(BCmEListUpdateInfo bCmEListUpdateInfo, BCmEConsumerListRangeRA2[] bCmEConsumerListRangeRA2Array) {
-        this.getLogChannel().log(-2137614336, "[ConsumerListHandler#responseConsumerList] listUpdateInfo='%1' ", (Object)(bCmEListUpdateInfo != null ? bCmEListUpdateInfo.toString() : "null"));
+        this.getLogChannel().log(10000000, "[ConsumerListHandler#responseConsumerList] listUpdateInfo='%1' ", (Object)(bCmEListUpdateInfo != null ? bCmEListUpdateInfo.toString() : "null"));
         if (this.matchesValidResponseUpdate(bCmEListUpdateInfo)) {
             this.updateConsumerList(bCmEConsumerListRangeRA2Array);
             this.updateConsumerListModel(bCmEListUpdateInfo, this.consumerList);
         } else {
-            this.getLogChannel().log(-1601830656, "[ConsumerListHandler#responseConsumerList] listUpdateInfo '%1' is not supported by consumer display (arrayContent/startElement/numElements mismatch)!", (Object)(bCmEListUpdateInfo != null ? bCmEListUpdateInfo.toString() : "null"));
+            this.getLogChannel().log(100000, "[ConsumerListHandler#responseConsumerList] listUpdateInfo '%1' is not supported by consumer display (arrayContent/startElement/numElements mismatch)!", (Object)(bCmEListUpdateInfo != null ? bCmEListUpdateInfo.toString() : "null"));
         }
     }
 
@@ -103,7 +102,7 @@ public class ConsumerListHandler {
                 bCmEConsumerListRangeRA0.rangeGainSecondary = 10;
             }
         } else {
-            this.getLogChannel().log(-1601830656, "[ConsumerListHandler#updateConsumerList(RA0)] Internal Consumer List Null! - NO length received yet");
+            this.getLogChannel().log(100000, "[ConsumerListHandler#updateConsumerList(RA0)] Internal Consumer List Null! - NO length received yet");
         }
     }
 
@@ -119,7 +118,7 @@ public class ConsumerListHandler {
                 bCmEConsumerListRangeRA02.rangeUnit = bCmEConsumerListRangeRA0.getRangeUnit();
             }
         } else {
-            this.getLogChannel().log(-1601830656, "[ConsumerListHandler#updateConsumerList(RA0)] Internal Consumer List Null! - NO length received yet");
+            this.getLogChannel().log(100000, "[ConsumerListHandler#updateConsumerList(RA0)] Internal Consumer List Null! - NO length received yet");
         }
     }
 
@@ -135,7 +134,7 @@ public class ConsumerListHandler {
                 bCmEConsumerListRangeRA0.rangeUnit = bCmEConsumerListRangeRA2.getRangeUnit();
             }
         } else {
-            this.getLogChannel().log(-1601830656, "[ConsumerListHandler#updateConsumerList(RA2)] Internal Consumer List Null! - NO length received yet");
+            this.getLogChannel().log(100000, "[ConsumerListHandler#updateConsumerList(RA2)] Internal Consumer List Null! - NO length received yet");
         }
     }
 
@@ -161,7 +160,7 @@ public class ConsumerListHandler {
             bCmEListUpdateInfo2.asgID = 1;
             this.requestConsumerList(bCmEListUpdateInfo2, "updateBCmEListUpdateInfo");
         } else {
-            this.getLogChannel().log(-1601830656, "[ConsumerListHandler#sendInitConsumerListRequest] Received invalid initial UpdateInfo (arrayContent/startElement mismatch)! No initial consumer list request will be sent!");
+            this.getLogChannel().log(100000, "[ConsumerListHandler#sendInitConsumerListRequest] Received invalid initial UpdateInfo (arrayContent/startElement mismatch)! No initial consumer list request will be sent!");
         }
     }
 
@@ -219,7 +218,7 @@ public class ConsumerListHandler {
     public void setTotalNrOfConsumers(int n) {
         block3: {
             block2: {
-                this.getLogChannel().log(1078071040, "[ConsumerListHandler#setTotalNrOfConsumers] totalNrOfConsumers='%1'", (long)n);
+                this.getLogChannel().log(1000000, "[ConsumerListHandler#setTotalNrOfConsumers] totalNrOfConsumers='%1'", (long)n);
                 this.totalNrOfConsumers = n;
                 if (this.consumerList != null) break block2;
                 this.consumerList = new BCmEConsumerListRangeRA0[n];
@@ -246,7 +245,7 @@ public class ConsumerListHandler {
     }
 
     private boolean isConsumerValid(BCmEConsumerListRangeRA0 bCmEConsumerListRangeRA0) {
-        return bCmEConsumerListRangeRA0.getRangeGainSecondary() > 0 && bCmEConsumerListRangeRA0.getRangeGainSecondary() < -813039616;
+        return bCmEConsumerListRangeRA0.getRangeGainSecondary() > 0 && bCmEConsumerListRangeRA0.getRangeGainSecondary() < 35535;
     }
 
     protected boolean isConsumerListRequestBlocked() {
@@ -267,18 +266,18 @@ public class ConsumerListHandler {
                     this.lastSentListUpdateInfo.startElement = bCmEConsumerListRangeRA0.getPos();
                     this.appendNewConsumerListEntry(baseListModelApp, this.uniqueIDCounter, bCmEConsumerListRangeRA0.getConsumer());
                     if (this.tempConsumerChoiceModels != null && this.uniqueIDCounter < this.tempConsumerChoiceModels.length) {
-                        ConsumerListHandler$ConsumerListEntry consumerListHandler$ConsumerListEntry = ConsumerListHandler$ConsumerListEntry.mapDSIConsumerToListEntry(bCmEConsumerListRangeRA0.getConsumer());
-                        this.tempConsumerChoiceModels[this.uniqueIDCounter].setValue(consumerListHandler$ConsumerListEntry.getHmiConsumerID());
+                        ConsumerListEntry consumerListEntry = ConsumerListEntry.mapDSIConsumerToListEntry(bCmEConsumerListRangeRA0.getConsumer());
+                        this.tempConsumerChoiceModels[this.uniqueIDCounter].setValue(consumerListEntry.getHmiConsumerID());
                     }
                     ++this.uniqueIDCounter;
                     continue;
                 }
-                this.getLogChannel().log(-1601830656, "[ConsumerListHandler#updateConsumerListModel] data['%1'] is null or with invalid range", (long)i2);
+                this.getLogChannel().log(100000, "[ConsumerListHandler#updateConsumerListModel] data['%1'] is null or with invalid range", (long)i2);
             }
             this.getConsumerListModel().update(baseListModelApp);
             this.sendConsumerListFollowUpRequest(baseListModelApp.getLength());
         } else {
-            this.getLogChannel().log(-1601830656, "[ConsumerListHandler#updateConsumerListModel] BCmEConsumerList[] consumerarray is empty --> BaseList is cleared");
+            this.getLogChannel().log(100000, "[ConsumerListHandler#updateConsumerListModel] BCmEConsumerList[] consumerarray is empty --> BaseList is cleared");
         }
     }
 
@@ -311,12 +310,12 @@ public class ConsumerListHandler {
     }
 
     private void appendNewConsumerListEntry(BaseListModelApp baseListModelApp, int n, int n2) {
-        ConsumerListHandler$ConsumerListEntry consumerListHandler$ConsumerListEntry = ConsumerListHandler$ConsumerListEntry.mapDSIConsumerToListEntry(n2);
+        ConsumerListEntry consumerListEntry = ConsumerListEntry.mapDSIConsumerToListEntry(n2);
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractConsumerDisplayComponent#updateConsumerListModel] add BCmE consumer to list: dsiConsumerID='%1' , consumerName='%2' , hmiConsumerIdentifier='%3' , uniqueRowID='%4'", (Object)new Integer(n2), (Object)consumerListHandler$ConsumerListEntry.getConsumerName(), (Object)new Integer(consumerListHandler$ConsumerListEntry.getHmiConsumerID()), (long)n);
+            this.getLogChannel().log(1000000, "[AbstractConsumerDisplayComponent#updateConsumerListModel] add BCmE consumer to list: dsiConsumerID='%1' , consumerName='%2' , hmiConsumerIdentifier='%3' , uniqueRowID='%4'", (Object)new Integer(n2), (Object)consumerListEntry.getConsumerName(), (Object)new Integer(consumerListEntry.getHmiConsumerID()), (long)n);
         }
         EvoListRow evoListRow = new EvoListRow(n, 1);
-        evoListRow.setInteger(0, consumerListHandler$ConsumerListEntry.getHmiConsumerID());
+        evoListRow.setInteger(0, consumerListEntry.getHmiConsumerID());
         baseListModelApp.append(evoListRow);
     }
 
@@ -366,6 +365,101 @@ public class ConsumerListHandler {
 
     private void resetUniqueIDCounter() {
         this.uniqueIDCounter = 0;
+    }
+
+    public static class ConsumerListEntry {
+        public static final int HMI_CONSUMER_LIST_ENTRY_UNDEFINED = -1;
+        public static final int HMI_CONSUMER_LIST_ENTRY_CLIMATECONTROLUNIT = 0;
+        public static final int HMI_CONSUMER_LIST_ENTRY_AUXHEATER = 1;
+        public static final int HMI_CONSUMER_LIST_ENTRY_REARWINDOWHEATER = 2;
+        public static final int HMI_CONSUMER_LIST_ENTRY_SEATHEATINGFRONTLEFT = 3;
+        public static final int HMI_CONSUMER_LIST_ENTRY_SEATHEATINGFRONTRIGHT = 4;
+        public static final int HMI_CONSUMER_LIST_ENTRY_SEATVENTILATIONFRONTLEFT = 5;
+        public static final int HMI_CONSUMER_LIST_ENTRY_SEATVENTILATIONFRONTRIGHT = 6;
+        public static final int HMI_CONSUMER_LIST_ENTRY_NECKHEATINGLEFT = 7;
+        public static final int HMI_CONSUMER_LIST_ENTRY_NECKHEATINGRIGHT = 8;
+        public static final int HMI_CONSUMER_LIST_ENTRY_FOGLIGHTFRONT = 9;
+        public static final int HMI_CONSUMER_LIST_ENTRY_FOGLIGHTREAR = 10;
+        public static final int HMI_CONSUMER_LIST_ENTRY_FRONTWINDOWHEATING = 11;
+        public static final int HMI_CONSUMER_LIST_ENTRY_STEERINGWHEELHEATING = 12;
+        public static final int HMI_CONSUMER_LIST_ENTRY_MIRRORHEATING = 13;
+        public static final int HMI_CONSUMER_LIST_ENTRY_SEATHEATINGREAR = 14;
+        public static final int HMI_CONSUMER_LIST_ENTRY_SEATVENTILATIONREAR = 15;
+        public static final int HMI_CONSUMER_LIST_ENTRY_220VPLUGIN = 16;
+        public static final int HMI_CONSUMER_LIST_ENTRY_THERMOCUPHOLDER = 17;
+        final String consumerName;
+        final int hmiConsumerID;
+
+        public ConsumerListEntry(String string, int n) {
+            this.consumerName = string;
+            this.hmiConsumerID = n;
+        }
+
+        public String getConsumerName() {
+            return this.consumerName;
+        }
+
+        public int getHmiConsumerID() {
+            return this.hmiConsumerID;
+        }
+
+        public static ConsumerListEntry mapDSIConsumerToListEntry(int n) {
+            if (n == 1) {
+                return new ConsumerListEntry("Climate Control Unit", 0);
+            }
+            if (n == 2) {
+                return new ConsumerListEntry("Aux Heater", 1);
+            }
+            if (n == 3) {
+                return new ConsumerListEntry("Rear Window Heater", 2);
+            }
+            if (n == 4) {
+                return new ConsumerListEntry("Seat Heating Front Left", 3);
+            }
+            if (n == 5) {
+                return new ConsumerListEntry("Seat Heating Front Right", 4);
+            }
+            if (n == 6) {
+                return new ConsumerListEntry("Seat Ventilation Front Left", 5);
+            }
+            if (n == 7) {
+                return new ConsumerListEntry("Seat Ventilation Front Right", 6);
+            }
+            if (n == 8) {
+                return new ConsumerListEntry("Neck Heating Left", 7);
+            }
+            if (n == 9) {
+                return new ConsumerListEntry("Neck Heating Right", 8);
+            }
+            if (n == 10) {
+                return new ConsumerListEntry("Fog Light Front", 9);
+            }
+            if (n == 11) {
+                return new ConsumerListEntry("Fog Light Rear", 10);
+            }
+            if (n == 12) {
+                return new ConsumerListEntry("Front Window Heating", 11);
+            }
+            if (n == 13) {
+                return new ConsumerListEntry("Steering Wheel Heating", 12);
+            }
+            if (n == 14) {
+                return new ConsumerListEntry("Mirror Heating", 13);
+            }
+            if (n == 15) {
+                return new ConsumerListEntry("Seat Heating Rear", 14);
+            }
+            if (n == 16) {
+                return new ConsumerListEntry("Seat Ventilation Rear", 15);
+            }
+            if (n == 17) {
+                return new ConsumerListEntry("220V Plugin", 16);
+            }
+            if (n == 18) {
+                return new ConsumerListEntry("Thermo Cupholder", 17);
+            }
+            return new ConsumerListEntry("Undefined Consumer", -1);
+        }
     }
 }
 

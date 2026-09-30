@@ -21,14 +21,13 @@ extends AbstractCombiElement {
         combiIntegerElement.value = this.value;
     }
 
-    @Override
     public void reset() {
         this.setValue(-1);
         this.setMergingAllowed(true);
     }
 
     public String toString() {
-        return new StringBuffer().append("value: ").append(this.value).toString();
+        return "value: " + this.value;
     }
 }
 

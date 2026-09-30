@@ -41,7 +41,6 @@ MenuModelListener {
         this.initListeners();
     }
 
-    @Override
     protected void initListeners() {
         this.tiledListModel = this.env.getTiledListModel(TILED_LIST_MODEL_ID);
         this.tiledListModel.setListener(this);
@@ -51,21 +50,18 @@ MenuModelListener {
         this.menuModel.setListener(this);
     }
 
-    @Override
     public CommandList getStartCommandList() {
         return this.inputSequence.getStartCommandList();
     }
 
-    @Override
     public CommandList getStartCommandList(String string) {
         return this.inputSequence.getStartCommandList(string);
     }
 
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.logChannel.log(-2137614336, "%1#itemSelected - item selected was called with model = %2, index = %3", (Object)this.CLASS_NAME, (long)n, (long)n2);
+        this.logChannel.log(10000000, "%1#itemSelected - item selected was called with model = %2, index = %3", (Object)this.CLASS_NAME, (long)n, (long)n2);
         if (evoListRow instanceof AddressInputLIValueListElementListRow) {
-            this.logChannel.log(-2137614336, "%1#itemSelected row is instanceOf AddressInputLIValueListElementListRow", (Object)this.CLASS_NAME);
+            this.logChannel.log(10000000, "%1#itemSelected row is instanceOf AddressInputLIValueListElementListRow", (Object)this.CLASS_NAME);
             AddressInputLIValueListElementListRow addressInputLIValueListElementListRow = (AddressInputLIValueListElementListRow)evoListRow;
             LIValueListElement lIValueListElement = addressInputLIValueListElementListRow.getElement();
             this.inputManager.executeAddressInputEvent(this.inputSequence.getSelectListElementCommandList(lIValueListElement), 30502);
@@ -73,28 +69,25 @@ MenuModelListener {
         }
     }
 
-    @Override
     public void requestItems(int n, int n2, int n3, int n4, int n5) {
         this.inputSequence.requestNextResultListWindow(n, n3);
     }
 
-    @Override
     public void unrequestItems(int n, int n2, int n3, int n4) {
         this.inputSequence.unrequestItems(n, n2);
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "%1#keyTyped - keyTyped was called with model=%2, key=%3", (Object)this.CLASS_NAME, (long)n, (long)n2);
+        this.logChannel.log(10000000, "%1#keyTyped - keyTyped was called with model=%2, key=%3", (Object)this.CLASS_NAME, (long)n, (long)n2);
         long l = this.env.getContainer().getLispValueListCount();
-        this.logChannel.log(-2137614336, "%1#keyTyped - valueListCount=%2 ", (Object)this.CLASS_NAME, l);
+        this.logChannel.log(10000000, "%1#keyTyped - valueListCount=%2 ", (Object)this.CLASS_NAME, l);
         if (l == 1L && this.menuModel != null) {
             if (this.tiledListModel == null) {
-                this.logChannel.log(-2137614336, "%1#keyTyped - tiledListModel is null", (Object)this.CLASS_NAME);
+                this.logChannel.log(10000000, "%1#keyTyped - tiledListModel is null", (Object)this.CLASS_NAME);
                 return;
             }
             if (this.tiledListModel.getRow(0) == null) {
-                this.logChannel.log(-2137614336, "%1#keyTyped - tiledListModel.getRow(0) is null", (Object)this.CLASS_NAME);
+                this.logChannel.log(10000000, "%1#keyTyped - tiledListModel.getRow(0) is null", (Object)this.CLASS_NAME);
                 return;
             }
             EvoListRow evoListRow = this.tiledListModel.getRow(0);
@@ -105,9 +98,8 @@ MenuModelListener {
         }
     }
 
-    @Override
     public void textChanged(int n, String string, char c2, int n2) {
-        this.logChannel.log(-2137614336, "%1#textChanged(%1, %2, %3)", (Object)this.CLASS_NAME, (Object)Integer.toString(n), (Object)string, (long)c2);
+        this.logChannel.log(10000000, "%1#textChanged(%1, %2, %3)", (Object)this.CLASS_NAME, (Object)Integer.toString(n), (Object)string, (long)c2);
         this.setSpellerStatusWaiting(n);
         if ("".equals(string)) {
             this.inputSequence.deleteAllCharacters();
@@ -118,42 +110,34 @@ MenuModelListener {
         }
     }
 
-    @Override
     public void focusedCharacter(int n, char c2, int n2) {
     }
 
-    @Override
     public void commandPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.logChannel.log(-2137614336, "%1#itemFocused (list model) model=%3, index=%4, row=%2", (Object)this.CLASS_NAME, (Object)evoListRow, (Object)Integer.toString(n), (long)n2);
+        this.logChannel.log(10000000, "%1#itemFocused (list model) model=%3, index=%4, row=%2", (Object)this.CLASS_NAME, (Object)evoListRow, (Object)Integer.toString(n), (long)n2);
         if (evoListRow instanceof AddressInputLIValueListElementListRow && this.previewMap != null) {
             AddressInputLIValueListElementListRow addressInputLIValueListElementListRow = (AddressInputLIValueListElementListRow)evoListRow;
             this.inputSequence.showLocationInPreviewMap(this.previewMap, addressInputLIValueListElementListRow.getElement());
         }
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void itemFocused(int n, int n2, long l, int n3) {
-        this.logChannel.log(-2137614336, "%1#itemFocused (menu model) menuItemID=%2, model=%3", (Object)this.CLASS_NAME, (long)n, (long)n2);
+        this.logChannel.log(10000000, "%1#itemFocused (menu model) menuItemID=%2, model=%3", (Object)this.CLASS_NAME, (long)n, (long)n2);
         if (n == MATCHSPELLER_MODEL_ID) {
             this.inputSequence.hidePreviewMap(this.previewMap);
         }

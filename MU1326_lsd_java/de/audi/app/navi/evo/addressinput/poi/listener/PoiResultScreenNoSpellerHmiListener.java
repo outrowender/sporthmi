@@ -29,7 +29,6 @@ ButtonListener {
         this.inputSequence = poiResultScreenNoSpellerInputSequence;
     }
 
-    @Override
     public CommandList getStartCommandList() {
         return this.inputSequence.getStartCommandList();
     }
@@ -42,12 +41,10 @@ ButtonListener {
         return this.inputSequence.getStartCommandList(n);
     }
 
-    @Override
     public void preparePreviewMap() {
         this.displayMultiplePois = true;
     }
 
-    @Override
     protected void registerAsListener() {
         this.env.getButtonModel(PoiScreensEvo.getPoiResultScreenNoSpellerBrandsButtonModel()).setButtonListener(this);
         this.env.getButtonModel(PoiScreensEvo.getPoiResultScreenNoSpellerSearchByNameButtonModel()).setButtonListener(this);
@@ -59,9 +56,8 @@ ButtonListener {
         return this.inputSequence;
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#keyTyped(%1, %2, %3)").toString(), (long)n, (long)n2, (long)n3);
+        this.logChannel.log(10000000, this.CLASS_NAME + "#keyTyped(%1, %2, %3)", (long)n, (long)n2, (long)n3);
         switch (n) {
             case 401587: {
                 this.poiManager.executePoiSelectionEvent(this.inputSequence.getStartSearchByName(), 201);
@@ -72,17 +68,16 @@ ButtonListener {
                 break;
             }
             default: {
-                this.logChannel.log(-2137614336, "%1#keyTyped: Unexpected model ID: %2", (Object)this.CLASS_NAME, (long)n);
+                this.logChannel.log(10000000, "%1#keyTyped: Unexpected model ID: %2", (Object)this.CLASS_NAME, (long)n);
             }
         }
         this.env.fireModelEvent(n, n3);
     }
 
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#itemselected(%1, %2, %3)").toString(), (long)n, (long)n2, (long)n4);
+        this.logChannel.log(10000000, this.CLASS_NAME + "#itemselected(%1, %2, %3)", (long)n, (long)n2, (long)n4);
         if (n != PoiScreensEvo.getPoiResultScreeNoSpellerListModel()) {
-            this.logChannel.log(-2137614336, "%1#itemSelected: Unexpected model ID: %2", (Object)this.CLASS_NAME, (long)n);
+            this.logChannel.log(10000000, "%1#itemSelected: Unexpected model ID: %2", (Object)this.CLASS_NAME, (long)n);
             return;
         }
         LIValueListElement lIValueListElement = PoiScreensEvo.getLiValueListElementFromRow(evoListRow, n);
@@ -90,9 +85,8 @@ ButtonListener {
         this.env.fireModelEvent(n, n4);
     }
 
-    @Override
     public void itemFocused(int n, int n2, long l, int n3) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#itemFocused() - menuItemId: %1, model: %2, uniqueListRowID: %3").toString(), (long)n, (long)n2, l);
+        this.logChannel.log(10000000, this.CLASS_NAME + "#itemFocused() - menuItemId: %1, model: %2, uniqueListRowID: %3", (long)n, (long)n2, l);
         this.previewMapComplete = false;
         if (l == -1L) {
             this.displayPreviewMap(n2, this.inputSequence, PoiScreensEvo.getPoiResultScreeNoSpellerListModel());
@@ -100,49 +94,40 @@ ButtonListener {
         this.currentlyFocusedListIndex = l;
     }
 
-    @Override
     public void updateResultsAvailable() {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#updateResultsAvailable() currentlyFocusedListIndex = %1").toString(), this.currentlyFocusedListIndex);
+        this.logChannel.log(10000000, this.CLASS_NAME + "#updateResultsAvailable() currentlyFocusedListIndex = %1", this.currentlyFocusedListIndex);
         if (this.currentlyFocusedListIndex == -1L) {
             this.displayPreviewMap(PoiScreensEvo.getPoiResultScreenNoSpellerMenuModel(), this.inputSequence, PoiScreensEvo.getPoiResultScreeNoSpellerListModel());
         }
     }
 
-    @Override
     protected void itemFocusedCallBack(NavLocation navLocation) {
         this.inputSequence.focusPreviewMap(this.previewMapInterface, navLocation);
         this.inputSequence.onElementFocused(navLocation);
     }
 
-    @Override
     public void requestItems(int n, int n2, int n3, int n4, int n5) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#requestItems - was called with requestID = %1, startIndex = %2, model = %3").toString(), (long)n3, (long)n, (long)n4);
+        this.logChannel.log(10000000, this.CLASS_NAME + "#requestItems - was called with requestID = %1, startIndex = %2, model = %3", (long)n3, (long)n, (long)n4);
         this.inputSequence.requestItems(n, n3);
         this.poiManager.restartRRDForCurrentContext();
     }
 
-    @Override
     public void unrequestItems(int n, int n2, int n3, int n4) {
         this.inputSequence.unrequestItems(n, n2);
     }
 
-    @Override
     public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 }

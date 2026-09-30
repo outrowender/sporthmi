@@ -18,7 +18,7 @@ import de.audi.app.media.logger.IMediaLogger;
 
 public class MediaEVOContentProviderImpl
 implements IContentProvider {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "MediaEVOContentProviderImpl";
     private final IMediaLogger logger;
     private volatile IFavoritesController favoritesController;
     private volatile IImplicitRepeatHandler implicitRepeatHandler;
@@ -27,15 +27,13 @@ implements IContentProvider {
         this.logger = iMediaLogger;
     }
 
-    @Override
     public boolean provideContent(int n) {
-        this.logger.main().log(-2137614336, "[%1.provideContent] '%2'", (Object)"MediaEVOContentProviderImpl", (long)n);
+        this.logger.main().log(10000000, "[%1.provideContent] '%2'", (Object)LOGCLASS, (long)n);
         return n == 0 || n == 1 || n == 2 || n == 4 || n == 3;
     }
 
-    @Override
     public IContent createContent(int n, IContentContext iContentContext, IMediaTerminal iMediaTerminal, IMediaDSIPlayerController iMediaDSIPlayerController) {
-        this.logger.main().log(1078071040, "[%1.createContent] '%2'", (Object)"MediaEVOContentProviderImpl", (long)n);
+        this.logger.main().log(1000000, "[%1.createContent] '%2'", (Object)LOGCLASS, (long)n);
         switch (n) {
             case 0: {
                 return new CDDAContent(iContentContext, iMediaTerminal, iMediaDSIPlayerController);

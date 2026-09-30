@@ -18,9 +18,8 @@ extends AbstractADBCommand {
         this.limit = n;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "SetMaxPhoneEntriesCommand#execute()");
+        this.logger.log(10000000, "SetMaxPhoneEntriesCommand#execute()");
         boolean bl = this.adbDSIAccess.setMaxPhoneEntries(this.limit);
         if (!bl) {
             this.logger.log(10000, "SetMaxPhoneEntriesCommand#execute(): dsi call was not successful, finishing command.");
@@ -28,9 +27,8 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public void setMaxPhoneEntriesResult(int n) {
-        this.logger.log(-2137614336, "SetMaxPhoneEntriesCommand#setMaxPhoneEntriesResult(): %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
+        this.logger.log(10000000, "SetMaxPhoneEntriesCommand#setMaxPhoneEntriesResult(): %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
         this.commandList.commandFinished();
     }
 

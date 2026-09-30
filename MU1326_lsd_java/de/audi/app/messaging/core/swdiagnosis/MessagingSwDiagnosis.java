@@ -5,12 +5,12 @@ package de.audi.app.messaging.core.swdiagnosis;
 
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
 import de.audi.app.messaging.core.component.IMessagingComponent;
+import de.audi.app.messaging.core.osgi.AbstractMessagingTrackerCustomizer;
 import de.audi.app.messaging.core.osgi.IServiceRegistry;
 import de.audi.app.messaging.core.osgi.MessagingBundleContext;
 import de.audi.app.messaging.core.osgi.ServiceFilterBuilder;
 import de.audi.app.messaging.core.swdiagnosis.IDiagPlugIn;
 import de.audi.app.messaging.core.swdiagnosis.IDiagProvider;
-import de.audi.app.messaging.core.swdiagnosis.MessagingSwDiagnosis$1;
 import de.audi.app.messaging.core.util.Classes;
 import de.audi.atip.diag.sw.AbstractSwDiagnosis;
 import de.audi.atip.diag.sw.SwDiagnosisManager;
@@ -24,14 +24,16 @@ import java.util.Iterator;
 import java.util.Map;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Filter;
+import org.osgi.framework.InvalidSyntaxException;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
 public final class MessagingSwDiagnosis
 extends AbstractSwDiagnosis
 implements IMessagingComponent {
-    private static final boolean AUGMENT_METHOD_NAMES;
-    private static final String AUGMENTATION_SEPARATOR;
+    private static final boolean AUGMENT_METHOD_NAMES = true;
+    private static final String AUGMENTATION_SEPARATOR = " -> ";
     private final BundleContext bundleContext;
     private final LogChannel log;
     private final Collection diagProviders = new ArrayList();
@@ -46,20 +48,16 @@ implements IMessagingComponent {
         this.log = messagingBundleContext.getFramework().getLogChannel("App.Messaging.Main");
     }
 
-    @Override
     public void addComponent(IMessagingComponent iMessagingComponent) {
         throw new UnsupportedOperationException("Not implemented.");
     }
 
-    @Override
     public void init(AbstractMsgApplication abstractMsgApplication) {
     }
 
-    @Override
     public void dispose() {
     }
 
-    @Override
     public void connect(IServiceRegistry iServiceRegistry) {
         try {
             iServiceRegistry.addTracker(this.createServiceTracker());
@@ -69,27 +67,22 @@ implements IMessagingComponent {
         }
     }
 
-    @Override
     public void disconnect() {
     }
 
-    @Override
     public int getId() {
         return 22;
     }
 
-    @Override
     public String getName() {
         return "AppMessaging";
     }
 
-    @Override
     public synchronized String[] getKeys() {
         Object[] objectArray = new String[this.keyToPlugInMap.keySet().size()];
         return (String[])this.keyToPlugInMap.keySet().toArray(objectArray);
     }
 
-    @Override
     public synchronized Object getValue(String string) {
         if (!this.keyToPlugInMap.containsKey(string)) {
             throw new IllegalArgumentException(new StringBuffer().append("Undefined key: ").append(string).toString());
@@ -98,13 +91,11 @@ implements IMessagingComponent {
         return this.getValue(this.keyToPlugInMap.get(string), string2);
     }
 
-    @Override
     public synchronized String[] getCommands() {
         Object[] objectArray = new String[this.commandToPlugInMap.keySet().size()];
         return (String[])this.commandToPlugInMap.keySet().toArray(objectArray);
     }
 
-    @Override
     public synchronized Object processNewCommand(String string, Object object) {
         if (!this.commandToPlugInMap.containsKey(string)) {
             throw new IllegalArgumentException(new StringBuffer().append("Undefined command: ").append(string).toString());
@@ -138,8 +129,8 @@ implements IMessagingComponent {
     private synchronized void addDiagPlugIn(IDiagPlugIn iDiagPlugIn) {
         String[] stringArray;
         String string;
-        String string2 = Classes.getShortClassName(super.getClass());
-        String[] stringArray2 = this.getKeys(super.getClass());
+        String string2 = Classes.getShortClassName(iDiagPlugIn.getClass());
+        String[] stringArray2 = this.getKeys(iDiagPlugIn.getClass());
         if (stringArray2.length > 0) {
             for (int i2 = 0; i2 < stringArray2.length; ++i2) {
                 String string3 = stringArray2[i2];
@@ -159,7 +150,7 @@ implements IMessagingComponent {
                 this.keyToPlugInMap.put(string, iDiagPlugIn);
             }
         }
-        if ((stringArray = this.getCommands(super.getClass())).length > 0) {
+        if ((stringArray = this.getCommands(iDiagPlugIn.getClass())).length > 0) {
             for (int i3 = 0; i3 < stringArray.length; ++i3) {
                 string = stringArray[i3];
                 String string5 = MessagingSwDiagnosis.rawToAugmentedMethodName(string, string2);
@@ -181,17 +172,17 @@ implements IMessagingComponent {
     }
 
     private static String rawToAugmentedMethodName(String string, String string2) {
-        return new StringBuffer().append(string).append(" -> ").append(string2).toString();
+        return new StringBuffer().append(string).append(AUGMENTATION_SEPARATOR).append(string2).toString();
     }
 
     private static String augmentedToRawMethodName(String string) {
-        int n = string.indexOf(" -> ");
+        int n = string.indexOf(AUGMENTATION_SEPARATOR);
         return string.substring(0, n);
     }
 
     public synchronized void addSwDiagnosisManager(SwDiagnosisManager swDiagnosisManager) {
         if (this.log.isDebug()) {
-            this.log.log(-2137614336, "[MessagingSwDiagnosis#addSwDiagnosisManager] swDiagnosisManager = %1 ", (Object)new StringBuffer().append(super.getClass().getName()).append("@").append(System.identityHashCode(swDiagnosisManager)).toString());
+            this.log.log(10000000, "[MessagingSwDiagnosis#addSwDiagnosisManager] swDiagnosisManager = %1 ", (Object)new StringBuffer().append(swDiagnosisManager.getClass().getName()).append("@").append(System.identityHashCode(swDiagnosisManager)).toString());
         }
         if (!this.hasPlugIns) {
             this.addDiagPlugins();
@@ -202,7 +193,7 @@ implements IMessagingComponent {
 
     public synchronized void removeSwDiagnosisManager(SwDiagnosisManager swDiagnosisManager) {
         if (this.log.isDebug()) {
-            this.log.log(-2137614336, "[MessagingSwDiagnosis#removeSwDiagnosisManager] swDiagnosisManager = %1 ", (Object)new StringBuffer().append(super.getClass().getName()).append("@").append(System.identityHashCode(swDiagnosisManager)).toString());
+            this.log.log(10000000, "[MessagingSwDiagnosis#removeSwDiagnosisManager] swDiagnosisManager = %1 ", (Object)new StringBuffer().append(swDiagnosisManager.getClass().getName()).append("@").append(System.identityHashCode(swDiagnosisManager)).toString());
         }
         this.swDiagnosisManagerIdentityMap.remove(swDiagnosisManager);
         swDiagnosisManager.removeDiagGateway(this);
@@ -211,11 +202,20 @@ implements IMessagingComponent {
         }
     }
 
-    private ServiceTracker createServiceTracker() {
+    private ServiceTracker createServiceTracker() throws InvalidSyntaxException {
         String string = ServiceFilterBuilder.createFilterString("objectClass", (class$de$audi$atip$diag$sw$SwDiagnosisManager == null ? (class$de$audi$atip$diag$sw$SwDiagnosisManager = MessagingSwDiagnosis.class$("de.audi.atip.diag.sw.SwDiagnosisManager")) : class$de$audi$atip$diag$sw$SwDiagnosisManager).getName());
         Filter filter = this.bundleContext.createFilter(string);
-        MessagingSwDiagnosis$1 messagingSwDiagnosis$1 = new MessagingSwDiagnosis$1(this, this.log, this.bundleContext);
-        return new ServiceTracker(this.bundleContext, filter, (ServiceTrackerCustomizer)messagingSwDiagnosis$1);
+        AbstractMessagingTrackerCustomizer abstractMessagingTrackerCustomizer = new AbstractMessagingTrackerCustomizer(this.log, this.bundleContext){
+
+            public void addService(ServiceReference serviceReference, Object object) {
+                MessagingSwDiagnosis.this.addSwDiagnosisManager((SwDiagnosisManager)object);
+            }
+
+            public void removeService(ServiceReference serviceReference, Object object) {
+                MessagingSwDiagnosis.this.removeSwDiagnosisManager((SwDiagnosisManager)object);
+            }
+        };
+        return new ServiceTracker(this.bundleContext, filter, (ServiceTrackerCustomizer)abstractMessagingTrackerCustomizer);
     }
 
     static /* synthetic */ Class class$(String string) {

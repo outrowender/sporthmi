@@ -4,7 +4,6 @@
 package de.audi.atip.interapp.online;
 
 public interface IOnlineDataStateListener {
-    default public void updateRoamingSetting(boolean bl) {
-    }
+    public void updateRoamingSetting(boolean var1);
 }
 

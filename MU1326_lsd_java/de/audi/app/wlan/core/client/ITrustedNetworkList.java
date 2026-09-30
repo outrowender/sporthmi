@@ -6,19 +6,14 @@ package de.audi.app.wlan.core.client;
 import de.audi.app.wlan.core.client.Network;
 
 public interface ITrustedNetworkList {
-    default public void deleteTrustedNetwork(String string) {
-    }
+    public void deleteTrustedNetwork(String var1);
 
-    default public boolean isConnected(String string) {
-    }
+    public boolean isConnected(String var1);
 
-    default public boolean isConnected() {
-    }
+    public boolean isConnected();
 
-    default public boolean isTrusted(String string) {
-    }
+    public boolean isTrusted(String var1);
 
-    default public Network getNetwork(String string) {
-    }
+    public Network getNetwork(String var1);
 }
 

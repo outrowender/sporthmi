@@ -16,33 +16,33 @@ import org.dsi.ifc.tmc.TmcMessage;
 
 public class InfoListRow
 extends TMCAbstractListRow {
-    public static final int MAX_NUMBER_OF_CELLS;
-    public static final int COLUMN_LAYOUT;
-    public static final int COLUMN_ROAD_ICON;
-    public static final int COLUMN_LOCATION_1;
-    public static final int COLUMN_ARROW_ICON;
-    public static final int COLUMN_LOCATION_2;
-    public static final int COLUMN_EVENT_ICON_1;
-    public static final int COLUMN_EVENT_ICON_2;
-    public static final int COLUMN_EVENT_TEXT;
-    public static final int COLUMN_DISTANCE_ARROW;
-    public static final int COLUMN_DISTANCE_TEXT;
-    public static final int COLUMN_HORIZONTAL_LINE;
-    public static final int COLUMN_PROPERTIES;
-    public static final int COLUMN_PARENT_NODE_STATE;
-    public static final int COLUMN_CAR2X;
-    public static final int PARENT_NODE_CLOSED;
-    public static final int PARENT_NODE_OPEN;
-    private static final int TMC_LAYOUT_WITH_ARROW;
-    private static final int TMC_LAYOUT_WITH_IN;
-    private static final int TMC_LAYOUT_NO_DISTANCE;
-    private static final int TMC_LAYOUT_PARENT_NODE;
-    private static final int DIRECTION_ARROW_NONE;
-    private static final int DIRECTION_ARROW_RIGHT;
-    private static final int DIRECTION_ARROW_LEFT;
-    private static final int DIRECTION_ARROW_BIDIRECTIONAL;
-    public static final int WITHOUT_CAR2X_ICON;
-    public static final int WITH_CAR2X_ICON;
+    public static final int MAX_NUMBER_OF_CELLS = 14;
+    public static final int COLUMN_LAYOUT = 0;
+    public static final int COLUMN_ROAD_ICON = 1;
+    public static final int COLUMN_LOCATION_1 = 2;
+    public static final int COLUMN_ARROW_ICON = 3;
+    public static final int COLUMN_LOCATION_2 = 4;
+    public static final int COLUMN_EVENT_ICON_1 = 5;
+    public static final int COLUMN_EVENT_ICON_2 = 6;
+    public static final int COLUMN_EVENT_TEXT = 7;
+    public static final int COLUMN_DISTANCE_ARROW = 8;
+    public static final int COLUMN_DISTANCE_TEXT = 9;
+    public static final int COLUMN_HORIZONTAL_LINE = 10;
+    public static final int COLUMN_PROPERTIES = 11;
+    public static final int COLUMN_PARENT_NODE_STATE = 12;
+    public static final int COLUMN_CAR2X = 13;
+    public static final int PARENT_NODE_CLOSED = 0;
+    public static final int PARENT_NODE_OPEN = 1;
+    private static final int TMC_LAYOUT_WITH_ARROW = 0;
+    private static final int TMC_LAYOUT_WITH_IN = 1;
+    private static final int TMC_LAYOUT_NO_DISTANCE = 2;
+    private static final int TMC_LAYOUT_PARENT_NODE = 3;
+    private static final int DIRECTION_ARROW_NONE = 0;
+    private static final int DIRECTION_ARROW_RIGHT = 1;
+    private static final int DIRECTION_ARROW_LEFT = 2;
+    private static final int DIRECTION_ARROW_BIDIRECTIONAL = 3;
+    public static final int WITHOUT_CAR2X_ICON = 0;
+    public static final int WITH_CAR2X_ICON = 1;
 
     public InfoListRow(TmcListElement tmcListElement, IconCell iconCell, String string, int n, String string2, IconCell iconCell2, String string3, int n2, int n3, InfoEnv infoEnv) {
         super(tmcListElement.uID, 14);
@@ -72,7 +72,7 @@ extends TMCAbstractListRow {
         this.setCar2x(tmcMessage.getMessageSource() == 5 ? 1 : 0);
         Distance distance = new Distance(n3, 5);
         this.setDistance(distance);
-        PropertyListCell propertyListCell = new PropertyListCell(-1868343730, new int[0]);
+        PropertyListCell propertyListCell = new PropertyListCell(1314300816, new int[0]);
         this.setPropertyCell(propertyListCell);
     }
 
@@ -123,7 +123,7 @@ extends TMCAbstractListRow {
         } else {
             this.setParentNodeState(0);
         }
-        PropertyListCell propertyListCell = new PropertyListCell(-1868343730, new int[0]);
+        PropertyListCell propertyListCell = new PropertyListCell(1314300816, new int[0]);
         this.setPropertyCell(propertyListCell);
         this.setCar2x(0);
     }
@@ -132,17 +132,14 @@ extends TMCAbstractListRow {
         super(infoListRow);
     }
 
-    @Override
     public EvoListRow copy() {
         return new InfoListRow(this);
     }
 
-    @Override
     public boolean isLayoutOnRoute() {
         return this.getInteger(0) == 1;
     }
 
-    @Override
     public void updateRrdCarToEvent(int n) {
         long l = (long)n - this.getTmcListElement().getMessage().distanceToEvent;
         if (l < 0L) {
@@ -153,7 +150,6 @@ extends TMCAbstractListRow {
         }
     }
 
-    @Override
     public void updateDistanceAndDireciton(int n, int n2, int n3) {
         if (this.getTmcListElement().getMessage().routeRelevance == 0) {
             this.updateRrdCarToEvent(n);

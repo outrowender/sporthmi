@@ -13,69 +13,69 @@ import de.audi.app.media.source.ISourceController;
 import de.audi.app.media.source.ISourceSlot;
 import de.audi.atip.hmi.model.list.BaseListModelApp;
 import de.audi.atip.hmi.model.list.EvoListRow;
-import de.audi.atip.interapp.media.IMediaSDSService$MediaSDSListEntry;
+import de.audi.atip.interapp.media.IMediaSDSService;
 import org.dsi.ifc.global.ResourceLocator;
 
 public class PickListHandler
 extends AbstractMediaTerminalComponent {
-    private static final int COL_ID;
-    private static final int COL_RECORDSET;
-    private static final int COL_NAME;
-    private static final int COL_ICON;
-    private static final int COL_NAME_SECOND_ROW;
-    private static final int MAX_COL_SOURCE_WITH_ICON;
-    private static final int MAX_COL_SOURCE_WITHOUT_ICON;
-    private static final int MAX_COL_BROWSER;
-    static final int REC_NAME;
-    static final int REC_NAME_ICON;
-    static final int REC_TITLE_WITH_ICON;
-    static final int REC_ALBUM_WITH_ICON;
-    static final int REC_ARTIST_WITH_ICON;
-    static final int REC_TITLE_WITH_ICON_2L;
-    static final int REC_ALBUM_WITH_ICON_2L;
-    static final int ICON_CD;
-    static final int ICON_DVD;
-    static final int ICON_SD;
-    static final int ICON_SD1;
-    static final int ICON_SD2;
-    static final int ICON_USB;
-    static final int ICON_USB1;
-    static final int ICON_USB1_1;
-    static final int ICON_USB1_2;
-    static final int ICON_USB2;
-    static final int ICON_USB2_1;
-    static final int ICON_USB2_2;
-    static final int ICON_BT;
-    static final int ICON_WLAN;
-    private static final IntMap SDSICONMAP;
+    private static final int COL_ID = 0;
+    private static final int COL_RECORDSET = 1;
+    private static final int COL_NAME = 2;
+    private static final int COL_ICON = 3;
+    private static final int COL_NAME_SECOND_ROW = 4;
+    private static final int MAX_COL_SOURCE_WITH_ICON = 4;
+    private static final int MAX_COL_SOURCE_WITHOUT_ICON = 3;
+    private static final int MAX_COL_BROWSER = 5;
+    static final int REC_NAME = 0;
+    static final int REC_NAME_ICON = 1;
+    static final int REC_TITLE_WITH_ICON = 2;
+    static final int REC_ALBUM_WITH_ICON = 3;
+    static final int REC_ARTIST_WITH_ICON = 4;
+    static final int REC_TITLE_WITH_ICON_2L = 5;
+    static final int REC_ALBUM_WITH_ICON_2L = 6;
+    static final int ICON_CD = 0;
+    static final int ICON_DVD = 1;
+    static final int ICON_SD = 2;
+    static final int ICON_SD1 = 3;
+    static final int ICON_SD2 = 4;
+    static final int ICON_USB = 5;
+    static final int ICON_USB1 = 6;
+    static final int ICON_USB1_1 = 7;
+    static final int ICON_USB1_2 = 8;
+    static final int ICON_USB2 = 9;
+    static final int ICON_USB2_1 = 10;
+    static final int ICON_USB2_2 = 11;
+    static final int ICON_BT = 12;
+    static final int ICON_WLAN = 13;
+    private static final IntMap SDSICONMAP = new IntMap(35);
 
     public PickListHandler(IMediaTerminal iMediaTerminal) {
         super(iMediaTerminal);
     }
 
-    public void fillBrowserPickList(IMediaSDSService$MediaSDSListEntry[] iMediaSDSService$MediaSDSListEntryArray, int n) {
+    public void fillBrowserPickList(IMediaSDSService.MediaSDSListEntry[] mediaSDSListEntryArray, int n) {
         BaseListModelApp baseListModelApp = this.getBaseListModel(254);
         BaseListModelApp baseListModelApp2 = baseListModelApp.getEmptyCopy();
-        for (int i2 = 0; i2 < iMediaSDSService$MediaSDSListEntryArray.length; ++i2) {
-            IMediaSDSService$MediaSDSListEntry iMediaSDSService$MediaSDSListEntry = iMediaSDSService$MediaSDSListEntryArray[i2];
-            ResourceLocator resourceLocator = iMediaSDSService$MediaSDSListEntry.getCover();
-            EvoListRow evoListRow = new EvoListRow(iMediaSDSService$MediaSDSListEntry.getId(), 5);
-            evoListRow.setLong(0, iMediaSDSService$MediaSDSListEntry.getId());
-            evoListRow.setInteger(1, this.getBrowserRecordSet(iMediaSDSService$MediaSDSListEntry, n));
-            evoListRow.setText(2, iMediaSDSService$MediaSDSListEntry.getName());
-            evoListRow.setText(4, iMediaSDSService$MediaSDSListEntry.getNameSecondRow());
+        for (int i2 = 0; i2 < mediaSDSListEntryArray.length; ++i2) {
+            IMediaSDSService.MediaSDSListEntry mediaSDSListEntry = mediaSDSListEntryArray[i2];
+            ResourceLocator resourceLocator = mediaSDSListEntry.getCover();
+            EvoListRow evoListRow = new EvoListRow(mediaSDSListEntry.getId(), 5);
+            evoListRow.setLong(0, mediaSDSListEntry.getId());
+            evoListRow.setInteger(1, this.getBrowserRecordSet(mediaSDSListEntry, n));
+            evoListRow.setText(2, mediaSDSListEntry.getName());
+            evoListRow.setText(4, mediaSDSListEntry.getNameSecondRow());
             evoListRow.setText(3, null == resourceLocator ? null : resourceLocator.getUrl());
             baseListModelApp2.append(evoListRow);
         }
         baseListModelApp.update(baseListModelApp2);
     }
 
-    private int getBrowserRecordSet(IMediaSDSService$MediaSDSListEntry iMediaSDSService$MediaSDSListEntry, int n) {
+    private int getBrowserRecordSet(IMediaSDSService.MediaSDSListEntry mediaSDSListEntry, int n) {
         int n2;
         if (!this.getTerminal().getFramework().isPorsche()) {
             n2 = 0;
         } else {
-            boolean bl = null != iMediaSDSService$MediaSDSListEntry.getNameSecondRow();
+            boolean bl = null != mediaSDSListEntry.getNameSecondRow();
             switch (n) {
                 case 1: {
                     n2 = bl ? 6 : 3;
@@ -97,31 +97,31 @@ extends AbstractMediaTerminalComponent {
         return n2;
     }
 
-    public void fillSourcePickList(IMediaSDSService$MediaSDSListEntry[] iMediaSDSService$MediaSDSListEntryArray) {
+    public void fillSourcePickList(IMediaSDSService.MediaSDSListEntry[] mediaSDSListEntryArray) {
         BaseListModelApp baseListModelApp = this.getBaseListModel(254);
         ISourceController iSourceController = this.getTerminal().getSourceController();
         BaseListModelApp baseListModelApp2 = baseListModelApp.getEmptyCopy();
-        for (int i2 = 0; i2 < iMediaSDSService$MediaSDSListEntryArray.length; ++i2) {
+        for (int i2 = 0; i2 < mediaSDSListEntryArray.length; ++i2) {
             EvoListRow evoListRow;
             int n;
-            IMediaSDSService$MediaSDSListEntry iMediaSDSService$MediaSDSListEntry = iMediaSDSService$MediaSDSListEntryArray[i2];
-            ISource iSource = iSourceController.getSource(iMediaSDSService$MediaSDSListEntry.getSourceID());
+            IMediaSDSService.MediaSDSListEntry mediaSDSListEntry = mediaSDSListEntryArray[i2];
+            ISource iSource = iSourceController.getSource(mediaSDSListEntry.getSourceID());
             if (iSource == null) {
                 n = -1;
             } else {
-                ISourceSlot iSourceSlot = iSource.getSlot(iMediaSDSService$MediaSDSListEntry.getSlot());
+                ISourceSlot iSourceSlot = iSource.getSlot(mediaSDSListEntry.getSlot());
                 n = PickListHandler.getSdsIcon(MediaUtils.getHMISourceIcon(iSourceSlot));
             }
             if (n == -1) {
-                evoListRow = new EvoListRow(iMediaSDSService$MediaSDSListEntry.getId(), 3);
+                evoListRow = new EvoListRow(mediaSDSListEntry.getId(), 3);
                 evoListRow.setInteger(1, 0);
             } else {
-                evoListRow = new EvoListRow(iMediaSDSService$MediaSDSListEntry.getId(), 4);
+                evoListRow = new EvoListRow(mediaSDSListEntry.getId(), 4);
                 evoListRow.setInteger(1, 1);
                 evoListRow.setInteger(3, n);
             }
-            evoListRow.setLong(0, iMediaSDSService$MediaSDSListEntry.getId());
-            evoListRow.setText(2, iMediaSDSService$MediaSDSListEntry.getName());
+            evoListRow.setLong(0, mediaSDSListEntry.getId());
+            evoListRow.setText(2, mediaSDSListEntry.getName());
             baseListModelApp2.append(evoListRow);
         }
         baseListModelApp.update(baseListModelApp2);
@@ -137,7 +137,6 @@ extends AbstractMediaTerminalComponent {
     }
 
     static {
-        SDSICONMAP = new IntMap(35);
         SDSICONMAP.put(1, 0);
         SDSICONMAP.put(2, 0);
         SDSICONMAP.put(3, 0);

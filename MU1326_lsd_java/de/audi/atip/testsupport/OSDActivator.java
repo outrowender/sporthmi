@@ -53,7 +53,6 @@ implements ServiceTrackerCustomizer {
         }
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.context.getService(serviceReference);
         if (object instanceof ITestSupportService) {
@@ -72,11 +71,9 @@ implements ServiceTrackerCustomizer {
         return object;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         this.context.ungetService(serviceReference);
         this.cleanup();

@@ -19,9 +19,8 @@ extends AbstractSystemCallCommand {
         this.isOnlineRecog = SDSUtils.retrieveBoolean(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: isOnlineRecog=%2", (Object)this.getName(), (Object)this.isOnlineRecog);
+        this.logger.log(10000000, "%1#execute: isOnlineRecog=%2", (Object)this.getName(), (Object)this.isOnlineRecog);
         SDSModelAccess.setPOIOnlineRecogModel(this.isOnlineRecog);
         this.processingFinished();
     }

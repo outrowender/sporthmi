@@ -8,16 +8,16 @@ public class SpeedWarningCameraHandler {
     private volatile int valueState;
     private volatile float value;
     private volatile int unit = 0;
-    private static final float KMH_STEP_OFF;
-    private static final float KMH_STEP_1;
-    private static final float KMH_STEP_2;
-    private static final float KMH_STEP_3;
-    private static final float KMH_STEP_4;
-    private static final float MPH_STEP_OFF;
-    private static final float MPH_STEP_1;
-    private static final float MPH_STEP_2;
-    private static final float MPH_STEP_3;
-    private static final float MPH_STEP_4;
+    private static final float KMH_STEP_OFF = 0.0f;
+    private static final float KMH_STEP_1 = 0.0f;
+    private static final float KMH_STEP_2 = 5.0f;
+    private static final float KMH_STEP_3 = 10.0f;
+    private static final float KMH_STEP_4 = 15.0f;
+    private static final float MPH_STEP_OFF = 0.0f;
+    private static final float MPH_STEP_1 = 0.0f;
+    private static final float MPH_STEP_2 = 3.0f;
+    private static final float MPH_STEP_3 = 5.0f;
+    private static final float MPH_STEP_4 = 10.0f;
 
     protected SpeedWarningCameraHandler() {
     }
@@ -41,13 +41,13 @@ public class SpeedWarningCameraHandler {
             if (this.value == 0.0f) {
                 return 1;
             }
-            if (this.value == 16448) {
+            if (this.value == 3.0f) {
                 return 2;
             }
-            if (this.value == 41024) {
+            if (this.value == 5.0f) {
                 return 3;
             }
-            if (this.value == 8257) {
+            if (this.value == 10.0f) {
                 return 4;
             }
             return 1;
@@ -55,13 +55,13 @@ public class SpeedWarningCameraHandler {
         if (this.value == 0.0f) {
             return 1;
         }
-        if (this.value == 41024) {
+        if (this.value == 5.0f) {
             return 2;
         }
-        if (this.value == 8257) {
+        if (this.value == 10.0f) {
             return 3;
         }
-        if (this.value == 28737) {
+        if (this.value == 15.0f) {
             return 4;
         }
         return 1;
@@ -76,13 +76,13 @@ public class SpeedWarningCameraHandler {
                 return this.unitIsMPH() ? 0.0f : 0.0f;
             }
             case 2: {
-                return this.unitIsMPH() ? 16448 : 41024;
+                return this.unitIsMPH() ? 3.0f : 5.0f;
             }
             case 3: {
-                return this.unitIsMPH() ? 41024 : 8257;
+                return this.unitIsMPH() ? 5.0f : 10.0f;
             }
             case 4: {
-                return this.unitIsMPH() ? 8257 : 28737;
+                return this.unitIsMPH() ? 10.0f : 15.0f;
             }
         }
         return this.unitIsMPH() ? 0.0f : 0.0f;

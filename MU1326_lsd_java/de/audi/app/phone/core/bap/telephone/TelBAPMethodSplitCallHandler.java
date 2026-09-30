@@ -6,11 +6,9 @@ package de.audi.app.phone.core.bap.telephone;
 import de.audi.app.phone.core.ITelApplication;
 import de.audi.app.phone.core.bap.telephone.AbstractTel1BAPMethodHandler;
 import de.audi.app.phone.core.bap.telephone.TelBAPCallArrayAccess;
-import de.audi.app.phone.core.bap.telephone.TelBAPMethodSplitCallHandler$1;
 import de.audi.app.phone.core.dsi.ITelDSIMobileEquipmentDeviceState;
 import de.audi.app.phone.core.state.IGlobalTelephoneStateStruct;
 import de.audi.atip.interapp.combi.bap.phone.CombiBAPServicePhone;
-import de.audi.atip.log.LogChannel;
 import de.esolutions.fw.util.commons.job.DispatcherBase;
 
 class TelBAPMethodSplitCallHandler
@@ -23,15 +21,15 @@ extends AbstractTel1BAPMethodHandler {
     }
 
     void splitCall(int n) {
-        this.log.log(-2137614336, "[TelBAPMethodSplitCallHandler#splitCall] bapCallID=%1", (long)n);
+        this.log.log(10000000, "[TelBAPMethodSplitCallHandler#splitCall] bapCallID=%1", (long)n);
         IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct = this.getTelephoneState();
         CombiBAPServicePhone combiBAPServicePhone = this.getCombiBapServicePhone();
         if (combiBAPServicePhone == null) {
-            this.log.log(-1601830656, "[TelBAPMethodSplitCallHandler#splitCall] combiService is null --> NOP!");
+            this.log.log(100000, "[TelBAPMethodSplitCallHandler#splitCall] combiService is null --> NOP!");
             return;
         }
         if (iGlobalTelephoneStateStruct == null) {
-            this.log.log(-1601830656, "[TelBAPMethodSplitCallHandler#splitCall] telState is null --> NOP!");
+            this.log.log(100000, "[TelBAPMethodSplitCallHandler#splitCall] telState is null --> NOP!");
             this.sendResultNotSuccessful();
             return;
         }
@@ -39,10 +37,10 @@ extends AbstractTel1BAPMethodHandler {
         if (iTelDSIMobileEquipmentDeviceState != null && iTelDSIMobileEquipmentDeviceState.getCallState() != null) {
             int n2 = this.callArrayAccess.getDSICallID(n);
             if (n2 != -1) {
-                this.log.log(-2137614336, "[TelBAPMethodSplitCallHandler#splitCall] bapCallID=%1, dsiCallID=%2", (long)n, (long)n2);
+                this.log.log(10000000, "[TelBAPMethodSplitCallHandler#splitCall] bapCallID=%1, dsiCallID=%2", (long)n, (long)n2);
                 this.getApplication().getTelephoneDSIAccess().splitCall(n2, 1, true, this);
             } else {
-                this.log.log(-1601830656, "[TelBAPMethodSplitCallHandler#splitCall] call id could not be determined.");
+                this.log.log(100000, "[TelBAPMethodSplitCallHandler#splitCall] call id could not be determined.");
                 this.sendResultNotSuccessful();
             }
         } else {
@@ -54,22 +52,24 @@ extends AbstractTel1BAPMethodHandler {
         this.sendResult(1);
     }
 
-    @Override
     public void responseSplitCall(int n, int n2) {
         int n3 = n == 0 ? 0 : 1;
         this.sendResult(n3);
     }
 
-    private void sendResult(int n) {
-        this.enqueueResultNotification(new TelBAPMethodSplitCallHandler$1(this, n));
-    }
+    private void sendResult(final int n) {
+        this.enqueueResultNotification(new Runnable(){
 
-    static /* synthetic */ LogChannel access$000(TelBAPMethodSplitCallHandler telBAPMethodSplitCallHandler) {
-        return telBAPMethodSplitCallHandler.log;
-    }
-
-    static /* synthetic */ LogChannel access$100(TelBAPMethodSplitCallHandler telBAPMethodSplitCallHandler) {
-        return telBAPMethodSplitCallHandler.log;
+            public void run() {
+                CombiBAPServicePhone combiBAPServicePhone = TelBAPMethodSplitCallHandler.this.getCombiBapServicePhone();
+                if (combiBAPServicePhone != null) {
+                    TelBAPMethodSplitCallHandler.this.log.log(1000000, "[TelBAPMethodSplitCallHandler#sendResult] returning result %1 to combi.", (long)n);
+                    combiBAPServicePhone.splitCallResult(n);
+                } else {
+                    TelBAPMethodSplitCallHandler.this.log.log(100000, "[TelBAPMethodSplitCallHandler#sendResult] CombiService is null!");
+                }
+            }
+        });
     }
 }
 

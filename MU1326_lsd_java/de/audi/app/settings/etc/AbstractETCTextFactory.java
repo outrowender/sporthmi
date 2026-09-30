@@ -20,16 +20,12 @@ public abstract class AbstractETCTextFactory {
         return this.getSettingsEnvironment().getFw().getHmiServiceApp().getText(n);
     }
 
-    public abstract String getYenSymbol() {
-    }
+    public abstract String getYenSymbol();
 
-    public abstract String getErrorMessageText(int n) {
-    }
+    public abstract String getErrorMessageText(int var1);
 
-    public abstract String getWarningMessageCardInsertedText(boolean bl) {
-    }
+    public abstract String getWarningMessageCardInsertedText(boolean var1);
 
-    public abstract String getTollInfoText(boolean bl, boolean bl2) {
-    }
+    public abstract String getTollInfoText(boolean var1, boolean var2);
 }
 

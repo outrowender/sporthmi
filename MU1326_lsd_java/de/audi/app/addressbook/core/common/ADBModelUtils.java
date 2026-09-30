@@ -205,7 +205,7 @@ public class ADBModelUtils {
                 break;
             }
             default: {
-                logChannel.log(-2137614336, "ADBModelUtils#setPhoneTypeFromModelType(): unknown type: %1", (long)n2);
+                logChannel.log(10000000, "ADBModelUtils#setPhoneTypeFromModelType(): unknown type: %1", (long)n2);
             }
         }
         return n3;
@@ -231,7 +231,7 @@ public class ADBModelUtils {
                 break;
             }
             default: {
-                logChannel.log(-2137614336, "ADBModelUtils#setPhoneTypeFromModelCategory(): unknown category: %1", (long)n2);
+                logChannel.log(10000000, "ADBModelUtils#setPhoneTypeFromModelCategory(): unknown category: %1", (long)n2);
             }
         }
         return n3;
@@ -262,13 +262,13 @@ public class ADBModelUtils {
     }
 
     public static int getPercentageValueForProgressBars(float f2) {
-        if (f2 > 0.0f && f2 <= 16448) {
+        if (f2 > 0.0f && f2 <= 3.0f) {
             return 3;
         }
-        if (f2 >= 49730 && f2 < 51266) {
+        if (f2 >= 97.0f && f2 < 100.0f) {
             return 97;
         }
-        if (f2 >= 51266) {
+        if (f2 >= 100.0f) {
             return 100;
         }
         return Math.round(f2);
@@ -278,7 +278,7 @@ public class ADBModelUtils {
         boolean bl = ADBUtils.isPictureAvailable(resourceLocator);
         int n = bl ? resourceLocator.getId() : -1;
         String string = bl ? resourceLocator.getUrl() : ResourceLocatorModelApp.UNDEFINED_URI;
-        logChannel.log(-2137614336, "ADBModelUtils#updatePicture(): picture %1 available, picId: %3, picUrl: %2", (Object)(bl ? "is" : "is not"), (Object)string, (long)n);
+        logChannel.log(10000000, "ADBModelUtils#updatePicture(): picture %1 available, picId: %3, picUrl: %2", (Object)(bl ? "is" : "is not"), (Object)string, (long)n);
         resourceLocatorModelApp.setResourceLocator(n, string);
         resourceLocatorModelApp.setStatus(bl ? 1 : 0);
     }
@@ -289,7 +289,7 @@ public class ADBModelUtils {
     }
 
     public static String concatenate(String string, String string2, String string3) {
-        return new StringBuffer().append(!ADBUtils.isEmpty(string) ? string : "").append(!ADBUtils.isEmpty(string) && !ADBUtils.isEmpty(string2) ? string3 : "").append(!ADBUtils.isEmpty(string2) ? string2 : "").toString();
+        return (!ADBUtils.isEmpty(string) ? string : "") + (!ADBUtils.isEmpty(string) && !ADBUtils.isEmpty(string2) ? string3 : "") + (!ADBUtils.isEmpty(string2) ? string2 : "");
     }
 
     public static String getCombinedName(String string, String string2, int n) {

@@ -14,20 +14,20 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class PhoneCallListRowEvo
 extends PhoneCallListRowBase {
-    static final int ACTION_HANGUP;
-    static final int ACTION_SWAP;
-    static final int ACTION_NONE;
-    private static final int RECORDSET_USE_NAME_COLUMN;
-    private static final int RECORDSET_USE_CALLTYPE_COLUMN;
-    private static final int RECORDSET_ACTIVE_ADBMATCH;
-    private static final int RECORDSET_ACTIVE_NO_ADBMATCH;
-    private static final int RECORDSET_NONACTIVE_ADBMATCH;
-    private static final int RECORDSET_NONACTIVE_NO_ADBMATCH;
-    private static final int RECORDSET_ADBMATCH_DISCONNECTING;
-    private static final int RECORDSET_NO_ADBMATCH_DISCONNECTING;
-    private static final int RECORDSET_ADBMATCH_HELD;
-    private static final int RECORDSET_NO_ADBMATCH_HELD;
-    static final int MAX_ROWS;
+    static final int ACTION_HANGUP = 0;
+    static final int ACTION_SWAP = 1;
+    static final int ACTION_NONE = 2;
+    private static final int RECORDSET_USE_NAME_COLUMN = 0;
+    private static final int RECORDSET_USE_CALLTYPE_COLUMN = 1;
+    private static final int RECORDSET_ACTIVE_ADBMATCH = 0;
+    private static final int RECORDSET_ACTIVE_NO_ADBMATCH = 1;
+    private static final int RECORDSET_NONACTIVE_ADBMATCH = 2;
+    private static final int RECORDSET_NONACTIVE_NO_ADBMATCH = 3;
+    private static final int RECORDSET_ADBMATCH_DISCONNECTING = 4;
+    private static final int RECORDSET_NO_ADBMATCH_DISCONNECTING = 5;
+    private static final int RECORDSET_ADBMATCH_HELD = 6;
+    private static final int RECORDSET_NO_ADBMATCH_HELD = 7;
+    static final int MAX_ROWS = 3;
     private volatile int action = 2;
 
     private static PropertyListCell getProperties(AbstractPhoneCall abstractPhoneCall) {
@@ -35,20 +35,20 @@ extends PhoneCallListRowBase {
         boolean bl = abstractPhoneCall instanceof ConferenceCall;
         switch (abstractPhoneCall.getTelCallState()) {
             case 4: {
-                propertyListCell = PropertyListCell.create(bl ? -1870334089 : -2092804066, new int[0]);
+                propertyListCell = PropertyListCell.create(bl ? 2012710032 : 509100675, new int[0]);
                 break;
             }
             case 1: 
             case 2: {
-                propertyListCell = PropertyListCell.create(bl ? 305144287 : 1274181782, new int[0]);
+                propertyListCell = PropertyListCell.create(bl ? -551473134 : -1770458549, new int[0]);
                 break;
             }
             case 5: {
-                propertyListCell = PropertyListCell.create(bl ? -1896195209 : -180290914, new int[0]);
+                propertyListCell = PropertyListCell.create(bl ? 2002516622 : -1627766539, new int[0]);
                 break;
             }
             case 6: {
-                propertyListCell = PropertyListCell.create(bl ? 1686777316 : 674348036, new int[0]);
+                propertyListCell = PropertyListCell.create(bl ? -466777500 : 79442216, new int[0]);
                 break;
             }
             default: {
@@ -116,7 +116,7 @@ extends PhoneCallListRowBase {
             }
             default: {
                 this.setAction(2);
-                this.log.log(-1601830656, "[PhoneCallListRow#PhoneCallListRow] no call state handling for call state %1", (long)this.getAction());
+                this.log.log(100000, "[PhoneCallListRow#PhoneCallListRow] no call state handling for call state %1", (long)this.getAction());
             }
         }
         this.setCell(4, IntegerListCell.create(this.getAction()));
@@ -136,12 +136,24 @@ extends PhoneCallListRowBase {
         this.action = n;
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer(super.toString());
         buffer.append(", action=");
         buffer.append(this.getAction());
         return buffer.toString();
+    }
+
+    private static final class CallType {
+        public static final int CALLTYPE_SINGLE = -1;
+        public static final int CALLTYPE_SINGLE_MAILBOX = 0;
+        public static final int CALLTYPE_SINGLE_INFO = 1;
+        public static final int CALLTYPE_SINGLE_BREAKDOWN = 2;
+        public static final int CALLTYPE_SINGLE_EMERGENCY = 3;
+        public static final int CALLTYPE_SINGLE_UNKNOWN = 4;
+        public static final int CALLTYPE_CONFERENCE = 5;
+
+        private CallType() {
+        }
     }
 }
 

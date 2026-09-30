@@ -14,35 +14,28 @@ extends AbstractCombiBrowserJob {
         super(logChannel, combiBAPDataBrowserContentAdapter);
     }
 
-    @Override
     public int getType() {
         return 9;
     }
 
-    @Override
     public String getName() {
         return "TRACK_CHANGE";
     }
 
-    @Override
     public void start() {
         this.getCombiAdapter().getState().setCurrentCoverart(null);
         this.getExecutionContext().jobFinished();
     }
 
-    @Override
     public void responseList(int n, MediaListEntry[] mediaListEntryArray) {
     }
 
-    @Override
     public void errorListRequestAborted() {
     }
 
-    @Override
     public void browseFolderChanged(MediaListEntry[] mediaListEntryArray, int n) {
     }
 
-    @Override
     public void errorFolderChangeAborted() {
     }
 }

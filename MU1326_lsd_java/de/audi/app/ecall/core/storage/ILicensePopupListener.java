@@ -4,10 +4,8 @@
 package de.audi.app.ecall.core.storage;
 
 public interface ILicensePopupListener {
-    default public void onLicensePopupOpened(int n) {
-    }
+    public void onLicensePopupOpened(int var1);
 
-    default public void onLicensePopupConfirmed() {
-    }
+    public void onLicensePopupConfirmed();
 }
 

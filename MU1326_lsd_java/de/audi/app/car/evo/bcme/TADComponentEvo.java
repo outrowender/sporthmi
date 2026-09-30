@@ -14,19 +14,16 @@ extends AbstractTADComponent {
         super(iCarApplication);
     }
 
-    @Override
     protected void initVisibility() {
         this.getApplication().getMenuEntryRegistry().registerMenuEntry(327, (short)40);
         this.getApplication().getMenuEntryRegistry().registerMenuEntry(328, (short)40);
     }
 
-    @Override
     protected void deinitVisibility() {
         this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(327);
         this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(328);
     }
 
-    @Override
     protected void updateMenuEntryVisibility(TADViewOptions tADViewOptions) {
         this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(327, this.getTADAngleVisibilityState(tADViewOptions.getConfiguration(), 327));
         this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(328, this.getTADAngleVisibilityState(tADViewOptions.getConfiguration(), 328));
@@ -44,12 +41,10 @@ extends AbstractTADComponent {
         return 1;
     }
 
-    @Override
     protected void updateRoofLoad(boolean bl) {
-        this.getChoiceModel(-483718912).setValue(bl ? 1 : 0);
+        this.getChoiceModel(601059).setValue(bl ? 1 : 0);
     }
 
-    @Override
     public int getID() {
         return 40;
     }

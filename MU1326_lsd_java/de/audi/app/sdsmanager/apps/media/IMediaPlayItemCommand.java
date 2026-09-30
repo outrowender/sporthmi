@@ -4,7 +4,6 @@
 package de.audi.app.sdsmanager.apps.media;
 
 public interface IMediaPlayItemCommand {
-    default public void playItemResult(byte by) {
-    }
+    public void playItemResult(byte var1);
 }
 

@@ -15,9 +15,8 @@ implements CombiBAPServiceSystem {
         super(combiModuleAudio);
     }
 
-    @Override
     public void updateCustomerDownloadState(int n, int n2) {
-        this.logChannel.log(1078071040, "[AppConnectorSystem#updateCustomerDownloadState] called (state=%1, progress=%2)", (long)n, (long)n2);
+        this.logChannel.log(1000000, "[AppConnectorSystem#updateCustomerDownloadState] called (state=%1, progress=%2)", (long)n, (long)n2);
         CustomerDownloadState_Status customerDownloadState_Status = new CustomerDownloadState_Status();
         customerDownloadState_Status.customerDownloadState = n;
         customerDownloadState_Status.progressCustomerDownload = n2;

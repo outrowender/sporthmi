@@ -6,21 +6,16 @@ package de.audi.app.media.content.media;
 import de.audi.app.media.dsi.media.MediaListEntry;
 
 public interface IPlayViewListRequest {
-    public static final long INVALID_ID;
+    public static final long INVALID_ID = -1L;
 
-    default public int getClientID() {
-    }
+    public int getClientID();
 
-    default public int getIndex() {
-    }
+    public int getIndex();
 
-    default public long getId() {
-    }
+    public long getId();
 
-    default public int getSize() {
-    }
+    public int getSize();
 
-    default public void responsePlayList(boolean bl, int n, MediaListEntry[] mediaListEntryArray) {
-    }
+    public void responsePlayList(boolean var1, int var2, MediaListEntry[] var3);
 }
 

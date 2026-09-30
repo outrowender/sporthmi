@@ -7,43 +7,30 @@ import de.audi.app.ecall.core.screen.IPopupStateListener;
 import de.audi.app.ecall.core.screen.IScreenStateListener;
 
 public interface IPopupScreenStateDispatcher {
-    default public void init() {
-    }
+    public void init();
 
-    default public void deinit() {
-    }
+    public void deinit();
 
-    default public void addPopupStateListener(int n, IPopupStateListener iPopupStateListener) {
-    }
+    public void addPopupStateListener(int var1, IPopupStateListener var2);
 
-    default public void removePopupStateListener(int n, IPopupStateListener iPopupStateListener) {
-    }
+    public void removePopupStateListener(int var1, IPopupStateListener var2);
 
-    default public void addScreenStateListener(int n, IScreenStateListener iScreenStateListener) {
-    }
+    public void addScreenStateListener(int var1, IScreenStateListener var2);
 
-    default public void removeScreenStateListener(int n, IScreenStateListener iScreenStateListener) {
-    }
+    public void removeScreenStateListener(int var1, IScreenStateListener var2);
 
-    default public void notifyPopupVisible(int n, int n2) {
-    }
+    public void notifyPopupVisible(int var1, int var2);
 
-    default public void notifyPopupHidden(int n, int n2) {
-    }
+    public void notifyPopupHidden(int var1, int var2);
 
-    default public void notifyPopupRemoved(int n, int n2) {
-    }
+    public void notifyPopupRemoved(int var1, int var2);
 
-    default public void notifyScreenVisible(int n, int n2) {
-    }
+    public void notifyScreenVisible(int var1, int var2);
 
-    default public void notifyScreenHidden(int n, int n2) {
-    }
+    public void notifyScreenHidden(int var1, int var2);
 
-    default public void notifyScreenFadedOut(int n, int n2) {
-    }
+    public void notifyScreenFadedOut(int var1, int var2);
 
-    default public void notifyScreenConnected(int n, int n2) {
-    }
+    public void notifyScreenConnected(int var1, int var2);
 }
 

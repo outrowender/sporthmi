@@ -4,11 +4,11 @@
 package de.audi.atip.log;
 
 public interface Level {
-    public static final int CRIT;
-    public static final int ERR;
-    public static final int WARN;
-    public static final int INFO;
-    public static final int DBG;
-    public static final int DBG2;
+    public static final int CRIT = 1000;
+    public static final int ERR = 10000;
+    public static final int WARN = 100000;
+    public static final int INFO = 1000000;
+    public static final int DBG = 10000000;
+    public static final int DBG2 = 100000000;
 }
 

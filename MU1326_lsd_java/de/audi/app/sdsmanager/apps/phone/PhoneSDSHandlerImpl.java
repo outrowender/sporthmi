@@ -41,7 +41,6 @@ import de.audi.atip.interapp.SDSListEntry;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.phone.ITelServiceSDS;
 import de.audi.atip.phone.ITelServiceSDSListener;
-import de.audi.atip.phone.ITelServiceSDSListener$TelFavoriteSDSListEntry;
 import de.audi.atip.phone.NullITelServiceSDS;
 import de.audi.atip.phone.TelServiceCallStackEntry;
 import de.audi.tghu.command.CommandList;
@@ -65,7 +64,7 @@ ITelServiceSDSListener {
     private final ISDSPopupHelper sdsPopupHelper;
     private final MobileSpeechRecognitionHandler mobileSRHandler;
     private TelServiceCallStackEntry[] csEntries = new TelServiceCallStackEntry[0];
-    private ITelServiceSDSListener$TelFavoriteSDSListEntry[] favEntries = new ITelServiceSDSListener$TelFavoriteSDSListEntry[0];
+    private ITelServiceSDSListener.TelFavoriteSDSListEntry[] favEntries = new ITelServiceSDSListener.TelFavoriteSDSListEntry[0];
     private Map adbToCallStackMapping;
 
     public PhoneSDSHandlerImpl(HMIService hMIService, SDSHandlerService sDSHandlerService, IDynamicLists iDynamicLists, NBestStorageAccess nBestStorageAccess, SDSAppFactory sDSAppFactory, ILanguageManager iLanguageManager, ISDSPopupHelper iSDSPopupHelper, MobileSpeechRecognitionHandler mobileSpeechRecognitionHandler) {
@@ -78,43 +77,37 @@ ITelServiceSDSListener {
         this.languageManager = iLanguageManager;
         this.mobileSRHandler = mobileSpeechRecognitionHandler;
         new PhoneSDSPicklistListener(hMIService, this);
-        this.lc.log(-2137614336, "PhoneSDSHandlerImpl initialized.");
+        this.lc.log(10000000, "PhoneSDSHandlerImpl initialized.");
         this.adbToCallStackMapping = new HashMap();
     }
 
-    @Override
     public int[] getCommands() {
         return commands;
     }
 
-    @Override
     public Map getAdbToCallStackMapping() {
         return this.adbToCallStackMapping;
     }
 
-    @Override
     public void sessionStarted() {
-        this.lc.log(-2137614336, "PhoneSDSHandlerImpl#sessionStarted: called");
+        this.lc.log(10000000, "PhoneSDSHandlerImpl#sessionStarted: called");
         this.setPhoneSpeller((byte)0, this.phoneService.getNumberSpellerContent(), true);
         this.setPhoneSpeller((byte)2, this.phoneService.getMailboxSpellerContent(), true);
         this.setPhoneSpeller((byte)1, this.phoneService.getPINSpellerContent(), true);
     }
 
-    @Override
     public boolean freezeLists() {
-        this.lc.log(-2137614336, "PhoneSDSHandlerImpl#freezeLists: called");
+        this.lc.log(10000000, "PhoneSDSHandlerImpl#freezeLists: called");
         return this.phoneService.freezeDynamicLists() == 0;
     }
 
-    @Override
     public boolean unfreezeLists() {
-        this.lc.log(-2137614336, "PhoneSDSHandlerImpl#unfreezeLists: called");
+        this.lc.log(10000000, "PhoneSDSHandlerImpl#unfreezeLists: called");
         return this.phoneService.unfreezeDynamicLists() == 0;
     }
 
-    @Override
     public void processCommand(int n, ISystemCallParameter[] iSystemCallParameterArray) {
-        this.lc.log(-2137614336, "PhoneSDSHandlerImpl#processCommand: id=%2, params=%1", (Object)SDSUtils.toString((Object[])iSystemCallParameterArray, false), (Object)SDSManagerBaseActivator.getSystemCallNames().getName(n));
+        this.lc.log(10000000, "PhoneSDSHandlerImpl#processCommand: id=%2, params=%1", (Object)SDSUtils.toString((Object[])iSystemCallParameterArray, false), (Object)SDSManagerBaseActivator.getSystemCallNames().getName(n));
         CommandList commandList = new CommandList(SDSManagerBaseActivator.getSysCallCmdListManager());
         switch (n) {
             case 30000: {
@@ -182,19 +175,17 @@ ITelServiceSDSListener {
                 break;
             }
             default: {
-                this.lc.log(-1601830656, "PhoneSDSHandlerImpl#processCommand: Unhandled id %1!", (long)n);
+                this.lc.log(100000, "PhoneSDSHandlerImpl#processCommand: Unhandled id %1!", (long)n);
             }
         }
     }
 
-    @Override
     public boolean isListLineDataGetActive() {
         return SDSUtils.getActiveSystemCall() instanceof PhoneListLineDataGetCommand;
     }
 
-    @Override
     public void sdsListLineDataGet(int n, int n2) {
-        this.lc.log(-2137614336, "PhoneSDSHandlerImpl#sdsListLineDataGet: absLine=%1", (long)n2);
+        this.lc.log(10000000, "PhoneSDSHandlerImpl#sdsListLineDataGet: absLine=%1", (long)n2);
         try {
             ((PhoneListLineDataGetCommand)SDSUtils.getActiveSystemCall()).sdsListLineDataGet(n2);
         }
@@ -206,44 +197,37 @@ ITelServiceSDSListener {
         }
     }
 
-    @Override
     public void matchTextWithNumberSequenceDirect(String string) {
-        this.lc.log(-2137614336, "PhoneSDSHandlerImpl#matchTextWithNumberSequenceDirect: number=%1", (Object)string);
+        this.lc.log(10000000, "PhoneSDSHandlerImpl#matchTextWithNumberSequenceDirect: number=%1", (Object)string);
         this.sequenceHandler.matchTextWithSequence(string, (byte)0);
     }
 
-    @Override
     public void matchTextWithPINSequenceDirect(String string) {
-        this.lc.log(-2137614336, "PhoneSDSHandlerImpl#matchTextWithPINSequenceDirect: code=%1", (Object)string);
+        this.lc.log(10000000, "PhoneSDSHandlerImpl#matchTextWithPINSequenceDirect: code=%1", (Object)string);
         this.sequenceHandler.matchTextWithSequence(string, (byte)1);
     }
 
-    @Override
     public void matchTextWithMailboxSequenceDirect(String string) {
-        this.lc.log(-2137614336, "PhoneSDSHandlerImpl#matchTextWithMailboxSequenceDirect: number=%1", (Object)string);
+        this.lc.log(10000000, "PhoneSDSHandlerImpl#matchTextWithMailboxSequenceDirect: number=%1", (Object)string);
         this.sequenceHandler.matchTextWithSequence(string, (byte)2);
     }
 
-    @Override
     public void setPhoneService(ITelServiceSDS iTelServiceSDS) {
         if (iTelServiceSDS != null) {
             this.phoneService = iTelServiceSDS;
         }
     }
 
-    @Override
     public ITelServiceSDS getPhoneService() {
         return this.phoneService;
     }
 
-    @Override
     public void unsetPhoneService() {
         this.phoneService = new NullITelServiceSDS(this.lc);
     }
 
-    @Override
     public void setPhoneSpeller(byte by, String string, boolean bl) {
-        this.lc.log(-2137614336, "PhoneSDSHandlerImpl#setPhoneSpeller: type=%3, value=%1, clearAndMatchSequence=%2", (Object)string, (Object)bl, (long)by);
+        this.lc.log(10000000, "PhoneSDSHandlerImpl#setPhoneSpeller: type=%3, value=%1, clearAndMatchSequence=%2", (Object)string, (Object)bl, (long)by);
         switch (by) {
             case 0: {
                 this.phoneService.setNumberSpeller(string);
@@ -258,7 +242,7 @@ ITelServiceSDSListener {
                 break;
             }
             default: {
-                this.lc.log(-1601830656, "PhoneSDSHandlerImpl#setPhoneSpeller: Unhandled type %1!", (long)by);
+                this.lc.log(100000, "PhoneSDSHandlerImpl#setPhoneSpeller: Unhandled type %1!", (long)by);
                 return;
             }
         }
@@ -269,215 +253,195 @@ ITelServiceSDSListener {
         this.sequenceHandler.matchTextWithSequence(string, by);
     }
 
-    @Override
     public int getCallStackLength() {
         return SDSUtils.isEmpty(this.csEntries) ? 0 : this.csEntries.length;
     }
 
-    @Override
     public int getFavoritesLength() {
         return SDSUtils.isEmpty(this.favEntries) ? 0 : this.favEntries.length;
     }
 
-    @Override
     public String getCallStackNumber(int n) {
-        this.lc.log(-2137614336, "PhoneSDSHandlerImpl#getCallStackNumber: csIndex=%1", (long)n);
+        this.lc.log(10000000, "PhoneSDSHandlerImpl#getCallStackNumber: csIndex=%1", (long)n);
         if (n < 0 || n >= this.csEntries.length) {
-            this.lc.log(-1601830656, "PhoneSDSHandlerImpl#getCallStackNumber: Unhandled csIndex %1!", (long)n);
+            this.lc.log(100000, "PhoneSDSHandlerImpl#getCallStackNumber: Unhandled csIndex %1!", (long)n);
             return "";
         }
         return this.csEntries[n].getNumber();
     }
 
-    @Override
     public long getCallStackAdbId(int n) {
-        this.lc.log(-2137614336, "PhoneSDSHandlerImpl#getCallStackAdbId: csIndex=%1", (long)n);
+        this.lc.log(10000000, "PhoneSDSHandlerImpl#getCallStackAdbId: csIndex=%1", (long)n);
         if (n < 0 || n >= this.csEntries.length) {
-            this.lc.log(-1601830656, "PhoneSDSHandlerImpl#getCallStackAdbId: Unhandled csIndex %1!", (long)n);
+            this.lc.log(100000, "PhoneSDSHandlerImpl#getCallStackAdbId: Unhandled csIndex %1!", (long)n);
             return -1L;
         }
         return this.csEntries[n].getAdbEntryID();
     }
 
-    @Override
     public short getCallStackPhoneType(int n) {
-        this.lc.log(-2137614336, "PhoneSDSHandlerImpl#getCallStackPhoneType: csIndex=%1", (long)n);
+        this.lc.log(10000000, "PhoneSDSHandlerImpl#getCallStackPhoneType: csIndex=%1", (long)n);
         if (n < 0 || n >= this.csEntries.length) {
-            this.lc.log(-1601830656, "PhoneSDSHandlerImpl#getCallStackPhoneType: Unhandled csIndex %1!", (long)n);
+            this.lc.log(100000, "PhoneSDSHandlerImpl#getCallStackPhoneType: Unhandled csIndex %1!", (long)n);
             return -1;
         }
         return this.csEntries[n].getPhoneType();
     }
 
-    @Override
     public int getCallStackIndexById(long l) {
-        this.lc.log(-2137614336, "PhoneSDSHandlerImpl#getCallStackIndexById: csID=%1", l);
+        this.lc.log(10000000, "PhoneSDSHandlerImpl#getCallStackIndexById: csID=%1", l);
         if (SDSUtils.isEmpty(this.csEntries)) {
-            this.lc.log(-1601830656, "PhoneSDSHandlerImpl#getCallStackIndexById: No csEntries!");
+            this.lc.log(100000, "PhoneSDSHandlerImpl#getCallStackIndexById: No csEntries!");
             return -1;
         }
         int n = this.csEntries.length;
         for (int i2 = 0; i2 < n; ++i2) {
             TelServiceCallStackEntry telServiceCallStackEntry = this.csEntries[i2];
             if (telServiceCallStackEntry == null) {
-                this.lc.log(-2137614336, "PhoneSDSHandlerImpl#getCallStackIndexById: entry #%1 is null!", (long)i2);
+                this.lc.log(10000000, "PhoneSDSHandlerImpl#getCallStackIndexById: entry #%1 is null!", (long)i2);
                 continue;
             }
-            this.lc.log(-2137614336, "PhoneSDSHandlerImpl#getCallStackIndexById: name[%2]=%1!", (Object)telServiceCallStackEntry.getName(), (long)i2);
-            this.lc.log(-2137614336, "PhoneSDSHandlerImpl#getCallStackIndexById: entryID[%1]=%2, adbID[%1]=%3!", (long)i2, (long)telServiceCallStackEntry.getClEntryID(), telServiceCallStackEntry.getAdbEntryID());
+            this.lc.log(10000000, "PhoneSDSHandlerImpl#getCallStackIndexById: name[%2]=%1!", (Object)telServiceCallStackEntry.getName(), (long)i2);
+            this.lc.log(10000000, "PhoneSDSHandlerImpl#getCallStackIndexById: entryID[%1]=%2, adbID[%1]=%3!", (long)i2, (long)telServiceCallStackEntry.getClEntryID(), telServiceCallStackEntry.getAdbEntryID());
             if ((long)telServiceCallStackEntry.getClEntryID() != l) continue;
             return i2;
         }
         return -1;
     }
 
-    @Override
     public int getCallStackIndexByADBId(long l) {
-        this.lc.log(-2137614336, "PhoneSDSHandlerImpl#getCallStackIndexByADBId: adbID=%1", l);
+        this.lc.log(10000000, "PhoneSDSHandlerImpl#getCallStackIndexByADBId: adbID=%1", l);
         if (SDSUtils.isEmpty(this.csEntries)) {
-            this.lc.log(-1601830656, "PhoneSDSHandlerImpl#getCallStackIndexByADBId: No csEntries!");
+            this.lc.log(100000, "PhoneSDSHandlerImpl#getCallStackIndexByADBId: No csEntries!");
             return -1;
         }
         int n = this.csEntries.length;
         for (int i2 = 0; i2 < n; ++i2) {
             TelServiceCallStackEntry telServiceCallStackEntry = this.csEntries[i2];
             if (telServiceCallStackEntry == null) {
-                this.lc.log(-2137614336, "PhoneSDSHandlerImpl#getCallStackIndexByADBId: entry #%1 is null!", (long)i2);
+                this.lc.log(10000000, "PhoneSDSHandlerImpl#getCallStackIndexByADBId: entry #%1 is null!", (long)i2);
                 continue;
             }
-            this.lc.log(-2137614336, "PhoneSDSHandlerImpl#getCallStackIndexByADBId: name[%2]=%1!", (Object)telServiceCallStackEntry.getName(), (long)i2);
+            this.lc.log(10000000, "PhoneSDSHandlerImpl#getCallStackIndexByADBId: name[%2]=%1!", (Object)telServiceCallStackEntry.getName(), (long)i2);
             long l2 = telServiceCallStackEntry.getAdbEntryID();
-            this.lc.log(-2137614336, "PhoneSDSHandlerImpl#getCallStackIndexByADBId: entryID[%1]=%2, adbID[%1]=%3!", (long)i2, (long)telServiceCallStackEntry.getClEntryID(), l2);
+            this.lc.log(10000000, "PhoneSDSHandlerImpl#getCallStackIndexByADBId: entryID[%1]=%2, adbID[%1]=%3!", (long)i2, (long)telServiceCallStackEntry.getClEntryID(), l2);
             if (l2 != l) continue;
             return i2;
         }
         return -1;
     }
 
-    @Override
     public String getCallStackName(int n) {
         if (n < 0 || n >= this.csEntries.length) {
-            this.lc.log(-1601830656, "PhoneSDSHandlerImpl#getCallStackName: Unhandled csIndex %1!", (long)n);
+            this.lc.log(100000, "PhoneSDSHandlerImpl#getCallStackName: Unhandled csIndex %1!", (long)n);
             return "";
         }
-        this.lc.log(-2137614336, "PhoneSDSHandlerImpl#getCallStackName, index=%2: %1!", (Object)this.csEntries[n].toString(), (long)n);
+        this.lc.log(10000000, "PhoneSDSHandlerImpl#getCallStackName, index=%2: %1!", (Object)this.csEntries[n].toString(), (long)n);
         return this.csEntries[n].getName();
     }
 
-    @Override
     public String getFavoriteNumber(int n) {
         if (n < 0 || n >= this.favEntries.length) {
-            this.lc.log(-1601830656, "PhoneSDSHandlerImpl#getFavoriteNumber: Unhandled favIndex %1!", (long)n);
+            this.lc.log(100000, "PhoneSDSHandlerImpl#getFavoriteNumber: Unhandled favIndex %1!", (long)n);
             return "";
         }
         return this.favEntries[n].getNumber();
     }
 
-    @Override
     public String getFavoriteName(int n) {
         if (n < 0 || n >= this.favEntries.length) {
-            this.lc.log(-1601830656, "PhoneSDSHandlerImpl#getFavoriteNumber: Unhandled favIndex %1!", (long)n);
+            this.lc.log(100000, "PhoneSDSHandlerImpl#getFavoriteNumber: Unhandled favIndex %1!", (long)n);
             return "";
         }
         return this.favEntries[n].getName();
     }
 
-    @Override
     public int getFavoriteIndexById(long l) {
-        this.lc.log(-2137614336, "PhoneSDSHandlerImpl#getFavoriteIndexById(%1) called", l);
+        this.lc.log(10000000, "PhoneSDSHandlerImpl#getFavoriteIndexById(%1) called", l);
         if (SDSUtils.isEmpty(this.favEntries)) {
-            this.lc.log(-2137614336, "PhoneSDSHandlerImpl#getFavoriteIndexById(), no csEntries");
+            this.lc.log(10000000, "PhoneSDSHandlerImpl#getFavoriteIndexById(), no csEntries");
             return -1;
         }
         int n = this.favEntries.length;
         for (int i2 = 0; i2 < n; ++i2) {
-            ITelServiceSDSListener$TelFavoriteSDSListEntry iTelServiceSDSListener$TelFavoriteSDSListEntry = this.favEntries[i2];
-            if (iTelServiceSDSListener$TelFavoriteSDSListEntry == null) {
-                this.lc.log(-2137614336, "PhoneSDSHandlerImpl#getFavoriteIndexById() entry %1 = null", (long)i2);
+            ITelServiceSDSListener.TelFavoriteSDSListEntry telFavoriteSDSListEntry = this.favEntries[i2];
+            if (telFavoriteSDSListEntry == null) {
+                this.lc.log(10000000, "PhoneSDSHandlerImpl#getFavoriteIndexById() entry %1 = null", (long)i2);
                 continue;
             }
-            this.lc.log(-2137614336, "PhoneSDSHandlerImpl#getFavoriteIndexById() entry %2, name = %1, id = %3", (Object)iTelServiceSDSListener$TelFavoriteSDSListEntry.getName(), (long)i2, iTelServiceSDSListener$TelFavoriteSDSListEntry.getId());
-            if (iTelServiceSDSListener$TelFavoriteSDSListEntry.getId() != l) continue;
+            this.lc.log(10000000, "PhoneSDSHandlerImpl#getFavoriteIndexById() entry %2, name = %1, id = %3", (Object)telFavoriteSDSListEntry.getName(), (long)i2, telFavoriteSDSListEntry.getId());
+            if (telFavoriteSDSListEntry.getId() != l) continue;
             return i2;
         }
         return -1;
     }
 
-    @Override
     public void pauseSDS() {
         boolean bl = Boolean.getBoolean("sdsPauseActive");
-        this.lc.log(-2137614336, "PhoneSDSHandlerImpl#pauseSDS: sdsPauseActive=%1", bl);
+        this.lc.log(10000000, "PhoneSDSHandlerImpl#pauseSDS: sdsPauseActive=%1", bl);
         if (!bl) {
-            this.lc.log(-2137614336, "PhoneSDSHandlerImpl#pauseSDS: Pause deactivated, ignoring pauseSDS!");
+            this.lc.log(10000000, "PhoneSDSHandlerImpl#pauseSDS: Pause deactivated, ignoring pauseSDS!");
             return;
         }
         if (this.sdsHandlerService.isSDSPaused()) {
-            this.lc.log(-2137614336, "PhoneSDSHandlerImpl#pauseSDS: Already paused -> NOP!");
+            this.lc.log(10000000, "PhoneSDSHandlerImpl#pauseSDS: Already paused -> NOP!");
             return;
         }
-        this.lc.log(-2137614336, "PhoneSDSHandlerImpl#pauseSDS: Pause activated, sending SDS_PAUSE!");
+        this.lc.log(10000000, "PhoneSDSHandlerImpl#pauseSDS: Pause activated, sending SDS_PAUSE!");
         this.sdsHandlerService.sendEvent(2);
     }
 
-    @Override
     public void resumeSDS(boolean bl) {
-        this.lc.log(-2137614336, "PhoneSDSHandlerImpl#resumeSDS: triggeredByUser=%1", bl);
+        this.lc.log(10000000, "PhoneSDSHandlerImpl#resumeSDS: triggeredByUser=%1", bl);
         if (!this.sdsHandlerService.isSDSPaused()) {
-            this.lc.log(-1601830656, "PhoneSDSHandlerImpl#resumeSDS: SDS not paused => NOP!");
+            this.lc.log(100000, "PhoneSDSHandlerImpl#resumeSDS: SDS not paused => NOP!");
             return;
         }
         this.sdsHandlerService.sendResumeEvent(bl);
     }
 
-    @Override
     public void switchEntertainment(boolean bl) {
-        this.lc.log(-2137614336, "PhoneSDSHandlerImpl#switchEntertainment: switchOn=%1", bl);
+        this.lc.log(10000000, "PhoneSDSHandlerImpl#switchEntertainment: switchOn=%1", bl);
         this.sdsHandlerService.switchEntertainment(bl);
     }
 
-    @Override
     public void phoneStateChanged() {
-        this.lc.log(-2137614336, "PhoneSDSHandlerImpl#phoneStateChanged: called");
+        this.lc.log(10000000, "PhoneSDSHandlerImpl#phoneStateChanged: called");
         this.sdsHandlerService.sendEvent(1008);
     }
 
-    @Override
     public void favoritesListSelected(int n, boolean bl) {
-        this.lc.log(-2137614336, "PhoneSDSHandlerImpl#favoritesListSelected: called");
+        this.lc.log(10000000, "PhoneSDSHandlerImpl#favoritesListSelected: called");
     }
 
-    @Override
     public void dialNumberResponse(int n) {
-        this.lc.log(-2137614336, "PhoneSDSHandlerImpl#dialNumberResponse: result=%1", (long)n);
+        this.lc.log(10000000, "PhoneSDSHandlerImpl#dialNumberResponse: result=%1", (long)n);
         AbstractSystemCallCommand abstractSystemCallCommand = SDSUtils.getActiveSystemCall();
         if (abstractSystemCallCommand instanceof AbstractPhoneCallCommand) {
             ((AbstractPhoneCallCommand)abstractSystemCallCommand).dialNumberResponse(n);
         } else {
-            this.lc.log(-1601830656, "PhoneSDSHandlerImpl#dialNumberResponse: Call response not found!");
+            this.lc.log(100000, "PhoneSDSHandlerImpl#dialNumberResponse: Call response not found!");
         }
     }
 
-    @Override
     public void unlockSIMResponse(int n) {
     }
 
-    @Override
     public void setMailboxResponse(int n) {
     }
 
-    @Override
     public void updateCallStacks(TelServiceCallStackEntry[] telServiceCallStackEntryArray) {
-        this.lc.log(-2137614336, "PhoneSDSHandlerImpl#updateCallStacks: called");
+        this.lc.log(10000000, "PhoneSDSHandlerImpl#updateCallStacks: called");
         this.csEntries = telServiceCallStackEntryArray == null ? new TelServiceCallStackEntry[]{} : telServiceCallStackEntryArray;
         int n = this.csEntries.length;
-        this.lc.log(-2137614336, "PhoneSDSHandlerImpl#updateCallStacks: len=%1!", (long)n);
+        this.lc.log(10000000, "PhoneSDSHandlerImpl#updateCallStacks: len=%1!", (long)n);
         HashSet hashSet = new HashSet();
         boolean bl = false;
         this.adbToCallStackMapping.clear();
         for (int i2 = 0; i2 < n; ++i2) {
             TelServiceCallStackEntry telServiceCallStackEntry = this.csEntries[i2];
             if (telServiceCallStackEntry == null) {
-                this.lc.log(-1601830656, "PhoneSDSHandlerImpl#updateCallStacks: Empty csEntries[%1]!", (long)i2);
+                this.lc.log(100000, "PhoneSDSHandlerImpl#updateCallStacks: Empty csEntries[%1]!", (long)i2);
                 continue;
             }
             long l = telServiceCallStackEntry.getAdbEntryID();
@@ -486,7 +450,7 @@ ITelServiceSDSListener {
             this.adbToCallStackMapping.put(new Long(l), sDSListEntry);
             int n2 = 1;
             if (hashSet.size() > Const.CALLSTACK_ENTRY_LIMIT) {
-                this.lc.log(-2137614336, "PhoneSDSHandlerImpl#updateCallStacks: Limit (%1) for entries is reached!", (long)Const.CALLSTACK_ENTRY_LIMIT);
+                this.lc.log(10000000, "PhoneSDSHandlerImpl#updateCallStacks: Limit (%1) for entries is reached!", (long)Const.CALLSTACK_ENTRY_LIMIT);
                 hashSet.add(sDSListEntry);
                 n2 = 0;
             } else if (hashSet.size() > Const.CALLSTACK_ENTRY_LIMIT / 2) {
@@ -501,15 +465,14 @@ ITelServiceSDSListener {
             bl = true;
         }
         SDSListEntry[] sDSListEntryArray = (SDSListEntry[])hashSet.toArray(new SDSListEntry[hashSet.size()]);
-        this.lc.log(-2137614336, "PhoneSDSHandlerImpl#updateCallStacks: isMixedList=%1!", bl);
+        this.lc.log(10000000, "PhoneSDSHandlerImpl#updateCallStacks: isMixedList=%1!", bl);
         SDSModelAccess.setPhoneCallStackContentModel(bl ? 1 : 0);
         this.dynamicLists.addToLookup(31, new DynamicSlotContent("phone call stack entries", sDSListEntryArray, 0));
     }
 
-    @Override
-    public void updateFavorites(ITelServiceSDSListener$TelFavoriteSDSListEntry[] iTelServiceSDSListener$TelFavoriteSDSListEntryArray) {
-        this.lc.log(-2137614336, "PhoneSDSHandlerImpl#updateFavorites: called");
-        this.favEntries = iTelServiceSDSListener$TelFavoriteSDSListEntryArray == null ? new ITelServiceSDSListener$TelFavoriteSDSListEntry[]{} : iTelServiceSDSListener$TelFavoriteSDSListEntryArray;
+    public void updateFavorites(ITelServiceSDSListener.TelFavoriteSDSListEntry[] telFavoriteSDSListEntryArray) {
+        this.lc.log(10000000, "PhoneSDSHandlerImpl#updateFavorites: called");
+        this.favEntries = telFavoriteSDSListEntryArray == null ? new ITelServiceSDSListener.TelFavoriteSDSListEntry[]{} : telFavoriteSDSListEntryArray;
         switch (this.favEntries.length) {
             case 0: {
                 SDSModelAccess.setPhoneFavoritesChoice(0);
@@ -523,7 +486,7 @@ ITelServiceSDSListener {
                 SDSModelAccess.setPhoneFavoritesChoice(2);
             }
         }
-        this.lc.log(-2137614336, "PhoneSDSHandlerImpl#updateFavorites, length=%1", (long)this.favEntries.length);
+        this.lc.log(10000000, "PhoneSDSHandlerImpl#updateFavorites, length=%1", (long)this.favEntries.length);
         this.dynamicLists.addToLookup(32, new DynamicSlotContent("phone favorites", this.favEntries, 0));
     }
 

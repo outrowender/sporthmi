@@ -8,7 +8,6 @@ import de.audi.app.testsupport.TestSupportBemProvListHandler;
 import de.audi.app.testsupport.TestSupportIDGenerator;
 import de.audi.app.testsupport.TestSupportOSOHandler;
 import de.audi.app.testsupport.TestSupportSession;
-import de.audi.app.testsupport.TestSupportSessionHandler$1;
 import de.audi.app.testsupport.TestSupportStartupSettingsReader;
 import de.audi.atip.base.IFrameworkAccess;
 import de.audi.atip.job.JobLogger;
@@ -64,35 +63,41 @@ implements ITestSupportSessionHandler {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     protected ITestSupportSession registerDataProvider(ITestSupportDataProvider iTestSupportDataProvider) {
-        this.logChannel.log(1078071040, "[TestSupportSessionHandler#registerDataProvider] provider '%1' has registered", (Object)iTestSupportDataProvider.getDataProviderName());
+        this.logChannel.log(1000000, "[TestSupportSessionHandler#registerDataProvider] provider '%1' has registered", (Object)iTestSupportDataProvider.getDataProviderName());
         Object object = this.mutex;
         synchronized (object) {
-            int n = this.idGenerator.getID();
-            this.logChannel.log(1078071040, "[TestSupportSessionHandler#registerDataProvider] using Session-ID '%2' for provider '%1' internally", (Object)iTestSupportDataProvider.getDataProviderName(), (long)n);
+            final int n = this.idGenerator.getID();
+            this.logChannel.log(1000000, "[TestSupportSessionHandler#registerDataProvider] using Session-ID '%2' for provider '%1' internally", (Object)iTestSupportDataProvider.getDataProviderName(), (long)n);
             TestSupportSession testSupportSession = (TestSupportSession)this.registeredProviders.get(new Integer(n));
             if (testSupportSession != null) {
-                this.logChannel.log(-1601830656, "[TestSupportSessionHandler#registerDataProvider] provider '%1' already registered", (long)n);
+                this.logChannel.log(100000, "[TestSupportSessionHandler#registerDataProvider] provider '%1' already registered", (long)n);
                 return testSupportSession;
             }
-            TestSupportSession testSupportSession2 = new TestSupportSession(iTestSupportDataProvider, this, this.logChannel, n);
+            final TestSupportSession testSupportSession2 = new TestSupportSession(iTestSupportDataProvider, this, this.logChannel, n);
             this.registeredProviders.put(new Integer(n), testSupportSession2);
             if (this.settingsReader.isActive(iTestSupportDataProvider.getDataProviderName())) {
-                this.logChannel.log(1078071040, "[TestSupportSessionHandler#registerDataProvider] the provider '%1' with name '%2' is set to be started via VM parameter", (Object)Integer.toString(n), (Object)iTestSupportDataProvider.getDataProviderName());
-                this.jobDispatcher.execute(new TestSupportSessionHandler$1(this, n, testSupportSession2));
+                this.logChannel.log(1000000, "[TestSupportSessionHandler#registerDataProvider] the provider '%1' with name '%2' is set to be started via VM parameter", (Object)Integer.toString(n), (Object)iTestSupportDataProvider.getDataProviderName());
+                this.jobDispatcher.execute(new Runnable(){
+
+                    public void run() {
+                        TestSupportSessionHandler.this.logChannel.log(1000000, "[TestSupportSessionHandler#registerDataProvider] JOB: setting state of provider '%1' to OSO_VISIBLE, started by VM Parameter", (long)n);
+                        testSupportSession2.setStatus(3);
+                    }
+                });
             }
             return testSupportSession2;
         }
     }
 
     protected void deRegisterDataProvider(ITestSupportDataProvider iTestSupportDataProvider) {
-        this.logChannel.log(1078071040, "[TestSupportSessionHandler#registerDataProvider] provider '%1' has de-registered", (Object)iTestSupportDataProvider.getDataProviderName());
+        this.logChannel.log(1000000, "[TestSupportSessionHandler#registerDataProvider] provider '%1' has de-registered", (Object)iTestSupportDataProvider.getDataProviderName());
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     protected void updateOSOStatus(int n) {
-        this.logChannel.log(1078071040, "[TestSupportSessionHandler#updateOSOStatus] providerID='%1'", (long)n);
+        this.logChannel.log(1000000, "[TestSupportSessionHandler#updateOSOStatus] providerID='%1'", (long)n);
         Object object = this.mutex;
         synchronized (object) {
             this.osoHandler.updateData(n);
@@ -123,9 +128,8 @@ implements ITestSupportSessionHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateData(TestSupportSession testSupportSession) {
-        this.logChannel.log(1078071040, "[TestSupportSessionHandler#updateData] providerID='%1', status='%2'", (long)testSupportSession.getID(), (long)testSupportSession.getStatus());
+        this.logChannel.log(1000000, "[TestSupportSessionHandler#updateData] providerID='%1', status='%2'", (long)testSupportSession.getID(), (long)testSupportSession.getStatus());
         Object object = this.mutex;
         synchronized (object) {
             this.bemHandler.updateData(testSupportSession.getID());
@@ -138,9 +142,8 @@ implements ITestSupportSessionHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void activateMenuEntry(TestSupportSession testSupportSession, boolean bl) {
-        this.logChannel.log(1078071040, "[TestSupportSessionHandler#updateData] providerID='%2', activate='%1'", (Object)Boolean.toString(bl), (long)testSupportSession.getID());
+        this.logChannel.log(1000000, "[TestSupportSessionHandler#updateData] providerID='%2', activate='%1'", (Object)Boolean.toString(bl), (long)testSupportSession.getID());
         Object object = this.mutex;
         synchronized (object) {
             if (bl) {
@@ -152,20 +155,14 @@ implements ITestSupportSessionHandler {
         }
     }
 
-    @Override
     public void flashText(String string, long l) {
-        this.logChannel.log(1078071040, "[TestSupportSessionHandler#flashText] text='%1', time='%2'", (Object)string, l);
+        this.logChannel.log(1000000, "[TestSupportSessionHandler#flashText] text='%1', time='%2'", (Object)string, l);
         this.bemHandler.getFramework().getHMIService().showVisualFeedback(l, string, 0);
     }
 
-    @Override
     public void flashScreen() {
-        this.logChannel.log(1078071040, "[TestSupportSessionHandler#flashScreen]");
-        this.bemHandler.getFramework().getHMIService().showVisualFeedback(0, null, 0);
-    }
-
-    static /* synthetic */ LogChannel access$000(TestSupportSessionHandler testSupportSessionHandler) {
-        return testSupportSessionHandler.logChannel;
+        this.logChannel.log(1000000, "[TestSupportSessionHandler#flashScreen]");
+        this.bemHandler.getFramework().getHMIService().showVisualFeedback(1000L, null, 0);
     }
 }
 

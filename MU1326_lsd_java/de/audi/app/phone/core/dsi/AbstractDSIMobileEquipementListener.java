@@ -39,7 +39,7 @@ import org.dsi.ifc.telephoneng.SuppServiceResponseStruct;
 public abstract class AbstractDSIMobileEquipementListener
 extends AbstractPhoneComponent
 implements ICommandResponseSupplier {
-    private static final int SIGNAL_QUALITY_UNKNOWN;
+    private static final int SIGNAL_QUALITY_UNKNOWN = 255;
     protected ActivationStateStruct activationState;
     protected boolean automaticPinEntryActive;
     protected boolean automaticRedialActive;
@@ -101,13 +101,13 @@ implements ICommandResponseSupplier {
     protected final Object mutex = new Object();
     protected final int instanceID;
     protected final CallState callState;
-    protected int deviceRole = 65535;
+    protected int deviceRole = -65536;
     private boolean isNadInstance;
 
     public AbstractDSIMobileEquipementListener(ITelApplication iTelApplication, CommandListManager commandListManager, LogChannel logChannel, int n) {
         super(iTelApplication, "App.Phone.DSI");
         if (iTelApplication.getFrameworkAccess().getSysConstManager().getSysConst(463) == 0) {
-            this.log.log(1078071040, "AbstractDSIMobileEquipementListener#GlobalTelephoneState(): no nad available, setting nad mode to voice and data.");
+            this.log.log(1000000, "AbstractDSIMobileEquipementListener#GlobalTelephoneState(): no nad available, setting nad mode to voice and data.");
             this.nadMode = 1;
         }
         this.commandListManager = commandListManager;
@@ -137,12 +137,10 @@ implements ICommandResponseSupplier {
         }
     }
 
-    @Override
     public DSIListener getDSIDefaultHandler() {
         return this.defaultListener;
     }
 
-    @Override
     public LogChannel getLogChannel() {
         return this.cmdListLogChannel;
     }
@@ -184,7 +182,7 @@ implements ICommandResponseSupplier {
 
     protected int getLogLevelFromRole() {
         int n = this.deviceRole;
-        return n == 512 || n == 768 || n == 256 ? 1078071040 : -2137614336;
+        return n == 131072 || n == 196608 || n == 65536 ? 1000000 : 10000000;
     }
 }
 

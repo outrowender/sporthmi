@@ -68,7 +68,7 @@ public class HandshakeHandler {
         return this.shouldHandshake;
     }
 
-    public synchronized void run() {
+    public synchronized void run() throws IOException {
         this.beginHandshakeSequence();
         long l = this.socket.getTimeoutLength();
         l = l < 1L ? -1L : (l += System.currentTimeMillis());
@@ -89,7 +89,7 @@ public class HandshakeHandler {
         catch (IOException iOException) {}
     }
 
-    private void beginHandshakeSequence() {
+    private void beginHandshakeSequence() throws IOException {
         this.isHandshaking = true;
         this.pendingSession = this.context.getSession(this.socket.getHostName());
         if (this.pendingSession == null || this.pendingSession.getSessionID() == null || this.pendingSession.getSessionID().length == 0) {
@@ -105,7 +105,7 @@ public class HandshakeHandler {
         this.pendingConnection.setSessionState(this.pendingSession);
         this.shaMessageHash.reset();
         this.md5MessageHash.reset();
-        byte[] byArray = Util.getBytes(System.currentTimeMillis() / 0, 4);
+        byte[] byArray = Util.getBytes(System.currentTimeMillis() / 1000L, 4);
         byte[] byArray2 = new byte[28];
         this.context.getRandomBytes(byArray2);
         this.pendingConnection.clientRandom = Util.concatenate(byArray, byArray2);
@@ -135,13 +135,13 @@ public class HandshakeHandler {
         return this.inputQueue.getSize() > 0;
     }
 
-    public void processQueuedMessages() {
+    public void processQueuedMessages() throws IOException {
         while (this.hasQueuedMessages()) {
             this.processNextMessage();
         }
     }
 
-    private void processNextMessage() {
+    private void processNextMessage() throws IOException {
         HandshakeMessage handshakeMessage = new HandshakeMessage(this.inputQueue.getReadStream());
         if (handshakeMessage.type != 0 && handshakeMessage.type != 20) {
             this.updateMessagesHash(handshakeMessage);
@@ -181,7 +181,7 @@ public class HandshakeHandler {
         }
     }
 
-    private void sendMessage(byte by) {
+    private void sendMessage(byte by) throws IOException {
         HandshakeMessage handshakeMessage = new HandshakeMessage();
         handshakeMessage.type = by;
         switch (by) {
@@ -209,19 +209,19 @@ public class HandshakeHandler {
         this.outputQueue.getWriteStream().write(handshakeMessage.toByteArray());
     }
 
-    private void processHelloRequest(HandshakeMessage handshakeMessage) {
+    private void processHelloRequest(HandshakeMessage handshakeMessage) throws IOException {
         if (!this.isHandshaking) {
             this.sendMessage((byte)1);
             this.flushMessages();
         }
     }
 
-    private byte[] generateClientHelloData() {
+    private byte[] generateClientHelloData() throws IOException {
         ClientHello clientHello = new ClientHello(this.socket, this.pendingConnection.clientRandom, this.pendingSession.getSessionID(), new byte[1]);
         return clientHello.toByteArray();
     }
 
-    private byte[] generateClientCertificateData() {
+    private byte[] generateClientCertificateData() throws IOException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         X509Certificate[] x509CertificateArray = this.context.getClientCertificateChain(this.clientAlias);
         byteArrayOutputStream.write(Util.getBytes((long)x509CertificateArray.length, 3));
@@ -240,7 +240,7 @@ public class HandshakeHandler {
         return byteArrayOutputStream.toByteArray();
     }
 
-    private byte[] generateCertificateVerifyData() {
+    private byte[] generateCertificateVerifyData() throws IOException {
         byte[] byArray = this.computeFinishedMD5Hash(new byte[0]);
         byte[] byArray2 = this.computeFinishedSHAHash(new byte[0]);
         byte[] byArray3 = Util.concatenate(byArray, byArray2);
@@ -263,7 +263,7 @@ public class HandshakeHandler {
         return false;
     }
 
-    private void processServerHello(HandshakeMessage handshakeMessage) {
+    private void processServerHello(HandshakeMessage handshakeMessage) throws IOException {
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(handshakeMessage.rawData);
         byte[] byArray = new byte[2];
         byteArrayInputStream.read(byArray);
@@ -296,7 +296,7 @@ public class HandshakeHandler {
         }
     }
 
-    private void processCertificate(HandshakeMessage handshakeMessage) {
+    private void processCertificate(HandshakeMessage handshakeMessage) throws IOException {
         Vector vector = new Vector();
         int n = 0;
         n += 3;
@@ -331,7 +331,7 @@ public class HandshakeHandler {
         this.pendingSession.setPeerCertificates(vector);
     }
 
-    private void processServerKeyExchange(HandshakeMessage handshakeMessage) {
+    private void processServerKeyExchange(HandshakeMessage handshakeMessage) throws IOException {
         if (handshakeMessage.rawData == null || handshakeMessage.rawData.length < 3) {
             return;
         }
@@ -354,7 +354,7 @@ public class HandshakeHandler {
         this.tempKey = new RSAPublicKey(bigInteger, bigInteger2);
     }
 
-    private void processCertificateRequest(HandshakeMessage handshakeMessage) {
+    private void processCertificateRequest(HandshakeMessage handshakeMessage) throws IOException {
         this.clientCertificateRequested = true;
         this.clientAlias = null;
         if (handshakeMessage.rawData == null || handshakeMessage.rawData.length < 4) {
@@ -397,7 +397,7 @@ public class HandshakeHandler {
         return "unknown";
     }
 
-    private void processServerHelloDone(HandshakeMessage handshakeMessage) {
+    private void processServerHelloDone(HandshakeMessage handshakeMessage) throws IOException {
         if (!this.resumeSession) {
             this.generatePreMasterSecret();
             if (this.isTLS()) {
@@ -453,7 +453,7 @@ public class HandshakeHandler {
         this.pre_master_secret = Util.concatenate(this.pendingSession.getProtocolVersion(), byArray);
     }
 
-    private byte[] generateClientKeyExchangeData() {
+    private byte[] generateClientKeyExchangeData() throws IOException {
         X509CertImpl[] x509CertImplArray = this.pendingConnection.getSessionState().getPeerCertificates();
         if (x509CertImplArray == null || x509CertImplArray.length == 0) {
             throw new IOException(Msg.getString("K0196"));
@@ -473,7 +473,7 @@ public class HandshakeHandler {
         return this.pendingConnection.isTLS();
     }
 
-    private void processServerFinished(HandshakeMessage handshakeMessage) {
+    private void processServerFinished(HandshakeMessage handshakeMessage) throws IOException {
         if (this.isTLS()) {
             this.processTLSServerFinished(handshakeMessage);
         } else {
@@ -489,7 +489,7 @@ public class HandshakeHandler {
         this.isHandshaking = false;
     }
 
-    private void processTLSServerFinished(HandshakeMessage handshakeMessage) {
+    private void processTLSServerFinished(HandshakeMessage handshakeMessage) throws IOException {
         byte[] byArray = new byte[12];
         System.arraycopy((Object)handshakeMessage.rawData, 0, (Object)byArray, 0, 12);
         byte[] byArray2 = Util.concatenate(this.getMD5Hash(), this.getSHAHash());
@@ -506,7 +506,7 @@ public class HandshakeHandler {
         return byArray2;
     }
 
-    private void processSSLServerFinished(HandshakeMessage handshakeMessage) {
+    private void processSSLServerFinished(HandshakeMessage handshakeMessage) throws IOException {
         byte[] byArray = new byte[]{83, 82, 86, 82};
         byte[] byArray2 = new byte[16];
         System.arraycopy((Object)handshakeMessage.rawData, 0, (Object)byArray2, 0, 16);
@@ -581,7 +581,7 @@ public class HandshakeHandler {
         return null;
     }
 
-    private void flushMessages() {
+    private void flushMessages() throws IOException {
         byte[] byArray = new byte[this.outputQueue.getSize()];
         this.outputQueue.getReadStream().read(byArray);
         this.socket.writeData(byArray, 0, byArray.length, (byte)22);

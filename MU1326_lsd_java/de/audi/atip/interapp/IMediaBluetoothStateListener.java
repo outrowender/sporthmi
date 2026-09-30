@@ -4,19 +4,16 @@
 package de.audi.atip.interapp;
 
 public interface IMediaBluetoothStateListener {
-    public static final int STATE_BT_OFF;
-    public static final int STATE_A2DP_SETTING_OFF;
-    public static final int STATE_A2DP_CONNECTED;
-    public static final int STATE_A2DP_RECONNECTING;
-    public static final int STATE_A2DP_IDLE;
+    public static final int STATE_BT_OFF = 0;
+    public static final int STATE_A2DP_SETTING_OFF = 1;
+    public static final int STATE_A2DP_CONNECTED = 2;
+    public static final int STATE_A2DP_RECONNECTING = 3;
+    public static final int STATE_A2DP_IDLE = 4;
 
-    default public void updateBluetoothState(int n) {
-    }
+    public void updateBluetoothState(int var1);
 
-    default public void actionStarted() {
-    }
+    public void actionStarted();
 
-    default public void actionStopped() {
-    }
+    public void actionStopped();
 }
 

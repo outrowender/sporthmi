@@ -4,8 +4,8 @@
 package de.audi.app.media.content.media.data.search;
 
 public class MediaSearchUtils {
-    public static final int ENTRYTYPE_COMPOSER;
-    public static final int ENTRYTYPE_PODCAST;
+    public static final int ENTRYTYPE_COMPOSER = 13;
+    public static final int ENTRYTYPE_PODCAST = 14;
 
     public static int getContentType(int n) {
         switch (n) {

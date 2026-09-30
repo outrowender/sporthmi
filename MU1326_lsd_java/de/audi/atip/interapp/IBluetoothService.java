@@ -4,19 +4,14 @@
 package de.audi.atip.interapp;
 
 public interface IBluetoothService {
-    default public void activateBluetooth() {
-    }
+    public void activateBluetooth();
 
-    default public void activateBluetoothAudio() {
-    }
+    public void activateBluetoothAudio();
 
-    default public void deactivateBluetoothAudio() {
-    }
+    public void deactivateBluetoothAudio();
 
-    default public void connectService(String string, int n, String string2, boolean bl) {
-    }
+    public void connectService(String var1, int var2, String var3, boolean var4);
 
-    default public void disconnectService(String string, int n) {
-    }
+    public void disconnectService(String var1, int var2);
 }
 

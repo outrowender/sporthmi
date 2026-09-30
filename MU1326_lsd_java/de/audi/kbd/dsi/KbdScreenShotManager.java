@@ -15,12 +15,12 @@ import java.util.Date;
 import java.util.Iterator;
 
 public class KbdScreenShotManager {
-    private static final int MAX_SCREEN_SHOTS_PROD;
-    private static final int MAX_SCREEN_SHOTS_DEV;
-    private static final String SCREENSHOT_PROPERTY;
-    private static final String DEFAULT_SCREENSHOT_DIRECTORY;
-    private static final String SCREEN_SHOT_NAME;
-    private static final String SCREEN_SHOT_EXTENSION;
+    private static final int MAX_SCREEN_SHOTS_PROD = 50;
+    private static final int MAX_SCREEN_SHOTS_DEV = 200;
+    private static final String SCREENSHOT_PROPERTY = "ErrorDumpDir";
+    private static final String DEFAULT_SCREENSHOT_DIRECTORY = "/mnt/ota/system/logs";
+    private static final String SCREEN_SHOT_NAME = "ScreenShot";
+    private static final String SCREEN_SHOT_EXTENSION = ".png";
     private final SimpleDateFormat timestampFormatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
     private final IFrameworkAccess framework;
     private final LogChannel log;
@@ -30,7 +30,7 @@ public class KbdScreenShotManager {
     public KbdScreenShotManager(IFrameworkAccess iFrameworkAccess) {
         this.framework = iFrameworkAccess;
         this.log = iFrameworkAccess.getLogChannel("Fw.Kbd.ScreenShot");
-        this.screenShotDirectory = System.getProperty("ErrorDumpDir", "/mnt/ota/system/logs");
+        this.screenShotDirectory = System.getProperty(SCREENSHOT_PROPERTY, DEFAULT_SCREENSHOT_DIRECTORY);
         this.maxScreenShots = iFrameworkAccess.isPBuild() ? 50 : 200;
     }
 
@@ -39,17 +39,17 @@ public class KbdScreenShotManager {
     }
 
     public String doScreenShot() {
-        this.log.log(1078071040, "ScreenShotManager.doScreenShot()");
+        this.log.log(1000000, "ScreenShotManager.doScreenShot()");
         try {
             String string = this.getScreenshotName();
             if (string != null) {
-                this.log.log(1078071040, "ScreenShotManager.doScreenShot: Take screenshot! (name=%1)", (Object)string);
+                this.log.log(1000000, "ScreenShotManager.doScreenShot: Take screenshot! (name=%1)", (Object)string);
                 this.getFramework().getHMIService().takeScreenshot(0, string);
                 return string;
             }
         }
         catch (Exception exception) {
-            this.log.log(-1601830656, "ScreenShotManager.doScreenShot: An exception occurred!", (Throwable)exception);
+            this.log.log(100000, "ScreenShotManager.doScreenShot: An exception occurred!", (Throwable)exception);
         }
         return null;
     }
@@ -59,14 +59,14 @@ public class KbdScreenShotManager {
         if (string != null) {
             Buffer buffer = new Buffer(100);
             Date date = new Date(this.getFramework().getKombiTime());
-            this.log.log(-2137614336, "ScreenShotManager.getScreenshotName: Retrieved date! (date=%1)", (Object)date);
+            this.log.log(10000000, "ScreenShotManager.getScreenshotName: Retrieved date! (date=%1)", (Object)date);
             buffer.append(string);
-            buffer.append("ScreenShot");
+            buffer.append(SCREEN_SHOT_NAME);
             buffer.append('_');
             buffer.append(this.timestampFormatter.format(date));
             buffer.append('_');
             buffer.append(this.getScreenName());
-            buffer.append(".png");
+            buffer.append(SCREEN_SHOT_EXTENSION);
             return buffer.toString();
         }
         this.log.log(10000, "ScreenShotManager.getScreenshotName: No directory found! No screenshot will be created!");
@@ -106,19 +106,19 @@ public class KbdScreenShotManager {
             Iterator iterator = arrayList.iterator();
             while (iterator.hasNext()) {
                 if (n < this.maxScreenShots) {
-                    this.log.log(-2137614336, "ScreenShotManager.cleanScreenShotDirectory: The number of screenshots is smaller than the maximum (%2)! (count=%1)", (long)n, (long)this.maxScreenShots);
+                    this.log.log(10000000, "ScreenShotManager.cleanScreenShotDirectory: The number of screenshots is smaller than the maximum (%2)! (count=%1)", (long)n, (long)this.maxScreenShots);
                     break;
                 }
                 String string2 = (String)iterator.next();
-                this.log.log(1078071040, "ScreenShotManager.cleanScreenShotDirectory: Remove old file! (file=%1, count=%2)", (Object)string2, (long)n);
-                new File(new StringBuffer().append(string).append("/").append(string2).toString()).delete();
+                this.log.log(1000000, "ScreenShotManager.cleanScreenShotDirectory: Remove old file! (file=%1, count=%2)", (Object)string2, (long)n);
+                new File(string + "/" + string2).delete();
                 --n;
             }
         }
     }
 
     private boolean isScreenShotFile(String string) {
-        return string.startsWith("ScreenShot") && string.endsWith(".png");
+        return string.startsWith(SCREEN_SHOT_NAME) && string.endsWith(SCREEN_SHOT_EXTENSION);
     }
 }
 

@@ -8,12 +8,11 @@ import java.util.TreeSet;
 
 class SpeechTreeSet
 extends TreeSet {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 8504642794516615423L;
 
     protected SpeechTreeSet() {
     }
 
-    @Override
     public Object[] toArray(Object[] objectArray) {
         int n = objectArray.length;
         Iterator iterator = super.iterator();

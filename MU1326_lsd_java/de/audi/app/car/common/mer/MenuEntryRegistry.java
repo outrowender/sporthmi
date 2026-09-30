@@ -61,9 +61,8 @@ ITestSupportHandlerNotification {
         this.standstillMenuEntries = new ArrayList();
     }
 
-    @Override
     public void init() {
-        this.testSupportHandler = new TestSupportHandler(new StringBuffer().append(this.application.getApplicationName()).append(" - Menu Entries").toString(), true, false, this, this.application.getBundleContext(), this.application.getLogChannel());
+        this.testSupportHandler = new TestSupportHandler(this.application.getApplicationName() + " - Menu Entries", true, false, this, this.application.getBundleContext(), this.application.getLogChannel());
         this.testSupportHandler.init();
         Iterator iterator = this.menuStructure.getMenuEntries().values().iterator();
         while (iterator.hasNext()) {
@@ -75,7 +74,6 @@ ITestSupportHandlerNotification {
         this.application.getFrameworkAccess().getSysApp().registerStandStillListener(this);
     }
 
-    @Override
     public void deinit() {
         this.testSupportHandler.deinit();
         this.application.getPowerEventDispatcher().removePowerEventListener(this);
@@ -96,7 +94,6 @@ ITestSupportHandlerNotification {
         }
     }
 
-    @Override
     public Object getVehicleStatusDump() {
         Buffer buffer = new Buffer();
         buffer.append("Cl15:").append(this.isClamp15On ? "ON" : "OFF");
@@ -107,9 +104,8 @@ ITestSupportHandlerNotification {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public IMenuEntry registerMenuEntry(int n, short s) {
-        this.logChannel.log(1078071040, "[MenuEntryRegistry#registerMenuEntry] id=%1", (long)n);
+        this.logChannel.log(1000000, "[MenuEntryRegistry#registerMenuEntry] id=%1", (long)n);
         Integer n2 = new Integer(n);
         CarFuncAdap carFuncAdap = this.application.getCarMenuCoding();
         Object object = this.mutex;
@@ -117,16 +113,16 @@ ITestSupportHandlerNotification {
             this.ignoreTerminationNotification = true;
             IMenuEntry iMenuEntry = (IMenuEntry)this.menuStructure.getMenuEntries().get(n2);
             if (iMenuEntry == null) {
-                this.logChannel.log(-1601830656, "[MenuEntryRegistry#registerMenuEntry] Menu entry with id %1 is not in menu structure", (Object)n2);
+                this.logChannel.log(100000, "[MenuEntryRegistry#registerMenuEntry] Menu entry with id %1 is not in menu structure", (Object)n2);
             } else if (!carFuncAdap.isMenuDisplayActivated(s)) {
-                this.logChannel.log(-1601830656, "[MenuEntryRegistry#registerMenuEntry] Menu entry with id %1 (%2) is not coded", (Object)n2, (Object)iMenuEntry);
+                this.logChannel.log(100000, "[MenuEntryRegistry#registerMenuEntry] Menu entry with id %1 (%2) is not coded", (Object)n2, (Object)iMenuEntry);
             } else if (iMenuEntry.isRegistered()) {
-                this.logChannel.log(-1601830656, "[MenuEntryRegistry#registerMenuEntry] Menu entry with id %1 (%2) is already registered", (Object)n2, (Object)iMenuEntry);
+                this.logChannel.log(100000, "[MenuEntryRegistry#registerMenuEntry] Menu entry with id %1 (%2) is already registered", (Object)n2, (Object)iMenuEntry);
             } else if (!iMenuEntry.isRegistrable()) {
                 if (!iMenuEntry.isLeaf()) {
-                    this.logChannel.log(-1601830656, "[MenuEntryRegistry#registerMenuEntry] component is trying to register an entry %1 (%2), which is not a leaf in the structure; aborting", (Object)n2, (Object)iMenuEntry);
+                    this.logChannel.log(100000, "[MenuEntryRegistry#registerMenuEntry] component is trying to register an entry %1 (%2), which is not a leaf in the structure; aborting", (Object)n2, (Object)iMenuEntry);
                 } else {
-                    this.logChannel.log(-1601830656, "[MenuEntryRegistry#registerMenuEntry] Menu entry with id %1 (%2) is not registrable due to unknown reason", (Object)n2, (Object)iMenuEntry);
+                    this.logChannel.log(100000, "[MenuEntryRegistry#registerMenuEntry] Menu entry with id %1 (%2) is not registrable due to unknown reason", (Object)n2, (Object)iMenuEntry);
                 }
             } else {
                 iMenuEntry.register();
@@ -167,9 +163,8 @@ ITestSupportHandlerNotification {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void deregisterMenuEntry(int n) {
-        this.logChannel.log(1078071040, "[MenuEntryRegistry#deregisterMenuEntry] id=%1", (long)n);
+        this.logChannel.log(1000000, "[MenuEntryRegistry#deregisterMenuEntry] id=%1", (long)n);
         Integer n2 = new Integer(n);
         Object object = this.mutex;
         synchronized (object) {
@@ -181,9 +176,9 @@ ITestSupportHandlerNotification {
                 this.vThrMenuEntries.remove(iMenuEntry);
                 this.standstillMenuEntries.remove(iMenuEntry);
             } else if (iMenuEntry == null) {
-                this.logChannel.log(-1601830656, "[MenuEntryRegistry#deregisterMenuEntry] Menu entry %1 is not in menu structure", (Object)iMenuEntry);
+                this.logChannel.log(100000, "[MenuEntryRegistry#deregisterMenuEntry] Menu entry %1 is not in menu structure", (Object)iMenuEntry);
             } else if (!iMenuEntry.isRegistered()) {
-                this.logChannel.log(-1601830656, "[MenuEntryRegistry#deregisterMenuEntry] Menu entry %1 (%2) is not registered", (Object)n2, (Object)iMenuEntry);
+                this.logChannel.log(100000, "[MenuEntryRegistry#deregisterMenuEntry] Menu entry %1 (%2) is not registered", (Object)n2, (Object)iMenuEntry);
             }
         }
     }
@@ -191,9 +186,8 @@ ITestSupportHandlerNotification {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateMenuEntryCoding(int n, short s) {
-        this.logChannel.log(1078071040, "[MenuEntryRegistry#updateMenuEntryCoding] id=%1 codingIndex=%2", (long)n, (long)s);
+        this.logChannel.log(1000000, "[MenuEntryRegistry#updateMenuEntryCoding] id=%1 codingIndex=%2", (long)n, (long)s);
         CarFuncAdap carFuncAdap = this.application.getCarMenuCoding();
         Integer n2 = new Integer(n);
         Object object = this.mutex;
@@ -215,11 +209,11 @@ ITestSupportHandlerNotification {
                 }
                 this.setStateAfterRegistration(iMenuEntry, bl, bl2, bl3);
             } else if (iMenuEntry == null) {
-                this.logChannel.log(-1601830656, "[MenuEntryRegistry#updateMenuEntryCoding] Menu entry %1 is not in menu structure", (Object)n2);
+                this.logChannel.log(100000, "[MenuEntryRegistry#updateMenuEntryCoding] Menu entry %1 is not in menu structure", (Object)n2);
             } else if (!carFuncAdap.isMenuDisplayActivated(s)) {
-                this.logChannel.log(-1601830656, "[MenuEntryRegistry#updateMenuEntryCoding] Menu entry %1 (%2) is not coded", (Object)n2, (Object)iMenuEntry);
+                this.logChannel.log(100000, "[MenuEntryRegistry#updateMenuEntryCoding] Menu entry %1 (%2) is not coded", (Object)n2, (Object)iMenuEntry);
             } else if (!iMenuEntry.isRegistered()) {
-                this.logChannel.log(-1601830656, "[MenuEntryRegistry#updateMenuEntryCoding] Menu entry %1 (%2) is not registered", (Object)n2, (Object)iMenuEntry);
+                this.logChannel.log(100000, "[MenuEntryRegistry#updateMenuEntryCoding] Menu entry %1 (%2) is not registered", (Object)n2, (Object)iMenuEntry);
             }
         }
     }
@@ -227,9 +221,8 @@ ITestSupportHandlerNotification {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateMenuEntryVisibility(int n, int n2) {
-        this.logChannel.log(1078071040, "[MenuEntryRegistry#updateMenuEntryVisibility] menu entry ID='%1', visibility='%2'", (long)n, (long)n2);
+        this.logChannel.log(1000000, "[MenuEntryRegistry#updateMenuEntryVisibility] menu entry ID='%1', visibility='%2'", (long)n, (long)n2);
         Integer n3 = new Integer(n);
         Object object = this.mutex;
         synchronized (object) {
@@ -238,31 +231,27 @@ ITestSupportHandlerNotification {
             if (iMenuEntry != null && iMenuEntry.isRegistered()) {
                 iMenuEntry.updateStateViewOptions(n2);
             } else if (iMenuEntry == null) {
-                this.logChannel.log(-1601830656, "[MenuEntryRegistry#updateMenuEntryVisibility] Menu entry %1 is not in menu structure", (Object)n3);
+                this.logChannel.log(100000, "[MenuEntryRegistry#updateMenuEntryVisibility] Menu entry %1 is not in menu structure", (Object)n3);
             } else if (!iMenuEntry.isRegistered()) {
-                this.logChannel.log(-1601830656, "[MenuEntryRegistry#updateMenuEntryVisibility] Menu entry %1 (%2) is not registered", (Object)n3, (Object)iMenuEntry);
+                this.logChannel.log(100000, "[MenuEntryRegistry#updateMenuEntryVisibility] Menu entry %1 (%2) is not registered", (Object)n3, (Object)iMenuEntry);
             }
         }
     }
 
-    @Override
     public void notifyPowerListenerOnEnterState(int n) {
     }
 
-    @Override
     public void notifyPowerListenerOnExitState(int n) {
     }
 
-    @Override
     public void notifyPowerTriggerAction(int n) {
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateClampState(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
-        this.logChannel.log(1078071040, "[MenuEntryRegistry#updateClampState] clamp15=%1", bl2);
+        this.logChannel.log(1000000, "[MenuEntryRegistry#updateClampState] clamp15=%1", bl2);
         Object object = this.mutex;
         synchronized (object) {
             this.ignoreTerminationNotification = true;
@@ -279,9 +268,8 @@ ITestSupportHandlerNotification {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void exceedsUpperThreshold(int n) {
-        this.logChannel.log(1078071040, "[MenuEntryRegistry#exceedsUpperThreshold] %1", (long)n);
+        this.logChannel.log(1000000, "[MenuEntryRegistry#exceedsUpperThreshold] %1", (long)n);
         if (n == 1) {
             Object object = this.mutex;
             synchronized (object) {
@@ -298,9 +286,8 @@ ITestSupportHandlerNotification {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void belowLowerThreshold(int n) {
-        this.logChannel.log(1078071040, "[MenuEntryRegistry#exceedsUpperThreshold] %1", (long)n);
+        this.logChannel.log(1000000, "[MenuEntryRegistry#exceedsUpperThreshold] %1", (long)n);
         if (n == 1) {
             Object object = this.mutex;
             synchronized (object) {
@@ -317,9 +304,8 @@ ITestSupportHandlerNotification {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateStandStill(boolean bl) {
-        this.logChannel.log(1078071040, "[MenuEntryRegistry#updateStandStill] standstill='%1'", bl);
+        this.logChannel.log(1000000, "[MenuEntryRegistry#updateStandStill] standstill='%1'", bl);
         Object object = this.mutex;
         synchronized (object) {
             this.isStandstill = bl;
@@ -387,7 +373,6 @@ ITestSupportHandlerNotification {
         iMenuEntry.updateStateMenuOperation(n);
     }
 
-    @Override
     public void debugDataVisible(boolean bl) {
         if (bl) {
             ArrayList arrayList = this.getDebugData();
@@ -397,11 +382,9 @@ ITestSupportHandlerNotification {
         }
     }
 
-    @Override
     public void commandEntrySelected(int n) {
     }
 
-    @Override
     public TestSupportDataReceiverEntry[] getCommandEntries() {
         return new TestSupportDataReceiverEntry[0];
     }
@@ -528,7 +511,6 @@ ITestSupportHandlerNotification {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void registerVisibilityChangeListener(IMERVisibilityChangeListener iMERVisibilityChangeListener) {
         List list = this.visibilityChangeListener;
         synchronized (list) {
@@ -542,7 +524,6 @@ ITestSupportHandlerNotification {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void unregisterVisibilityChangeListener(IMERVisibilityChangeListener iMERVisibilityChangeListener) {
         List list = this.visibilityChangeListener;
         synchronized (list) {
@@ -550,7 +531,6 @@ ITestSupportHandlerNotification {
         }
     }
 
-    @Override
     public void notifyStateChange(IMenuEntry iMenuEntry) {
         if (!this.changedMenuEntries.contains(iMenuEntry)) {
             this.changedMenuEntries.add(iMenuEntry);
@@ -560,7 +540,6 @@ ITestSupportHandlerNotification {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void stateUpdateForwardingTerminated() {
         boolean bl;
         Object object = this.mutex;
@@ -605,7 +584,6 @@ ITestSupportHandlerNotification {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean updateSlotBinding(int n, int n2) {
         boolean bl = false;
         Object object = this.mutex;
@@ -615,7 +593,7 @@ ITestSupportHandlerNotification {
             IMenuEntry iMenuEntry2 = (IMenuEntry)this.menuStructure.getMenuEntries().get(new Integer(n));
             bl = iMenuEntry2 != null && iMenuEntry2.isType(MenuEntryType.INCLUDE_MENU_ENTRY) ? this.moveIncludeME((IncludeMenuEntry)iMenuEntry2, iMenuEntry) : this.clearSlot(iMenuEntry);
             if (this.logChannel.isInfo()) {
-                this.logChannel.log(1078071040, "[MenuEntryRegistry#updateSlotBinding] meSlotID='%1' , meIncludeID='%2': menu entry structure changed='%3'", (Object)new Integer(n2), (Object)new Integer(n), (Object)bl);
+                this.logChannel.log(1000000, "[MenuEntryRegistry#updateSlotBinding] meSlotID='%1' , meIncludeID='%2': menu entry structure changed='%3'", (Object)new Integer(n2), (Object)new Integer(n), (Object)bl);
             }
             if (bl) {
                 this.updateStateOfAllPossibleSlotsToInvisible(n);
@@ -638,7 +616,6 @@ ITestSupportHandlerNotification {
         return false;
     }
 
-    @Override
     public void updateStateOfAllPossibleSlotsToInvisible(int n) {
         IMenuEntry iMenuEntry = (IMenuEntry)this.menuStructure.getMenuEntries().get(new Integer(n));
         if (iMenuEntry != null && iMenuEntry.isType(MenuEntryType.INCLUDE_MENU_ENTRY)) {
@@ -653,7 +630,6 @@ ITestSupportHandlerNotification {
         }
     }
 
-    @Override
     public synchronized int getCurrentMenuEntryState(int n) {
         IMenuEntry iMenuEntry = (IMenuEntry)this.menuStructure.getMenuEntries().get(new Integer(n));
         return iMenuEntry.getState();

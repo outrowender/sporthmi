@@ -4,7 +4,6 @@
 package de.audi.atip.interapp;
 
 public interface IConnectivitySimUsageListener {
-    default public void updateSimUsageToBeShown(boolean bl) {
-    }
+    public void updateSimUsageToBeShown(boolean var1);
 }
 

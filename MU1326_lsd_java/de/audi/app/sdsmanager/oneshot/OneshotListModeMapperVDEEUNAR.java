@@ -10,7 +10,6 @@ public class OneshotListModeMapperVDEEUNAR
 implements IOneshotListModeMapper {
     protected int[][] oneshotListModeToOneshotLevel = new int[][]{{1, 0}, {2, 1}, {3, 2}};
 
-    @Override
     public int mapToOneshotLevel(int n) {
         return SDSUtils.translate(n, this.oneshotListModeToOneshotLevel);
     }

@@ -21,14 +21,12 @@ extends BaseAudioService {
         this.dsiSSE = new NullDSISSE(audioEnv.lcDSI);
     }
 
-    @Override
     public void setService(Object object) {
         if (object instanceof DSISSE) {
             this.dsiSSE = (DSISSE)object;
         }
     }
 
-    @Override
     public void requestConnection(int n, int n2, int n3) {
         switch (n) {
             case 8: {
@@ -42,18 +40,17 @@ extends BaseAudioService {
             }
         }
         if (this.logFirstRequest) {
-            this.env.logStartupEvent(new StringBuffer().append("[AUDIO] request EAC: ").append(n).toString());
+            this.env.logStartupEvent("[AUDIO] request EAC: " + n);
             this.logFirstRequest = false;
         }
         int n4 = TerminalMapper.toAudioTerminal(n2);
         if (this.env.lcMain.isDebug()) {
             Buffer buffer = this.toDebug(n, n4, n, n2);
-            this.env.lcMain.log(-2137614336, "[%1] [EntertainmentAudioService.requestConnection] %2", (Object)this.name, (Object)buffer);
+            this.env.lcMain.log(10000000, "[%1] [EntertainmentAudioService.requestConnection] %2", (Object)this.name, (Object)buffer);
         }
         this.callRequestConnection(n, n4, n3);
     }
 
-    @Override
     public void releaseConnection(int n) {
         if (n == 102) {
             this.dsiSSE.requestSetMicMuteState(1);
@@ -61,10 +58,9 @@ extends BaseAudioService {
         super.releaseConnection(n);
     }
 
-    @Override
     public void fadeToConnection(int n, int n2) {
         if (this.logFirstFadeTo) {
-            this.env.logStartupEvent(new StringBuffer().append("[AUDIO] fade-to EAC: ").append(n).toString());
+            this.env.logStartupEvent("[AUDIO] fade-to EAC: " + n);
             this.logFirstFadeTo = false;
         }
         super.fadeToConnection(n, n2);

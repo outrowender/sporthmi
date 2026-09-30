@@ -7,7 +7,6 @@ import com.ibm.oti.io.CharacterConverter_UNICODE;
 
 public class CharacterConverter_UTF16
 extends CharacterConverter_UNICODE {
-    @Override
     public byte[] convert(char[] cArray, int n, int n2) {
         int n3 = (n2 << 1) + (this.writeTag ? 2 : 0);
         byte[] byArray = new byte[n3];

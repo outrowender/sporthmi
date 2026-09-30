@@ -38,23 +38,23 @@ IStandStillListener {
         for (int i2 = 0; i2 < byArray.length; ++i2) {
             short s = byArray[i2];
             byte by = this.codingAdapter.getByteCoding(s);
-            this.logger.log(1078071040, "[registerCarStates] coding of %1(%2): %3", (Object)ICoding.CODING_INDEX_TEXT[s], (long)s, (long)by);
+            this.logger.log(1000000, "[registerCarStates] coding of %1(%2): %3", (Object)ICoding.CODING_INDEX_TEXT[s], (long)s, (long)by);
             if (!this.isActivated(s)) {
-                this.logger.log(1078071040, "[registerCarStates] not coded[%2|%1]", (Object)ICoding.CODING_INDEX_TEXT[s], (long)s);
+                this.logger.log(1000000, "[registerCarStates] not coded[%2|%1]", (Object)ICoding.CODING_INDEX_TEXT[s], (long)s);
                 return;
             }
             if (!this.registeredClamp15 && this.isClamp15Sensitive(s)) {
-                this.logger.log(1078071040, "[registerCarStates] ignition [%2|%1]", (Object)ICoding.CODING_INDEX_TEXT[s], (long)s);
+                this.logger.log(1000000, "[registerCarStates] ignition [%2|%1]", (Object)ICoding.CODING_INDEX_TEXT[s], (long)s);
                 this.baseService.registerService((class$de$audi$atip$power$PowerEventListener == null ? AbstractCarStateHandler.class$("de.audi.atip.power.PowerEventListener") : class$de$audi$atip$power$PowerEventListener).getName(), this);
                 this.registeredClamp15 = true;
             }
             if (!this.registeredVthr && this.isVThresholdSensitive(s)) {
-                this.logger.log(1078071040, "[registerCarStates] threshold sensitive [%2|%1]", (Object)ICoding.CODING_INDEX_TEXT[s], (long)s);
+                this.logger.log(1000000, "[registerCarStates] threshold sensitive [%2|%1]", (Object)ICoding.CODING_INDEX_TEXT[s], (long)s);
                 this.baseService.getHMIFramework().getSysApp().registerSpeedThresholdListener(this, 1);
                 this.registeredVthr = true;
             }
             if (this.registeredStandstill || !this.isStandstillSensitive(s)) continue;
-            this.logger.log(1078071040, "[registerCarStates] standstill sensitive [%2|%1]", (Object)ICoding.CODING_INDEX_TEXT[s], (long)s);
+            this.logger.log(1000000, "[registerCarStates] standstill sensitive [%2|%1]", (Object)ICoding.CODING_INDEX_TEXT[s], (long)s);
             this.baseService.getHMIFramework().getSysApp().registerStandStillListener(this);
             this.isStandstill = true;
         }
@@ -78,7 +78,6 @@ IStandStillListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void exceedsUpperThreshold(int n) {
         if (n == 1) {
             Object object = this.mutex;
@@ -91,7 +90,6 @@ IStandStillListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void belowLowerThreshold(int n) {
         if (n == 1) {
             Object object = this.mutex;
@@ -104,7 +102,6 @@ IStandStillListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateClampState(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
         Object object = this.mutex;
         synchronized (object) {
@@ -115,9 +112,8 @@ IStandStillListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateStandStill(boolean bl) {
-        this.logger.log(1078071040, "[AbstractCarStateHandler#updateStandStill] standstill: %1", bl);
+        this.logger.log(1000000, "[AbstractCarStateHandler#updateStandStill] standstill: %1", bl);
         Object object = this.mutex;
         synchronized (object) {
             this.isStandstill = bl;
@@ -134,13 +130,13 @@ IStandStillListener {
             return 1;
         }
         if (this.isClamp15Sensitive(s)) {
-            this.logger.log(1078071040, "[AbstractCarStateHandler#updateMenuEntryVisibility] isClamp15Sensitive %1 [%2]", this.isClamp15On, (Object)ICoding.CODING_INDEX_TEXT[s]);
+            this.logger.log(1000000, "[AbstractCarStateHandler#updateMenuEntryVisibility] isClamp15Sensitive %1 [%2]", this.isClamp15On, (Object)ICoding.CODING_INDEX_TEXT[s]);
             if (this.isClamp15On) {
                 if (n == 4) {
                     n2 = 2;
                 }
                 if (this.isVThresholdSensitive(s)) {
-                    this.logger.log(1078071040, "[AbstractCarStateHandler#updateMenuEntryVisibility] isVThresholdSensitive: %1 [%2]", this.isUnderVThr, (Object)ICoding.CODING_INDEX_TEXT[s]);
+                    this.logger.log(1000000, "[AbstractCarStateHandler#updateMenuEntryVisibility] isVThresholdSensitive: %1 [%2]", this.isUnderVThr, (Object)ICoding.CODING_INDEX_TEXT[s]);
                     if (!this.isUnderVThr) {
                         n2 = 5;
                     } else if (n == 5) {
@@ -148,7 +144,7 @@ IStandStillListener {
                     }
                 }
                 if (this.isStandstillSensitive(s) && !this.isStandstill) {
-                    this.logger.log(1078071040, "[AbstractCarStateHandler#updateMenuEntryVisibility] isStandstillSensitive: %1 [%2]", this.isStandstill, (Object)ICoding.CODING_INDEX_TEXT[s]);
+                    this.logger.log(1000000, "[AbstractCarStateHandler#updateMenuEntryVisibility] isStandstillSensitive: %1 [%2]", this.isStandstill, (Object)ICoding.CODING_INDEX_TEXT[s]);
                     if (!this.isStandstill) {
                         n2 = 6;
                     } else if (n == 6) {
@@ -159,7 +155,7 @@ IStandStillListener {
                 n2 = 4;
             }
         }
-        this.logger.log(1078071040, "[AbstractCarStateHandler#updateMenuEntryVisibility] %3: incoming_Visibility=%1 outgoing_Visibility=%2", (Object)IVisibility.TEXT_TO_STATE[n], (Object)IVisibility.TEXT_TO_STATE[n2], (Object)ICoding.CODING_INDEX_TEXT[s]);
+        this.logger.log(1000000, "[AbstractCarStateHandler#updateMenuEntryVisibility] %3: incoming_Visibility=%1 outgoing_Visibility=%2", (Object)IVisibility.TEXT_TO_STATE[n], (Object)IVisibility.TEXT_TO_STATE[n2], (Object)ICoding.CODING_INDEX_TEXT[s]);
         return n2;
     }
 
@@ -179,15 +175,12 @@ IStandStillListener {
         return this.codingAdapter.isMenuDisplayActivated(s) && this.codingAdapter.isMenuDisStandstillActivated(s);
     }
 
-    @Override
     public void notifyPowerListenerOnEnterState(int n, int n2) {
     }
 
-    @Override
     public void notifyPowerListenerOnExitState(int n, int n2) {
     }
 
-    @Override
     public void notifyPowerTriggerAction(int n, int n2) {
     }
 

@@ -14,7 +14,7 @@ import org.osgi.framework.ServiceRegistration;
 
 public class CombiBAPTransferStateListener
 implements ITransferStateListener {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "CombiBAPTransferStateListener";
     private final LogChannel logger;
     private final IServiceManager serviceManager;
     private final CombiBAPController bapController;
@@ -29,38 +29,35 @@ implements ITransferStateListener {
     }
 
     public void init() {
-        this.logger.log(1078071040, "[%1.init]", (Object)"CombiBAPTransferStateListener");
+        this.logger.log(1000000, "[%1.init]", (Object)LOGCLASS);
         this.serviceRegistration = this.serviceManager.registerService(class$de$audi$app$media$interapp$ITransferStateListener == null ? (class$de$audi$app$media$interapp$ITransferStateListener = CombiBAPTransferStateListener.class$("de.audi.app.media.interapp.ITransferStateListener")) : class$de$audi$app$media$interapp$ITransferStateListener, this, new Hashtable(0));
     }
 
     public void deinit() {
-        this.logger.log(1078071040, "[%1.deinit]", (Object)"CombiBAPTransferStateListener");
+        this.logger.log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         this.serviceManager.unregisterService(this.serviceRegistration);
     }
 
-    @Override
     public void importStarted(ISourceSlot iSourceSlot) {
-        this.logger.log(1078071040, "[%1.importStarted] '%2'", (Object)"CombiBAPTransferStateListener", (Object)iSourceSlot);
+        this.logger.log(1000000, "[%1.importStarted] '%2'", (Object)LOGCLASS, (Object)iSourceSlot);
         this.bapController.updateImportState(iSourceSlot, true, 0);
         this.activeImportSlot = iSourceSlot;
     }
 
-    @Override
     public void importProgressChanged(int n) {
-        this.logger.log(1078071040, "[%1.importProgressChanged] '%2'", (Object)"CombiBAPTransferStateListener", (long)n);
+        this.logger.log(1000000, "[%1.importProgressChanged] '%2'", (Object)LOGCLASS, (long)n);
         this.bapController.updateImportState(this.activeImportSlot, true, n);
     }
 
-    @Override
     public void importStopped() {
-        this.logger.log(1078071040, "[%1.importStopped]", (Object)"CombiBAPTransferStateListener");
+        this.logger.log(1000000, "[%1.importStopped]", (Object)LOGCLASS);
         this.bapController.updateImportState(this.activeImportSlot, false, 0);
         this.activeImportSlot = null;
     }
 
     public String toString() {
         Buffer buffer = new Buffer(20);
-        buffer.append("CombiBAPTransferStateListener").append("@").append(this.hashCode());
+        buffer.append(LOGCLASS).append("@").append(this.hashCode());
         return buffer.toString();
     }
 

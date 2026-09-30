@@ -4,7 +4,6 @@
 package de.audi.app.messaging.core.commands;
 
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
-import de.audi.app.messaging.core.commands.AbstractMessagingCommand$1;
 import de.audi.app.messaging.core.commands.ICommandCallback;
 import de.audi.app.messaging.core.concurrent.ExecutionException;
 import de.audi.app.messaging.core.util.Logs;
@@ -25,7 +24,7 @@ extends Command {
         this.msgApp = abstractMsgApplication;
     }
 
-    public final Object getResult() {
+    public final Object getResult() throws ExecutionException {
         if (this.exceptionCause != null) {
             throw new ExecutionException(this.exceptionCause);
         }
@@ -86,11 +85,17 @@ extends Command {
     }
 
     public Command getErrorCommand() {
-        return new AbstractMessagingCommand$1(this, this.msgApp);
+        return new AbstractMessagingCommand(this.msgApp){
+
+            public void execute() {
+                this.logger.log(10000000, "[AbstractMessagingCommand#getErrorCommand#execute]");
+                AbstractMessagingCommand.this.setExceptionCause(new MessagingCommandCallException("Command list error."));
+            }
+        };
     }
 
     protected final void logUnhandledResultType(String string) {
-        this.logger.log(-1601830656, "%1 Unhandled result type.", (Object)string);
+        this.logger.log(100000, "%1 Unhandled result type.", (Object)string);
     }
 
     protected final void logException(String string, Exception exception) {
@@ -99,6 +104,15 @@ extends Command {
 
     protected final void logNullParameter(String string) {
         Logs.logNullParameter(this.logger, string);
+    }
+
+    private class MessagingCommandCallException
+    extends RuntimeException {
+        private static final long serialVersionUID = 7662384112113310914L;
+
+        public MessagingCommandCallException(String string) {
+            super(string);
+        }
     }
 }
 

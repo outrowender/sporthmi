@@ -4,7 +4,6 @@
 package de.audi.atip.interapp.audio;
 
 public interface IVolumeMapService {
-    default public int getVolume(int n, int n2) {
-    }
+    public int getVolume(int var1, int var2);
 }
 

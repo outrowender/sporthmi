@@ -4,7 +4,6 @@
 package de.audi.app.sdsmanager.apps.navi;
 
 public interface ISDSNaviDestinationSetCommand {
-    default public void sdsDestinationSetResult(byte by) {
-    }
+    public void sdsDestinationSetResult(byte var1);
 }
 

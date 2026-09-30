@@ -27,7 +27,7 @@ import org.dsi.ifc.search.SearchResult;
 
 public class GlobalSearchHandler
 extends AbstractSearchHandlerEvo {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "GlobalSearchHandler";
     private final AbstractMediaSearchResultFormatter globalSearchResultFormatter;
     private final IDataBrowserList dataBrowserList;
     private final ChoiceModelApp entryTypeOfSelectedSearchResultModel;
@@ -41,9 +41,8 @@ extends AbstractSearchHandlerEvo {
         this.mediaTerminal = iMediaTerminal;
     }
 
-    @Override
     public void init() {
-        this.lc.log(1078071040, "[%1.init]", (Object)"GlobalSearchHandler");
+        this.lc.log(1000000, "[%1.init]", (Object)LOGCLASS);
         super.init();
         this.registryFormatter.put(new Integer(11), this.globalSearchResultFormatter);
         this.registryFormatter.put(new Integer(13), this.globalSearchResultFormatter);
@@ -53,9 +52,8 @@ extends AbstractSearchHandlerEvo {
         this.registryFormatter.put(new Integer(22), this.globalSearchResultFormatter);
     }
 
-    @Override
     public void searchResultSelected(SearchResultListRow searchResultListRow, int n, int n2) {
-        this.lc.log(1078071040, "[%1.searchResultSelected]", (Object)"GlobalSearchHandler");
+        this.lc.log(1000000, "[%1.searchResultSelected]", (Object)LOGCLASS);
         SearchResult searchResult = searchResultListRow.getSearchResult();
         this.appSearch.addToHistory(new SearchResult(searchResult.getQueryId(), 11, searchResult.getListPosition(), searchResult.getEntryType(), searchResult.getEntryFlags(), searchResult.getPoiType(), searchResult.getIconID(), searchResult.getPosition(), searchResult.getDistanceMeters(), searchResult.getDataId(), searchResult.getTokens(), searchResult.getSuggestion(), searchResult.getCountry(), searchResult.getApplicationData()));
         this.setEntryTypeOfSelectedSearchResult(searchResultListRow.getSearchResult().getEntryType());
@@ -65,16 +63,16 @@ extends AbstractSearchHandlerEvo {
                 break;
             }
             case 6: {
-                this.lc.log(1078071040, "[%1.searchResultSelected]", (Object)"GlobalSearchHandler");
+                this.lc.log(1000000, "[%1.searchResultSelected]", (Object)LOGCLASS);
                 this.dataBrowserList.selectBrowseListPath(new DataBrowserListLocator(3, 1).add(DataBrowserListElement.createDirectoryElement(searchResult.getDataId(), 14)));
                 break;
             }
             case 7: {
-                this.lc.log(1078071040, "[%1.searchResultSelected]", (Object)"GlobalSearchHandler");
+                this.lc.log(1000000, "[%1.searchResultSelected]", (Object)LOGCLASS);
                 ISourceSlot iSourceSlot = this.mediaTerminal.getSourceController().getSelectedSlot();
                 if (this.mediaTerminal.getConfiguration().isIAP2Supported() && iSourceSlot.getMediaType() == 24) {
                     long l = searchResult.getDataId();
-                    this.lc.log(1078071040, "[%1.searchResultSelected] iPod with iAP2 -> play the track. entryId='%2'", (Object)"GlobalSearchHandler", l);
+                    this.lc.log(1000000, "[%1.searchResultSelected] iPod with iAP2 -> play the track. entryId='%2'", (Object)LOGCLASS, l);
                     MediaListEntry mediaListEntry = new MediaListEntry(l, 1, "");
                     DataSelectionContainer dataSelectionContainer = new DataSelectionContainer(iSourceSlot, mediaListEntry, 2, new MediaListEntry[0]);
                     SelectionBrowser selectionBrowser = this.mediaTerminal.getSelectionBrowser();
@@ -111,13 +109,12 @@ extends AbstractSearchHandlerEvo {
     }
 
     private void setEntryTypeOfSelectedSearchResult(int n) {
-        this.lc.log(1078071040, "[%1.setEntryTypeOfSelectedSearchResult] entryType='%2'", (Object)"GlobalSearchHandler", (long)n);
+        this.lc.log(1000000, "[%1.setEntryTypeOfSelectedSearchResult] entryType='%2'", (Object)LOGCLASS, (long)n);
         this.entryTypeOfSelectedSearchResultModel.setValue(n);
     }
 
-    @Override
     protected String getLogClass() {
-        return "GlobalSearchHandler";
+        return LOGCLASS;
     }
 }
 

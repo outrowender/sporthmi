@@ -4,10 +4,8 @@
 package de.audi.atip.base;
 
 public interface IDomainListener {
-    default public void updateDomainState(int n, int n2) {
-    }
+    public void updateDomainState(int var1, int var2);
 
-    default public void muDomainIsAvailable(int n, int n2) {
-    }
+    public void muDomainIsAvailable(int var1, int var2);
 }
 

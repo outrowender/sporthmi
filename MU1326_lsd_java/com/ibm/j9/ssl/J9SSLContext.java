@@ -7,40 +7,30 @@ import com.ibm.j9.ssl.J9SSLSessionContext;
 import com.ibm.j9.ssl.SessionState;
 import java.security.Principal;
 import java.security.PrivateKey;
+import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
 public interface J9SSLContext {
-    default public void getRandomBytes(byte[] byArray) {
-    }
+    public void getRandomBytes(byte[] var1);
 
-    default public void verifyCertificateChain(X509Certificate[] x509CertificateArray) {
-    }
+    public void verifyCertificateChain(X509Certificate[] var1) throws CertificateException;
 
-    default public void setEnableSessionCreation(boolean bl) {
-    }
+    public void setEnableSessionCreation(boolean var1);
 
-    default public boolean getSessionCreationEnabled() {
-    }
+    public boolean getSessionCreationEnabled();
 
-    default public void addSession(SessionState sessionState) {
-    }
+    public void addSession(SessionState var1);
 
-    default public void removeSession(SessionState sessionState) {
-    }
+    public void removeSession(SessionState var1);
 
-    default public SessionState getSession(String string) {
-    }
+    public SessionState getSession(String var1);
 
-    default public J9SSLSessionContext getSessionContext() {
-    }
+    public J9SSLSessionContext getSessionContext();
 
-    default public String getClientAlias(String[] stringArray, Principal[] principalArray) {
-    }
+    public String getClientAlias(String[] var1, Principal[] var2);
 
-    default public PrivateKey getPrivateKey(String string) {
-    }
+    public PrivateKey getPrivateKey(String var1);
 
-    default public X509Certificate[] getClientCertificateChain(String string) {
-    }
+    public X509Certificate[] getClientCertificateChain(String var1);
 }
 

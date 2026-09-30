@@ -3,7 +3,6 @@
  */
 package de.audi.remotehmi.util;
 
-import de.audi.remotehmi.util.EnumHelper$1;
 import de.audi.remotehmi.util.EnumParser;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,7 +14,23 @@ public class EnumHelper {
     private final List instanceList = new ArrayList();
     private final List instanceListUnmodifiable = Collections.unmodifiableList(this.instanceList);
     private final Map instanceMap = new HashMap();
-    private final EnumParser parser = new EnumHelper$1(this);
+    private final EnumParser parser = new EnumParser(){
+
+        public Object parse(String string) {
+            return this.parse(string, null);
+        }
+
+        public Object parse(String string, Object object) {
+            if (string == null) {
+                return object;
+            }
+            Object object2 = EnumHelper.this.instanceMap.get(string);
+            if (object2 == null) {
+                return object;
+            }
+            return object2;
+        }
+    };
 
     public void addInstance(String string, Object object) {
         if (this.instanceMap.containsKey(string)) {
@@ -39,10 +54,6 @@ public class EnumHelper {
 
     public EnumParser getParser() {
         return this.parser;
-    }
-
-    static /* synthetic */ Map access$000(EnumHelper enumHelper) {
-        return enumHelper.instanceMap;
     }
 }
 

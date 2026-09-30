@@ -7,31 +7,22 @@ import de.audi.app.sdsmanager.grammar.DynamicSlotContent;
 import java.util.SortedSet;
 
 public interface IDynamicLists {
-    default public void addToLookup(int n, DynamicSlotContent dynamicSlotContent) {
-    }
+    public void addToLookup(int var1, DynamicSlotContent var2);
 
-    default public void removeFromLookup(int n) {
-    }
+    public void removeFromLookup(int var1);
 
-    default public boolean contains(int n) {
-    }
+    public boolean contains(int var1);
 
-    default public String[] getDynListStrings(int n) {
-    }
+    public String[] getDynListStrings(int var1);
 
-    default public long[] getDynListIDs(int n) {
-    }
+    public long[] getDynListIDs(int var1);
 
-    default public boolean isSlotContentNew(int n) {
-    }
+    public boolean isSlotContentNew(int var1);
 
-    default public void setSlotContentStatus(int n, byte by) {
-    }
+    public void setSlotContentStatus(int var1, byte var2);
 
-    default public void markAllSlotsAsLoaded(boolean bl) {
-    }
+    public void markAllSlotsAsLoaded(boolean var1);
 
-    default public SortedSet resetLoadedSlotRuleIDs() {
-    }
+    public SortedSet resetLoadedSlotRuleIDs();
 }
 

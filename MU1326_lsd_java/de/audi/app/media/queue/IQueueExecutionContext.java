@@ -4,7 +4,6 @@
 package de.audi.app.media.queue;
 
 public interface IQueueExecutionContext {
-    default public void jobFinished() {
-    }
+    public void jobFinished();
 }
 

@@ -17,9 +17,8 @@ extends AbstractAddressInputScreenWorkFlowManagerEU {
         super(navigationEnv, iCommandListFactory, spellerStack);
     }
 
-    @Override
     public CommandList handleWorkFlow(CommandList commandList, int n) {
-        this.logChannel.log(-2137614336, "%1#handleWorkFlow - screenEventId=%2", (Object)this.CLASS_NAME, (long)n);
+        this.logChannel.log(10000000, "%1#handleWorkFlow - screenEventId=%2", (Object)this.CLASS_NAME, (long)n);
         switch (n) {
             case 302: {
                 this.createEuStreetScreenListElementSelectedWorkFlow(commandList);
@@ -41,18 +40,18 @@ extends AbstractAddressInputScreenWorkFlowManagerEU {
     }
 
     private void createDiEuStreetScreenNonambiguousListElementSelectedWorkFlow() {
-        this.logChannel.log(-2137614336, "%1#createDiEuStreetScreenNonambiguousListElementSelectedWorkFlow", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#createDiEuStreetScreenNonambiguousListElementSelectedWorkFlow", (Object)this.CLASS_NAME);
         this.spellerStack.pop();
         this.spellerStack.pop();
     }
 
     private void createEuStreetScreenListElementSelectedWorkFlow(CommandList commandList) {
         commandList.add(0, new LIGetStateCommand(this.spellerStack, new SpellerContext(56)));
-        this.logChannel.log(-2137614336, "%1#createEuStreetScreenListElementSelectedWorkFlow", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#createEuStreetScreenListElementSelectedWorkFlow", (Object)this.CLASS_NAME);
     }
 
     private void createEuStreetScreenAmbiguousListElementSelectedWorkFlow(CommandList commandList) {
-        this.logChannel.log(-2137614336, "%1#createEuStreetScreenAmbiguousListElementSelectedWorkFlow", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#createEuStreetScreenAmbiguousListElementSelectedWorkFlow", (Object)this.CLASS_NAME);
         commandList.add(this.inputManager.getRefinementScreenListener().getStartCommandList());
     }
 }

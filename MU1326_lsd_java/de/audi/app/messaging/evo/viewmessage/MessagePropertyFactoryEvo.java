@@ -20,7 +20,6 @@ implements IMessagePropertyFactory {
         super(messagingBundleContext, "App.Messaging.Main");
     }
 
-    @Override
     public PropertyListCell create(MessageListEntry messageListEntry, MessageDetails messageDetails, AdbEntry adbEntry, boolean bl, boolean bl2) {
         int n = this.msgApp.getFolderNavigator().getCurrentFolder().getHmiFolderType();
         int n2 = DrawerOptions.getCategory(messageListEntry);

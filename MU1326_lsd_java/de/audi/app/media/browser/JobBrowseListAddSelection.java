@@ -11,7 +11,7 @@ import de.esolutions.fw.util.commons.Buffer;
 
 class JobBrowseListAddSelection
 extends AbstractJobBrowseList {
-    static final String LOGCLASS;
+    static final String LOGCLASS = "JobBrowseListAddSelection";
     private final boolean selection;
     private final int range;
     private final long entryID;
@@ -27,39 +27,33 @@ extends AbstractJobBrowseList {
         this.sizeCheck = bl2;
     }
 
-    @Override
     public int getType() {
         return 4;
     }
 
-    @Override
     public String getName() {
         return "AddSelection";
     }
 
-    @Override
     public void start() {
-        this.logChannel.log(14808325, "[%1.start]", (Object)"JobBrowseListAddSelection");
+        this.logChannel.log(100000000, "[%1.start]", (Object)LOGCLASS);
         this.dsiMediaBrowser.addSelection(this.selection, this.range, this.entryID, this.contentType, this.sizeCheck);
     }
 
-    @Override
     public void selectionResult(int n, int n2, boolean bl, long l, long l2, long l3, long l4, long l5) {
-        this.logChannel.log(14808325, "[%1.selectionResult]", (Object)"JobBrowseListAddSelection");
+        this.logChannel.log(100000000, "[%1.selectionResult]", (Object)LOGCLASS);
         this.browseListContext.notifySelectionResult(false, n, n2, bl, l, l2, l3, l4, l5);
         this.getExecutionContext().jobFinished();
     }
 
-    @Override
     public void errorSelection() {
-        this.logChannel.log(14808325, "[%1.errorSelection]", (Object)"JobBrowseListAddSelection");
+        this.logChannel.log(100000000, "[%1.errorSelection]", (Object)LOGCLASS);
         this.browseListContext.notifySelectionResult(true, 0, 0, false, -1L, 0L, -1L, 0L, 0L);
         this.getExecutionContext().jobFinished();
     }
 
-    @Override
     public void updateListSize(int n, int n2) {
-        this.logChannel.log(14808325, "[%1.updateListSize]", (Object)"JobBrowseListAddSelection");
+        this.logChannel.log(100000000, "[%1.updateListSize]", (Object)LOGCLASS);
         this.browseListContext.getState().setCurrentListSize(n);
         this.browseListContext.notifyListUpdated(n);
     }

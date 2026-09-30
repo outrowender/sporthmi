@@ -16,7 +16,7 @@ public class TMKeyEventsHandler
 implements TMDSIKeyPanelListener,
 ITMKeyPanelHandler,
 ITerminalModeComponent {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "TMKeyEventsHandler";
     private final LogChannel logger;
     private final TMDSIKeyPanelControllerImpl dsiKeyPanelController;
     private final ITerminalModeDSIKeyEventsController nullKeyEventController;
@@ -28,49 +28,43 @@ ITerminalModeComponent {
         this.dsiKeyEventController = this.nullKeyEventController = new NullTerminalModeDSIKeyEventsController(this.logger);
     }
 
-    @Override
     public void init() {
-        this.logger.log(14808325, "[%1.init]", (Object)"TMKeyEventsHandler");
+        this.logger.log(100000000, "[%1.init]", (Object)LOGCLASS);
         this.dsiKeyPanelController.init();
     }
 
-    @Override
     public void deinit() {
-        this.logger.log(1078071040, "[%1.deinit]", (Object)"TMKeyEventsHandler");
+        this.logger.log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         this.dsiKeyPanelController.deinit();
     }
 
     public void activate() {
-        this.logger.log(1078071040, "[%1.activate]", (Object)"TMKeyEventsHandler");
+        this.logger.log(1000000, "[%1.activate]", (Object)LOGCLASS);
         this.dsiKeyPanelController.addTMKeyPanelListener(this);
         this.dsiKeyPanelController.activate();
     }
 
     public void deactivate() {
-        this.logger.log(1078071040, "[%1.deactivate]", (Object)"TMKeyEventsHandler");
+        this.logger.log(1000000, "[%1.deactivate]", (Object)LOGCLASS);
         this.dsiKeyPanelController.deactivate();
         this.dsiKeyPanelController.removeTMKeyPanelListener();
     }
 
-    @Override
     public void updateRecognizerLanguage2(int n, String string, int n2) {
-        this.logger.log(1078071040, "[%1.updateRecognizerLanguage2]", (Object)"TMKeyEventsHandler");
+        this.logger.log(1000000, "[%1.updateRecognizerLanguage2]", (Object)LOGCLASS);
     }
 
-    @Override
     public void updateRecognizerMode(int n, int n2) {
-        this.logger.log(1078071040, "[%1.updateRecognizerMode]", (Object)"TMKeyEventsHandler");
+        this.logger.log(1000000, "[%1.updateRecognizerMode]", (Object)LOGCLASS);
     }
 
-    @Override
     public void updateCharacterEvent2(int n, String[] stringArray, int[] nArray) {
-        this.logger.log(1078071040, "[%1.updateCharacterEvent2]", (Object)"TMKeyEventsHandler");
+        this.logger.log(1000000, "[%1.updateCharacterEvent2]", (Object)LOGCLASS);
         this.dsiKeyEventController.updateCharacterEvent(stringArray, nArray);
     }
 
-    @Override
     public void setCharacterRecognition(int n, boolean bl) {
-        this.logger.log(1078071040, "[%1.setCharacterRecognition]", (Object)"TMKeyEventsHandler");
+        this.logger.log(1000000, "[%1.setCharacterRecognition]", (Object)LOGCLASS);
         this.dsiKeyPanelController.setTextInputActive(n, bl);
     }
 

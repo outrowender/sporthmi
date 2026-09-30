@@ -10,51 +10,36 @@ import de.audi.app.media.source.ISourceSlot;
 import org.dsi.ifc.media.Capabilities;
 
 public interface IFilePlayerState {
-    public static final int PLAYMODE_INVALID;
+    public static final int PLAYMODE_INVALID = -1;
 
-    default public FilePlayerSession getActiveSession() {
-    }
+    public FilePlayerSession getActiveSession();
 
-    default public void setActiveSession(FilePlayerSession filePlayerSession) {
-    }
+    public void setActiveSession(FilePlayerSession var1);
 
-    default public Capabilities getCapabilitites() {
-    }
+    public Capabilities getCapabilitites();
 
-    default public int getPlaybackState() {
-    }
+    public int getPlaybackState();
 
-    default public AudioState getAudioState() {
-    }
+    public AudioState getAudioState();
 
-    default public int getNormalPlayMode() {
-    }
+    public int getNormalPlayMode();
 
-    default public int getRepeatPlayMode() {
-    }
+    public int getRepeatPlayMode();
 
-    default public int getPlaybackMode() {
-    }
+    public int getPlaybackMode();
 
-    default public int getPlayerID() {
-    }
+    public int getPlayerID();
 
-    default public void setVideoScaling(VideoScaling videoScaling) {
-    }
+    public void setVideoScaling(VideoScaling var1);
 
-    default public VideoScaling getVideoScaling() {
-    }
+    public VideoScaling getVideoScaling();
 
-    default public boolean isOnPlayback() {
-    }
+    public boolean isOnPlayback();
 
-    default public boolean isOnSeeking() {
-    }
+    public boolean isOnSeeking();
 
-    default public void setActiveSlot(ISourceSlot iSourceSlot) {
-    }
+    public void setActiveSlot(ISourceSlot var1);
 
-    default public ISourceSlot getActiveSlot() {
-    }
+    public ISourceSlot getActiveSlot();
 }
 

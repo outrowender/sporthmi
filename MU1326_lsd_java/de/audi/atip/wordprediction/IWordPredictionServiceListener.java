@@ -7,13 +7,10 @@ import de.audi.atip.wordprediction.IWordPredictionResponseListener;
 
 public interface IWordPredictionServiceListener
 extends IWordPredictionResponseListener {
-    default public boolean isStartContextBasedPredictionValid() {
-    }
+    public boolean isStartContextBasedPredictionValid();
 
-    default public void onWordPredictionServiceReady() {
-    }
+    public void onWordPredictionServiceReady();
 
-    default public void onWordPredictionServiceRemoved() {
-    }
+    public void onWordPredictionServiceRemoved();
 }
 

@@ -6,7 +6,7 @@ package de.audi.atip.hmi.event;
 import de.audi.atip.hmi.event.ATIPEventListener;
 
 public class ATIPEvent {
-    public static final int ATIP_FIRST_ID;
+    public static final int ATIP_FIRST_ID = 10001;
     private ATIPEventListener receiver;
     private ATIPEventListener[] receivers;
     private int id;

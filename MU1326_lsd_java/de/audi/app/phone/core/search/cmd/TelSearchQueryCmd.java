@@ -16,7 +16,7 @@ import org.dsi.ifc.search.SearchResult;
 
 public class TelSearchQueryCmd
 extends AbstractTelSearchCmd {
-    private static final int MAX_RESULTS;
+    private static final int MAX_RESULTS = 100;
     private static int queryID;
     private volatile boolean active;
     private final ITelSearchQueryListener queryListener;
@@ -47,40 +47,36 @@ extends AbstractTelSearchCmd {
         this.query = TelSearchQueryCmd.getNextSearchQuery(telSearchQueryCmd.query.getSources(), telSearchQueryCmd.query.getNeedle(), telSearchQueryCmd.query.getMatchingMode());
     }
 
-    @Override
     public void execute() {
         if (this.dsiSearch != null) {
-            this.logger.log(1078071040, "[TelSearchQueryCmd#execute] query=%1", (Object)this.query);
+            this.logger.log(1000000, "[TelSearchQueryCmd#execute] query=%1", (Object)this.query);
             this.dsiSearch.search(this.query);
         } else {
-            this.logger.log(-1601830656, "[TelSearchQueryCmd#execute] DSISearch is null --> NOP!");
+            this.logger.log(100000, "[TelSearchQueryCmd#execute] DSISearch is null --> NOP!");
             this.getCommandList().commandFinished();
         }
     }
 
-    @Override
     public void updateSearchIsActive(int n, boolean bl, int n2) {
         if (bl) {
-            this.logger.log(1078071040, "[TelSearchQueryCmd#updateSearchIsActive] queryID=%1, search is started", (long)queryID);
+            this.logger.log(1000000, "[TelSearchQueryCmd#updateSearchIsActive] queryID=%1, search is started", (long)queryID);
             this.active = true;
             this.queryListener.searchStarted(queryID);
         } else if (this.active) {
-            this.logger.log(1078071040, "[TelSearchQueryCmd#updateSearchIsActive] queryID=%1, search is finished", (long)queryID);
+            this.logger.log(1000000, "[TelSearchQueryCmd#updateSearchIsActive] queryID=%1, search is finished", (long)queryID);
             this.active = false;
             this.queryListener.searchEnded(queryID);
             this.getCommandList().commandFinished();
         }
     }
 
-    @Override
     public void searchResult(int n, SearchResult searchResult) {
         if (!this.canceled) {
-            this.logger.log(1078071040, "[TelSearchQueryCmd#searchResult] success=%2, searchResult=%1", (Object)searchResult, (long)n);
+            this.logger.log(1000000, "[TelSearchQueryCmd#searchResult] success=%2, searchResult=%1", (Object)searchResult, (long)n);
             this.queryListener.updateSearchResult(queryID, searchResult);
         }
     }
 
-    @Override
     public void invalidateData(int[] nArray) {
         boolean bl = false;
         if (nArray != null) {
@@ -93,7 +89,7 @@ extends AbstractTelSearchCmd {
             }
         }
         if (bl) {
-            this.logger.log(1078071040, "[TelSearchQueryCmd#invalidateData] queryID=%2, sources=%1", (Object)Converter.intArrayToString(nArray), (long)queryID);
+            this.logger.log(1000000, "[TelSearchQueryCmd#invalidateData] queryID=%2, sources=%1", (Object)Converter.intArrayToString(nArray), (long)queryID);
             this.queryListener.dataInvalidated(queryID, nArray);
             CommandList commandList = new CommandList(this.getCommandList().getManager());
             commandList.add(new TelSearchCancelQueryCmd(this.logger, this.dsiSearch, queryID, this.queryListener));
@@ -103,11 +99,10 @@ extends AbstractTelSearchCmd {
     }
 
     public void setCancel() {
-        this.logger.log(1078071040, "[TelSearchQueryCmd#setCancel]");
+        this.logger.log(1000000, "[TelSearchQueryCmd#setCancel]");
         this.canceled = true;
     }
 
-    @Override
     protected Command canceled() {
         if (this.canceled) {
             return new TelSearchCancelQueryCmd(this.logger, this.dsiSearch, queryID, this.queryListener);

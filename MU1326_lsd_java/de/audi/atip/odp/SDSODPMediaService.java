@@ -4,10 +4,8 @@
 package de.audi.atip.odp;
 
 public interface SDSODPMediaService {
-    default public void playMediaObject(long l) {
-    }
+    public void playMediaObject(long var1);
 
-    default public void playTrack(int n) {
-    }
+    public void playTrack(int var1);
 }
 

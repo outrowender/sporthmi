@@ -6,10 +6,8 @@ package de.audi.app.terminalmode.audio;
 import de.audi.app.terminalmode.audio.AudioConnectionState;
 
 public interface IAudioStateListener {
-    default public void audioStateChanged(AudioConnectionState audioConnectionState) {
-    }
+    public void audioStateChanged(AudioConnectionState var1);
 
-    default public void audioFocusChanged(boolean bl) {
-    }
+    public void audioFocusChanged(boolean var1);
 }
 

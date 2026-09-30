@@ -58,15 +58,15 @@ implements IFunctionRegistrationFSG {
     }
 
     private void initialize(AbstractBAPModuleFSG abstractBAPModuleFSG) {
-        this.logChannel.log(-2137614336, "[FunctionRegistrationMFL#initialize] start initialization");
+        this.logChannel.log(10000000, "[FunctionRegistrationMFL#initialize] start initialization");
         this.initializeProperties(abstractBAPModuleFSG);
         this.initializeMethods(abstractBAPModuleFSG);
         this.initialized = true;
-        this.logChannel.log(-2137614336, "[FunctionRegistrationMFL#initialize] initialization completed");
+        this.logChannel.log(10000000, "[FunctionRegistrationMFL#initialize] initialization completed");
     }
 
     private void initializeProperties(AbstractBAPModuleFSG abstractBAPModuleFSG) {
-        this.logChannel.log(-2137614336, "[FunctionRegistrationMFL#initializeProperties] initialize properties");
+        this.logChannel.log(10000000, "[FunctionRegistrationMFL#initializeProperties] initialize properties");
         this.bapConfig = abstractBAPModuleFSG.createBAPFunctionPropertyFSG(2);
         this.bapConfig.setResetSerializer(new BAP_Config_Reset());
         this.allProperties.add(this.bapConfig);
@@ -89,13 +89,12 @@ implements IFunctionRegistrationFSG {
     }
 
     private void initializeMethods(AbstractBAPModuleFSG abstractBAPModuleFSG) {
-        this.logChannel.log(-2137614336, "[FunctionRegistrationMFL#initializeMethods] initialize methods");
+        this.logChannel.log(10000000, "[FunctionRegistrationMFL#initializeMethods] initialize methods");
         this.puAction = abstractBAPModuleFSG.createBAPFunctionMethodFSG(20);
         this.puAction.setStartResultSerializer(new PU_Action_StartResult());
         this.allMethods.add(this.puAction);
     }
 
-    @Override
     public BAPFunctionMethodFSG getBAPFunctionMethodFSG(int n) {
         try {
             return (BAPFunctionMethodFSG)this.getBAPFunction(n);
@@ -106,7 +105,6 @@ implements IFunctionRegistrationFSG {
         }
     }
 
-    @Override
     public BAPFunctionPropertyFSG getBAPFunctionPropertyFSG(int n) {
         try {
             return (BAPFunctionPropertyFSG)this.getBAPFunction(n);
@@ -117,7 +115,6 @@ implements IFunctionRegistrationFSG {
         }
     }
 
-    @Override
     public BAPFunctionArrayFSG getBAPFunctionArrayFSG(int n) {
         try {
             return (BAPFunctionArrayFSG)this.getBAPFunction(n);
@@ -128,7 +125,6 @@ implements IFunctionRegistrationFSG {
         }
     }
 
-    @Override
     public IBAPFunction getBAPFunction(int n) {
         if (!this.initialized) {
             this.logChannel.log(10000, "[FunctionRegistrationMFL#getBAPFunction] function registration not initialized yet for lsgID=%1", (Object)LSGIDs.getDescription(52), (long)n);
@@ -166,24 +162,20 @@ implements IFunctionRegistrationFSG {
         return null;
     }
 
-    @Override
     public List getAllProperties() {
         return this.allProperties;
     }
 
-    @Override
     public List getAllMethods() {
         return this.allMethods;
     }
 
-    @Override
     public List getAllArrays() {
         return this.allArrays;
     }
 
-    @Override
     public void resetBAPFunctions() {
-        this.logChannel.log(-2137614336, "[FunctionRegistrationMFL#resetBAPFunctions]");
+        this.logChannel.log(10000000, "[FunctionRegistrationMFL#resetBAPFunctions]");
         Iterator iterator = this.allArrays.iterator();
         while (iterator.hasNext()) {
             ((IBAPFunction)iterator.next()).reset();
@@ -198,7 +190,6 @@ implements IFunctionRegistrationFSG {
         }
     }
 
-    @Override
     public ResultMethod createResultForMethodFSG(int n) {
         switch (n) {
             case 20: {
@@ -209,7 +200,6 @@ implements IFunctionRegistrationFSG {
         return null;
     }
 
-    @Override
     public StatusProperty createStatusForPropertyFSG(int n) {
         switch (n) {
             case 2: {
@@ -241,7 +231,6 @@ implements IFunctionRegistrationFSG {
         return null;
     }
 
-    @Override
     public StatusAckProperty createStatusAckForPropertyFSG(int n) {
         switch (n) {
             case 17: {
@@ -252,7 +241,6 @@ implements IFunctionRegistrationFSG {
         return null;
     }
 
-    @Override
     public StatusArray createStatusArrayForArrayFSG(int n) {
         switch (n) {
             default: 
@@ -261,7 +249,6 @@ implements IFunctionRegistrationFSG {
         return null;
     }
 
-    @Override
     public ChangedArray createChangedArrayForArrayFSG(int n) {
         switch (n) {
             default: 

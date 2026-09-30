@@ -13,7 +13,6 @@ extends AbstractBAPApplication {
         super(iFrameworkAccess, new LoggerRemoteServices(iFrameworkAccess));
     }
 
-    @Override
     public String getName() {
         return "RemoteServices";
     }

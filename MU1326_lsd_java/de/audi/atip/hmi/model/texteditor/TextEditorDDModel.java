@@ -22,7 +22,7 @@ TextEditorModelDDGUI {
     private volatile boolean emptyListenerList = true;
     private volatile ArrayList textEditorListenerList = new ArrayList();
     private volatile int maxTextLength = -1;
-    private static final int MAX_CHARS;
+    private static final int MAX_CHARS = 16384;
     private boolean isReadOnlyMode = false;
 
     public TextEditorDDModel(int n) {
@@ -33,12 +33,10 @@ TextEditorModelDDGUI {
         super(n, n2);
     }
 
-    @Override
     public boolean isEmpty() {
         return this.mCursor.length() == 0;
     }
 
-    @Override
     public int getModelType() {
         return 29;
     }
@@ -46,7 +44,6 @@ TextEditorModelDDGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void resetListener() {
         ArrayList arrayList = this.textEditorListenerList;
         synchronized (arrayList) {
@@ -56,7 +53,6 @@ TextEditorModelDDGUI {
         }
     }
 
-    @Override
     public void setListener(TextEditorListenerDD textEditorListenerDD) {
         this.addListener(textEditorListenerDD);
     }
@@ -78,7 +74,6 @@ TextEditorModelDDGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean setText(String[][] stringArray, int n) {
         stringArray = this.resizeToShort(stringArray);
         boolean bl = false;
@@ -96,7 +91,6 @@ TextEditorModelDDGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean setText(String string, int n) {
         if (string.length() > 16384) {
             string = string.substring(0, 16384);
@@ -130,7 +124,6 @@ TextEditorModelDDGUI {
         return true;
     }
 
-    @Override
     public boolean append(String[][] stringArray, int n) {
         return this.appendImpl(stringArray, n);
     }
@@ -152,12 +145,10 @@ TextEditorModelDDGUI {
         return true;
     }
 
-    @Override
     public boolean append(String string, int n) {
         return this.appendImpl(string, n);
     }
 
-    @Override
     public String getLastInsertion() {
         return this.mCursor.lastAdded();
     }
@@ -165,7 +156,6 @@ TextEditorModelDDGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean undoLastInsertion() {
         boolean bl = false;
         try {
@@ -178,12 +168,10 @@ TextEditorModelDDGUI {
         return bl;
     }
 
-    @Override
     public String getText() {
         return this.mCursor.getString();
     }
 
-    @Override
     public String getSelectedWord() {
         return this.mCursor.currentWord();
     }
@@ -191,7 +179,6 @@ TextEditorModelDDGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void clear() {
         try {
             this.mCursor.freezeModelNotif();
@@ -205,7 +192,6 @@ TextEditorModelDDGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean replace(String[][] stringArray) {
         boolean bl = false;
         try {
@@ -226,7 +212,6 @@ TextEditorModelDDGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean replace(String string) {
         boolean bl;
         boolean bl2 = bl = string != null;
@@ -243,17 +228,14 @@ TextEditorModelDDGUI {
         return bl;
     }
 
-    @Override
     public String[] getAlternatives() {
         return this.mCursor.getAlternatives();
     }
 
-    @Override
     public boolean selectAlternative(int n) {
         return this.mCursor.selectAlternative(n);
     }
 
-    @Override
     public DoubleCursor getCursor() {
         return this.mCursor;
     }
@@ -279,7 +261,6 @@ TextEditorModelDDGUI {
         }
     }
 
-    @Override
     public boolean copyTo(ICopyTo iCopyTo) {
         if (!(iCopyTo instanceof TextEditorDDModel)) {
             return false;
@@ -291,17 +272,14 @@ TextEditorModelDDGUI {
         return this.mCursor.copyTo(textEditorDDModel.mCursor);
     }
 
-    @Override
     public boolean lock() {
         return this.mCursor.mtxAquireLock();
     }
 
-    @Override
     public void unlock() {
         this.mCursor.mtxReleaseLock();
     }
 
-    @Override
     public synchronized TextEditorModelDDApp getSyncedModel() {
         if (this.syncedAccess == null) {
             this.syncedAccess = TextEditorModelDDSynced.newInstance(this);
@@ -309,20 +287,17 @@ TextEditorModelDDGUI {
         return this.syncedAccess;
     }
 
-    @Override
     public String toString() {
         return this.getSyncedModel().getText();
     }
 
-    @Override
     public String dumpContent() {
-        return new StringBuffer().append(super.dumpContent()).append("\nText:\n").append(this.toString()).toString();
+        return super.dumpContent() + "\nText:\n" + this.toString();
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void notifyTextChanged(int n) {
         ArrayList arrayList = this.textEditorListenerList;
         synchronized (arrayList) {
@@ -336,7 +311,6 @@ TextEditorModelDDGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void notifyMaxTextLengthChanged() {
         ArrayList arrayList = this.textEditorListenerList;
         synchronized (arrayList) {
@@ -350,7 +324,6 @@ TextEditorModelDDGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void notifyAlternativeSelected(int n) {
         ArrayList arrayList = this.textEditorListenerList;
         synchronized (arrayList) {
@@ -365,7 +338,6 @@ TextEditorModelDDGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void addListener(TextEditorListenerDD textEditorListenerDD) {
         ArrayList arrayList = this.textEditorListenerList;
         synchronized (arrayList) {
@@ -382,7 +354,6 @@ TextEditorModelDDGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void removeListener(TextEditorListenerDD textEditorListenerDD) {
         ArrayList arrayList = this.textEditorListenerList;
         synchronized (arrayList) {
@@ -397,7 +368,6 @@ TextEditorModelDDGUI {
         }
     }
 
-    @Override
     public synchronized void setMaxLength(int n) {
         int n2 = Math.max(-1, n);
         if (n2 != this.maxTextLength) {
@@ -406,12 +376,10 @@ TextEditorModelDDGUI {
         }
     }
 
-    @Override
     public synchronized int getMaxLength() {
         return this.maxTextLength;
     }
 
-    @Override
     public boolean insert(String string) {
         boolean bl = false;
         if (string != null && string.length() > 0 && this.mCursor != null) {
@@ -420,7 +388,6 @@ TextEditorModelDDGUI {
         return bl;
     }
 
-    @Override
     public boolean insert(String[] stringArray) {
         boolean bl = false;
         if (stringArray != null && stringArray.length > 0 && this.mCursor != null) {
@@ -429,7 +396,6 @@ TextEditorModelDDGUI {
         return bl;
     }
 
-    @Override
     public boolean insert(String[][] stringArray) {
         boolean bl = false;
         if (this.validateWords(stringArray) && this.mCursor != null) {
@@ -456,23 +422,20 @@ TextEditorModelDDGUI {
         return bl;
     }
 
-    @Override
     public void remove(int n, int n2, int n3) {
         this.mCursor.remove(n, n2, n3);
     }
 
-    @Override
     public String validityCheck() {
         return this.mCursor.vaildityCheck();
     }
 
-    @Override
     public void setMode(int n) {
         if (n == 1) {
-            this.lc.log(-2137614336, "TextEditorDDModel#setMode new mode: READONLY_ACTIVE");
+            this.lc.log(10000000, "TextEditorDDModel#setMode new mode: READONLY_ACTIVE");
             this.isReadOnlyMode = true;
         } else if (n == 0) {
-            this.lc.log(-2137614336, "TextEditorDDModel#setMode new mode: READONLY_NOT_ACTIVE");
+            this.lc.log(10000000, "TextEditorDDModel#setMode new mode: READONLY_NOT_ACTIVE");
             this.isReadOnlyMode = false;
         } else {
             this.lc.log(10000, "TextEditorDDModel#setMode try to set wrong mode [%1]!", (long)n);
@@ -485,7 +448,6 @@ TextEditorModelDDGUI {
         return this.isReadOnlyMode;
     }
 
-    @Override
     public LogChannel getModelLogChannel() {
         return this.lc;
     }

@@ -23,19 +23,17 @@ extends AbstractDataCommand {
         this.roamingState = n;
     }
 
-    @Override
     public void execute() {
         if (this.dsi != null) {
             this.dsi.setRoamingState(this.roamingState);
         } else {
-            this.logger.log(-1601830656, "CommandSetRoamingState#execute(): dsi is NULL");
+            this.logger.log(100000, "CommandSetRoamingState#execute(): dsi is NULL");
             this.commandList.commandFinished();
         }
     }
 
-    @Override
     public void setRoamingStateResponse(int n) {
-        this.logger.log(1078071040, "CommandSetRoamingState#setRoamingStateResponse(): result=%1", (long)n);
+        this.logger.log(1000000, "CommandSetRoamingState#setRoamingStateResponse(): result=%1", (long)n);
         this.commandList.commandFinished();
     }
 

@@ -18,15 +18,14 @@ import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
 public abstract class AbstractActivator
 implements BundleActivator {
-    private static final String MNFST_HDR_BUNDLE_NAME;
-    private static final String BUNDLE_NAME_UNKNOWN;
-    private static final Dictionary EMPTY_DICTIONARY;
+    private static final String MNFST_HDR_BUNDLE_NAME = "Bundle-Name";
+    private static final String BUNDLE_NAME_UNKNOWN = "???";
+    private static final Dictionary EMPTY_DICTIONARY = new Hashtable();
     protected BundleContext bundleContext = null;
     protected IFrameworkAccess framework = null;
     private List serviceRegistrations = new LinkedList();
     static /* synthetic */ Class class$de$audi$atip$base$IFrameworkAccess;
 
-    @Override
     public void start(BundleContext bundleContext) {
         this.bundleContext = bundleContext;
         ServiceReference serviceReference = bundleContext.getServiceReference((class$de$audi$atip$base$IFrameworkAccess == null ? (class$de$audi$atip$base$IFrameworkAccess = AbstractActivator.class$("de.audi.atip.base.IFrameworkAccess")) : class$de$audi$atip$base$IFrameworkAccess).getName());
@@ -52,7 +51,6 @@ implements BundleActivator {
         }
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         for (int i2 = this.serviceRegistrations.size() - 1; i2 >= 0; --i2) {
             this.removeService((ServiceRegistration)this.serviceRegistrations.get(i2));
@@ -75,13 +73,13 @@ implements BundleActivator {
     public String getName() {
         String string;
         try {
-            string = (String)this.bundleContext.getBundle().getHeaders().get("Bundle-Name");
+            string = (String)this.bundleContext.getBundle().getHeaders().get(MNFST_HDR_BUNDLE_NAME);
             if (string == null) {
-                string = "???";
+                string = BUNDLE_NAME_UNKNOWN;
             }
         }
         catch (Exception exception) {
-            string = "???";
+            string = BUNDLE_NAME_UNKNOWN;
         }
         return string;
     }
@@ -125,10 +123,6 @@ implements BundleActivator {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static {
-        EMPTY_DICTIONARY = new Hashtable();
     }
 }
 

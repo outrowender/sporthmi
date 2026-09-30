@@ -20,12 +20,10 @@ extends AbstractHistoryCallData {
         super(iFrameworkAccess, navigationHandler, operatorCallResultArray, arrayList, string, date);
     }
 
-    @Override
     protected AbstractHistoryCallListRow createHistoryCallListRow(boolean bl) {
         return new HistoryCallListRowEvo(this.framework, this.name, this.dateTime, bl, this.operatorCallResults.length);
     }
 
-    @Override
     protected PoiResultListRow createNewPoiResultListRow(OperatorCallResult operatorCallResult) {
         return new PoiResultListRowEvo(operatorCallResult, this.naviHandler, this);
     }

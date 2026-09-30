@@ -23,39 +23,32 @@ implements IDSIResource {
         this.activeApplications = n3;
     }
 
-    @Override
     public int getDSIResourceId() {
         return CarPlayResource.mapResourceIdHMI2Carplay(this.getResourceId());
     }
 
-    @Override
     public int getDSIResourceOwner() {
         return CarPlayResource.mapResourceOwnerHMI2Carplay(this.getOwner());
     }
 
-    @Override
     public int getDSITransferPriority(boolean bl) {
         System.out.println("wieso nicht hier??? ");
         return CarplayUtils.getDsiTransferPriority(this.activeApplications, this.getResourceId() == 1, bl);
     }
 
-    @Override
     public int getDSITakeType(boolean bl) {
         System.out.println("hierhin gehst du ja auch!");
         return CarplayUtils.getDsiTransferType(this.activeApplications, this.getResourceId() == 1, bl);
     }
 
-    @Override
     public int getDSITakeConstraint(boolean bl) {
         return CarplayUtils.getDsiTakeConstraint(this.activeApplications, this.getResourceId() == 1, bl);
     }
 
-    @Override
     public int getDSIBorrowConstraint(boolean bl) {
         return CarplayUtils.getDsiBorrowConstraint(this.activeApplications, this.getResourceId() == 1, bl);
     }
 
-    @Override
     public int getDSIUnborrowConstraint(boolean bl) {
         return CarplayUtils.getDsiUnborrowConstraint(this.activeApplications, this.getResourceId() == 1, bl);
     }

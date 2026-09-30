@@ -3,17 +3,18 @@
  */
 package de.audi.app.messaging.core.compose;
 
+import de.audi.app.messaging.core.addressbook.AddressSelectionListRow;
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
 import de.audi.app.messaging.core.component.AbstractMessagingComponent;
-import de.audi.app.messaging.core.compose.MessageCreator$1;
-import de.audi.app.messaging.core.compose.MessageCreator$2;
-import de.audi.app.messaging.core.compose.MessageCreator$3;
-import de.audi.app.messaging.core.compose.MessageCreator$MyBaseListModelListener;
-import de.audi.app.messaging.core.compose.MessageCreator$MyButtonListener;
+import de.audi.app.messaging.core.compose.NewMessage;
 import de.audi.app.messaging.core.osgi.MessagingBundleContext;
 import de.audi.app.messaging.core.util.Messages;
-import de.audi.atip.base.IFrameworkAccess;
-import de.audi.atip.log.LogChannel;
+import de.audi.app.messaging.core.viewmessage.SelectedMessage;
+import de.audi.atip.hmi.model.DefaultButtonListener;
+import de.audi.atip.hmi.model.list.DefaultBaseListModelListener;
+import de.audi.atip.hmi.model.list.EvoListRow;
+import org.dsi.ifc.messaging.MatchedAddress;
+import org.dsi.ifc.messaging.MessageDetails;
 import org.dsi.ifc.messaging.MessageListEntry;
 
 public final class MessageCreator
@@ -24,69 +25,89 @@ extends AbstractMessagingComponent {
         super(messagingBundleContext, "App.Messaging.Main");
     }
 
-    @Override
     public void init(AbstractMsgApplication abstractMsgApplication) {
         super.init(abstractMsgApplication);
-        MessageCreator$MyButtonListener messageCreator$MyButtonListener = new MessageCreator$MyButtonListener(this, null);
-        this.framework.getHmiServiceApp().getButtonModel(-1231871744).setButtonListener(messageCreator$MyButtonListener);
-        this.framework.getHmiServiceApp().getButtonModel(1033052416).setButtonListener(messageCreator$MyButtonListener);
-        this.framework.getHmiServiceApp().getButtonModel(1670521088).setButtonListener(messageCreator$MyButtonListener);
-        this.framework.getHmiServiceApp().getButtonModel(1167270144).setButtonListener(messageCreator$MyButtonListener);
-        this.framework.getHmiServiceApp().getButtonModel(-1416421120).setButtonListener(messageCreator$MyButtonListener);
-        this.framework.getHmiServiceApp().getButtonModel(1184047360).setButtonListener(messageCreator$MyButtonListener);
-        this.framework.getHmiServiceApp().getButtonModel(-1164762880).setButtonListener(messageCreator$MyButtonListener);
-        this.framework.getHmiServiceApp().getButtonModel(-1315757824).setButtonListener(messageCreator$MyButtonListener);
-        this.framework.getHmiServiceApp().getButtonModel(1217601792).setButtonListener(messageCreator$MyButtonListener);
-        this.framework.getHmiServiceApp().getButtonModel(-1298980608).setButtonListener(messageCreator$MyButtonListener);
-        this.framework.getHmiServiceApp().getButtonModel(1150492928).setButtonListener(messageCreator$MyButtonListener);
-        this.framework.getHmiServiceApp().getBaseListModel(-124641024).setListener(new MessageCreator$MyBaseListModelListener(this, null));
+        MyButtonListener myButtonListener = new MyButtonListener();
+        this.framework.getHmiServiceApp().getButtonModel(2200502).setButtonListener(myButtonListener);
+        this.framework.getHmiServiceApp().getButtonModel(2200381).setButtonListener(myButtonListener);
+        this.framework.getHmiServiceApp().getButtonModel(2200163).setButtonListener(myButtonListener);
+        this.framework.getHmiServiceApp().getButtonModel(2200389).setButtonListener(myButtonListener);
+        this.framework.getHmiServiceApp().getButtonModel(2200491).setButtonListener(myButtonListener);
+        this.framework.getHmiServiceApp().getButtonModel(2200390).setButtonListener(myButtonListener);
+        this.framework.getHmiServiceApp().getButtonModel(2200506).setButtonListener(myButtonListener);
+        this.framework.getHmiServiceApp().getButtonModel(2200497).setButtonListener(myButtonListener);
+        this.framework.getHmiServiceApp().getButtonModel(2200392).setButtonListener(myButtonListener);
+        this.framework.getHmiServiceApp().getButtonModel(2200498).setButtonListener(myButtonListener);
+        this.framework.getHmiServiceApp().getButtonModel(2200388).setButtonListener(myButtonListener);
+        this.framework.getHmiServiceApp().getBaseListModel(2200312).setListener(new MyBaseListModelListener());
     }
 
     public void setAttachmentDownloadMode(int n) {
-        this.log.log(-2137614336, "[MessageCreator#setAttachmentDownloadMode] attachmentDownloadMode = %1", (long)n);
+        this.log.log(10000000, "[MessageCreator#setAttachmentDownloadMode] attachmentDownloadMode = %1", (long)n);
         this.attachmentDownloadMode = n;
     }
 
     public void composeNew() {
-        this.log.log(-2137614336, "[MessageCreator#composeNew]");
+        this.log.log(10000000, "[MessageCreator#composeNew]");
         this.setCompositionMode(0);
         this.msgApp.getNewMessage().clear();
     }
 
     public void composeContinue() {
-        this.log.log(-2137614336, "[MessageCreator#composeContinue]");
+        this.log.log(10000000, "[MessageCreator#composeContinue]");
         this.setCompositionMode(1);
     }
 
     public void composeEdit() {
-        this.log.log(-2137614336, "[MessageCreator#composeEdit]");
+        this.log.log(10000000, "[MessageCreator#composeEdit]");
         this.setCompositionMode(2);
         MessageListEntry messageListEntry = this.msgApp.getMessageOptionsManager().getFocusedMessageListEntry();
         int n = this.computeAttachmentDownloadMode(messageListEntry);
-        MessageCreator$1 messageCreator$1 = new MessageCreator$1(this);
-        this.msgApp.getSelectedMessage().requestSetMessage(messageListEntry, n, messageCreator$1);
+        SelectedMessage.ISetMessageResultHandler iSetMessageResultHandler = new SelectedMessage.ISetMessageResultHandler(){
+
+            public void responseSetMessage(boolean bl, MessageDetails messageDetails) {
+                if (bl) {
+                    MessageCreator.this.msgApp.getNewMessage().prepareEditMessage(messageDetails);
+                }
+            }
+        };
+        this.msgApp.getSelectedMessage().requestSetMessage(messageListEntry, n, iSetMessageResultHandler);
     }
 
-    public void composeReply(boolean bl) {
-        this.log.log(-2137614336, "[MessageCreator#composeReply] replyAll = %1", bl);
+    public void composeReply(final boolean bl) {
+        this.log.log(10000000, "[MessageCreator#composeReply] replyAll = %1", bl);
         this.setCompositionMode(bl ? 4 : 3);
         MessageListEntry messageListEntry = this.msgApp.getMessageOptionsManager().getFocusedMessageListEntry();
-        MessageCreator$2 messageCreator$2 = new MessageCreator$2(this, bl);
-        this.msgApp.getSelectedMessage().requestSetMessage(messageListEntry, 0, messageCreator$2);
+        SelectedMessage.ISetMessageResultHandler iSetMessageResultHandler = new SelectedMessage.ISetMessageResultHandler(){
+
+            public void responseSetMessage(boolean bl2, MessageDetails messageDetails) {
+                if (bl2) {
+                    MessageCreator.this.msgApp.getNewMessage().prepareReplyToMessage(messageDetails, bl);
+                }
+            }
+        };
+        this.msgApp.getSelectedMessage().requestSetMessage(messageListEntry, 0, iSetMessageResultHandler);
     }
 
     public void composeForward() {
-        this.log.log(-2137614336, "[MessageCreator#composeForward]");
+        this.log.log(10000000, "[MessageCreator#composeForward]");
         this.setCompositionMode(5);
         MessageListEntry messageListEntry = this.msgApp.getMessageOptionsManager().getFocusedMessageListEntry();
         int n = this.computeAttachmentDownloadMode(messageListEntry);
-        MessageCreator$3 messageCreator$3 = new MessageCreator$3(this);
-        this.msgApp.getSelectedMessage().requestSetMessage(messageListEntry, n, messageCreator$3);
+        SelectedMessage.ISetMessageResultHandler iSetMessageResultHandler = new SelectedMessage.ISetMessageResultHandler(){
+
+            public void responseSetMessage(boolean bl, MessageDetails messageDetails) {
+                if (bl) {
+                    MessageCreator.this.msgApp.getNewMessage().prepareForwardMessage(messageDetails);
+                }
+            }
+        };
+        this.msgApp.getSelectedMessage().requestSetMessage(messageListEntry, n, iSetMessageResultHandler);
     }
 
     private void setCompositionMode(int n) {
-        this.log.log(-2137614336, "[MessageCreator#setCompositionMode] compositionMode = %1", (long)n);
-        this.framework.getHmiServiceApp().getChoiceModel(1855136000).setValue(n);
+        this.log.log(10000000, "[MessageCreator#setCompositionMode] compositionMode = %1", (long)n);
+        this.framework.getHmiServiceApp().getChoiceModel(2200430).setValue(n);
     }
 
     private int computeAttachmentDownloadMode(MessageListEntry messageListEntry) {
@@ -97,91 +118,78 @@ extends AbstractMessagingComponent {
     }
 
     private void composeMsgBlankButton(int n, int n2) {
-        this.log.log(1078071040, "[MessageCreator#composeMsgBlankButton] modelID = %1", (long)n);
+        this.log.log(1000000, "[MessageCreator#composeMsgBlankButton] modelID = %1", (long)n);
         this.composeNew();
         this.framework.getHmiServiceApp().getModelApp(n).fireEvent(n2);
     }
 
     private void composeMsgResumeButton(int n, int n2) {
-        this.log.log(1078071040, "[MessageCreator#composeMsgResumeButton] modelID = %1", (long)n);
+        this.log.log(1000000, "[MessageCreator#composeMsgResumeButton] modelID = %1", (long)n);
         this.composeContinue();
         this.framework.getHmiServiceApp().getModelApp(n).fireEvent(n2);
     }
 
     private void replyButton(int n, int n2) {
-        this.log.log(1078071040, "[MessageCreator#replyButton] modelID = %1", (long)n);
+        this.log.log(1000000, "[MessageCreator#replyButton] modelID = %1", (long)n);
         this.composeReply(false);
         this.framework.getHmiServiceApp().getModelApp(n).fireEvent(n2);
     }
 
     private void replyAllButton(int n, int n2) {
-        this.log.log(1078071040, "[MessageCreator#replyAllButton]");
+        this.log.log(1000000, "[MessageCreator#replyAllButton]");
         this.composeReply(true);
         this.framework.getHmiServiceApp().getModelApp(n).fireEvent(n2);
     }
 
     private void forwardButton(int n, int n2) {
-        this.log.log(1078071040, "[MessageCreator#forwardButton] modelID = %1", (long)n);
+        this.log.log(1000000, "[MessageCreator#forwardButton] modelID = %1", (long)n);
         this.composeForward();
         this.framework.getHmiServiceApp().getModelApp(n).fireEvent(n2);
     }
 
     private void editButton(int n, int n2) {
-        this.log.log(1078071040, "[MessageCreator#editButton] modelID = %1", (long)n);
+        this.log.log(1000000, "[MessageCreator#editButton] modelID = %1", (long)n);
         this.composeEdit();
         this.framework.getHmiServiceApp().getModelApp(n).fireEvent(n2);
     }
 
-    static /* synthetic */ AbstractMsgApplication access$200(MessageCreator messageCreator) {
-        return messageCreator.msgApp;
+    private class MyButtonListener
+    extends DefaultButtonListener {
+        private MyButtonListener() {
+        }
+
+        public void keyTyped(int n, int n2, int n3) {
+            if (n == 2200502 || n == 2200381) {
+                MessageCreator.this.composeMsgBlankButton(n, n3);
+            } else if (n == 2200163 || n == 2200389) {
+                MessageCreator.this.composeMsgResumeButton(n, n3);
+            } else if (n == 2200491 || n == 2200390) {
+                MessageCreator.this.replyButton(n, n3);
+            } else if (n == 2200506) {
+                MessageCreator.this.replyAllButton(n, n3);
+            } else if (n == 2200497 || n == 2200392) {
+                MessageCreator.this.forwardButton(n, n3);
+            } else if (n == 2200498 || n == 2200388) {
+                MessageCreator.this.editButton(n, n3);
+            } else {
+                MessageCreator.this.log.log(10000, "[MessageCreator#keyTyped] Unexpected modelID = %1", (long)n);
+            }
+        }
     }
 
-    static /* synthetic */ AbstractMsgApplication access$300(MessageCreator messageCreator) {
-        return messageCreator.msgApp;
-    }
+    private class MyBaseListModelListener
+    extends DefaultBaseListModelListener {
+        private MyBaseListModelListener() {
+        }
 
-    static /* synthetic */ AbstractMsgApplication access$400(MessageCreator messageCreator) {
-        return messageCreator.msgApp;
-    }
-
-    static /* synthetic */ void access$500(MessageCreator messageCreator, int n, int n2) {
-        messageCreator.composeMsgBlankButton(n, n2);
-    }
-
-    static /* synthetic */ void access$600(MessageCreator messageCreator, int n, int n2) {
-        messageCreator.composeMsgResumeButton(n, n2);
-    }
-
-    static /* synthetic */ void access$700(MessageCreator messageCreator, int n, int n2) {
-        messageCreator.replyButton(n, n2);
-    }
-
-    static /* synthetic */ void access$800(MessageCreator messageCreator, int n, int n2) {
-        messageCreator.replyAllButton(n, n2);
-    }
-
-    static /* synthetic */ void access$900(MessageCreator messageCreator, int n, int n2) {
-        messageCreator.forwardButton(n, n2);
-    }
-
-    static /* synthetic */ void access$1000(MessageCreator messageCreator, int n, int n2) {
-        messageCreator.editButton(n, n2);
-    }
-
-    static /* synthetic */ LogChannel access$1100(MessageCreator messageCreator) {
-        return messageCreator.log;
-    }
-
-    static /* synthetic */ LogChannel access$1200(MessageCreator messageCreator) {
-        return messageCreator.log;
-    }
-
-    static /* synthetic */ AbstractMsgApplication access$1300(MessageCreator messageCreator) {
-        return messageCreator.msgApp;
-    }
-
-    static /* synthetic */ IFrameworkAccess access$1400(MessageCreator messageCreator) {
-        return messageCreator.framework;
+        public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            MessageCreator.this.log.log(1000000, "[MessageCreator#itemSelected] row = %1", (Object)evoListRow);
+            MatchedAddress matchedAddress = ((AddressSelectionListRow)evoListRow).getMatchedAddress();
+            NewMessage newMessage = MessageCreator.this.msgApp.getNewMessage();
+            newMessage.clear();
+            newMessage.getSelectedRecipientList().addRecipientsTo(new MatchedAddress[]{matchedAddress});
+            MessageCreator.this.framework.getHmiServiceApp().getModelApp(n).fireEvent(n4);
+        }
     }
 }
 

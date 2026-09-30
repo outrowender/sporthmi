@@ -14,8 +14,7 @@ implements TimerListener {
     private Timer doublePressTimer;
     private long doublePressTimeOut;
 
-    protected abstract void doublePressed() {
-    }
+    protected abstract void doublePressed();
 
     private void restartDoublePressTimer() {
         if (this.doublePressTimer == null) {
@@ -30,7 +29,6 @@ implements TimerListener {
         }
     }
 
-    @Override
     public void fireTimer(Timer timer) {
         if (timer.equals(this.doublePressTimer)) {
             this.shortPressed();
@@ -44,7 +42,6 @@ implements TimerListener {
         this.doublePressTimeOut = l;
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
         if (this.doublePressTimer != null && this.doublePressTimer.isRunning()) {
             this.cancelDoublePressTimer();
@@ -54,14 +51,12 @@ implements TimerListener {
         }
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
         if (this.doublePressTimer == null || !this.doublePressTimer.isRunning()) {
             super.keyReleased(n, n2, n3);
         }
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
         if (this.doublePressTimer == null || !this.doublePressTimer.isRunning()) {
             super.keyTyped(n, n2, n3);

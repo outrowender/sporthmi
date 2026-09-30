@@ -7,7 +7,6 @@ import de.audi.atip.hmi.modelaccess.HMIModelApp;
 
 public interface DataModelApp
 extends HMIModelApp {
-    default public void set(Object object) {
-    }
+    public void set(Object var1);
 }
 

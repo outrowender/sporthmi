@@ -8,26 +8,23 @@ import de.audi.atip.log.LogChannel;
 
 public class NullMediaDSIOnlineListener
 implements IMediaDSIOnlineListener {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "NullMediaDSIOnlineListener";
     private final LogChannel logger;
 
     public NullMediaDSIOnlineListener(LogChannel logChannel) {
         this.logger = logChannel;
     }
 
-    @Override
     public void updateBufferState(int n) {
-        this.logger.log(1078071040, "[%1.updateBufferState]", (Object)"NullMediaDSIOnlineListener");
+        this.logger.log(1000000, "[%1.updateBufferState]", (Object)LOGCLASS);
     }
 
-    @Override
     public void updateBufferFillInfo(int n, int n2) {
-        this.logger.log(1078071040, "[%1.updateBufferFillInfo]", (Object)"NullMediaDSIOnlineListener");
+        this.logger.log(1000000, "[%1.updateBufferFillInfo]", (Object)LOGCLASS);
     }
 
-    @Override
     public void updateAudioSettings(int n, int n2) {
-        this.logger.log(1078071040, "[%1.updateAudioSettings]", (Object)"NullMediaDSIOnlineListener");
+        this.logger.log(1000000, "[%1.updateAudioSettings]", (Object)LOGCLASS);
     }
 }
 

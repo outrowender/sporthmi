@@ -6,37 +6,26 @@ package de.audi.app.sdsmanager.apps.adb;
 import de.audi.atip.hmi.model.list.EvoListRow;
 
 public interface IAddressBookPicklistHandler {
-    default public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-    }
+    public void itemSelected(EvoListRow var1, int var2, int var3, int var4, int var5);
 
-    default public void showADBPopup() {
-    }
+    public void showADBPopup();
 
-    default public void showADBNaviPopup() {
-    }
+    public void showADBNaviPopup();
 
-    default public void removeADBPopup() {
-    }
+    public void removeADBPopup();
 
-    default public void removeADBNaviPopup() {
-    }
+    public void removeADBNaviPopup();
 
-    default public void showTelContactPopup() {
-    }
+    public void showTelContactPopup();
 
-    default public void removeTelContactPopup() {
-    }
+    public void removeTelContactPopup();
 
-    default public void showMailPopup() {
-    }
+    public void showMailPopup();
 
-    default public void removeMailPoup() {
-    }
+    public void removeMailPoup();
 
-    default public void showADBContactPopup() {
-    }
+    public void showADBContactPopup();
 
-    default public void removeADBContactPopup() {
-    }
+    public void removeADBContactPopup();
 }
 

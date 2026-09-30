@@ -25,14 +25,12 @@ extends AbstractListAdapterBAP {
         super(abstractCombiModule, 36, mediaBrowserListHandler);
     }
 
-    @Override
     protected void sendStatusRequest(GetArrayIndication getArrayIndication, CombiBAPArrayElement[] combiBAPArrayElementArray, StatusArray statusArray) {
         MediaBrowser_StatusArray mediaBrowser_StatusArray = (MediaBrowser_StatusArray)statusArray;
-        mediaBrowser_StatusArray.activeListPos = ((MediaBrowserListHandler)this.listHandler).isPlaybackFolder() ? -65536 : 0;
+        mediaBrowser_StatusArray.activeListPos = ((MediaBrowserListHandler)this.listHandler).isPlaybackFolder() ? 65535 : 0;
         super.sendStatusRequest(getArrayIndication, combiBAPArrayElementArray, mediaBrowser_StatusArray);
     }
 
-    @Override
     protected BAPArrayElement convertArrayElement(CombiBAPArrayElement combiBAPArrayElement, ArrayHeader arrayHeader) {
         MediaBrowser_Data mediaBrowser_Data = new MediaBrowser_Data(arrayHeader);
         if (combiBAPArrayElement instanceof CombiBAPMediaBrowserListEntry) {
@@ -48,29 +46,25 @@ extends AbstractListAdapterBAP {
             mediaBrowser_Data.fileState.emptyFolder = combiBAPMediaBrowserListEntry.hasFileState(1);
             mediaBrowser_Data.fileName.setContent(combiBAPMediaBrowserListEntry.getFileName());
         } else {
-            this.logChannel.log(10000, "[MediaBrowserListAdapterBAP#convertArrayElement] wrong dataType (expected: %1, is: %2)", (Object)(class$de$audi$atip$interapp$combi$bap$audio$data$CombiBAPMediaBrowserListEntry == null ? (class$de$audi$atip$interapp$combi$bap$audio$data$CombiBAPMediaBrowserListEntry = MediaBrowserListAdapterBAP.class$("de.audi.atip.interapp.combi.bap.audio.data.CombiBAPMediaBrowserListEntry")) : class$de$audi$atip$interapp$combi$bap$audio$data$CombiBAPMediaBrowserListEntry).getName(), (Object)super.getClass().getName());
+            this.logChannel.log(10000, "[MediaBrowserListAdapterBAP#convertArrayElement] wrong dataType (expected: %1, is: %2)", (Object)(class$de$audi$atip$interapp$combi$bap$audio$data$CombiBAPMediaBrowserListEntry == null ? (class$de$audi$atip$interapp$combi$bap$audio$data$CombiBAPMediaBrowserListEntry = MediaBrowserListAdapterBAP.class$("de.audi.atip.interapp.combi.bap.audio.data.CombiBAPMediaBrowserListEntry")) : class$de$audi$atip$interapp$combi$bap$audio$data$CombiBAPMediaBrowserListEntry).getName(), (Object)combiBAPArrayElement.getClass().getName());
         }
         return mediaBrowser_Data;
     }
 
-    @Override
     protected BAPArrayElement createArrayElement(ArrayHeader arrayHeader, int n) {
         MediaBrowser_Data mediaBrowser_Data = new MediaBrowser_Data(arrayHeader);
         mediaBrowser_Data.setPos(n);
         return mediaBrowser_Data;
     }
 
-    @Override
     protected ChangedArray createChangedArraySerializer() {
         return new MediaBrowser_ChangedArray();
     }
 
-    @Override
     protected StatusArray createStatusArraySerializer() {
         return new MediaBrowser_StatusArray();
     }
 
-    @Override
     protected int getCommonRecordAddress(boolean[] blArray) {
         boolean bl = blArray[0] || blArray[15];
         boolean bl2 = blArray[0] || blArray[1];

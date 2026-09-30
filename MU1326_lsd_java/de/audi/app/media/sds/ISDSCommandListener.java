@@ -6,10 +6,8 @@ package de.audi.app.media.sds;
 import java.util.Map;
 
 public interface ISDSCommandListener {
-    default public int[] getCommandIDs() {
-    }
+    public int[] getCommandIDs();
 
-    default public Object performCommand(int n, Map map) {
-    }
+    public Object performCommand(int var1, Map var2);
 }
 

@@ -4,7 +4,7 @@
 package de.audi.atip.model;
 
 public interface IEvoEngineeringModelBank {
-    public static final int ENG_ADR_EXPORT_LOCKED_CHOICE;
-    public static final int ENG_TEST_CHOICE;
+    public static final int ENG_ADR_EXPORT_LOCKED_CHOICE = 1300072;
+    public static final int ENG_TEST_CHOICE = 1300073;
 }
 

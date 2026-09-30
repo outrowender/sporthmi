@@ -25,8 +25,7 @@ implements OSMemoryAccessor {
         this.jxe = jxe;
     }
 
-    @Override
-    public int available() {
+    public int available() throws IOException {
         if (this.pointer == 0L) {
             throw new IOException(Msg.getString("K0059"));
         }
@@ -36,33 +35,27 @@ implements OSMemoryAccessor {
         return this.size - this.offset;
     }
 
-    @Override
-    public void close() {
+    public void close() throws IOException {
         this.pointer = 0L;
     }
 
-    @Override
     public long getPointer() {
         return this.pointer;
     }
 
-    @Override
     public int getSize() {
         return this.size;
     }
 
-    @Override
     public synchronized void mark(int n) {
         this.mark = this.offset;
     }
 
-    @Override
     public boolean markSupported() {
         return true;
     }
 
-    @Override
-    public int read() {
+    public int read() throws IOException {
         if (this.pointer == 0L) {
             throw new IOException(Msg.getString("K0059"));
         }
@@ -75,8 +68,7 @@ implements OSMemoryAccessor {
         return this.nativeGetByte(this.pointer, this.offset++) & 0xFF;
     }
 
-    @Override
-    public int read(byte[] byArray, int n, int n2) {
+    public int read(byte[] byArray, int n, int n2) throws IOException {
         if (this.pointer == 0L) {
             throw new IOException(Msg.getString("K0059"));
         }
@@ -95,13 +87,11 @@ implements OSMemoryAccessor {
         throw new ArrayIndexOutOfBoundsException();
     }
 
-    @Override
     public synchronized void reset() {
         this.offset = this.mark;
     }
 
-    @Override
-    public long skip(long l) {
+    public long skip(long l) throws IOException {
         if (l <= 0L) {
             return 0L;
         }
@@ -117,10 +107,8 @@ implements OSMemoryAccessor {
         return n < n2 ? n : n2;
     }
 
-    private native byte nativeGetByte(long l, int n) {
-    }
+    private native byte nativeGetByte(long var1, int var3);
 
-    private native void nativeMemcpy(byte[] byArray, int n, long l, int n2) {
-    }
+    private native void nativeMemcpy(byte[] var1, int var2, long var3, int var5);
 }
 

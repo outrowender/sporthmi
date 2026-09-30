@@ -16,15 +16,12 @@ extends AbstractGuiSearchHandler {
         super(new int[0], null, null, null, logChannel, abstractSearch);
     }
 
-    @Override
     public void searchResultSelected(SearchResultListRow searchResultListRow, int n, int n2) {
     }
 
-    @Override
     public void childNodeSelected(EvoListRow evoListRow, int n, int n2) {
     }
 
-    @Override
     public void requestChildrenNodes(SearchResultListRow searchResultListRow, int n) {
     }
 }

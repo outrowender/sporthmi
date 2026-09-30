@@ -9,16 +9,12 @@ import org.dsi.ifc.carplay.Resource;
 import org.dsi.ifc.carplay.ResourceRequest;
 
 public interface IDSICarplayTransferObjectFactory {
-    default public ResourceRequest createResourceRequest(int n, int n2, int n3, int n4, int n5, int n6) {
-    }
+    public ResourceRequest createResourceRequest(int var1, int var2, int var3, int var4, int var5, int var6);
 
-    default public Resource createResource(int n, int n2) {
-    }
+    public Resource createResource(int var1, int var2);
 
-    default public AppStateRequest createAppStateRequest(int n, boolean bl, int n2) {
-    }
+    public AppStateRequest createAppStateRequest(int var1, boolean var2, int var3);
 
-    default public AppState createAppState(int n, int n2, int n3) {
-    }
+    public AppState createAppState(int var1, int var2, int var3);
 }
 

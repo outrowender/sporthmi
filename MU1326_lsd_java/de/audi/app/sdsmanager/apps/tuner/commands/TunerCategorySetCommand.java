@@ -26,7 +26,6 @@ extends AbstractSystemCallCommand {
         this.source = (byte)SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
         long l = 0L;
         switch (this.source) {
@@ -39,20 +38,20 @@ extends AbstractSystemCallCommand {
                 break;
             }
             default: {
-                this.logger.log(-1601830656, "%1#execute: unknown parameter source=%2!", (Object)this.getName(), (long)this.source);
+                this.logger.log(100000, "%1#execute: unknown parameter source=%2!", (Object)this.getName(), (long)this.source);
             }
         }
         if (l == 0L || l == -1L) {
-            this.logger.log(-1601830656, "%1#execute: Category ID not found: %2!", (Object)this.getName(), l);
+            this.logger.log(100000, "%1#execute: Category ID not found: %2!", (Object)this.getName(), l);
             this.sendResult(10005);
             return;
         }
-        this.logger.log(-2137614336, "%1#execute: categoryID=%2!", (Object)this.getName(), l);
+        this.logger.log(10000000, "%1#execute: categoryID=%2!", (Object)this.getName(), l);
         byte by = this.tunerService.tuneEnsembleByID(l);
-        this.logger.log(-2137614336, "%1#execute: ensembleSetReply=%2!", (Object)this.getName(), (long)by);
+        this.logger.log(10000000, "%1#execute: ensembleSetReply=%2!", (Object)this.getName(), (long)by);
         String string = SDSUtils.getStringForObjID(l, this.nBestHandler.getMatchingPicklist((byte)0));
         if (SDSUtils.isEmpty(string)) {
-            this.logger.log(-1601830656, "%1#execute: no ensemble with id=%2 found", (Object)this.getName(), l);
+            this.logger.log(100000, "%1#execute: no ensemble with id=%2 found", (Object)this.getName(), l);
             this.sendResult(10005);
             return;
         }
@@ -60,7 +59,6 @@ extends AbstractSystemCallCommand {
         this.sendResult(by == 0 ? 10005 : 10008);
     }
 
-    @Override
     protected void handleSDSLineNumbering() {
         SDSUtils.updateSDSNumbers(false);
     }

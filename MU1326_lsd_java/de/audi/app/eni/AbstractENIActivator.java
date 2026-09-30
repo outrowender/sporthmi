@@ -16,11 +16,11 @@ extends AbstractActivator {
 
     protected final void initCore() {
         this.logMain = this.getFramework().getLogChannel("App.ENI.Main");
-        this.getLogMain().log(1078071040, "initCore()");
+        this.getLogMain().log(1000000, "initCore()");
     }
 
     protected final void cleanupCore() {
-        this.getLogMain().log(1078071040, "cleanupCore()");
+        this.getLogMain().log(1000000, "cleanupCore()");
         this.logMain = null;
     }
 }

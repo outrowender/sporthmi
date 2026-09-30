@@ -6,470 +6,422 @@ package de.audi.remotehmi.ui.mib2.grid;
 import de.audi.remotehmi.textconstants.ITextConstantsConverter;
 import de.audi.remotehmi.ui.mib2.grid.IGeoLocatable;
 import de.audi.remotehmi.ui.mib2.grid.IGrid;
-import de.audi.remotehmi.ui.mib2.grid.IGrid$ExpandMode;
 import de.audi.remotehmi.ui.mib2.grid.IGridAction;
-import de.audi.remotehmi.ui.mib2.grid.IGridCell$1;
-import de.audi.remotehmi.ui.mib2.grid.IGridCell$10;
-import de.audi.remotehmi.ui.mib2.grid.IGridCell$11;
-import de.audi.remotehmi.ui.mib2.grid.IGridCell$2;
-import de.audi.remotehmi.ui.mib2.grid.IGridCell$3;
-import de.audi.remotehmi.ui.mib2.grid.IGridCell$4;
-import de.audi.remotehmi.ui.mib2.grid.IGridCell$5;
-import de.audi.remotehmi.ui.mib2.grid.IGridCell$6;
-import de.audi.remotehmi.ui.mib2.grid.IGridCell$7;
-import de.audi.remotehmi.ui.mib2.grid.IGridCell$8;
-import de.audi.remotehmi.ui.mib2.grid.IGridCell$9;
 import de.audi.remotehmi.ui.mib2.grid.IGridCellAction;
 import de.audi.remotehmi.ui.mib2.grid.IGridList;
 import de.audi.remotehmi.ui.mib2.grid.IGridListAction;
 import de.audi.remotehmi.util.DeepCloneable;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public interface IGridCell
 extends IGeoLocatable,
 DeepCloneable {
-    public static final int UNDEFINED;
-    public static final int TYPE_TEXT;
-    public static final int TYPE_IMAGE;
-    public static final int TYPE_PROGRESS_BAR;
-    public static final int TYPE_INPUT;
-    public static final int TYPE_DROP_DOWN_LIST;
-    public static final int TYPE_CHECKBOX;
-    public static final int TYPE_RADIO_BUTTON;
-    public static final int TYPE_ARROW;
-    public static final int TYPE_UPDATING_ICON;
-    public static final int TYPE_INPUT_PIN;
-    public static final int TYPE_RRD_TEXT;
-    public static final int TYPE_RRD_IMAGE;
-    public static final int TYPE_SUBGRID;
-    public static final int TYPE_FORM_FIELD;
-    public static final int TYPE_SEPARATING_LINE;
-    public static final int TYPE_ROTARY_SELECTOR;
-    public static final int TYPE_SYSTEM_IMAGE;
-    public static final int TYPE_BUTTON;
-    public static final int TYPE_LABEL_IMAGE;
-    public static final List typeDescription;
-    public static final int LINE_END_ABBREVIATED;
-    public static final int LINE_END_WRAPPED;
-    public static final int LINE_END_CLIPPED;
-    public static final Map lineEndOptions;
-    public static final int FONT_GIGANTIC;
-    public static final int FONT_HUGE;
-    public static final int FONT_BIG;
-    public static final int FONT_MEDIUM;
-    public static final int FONT_SMALL;
-    public static final int FONT_TINY;
-    public static final int FONT_VERY_TINY;
-    public static final int FONT_MEDIA_TITLE_NORMAL;
-    public static final int FONT_MEDIA_TITLE_BOLD;
-    public static final int FONT_MEDIA_ENTRY;
-    public static final int FONT_COUNT;
-    public static final Map fontOptions;
-    public static final int DEFAULT_FONT;
-    public static final int STYLE_NORMAL;
-    public static final int STYLE_ANNOTATION;
-    public static final Map styleOptions;
-    public static final int VISIBILITY_NORMAL;
-    public static final int VISIBILITY_HIGHLIGHTED;
-    public static final int VISIBILITY_HIDDEN;
-    public static final int VISIBILITY_NONE;
-    public static final Map visibilityOptions;
-    public static final int ALIGN_LEFT;
-    public static final int ALIGN_CENT_H;
-    public static final int ALIGN_RIGHT;
-    public static final int ALIGN_TOP;
-    public static final int ALIGN_CENT_V;
-    public static final int ALIGN_BOTTOM;
-    public static final int ALIGN_BASE_LINE;
-    public static final int ALIGN_FILL_H;
-    public static final int ALIGN_FILL_V;
-    public static final Map horizontalAlignmentOptions;
-    public static final Map verticalAlignmentOptions;
-    public static final int DIRECTION_RIGHT;
-    public static final int DIRECTION_DOWN;
-    public static final int DIRECTION_LEFT;
-    public static final int DIRECTION_TOP;
-    public static final Map directionOptions;
-    public static final int ROLE_UNDEFINED;
-    public static final int ROLE_ARROW_COLLAPSED_GROUP;
-    public static final int ROLE_ARROW_EXPANDED_GROUP;
-    public static final int ROLE_ARROW_SUBMENU_ACTUAL;
-    public static final int ROLE_ARROW_SUBMENU_PREVIEW;
-    public static final int ROLE_ARROW_DEFAULT;
-    public static final Map roleArrowOptions;
-    public static final int LAYOUT_UNDEFINED;
-    public static final int LAYOUT_MANUAL;
-    public static final int LAYOUT_AUTO;
-    public static final Map layoutOptions;
-    public static final int MAX_LINES_DEFAULT;
-    public static final int SCALE_MODE_FIXED_FACTOR;
-    public static final int SCALE_MODE_AUTOSCALE_FIT;
-    public static final int SCALE_MODE_AUTOSCALE_FILL;
-    public static final int SCALE_MODE_AUTOSCALE_STRETCH;
-    public static final Map scaleModeOptions;
-    public static final int AUTOSCALE_UP_AND_DOWN;
-    public static final int AUTOSCALE_ONLY_UP;
-    public static final int AUTOSCALE_ONLY_DOWN;
-    public static final Map scaleModificationsOptions;
-    public static final int COLOR_WHITE;
-    public static final int COLOR_GREEN;
-    public static final int COLOR_RED;
-
-    default public int getGridRow() {
-    }
-
-    default public void setGridRow(int n) {
-    }
-
-    default public int getGridColumn() {
-    }
-
-    default public void setGridColumn(int n) {
-    }
-
-    default public int getFont() {
-    }
+    public static final int UNDEFINED = -1;
+    public static final int TYPE_TEXT = 0;
+    public static final int TYPE_IMAGE = 1;
+    public static final int TYPE_PROGRESS_BAR = 2;
+    public static final int TYPE_INPUT = 3;
+    public static final int TYPE_DROP_DOWN_LIST = 4;
+    public static final int TYPE_CHECKBOX = 5;
+    public static final int TYPE_RADIO_BUTTON = 6;
+    public static final int TYPE_ARROW = 7;
+    public static final int TYPE_UPDATING_ICON = 8;
+    public static final int TYPE_INPUT_PIN = 9;
+    public static final int TYPE_RRD_TEXT = 10;
+    public static final int TYPE_RRD_IMAGE = 11;
+    public static final int TYPE_SUBGRID = 12;
+    public static final int TYPE_FORM_FIELD = 13;
+    public static final int TYPE_SEPARATING_LINE = 14;
+    public static final int TYPE_ROTARY_SELECTOR = 15;
+    public static final int TYPE_SYSTEM_IMAGE = 16;
+    public static final int TYPE_BUTTON = 17;
+    public static final int TYPE_LABEL_IMAGE = 52;
+    public static final List typeDescription = Collections.unmodifiableList(Arrays.asList(new String[]{"text", "image", "progressBar", "input", "dropDownList", "checkbox", "radioButton", "arrow", "updatingIcon", "inputPin", "rrdText", "rrdImage", "subgrid", "formField", "separatingLine", "rotarySelector", "systemImage", "button"}));
+    public static final int LINE_END_ABBREVIATED = 0;
+    public static final int LINE_END_WRAPPED = 1;
+    public static final int LINE_END_CLIPPED = 2;
+    public static final Map lineEndOptions = new HashMap(){
+        private static final long serialVersionUID = 1224095838029567769L;
+        {
+            this.put("abbreviated", new Integer(0));
+            this.put("wrapped", new Integer(1));
+            this.put("clipped", new Integer(2));
+        }
+    };
+    public static final int FONT_GIGANTIC = 0;
+    public static final int FONT_HUGE = 1;
+    public static final int FONT_BIG = 2;
+    public static final int FONT_MEDIUM = 3;
+    public static final int FONT_SMALL = 4;
+    public static final int FONT_TINY = 5;
+    public static final int FONT_VERY_TINY = 6;
+    public static final int FONT_MEDIA_TITLE_NORMAL = 7;
+    public static final int FONT_MEDIA_TITLE_BOLD = 8;
+    public static final int FONT_MEDIA_ENTRY = 9;
+    public static final int FONT_COUNT = 10;
+    public static final Map fontOptions = new HashMap(){
+        private static final long serialVersionUID = -3047474192697278387L;
+        {
+            this.put("gigantic", new Integer(0));
+            this.put("huge", new Integer(1));
+            this.put("big", new Integer(2));
+            this.put("medium", new Integer(3));
+            this.put("small", new Integer(4));
+            this.put("tiny", new Integer(5));
+            this.put("veryTiny", new Integer(6));
+            this.put("mediaTitleNormal", new Integer(7));
+            this.put("mediaTitleBold", new Integer(8));
+            this.put("mediaEntry", new Integer(9));
+        }
+    };
+    public static final int DEFAULT_FONT = 2;
+    public static final int STYLE_NORMAL = 1;
+    public static final int STYLE_ANNOTATION = 2;
+    public static final Map styleOptions = new HashMap(){
+        private static final long serialVersionUID = 5382273276954122401L;
+        {
+            this.put("normal", new Integer(1));
+            this.put("annotation", new Integer(2));
+        }
+    };
+    public static final int VISIBILITY_NORMAL = 0;
+    public static final int VISIBILITY_HIGHLIGHTED = 1;
+    public static final int VISIBILITY_HIDDEN = 2;
+    public static final int VISIBILITY_NONE = 3;
+    public static final Map visibilityOptions = new HashMap(){
+        private static final long serialVersionUID = -133381886177378864L;
+        {
+            this.put("normal", new Integer(0));
+            this.put("highlighted", new Integer(1));
+            this.put("hidden", new Integer(2));
+            this.put("none", new Integer(3));
+        }
+    };
+    public static final int ALIGN_LEFT = 1;
+    public static final int ALIGN_CENT_H = 2;
+    public static final int ALIGN_RIGHT = 3;
+    public static final int ALIGN_TOP = 4;
+    public static final int ALIGN_CENT_V = 5;
+    public static final int ALIGN_BOTTOM = 6;
+    public static final int ALIGN_BASE_LINE = 7;
+    public static final int ALIGN_FILL_H = 8;
+    public static final int ALIGN_FILL_V = 9;
+    public static final Map horizontalAlignmentOptions = new HashMap(){
+        private static final long serialVersionUID = -5178049973852710265L;
+        {
+            this.put("left", new Integer(1));
+            this.put("center", new Integer(2));
+            this.put("right", new Integer(3));
+            this.put("filled", new Integer(8));
+        }
+    };
+    public static final Map verticalAlignmentOptions = new HashMap(){
+        private static final long serialVersionUID = -5396838055345565848L;
+        {
+            this.put("top", new Integer(4));
+            this.put("center", new Integer(5));
+            this.put("bottom", new Integer(6));
+            this.put("filled", new Integer(9));
+            this.put("baseLine", new Integer(7));
+        }
+    };
+    public static final int DIRECTION_RIGHT = 0;
+    public static final int DIRECTION_DOWN = 1;
+    public static final int DIRECTION_LEFT = 2;
+    public static final int DIRECTION_TOP = 3;
+    public static final Map directionOptions = new HashMap(){
+        private static final long serialVersionUID = -1966711155117298664L;
+        {
+            this.put("right", new Integer(0));
+            this.put("down", new Integer(1));
+            this.put("left", new Integer(2));
+            this.put("top", new Integer(3));
+        }
+    };
+    public static final int ROLE_UNDEFINED = -1;
+    public static final int ROLE_ARROW_COLLAPSED_GROUP = 0;
+    public static final int ROLE_ARROW_EXPANDED_GROUP = 1;
+    public static final int ROLE_ARROW_SUBMENU_ACTUAL = 2;
+    public static final int ROLE_ARROW_SUBMENU_PREVIEW = 3;
+    public static final int ROLE_ARROW_DEFAULT = 0;
+    public static final Map roleArrowOptions = new HashMap(){
+        private static final long serialVersionUID = 6388073090280857583L;
+        {
+            this.put("collapsedGroup", new Integer(0));
+            this.put("expandedGroup", new Integer(1));
+            this.put("submenuActual", new Integer(2));
+            this.put("submenuPreview", new Integer(3));
+        }
+    };
+    public static final int LAYOUT_UNDEFINED = -1;
+    public static final int LAYOUT_MANUAL = 0;
+    public static final int LAYOUT_AUTO = 1;
+    public static final Map layoutOptions = new HashMap(){
+        private static final long serialVersionUID = 9143967491524466192L;
+        {
+            this.put("manual", new Integer(0));
+            this.put("auto", new Integer(1));
+            this.put("shrink", new Integer(0));
+            this.put("grow", new Integer(1));
+        }
+    };
+    public static final int MAX_LINES_DEFAULT = 30;
+    public static final int SCALE_MODE_FIXED_FACTOR = 0;
+    public static final int SCALE_MODE_AUTOSCALE_FIT = 1;
+    public static final int SCALE_MODE_AUTOSCALE_FILL = 2;
+    public static final int SCALE_MODE_AUTOSCALE_STRETCH = 3;
+    public static final Map scaleModeOptions = new HashMap(){
+        private static final long serialVersionUID = 6388073090280857583L;
+        {
+            this.put("factor", new Integer(0));
+            this.put("fit", new Integer(1));
+            this.put("fill", new Integer(2));
+            this.put("stretch", new Integer(3));
+        }
+    };
+    public static final int AUTOSCALE_UP_AND_DOWN = 0;
+    public static final int AUTOSCALE_ONLY_UP = 1;
+    public static final int AUTOSCALE_ONLY_DOWN = 2;
+    public static final Map scaleModificationsOptions = new HashMap(){
+        private static final long serialVersionUID = 6388073090280857583L;
+        {
+            this.put("growAndShrink", new Integer(0));
+            this.put("grow", new Integer(1));
+            this.put("shrink", new Integer(2));
+        }
+    };
+    public static final int COLOR_WHITE = 0;
+    public static final int COLOR_GREEN = 1;
+    public static final int COLOR_RED = 2;
 
-    default public void setFont(int n) {
-    }
+    public int getGridRow();
 
-    default public IGrid$ExpandMode getWidthMode() {
-    }
+    public void setGridRow(int var1);
 
-    default public void setWidthMode(IGrid$ExpandMode iGrid$ExpandMode) {
-    }
+    public int getGridColumn();
 
-    default public int getMinWidth() {
-    }
+    public void setGridColumn(int var1);
 
-    default public void setMinWidth(int n) {
-    }
+    public int getFont();
 
-    default public int getMaxWidth() {
-    }
+    public void setFont(int var1);
 
-    default public void setMaxWidth(int n) {
-    }
+    public IGrid.ExpandMode getWidthMode();
 
-    default public int getHorizontalAlignment() {
-    }
+    public void setWidthMode(IGrid.ExpandMode var1);
 
-    default public void setHorizontalAlignment(int n) {
-    }
+    public int getMinWidth();
 
-    default public int getVerticalAlignment() {
-    }
+    public void setMinWidth(int var1);
 
-    default public void setVerticalAlignment(int n) {
-    }
+    public int getMaxWidth();
 
-    default public boolean isEnabled() {
-    }
+    public void setMaxWidth(int var1);
 
-    default public void setEnabled(boolean bl) {
-    }
+    public int getHorizontalAlignment();
 
-    default public int getVisibility() {
-    }
+    public void setHorizontalAlignment(int var1);
 
-    default public void setVisibility(int n) {
-    }
+    public int getVerticalAlignment();
 
-    default public int getInitialVisibility() {
-    }
+    public void setVerticalAlignment(int var1);
 
-    default public void setInitialVisibility(int n) {
-    }
+    public boolean isEnabled();
 
-    default public int getLineEnd() {
-    }
+    public void setEnabled(boolean var1);
 
-    default public void setLineEnd(int n) {
-    }
+    public int getVisibility();
 
-    default public int getMaxLines() {
-    }
+    public void setVisibility(int var1);
 
-    default public void setMaxLines(int n) {
-    }
+    public int getInitialVisibility();
 
-    default public int getColumnSpan() {
-    }
+    public void setInitialVisibility(int var1);
 
-    default public void setColumnSpan(int n) {
-    }
+    public int getLineEnd();
 
-    default public int getRowSpan() {
-    }
+    public void setLineEnd(int var1);
 
-    default public void setRowSpan(int n) {
-    }
+    public int getMaxLines();
 
-    default public int getType() {
-    }
+    public void setMaxLines(int var1);
 
-    default public void setType(int n) {
-    }
+    public int getColumnSpan();
 
-    default public String getStringValue() {
-    }
+    public void setColumnSpan(int var1);
 
-    default public void setStringValue(String string) {
-    }
+    public int getRowSpan();
 
-    default public boolean getBooleanValue() {
-    }
+    public void setRowSpan(int var1);
 
-    default public void setBooleanValue(boolean bl) {
-    }
+    public int getType();
 
-    default public int getIntValue() {
-    }
+    public void setType(int var1);
 
-    default public void setIntValue(int n) {
-    }
+    public String getStringValue();
 
-    default public IGrid getGridValue() {
-    }
+    public void setStringValue(String var1);
 
-    default public void setGridValue(IGrid iGrid) {
-    }
+    public boolean getBooleanValue();
 
-    default public int getModelColumn() {
-    }
+    public void setBooleanValue(boolean var1);
 
-    default public void setModelColumn(int n) {
-    }
+    public int getIntValue();
 
-    default public int getMinHeight() {
-    }
+    public void setIntValue(int var1);
 
-    default public void setMinHeight(int n) {
-    }
+    public IGrid getGridValue();
 
-    default public int getMaxHeight() {
-    }
+    public void setGridValue(IGrid var1);
 
-    default public void setMaxHeight(int n) {
-    }
+    public int getModelColumn();
 
-    default public int[] getHighlight() {
-    }
+    public void setModelColumn(int var1);
 
-    default public void setHighlight(int[] nArray) {
-    }
+    public int getMinHeight();
 
-    default public IGridList getListValue() {
-    }
+    public void setMinHeight(int var1);
 
-    default public void setListValue(IGridList iGridList) {
-    }
+    public int getMaxHeight();
 
-    default public String getTextConstantValue() {
-    }
+    public void setMaxHeight(int var1);
 
-    default public void setTextConstantValue(String string) {
-    }
+    public int[] getHighlight();
 
-    default public boolean isReadOnly() {
-    }
+    public void setHighlight(int[] var1);
 
-    default public void setReadOnly(boolean bl) {
-    }
+    public IGridList getListValue();
 
-    default public void setBlocking(boolean bl) {
-    }
+    public void setListValue(IGridList var1);
 
-    default public boolean isBlocking() {
-    }
+    public String getTextConstantValue();
 
-    default public int getDirection() {
-    }
+    public void setTextConstantValue(String var1);
 
-    default public void setDirection(int n) {
-    }
+    public boolean isReadOnly();
 
-    default public int getRole() {
-    }
+    public void setReadOnly(boolean var1);
 
-    default public void setRole(int n) {
-    }
+    public void setBlocking(boolean var1);
 
-    default public String getLocalLocation() {
-    }
+    public boolean isBlocking();
 
-    default public void setLocalLocation(String string) {
-    }
+    public int getDirection();
 
-    default public boolean isIgnoreSize() {
-    }
+    public void setDirection(int var1);
 
-    default public void setIgnoreSize(boolean bl) {
-    }
+    public int getRole();
 
-    default public float getRotationY() {
-    }
+    public void setRole(int var1);
 
-    default public void setRotationY(float f2) {
-    }
+    public String getLocalLocation();
 
-    default public float getRotationZ() {
-    }
+    public void setLocalLocation(String var1);
 
-    default public void setRotationZ(float f2) {
-    }
+    public boolean isIgnoreSize();
 
-    default public int getScaleMode() {
-    }
+    public void setIgnoreSize(boolean var1);
 
-    default public void setScaleMode(int n) {
-    }
+    public float getRotationY();
 
-    default public int getScaleModification() {
-    }
+    public void setRotationY(float var1);
 
-    default public void setScaleModification(int n) {
-    }
+    public float getRotationZ();
 
-    default public float getScaleFactorY() {
-    }
+    public void setRotationZ(float var1);
 
-    default public void setScaleFactorY(float f2) {
-    }
+    public int getScaleMode();
 
-    default public float getScaleFactorX() {
-    }
+    public void setScaleMode(int var1);
 
-    default public void setScaleFactorX(float f2) {
-    }
+    public int getScaleModification();
 
-    default public boolean isOverlapLeftGap() {
-    }
+    public void setScaleModification(int var1);
 
-    default public void setOverlapLeftGap(boolean bl) {
-    }
+    public float getScaleFactorY();
 
-    default public boolean isOverlapRightGap() {
-    }
+    public void setScaleFactorY(float var1);
 
-    default public void setOverlapRightGap(boolean bl) {
-    }
+    public float getScaleFactorX();
 
-    default public boolean isOverlapTopGap() {
-    }
+    public void setScaleFactorX(float var1);
 
-    default public void setOverlapTopGap(boolean bl) {
-    }
+    public boolean isOverlapLeftGap();
 
-    default public boolean isOverlapBottomGap() {
-    }
+    public void setOverlapLeftGap(boolean var1);
 
-    default public void setOverlapBottomGap(boolean bl) {
-    }
+    public boolean isOverlapRightGap();
 
-    default public int getMarginLeft() {
-    }
+    public void setOverlapRightGap(boolean var1);
 
-    default public void setMarginLeft(int n) {
-    }
+    public boolean isOverlapTopGap();
 
-    default public int getMarginRight() {
-    }
+    public void setOverlapTopGap(boolean var1);
 
-    default public void setMarginRight(int n) {
-    }
+    public boolean isOverlapBottomGap();
 
-    default public int getMarginTop() {
-    }
+    public void setOverlapBottomGap(boolean var1);
 
-    default public void setMarginTop(int n) {
-    }
+    public int getMarginLeft();
 
-    default public int getMarginBottom() {
-    }
+    public void setMarginLeft(int var1);
 
-    default public void setMarginBottom(int n) {
-    }
+    public int getMarginRight();
 
-    default public void setStyle(int n) {
-    }
+    public void setMarginRight(int var1);
 
-    default public int getStyle() {
-    }
+    public int getMarginTop();
 
-    default public void setActionValue(String string) {
-    }
+    public void setMarginTop(int var1);
 
-    default public String getActionValue() {
-    }
+    public int getMarginBottom();
 
-    default public boolean isDynamicallyUpdated() {
-    }
+    public void setMarginBottom(int var1);
 
-    default public void setDynamicallyUpdated(boolean bl) {
-    }
+    public void setStyle(int var1);
 
-    default public boolean isRendered() {
-    }
+    public int getStyle();
 
-    default public boolean containsHighlightedText() {
-    }
+    public void setActionValue(String var1);
 
-    default public void replaceTextConstants(String string, ITextConstantsConverter iTextConstantsConverter) {
-    }
+    public String getActionValue();
 
-    default public int getOverlapGapsBitmask() {
-    }
+    public boolean isDynamicallyUpdated();
 
-    default public void setOverlapAllGaps() {
-    }
+    public void setDynamicallyUpdated(boolean var1);
 
-    default public void setMarginAllSides(int n) {
-    }
+    public boolean isRendered();
 
-    default public int forEachCell(IGridCellAction iGridCellAction, int n) {
-    }
+    public boolean containsHighlightedText();
 
-    default public int forEachGrid(IGridAction iGridAction, int n) {
-    }
+    public void replaceTextConstants(String var1, ITextConstantsConverter var2);
 
-    default public int forEachList(IGridListAction iGridListAction, int n) {
-    }
+    public int getOverlapGapsBitmask();
 
-    default public void setSelectionId(String string) {
-    }
+    public void setOverlapAllGaps();
 
-    default public String getSelectionId() {
-    }
+    public void setMarginAllSides(int var1);
 
-    default public void setLineHeight(int n) {
-    }
+    public int forEachCell(IGridCellAction var1, int var2);
 
-    default public int getLineHeight() {
-    }
+    public int forEachGrid(IGridAction var1, int var2);
 
-    default public void setLabelText(String string) {
-    }
+    public int forEachList(IGridListAction var1, int var2);
 
-    default public String getLabelText() {
-    }
+    public void setSelectionId(String var1);
 
-    static {
-        typeDescription = Collections.unmodifiableList(Arrays.asList(new String[]{"text", "image", "progressBar", "input", "dropDownList", "checkbox", "radioButton", "arrow", "updatingIcon", "inputPin", "rrdText", "rrdImage", "subgrid", "formField", "separatingLine", "rotarySelector", "systemImage", "button"}));
-        lineEndOptions = new IGridCell$1();
-        fontOptions = new IGridCell$2();
-        styleOptions = new IGridCell$3();
-        visibilityOptions = new IGridCell$4();
-        horizontalAlignmentOptions = new IGridCell$5();
-        verticalAlignmentOptions = new IGridCell$6();
-        directionOptions = new IGridCell$7();
-        roleArrowOptions = new IGridCell$8();
-        layoutOptions = new IGridCell$9();
-        scaleModeOptions = new IGridCell$10();
-        scaleModificationsOptions = new IGridCell$11();
-    }
+    public String getSelectionId();
+
+    public void setLineHeight(int var1);
+
+    public int getLineHeight();
+
+    public void setLabelText(String var1);
+
+    public String getLabelText();
 }
 

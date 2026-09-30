@@ -7,13 +7,10 @@ import de.audi.atip.favorite.IFavoriteStorage;
 
 public interface ITelFavorite
 extends IFavoriteStorage {
-    default public String getTelNumber() {
-    }
+    public String getTelNumber();
 
-    default public String getName() {
-    }
+    public String getName();
 
-    default public int getPhoneNumberType() {
-    }
+    public int getPhoneNumberType();
 }
 

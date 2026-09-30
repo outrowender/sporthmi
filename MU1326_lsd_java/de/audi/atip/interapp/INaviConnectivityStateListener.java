@@ -4,13 +4,10 @@
 package de.audi.atip.interapp;
 
 public interface INaviConnectivityStateListener {
-    default public void onlineStateChanged() {
-    }
+    public void onlineStateChanged();
 
-    default public void onlineErrorShown() {
-    }
+    public void onlineErrorShown();
 
-    default public void updateOnlineConnectionState(boolean bl) {
-    }
+    public void updateOnlineConnectionState(boolean var1);
 }
 

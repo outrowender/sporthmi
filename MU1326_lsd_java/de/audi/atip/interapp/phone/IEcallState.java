@@ -7,39 +7,29 @@ import de.audi.atip.interapp.bap.ecall.data.EmergencyNumber;
 import de.audi.atip.interapp.bap.ecall.data.PhoneCall;
 
 public interface IEcallState {
-    public static final int ATTR_SERVICE_STATE;
-    public static final int ATTR_CALL_STATE;
-    public static final int ATTR_SERVICE_REQUESTED;
-    public static final int ATTR_SOSNUMBERLIST_STATE;
+    public static final int ATTR_SERVICE_STATE = 0;
+    public static final int ATTR_CALL_STATE = 1;
+    public static final int ATTR_SERVICE_REQUESTED = 2;
+    public static final int ATTR_SOSNUMBERLIST_STATE = 3;
 
-    default public boolean hasActiveCall() {
-    }
+    public boolean hasActiveCall();
 
-    default public boolean isServiceActive() {
-    }
+    public boolean isServiceActive();
 
-    default public int getServiceKind() {
-    }
+    public int getServiceKind();
 
-    default public PhoneCall getCall() {
-    }
+    public PhoneCall getCall();
 
-    default public boolean isEmergencyCallType() {
-    }
+    public boolean isEmergencyCallType();
 
-    default public boolean isLowPrioritySOSEmergencyCallType() {
-    }
+    public boolean isLowPrioritySOSEmergencyCallType();
 
-    default public boolean isCustomerCallNotAllowed() {
-    }
+    public boolean isCustomerCallNotAllowed();
 
-    default public boolean isCustomerCallAllowed() {
-    }
+    public boolean isCustomerCallAllowed();
 
-    default public EmergencyNumber[] getAllowedEmergencyNumbers() {
-    }
+    public EmergencyNumber[] getAllowedEmergencyNumbers();
 
-    default public String getEmergencyNumberToBeDialed() {
-    }
+    public String getEmergencyNumberToBeDialed();
 }
 

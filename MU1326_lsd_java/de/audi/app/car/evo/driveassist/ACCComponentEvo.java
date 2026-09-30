@@ -13,37 +13,33 @@ extends AbstractACCComponent {
         super(iCarApplication);
     }
 
-    @Override
     protected void updateMenuEntryVisibility(ACCViewOptions aCCViewOptions) {
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1540880128, this.getMenuEntryVisibilityState(aCCViewOptions.getDrivingProgram()));
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1557657344, this.getMenuEntryVisibilityState(aCCViewOptions.getTimegap()));
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-970323712, this.getMenuEntryVisibilityState(aCCViewOptions.getCurveAssist()));
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-987100928, this.getMenuEntryVisibilityState(aCCViewOptions.getSpeedLimitOffset()));
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1289221888, this.getMenuEntryVisibilityState(aCCViewOptions.getTrafficJamAssist()));
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-903214848, this.getMenuEntryVisibilityState(aCCViewOptions.getDefaultMode()));
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600228, this.getMenuEntryVisibilityState(aCCViewOptions.getDrivingProgram()));
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600227, this.getMenuEntryVisibilityState(aCCViewOptions.getTimegap()));
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600774, this.getMenuEntryVisibilityState(aCCViewOptions.getCurveAssist()));
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600773, this.getMenuEntryVisibilityState(aCCViewOptions.getSpeedLimitOffset()));
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600243, this.getMenuEntryVisibilityState(aCCViewOptions.getTrafficJamAssist()));
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600778, this.getMenuEntryVisibilityState(aCCViewOptions.getDefaultMode()));
     }
 
-    @Override
     protected void initVisibility() {
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-1540880128, (short)0);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-1557657344, (short)0);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-970323712, (short)0);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-987100928, (short)0);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-1289221888, (short)0);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-903214848, (short)0);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600228, (short)0);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600227, (short)0);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600774, (short)0);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600773, (short)0);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600243, (short)0);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600778, (short)0);
     }
 
-    @Override
     protected void deinitVisibility() {
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-1540880128);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-1557657344);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-970323712);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-987100928);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-1289221888);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-903214848);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600228);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600227);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600774);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600773);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600243);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600778);
     }
 
-    @Override
     public int getID() {
         return 2;
     }

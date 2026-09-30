@@ -32,40 +32,37 @@ implements ITpegPOIResultListModelAccess {
         this.routeManager = iRouteManager;
     }
 
-    @Override
     public void onStart() {
         this.resultList.removeAll();
     }
 
-    @Override
     public void onUpdateResultListForRequest(LIValueList lIValueList, long l, String string, boolean bl, int n, int n2) {
         this.resultList.setLength((int)l);
-        this.logChannel.log(-2137614336, "%1#onUpdateResultListForRequest() - requestID: %2, startIndex: %3", (Object)this.CLASS_NAME, (long)n, (long)n2);
-        this.logChannel.log(-2137614336, "%1#onUpdateResultListForRequest() - valueList: %2, matchCount: %3", (Object)this.CLASS_NAME, (Object)lIValueList, l);
+        this.logChannel.log(10000000, "%1#onUpdateResultListForRequest() - requestID: %2, startIndex: %3", (Object)this.CLASS_NAME, (long)n, (long)n2);
+        this.logChannel.log(10000000, "%1#onUpdateResultListForRequest() - valueList: %2, matchCount: %3", (Object)this.CLASS_NAME, (Object)lIValueList, l);
         if (!Util.isListValid(lIValueList) || lIValueList.getList().length == 0) {
-            this.logChannel.log(-2137614336, "%1#updateResultList() - invalid value list: %2", (Object)this.CLASS_NAME, (Object)lIValueList);
+            this.logChannel.log(10000000, "%1#updateResultList() - invalid value list: %2", (Object)this.CLASS_NAME, (Object)lIValueList);
             this.resultList.removeAll();
             return;
         }
         LIValueListElement[] lIValueListElementArray = lIValueList.getList();
         int n3 = this.resultList.getLength();
-        this.logChannel.log(-2137614336, "%1#onUpdateResultListForRequest() - valueListSize: %2, currentListModelLength: %3", (Object)this.CLASS_NAME, (long)lIValueListElementArray.length, (long)n3);
+        this.logChannel.log(10000000, "%1#onUpdateResultListForRequest() - valueListSize: %2, currentListModelLength: %3", (Object)this.CLASS_NAME, (long)lIValueListElementArray.length, (long)n3);
         EvoListRow[] evoListRowArray = this.createListRow(lIValueListElementArray, PoiIconedResultsListRowBuilder.createPoiIconedResultsListRowBuilderDistanceFromCCP(this.iconHandler, this.routeManager, this.env, this.vehicle));
         this.resultList.setRows(n, n2, evoListRowArray);
     }
 
-    @Override
     public void onUpdateResultList(LIValueList lIValueList, long l, String string, boolean bl) {
         this.resultList.setLength((int)l);
-        this.logChannel.log(-2137614336, "%1#updateResultList() - valueList: %2, matchCount: %3", (Object)this.CLASS_NAME, (Object)lIValueList, l);
+        this.logChannel.log(10000000, "%1#updateResultList() - valueList: %2, matchCount: %3", (Object)this.CLASS_NAME, (Object)lIValueList, l);
         if (!Util.isListValid(lIValueList) || lIValueList.getList().length == 0) {
-            this.logChannel.log(-2137614336, "%1#updateResultList() - invalid value list: %2", (Object)this.CLASS_NAME, (Object)lIValueList);
+            this.logChannel.log(10000000, "%1#updateResultList() - invalid value list: %2", (Object)this.CLASS_NAME, (Object)lIValueList);
             this.resultList.removeAll();
             return;
         }
         LIValueListElement[] lIValueListElementArray = lIValueList.getList();
         int n = this.resultList.getLength();
-        this.logChannel.log(-2137614336, "%1#updateResultList() - valueListSize: %2, currentListModelLength: %3", (Object)this.CLASS_NAME, (long)lIValueListElementArray.length, (long)n);
+        this.logChannel.log(10000000, "%1#updateResultList() - valueListSize: %2, currentListModelLength: %3", (Object)this.CLASS_NAME, (long)lIValueListElementArray.length, (long)n);
         EvoListRow[] evoListRowArray = this.createListRow(lIValueListElementArray, PoiIconedResultsListRowBuilder.createPoiIconedResultsListRowBuilderDistanceFromCCP(this.iconHandler, this.routeManager, this.env, this.vehicle));
         this.resultList.setRows(-1, 0, evoListRowArray);
     }
@@ -80,9 +77,8 @@ implements ITpegPOIResultListModelAccess {
         return evoListRowArray;
     }
 
-    @Override
     public void onUnrequestItems(int n, int n2) {
-        this.logChannel.log(-2137614336, "%1#unrequestItems() - startIndex: %2, length: %3", (Object)this.CLASS_NAME, (long)n, (long)n2);
+        this.logChannel.log(10000000, "%1#unrequestItems() - startIndex: %2, length: %3", (Object)this.CLASS_NAME, (long)n, (long)n2);
         this.resultList.clearRows(n, n2);
     }
 }

@@ -18,7 +18,7 @@ import de.audi.atip.log.LogChannel;
 public class CurrentPlayingTrackHandler
 extends DefaultEventListener
 implements ITerminalModeComponent {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "CurrentPlayingTrackHandler";
     private final LogChannel logger;
     private final IContext context;
     private final ModelGroup nowPlayingGroup;
@@ -31,45 +31,41 @@ implements ITerminalModeComponent {
         this.stateHandler = iStateHandler;
     }
 
-    @Override
     public void init() {
-        this.logger.log(14808325, "[%1.init]", (Object)"CurrentPlayingTrackHandler");
-        this.nowPlayingGroup.add(this.context.getLabelModel(433336320));
-        this.nowPlayingGroup.add(this.context.getLabelModel(466890752));
-        this.nowPlayingGroup.add(this.context.getLabelModel(500445184));
-        this.nowPlayingGroup.add(this.context.getLabelModel(483667968));
-        this.nowPlayingGroup.add(this.context.getLabelModel(517222400));
-        this.nowPlayingGroup.add(this.context.getRangeModel(450113536));
-        this.nowPlayingGroup.add(this.context.getChoiceModel(1154756608));
+        this.logger.log(100000000, "[%1.init]", (Object)LOGCLASS);
+        this.nowPlayingGroup.add(this.context.getLabelModel(3200025));
+        this.nowPlayingGroup.add(this.context.getLabelModel(3200027));
+        this.nowPlayingGroup.add(this.context.getLabelModel(3200029));
+        this.nowPlayingGroup.add(this.context.getLabelModel(3200028));
+        this.nowPlayingGroup.add(this.context.getLabelModel(3200030));
+        this.nowPlayingGroup.add(this.context.getRangeModel(3200026));
+        this.nowPlayingGroup.add(this.context.getChoiceModel(3200068));
         this.context.getEventBus().registerListener(this);
     }
 
-    @Override
     public void deinit() {
-        this.logger.log(1078071040, "[%1.deinit]", (Object)"CurrentPlayingTrackHandler");
+        this.logger.log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         this.context.getEventBus().unregisterListener(this);
     }
 
-    @Override
     public void updateNowPlayingData(TrackDataChangedEvent trackDataChangedEvent) {
-        this.logger.log(1078071040, "[%1.updateNowPlayingData]", (Object)"CurrentPlayingTrackHandler");
-        this.context.getLabelModel(433336320).setText(trackDataChangedEvent.getTitle());
-        this.context.getLabelModel(466890752).setText(trackDataChangedEvent.getAlbum());
-        this.context.getLabelModel(500445184).setText(trackDataChangedEvent.getArtist());
+        this.logger.log(1000000, "[%1.updateNowPlayingData]", (Object)LOGCLASS);
+        this.context.getLabelModel(3200025).setText(trackDataChangedEvent.getTitle());
+        this.context.getLabelModel(3200027).setText(trackDataChangedEvent.getAlbum());
+        this.context.getLabelModel(3200029).setText(trackDataChangedEvent.getArtist());
     }
 
-    @Override
     public void updatePlayPosition(TrackPlayPositionEvent trackPlayPositionEvent) {
         boolean bl;
         boolean bl2 = trackPlayPositionEvent.getPlayTime() == 0 && trackPlayPositionEvent.getRemainTime() == 0 && this.stateHandler.getCurrentState().getStateForResource(Resource.AUDIO_MEDIA).is(ResourceState.NORMAL);
         boolean bl3 = bl = trackPlayPositionEvent.getTotalTimeOfTrack() == 0 && this.stateHandler.getCurrentState().getStateForResource(Resource.AUDIO_MEDIA).is(ResourceState.NORMAL);
         if (bl2 || bl) {
-            this.context.getChoiceModel(1154756608).setValue(0);
+            this.context.getChoiceModel(3200068).setValue(0);
         } else {
-            this.context.getChoiceModel(1154756608).setValue(1);
-            this.context.getLabelModel(483667968).setText(trackPlayPositionEvent.getRestrictedPlayTimeStr());
-            this.context.getLabelModel(517222400).setText(trackPlayPositionEvent.getRemainTimeStr());
-            RangeModelApp rangeModelApp = this.context.getRangeModel(450113536);
+            this.context.getChoiceModel(3200068).setValue(1);
+            this.context.getLabelModel(3200028).setText(trackPlayPositionEvent.getRestrictedPlayTimeStr());
+            this.context.getLabelModel(3200030).setText(trackPlayPositionEvent.getRemainTimeStr());
+            RangeModelApp rangeModelApp = this.context.getRangeModel(3200026);
             rangeModelApp.setLimits(0, trackPlayPositionEvent.getRestrictedTotalTime(), 1);
             rangeModelApp.setValue(trackPlayPositionEvent.getRestrictedPlayTime());
         }

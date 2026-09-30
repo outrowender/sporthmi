@@ -17,36 +17,36 @@ import de.esolutions.fw.util.commons.Buffer;
 public class DataBrowserListRow
 extends AbstractMediaBrowserListRow {
     private static final int[] EMPTY_PROPERTIES = new int[0];
-    private static final String EMPTY_TEXT;
-    private static final int EMPTY_INTEGER;
-    private static final int COLUMNS;
-    private static final int COL_UNIQUE_ID;
-    private static final int COL_RECORDSET;
-    private static final int COL_SYMBOL;
-    private static final int COL_FILENAME;
-    private static final int COL_TITLE;
-    private static final int COL_TITLE_I18N_KEY;
-    private static final int COL_ALBUM;
-    private static final int COL_ALBUM_I18N_KEY;
-    private static final int COL_ARTIST;
-    private static final int COL_ARTIST_I18N_KEY;
-    private static final int COL_ERROR_TYPE;
-    private static final int COL_ENABLED;
-    private static final int COL_PROPERTY;
-    private static final int COL_COVER;
-    private static final int COL_LAYOUT;
-    private static final byte COL_DEFAULTCOVER_ID;
-    private static final int COL_ONLINE;
-    private static final int LAYOUT_ONE_LINE;
-    private static final int LAYOUT_TWO_LINES;
-    private static final int LAYOUT_DEFAULT;
-    private static final int RECORDSET_BIT_VALUE_FOLDER;
-    private static final int RECORDSET_BIT_VALUE_ERROR;
+    private static final String EMPTY_TEXT = "";
+    private static final int EMPTY_INTEGER = 0;
+    private static final int COLUMNS = 17;
+    private static final int COL_UNIQUE_ID = 0;
+    private static final int COL_RECORDSET = 1;
+    private static final int COL_SYMBOL = 2;
+    private static final int COL_FILENAME = 3;
+    private static final int COL_TITLE = 4;
+    private static final int COL_TITLE_I18N_KEY = 5;
+    private static final int COL_ALBUM = 6;
+    private static final int COL_ALBUM_I18N_KEY = 7;
+    private static final int COL_ARTIST = 8;
+    private static final int COL_ARTIST_I18N_KEY = 9;
+    private static final int COL_ERROR_TYPE = 10;
+    private static final int COL_ENABLED = 11;
+    private static final int COL_PROPERTY = 12;
+    private static final int COL_COVER = 13;
+    private static final int COL_LAYOUT = 14;
+    private static final byte COL_DEFAULTCOVER_ID = 15;
+    private static final int COL_ONLINE = 16;
+    private static final int LAYOUT_ONE_LINE = 1;
+    private static final int LAYOUT_TWO_LINES = 2;
+    private static final int LAYOUT_DEFAULT = 3;
+    private static final int RECORDSET_BIT_VALUE_FOLDER = 1;
+    private static final int RECORDSET_BIT_VALUE_ERROR = 8;
     private final MediaListEntry folderMediaListEntry;
     private final MediaListEntry[] folderstack;
     private final I18NString title;
     private final MediaListEntry fileMediaListEntry;
-    private static final IntMap I18NSYMBOLMAP;
+    private static final IntMap I18NSYMBOLMAP = new IntMap(15);
     private static final IntMap CONTENTSYMBOLMAP;
 
     public DataBrowserListRow(MediaListEntry mediaListEntry, int n, MediaListEntry[] mediaListEntryArray, int n2) {
@@ -60,9 +60,9 @@ extends AbstractMediaBrowserListRow {
         this.setText(3, mediaListEntry.getFilename().getI18NString());
         this.setText(4, mediaListEntry.getTitle().getI18NString());
         this.setInteger(5, mediaListEntry.getTitle().getI18NKey());
-        this.setText(6, "");
+        this.setText(6, EMPTY_TEXT);
         this.setInteger(7, 0);
-        this.setText(8, "");
+        this.setText(8, EMPTY_TEXT);
         this.setInteger(9, 0);
         if (n2 == 2 || n2 == 3) {
             if (mediaListEntry.getAlbum() != null) {
@@ -94,28 +94,28 @@ extends AbstractMediaBrowserListRow {
         this.setInteger(1, n6 |= n2 << 1);
         this.setInteger(2, DataBrowserListRow.getSymbolID(mediaListEntry, n4, n2 == 1));
         if ((!mediaListEntry.isFolder() || 0 == mediaListEntry.getContentType()) && null != mediaListEntryArray && mediaListEntryArray.length > 0 && mediaListEntryArray[mediaListEntryArray.length - 1].isPlaylist()) {
-            n3 = -909665258;
+            n3 = 379373513;
         } else if (n4 != 0) {
             switch (n4) {
                 case 2: {
-                    n3 = 1715074328;
+                    n3 = 418724198;
                     break;
                 }
                 case 3: {
-                    n3 = -1397398285;
+                    n3 = -211503700;
                     break;
                 }
                 case 1: {
-                    n3 = -1255215132;
+                    n3 = -454086987;
                     break;
                 }
                 default: {
-                    n3 = 1849076254;
+                    n3 = 514471534;
                     break;
                 }
             }
         } else {
-            n3 = !mediaListEntry.isFolder() ? (mediaListEntry.isAudioFile() ? -1068327696 : 1264194613) : (n2 == 1 ? (mediaListEntry.isPlaylist() ? (10 == mediaListEntry.getContentType() ? -750899661 : -948955033) : -794155606) : (mediaListEntry.isPlaylist() ? (10 == mediaListEntry.getContentType() || mediaListEntry.getTitle().getI18NKey() == 48 ? -750899661 : -948955033) : 1799914815));
+            n3 = !mediaListEntry.isFolder() ? (mediaListEntry.isAudioFile() ? -258190656 : 890526283) : (n2 == 1 ? (mediaListEntry.isPlaylist() ? (10 == mediaListEntry.getContentType() ? 858668755 : 1729654983) : -1440372016) : (mediaListEntry.isPlaylist() ? (10 == mediaListEntry.getContentType() || mediaListEntry.getTitle().getI18NKey() == 48 ? 858668755 : 1729654983) : 1065699435));
         }
         this.setPropertyCell(12, new PropertyListCell(n3, EMPTY_PROPERTIES));
     }
@@ -167,7 +167,6 @@ extends AbstractMediaBrowserListRow {
         return 17;
     }
 
-    @Override
     public int getSymbol() {
         return this.getInteger(2);
     }
@@ -176,12 +175,10 @@ extends AbstractMediaBrowserListRow {
         return this.getInteger(1);
     }
 
-    @Override
     public boolean isEnabled() {
         return this.getInteger(10) == 0;
     }
 
-    @Override
     public I18NString getTitle() {
         return this.title;
     }
@@ -198,17 +195,14 @@ extends AbstractMediaBrowserListRow {
         return (HMIResourceLocator)this.getCell(13);
     }
 
-    @Override
     public boolean isPlayListContent() {
         return this.folderMediaListEntry != null && this.folderMediaListEntry.isPlaylist();
     }
 
-    @Override
     public boolean isFolder() {
         return (this.getRecordSet() & 1) == 1;
     }
 
-    @Override
     public MediaListEntry getFolderMediaEntry() {
         return this.folderMediaListEntry;
     }
@@ -225,17 +219,14 @@ extends AbstractMediaBrowserListRow {
         return this.getEntryContentType() == 2;
     }
 
-    @Override
     public boolean isFile() {
         return !this.isFolder();
     }
 
-    @Override
     public EvoListRow copy() {
         return new DataBrowserListRow(this);
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer(200);
         buffer.append("[");
@@ -252,7 +243,6 @@ extends AbstractMediaBrowserListRow {
     }
 
     static {
-        I18NSYMBOLMAP = new IntMap(15);
         I18NSYMBOLMAP.put(26, 39);
         I18NSYMBOLMAP.put(25, 38);
         I18NSYMBOLMAP.put(27, 40);

@@ -9,13 +9,10 @@ import de.audi.atip.hmi.model.menu.MenuModelApp;
 
 public interface MenuModelHandler
 extends ModelHandler {
-    default public void updateOnItemFocused(int n) {
-    }
+    public void updateOnItemFocused(int var1);
 
-    default public MenuModelApp returnMenuModel() {
-    }
+    public MenuModelApp returnMenuModel();
 
-    default public MenuModelEventBusiness getMenuModelBusiness() {
-    }
+    public MenuModelEventBusiness getMenuModelBusiness();
 }
 

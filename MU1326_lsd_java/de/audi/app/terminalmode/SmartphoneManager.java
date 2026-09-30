@@ -4,7 +4,6 @@
 package de.audi.app.terminalmode;
 
 import de.audi.app.terminalmode.IContext;
-import de.audi.app.terminalmode.SmartphoneManager$SmartphoneType;
 import de.audi.app.terminalmode.audio.IAudioConnectionHandle;
 import de.audi.app.terminalmode.audio.TMAudioConnection;
 import de.audi.app.terminalmode.commands.TextInputStateChanged;
@@ -19,6 +18,7 @@ import de.audi.app.terminalmode.statemachine.commands.AudioLowering;
 import de.audi.app.terminalmode.statemachine.commands.SendResponseModeChanged;
 import de.audi.app.terminalmode.statemachine.commands.StartService;
 import de.audi.app.terminalmode.statemachine.commands.UpdateMode;
+import de.audi.app.terminalmode.util.Enum;
 import de.audi.atip.log.LogChannel;
 import de.audi.tghu.command.Command;
 import de.audi.tghu.command.CommandList;
@@ -34,34 +34,32 @@ implements IDSISmartphoneManagerListener {
     protected final IContext context;
     protected final TMKeyEventsHandler keyEventsHandler;
     private final IDSISmartphoneManager dsiManager;
-    private final SmartphoneManager$SmartphoneType type;
+    private final SmartphoneType type;
     private final IAudioConnectionHandle duckAudioCompletelyAudioConnectionHandle;
     private final IStateHandler stateHandler;
     static /* synthetic */ Class class$de$audi$app$terminalmode$SmartphoneManager$SmartphoneType;
 
-    public SmartphoneManager(IContext iContext, SmartphoneManager$SmartphoneType smartphoneManager$SmartphoneType, IDSISmartphoneManager iDSISmartphoneManager, IStateHandler iStateHandler) {
+    public SmartphoneManager(IContext iContext, SmartphoneType smartphoneType, IDSISmartphoneManager iDSISmartphoneManager, IStateHandler iStateHandler) {
         this.context = iContext;
         this.logger = iContext.getLogger().main();
         this.keyEventsHandler = iContext.getKeyEventsHandler();
-        this.LOGCLASS = new StringBuffer().append("SmartphoneManager(").append(smartphoneManager$SmartphoneType.toString()).append(")").toString();
-        this.type = smartphoneManager$SmartphoneType;
+        this.LOGCLASS = new StringBuffer().append("SmartphoneManager(").append(smartphoneType.toString()).append(")").toString();
+        this.type = smartphoneType;
         this.duckAudioCompletelyAudioConnectionHandle = iContext.getAudioManager().createAudioConnectionHandle(TMAudioConnection.SPEECH_GUIDANCE);
         this.dsiManager = iDSISmartphoneManager;
         this.stateHandler = iStateHandler;
     }
 
-    @Override
     public void updateMode(long l, IAppState[] iAppStateArray, IResource[] iResourceArray) {
-        this.logger.log(1078071040, "[%1.updateMode]", (Object)this.LOGCLASS);
+        this.logger.log(1000000, "[%1.updateMode]", (Object)this.LOGCLASS);
         AbstractCommand abstractCommand = this.getCurrentCommand();
         if (null == abstractCommand || !abstractCommand.updateStates(iAppStateArray, iResourceArray, l)) {
             this.context.getCommandListHelper().create().addSingle(new UpdateMode(this.context, this.dsiManager, iAppStateArray, iResourceArray, l, this.stateHandler)).addSingle(new SendResponseModeChanged(this.context, this.dsiManager, iAppStateArray, iResourceArray, l, this.stateHandler)).execute("SmartphoneManager.updateMode");
         }
     }
 
-    @Override
     public void ignoreUpdateMode(long l) {
-        this.logger.log(1078071040, "[%1.ignoreUpdateMode]", (Object)this.LOGCLASS);
+        this.logger.log(1000000, "[%1.ignoreUpdateMode]", (Object)this.LOGCLASS);
         List list = this.context.getCommandListManager().getQueue().getCommandLists();
         Iterator iterator = list.iterator();
         while (iterator.hasNext()) {
@@ -82,27 +80,23 @@ implements IDSISmartphoneManagerListener {
         }
     }
 
-    @Override
     public void duckAudio(int n, double d2) {
-        this.logger.log(1078071040, "[%1.duckAudio]", (Object)this.LOGCLASS);
+        this.logger.log(1000000, "[%1.duckAudio]", (Object)this.LOGCLASS);
         this.context.getCommandListHelper().create().addSingle(new AudioLowering(this.context, true, n)).execute(new StringBuffer().append(this.LOGCLASS).append(".duckAudio").toString());
     }
 
-    @Override
     public void duckAudioCompletely() {
-        this.logger.log(1078071040, "[%1.duckAudioCompletely]", (Object)this.LOGCLASS);
+        this.logger.log(1000000, "[%1.duckAudioCompletely]", (Object)this.LOGCLASS);
         this.context.getCommandListHelper().create().addSingle(this.duckAudioCompletelyAudioConnectionHandle.createRequestCommand(false)).execute(new StringBuffer().append(this.LOGCLASS).append(".duckAudioCompletely").toString());
     }
 
-    @Override
     public void releaseDuckAudioCompletely() {
-        this.logger.log(1078071040, "[%1.releaseDuckAudioCompletely]", (Object)this.LOGCLASS);
+        this.logger.log(1000000, "[%1.releaseDuckAudioCompletely]", (Object)this.LOGCLASS);
         this.context.getCommandListHelper().create().addSingle(this.duckAudioCompletelyAudioConnectionHandle.createReleaseCommand()).execute(new StringBuffer().append(this.LOGCLASS).append(".releaseDuckAudioCompletely").toString());
     }
 
-    @Override
     public void unduckAudio(int n) {
-        this.logger.log(1078071040, "[%1.unduckAudio]", (Object)this.LOGCLASS);
+        this.logger.log(1000000, "[%1.unduckAudio]", (Object)this.LOGCLASS);
         this.context.getCommandListHelper().create().addSingle(new AudioLowering(this.context, false, n)).execute(new StringBuffer().append(this.LOGCLASS).append(".unduckAudio").toString());
     }
 
@@ -115,16 +109,14 @@ implements IDSISmartphoneManagerListener {
         return abstractCommand;
     }
 
-    @Override
     public void updateTextInputState(boolean bl) {
-        this.logger.log(1078071040, "[%1.updateTextInputState]", (Object)this.LOGCLASS);
+        this.logger.log(1000000, "[%1.updateTextInputState]", (Object)this.LOGCLASS);
         this.context.getCommandListHelper().create().addSingle(new TextInputStateChanged(this.context, bl, this.keyEventsHandler)).execute(new StringBuffer().append(this.LOGCLASS).append(".updateTextInputState").toString());
     }
 
-    @Override
     public void updateDSIState(boolean bl) {
         if (bl) {
-            this.logger.log(-2137614336, "[%1.updateDSIState] Starting service", (Object)this.LOGCLASS);
+            this.logger.log(10000000, "[%1.updateDSIState] Starting service", (Object)this.LOGCLASS);
             this.context.getCommandListHelper().create().addSingle(new StartService(this.dsiManager, this.context, this.logger, this.stateHandler, this.dsiManager.getSmartphoneProperties())).execute(new StringBuffer().append(this.LOGCLASS).append(".updateDSIState(activated)").toString());
         }
     }
@@ -139,6 +131,25 @@ implements IDSISmartphoneManagerListener {
         }
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
+        }
+    }
+
+    /*
+     * This class specifies class file version 49.0 but uses Java 6 signatures.  Assumed Java 6.
+     */
+    public static class SmartphoneType
+    extends Enum<SmartphoneType> {
+        public static final SmartphoneType CARPLAY = new SmartphoneType(1, "CARPLAY");
+        public static final SmartphoneType ANDROIDAUTO2 = new SmartphoneType(2, "ANDROIDAUTO2");
+        public static final SmartphoneType CARLIFE = new SmartphoneType(3, "CARLIFE");
+        public static final SmartphoneType UNKNOWN = new SmartphoneType(0, "UNKNOWN");
+
+        private SmartphoneType(int n, String string) {
+            super(n, string);
+        }
+
+        public static SmartphoneType valueOf(String string) throws IllegalArgumentException, SecurityException, IllegalAccessException, NoSuchFieldException {
+            return (SmartphoneType)(class$de$audi$app$terminalmode$SmartphoneManager$SmartphoneType == null ? (class$de$audi$app$terminalmode$SmartphoneManager$SmartphoneType = SmartphoneManager.class$("de.audi.app.terminalmode.SmartphoneManager$SmartphoneType")) : class$de$audi$app$terminalmode$SmartphoneManager$SmartphoneType).getField(string).get(null);
         }
     }
 }

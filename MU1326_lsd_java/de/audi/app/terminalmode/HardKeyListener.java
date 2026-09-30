@@ -12,7 +12,7 @@ import de.audi.atip.log.LogChannel;
 public class HardKeyListener
 implements ButtonListener,
 ITerminalModeComponent {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "HardKeyListener";
     private final IContext context;
     private final LogChannel logger;
 
@@ -21,29 +21,26 @@ ITerminalModeComponent {
         this.logger = iContext.getLogger().hmi();
     }
 
-    @Override
     public void init() {
-        this.logger.log(14808325, "[%1.init]", (Object)"HardKeyListener");
-        this.context.getFramework().getHmiServiceApp().getButtonModel(533999616).setButtonListener(this);
-        this.context.getFramework().getHmiServiceApp().getButtonModel(668217344).setButtonListener(this);
-        this.context.getFramework().getHmiServiceApp().getButtonModel(886321152).setButtonListener(this);
-        this.context.getFramework().getHmiServiceApp().getButtonModel(869543936).setButtonListener(this);
+        this.logger.log(100000000, "[%1.init]", (Object)LOGCLASS);
+        this.context.getFramework().getHmiServiceApp().getButtonModel(3200031).setButtonListener(this);
+        this.context.getFramework().getHmiServiceApp().getButtonModel(3200039).setButtonListener(this);
+        this.context.getFramework().getHmiServiceApp().getButtonModel(3200052).setButtonListener(this);
+        this.context.getFramework().getHmiServiceApp().getButtonModel(3200051).setButtonListener(this);
     }
 
-    @Override
     public void deinit() {
-        this.logger.log(1078071040, "[%1.deinit]", (Object)"HardKeyListener");
-        this.context.getFramework().getHmiServiceApp().getButtonModel(533999616).setButtonListener(null);
-        this.context.getFramework().getHmiServiceApp().getButtonModel(668217344).setButtonListener(null);
-        this.context.getFramework().getHmiServiceApp().getButtonModel(886321152).setButtonListener(null);
-        this.context.getFramework().getHmiServiceApp().getButtonModel(869543936).setButtonListener(null);
+        this.logger.log(1000000, "[%1.deinit]", (Object)LOGCLASS);
+        this.context.getFramework().getHmiServiceApp().getButtonModel(3200031).setButtonListener(null);
+        this.context.getFramework().getHmiServiceApp().getButtonModel(3200039).setButtonListener(null);
+        this.context.getFramework().getHmiServiceApp().getButtonModel(3200052).setButtonListener(null);
+        this.context.getFramework().getHmiServiceApp().getButtonModel(3200051).setButtonListener(null);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
         HardKeyDSIListener hardKeyDSIListener = this.getHKListener();
         if (hardKeyDSIListener == null) {
-            this.logger.log(1078071040, "[%1.keyPressed] No available HK listener. Ignore.", (Object)"HardKeyListener");
+            this.logger.log(1000000, "[%1.keyPressed] No available HK listener. Ignore.", (Object)LOGCLASS);
             return;
         }
         switch (n) {
@@ -58,28 +55,27 @@ ITerminalModeComponent {
                     hardKeyDSIListener.keyPressed(n, n2, n3);
                     break;
                 }
-                this.logger.log(-2137614336, "[%1.keyPressed] Arrow key skipping deactivated.", (Object)"HardKeyListener");
+                this.logger.log(10000000, "[%1.keyPressed] Arrow key skipping deactivated.", (Object)LOGCLASS);
                 break;
             }
             default: {
-                this.logger.log(1078071040, "[%1.keyPressed] Received unexpected key event for hard-key model '%2'.", (Object)"HardKeyListener", (long)n);
+                this.logger.log(1000000, "[%1.keyPressed] Received unexpected key event for hard-key model '%2'.", (Object)LOGCLASS, (long)n);
             }
         }
     }
 
     private HardKeyDSIListener getHKListener() {
         if (this.context.getFramework().getHmiServiceApp().getChoiceModel(409).getValue() != 0) {
-            this.logger.log(1078071040, "[%1.getHKListener] Blocked for TMC. Ignore.", (Object)"HardKeyListener");
+            this.logger.log(1000000, "[%1.getHKListener] Blocked for TMC. Ignore.", (Object)LOGCLASS);
             return null;
         }
         if (this.context.getAudioManager().isStandbyMuted()) {
-            this.logger.log(1078071040, "[%1.getHKListener] StandBy muted. Ignore.", (Object)"HardKeyListener");
+            this.logger.log(1000000, "[%1.getHKListener] StandBy muted. Ignore.", (Object)LOGCLASS);
             return null;
         }
         return this.context.getHardKeyDSIListener();
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
         HardKeyDSIListener hardKeyDSIListener = this.getHKListener();
         if (hardKeyDSIListener == null) {
@@ -98,16 +94,14 @@ ITerminalModeComponent {
                 break;
             }
             default: {
-                this.logger.log(1078071040, "[%1.keyTyped] Received unexpected key event for hard-key model '%2'.", (Object)"HardKeyListener", (long)n);
+                this.logger.log(1000000, "[%1.keyTyped] Received unexpected key event for hard-key model '%2'.", (Object)LOGCLASS, (long)n);
             }
         }
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
         HardKeyDSIListener hardKeyDSIListener = this.getHKListener();
         if (hardKeyDSIListener == null) {
@@ -126,7 +120,7 @@ ITerminalModeComponent {
                 break;
             }
             default: {
-                this.logger.log(1078071040, "[%1.keyReleased] Received unexpected key event for hard-key model '%2'.", (Object)"HardKeyListener", (long)n);
+                this.logger.log(1000000, "[%1.keyReleased] Received unexpected key event for hard-key model '%2'.", (Object)LOGCLASS, (long)n);
             }
         }
     }

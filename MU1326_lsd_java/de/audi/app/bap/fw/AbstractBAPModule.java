@@ -65,18 +65,15 @@ public abstract class AbstractBAPModule {
         }
     }
 
-    protected abstract IBAPFunctionFactory createBAPFunctionFactory() {
-    }
+    protected abstract IBAPFunctionFactory createBAPFunctionFactory();
 
     protected IBAPFunctionFactory getBapFunctionFactory() {
         return this.bapFunctionFactory;
     }
 
-    protected abstract void initModuleComponents() {
-    }
+    protected abstract void initModuleComponents();
 
-    protected abstract void initServiceManager(BundleContext bundleContext) {
-    }
+    protected abstract void initServiceManager(BundleContext var1);
 
     protected void setInitialValues() {
     }
@@ -93,30 +90,23 @@ public abstract class AbstractBAPModule {
         return this.lsgID;
     }
 
-    protected abstract String getLSGDescription() {
-    }
+    protected abstract String getLSGDescription();
 
-    protected abstract IFunctionIDs getFunctionIDs() {
-    }
+    protected abstract IFunctionIDs getFunctionIDs();
 
-    protected abstract IErrorCodes getErrorIDs() {
-    }
+    protected abstract IErrorCodes getErrorIDs();
 
-    public abstract int[] getErrorMapping() {
-    }
+    public abstract int[] getErrorMapping();
 
-    protected abstract IDataTypeMapping getDataTypeMapping() {
-    }
+    protected abstract IDataTypeMapping getDataTypeMapping();
 
     public IFrameworkAccess getFrameworkAccess() {
         return this.bapApplication.getFrameworkAccess();
     }
 
-    public abstract AbstractFunctionList getFunctionList() {
-    }
+    public abstract AbstractFunctionList getFunctionList();
 
-    public abstract IBAPIndicationListener getIndicationListener() {
-    }
+    public abstract IBAPIndicationListener getIndicationListener();
 
     public void setRequestHandler(IBAPRequestHandler iBAPRequestHandler) {
         if (this.bapApplication != null) {
@@ -140,11 +130,9 @@ public abstract class AbstractBAPModule {
         return this.listManager;
     }
 
-    public abstract IBAPFunction getBAPFunction(int n) {
-    }
+    public abstract IBAPFunction getBAPFunction(int var1);
 
-    protected abstract void initDiagnosisConnector() {
-    }
+    protected abstract void initDiagnosisConnector();
 
     protected void addAppConnector(String string, AbstractAppConnector abstractAppConnector) {
         this.appConnectors.put(string, abstractAppConnector);
@@ -179,16 +167,15 @@ public abstract class AbstractBAPModule {
         if (this.listManager != null) {
             this.listManager.init(abstractActivator.getBundleContext());
         }
-        this.logChannel.log(-2137614336, "[AbstractBAPModule#activate] module has been activated (lsgID=%1)", (Object)LSGIDs.getDescription(this.lsgID));
+        this.logChannel.log(10000000, "[AbstractBAPModule#activate] module has been activated (lsgID=%1)", (Object)LSGIDs.getDescription(this.lsgID));
     }
 
-    public abstract void resetBAPFunctions() {
-    }
+    public abstract void resetBAPFunctions();
 
     public void deactivate() {
         this.serviceManager.closeTracker();
         this.osdActivator.stop(null);
-        this.logChannel.log(-2137614336, "[AbstractBAPModule#activate] module has been deactivated (lsgID=%1)", (Object)LSGIDs.getDescription(this.lsgID));
+        this.logChannel.log(10000000, "[AbstractBAPModule#activate] module has been deactivated (lsgID=%1)", (Object)LSGIDs.getDescription(this.lsgID));
     }
 
     public void destroy() {
@@ -200,17 +187,16 @@ public abstract class AbstractBAPModule {
     }
 
     public void notifyPowerStateChanged() {
-        this.logChannel.log(-2137614336, "[AbstractBAPModule#notifyPowerStateChanged] called -> update operation state %1", (Object)LSGIDs.getDescription(this.lsgID));
+        this.logChannel.log(10000000, "[AbstractBAPModule#notifyPowerStateChanged] called -> update operation state %1", (Object)LSGIDs.getDescription(this.lsgID));
         this.initializationManager.updateOperationState();
     }
 
     public void notifyPowerTriggerAction() {
-        this.logChannel.log(-2137614336, "[AbstractBAPModule#notifyPowerTriggerAction] called -> update operation state %1", (Object)LSGIDs.getDescription(this.lsgID));
+        this.logChannel.log(10000000, "[AbstractBAPModule#notifyPowerTriggerAction] called -> update operation state %1", (Object)LSGIDs.getDescription(this.lsgID));
         this.initializationManager.updateOperationState();
     }
 
-    protected abstract AbstractSwDiagnosis getDiagnosisGateway(boolean bl) {
-    }
+    protected abstract AbstractSwDiagnosis getDiagnosisGateway(boolean var1);
 
     public boolean isErrorHandled(int n) {
         return false;

@@ -7,46 +7,32 @@ import de.esolutions.fw.util.commons.Buffer;
 import java.io.PrintStream;
 
 public interface LogEntry {
-    default public String getChannelName() {
-    }
+    public String getChannelName();
 
-    default public Throwable getException() {
-    }
+    public Throwable getException();
 
-    default public String getFormatedTimestamp() {
-    }
+    public String getFormatedTimestamp();
 
-    default public int getLevel() {
-    }
+    public int getLevel();
 
-    default public String getLevelName() {
-    }
+    public String getLevelName();
 
-    default public String getMsg() {
-    }
+    public String getMsg();
 
-    default public String getLogMessage() {
-    }
+    public String getLogMessage();
 
-    default public String getLogMessage(String string) {
-    }
+    public String getLogMessage(String var1);
 
-    default public String getTemplate() {
-    }
+    public String getTemplate();
 
-    default public long getTimeStamp() {
-    }
+    public long getTimeStamp();
 
-    default public String toString() {
-    }
+    public String toString();
 
-    default public void print(PrintStream printStream) {
-    }
+    public void print(PrintStream var1);
 
-    default public void print(Buffer buffer) {
-    }
+    public void print(Buffer var1);
 
-    default public void freezeArgs() {
-    }
+    public void freezeArgs();
 }
 

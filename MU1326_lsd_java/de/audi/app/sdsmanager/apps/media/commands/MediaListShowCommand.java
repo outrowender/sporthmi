@@ -20,7 +20,6 @@ import de.audi.app.sdsmanager.syscall.ISystemCallParameter;
 import de.audi.atip.hmi.HMIService;
 import de.audi.atip.interapp.SDSListEntry;
 import de.audi.atip.interapp.media.IMediaSDSService;
-import de.audi.atip.interapp.media.IMediaSDSService$MediaSDSListEntry;
 import de.audi.atip.log.LogChannel;
 
 public class MediaListShowCommand
@@ -48,9 +47,8 @@ extends AbstractSystemCallCommand {
         this.dynamicLists = iDynamicLists;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: listMode=%2!", (Object)this.getName(), (long)this.listMode);
+        this.logger.log(10000000, "%1#execute: listMode=%2!", (Object)this.getName(), (long)this.listMode);
         Object[] objectArray = null;
         if (this.listMode == 4) {
             SDSModelAccess.setMediaPicklistIsPlayMusic(true);
@@ -59,12 +57,12 @@ extends AbstractSystemCallCommand {
             SDSModelAccess.setMediaPicklistIsPlayMusic(false);
             objectArray = this.createEntriesFromPicklist();
         }
-        if (!this.areEntriesValid((IMediaSDSService$MediaSDSListEntry[])objectArray)) {
+        if (!this.areEntriesValid((IMediaSDSService.MediaSDSListEntry[])objectArray)) {
             this.sendResult(20001);
             return;
         }
-        this.logger.log(-2137614336, "%1#execute: entries=%2", (Object)this.getName(), (Object)SDSUtils.toString(objectArray, true));
-        byte by = this.mediaSDSService.fillPickList((IMediaSDSService$MediaSDSListEntry[])objectArray, MediaSDSUtils.getMediaModeForListMode(this.listMode));
+        this.logger.log(10000000, "%1#execute: entries=%2", (Object)this.getName(), (Object)SDSUtils.toString(objectArray, true));
+        byte by = this.mediaSDSService.fillPickList((IMediaSDSService.MediaSDSListEntry[])objectArray, MediaSDSUtils.getMediaModeForListMode(this.listMode));
         if (by == 2) {
             this.sendResult(20001);
             return;
@@ -83,39 +81,39 @@ extends AbstractSystemCallCommand {
         }
     }
 
-    private boolean areEntriesValid(IMediaSDSService$MediaSDSListEntry[] iMediaSDSService$MediaSDSListEntryArray) {
-        if (iMediaSDSService$MediaSDSListEntryArray == null) {
+    private boolean areEntriesValid(IMediaSDSService.MediaSDSListEntry[] mediaSDSListEntryArray) {
+        if (mediaSDSListEntryArray == null) {
             this.logger.log(10000, "%1#execute: entries are null", (Object)this.getName());
             return false;
         }
-        for (int i2 = 0; i2 < iMediaSDSService$MediaSDSListEntryArray.length; ++i2) {
-            if (iMediaSDSService$MediaSDSListEntryArray[i2] != null) continue;
+        for (int i2 = 0; i2 < mediaSDSListEntryArray.length; ++i2) {
+            if (mediaSDSListEntryArray[i2] != null) continue;
             this.logger.log(10000, "%1#execute: entry %2 is null", (Object)this.getName(), (long)i2);
             return false;
         }
         return true;
     }
 
-    private IMediaSDSService$MediaSDSListEntry[] createDynamicDeviceEntries() {
+    private IMediaSDSService.MediaSDSListEntry[] createDynamicDeviceEntries() {
         if (this.dynamicDevices != null) {
-            IMediaSDSService$MediaSDSListEntry[] iMediaSDSService$MediaSDSListEntryArray = new IMediaSDSService$MediaSDSListEntry[this.dynamicDevices.length];
-            for (int i2 = 0; i2 < iMediaSDSService$MediaSDSListEntryArray.length; ++i2) {
+            IMediaSDSService.MediaSDSListEntry[] mediaSDSListEntryArray = new IMediaSDSService.MediaSDSListEntry[this.dynamicDevices.length];
+            for (int i2 = 0; i2 < mediaSDSListEntryArray.length; ++i2) {
                 SDSListEntry sDSListEntry = this.dynamicDevices[i2];
                 long l = sDSListEntry.getId();
                 int n = SDSUtils.getLowNibble(l);
                 int n2 = SDSUtils.getHighNibble(l);
-                iMediaSDSService$MediaSDSListEntryArray[i2] = new IMediaSDSService$MediaSDSListEntry(sDSListEntry.getName(), l, sDSListEntry.getChildren(), n, n2);
+                mediaSDSListEntryArray[i2] = new IMediaSDSService.MediaSDSListEntry(sDSListEntry.getName(), l, sDSListEntry.getChildren(), n, n2);
             }
-            return iMediaSDSService$MediaSDSListEntryArray;
+            return mediaSDSListEntryArray;
         }
-        this.logger.log(1078071040, "%1#execute: dynamic devices is null", (Object)this.getName());
-        return new IMediaSDSService$MediaSDSListEntry[0];
+        this.logger.log(1000000, "%1#execute: dynamic devices is null", (Object)this.getName());
+        return new IMediaSDSService.MediaSDSListEntry[0];
     }
 
-    private IMediaSDSService$MediaSDSListEntry[] createEntriesFromPicklist() {
+    private IMediaSDSService.MediaSDSListEntry[] createEntriesFromPicklist() {
         IPicklist iPicklist;
         if (MediaSDSUtils.isOneshotListmode(this.listMode)) {
-            this.logger.log(-2137614336, "%1#execute: oneshot", (Object)this.getName());
+            this.logger.log(10000000, "%1#execute: oneshot", (Object)this.getName());
             OneshotHandler oneshotHandler = this.mediaSDSHandler.getOneshotHandler();
             iPicklist = oneshotHandler == null ? this.picklistHandler.getEntryPicklist() : oneshotHandler.getCurrentPicklist();
         } else {

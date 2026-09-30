@@ -22,9 +22,8 @@ extends AbstractADBCommand {
         this.adbHmiAppServiceListener = aDBHMIAppServiceListener;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "ParseVCardCommand#execute()");
+        this.logger.log(10000000, "ParseVCardCommand#execute()");
         boolean bl = this.adbDSIAccess.parseVCard(this.fullPathToVCards);
         if (!bl) {
             this.logger.log(10000, "ParseVCardCommand#execute(): DSI call was not successful, finishing command.");
@@ -33,9 +32,8 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public void parseVCardResult(int n, AdbEntry[] adbEntryArray) {
-        this.logger.log(-2137614336, "ParseVCardCommand#parseVCardResult(): success: %1, entries: %2", (Object)ADBDbgUtils.dbgSuccessFlag(n), (Object)ADBDbgUtils.dbg(adbEntryArray));
+        this.logger.log(10000000, "ParseVCardCommand#parseVCardResult(): success: %1, entries: %2", (Object)ADBDbgUtils.dbgSuccessFlag(n), (Object)ADBDbgUtils.dbg(adbEntryArray));
         this.adbHmiAppServiceListener.responseParseVCards(n, adbEntryArray);
         this.commandList.commandFinished();
     }

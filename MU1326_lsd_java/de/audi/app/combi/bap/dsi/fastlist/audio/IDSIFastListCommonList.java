@@ -8,13 +8,10 @@ import org.dsi.ifc.kombifastlist.DataCommonList;
 
 public interface IDSIFastListCommonList
 extends IDSIFastListAudio {
-    default public void pushCommonList(DataCommonList[] dataCommonListArray) {
-    }
+    public void pushCommonList(DataCommonList[] var1);
 
-    default public void pushCurrentListSizeCommonList(int n) {
-    }
+    public void pushCurrentListSizeCommonList(int var1);
 
-    default public void responseNotifyCommonListPush(boolean bl) {
-    }
+    public void responseNotifyCommonListPush(boolean var1);
 }
 

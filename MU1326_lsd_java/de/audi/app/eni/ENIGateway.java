@@ -1,28 +1,8 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package de.audi.app.eni;
 
-import de.audi.app.eni.ENIGateway$1;
-import de.audi.app.eni.ENIGateway$10;
-import de.audi.app.eni.ENIGateway$11;
-import de.audi.app.eni.ENIGateway$12;
-import de.audi.app.eni.ENIGateway$13;
-import de.audi.app.eni.ENIGateway$14;
-import de.audi.app.eni.ENIGateway$15;
-import de.audi.app.eni.ENIGateway$16;
-import de.audi.app.eni.ENIGateway$17;
-import de.audi.app.eni.ENIGateway$2;
-import de.audi.app.eni.ENIGateway$3;
-import de.audi.app.eni.ENIGateway$4;
-import de.audi.app.eni.ENIGateway$5;
-import de.audi.app.eni.ENIGateway$6;
-import de.audi.app.eni.ENIGateway$7;
-import de.audi.app.eni.ENIGateway$8;
-import de.audi.app.eni.ENIGateway$9;
 import de.audi.atip.base.IFrameworkAccess;
 import de.audi.atip.interapp.bap.eni.BAPServiceENI;
 import de.audi.atip.interapp.bap.eni.BAPServiceENIListener;
@@ -55,18 +35,18 @@ implements ENIServiceOnline,
 ENIServiceEcall,
 BAPServiceENIListener,
 BAPServiceRemoteServicesListener {
-    private static final int CATALOG_VERSION_UNKNOWN;
-    private static final int CATALOG_VERSION_NO_PRIVACY;
-    private static final int CATALOG_VERSION_PRIVACY;
-    private static final String ECALL_V1;
-    static final String VALET_ALERT;
-    static final String SPEED_ALERT;
-    static final String GEO_FENCE;
-    private static final int KEY_IS_EXPIRATION_WARNING_CONFIRMED;
-    private static final int KEY_IS_EXPIRED_CONFIRMED;
-    private static final boolean CONFIRMED;
-    private static final boolean NOT_CONFIRMED;
-    private static final int INVALID_LICENCE_DATA;
+    private static final int CATALOG_VERSION_UNKNOWN = -1;
+    private static final int CATALOG_VERSION_NO_PRIVACY = 0;
+    private static final int CATALOG_VERSION_PRIVACY = 1;
+    private static final String ECALL_V1 = "ecall_v1";
+    static final String VALET_ALERT = "valetalert";
+    static final String SPEED_ALERT = "speedalert";
+    static final String GEO_FENCE = "geofence";
+    private static final int KEY_IS_EXPIRATION_WARNING_CONFIRMED = 1;
+    private static final int KEY_IS_EXPIRED_CONFIRMED = 2;
+    private static final boolean CONFIRMED = true;
+    private static final boolean NOT_CONFIRMED = false;
+    private static final int INVALID_LICENCE_DATA = -1;
     private final DispatcherBase dispatcher;
     private volatile boolean receivedUserList;
     private ENIServiceOnlineListener eniServiceOnlineListener;
@@ -121,30 +101,34 @@ BAPServiceRemoteServicesListener {
         this.frameworkAccess = iFrameworkAccess;
     }
 
-    @Override
     public final void onCommunicationUp() {
-        this.dispatcher.execute(new ENIGateway$1(this));
+        this.dispatcher.execute(new Runnable(){
+
+            public void run() {
+                ENIGateway.this.logChannel.log(10000000, "[ENIGateway#onCommunicationUp]");
+                ENIGateway.this.triggerGetServiceList();
+                ENIGateway.this.triggerGetDestinationList();
+                ENIGateway.this.triggerGetUserList();
+            }
+        });
         this.isCgwUp = true;
         if (this.pendingPrivacyTask != null) {
-            this.logChannel.log(1078071040, "[ENIGateway#onCommunicationUp] Trigger pending privacy task.");
+            this.logChannel.log(1000000, "[ENIGateway#onCommunicationUp] Trigger pending privacy task.");
             this.dispatcher.execute(this.pendingPrivacyTask);
         }
     }
 
-    @Override
     public void onRemoteProcessFinished(boolean bl) {
     }
 
-    @Override
     public void onSupportedRemoteProcesses(SupportedRemoteProcesses supportedRemoteProcesses) {
     }
 
-    @Override
     public final void onRemoteProcessState(RemoteProcessState remoteProcessState) {
         Integer n = new Integer(remoteProcessState.getRemoteProcessKind());
         Integer n2 = new Integer(remoteProcessState.getState());
         Integer n3 = new Integer(remoteProcessState.getExceptionState());
-        this.logChannel.log(-2137614336, "ENIGateway#onRemoteProcessState: kind %1, state %2, exceptionState %3", (Object)n, (Object)n2, (Object)n3);
+        this.logChannel.log(10000000, "ENIGateway#onRemoteProcessState: kind %1, state %2, exceptionState %3", (Object)n, (Object)n2, (Object)n3);
         switch (n) {
             case 5: {
                 this.onRemoteProcessStateConfirmServiceExpiryWarning(remoteProcessState, n2, n3);
@@ -175,31 +159,31 @@ BAPServiceRemoteServicesListener {
                 break;
             }
             default: {
-                this.logChannel.log(1078071040, "ENIGateway#onRemoteProcessState: kind %1, state %2, exceptionState %3 IGNORED", (Object)n, (Object)n2, (Object)n3);
+                this.logChannel.log(1000000, "ENIGateway#onRemoteProcessState: kind %1, state %2, exceptionState %3 IGNORED", (Object)n, (Object)n2, (Object)n3);
             }
         }
     }
 
     private void onIdleState(Integer n, Integer n2) {
-        this.logChannel.log(1078071040, "ENIGateway#onIdleState state: %1", (Object)n);
+        this.logChannel.log(1000000, "ENIGateway#onIdleState state: %1", (Object)n);
         if (n == 1 || n == 0) {
-            this.logChannel.log(1078071040, "ENIGateway#onIdleState state idle or unknown");
+            this.logChannel.log(1000000, "ENIGateway#onIdleState state idle or unknown");
             if (this.submitChangesToBackend) {
-                this.logChannel.log(1078071040, "ENIGateway#onIdleState submitting changes to backend");
+                this.logChannel.log(1000000, "ENIGateway#onIdleState submitting changes to backend");
                 this.submitChangesToBackend = false;
                 this.triggerSubmitChangesToBackend();
             } else if (this.eniServiceOnlineListener != null) {
-                this.logChannel.log(1078071040, "ENIGateway#onIdleState resetting the change-in-progress model");
+                this.logChannel.log(1000000, "ENIGateway#onIdleState resetting the change-in-progress model");
                 this.eniServiceOnlineListener.onRemoteProcessPrivacyModeReturnedToIdle();
             } else {
-                this.logChannel.log(-1601830656, "ENIGateway#onIdleState ignoring state %1; HMI startup possibly not finished yet", (Object)n);
+                this.logChannel.log(100000, "ENIGateway#onIdleState ignoring state %1; HMI startup possibly not finished yet", (Object)n);
             }
         }
     }
 
     private void onRemoteProcessPrivacyMode(RemoteProcessState remoteProcessState, Integer n, Integer n2) {
         if (n == 3) {
-            this.logChannel.log(1078071040, "ENIGateway#onRemoteProcessPrivacyMode: succeeded");
+            this.logChannel.log(1000000, "ENIGateway#onRemoteProcessPrivacyMode: succeeded");
             this.submitChangesToBackend = true;
         }
     }
@@ -207,87 +191,98 @@ BAPServiceRemoteServicesListener {
     private void onRemoteProcessStatePairMainUserUsingVehiclePin(RemoteProcessState remoteProcessState, Integer n, Integer n2) {
         int n3 = n2;
         if (this.eniServiceOnlineListener == null) {
-            this.logChannel.log(-1601830656, "ENIGateway#onRemoteProcessStatePairMainUserUsingVehiclePin: no online listener!");
+            this.logChannel.log(100000, "ENIGateway#onRemoteProcessStatePairMainUserUsingVehiclePin: no online listener!");
         } else if (n == 3) {
-            this.logChannel.log(1078071040, "ENIGateway#onRemoteProcessStatePairMainUserUsingVehiclePin: succeeded");
+            this.logChannel.log(1000000, "ENIGateway#onRemoteProcessStatePairMainUserUsingVehiclePin: succeeded");
             this.eniServiceOnlineListener.triggerMainUserSetUsingVehiclePINResponse(0, -1);
             this.triggerUpdateUserList();
         } else if (n3 == 15) {
             int n4 = remoteProcessState.getPinRetryRemainingCount();
             int n5 = n4 <= 0 ? 3 : 1;
-            this.logChannel.log(1078071040, "ENIGateway#onRemoteProcessStatePairMainUserUsingVehiclePin: wrong pin (remaining attempts: %1)", (Object)new Integer(n4));
+            this.logChannel.log(1000000, "ENIGateway#onRemoteProcessStatePairMainUserUsingVehiclePin: wrong pin (remaining attempts: %1)", (Object)new Integer(n4));
             this.eniServiceOnlineListener.triggerMainUserSetUsingVehiclePINResponse(n5, n4);
         } else if (n3 == 10) {
-            this.logChannel.log(1078071040, "ENIGateway#onRemoteProcessStatePairMainUserUsingVehiclePin: myAudi Account not verified");
+            this.logChannel.log(1000000, "ENIGateway#onRemoteProcessStatePairMainUserUsingVehiclePin: myAudi Account not verified");
             this.eniServiceOnlineListener.triggerMainUserSetUsingVehiclePINResponse(4, 0);
         } else if (n3 != 0) {
-            this.logChannel.log(1078071040, "ENIGateway#onRemoteProcessStatePairMainUserUsingVehiclePin: generic error (exceptionState: %1)", (Object)n2);
+            this.logChannel.log(1000000, "ENIGateway#onRemoteProcessStatePairMainUserUsingVehiclePin: generic error (exceptionState: %1)", (Object)n2);
             this.eniServiceOnlineListener.triggerMainUserSetUsingVehiclePINResponse(2, -1);
         } else {
-            this.logChannel.log(1078071040, "ENIGateway#onRemoteProcessStatePairMainUserUsingVehiclePin: pair main user with vehiclePIN: no action for state %1", (Object)n);
+            this.logChannel.log(1000000, "ENIGateway#onRemoteProcessStatePairMainUserUsingVehiclePin: pair main user with vehiclePIN: no action for state %1", (Object)n);
         }
     }
 
     private void onRemoteProcessStateDeleteUserList(RemoteProcessState remoteProcessState, Integer n, Integer n2) {
         if (this.eniServiceOnlineListener == null) {
-            this.logChannel.log(-1601830656, "ENIGateway#onRemoteProcessStateDeleteUserList: no online listener!");
+            this.logChannel.log(100000, "ENIGateway#onRemoteProcessStateDeleteUserList: no online listener!");
         } else if (n == 3) {
             this.eniServiceOnlineListener.triggerMainUserResetResponse(true);
-            this.logChannel.log(1078071040, "ENIGateway#onRemoteProcessStateDeleteUserList: succeeded");
+            this.logChannel.log(1000000, "ENIGateway#onRemoteProcessStateDeleteUserList: succeeded");
             this.triggerUpdateUserList();
             this.resetMonitoringStates();
         } else if (n2 != 0) {
             this.eniServiceOnlineListener.triggerMainUserResetResponse(false);
-            this.logChannel.log(1078071040, "ENIGateway#onRemoteProcessStateDeleteUserList: failed with exception state %1", (Object)n2);
+            this.logChannel.log(1000000, "ENIGateway#onRemoteProcessStateDeleteUserList: failed with exception state %1", (Object)n2);
         } else if (n == 4) {
             this.eniServiceOnlineListener.triggerMainUserResetResponse(false);
-            this.logChannel.log(-1601830656, "ENIGateway#onRemoteProcessStateDeleteUserList: failed with no exception state");
+            this.logChannel.log(100000, "ENIGateway#onRemoteProcessStateDeleteUserList: failed with no exception state");
         } else {
-            this.logChannel.log(1078071040, "ENIGateway#onRemoteProcessStateDeleteUserList: state %1 ignored", (Object)n);
+            this.logChannel.log(1000000, "ENIGateway#onRemoteProcessStateDeleteUserList: state %1 ignored", (Object)n);
         }
     }
 
     private void onRemoteProcessStateUpdateUserList(RemoteProcessState remoteProcessState, Integer n, Integer n2) {
         if (this.eniServiceOnlineListener == null) {
-            this.logChannel.log(-1601830656, "ENIGateway#onRemoteProcessStateUpdateUserList: no online listener!");
+            this.logChannel.log(100000, "ENIGateway#onRemoteProcessStateUpdateUserList: no online listener!");
         } else if (n == 3) {
-            this.logChannel.log(1078071040, "ENIGateway#onRemoteProcessStateUpdateUserList: succeeded");
+            this.logChannel.log(1000000, "ENIGateway#onRemoteProcessStateUpdateUserList: succeeded");
             this.eniServiceOnlineListener.triggerUpdateUserListResponse(true);
         } else if (n2 != 0) {
-            this.logChannel.log(1078071040, "ENIGateway#onRemoteProcessStateUpdateUserList: failed with exception state %1", (Object)n2);
+            this.logChannel.log(1000000, "ENIGateway#onRemoteProcessStateUpdateUserList: failed with exception state %1", (Object)n2);
             this.eniServiceOnlineListener.triggerUpdateUserListResponse(false);
         } else if (n == 4) {
-            this.logChannel.log(-1601830656, "ENIGateway#onRemoteProcessStateUpdateUserList: failed with no exception state");
+            this.logChannel.log(100000, "ENIGateway#onRemoteProcessStateUpdateUserList: failed with no exception state");
             this.eniServiceOnlineListener.triggerUpdateUserListResponse(false);
         } else {
-            this.logChannel.log(1078071040, "ENIGateway#onRemoteProcessStateUpdateUserList: state %1 ignored", (Object)n);
+            this.logChannel.log(1000000, "ENIGateway#onRemoteProcessStateUpdateUserList: state %1 ignored", (Object)n);
         }
     }
 
     private void onRemoteProcessStateConfirmServiceExpiryWarning(RemoteProcessState remoteProcessState, Integer n, Integer n2) {
         if (this.eniServiceEcallListener == null) {
-            this.logChannel.log(-1601830656, "ENIGateway#onRemoteProcessStateConfirmServiceExpiryWarning: no ecall listener!");
+            this.logChannel.log(100000, "ENIGateway#onRemoteProcessStateConfirmServiceExpiryWarning: no ecall listener!");
         } else if (n == 3) {
-            this.logChannel.log(1078071040, "ENIGateway#onRemoteProcessStateConfirmServiceExpiryWarning: succeeded (no listener method defined)");
+            this.logChannel.log(1000000, "ENIGateway#onRemoteProcessStateConfirmServiceExpiryWarning: succeeded (no listener method defined)");
         } else {
-            this.logChannel.log(-1601830656, "ENIGateway#onRemoteProcessStateConfirmServiceExpiryWarning: failed (no listener method defined)");
+            this.logChannel.log(100000, "ENIGateway#onRemoteProcessStateConfirmServiceExpiryWarning: failed (no listener method defined)");
         }
     }
 
-    @Override
-    public final void onServiceList(Service[] serviceArray) {
-        this.logChannel.log(1078071040, "ENIGateway#onServiceList %1", (Object)serviceArray);
+    public final void onServiceList(final Service[] serviceArray) {
+        this.logChannel.log(1000000, "ENIGateway#onServiceList %1", (Object)serviceArray);
         this.lastServiceList = serviceArray;
-        this.dispatcher.execute(new ENIGateway$2(this, serviceArray));
+        this.dispatcher.execute(new Runnable(){
+
+            public void run() {
+                ENIGateway.this.logChannel.log(1000000, "ENIGateway#onServiceList: received %1 services", serviceArray == null ? -1L : (long)serviceArray.length);
+                if (ENIGateway.this.eniServiceOnlineListener != null) {
+                    ENIGateway.this.eniServiceOnlineListener.onServiceList(serviceArray);
+                }
+                ENIGateway.this.extractEcallLicence();
+                ENIGateway.this.handleEcallLicenceWarning();
+                ENIGateway.this.handleEcallPrivacyDisclaimer();
+                ENIGateway.this.handleAlertServices();
+            }
+        });
     }
 
     private void handleEcallPrivacyDisclaimer() {
         if (this.eniServiceEcallListener == null) {
-            this.logChannel.log(-1601830656, "ENIGateway#handleEcallPrivacyDisclaimer: eniServiceEcallListener is null!");
+            this.logChannel.log(100000, "ENIGateway#handleEcallPrivacyDisclaimer: eniServiceEcallListener is null!");
             return;
         }
         if (this.serviceEcall == null) {
-            this.logChannel.log(-1601830656, "ENIGateway#handleEcallPrivacyDisclaimer: serviceEcall is null!");
+            this.logChannel.log(100000, "ENIGateway#handleEcallPrivacyDisclaimer: serviceEcall is null!");
             return;
         }
         boolean bl = this.serviceEcall.isDisablingByDriverAllowed();
@@ -300,7 +295,7 @@ BAPServiceRemoteServicesListener {
 
     private void handleAlertServices() {
         if (this.lastServiceList == null) {
-            this.logChannel.log(-1601830656, "ENIGateway#handleAlertServices: no services array available");
+            this.logChannel.log(100000, "ENIGateway#handleAlertServices: no services array available");
             return;
         }
         boolean bl = false;
@@ -309,15 +304,15 @@ BAPServiceRemoteServicesListener {
         for (int i2 = 0; i2 < this.lastServiceList.length; ++i2) {
             Service service = this.lastServiceList[i2];
             if (service.isDisablingByDriverAllowed()) continue;
-            if (service.getId().startsWith("geofence")) {
+            if (service.getId().startsWith(GEO_FENCE)) {
                 bl = true;
                 continue;
             }
-            if (service.getId().startsWith("valetalert")) {
+            if (service.getId().startsWith(VALET_ALERT)) {
                 bl3 = true;
                 continue;
             }
-            if (!service.getId().startsWith("speedalert")) continue;
+            if (!service.getId().startsWith(SPEED_ALERT)) continue;
             bl2 = true;
         }
         this.setAlertServicesPrivacyDisclaimerTextVisible(bl || bl3 || bl2);
@@ -327,41 +322,41 @@ BAPServiceRemoteServicesListener {
         if (this.eniServiceOnlineListener != null) {
             this.eniServiceOnlineListener.setAlertServicesPrivacyDisclaimerTextVisible(bl);
         } else {
-            this.logChannel.log(-1601830656, "ENIGateway#setAlertServicesPrivacyDisclaimerTextVisible: no listener to set the disclaimer on; the service list came too soon and no alert disclaimers in the privacy mode popup are going to visible until the next service list update");
+            this.logChannel.log(100000, "ENIGateway#setAlertServicesPrivacyDisclaimerTextVisible: no listener to set the disclaimer on; the service list came too soon and no alert disclaimers in the privacy mode popup are going to visible until the next service list update");
         }
     }
 
     private void extractEcallLicence() {
         this.serviceEcall = null;
         if (this.lastServiceList == null) {
-            this.logChannel.log(-1601830656, "ENIGateway#extractEcallLicence: no services array available");
+            this.logChannel.log(100000, "ENIGateway#extractEcallLicence: no services array available");
             return;
         }
         for (int i2 = 0; i2 < this.lastServiceList.length; ++i2) {
-            if (!this.lastServiceList[i2].getId().equals("ecall_v1")) continue;
-            this.logChannel.log(1078071040, "ENIGateway#extractEcallLicence: found valid licence entry %1", (Object)"ecall_v1");
+            if (!this.lastServiceList[i2].getId().equals(ECALL_V1)) continue;
+            this.logChannel.log(1000000, "ENIGateway#extractEcallLicence: found valid licence entry %1", (Object)ECALL_V1);
             this.serviceEcall = this.lastServiceList[i2];
             return;
         }
-        this.logChannel.log(-1601830656, "ENIGateway#extractEcallLicence: services array doesn't contain %1", (Object)"ecall_v1");
+        this.logChannel.log(100000, "ENIGateway#extractEcallLicence: services array doesn't contain %1", (Object)ECALL_V1);
     }
 
     protected final void handleEcallLicenceWarning() {
         if (this.eniServiceEcallListener == null) {
-            this.logChannel.log(-1601830656, "ENIGateway#handleEcallLicenceWarning: eniServiceEcallListener is null!");
+            this.logChannel.log(100000, "ENIGateway#handleEcallLicenceWarning: eniServiceEcallListener is null!");
             return;
         }
         if (this.serviceEcall == null) {
-            this.logChannel.log(-1601830656, "ENIGateway#handleEcallLicenceWarning: serviceEcall is null!");
+            this.logChannel.log(100000, "ENIGateway#handleEcallLicenceWarning: serviceEcall is null!");
             return;
         }
         if (!this.serviceEcall.isEnabled()) {
-            this.logChannel.log(1078071040, "ENIGateway#handleEcallLicenceWarning: ecall service is not enabled");
+            this.logChannel.log(1000000, "ENIGateway#handleEcallLicenceWarning: ecall service is not enabled");
             return;
         }
         License license = this.serviceEcall.getLicense();
         if (license == null) {
-            this.logChannel.log(-1601830656, "ENIGateway#handleEcallLicenceWarning: ecall service does not contain a licence!");
+            this.logChannel.log(100000, "ENIGateway#handleEcallLicenceWarning: ecall service does not contain a licence!");
             return;
         }
         boolean bl = this.serviceEcall.hasExpirationWarning();
@@ -375,7 +370,7 @@ BAPServiceRemoteServicesListener {
         boolean bl5 = this.getENIBoolean(1);
         boolean bl6 = this.getENIBoolean(2);
         if (bl3 && !bl6) {
-            this.logChannel.log(-1601830656, "ENIGateway#handleEcallLicenceWarning: ecall service licence is expired!");
+            this.logChannel.log(100000, "ENIGateway#handleEcallLicenceWarning: ecall service licence is expired!");
             this.eniServiceEcallListener.onLicenceExpired();
             return;
         }
@@ -383,11 +378,11 @@ BAPServiceRemoteServicesListener {
             String string = license.getExpirationDate();
             int n = this.calculateLicenceDuration(string);
             if (n != -1) {
-                this.logChannel.log(1078071040, "ENIGateway#handleEcallLicenceWarning: ecall service expires in %1 days", (Object)new Integer(n));
+                this.logChannel.log(1000000, "ENIGateway#handleEcallLicenceWarning: ecall service expires in %1 days", (Object)new Integer(n));
                 this.eniServiceEcallListener.onExpirationWarning(bl2, n, false);
             }
         } else {
-            this.logChannel.log(1078071040, "ENIGateway#handleEcallLicenceWarning: ecall service has no expiration warning");
+            this.logChannel.log(1000000, "ENIGateway#handleEcallLicenceWarning: ecall service has no expiration warning");
             return;
         }
     }
@@ -416,80 +411,149 @@ BAPServiceRemoteServicesListener {
                 string2 = string2.substring(0, string2.length() - 1);
             }
             long l2 = new SimpleDateFormat("yyyyMMddHHmm").parse(string2).getTime();
-            this.logChannel.log(1078071040, "ENIGateway#handleEcallLicenceWarning: ecall service expires at %1 (%2)", (Object)Long.toString(l2), (Object)string2);
+            this.logChannel.log(1000000, "ENIGateway#handleEcallLicenceWarning: ecall service expires at %1 (%2)", (Object)Long.toString(l2), (Object)string2);
             double d2 = l2 - l;
             int n = (int)Math.floor(d2 / 8.64E7);
-            this.logChannel.log(1078071040, "ENIGateway#handleEcallLicenceWarning: expires: %1, kombi: %2, duration: %3, days: %4", (Object)Long.toString(l2), (Object)Long.toString(l), (Object)Double.toString((double)d2), (Object)Integer.toString(n));
+            this.logChannel.log(1000000, "ENIGateway#handleEcallLicenceWarning: expires: %1, kombi: %2, duration: %3, days: %4", (Object)Long.toString(l2), (Object)Long.toString(l), (Object)Double.toString(d2), (Object)Integer.toString(n));
             return n;
         }
         catch (ParseException parseException) {
-            this.logChannel.log(-1601830656, "ENIGateway#handleEcallLicenceWarning: couldn't parse date %1", (Object)string);
+            this.logChannel.log(100000, "ENIGateway#handleEcallLicenceWarning: couldn't parse date %1", (Object)string);
             return -1;
         }
     }
 
-    @Override
-    public final void onUserList(User[] userArray) {
-        this.logChannel.log(1078071040, "ENIGateway#onUserList %1", (Object)userArray);
+    public final void onUserList(final User[] userArray) {
+        this.logChannel.log(1000000, "ENIGateway#onUserList %1", (Object)userArray);
         this.lastUserList = userArray;
         this.receivedUserList = true;
-        this.dispatcher.execute(new ENIGateway$3(this, userArray));
+        this.dispatcher.execute(new Runnable(){
+
+            public void run() {
+                ENIGateway.this.logChannel.log(1000000, "ENIGateway#onUserList: received %1 users", userArray == null ? -1L : (long)userArray.length);
+                if (ENIGateway.this.eniServiceOnlineListener != null) {
+                    ENIGateway.this.eniServiceOnlineListener.onUserList(userArray);
+                }
+            }
+        });
     }
 
-    @Override
     public final boolean hasReceivedUserList() {
         return this.receivedUserList;
     }
 
-    @Override
     public final void onDestinationList(Destination[] destinationArray) {
-        this.logChannel.log(1078071040, "ENIGateway#onDestinationList: received %1 destinations", destinationArray == null ? -1L : (long)destinationArray.length);
+        this.logChannel.log(1000000, "ENIGateway#onDestinationList: received %1 destinations", destinationArray == null ? -1L : (long)destinationArray.length);
         this.lastDestinations = destinationArray;
         this.processDestinations();
     }
 
     public void processDestinations() {
-        this.dispatcher.execute(new ENIGateway$4(this));
+        this.dispatcher.execute(new Runnable(){
+
+            public void run() {
+                if (ENIGateway.this.lastDestinations == null || ENIGateway.this.lastDestinations != null && ENIGateway.this.lastDestinations.length == 0) {
+                    ENIGateway.this.logChannel.log(100000, "ENIGateway#onDestinationList: given destinations NULL");
+                    return;
+                }
+                if (ENIGateway.this.lastDestinations.length > 1) {
+                    ENIGateway.this.logChannel.log(100000, "ENIGateway#onDestinationList: given destinations > 1");
+                }
+                Destination destination = ENIGateway.this.lastDestinations[0];
+                if (ENIGateway.this.eniServiceEcallListener != null) {
+                    ENIGateway.this.eniServiceEcallListener.onDestination(destination);
+                    ENIGateway.this.logChannel.log(1000000, "ENIGateway#onDestinationList: Deleting given destination %1 on CGW", (Object)ENIGateway.this.lastDestinations[0]);
+                    ENIGateway.this.bapServiceENI.deleteDestination(destination);
+                }
+            }
+        });
     }
 
-    @Override
     public final void onMonitorings(Monitorings monitorings) {
-        this.logChannel.log(1078071040, "ENIGateway#onMonitorings: Called!");
+        this.logChannel.log(1000000, "ENIGateway#onMonitorings: Called!");
         if (monitorings == null) {
-            this.logChannel.log(-1601830656, "ENIGateway#onMonitorings: given monitorings NULL");
+            this.logChannel.log(100000, "ENIGateway#onMonitorings: given monitorings NULL");
             return;
         }
-        this.logChannel.log(1078071040, "ENIGateway#onMonitorings: storing monitorings in local Variable %1.", (Object)monitorings);
+        this.logChannel.log(1000000, "ENIGateway#onMonitorings: storing monitorings in local Variable %1.", (Object)monitorings);
         this.lastMonitorings = monitorings;
         if (this.eniServiceOnlineListener == null) {
-            this.logChannel.log(-1601830656, "ENIGateway#onMonitorings: listener is not ready, will be called later.");
+            this.logChannel.log(100000, "ENIGateway#onMonitorings: listener is not ready, will be called later.");
         } else {
             this.sendMonitoringsToOnlineListener();
         }
     }
 
     private void sendMonitoringsToOnlineListener() {
-        this.logChannel.log(-2137614336, "ENIGateway#sendMonitoringsToOnlineListener");
+        this.logChannel.log(10000000, "ENIGateway#sendMonitoringsToOnlineListener");
         this.eniServiceOnlineListener.onMonitorings(this.lastMonitorings.isGeofenceEnabled() ? 1 : 0, this.lastMonitorings.isSpeedAlertEnabled() ? 1 : 0, this.lastMonitorings.isValetAlertEnabled() ? 1 : 0);
     }
 
-    @Override
-    public final void onPrivacySetup(PrivacySetup privacySetup) {
-        this.logChannel.log(1078071040, "ENIGateway#onPrivacySetup: %1 ", (Object)privacySetup);
+    public final void onPrivacySetup(final PrivacySetup privacySetup) {
+        this.logChannel.log(1000000, "ENIGateway#onPrivacySetup: %1 ", (Object)privacySetup);
         this.lastPrivacySetup = privacySetup;
-        this.dispatcher.execute(new ENIGateway$5(this, privacySetup));
+        this.dispatcher.execute(new Runnable(){
+
+            public void run() {
+                ENIGateway.this.logChannel.log(1000000, "ENIGateway#onPrivacySetup: received %1 ", (Object)privacySetup.toString());
+                if (ENIGateway.this.eniServiceOnlineListener != null) {
+                    ENIGateway.this.eniServiceOnlineListener.onPrivacySetup(privacySetup);
+                }
+            }
+        });
     }
 
-    public final void setEniServiceOnlineListener(ENIServiceOnlineListener eNIServiceOnlineListener) {
-        this.dispatcher.execute(new ENIGateway$6(this, eNIServiceOnlineListener));
+    public final void setEniServiceOnlineListener(final ENIServiceOnlineListener eNIServiceOnlineListener) {
+        this.dispatcher.execute(new Runnable(){
+
+            public void run() {
+                ENIGateway.this.logChannel.log(1000000, "ENIGateway#registerOnlineListener privacyModeSupported=%1", (long)ENIGateway.this.privacyModeSupported);
+                ENIGateway.this.eniServiceOnlineListener = eNIServiceOnlineListener;
+                if (ENIGateway.this.privacyModeSupported != -1) {
+                    eNIServiceOnlineListener.updatePrivacyModeFeatureAvailable(ENIGateway.this.privacyModeSupported == 1);
+                }
+                if (ENIGateway.this.lastMonitorings != null) {
+                    ENIGateway.this.sendMonitoringsToOnlineListener();
+                }
+                if (ENIGateway.this.lastUserList != null) {
+                    eNIServiceOnlineListener.onUserList(ENIGateway.this.lastUserList);
+                }
+                if (ENIGateway.this.lastServiceList != null) {
+                    eNIServiceOnlineListener.onServiceList(ENIGateway.this.lastServiceList);
+                }
+                if (ENIGateway.this.lastPrivacySetup != null) {
+                    eNIServiceOnlineListener.onPrivacySetup(ENIGateway.this.lastPrivacySetup);
+                }
+            }
+        });
     }
 
-    public final void registerMobileKeyListener(ENIMobileKeyListener eNIMobileKeyListener) {
-        this.dispatcher.execute(new ENIGateway$7(this, eNIMobileKeyListener));
+    public final void registerMobileKeyListener(final ENIMobileKeyListener eNIMobileKeyListener) {
+        this.dispatcher.execute(new Runnable(){
+
+            public void run() {
+                ENIGateway.this.eniMobileKeyListener = eNIMobileKeyListener;
+                if (ENIGateway.this.lastMobileKeyCount != null) {
+                    eNIMobileKeyListener.onMobileDeviceKeyCount(ENIGateway.this.lastMobileKeyCount);
+                }
+            }
+        });
     }
 
-    public void registerMobileKeyStatusDisplayListener(ENIMobileKeyStatusDisplayListener eNIMobileKeyStatusDisplayListener) {
-        this.dispatcher.execute(new ENIGateway$8(this, eNIMobileKeyStatusDisplayListener));
+    public void registerMobileKeyStatusDisplayListener(final ENIMobileKeyStatusDisplayListener eNIMobileKeyStatusDisplayListener) {
+        this.dispatcher.execute(new Runnable(){
+
+            public void run() {
+                ENIGateway.this.eniMobileKeyStatusDisplayListener = eNIMobileKeyStatusDisplayListener;
+                eNIMobileKeyStatusDisplayListener.onFleetModeAvailability(ENIGateway.this.lastFleetMode);
+                if (ENIGateway.this.lastMobileKeySetup != null) {
+                    eNIMobileKeyStatusDisplayListener.onMobDevKeySetup(ENIGateway.this.lastMobileKeySetup);
+                }
+                if (ENIGateway.this.lastMobileKeyCount != null) {
+                    eNIMobileKeyStatusDisplayListener.onMobileDeviceKeyCount(ENIGateway.this.lastMobileKeyCount);
+                }
+            }
+        });
     }
 
     public final void registerEcallListener(ENIServiceEcallListener eNIServiceEcallListener) {
@@ -497,13 +561,17 @@ BAPServiceRemoteServicesListener {
         if (this.lastDestinations != null) {
             this.processDestinations();
         }
-        this.dispatcher.execute(new ENIGateway$9(this));
+        this.dispatcher.execute(new Runnable(){
+
+            public void run() {
+                ENIGateway.this.handleEcallLicenceWarning();
+            }
+        });
     }
 
-    @Override
     public final void triggerUpdateUserList() {
         if (this.eniServiceOnlineListener != null) {
-            this.logChannel.log(1078071040, "ENIGateway#triggerUpdateUserList: using remoteProcessUserlist to get current Userlist!");
+            this.logChannel.log(1000000, "ENIGateway#triggerUpdateUserList: using remoteProcessUserlist to get current Userlist!");
             this.bapServiceENI.remoteProcessUpdateUserList();
         } else {
             this.logChannel.log(10000, "ENIGateway#triggerUpdateUserList: using getUserList to get current Userlist!");
@@ -511,75 +579,107 @@ BAPServiceRemoteServicesListener {
         }
     }
 
-    @Override
-    public final void triggerPairMainUserUsingVehiclePIN(String string, String string2) {
-        this.dispatcher.execute(new ENIGateway$10(this, string, string2));
+    public final void triggerPairMainUserUsingVehiclePIN(final String string, final String string2) {
+        this.dispatcher.execute(new Runnable(){
+
+            public void run() {
+                ENIGateway.this.bapServiceENI.remoteProcessPairMainUserUsingVehiclePin(string, string2);
+            }
+        });
     }
 
-    @Override
     public final void triggerMainUserReset() {
-        this.dispatcher.execute(new ENIGateway$11(this));
+        this.dispatcher.execute(new Runnable(){
+
+            public void run() {
+                ENIGateway.this.bapServiceENI.remoteProcessDeleteUserList();
+            }
+        });
     }
 
-    @Override
-    public final void enableService(Service service) {
-        this.dispatcher.execute(new ENIGateway$12(this, service));
+    public final void enableService(final Service service) {
+        this.dispatcher.execute(new Runnable(){
+
+            public void run() {
+                ENIGateway.this.bapServiceENI.enableService(service);
+            }
+        });
     }
 
-    @Override
-    public final void disableService(Service service) {
-        this.dispatcher.execute(new ENIGateway$13(this, service));
+    public final void disableService(final Service service) {
+        this.dispatcher.execute(new Runnable(){
+
+            public void run() {
+                ENIGateway.this.bapServiceENI.disableService(service);
+            }
+        });
     }
 
-    @Override
     public final void confirmExpirationWarning() {
-        this.dispatcher.execute(new ENIGateway$14(this));
+        this.dispatcher.execute(new Runnable(){
+
+            public void run() {
+                ENIGateway.this.setENIBoolean(1, true);
+                ENIGateway.this.bapServiceENI.remoteProcessConfirmExpirationWarningForService(ENIGateway.this.serviceEcall);
+            }
+        });
     }
 
-    @Override
     public final void confirmEcallExpirated() {
-        this.dispatcher.execute(new ENIGateway$15(this));
+        this.dispatcher.execute(new Runnable(){
+
+            public void run() {
+                ENIGateway.this.setENIBoolean(2, true);
+                ENIGateway.this.bapServiceENI.remoteProcessConfirmExpirationWarningForService(ENIGateway.this.serviceEcall);
+            }
+        });
     }
 
-    @Override
-    public final void triggerPrivacyMode(boolean bl) {
+    public final void triggerPrivacyMode(final boolean bl) {
         if (!this.privacyModeFeatureAvailable) {
             this.logChannel.log(10000, "ENIGateway#triggerPrivacyMode: Privacy mode feature is not available! Call is ignored.");
             return;
         }
-        ENIGateway$16 eNIGateway$16 = new ENIGateway$16(this, bl);
+        Runnable runnable = new Runnable(){
+
+            public void run() {
+                ENIGateway.this.bapServiceENI.remoteProcessPrivacyMode(bl);
+            }
+        };
         if (this.isCgwUp) {
-            this.logChannel.log(1078071040, "[ENIGateway#onCommunicationUp] Trigger privacy: %1", bl);
-            this.dispatcher.execute(eNIGateway$16);
+            this.logChannel.log(1000000, "[ENIGateway#onCommunicationUp] Trigger privacy: %1", bl);
+            this.dispatcher.execute(runnable);
         } else {
-            this.logChannel.log(1078071040, "[ENIGateway#onCommunicationUp] cGW not up. Wait for privacy switch to %1.", bl);
-            this.pendingPrivacyTask = eNIGateway$16;
+            this.logChannel.log(1000000, "[ENIGateway#onCommunicationUp] cGW not up. Wait for privacy switch to %1.", bl);
+            this.pendingPrivacyTask = runnable;
         }
     }
 
-    @Override
     public final void triggerSubmitChangesToBackend() {
         if (!this.privacyModeFeatureAvailable) {
             this.logChannel.log(10000, "ENIGateway#triggerSubmitChangesToBackend: Privacy mode feature is not available! Call is ignored.");
             return;
         }
-        this.dispatcher.execute(new ENIGateway$17(this));
+        this.dispatcher.execute(new Runnable(){
+
+            public void run() {
+                ENIGateway.this.bapServiceENI.remoteProcessSubmitChangesToBackend();
+            }
+        });
     }
 
-    @Override
     public void onMobDevKeySetup(MobileKeySetup mobileKeySetup) {
-        this.logChannel.log(-2137614336, "ENIGateway#onMobDevKeySetup mobileKeySetup: %1", (Object)mobileKeySetup);
+        this.logChannel.log(10000000, "ENIGateway#onMobDevKeySetup mobileKeySetup: %1", (Object)mobileKeySetup);
         this.lastMobileKeySetup = mobileKeySetup;
         if (this.eniMobileKeyStatusDisplayListener != null) {
             this.eniMobileKeyStatusDisplayListener.onMobDevKeySetup(mobileKeySetup);
         } else {
-            this.logChannel.log(1078071040, "ENIGateway#onMobDevKeySetup no remote service");
+            this.logChannel.log(1000000, "ENIGateway#onMobDevKeySetup no remote service");
         }
     }
 
-    @Override
     public void enableMobileDeviceKey() {
-        this.logChannel.log(-2137614336, "ENIGateway#enableMobileDeviceKey");
+        this.logChannel.log(10000000, "ENIGateway#enableMobileDeviceKey");
         if (this.remoteService != null) {
             this.remoteService.enableMobileDeviceKey();
         } else {
@@ -587,9 +687,8 @@ BAPServiceRemoteServicesListener {
         }
     }
 
-    @Override
     public void disableMobileDeviceKey() {
-        this.logChannel.log(-2137614336, "ENIGateway#disableMobileDeviceKey");
+        this.logChannel.log(10000000, "ENIGateway#disableMobileDeviceKey");
         if (this.remoteService != null) {
             this.remoteService.disableMobileDeviceKey();
         } else {
@@ -597,36 +696,33 @@ BAPServiceRemoteServicesListener {
         }
     }
 
-    @Override
     public void onFleetModeAvailability(boolean bl) {
-        this.logChannel.log(-2137614336, "ENIGateway#onFleetModeAvailability fleetModeEnabled: %1", bl);
+        this.logChannel.log(10000000, "ENIGateway#onFleetModeAvailability fleetModeEnabled: %1", bl);
         this.lastFleetMode = bl;
         if (this.eniMobileKeyStatusDisplayListener != null) {
             this.eniMobileKeyStatusDisplayListener.onFleetModeAvailability(bl);
         } else {
-            this.logChannel.log(1078071040, "ENIGateway#onFleetModeAvailability no remote service");
+            this.logChannel.log(1000000, "ENIGateway#onFleetModeAvailability no remote service");
         }
     }
 
-    @Override
     public void onMobileDeviceKeyCount(MobileKeyCount mobileKeyCount) {
-        this.logChannel.log(-2137614336, "ENIGateway#onMobileDeviceKeyCount keyCount: %1", (Object)mobileKeyCount);
+        this.logChannel.log(10000000, "ENIGateway#onMobileDeviceKeyCount keyCount: %1", (Object)mobileKeyCount);
         this.lastMobileKeyCount = mobileKeyCount;
         if (this.eniMobileKeyStatusDisplayListener != null) {
             this.eniMobileKeyStatusDisplayListener.onMobileDeviceKeyCount(mobileKeyCount);
         } else {
-            this.logChannel.log(1078071040, "ENIGateway#onMobileDeviceKeyCount no eniMobileKeyStatusDisplayListener service");
+            this.logChannel.log(1000000, "ENIGateway#onMobileDeviceKeyCount no eniMobileKeyStatusDisplayListener service");
         }
         if (this.eniMobileKeyListener != null) {
             this.eniMobileKeyListener.onMobileDeviceKeyCount(mobileKeyCount);
         } else {
-            this.logChannel.log(1078071040, "ENIGateway#onMobileDeviceKeyCount no eniMobileKeyListener service");
+            this.logChannel.log(1000000, "ENIGateway#onMobileDeviceKeyCount no eniMobileKeyListener service");
         }
     }
 
-    @Override
     public void requestMobileDeviceKeyCount() {
-        this.logChannel.log(-2137614336, "ENIGateway#requestMobileDeviceKeyCount");
+        this.logChannel.log(10000000, "ENIGateway#requestMobileDeviceKeyCount");
         if (this.bapServiceENI != null) {
             this.bapServiceENI.remoteProcessGetMobileDeviceKeyCount();
         } else {
@@ -634,9 +730,8 @@ BAPServiceRemoteServicesListener {
         }
     }
 
-    @Override
     public void onVtanDataEncrypted(String string) {
-        this.logChannel.log(-2137614336, "ENIGateway#onVtanDataEncrypted");
+        this.logChannel.log(10000000, "ENIGateway#onVtanDataEncrypted");
         if (this.eniMobileKeyListener != null) {
             this.eniMobileKeyListener.onVtanDataEncrypted(string);
         } else {
@@ -644,9 +739,8 @@ BAPServiceRemoteServicesListener {
         }
     }
 
-    @Override
     public void onVTANAuthDataFinished(boolean bl, String string) {
-        this.logChannel.log(-2137614336, "ENIGateway#onVTANAuthDataFinished");
+        this.logChannel.log(10000000, "ENIGateway#onVTANAuthDataFinished");
         if (this.eniMobileKeyListener != null) {
             this.eniMobileKeyListener.onVTANAuthDataFinished(bl, string);
         } else {
@@ -654,9 +748,8 @@ BAPServiceRemoteServicesListener {
         }
     }
 
-    @Override
     public void onVTANDecryptionFinished(boolean bl, VTANData vTANData) {
-        this.logChannel.log(-2137614336, "ENIGateway#onVTANDecryptionFinished");
+        this.logChannel.log(10000000, "ENIGateway#onVTANDecryptionFinished");
         if (this.eniMobileKeyListener != null) {
             this.eniMobileKeyListener.onVTANDecryptionFinished(bl, vTANData);
         } else {
@@ -664,9 +757,8 @@ BAPServiceRemoteServicesListener {
         }
     }
 
-    @Override
     public void startVTANAuthData() {
-        this.logChannel.log(-2137614336, "ENIGateway#startVTANAuthData");
+        this.logChannel.log(10000000, "ENIGateway#startVTANAuthData");
         if (this.remoteService != null) {
             this.remoteService.startVTANAuthData();
         } else {
@@ -674,9 +766,8 @@ BAPServiceRemoteServicesListener {
         }
     }
 
-    @Override
     public void remoteProcessGetVtan(String string) {
-        this.logChannel.log(-2137614336, "ENIGateway#remoteProcessGetVtan");
+        this.logChannel.log(10000000, "ENIGateway#remoteProcessGetVtan");
         if (this.bapServiceENI != null) {
             this.bapServiceENI.remoteProcessGetVtan(string);
         } else {
@@ -684,9 +775,8 @@ BAPServiceRemoteServicesListener {
         }
     }
 
-    @Override
     public void startVTANDecryption(String string) {
-        this.logChannel.log(-2137614336, "ENIGateway#startVTANDecryption");
+        this.logChannel.log(10000000, "ENIGateway#startVTANDecryption");
         if (this.remoteService != null) {
             this.remoteService.startVTANDecryption(string);
         } else {
@@ -694,117 +784,20 @@ BAPServiceRemoteServicesListener {
         }
     }
 
-    @Override
     public void setPrivacyModeFeatureAvailable(boolean bl) {
-        this.logChannel.log(-2137614336, "ENIGateway#setPrivacyModeFeatureAvailable %1", bl);
+        this.logChannel.log(10000000, "ENIGateway#setPrivacyModeFeatureAvailable %1", bl);
         this.privacyModeFeatureAvailable = bl;
     }
 
-    @Override
     public void onPrivacyModeSupported(boolean bl) {
-        this.logChannel.log(-2137614336, "ENIGateway#onPrivacyModeSupported %1", bl);
+        this.logChannel.log(10000000, "ENIGateway#onPrivacyModeSupported %1", bl);
         this.privacyModeSupported = bl ? 1 : 0;
         this.privacyModeFeatureAvailable = bl;
         if (this.eniServiceOnlineListener != null) {
             this.eniServiceOnlineListener.updatePrivacyModeFeatureAvailable(bl);
         } else {
-            this.logChannel.log(1078071040, "ENIGateway#onPrivacyModeSupported: Catalog version received before Online is available.");
+            this.logChannel.log(1000000, "ENIGateway#onPrivacyModeSupported: Catalog version received before Online is available.");
         }
-    }
-
-    static /* synthetic */ LogChannel access$000(ENIGateway eNIGateway) {
-        return eNIGateway.logChannel;
-    }
-
-    static /* synthetic */ void access$100(ENIGateway eNIGateway) {
-        eNIGateway.triggerGetUserList();
-    }
-
-    static /* synthetic */ ENIServiceOnlineListener access$200(ENIGateway eNIGateway) {
-        return eNIGateway.eniServiceOnlineListener;
-    }
-
-    static /* synthetic */ void access$300(ENIGateway eNIGateway) {
-        eNIGateway.extractEcallLicence();
-    }
-
-    static /* synthetic */ void access$400(ENIGateway eNIGateway) {
-        eNIGateway.handleEcallPrivacyDisclaimer();
-    }
-
-    static /* synthetic */ void access$500(ENIGateway eNIGateway) {
-        eNIGateway.handleAlertServices();
-    }
-
-    static /* synthetic */ Destination[] access$600(ENIGateway eNIGateway) {
-        return eNIGateway.lastDestinations;
-    }
-
-    static /* synthetic */ ENIServiceEcallListener access$700(ENIGateway eNIGateway) {
-        return eNIGateway.eniServiceEcallListener;
-    }
-
-    static /* synthetic */ BAPServiceENI access$800(ENIGateway eNIGateway) {
-        return eNIGateway.bapServiceENI;
-    }
-
-    static /* synthetic */ int access$900(ENIGateway eNIGateway) {
-        return eNIGateway.privacyModeSupported;
-    }
-
-    static /* synthetic */ ENIServiceOnlineListener access$202(ENIGateway eNIGateway, ENIServiceOnlineListener eNIServiceOnlineListener) {
-        eNIGateway.eniServiceOnlineListener = eNIServiceOnlineListener;
-        return eNIGateway.eniServiceOnlineListener;
-    }
-
-    static /* synthetic */ Monitorings access$1000(ENIGateway eNIGateway) {
-        return eNIGateway.lastMonitorings;
-    }
-
-    static /* synthetic */ void access$1100(ENIGateway eNIGateway) {
-        eNIGateway.sendMonitoringsToOnlineListener();
-    }
-
-    static /* synthetic */ User[] access$1200(ENIGateway eNIGateway) {
-        return eNIGateway.lastUserList;
-    }
-
-    static /* synthetic */ Service[] access$1300(ENIGateway eNIGateway) {
-        return eNIGateway.lastServiceList;
-    }
-
-    static /* synthetic */ PrivacySetup access$1400(ENIGateway eNIGateway) {
-        return eNIGateway.lastPrivacySetup;
-    }
-
-    static /* synthetic */ ENIMobileKeyListener access$1502(ENIGateway eNIGateway, ENIMobileKeyListener eNIMobileKeyListener) {
-        eNIGateway.eniMobileKeyListener = eNIMobileKeyListener;
-        return eNIGateway.eniMobileKeyListener;
-    }
-
-    static /* synthetic */ MobileKeyCount access$1600(ENIGateway eNIGateway) {
-        return eNIGateway.lastMobileKeyCount;
-    }
-
-    static /* synthetic */ ENIMobileKeyStatusDisplayListener access$1702(ENIGateway eNIGateway, ENIMobileKeyStatusDisplayListener eNIMobileKeyStatusDisplayListener) {
-        eNIGateway.eniMobileKeyStatusDisplayListener = eNIMobileKeyStatusDisplayListener;
-        return eNIGateway.eniMobileKeyStatusDisplayListener;
-    }
-
-    static /* synthetic */ boolean access$1800(ENIGateway eNIGateway) {
-        return eNIGateway.lastFleetMode;
-    }
-
-    static /* synthetic */ MobileKeySetup access$1900(ENIGateway eNIGateway) {
-        return eNIGateway.lastMobileKeySetup;
-    }
-
-    static /* synthetic */ void access$2000(ENIGateway eNIGateway, int n, boolean bl) {
-        eNIGateway.setENIBoolean(n, bl);
-    }
-
-    static /* synthetic */ Service access$2100(ENIGateway eNIGateway) {
-        return eNIGateway.serviceEcall;
     }
 }
 

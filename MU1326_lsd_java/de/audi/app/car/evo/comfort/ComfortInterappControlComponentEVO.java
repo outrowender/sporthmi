@@ -12,7 +12,6 @@ extends AbstractComfortInterappControlComponent {
         super(iCarApplication);
     }
 
-    @Override
     public int getID() {
         return 55;
     }

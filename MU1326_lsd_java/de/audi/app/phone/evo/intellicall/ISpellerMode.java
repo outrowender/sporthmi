@@ -4,13 +4,10 @@
 package de.audi.app.phone.evo.intellicall;
 
 public interface ISpellerMode {
-    default public void spellerModeChanged() {
-    }
+    public void spellerModeChanged();
 
-    default public void textChanged(int n, String string, char c2, int n2) {
-    }
+    public void textChanged(int var1, String var2, char var3, int var4);
 
-    default public String getValidChars(String string) {
-    }
+    public String getValidChars(String var1);
 }
 

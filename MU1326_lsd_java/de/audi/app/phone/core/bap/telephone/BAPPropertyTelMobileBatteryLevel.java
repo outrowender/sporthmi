@@ -8,7 +8,6 @@ import de.audi.app.phone.core.bap.AbstractTel1EnqueuedBAPPropertyHandler;
 import de.audi.app.phone.core.state.IGlobalTelephoneStateStruct;
 import de.audi.atip.interapp.combi.bap.phone.CombiBAPServicePhone;
 import de.audi.atip.interapp.combi.bap.phone.data.CombiBAPhoneMobileBatteryLevel;
-import de.audi.atip.interapp.combi.bap.phone.data.CombiBAPhoneMobileBatteryLevel$ChargeLevel;
 import de.esolutions.fw.util.commons.job.DispatcherBase;
 
 public class BAPPropertyTelMobileBatteryLevel
@@ -17,9 +16,8 @@ extends AbstractTel1EnqueuedBAPPropertyHandler {
         super(iTelApplication, dispatcherBase);
     }
 
-    @Override
     protected boolean doProcessGlobalTelephoneStateUpdate(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
-        return iGlobalTelephoneStateStruct != null && (n == 0x6000100 || n == 0x3000100 || n == 0xF000100);
+        return iGlobalTelephoneStateStruct != null && (n == 65542 || n == 65539 || n == 65551);
     }
 
     private boolean isChargeLevelCritical(int n) {
@@ -60,7 +58,6 @@ extends AbstractTel1EnqueuedBAPPropertyHandler {
         return n2;
     }
 
-    @Override
     protected void updateAsync() {
         CombiBAPServicePhone combiBAPServicePhone = this.getCombiService();
         IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct = this.getTelephoneState();
@@ -68,15 +65,15 @@ extends AbstractTel1EnqueuedBAPPropertyHandler {
             if (iGlobalTelephoneStateStruct != null) {
                 boolean bl = this.isChargeLevelCritical(iGlobalTelephoneStateStruct.getBatteryChargeLevel());
                 int n = iGlobalTelephoneStateStruct.isPhoneReady() ? this.getClusterBatteryLevel(iGlobalTelephoneStateStruct.getBatteryChargeLevel()) : 255;
-                this.log.log(1078071040, "[BAPPropertyTelMobileBatteryLevel#update] mobile1ChargeLevel=%1 mobile1ChargeLevelCritical=%2", (Object)String.valueOf(n), (Object)String.valueOf(bl));
-                CombiBAPhoneMobileBatteryLevel$ChargeLevel combiBAPhoneMobileBatteryLevel$ChargeLevel = new CombiBAPhoneMobileBatteryLevel$ChargeLevel(n, bl);
-                CombiBAPhoneMobileBatteryLevel combiBAPhoneMobileBatteryLevel = CombiBAPhoneMobileBatteryLevel.createOnlyMobileChargeLevel1(combiBAPhoneMobileBatteryLevel$ChargeLevel);
+                this.log.log(1000000, "[BAPPropertyTelMobileBatteryLevel#update] mobile1ChargeLevel=%1 mobile1ChargeLevelCritical=%2", (Object)String.valueOf(n), (Object)String.valueOf(bl));
+                CombiBAPhoneMobileBatteryLevel.ChargeLevel chargeLevel = new CombiBAPhoneMobileBatteryLevel.ChargeLevel(n, bl);
+                CombiBAPhoneMobileBatteryLevel combiBAPhoneMobileBatteryLevel = CombiBAPhoneMobileBatteryLevel.createOnlyMobileChargeLevel1(chargeLevel);
                 combiBAPServicePhone.updateMobileBatteryLevel(combiBAPhoneMobileBatteryLevel);
             } else {
-                this.log.log(-1601830656, "[BAPPropertyTelMobileBatteryLevel#update] state or activationState is null --> NOP!");
+                this.log.log(100000, "[BAPPropertyTelMobileBatteryLevel#update] state or activationState is null --> NOP!");
             }
         } else {
-            this.log.log(-1601830656, "[BAPPropertyTelMobileBatteryLevel#update] CombiBAPServicePhone is null --> NOP!");
+            this.log.log(100000, "[BAPPropertyTelMobileBatteryLevel#update] CombiBAPServicePhone is null --> NOP!");
         }
     }
 }

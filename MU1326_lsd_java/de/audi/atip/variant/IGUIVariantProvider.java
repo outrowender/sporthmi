@@ -6,10 +6,8 @@ package de.audi.atip.variant;
 import de.audi.atip.variant.IIDMapper;
 
 public interface IGUIVariantProvider {
-    default public IIDMapper getTextConstantsMapper() {
-    }
+    public IIDMapper getTextConstantsMapper();
 
-    default public IIDMapper getSMEventConstantsMapper() {
-    }
+    public IIDMapper getSMEventConstantsMapper();
 }
 

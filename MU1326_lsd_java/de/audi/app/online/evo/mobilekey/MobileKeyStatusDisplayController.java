@@ -25,10 +25,10 @@ implements ENIMobileKeyStatusDisplayListener,
 ButtonListener,
 FactoryResetState,
 IMobileKeyLicenseListener {
-    private static final int KEYCARD_PHONEBOX_HINT_POPUP_DEACTIVATE;
-    private static final int KEYCARD_PHONEBOX_HINT_POPUP_ACTIVATE;
-    private static final int KEY_COUNT_BACKEND_STATE_NORMAL_OPERATION;
-    private static final int KEY_COUNT_BACKEND_STATE_DELETION_IN_PROGRESS;
+    private static final int KEYCARD_PHONEBOX_HINT_POPUP_DEACTIVATE = 0;
+    private static final int KEYCARD_PHONEBOX_HINT_POPUP_ACTIVATE = 1;
+    private static final int KEY_COUNT_BACKEND_STATE_NORMAL_OPERATION = 1;
+    private static final int KEY_COUNT_BACKEND_STATE_DELETION_IN_PROGRESS = 2;
     private ENIServiceOnline eniServiceOnline;
     private MobileKeyStatusDisplayService displayService;
     private MobileKeyStatusDisplayModelAccess modelAccess;
@@ -56,19 +56,18 @@ IMobileKeyLicenseListener {
         this.framework = iFrameworkAccess;
         this.logChannel = logChannel;
         if (!this.isMobileKeyCoded()) {
-            logChannel.log(1078071040, "MobileKeyStatusDisplayController#init: Mobile Key not coded, set value to physical key.");
+            logChannel.log(1000000, "MobileKeyStatusDisplayController#init: Mobile Key not coded, set value to physical key.");
             mobileKeyStatusDisplayModelAccess.updatecarKeyTypeChoice(2);
             this.fleetModeActive = false;
         } else {
-            logChannel.log(1078071040, "MobileKeyStatusDisplayController#init: Mobile Key not coded, set value to mobile key until we get an update.");
+            logChannel.log(1000000, "MobileKeyStatusDisplayController#init: Mobile Key not coded, set value to mobile key until we get an update.");
             mobileKeyStatusDisplayModelAccess.updatecarKeyTypeChoice(1);
         }
         this.updateFactoryResetAllowed();
     }
 
-    @Override
     public void updateMobileKeyLicense(boolean bl) {
-        this.logChannel.log(1078071040, "MobileKeyStatusDisplayController#updateMobileKeyLicense: valid: %1", bl);
+        this.logChannel.log(1000000, "MobileKeyStatusDisplayController#updateMobileKeyLicense: valid: %1", bl);
         this.mobileKeyLicenseValid = bl;
         this.updateDisplayService();
     }
@@ -94,7 +93,7 @@ IMobileKeyLicenseListener {
     }
 
     public void setFactResetService(FactResetService factResetService) {
-        this.logChannel.log(1078071040, "MobileKeyStatusDisplayController#setFactResetService: %1", (Object)factResetService);
+        this.logChannel.log(1000000, "MobileKeyStatusDisplayController#setFactResetService: %1", (Object)factResetService);
         if (factResetService != null) {
             this.factoryReset = factResetService;
             this.updateFactoryResetAllowed();
@@ -117,7 +116,7 @@ IMobileKeyLicenseListener {
                 break;
             }
             default: {
-                this.logChannel.log(1078071040, "MobileKeyStatusDisplayController#mapCarKeyType keyType %1 is not valid.", (long)n);
+                this.logChannel.log(1000000, "MobileKeyStatusDisplayController#mapCarKeyType keyType %1 is not valid.", (long)n);
                 n2 = -1;
             }
         }
@@ -131,32 +130,30 @@ IMobileKeyLicenseListener {
     public void evaluateModificationReason(int n, String string) {
         int n2 = this.mapCarKeyType(n);
         if (n2 >= 0) {
-            this.logChannel.log(1078071040, "MobileKeyStatusDisplayController#evaluateModificationReason update for %1 to key %2", (Object)string, (long)n2);
+            this.logChannel.log(1000000, "MobileKeyStatusDisplayController#evaluateModificationReason update for %1 to key %2", (Object)string, (long)n2);
             this.modelAccess.updatecarKeyTypeChoice(n2);
             this.carKeyType = n2;
             this.updateFactoryResetAllowed();
         }
     }
 
-    @Override
     public boolean isFactoryResetAllowed() {
         boolean bl = !this.fleetModeActive && (this.carKeyType == 2 || !this.isMobileKeyCoded());
-        this.logChannel.log(1078071040, "MobileKeyStatusDisplayController#isFactoryResetAllowed fleet: %1 key: %2, allowed: %3", (Object)Boolean.toString(this.fleetModeActive), (Object)Integer.toString(this.carKeyType), (Object)Boolean.toString(bl));
+        this.logChannel.log(1000000, "MobileKeyStatusDisplayController#isFactoryResetAllowed fleet: %1 key: %2, allowed: %3", (Object)Boolean.toString(this.fleetModeActive), (Object)Integer.toString(this.carKeyType), (Object)Boolean.toString(bl));
         return bl;
     }
 
     private void updateFactoryResetAllowed() {
-        this.logChannel.log(1078071040, "MobileKeyStatusDisplayController#updateFactoryResetAllowed factoryReset: %1 ", (Object)this.factoryReset);
+        this.logChannel.log(1000000, "MobileKeyStatusDisplayController#updateFactoryResetAllowed factoryReset: %1 ", (Object)this.factoryReset);
         if (this.factoryReset != null) {
             boolean bl = this.isFactoryResetAllowed();
-            this.logChannel.log(1078071040, "MobileKeyStatusDisplayController#updateFactoryResetAllowed factoryReset: %1, allowed: %2 ", (Object)this.factoryReset, (Object)Boolean.toString(bl));
+            this.logChannel.log(1000000, "MobileKeyStatusDisplayController#updateFactoryResetAllowed factoryReset: %1, allowed: %2 ", (Object)this.factoryReset, (Object)Boolean.toString(bl));
             this.factoryReset.setAudiConnectResetBlocked(!bl);
         }
     }
 
-    @Override
     public void onMobDevKeySetup(MobileKeySetup mobileKeySetup) {
-        this.logChannel.log(1078071040, "MobileKeyStatusDisplayController#onMobDevKeySetup mobileKeySetup: %1", (Object)mobileKeySetup);
+        this.logChannel.log(1000000, "MobileKeyStatusDisplayController#onMobDevKeySetup mobileKeySetup: %1", (Object)mobileKeySetup);
         if (mobileKeySetup != null) {
             this.lastMobileKeySetup = mobileKeySetup;
             this.evaluateModificationReason(mobileKeySetup.getModificationReason_Setup(), "Setup");
@@ -166,10 +163,10 @@ IMobileKeyLicenseListener {
             this.updateDisplayService();
             this.modelAccess.updateServiceActiveStateCanBeModified(mobileKeySetup.canBeModified_Setup());
             boolean bl = mobileKeySetup.isSmartCardEnabled();
-            this.logChannel.log(-2137614336, "MobileKeyStatusDisplayController#onMobDevKeySetup smartCardEnabled set to: %1", bl);
+            this.logChannel.log(10000000, "MobileKeyStatusDisplayController#onMobDevKeySetup smartCardEnabled set to: %1", bl);
             this.modelAccess.updateSmartCardEnabled(bl);
             if (this.hasActivationFailed(mobileKeySetup, bl)) {
-                this.logChannel.log(-2137614336, "MobileKeyStatusDisplayController#onMobDevKeySetup smart card activation failed, attempting to display an error popup");
+                this.logChannel.log(10000000, "MobileKeyStatusDisplayController#onMobDevKeySetup smart card activation failed, attempting to display an error popup");
                 this.showSmartCardActivationFailurePopups(mobileKeySetup);
             } else {
                 this.showSmartCardPartialPopups(bl, this.storageAccess.wasSmartCardPreviouslyEnabled());
@@ -184,37 +181,36 @@ IMobileKeyLicenseListener {
 
     private void showSmartCardActivationFailurePopups(MobileKeySetup mobileKeySetup) {
         if (mobileKeySetup.getModificationReason_Smartcard() == 2) {
-            this.logChannel.log(-2137614336, "MobileKeyStatusDisplayController#showSmartCardActivationFailurePopups Keycard-Activation Error Popup");
-            this.showPopup(1746412288, false);
+            this.logChannel.log(10000000, "MobileKeyStatusDisplayController#showSmartCardActivationFailurePopups Keycard-Activation Error Popup");
+            this.showPopup(2300008, false);
         } else if (mobileKeySetup.getModificationReason_Smartcard() == 6) {
-            this.logChannel.log(-2137614336, "MobileKeyStatusDisplayController#showSmartCardActivationFailurePopups Keycard-Phonebox Hint Popup");
-            this.showPopup(1763189504, false);
+            this.logChannel.log(10000000, "MobileKeyStatusDisplayController#showSmartCardActivationFailurePopups Keycard-Phonebox Hint Popup");
+            this.showPopup(2300009, false);
         } else {
-            this.logChannel.log(-1601830656, "MobileKeyStatusDisplayController#showSmartCardActivationFailurePopups unsupported smart card modification reason: %1", (long)mobileKeySetup.getModificationReason_Smartcard());
+            this.logChannel.log(100000, "MobileKeyStatusDisplayController#showSmartCardActivationFailurePopups unsupported smart card modification reason: %1", (long)mobileKeySetup.getModificationReason_Smartcard());
         }
     }
 
     private void showSmartCardPartialPopups(boolean bl, boolean bl2) {
         if (bl) {
-            this.logChannel.log(-2137614336, "MobileKeyStatusDisplayController#showSmartCardPartialPopups show Keycard-Activation Popup");
-            this.hmiService.getChoiceModel(1981752064).setValue(1);
-            this.hmiService.getChoiceModel(1981752064).setValue(0);
-            this.hmiService.removePartialPopup(0, 806953728);
-            this.showPopup(790176512, true);
+            this.logChannel.log(10000000, "MobileKeyStatusDisplayController#showSmartCardPartialPopups show Keycard-Activation Popup");
+            this.hmiService.getChoiceModel(2301814).setValue(1);
+            this.hmiService.getChoiceModel(2301814).setValue(0);
+            this.hmiService.removePartialPopup(0, 2300208);
+            this.showPopup(2300207, true);
         } else if (bl2) {
-            this.logChannel.log(-2137614336, "MobileKeyStatusDisplayController#showSmartCardPartialPopups hide Keycard-Activation Popup - show Keycard-Deactivation Popup");
-            this.hmiService.removePartialPopup(0, 790176512);
-            this.showPopup(806953728, true);
+            this.logChannel.log(10000000, "MobileKeyStatusDisplayController#showSmartCardPartialPopups hide Keycard-Activation Popup - show Keycard-Deactivation Popup");
+            this.hmiService.removePartialPopup(0, 2300207);
+            this.showPopup(2300208, true);
         }
     }
 
     public void triggerSmartCardPopup() {
-        this.showPopup(806953728, true);
+        this.showPopup(2300208, true);
     }
 
-    @Override
     public void onFleetModeAvailability(boolean bl) {
-        this.logChannel.log(1078071040, "MobileKeyStatusDisplayController#onFleetModeAvailability fleetModeEnabled: %1", bl);
+        this.logChannel.log(1000000, "MobileKeyStatusDisplayController#onFleetModeAvailability fleetModeEnabled: %1", bl);
         this.fleetModeActive = bl;
         this.modelAccess.updateFleetModeActive(bl);
         this.updateDisplayService();
@@ -224,9 +220,8 @@ IMobileKeyLicenseListener {
         this.updateFactoryResetAllowed();
     }
 
-    @Override
     public void onMobileDeviceKeyCount(MobileKeyCount mobileKeyCount) {
-        this.logChannel.log(1078071040, "MobileKeyStatusDisplayController#onMobileDeviceKeyCount keyCount: %1", (Object)mobileKeyCount);
+        this.logChannel.log(1000000, "MobileKeyStatusDisplayController#onMobileDeviceKeyCount keyCount: %1", (Object)mobileKeyCount);
         if (mobileKeyCount != null) {
             this.lastMobileKeyCount = mobileKeyCount;
             this.modelAccess.updateKeyCount(mobileKeyCount.getKeyCountBackend());
@@ -236,7 +231,7 @@ IMobileKeyLicenseListener {
     }
 
     private int keyBackendStateToHmiState(int n) {
-        this.logChannel.log(-2137614336, "MobileKeyStatusDisplayController#keyBackendStateToHmiState backendState: %1", (long)n);
+        this.logChannel.log(10000000, "MobileKeyStatusDisplayController#keyBackendStateToHmiState backendState: %1", (long)n);
         int n2 = 1;
         if (n == 1) {
             n2 = 0;
@@ -247,7 +242,7 @@ IMobileKeyLicenseListener {
     }
 
     private void updateDisplayService() {
-        this.logChannel.log(1078071040, "MobileKeyStatusDisplayController#updateDisplayService setup: %1, keys: %2", (Object)this.lastMobileKeySetup, (Object)this.lastMobileKeyCount);
+        this.logChannel.log(1000000, "MobileKeyStatusDisplayController#updateDisplayService setup: %1, keys: %2", (Object)this.lastMobileKeySetup, (Object)this.lastMobileKeyCount);
         if (this.displayService != null) {
             int n;
             int n2 = 0;
@@ -266,11 +261,11 @@ IMobileKeyLicenseListener {
                 n = this.lastMobileKeySetup.isMobDevKeyEnabled() ? 1 : 0;
             }
             if (!n) {
-                this.logChannel.log(1078071040, "MobileKeyStatusDisplayController#updateDisplayService service is disabled.");
+                this.logChannel.log(1000000, "MobileKeyStatusDisplayController#updateDisplayService service is disabled.");
                 n3 = 3;
             }
             if (!this.mobileKeyLicenseValid) {
-                this.logChannel.log(1078071040, "MobileKeyStatusDisplayController#updateDisplayService service is not licensed.");
+                this.logChannel.log(1000000, "MobileKeyStatusDisplayController#updateDisplayService service is not licensed.");
                 n3 = 3;
             }
             this.displayService.updateServiceActiveState(n != 0);
@@ -278,26 +273,25 @@ IMobileKeyLicenseListener {
             this.displayService.updateBackendState(n3);
             this.displayService.updateFleetModeState(this.fleetModeActive);
         } else {
-            this.logChannel.log(1078071040, "MobileKeyStatusDisplayController#updateDisplayService displayService is null.");
+            this.logChannel.log(1000000, "MobileKeyStatusDisplayController#updateDisplayService displayService is null.");
         }
     }
 
     public void requestMobileDeviceKeyCount() {
-        this.logChannel.log(-2137614336, "MobileKeyStatusDisplayController#requestMobileDeviceKeyCount");
+        this.logChannel.log(10000000, "MobileKeyStatusDisplayController#requestMobileDeviceKeyCount");
         this.eniServiceOnline.requestMobileDeviceKeyCount();
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
-        this.logChannel.log(1078071040, "MobileKeyStatusDisplayController#keyPressed modelID: %1, keyID: %2, terminalID: %3", (long)n, (long)n2, (long)n3);
+        this.logChannel.log(1000000, "MobileKeyStatusDisplayController#keyPressed modelID: %1, keyID: %2, terminalID: %3", (long)n, (long)n2, (long)n3);
         if (n == this.modelAccess.getServiceActivateButton().getID()) {
-            this.logChannel.log(-2137614336, "MobileKeyStatusDisplayController#keyPressed enabling mobile key");
+            this.logChannel.log(10000000, "MobileKeyStatusDisplayController#keyPressed enabling mobile key");
             this.enableMobileKey(n, n3);
         } else if (n == this.modelAccess.getServiceDeactivateButton().getID()) {
-            this.logChannel.log(-2137614336, "MobileKeyStatusDisplayController#keyPressed disabling mobile key");
+            this.logChannel.log(10000000, "MobileKeyStatusDisplayController#keyPressed disabling mobile key");
             this.disableMobileKey(n, n3);
         } else if (n == this.modelAccess.getServiceResetButton().getID()) {
-            this.logChannel.log(-2137614336, "MobileKeyStatusDisplayController#keyPressed re-setting mobile key to active state");
+            this.logChannel.log(10000000, "MobileKeyStatusDisplayController#keyPressed re-setting mobile key to active state");
             this.enableMobileKey(n, n3);
         }
     }
@@ -312,20 +306,17 @@ IMobileKeyLicenseListener {
         this.hmiService.getButtonModel(n).fireEvent(n2);
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
     public void setMobileKeyPopupController(MobileKeyPopupController mobileKeyPopupController) {
-        this.logChannel.log(1078071040, "MobileKeyStatusDisplayController#setMobileKeyPopupController controller: %1", (Object)mobileKeyPopupController);
+        this.logChannel.log(1000000, "MobileKeyStatusDisplayController#setMobileKeyPopupController controller: %1", (Object)mobileKeyPopupController);
         this.popupController = mobileKeyPopupController;
     }
 
@@ -334,7 +325,7 @@ IMobileKeyLicenseListener {
     }
 
     private void showPopup(int n, boolean bl) {
-        this.logChannel.log(1078071040, "MobileKeyStatusDisplayController#showPopup id: %1, partial: %2", (Object)Integer.toString(n), (Object)Boolean.toString(bl));
+        this.logChannel.log(1000000, "MobileKeyStatusDisplayController#showPopup id: %1, partial: %2", (Object)Integer.toString(n), (Object)Boolean.toString(bl));
         if (this.popupController != null) {
             this.popupController.showPopup(n, bl);
         } else {

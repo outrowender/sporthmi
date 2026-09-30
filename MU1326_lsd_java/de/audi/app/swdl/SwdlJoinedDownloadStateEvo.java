@@ -12,12 +12,10 @@ extends AbstractSwdlJoinedDownloadState {
         super(swdlEnv);
     }
 
-    @Override
     protected void fireSMEventEnter(int n) {
         this.getHMIService().fireSMEvent(n, -12);
     }
 
-    @Override
     protected void fireSMEventExit(int n) {
         this.getHMIService().fireSMEvent(n, -14);
     }

@@ -13,12 +13,11 @@ public class ShowInMapOptionModelListener
 extends AbstractOnlineSearchOptionModelListener {
     public ShowInMapOptionModelListener(LogChannel logChannel, NavigationEnv navigationEnv, OnlineSearchSequence onlineSearchSequence, IOnlineSearchForm iOnlineSearchForm) {
         super(logChannel, navigationEnv, onlineSearchSequence, iOnlineSearchForm);
-        navigationEnv.getHMIService().getOptionModel(-551614976).setListener(this, -367262208);
+        navigationEnv.getHMIService().getOptionModel(401375).setListener(this, 400618);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3, int n4, int n5) {
-        this.logChannel.log(1078071040, "ShowInMapOptionModelListener#keyPressed(NAV_DEST_ONLINE_SEARCH_SHOW_IN_MAP_OPTION): entering map screen");
+        this.logChannel.log(1000000, "ShowInMapOptionModelListener#keyPressed(NAV_DEST_ONLINE_SEARCH_SHOW_IN_MAP_OPTION): entering map screen");
         this.sequence.prepareMapScreen(n3);
         this.env.fireModelEvent(n, n5);
     }

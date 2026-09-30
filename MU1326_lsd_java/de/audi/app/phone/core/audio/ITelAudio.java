@@ -7,16 +7,12 @@ import de.audi.app.phone.core.ITelComponent;
 
 public interface ITelAudio
 extends ITelComponent {
-    default public void muteRingtone(boolean bl) {
-    }
+    public void muteRingtone(boolean var1);
 
-    default public void switchMicMuteOn(int n) {
-    }
+    public void switchMicMuteOn(int var1);
 
-    default public void switchMicMuteOff(int n) {
-    }
+    public void switchMicMuteOff(int var1);
 
-    default public void toggelMicMuteState(int n) {
-    }
+    public void toggelMicMuteState(int var1);
 }
 

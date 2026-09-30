@@ -6,11 +6,13 @@
  */
 package de.audi.app.testsupport;
 
-import de.audi.app.testsupport.Activator$1;
 import de.audi.app.testsupport.TestSupportApplication;
 import de.audi.atip.activator.AbstractActivator;
+import de.audi.atip.diag.sw.AbstractSwDiagnosis;
+import de.audi.atip.diag.sw.SwDiagnosisManager;
 import de.mib.swdiagnosis.info.AppTestSupportDiag;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
@@ -21,7 +23,6 @@ extends AbstractActivator {
     ServiceTracker diagTracker;
     static /* synthetic */ Class class$de$audi$atip$diag$sw$SwDiagnosisManager;
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         this.app = new TestSupportApplication(this.getFramework(), bundleContext);
@@ -29,7 +30,6 @@ extends AbstractActivator {
         this.initTracker();
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         if (this.diagTracker != null) {
             this.diagTracker.close();
@@ -40,7 +40,30 @@ extends AbstractActivator {
     }
 
     private void initTracker() {
-        this.diagTracker = new ServiceTracker(this.bundleContext, (class$de$audi$atip$diag$sw$SwDiagnosisManager == null ? (class$de$audi$atip$diag$sw$SwDiagnosisManager = Activator.class$("de.audi.atip.diag.sw.SwDiagnosisManager")) : class$de$audi$atip$diag$sw$SwDiagnosisManager).getName(), (ServiceTrackerCustomizer)new Activator$1(this));
+        this.diagTracker = new ServiceTracker(this.bundleContext, (class$de$audi$atip$diag$sw$SwDiagnosisManager == null ? (class$de$audi$atip$diag$sw$SwDiagnosisManager = Activator.class$("de.audi.atip.diag.sw.SwDiagnosisManager")) : class$de$audi$atip$diag$sw$SwDiagnosisManager).getName(), new ServiceTrackerCustomizer(){
+
+            public Object addingService(ServiceReference serviceReference) {
+                Object object = Activator.this.bundleContext.getService(serviceReference);
+                if (object instanceof SwDiagnosisManager) {
+                    Activator.this.diagGateway = new AppTestSupportDiag();
+                    ((SwDiagnosisManager)object).addDiagGateway((AbstractSwDiagnosis)Activator.this.diagGateway);
+                    return object;
+                }
+                Activator.this.bundleContext.ungetService(serviceReference);
+                return null;
+            }
+
+            public void modifiedService(ServiceReference serviceReference, Object object) {
+            }
+
+            public void removedService(ServiceReference serviceReference, Object object) {
+                if (object instanceof SwDiagnosisManager) {
+                    Activator.this.bundleContext.ungetService(serviceReference);
+                    ((SwDiagnosisManager)object).removeDiagGateway((AbstractSwDiagnosis)Activator.this.diagGateway);
+                    Activator.this.diagGateway = null;
+                }
+            }
+        });
         this.diagTracker.open();
     }
 
@@ -51,18 +74,6 @@ extends AbstractActivator {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ BundleContext access$000(Activator activator) {
-        return activator.bundleContext;
-    }
-
-    static /* synthetic */ BundleContext access$100(Activator activator) {
-        return activator.bundleContext;
-    }
-
-    static /* synthetic */ BundleContext access$200(Activator activator) {
-        return activator.bundleContext;
     }
 }
 

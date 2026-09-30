@@ -11,7 +11,7 @@ import de.audi.tghu.command.Command;
 
 public abstract class AbstractCommand
 extends Command {
-    public static final int COMMAND_TIMEOUT_10_SECONDS;
+    public static final int COMMAND_TIMEOUT_10_SECONDS = 10000;
     protected final IContext context;
 
     public AbstractCommand(LogChannel logChannel, String string, IContext iContext) {
@@ -27,9 +27,8 @@ extends Command {
         return false;
     }
 
-    @Override
     public long getTimeout() {
-        return 0;
+        return 10000L;
     }
 }
 

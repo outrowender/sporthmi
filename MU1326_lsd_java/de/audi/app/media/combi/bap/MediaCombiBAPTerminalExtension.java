@@ -11,29 +11,26 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class MediaCombiBAPTerminalExtension
 implements IMediaTerminalExtension {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "MediaCombiBAPTerminalExtension";
     private volatile CombiBAPController bapController;
 
-    @Override
     public void initExtension(IMediaTerminal iMediaTerminal) {
-        iMediaTerminal.getLogger().main().log(1078071040, "[%1.initExtension]", (Object)"MediaCombiBAPTerminalExtension");
+        iMediaTerminal.getLogger().main().log(1000000, "[%1.initExtension]", (Object)LOGCLASS);
         this.bapController = new CombiBAPController(iMediaTerminal);
         this.bapController.init();
     }
 
-    @Override
     public void deinitExtension() {
         this.bapController.deinit();
     }
 
-    @Override
     public IContentProvider getContentProvider() {
         return null;
     }
 
     public String toString() {
         Buffer buffer = new Buffer(20);
-        buffer.append("MediaCombiBAPTerminalExtension").append("@").append(this.hashCode());
+        buffer.append(LOGCLASS).append("@").append(this.hashCode());
         return buffer.toString();
     }
 }

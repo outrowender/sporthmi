@@ -26,28 +26,23 @@ implements IDictationComponent {
         this.log = this.framework.getLogChannel(string);
     }
 
-    @Override
     public final void addComponent(IDictationComponent iDictationComponent) {
         this.subcomponents.add(iDictationComponent);
     }
 
-    @Override
     public void init(DictationComponentManager dictationComponentManager) {
         this.dictationComponentManager = dictationComponentManager;
         this.subcomponents.initAll(dictationComponentManager);
     }
 
-    @Override
     public void dispose() {
         this.subcomponents.disposeAll();
     }
 
-    @Override
     public void connect(IServiceRegistry iServiceRegistry) {
         this.subcomponents.connectAll(iServiceRegistry);
     }
 
-    @Override
     public void disconnect() {
         this.subcomponents.disconnectAll();
     }

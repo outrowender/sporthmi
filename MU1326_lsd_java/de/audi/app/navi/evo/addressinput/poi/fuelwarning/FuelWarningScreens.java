@@ -16,11 +16,11 @@ import org.dsi.ifc.navigation.LIValueListElement;
 
 public class FuelWarningScreens {
     public static int getVicinityListModel() {
-        return -2061564416;
+        return 401285;
     }
 
     public static int getAlongRouteListModel() {
-        return -2095118848;
+        return 401283;
     }
 
     public static FuelWarningSequenceModelAccess createFuelWarningModelAccess(NavigationEnv navigationEnv, BaseListModelListener baseListModelListener, IconHandler iconHandler, int n, int n2, IRouteManager iRouteManager, IVehicle iVehicle) {

@@ -13,14 +13,14 @@ import org.dsi.ifc.organizer.PersonalData;
 
 public class IntellicallADBEntryDetailsResultRow
 extends EvoListRow {
-    private static final int ADB_DETAILS_ID_MASK;
+    private static final int ADB_DETAILS_ID_MASK = 65536;
     private final AdbEntry entry;
     private final int phoneNumberIdx;
     private final short phoneNumberType;
     private final String number;
 
     protected static int getUniqueID(int n) {
-        return n + 1 | 0x100;
+        return n + 1 | 0x10000;
     }
 
     public IntellicallADBEntryDetailsResultRow(AdbEntry adbEntry, int n) {
@@ -32,15 +32,15 @@ extends EvoListRow {
         this.setInteger(0, 6);
         this.setInteger(8, ADBModelUtils.getIconTypeForPhoneNumber(this.phoneNumberType));
         this.setText(4, this.number);
-        this.setPropertyCell(7, PropertyListCell.create(-1635178174, this.getFocusProperties()));
+        this.setPropertyCell(7, PropertyListCell.create(1110018462, this.getFocusProperties()));
     }
 
     protected final int[] getFocusProperties() {
         boolean bl = TelADBUtils.hasEmailAddress(this.entry);
         if (bl) {
-            return new int[]{-2040561860, 553997474, -1254548968};
+            return new int[]{1014980486, -1571551967, 404371893};
         }
-        return new int[]{-2040561860, 553997474};
+        return new int[]{1014980486, -1571551967};
     }
 
     public String getNumber() {
@@ -76,7 +76,6 @@ extends EvoListRow {
         return null;
     }
 
-    @Override
     public EvoListRow copy() {
         return new IntellicallADBEntryDetailsResultRow(this.entry, this.phoneNumberIdx);
     }

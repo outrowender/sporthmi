@@ -6,15 +6,9 @@ package de.audi.app.earlyfunc.core.parking;
 import de.audi.app.car.common.adapter.AbstractDSICarParkingSystemAdapter;
 import de.audi.app.car.common.app.ICarApplication;
 import de.audi.app.car.common.comp.CarDSIAttributesSet;
+import de.audi.app.car.common.power.IPowerEventListener;
 import de.audi.app.car.common.service.CarServiceTracker;
-import de.audi.app.earlyfunc.core.parking.AbstractParkingSystemControllerComponent$LocalMsgListener;
-import de.audi.app.earlyfunc.core.parking.AbstractParkingSystemControllerComponent$LogUtil;
-import de.audi.app.earlyfunc.core.parking.AbstractParkingSystemControllerComponent$PSCServiceTrackerCustomizer;
-import de.audi.app.earlyfunc.core.parking.AbstractParkingSystemControllerComponent$ParkingSystemSubContentEntry;
-import de.audi.app.earlyfunc.core.parking.AbstractParkingSystemControllerComponent$PowerEventListener;
-import de.audi.app.earlyfunc.core.parking.AbstractParkingSystemControllerComponent$SDSServiceTrackerListener;
-import de.audi.app.earlyfunc.core.parking.AbstractParkingSystemControllerComponent$VPSAbortButtonListener;
-import de.audi.app.earlyfunc.core.parking.AbstractParkingSystemControllerComponent$VPSShowButtonListener;
+import de.audi.app.car.common.service.CarServiceTrackerListener;
 import de.audi.app.earlyfunc.core.parking.IParkingPopupHandler;
 import de.audi.app.earlyfunc.core.parking.IParkingSystem;
 import de.audi.app.earlyfunc.core.parking.IParkingSystemController;
@@ -27,12 +21,13 @@ import de.audi.app.earlyfunc.core.parking.ara.AbstractParkingSystemARAComponent;
 import de.audi.app.earlyfunc.core.parking.ops.OPSViewModeHandler;
 import de.audi.app.earlyfunc.core.parking.pla.AbstractParkingSystemPLAComponent;
 import de.audi.app.earlyfunc.core.parking.vps.AbstractParkingSystemVPSComponent;
+import de.audi.atip.hmi.model.DefaultButtonListener;
 import de.audi.atip.hmi.modelaccess.ButtonModelApp;
-import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.interapp.SDSService;
 import de.audi.atip.interapp.audio.drawer.AudioDrawerContext;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.msg.MsgDistributor;
+import de.audi.atip.msg.MsgListener;
 import de.audi.atip.power.IPowerManager;
 import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.fw.util.commons.SimpleIntObjectMap;
@@ -45,16 +40,18 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import org.dsi.ifc.carparkingsystem.DisplayContent;
+import org.dsi.ifc.carparkingsystem.PDCPLASystemState;
 import org.dsi.ifc.carparkingsystem.ParkingSystemViewOptions;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
 public abstract class AbstractParkingSystemControllerComponent
 extends AbstractDSICarParkingSystemAdapter
 implements IParkingSystemController,
 IParkingSystemHighProtocol {
-    public static final short CODING_ID;
-    public final AbstractParkingSystemControllerComponent$ParkingSystemSubContentEntry[] parkingSystemSubSystemSet = new AbstractParkingSystemControllerComponent$ParkingSystemSubContentEntry[]{new AbstractParkingSystemControllerComponent$ParkingSystemSubContentEntry(this, 0, false, false, false, false, false, false), new AbstractParkingSystemControllerComponent$ParkingSystemSubContentEntry(this, 1, false, true, false, false, false, false), new AbstractParkingSystemControllerComponent$ParkingSystemSubContentEntry(this, 2, false, false, true, false, false, false), new AbstractParkingSystemControllerComponent$ParkingSystemSubContentEntry(this, 3, false, true, true, false, false, false), new AbstractParkingSystemControllerComponent$ParkingSystemSubContentEntry(this, 4, false, true, false, false, false, false), new AbstractParkingSystemControllerComponent$ParkingSystemSubContentEntry(this, 5, false, false, false, false, false, true), new AbstractParkingSystemControllerComponent$ParkingSystemSubContentEntry(this, 6, false, false, false, false, false, false), new AbstractParkingSystemControllerComponent$ParkingSystemSubContentEntry(this, 7, false, true, false, false, false, false), new AbstractParkingSystemControllerComponent$ParkingSystemSubContentEntry(this, 8, false, true, true, false, false, false), new AbstractParkingSystemControllerComponent$ParkingSystemSubContentEntry(this, 9, false, false, false, true, false, false), new AbstractParkingSystemControllerComponent$ParkingSystemSubContentEntry(this, 10, false, true, false, true, false, false), new AbstractParkingSystemControllerComponent$ParkingSystemSubContentEntry(this, 11, false, true, false, true, false, false), new AbstractParkingSystemControllerComponent$ParkingSystemSubContentEntry(this, 12, false, false, true, true, false, false), new AbstractParkingSystemControllerComponent$ParkingSystemSubContentEntry(this, 13, false, true, true, true, false, false), new AbstractParkingSystemControllerComponent$ParkingSystemSubContentEntry(this, 14, false, true, true, true, false, false), new AbstractParkingSystemControllerComponent$ParkingSystemSubContentEntry(this, 15, false, true, false, false, true, false), new AbstractParkingSystemControllerComponent$ParkingSystemSubContentEntry(this, 16, false, true, true, false, true, false), new AbstractParkingSystemControllerComponent$ParkingSystemSubContentEntry(this, 17, false, true, false, false, false, false), new AbstractParkingSystemControllerComponent$ParkingSystemSubContentEntry(this, 18, false, true, true, false, false, false)};
-    private final AbstractParkingSystemControllerComponent$LocalMsgListener msgListener;
+    public static final short CODING_ID = 2;
+    public final ParkingSystemSubContentEntry[] parkingSystemSubSystemSet = new ParkingSystemSubContentEntry[]{new ParkingSystemSubContentEntry(0, false, false, false, false, false, false), new ParkingSystemSubContentEntry(1, false, true, false, false, false, false), new ParkingSystemSubContentEntry(2, false, false, true, false, false, false), new ParkingSystemSubContentEntry(3, false, true, true, false, false, false), new ParkingSystemSubContentEntry(4, false, true, false, false, false, false), new ParkingSystemSubContentEntry(5, false, false, false, false, false, true), new ParkingSystemSubContentEntry(6, false, false, false, false, false, false), new ParkingSystemSubContentEntry(7, false, true, false, false, false, false), new ParkingSystemSubContentEntry(8, false, true, true, false, false, false), new ParkingSystemSubContentEntry(9, false, false, false, true, false, false), new ParkingSystemSubContentEntry(10, false, true, false, true, false, false), new ParkingSystemSubContentEntry(11, false, true, false, true, false, false), new ParkingSystemSubContentEntry(12, false, false, true, true, false, false), new ParkingSystemSubContentEntry(13, false, true, true, true, false, false), new ParkingSystemSubContentEntry(14, false, true, true, true, false, false), new ParkingSystemSubContentEntry(15, false, true, false, false, true, false), new ParkingSystemSubContentEntry(16, false, true, true, false, true, false), new ParkingSystemSubContentEntry(17, false, true, false, false, false, false), new ParkingSystemSubContentEntry(18, false, true, true, false, false, false)};
+    private final LocalMsgListener msgListener;
     protected volatile ParkingSystemViewOptions currentViewOptions;
     protected volatile DisplayContent currentDisplayContent = new DisplayContent();
     private DisplayContent lastContentUpdate;
@@ -63,10 +60,10 @@ IParkingSystemHighProtocol {
     private ParkingPartialPopupHandler partialPopupHandler;
     private IPowerManager powerManager;
     private final MsgDistributor msgDistributor;
-    private AbstractParkingSystemControllerComponent$PowerEventListener powerEventListener;
+    private PowerEventListener powerEventListener;
     private SimpleIntObjectMap availableParkingSystems = new SimpleIntObjectMap();
     private Map parkingSystemsForPopup = new HashMap();
-    protected static final Object mutex;
+    protected static final Object mutex = new Object();
     private LogChannel logMSC;
     private volatile CarServiceTracker sdsServiceTracker;
     private volatile ParkingServiceTracker audioDrawerServiceTracker;
@@ -80,8 +77,8 @@ IParkingSystemHighProtocol {
     private final HashSet highProtocolReasons = new HashSet();
     final int VPS_CLEANING_MODE_INVALID;
     final int VPS_CLEANING_MODE_VALID;
-    private static final int RIGHT_DRAWER_VISIBLE;
-    private static final int RIGHT_DRAWER_INVISIBLE;
+    private static final int RIGHT_DRAWER_VISIBLE = 0;
+    private static final int RIGHT_DRAWER_INVISIBLE = 1;
     static /* synthetic */ Class class$de$audi$atip$interapp$SDSService;
     static /* synthetic */ Class class$de$audi$atip$interapp$audio$drawer$AudioDrawerContext;
 
@@ -100,28 +97,25 @@ IParkingSystemHighProtocol {
         this.VPS_CLEANING_MODE_INVALID = 0;
         this.VPS_CLEANING_MODE_VALID = 1;
         this.logMSC = iCarApplication.getFrameworkAccess().getLogChannel("App.EarlyFunc.Parking.MSC");
-        this.msgListener = new AbstractParkingSystemControllerComponent$LocalMsgListener(this, null);
+        this.msgListener = new LocalMsgListener();
         this.popupHandler = new ParkingPopupHandler(iCarApplication, this, this.getLogChannel());
         this.partialPopupHandler = new ParkingPartialPopupHandler(iCarApplication, this, this.getLogChannel());
         this.powerManager = this.getApplication().getFrameworkAccess().getPowerMgr();
-        this.powerEventListener = new AbstractParkingSystemControllerComponent$PowerEventListener(this, null);
+        this.powerEventListener = new PowerEventListener();
         iCarApplication.getPowerEventDispatcher().addPowerEventListener(this.powerEventListener);
         this.opsViewModeHandler = new OPSViewModeHandler(iCarApplication, this.getLogChannel());
         this.msgDistributor = iCarApplication.getFrameworkAccess().getMsgDistrib();
-        this.sdsServiceTracker = new CarServiceTracker(new AbstractParkingSystemControllerComponent$SDSServiceTrackerListener(this, null), iCarApplication.getBundleContext(), this.getLogChannel());
+        this.sdsServiceTracker = new CarServiceTracker(new SDSServiceTrackerListener(), iCarApplication.getBundleContext(), this.getLogChannel());
     }
 
-    @Override
     public String getName() {
         return "Parking system";
     }
 
-    @Override
     public CarDSIAttributesSet[] getDSIAttributesSets() {
         return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{1}, new int[]{44, 32, 45, 26})};
     }
 
-    @Override
     public String getCurrentViewOptions() {
         if (this.currentViewOptions == null) {
             return "no view options received yet";
@@ -132,31 +126,28 @@ IParkingSystemHighProtocol {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     protected void dsiAvailable(boolean bl) {
         super.dsiAvailable(bl);
         Object object = mutex;
         synchronized (object) {
-            this.logMSC.log(1078071040, "---> setHMIStateIsReady(%1)", bl);
+            this.logMSC.log(1000000, "---> setHMIStateIsReady(%1)", bl);
             this.getDSI().setHMIStateIsReady(bl);
         }
     }
 
-    @Override
     public void init() {
         this.partialPopupHandler.initServiceProvider();
         this.sdsServiceTracker.startTracking();
-        this.audioDrawerServiceTracker = new ParkingServiceTracker(this.getApplication().getBundleContext(), (class$de$audi$atip$interapp$audio$drawer$AudioDrawerContext == null ? (class$de$audi$atip$interapp$audio$drawer$AudioDrawerContext = AbstractParkingSystemControllerComponent.class$("de.audi.atip.interapp.audio.drawer.AudioDrawerContext")) : class$de$audi$atip$interapp$audio$drawer$AudioDrawerContext).getName(), (ServiceTrackerCustomizer)new AbstractParkingSystemControllerComponent$PSCServiceTrackerCustomizer(this, null), this.getLogChannel());
+        this.audioDrawerServiceTracker = new ParkingServiceTracker(this.getApplication().getBundleContext(), (class$de$audi$atip$interapp$audio$drawer$AudioDrawerContext == null ? (class$de$audi$atip$interapp$audio$drawer$AudioDrawerContext = AbstractParkingSystemControllerComponent.class$("de.audi.atip.interapp.audio.drawer.AudioDrawerContext")) : class$de$audi$atip$interapp$audio$drawer$AudioDrawerContext).getName(), (ServiceTrackerCustomizer)new PSCServiceTrackerCustomizer(), this.getLogChannel());
         this.audioDrawerServiceTracker.openTracker();
         this.opsViewModeHandler.updateOPSViewMode();
-        this.getButtonModel(1611407360).setButtonListener(new AbstractParkingSystemControllerComponent$VPSAbortButtonListener(this, null));
-        this.getButtonModel(1779179520).setButtonListener(new AbstractParkingSystemControllerComponent$VPSShowButtonListener(this, null));
+        this.getButtonModel(2100320).setButtonListener(new VPSAbortButtonListener());
+        this.getButtonModel(2100330).setButtonListener(new VPSShowButtonListener());
         this.getApplication().getMessageDispatcher().addMessageListener(2, this.msgListener);
         this.getApplication().getMessageDispatcher().addMessageListener(79, this.msgListener);
         super.init();
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.partialPopupHandler.deinitServiceProvider();
@@ -165,55 +156,49 @@ IParkingSystemHighProtocol {
             this.audioDrawerServiceTracker.closeTracker();
             this.audioDrawerServiceTracker = null;
         }
-        this.getButtonModel(1611407360).resetListener();
-        this.getButtonModel(1779179520).resetListener();
+        this.getButtonModel(2100320).resetListener();
+        this.getButtonModel(2100330).resetListener();
         this.getApplication().getMessageDispatcher().removeMessageListener(79, this.msgListener);
         this.getApplication().getMessageDispatcher().removeMessageListener(2, this.msgListener);
     }
 
-    @Override
     public void registerParkingSystemComponent(IParkingSystem iParkingSystem) {
         int n = iParkingSystem.getParkingSystemID();
-        this.getLogChannel().log(1078071040, "[AbstractParkingSystemControllerComponent#registerParkingSystemComponent] parking system registered: %1", (long)n);
+        this.getLogChannel().log(1000000, "[AbstractParkingSystemControllerComponent#registerParkingSystemComponent] parking system registered: %1", (long)n);
         if (this.availableParkingSystems.get(n) != null) {
-            this.getLogChannel().log(-1601830656, "[AbstractParkingSystemControllerComponent#registerParkingSystemComponent] a parking system of the same type (%1) is already registered", (long)n);
+            this.getLogChannel().log(100000, "[AbstractParkingSystemControllerComponent#registerParkingSystemComponent] a parking system of the same type (%1) is already registered", (long)n);
         }
         this.availableParkingSystems.add(n, iParkingSystem);
         this.removePopupMapping(iParkingSystem);
         this.addPopupMapping(iParkingSystem);
         if (this.deferredPopupRequest != null && this.isPopupSupported(this.deferredPopupRequest, true)) {
             if (this.currentViewOptions != null) {
-                this.getLogChannel().log(-2137614336, "[AbstractParkingSystemControllerComponent#registerParkingSystemComponent] deferred popup request is now executed");
+                this.getLogChannel().log(10000000, "[AbstractParkingSystemControllerComponent#registerParkingSystemComponent] deferred popup request is now executed");
                 this.requestParkingPopup(this.deferredPopupRequest);
             } else {
-                this.getLogChannel().log(-2137614336, "[AbstractParkingSystemControllerComponent#registerParkingSystemComponent] no view options -> defer popup request");
+                this.getLogChannel().log(10000000, "[AbstractParkingSystemControllerComponent#registerParkingSystemComponent] no view options -> defer popup request");
             }
         }
     }
 
-    @Override
     public void unregisterParkingSystemComponent(IParkingSystem iParkingSystem) {
-        this.getLogChannel().log(1078071040, "[AbstractParkingSystemControllerComponent#unregisterParkingSystemComponent] parking system unregistered: %1", (long)iParkingSystem.getParkingSystemID());
+        this.getLogChannel().log(1000000, "[AbstractParkingSystemControllerComponent#unregisterParkingSystemComponent] parking system unregistered: %1", (long)iParkingSystem.getParkingSystemID());
         this.availableParkingSystems.remove(iParkingSystem.getParkingSystemID());
         this.removePopupMapping(iParkingSystem);
     }
 
-    @Override
     public SimpleIntObjectMap getAvailableParkingSystems() {
         return this.availableParkingSystems;
     }
 
-    @Override
     public IParkingPopupHandler getPopupHandler() {
         return this.popupHandler;
     }
 
-    @Override
     public ParkingPartialPopupHandler getPartialPopupHandler() {
         return this.partialPopupHandler;
     }
 
-    @Override
     public OPSViewModeHandler getOPSViewModeHandler() {
         return this.opsViewModeHandler;
     }
@@ -221,7 +206,6 @@ IParkingSystemHighProtocol {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public DisplayContent getCurrentDisplayContent() {
         Object object = mutex;
         synchronized (object) {
@@ -229,7 +213,6 @@ IParkingSystemHighProtocol {
         }
     }
 
-    @Override
     public void changeDisplayContent(DisplayContent displayContent) {
         this.showParkingPopup(displayContent, true);
     }
@@ -237,7 +220,6 @@ IParkingSystemHighProtocol {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void changeDisplayContent(DisplayContent displayContent, boolean bl) {
         if (bl) {
             Object object = mutex;
@@ -251,40 +233,37 @@ IParkingSystemHighProtocol {
         this.showParkingPopup(displayContent, !bl);
     }
 
-    @Override
     public void notifyPopupCanceled(int n) {
-        this.getLogChannel().log(-2137614336, "[AbstractParkingSystemControllerComponent#notifyPopupCanceled] cancelReason=%1", (long)n);
+        this.getLogChannel().log(10000000, "[AbstractParkingSystemControllerComponent#notifyPopupCanceled] cancelReason=%1", (long)n);
         if (n == 1) {
             if (this.partialPopupHandler.isPopupActive()) {
-                this.getLogChannel().log(-2137614336, "[AbstractParkingSystemControllerComponent#notifyPopupCanceled] a partialPopup is still visible");
-                this.getLogChannel().log(-2137614336, "[AbstractParkingSystemControllerComponent#notifyPopupCanceled] canceled by ASG: also cancel partial popup");
+                this.getLogChannel().log(10000000, "[AbstractParkingSystemControllerComponent#notifyPopupCanceled] a partialPopup is still visible");
+                this.getLogChannel().log(10000000, "[AbstractParkingSystemControllerComponent#notifyPopupCanceled] canceled by ASG: also cancel partial popup");
                 this.partialPopupHandler.removeCurrentPopup(n);
             }
             this.cancelParkingPopup(n);
         } else {
-            this.getLogChannel().log(-2137614336, "[AbstractParkingSystemControllerComponent#notifyPopupCanceled] cancelReason=FSG -> nothing to do");
+            this.getLogChannel().log(10000000, "[AbstractParkingSystemControllerComponent#notifyPopupCanceled] cancelReason=FSG -> nothing to do");
         }
         this.updateInterappClients(!this.plaActive && this.isAnyParkingSystemActive() || this.plaActive);
     }
 
-    @Override
     public void notifyPartialPopupCanceled(int n) {
         if (n == 1) {
-            this.getLogChannel().log(-2137614336, "[AbstractParkingSystemControllerComponent#notifyPartialPopupCanceled] cancelReason=ASG");
+            this.getLogChannel().log(10000000, "[AbstractParkingSystemControllerComponent#notifyPartialPopupCanceled] cancelReason=ASG");
             if (this.popupHandler.isPopupActive()) {
-                this.getLogChannel().log(-2137614336, "[AbstractParkingSystemControllerComponent#notifyPartialPopupCanceled] a popup is still visible");
+                this.getLogChannel().log(10000000, "[AbstractParkingSystemControllerComponent#notifyPartialPopupCanceled] a popup is still visible");
             } else if (this.currentDisplayContent.popup != 0) {
                 this.cancelParkingPopup(n);
             } else {
-                this.getLogChannel().log(-2137614336, "[AbstractParkingSystemControllerComponent#notifyPartialPopupCanceled] no cancel because popup was not requested by FSG");
+                this.getLogChannel().log(10000000, "[AbstractParkingSystemControllerComponent#notifyPartialPopupCanceled] no cancel because popup was not requested by FSG");
             }
         } else {
-            this.getLogChannel().log(-2137614336, "[AbstractParkingSystemControllerComponent#notifyPopupCanceled] cancelReason=FSG -> nothing to do");
+            this.getLogChannel().log(10000000, "[AbstractParkingSystemControllerComponent#notifyPopupCanceled] cancelReason=FSG -> nothing to do");
         }
         this.updateInterappClients(!this.plaActive && this.isAnyParkingSystemActive() || this.plaActive);
     }
 
-    @Override
     public void notifyParkingSystemActive(IParkingSystem iParkingSystem, boolean bl) {
         if (iParkingSystem.getParkingSystemID() == 2) {
             IParkingSystem iParkingSystem2;
@@ -302,16 +281,15 @@ IParkingSystemHighProtocol {
             this.opsViewModeHandler.updateARAActive(bl);
             this.reconfigParkingOptionDrawer();
         } else if (iParkingSystem.getParkingSystemID() == 16) {
-            this.getLogChannel().log(-2137614336, "[AbstractParkingSystemControllerComponent#notifyParkingSystemActive] PLA component parking popup interference is %1.", (Object)(bl ? "active" : "inactive"));
+            this.getLogChannel().log(10000000, "[AbstractParkingSystemControllerComponent#notifyParkingSystemActive] PLA component parking popup interference is %1.", (Object)(bl ? "active" : "inactive"));
             this.plaActive = bl;
             this.setSDSDisabled(this.plaActive || this.isSDSProhibited(this.getCurrentDisplayContent()));
         }
         this.updateInterappClients(!this.plaActive && (bl || this.isAnyParkingSystemActive()) || this.plaActive);
     }
 
-    @Override
     public void notifyViewModeSettingChanged(IParkingSystem iParkingSystem, int n, int n2, int n3, boolean bl) {
-        this.getLogChannel().log(1078071040, "[AbstractParkingSystemControllerComponent#notifyViewModeSettingChanged] parkingSystemID='%1', oldViewMode='%2',newViewMode='%3'", (long)n, (long)n2, (long)n3);
+        this.getLogChannel().log(1000000, "[AbstractParkingSystemControllerComponent#notifyViewModeSettingChanged] parkingSystemID='%1', oldViewMode='%2',newViewMode='%3'", (long)n, (long)n2, (long)n3);
         if (2 == n) {
             Object object;
             IParkingSystem iParkingSystem2 = (IParkingSystem)this.availableParkingSystems.get(8);
@@ -322,7 +300,7 @@ IParkingSystemHighProtocol {
             if (bl) {
                 object = this.getApplication().getFrameworkAccess().getStorageMgr();
                 object.setInt(1006, 50, n3);
-                this.getChoiceModel(1510744064).setValue(n3);
+                this.getChoiceModel(2100314).setValue(n3);
                 this.opsViewModeHandler.updateOPSViewModeSetting(n3);
             }
         }
@@ -404,16 +382,15 @@ IParkingSystemHighProtocol {
         }
     }
 
-    @Override
     public void updateParkingSystemViewOptions(ParkingSystemViewOptions parkingSystemViewOptions, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractParkingSystemControllerComponent#updateParkingSystemViewOptions] parkingSystemViewOptions=%1, validFlag=%2", (Object)(parkingSystemViewOptions != null ? this.formatViewOptionsLog(parkingSystemViewOptions.toString()) : "null"), (long)n);
+            this.getLogChannel().log(1000000, "[AbstractParkingSystemControllerComponent#updateParkingSystemViewOptions] parkingSystemViewOptions=%1, validFlag=%2", (Object)(parkingSystemViewOptions != null ? this.formatViewOptionsLog(parkingSystemViewOptions.toString()) : "null"), (long)n);
         }
         if (n == 1) {
             this.currentViewOptions = parkingSystemViewOptions;
             this.updateMenuEntryVisibility(this.currentViewOptions);
             if (this.deferredPopupRequest != null && this.isPopupSupported(this.deferredPopupRequest, true)) {
-                this.getLogChannel().log(-2137614336, "[AbstractParkingSystemControllerComponent#updateParkingSystemViewOptions] deferred popup request is now executed");
+                this.getLogChannel().log(10000000, "[AbstractParkingSystemControllerComponent#updateParkingSystemViewOptions] deferred popup request is now executed");
                 this.requestParkingPopup(this.deferredPopupRequest);
             }
             this.primaryAttributeFirstSetReceived();
@@ -423,11 +400,10 @@ IParkingSystemHighProtocol {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateParkingPopupContent(DisplayContent displayContent, int n) {
         if (n == 1) {
-            this.logMSC.log(1078071040, "<--- updateParkingPopupContent(%1)", (Object)AbstractParkingSystemControllerComponent$LogUtil.access$2500(displayContent));
-            this.getLogChannel().log(1078071040, "[AbstractParkingSystemControllerComponent#updateParkingPopupContent] displayContent=%1", (Object)displayContent);
+            this.logMSC.log(1000000, "<--- updateParkingPopupContent(%1)", (Object)LogUtil.logDisplayContent(displayContent));
+            this.getLogChannel().log(1000000, "[AbstractParkingSystemControllerComponent#updateParkingPopupContent] displayContent=%1", (Object)displayContent);
             this.setVPSCleaningModel(displayContent.getView());
             if (!this.firstUpdateContentReceived) {
                 this.firstUpdateContentReceived = true;
@@ -436,11 +412,11 @@ IParkingSystemHighProtocol {
                 }
             }
             if (this.equalsDisplayContent(this.lastContentUpdate, displayContent)) {
-                this.getLogChannel().log(-1601830656, "[AbstractParkingSystemControllerComponent#updateParkingPopupContent] received same content or content requested by HMI -> not processed");
+                this.getLogChannel().log(100000, "[AbstractParkingSystemControllerComponent#updateParkingPopupContent] received same content or content requested by HMI -> not processed");
             } else if (displayContent.getPopup() == 0) {
-                this.getLogChannel().log(1078071040, "[AbstractParkingSystemControllerComponent#updateParkingPopupContent] received DSICarParkingSystem.POPUP_NONE -> ignored");
+                this.getLogChannel().log(1000000, "[AbstractParkingSystemControllerComponent#updateParkingPopupContent] received DSICarParkingSystem.POPUP_NONE -> ignored");
             } else if (!this.isPopupSupported(displayContent, true)) {
-                this.getLogChannel().log(1078071040, "[AbstractParkingSystemControllerComponent#updateParkingPopupContent] displayContent not supported by current parking system configuration");
+                this.getLogChannel().log(1000000, "[AbstractParkingSystemControllerComponent#updateParkingPopupContent] displayContent not supported by current parking system configuration");
             } else if (this.currentDisplayContent.getPopup() != 0) {
                 this.lastContentUpdate = displayContent;
                 if (!this.isAcknowledgeRequired(displayContent)) {
@@ -450,31 +426,30 @@ IParkingSystemHighProtocol {
                         this.currentDisplayContent = displayContent;
                     }
                 } else {
-                    this.getLogChannel().log(-2137614336, "[AbstractParkingSystemControllerComponent#updateParkingPopupContent] acknowledge required before activating parking system");
+                    this.getLogChannel().log(10000000, "[AbstractParkingSystemControllerComponent#updateParkingPopupContent] acknowledge required before activating parking system");
                     this.showParkingPopup(displayContent, false);
                 }
             } else {
-                this.getLogChannel().log(1078071040, "[AbstractParkingSystemControllerComponent#updateParkingPopupContent] no popup visible -> ignore update");
+                this.getLogChannel().log(1000000, "[AbstractParkingSystemControllerComponent#updateParkingPopupContent] no popup visible -> ignore update");
             }
         }
     }
 
-    @Override
     public void requestParkingPopup(DisplayContent displayContent) {
-        this.logMSC.log(1078071040, "<--- requestParkingPopup(%1)", (Object)AbstractParkingSystemControllerComponent$LogUtil.access$2500(displayContent));
-        this.getLogChannel().log(1078071040, "[AbstractParkingSystemControllerComponent#requestParkingPopup] displayContent=%1", (Object)AbstractParkingSystemControllerComponent$LogUtil.access$2500(displayContent));
+        this.logMSC.log(1000000, "<--- requestParkingPopup(%1)", (Object)LogUtil.logDisplayContent(displayContent));
+        this.getLogChannel().log(1000000, "[AbstractParkingSystemControllerComponent#requestParkingPopup] displayContent=%1", (Object)LogUtil.logDisplayContent(displayContent));
         this.setVPSCleaningModel(displayContent.getView());
         if (this.currentViewOptions == null) {
-            this.getLogChannel().log(-2137614336, "[AbstractParkingSystemControllerComponent#requestParkingPopup] no view options -> defer popup request");
+            this.getLogChannel().log(10000000, "[AbstractParkingSystemControllerComponent#requestParkingPopup] no view options -> defer popup request");
             this.deferredPopupRequest = displayContent;
         } else if (displayContent.getPopup() == 0) {
             this.cancelParkingPopup(0);
             this.deferredPopupRequest = null;
         } else if (!this.isPopupSupported(displayContent, true)) {
-            this.getLogChannel().log(-2137614336, "[AbstractParkingSystemControllerComponent#requestParkingPopup] displayContent not supported by current parking system configuration -> defer popup request");
+            this.getLogChannel().log(10000000, "[AbstractParkingSystemControllerComponent#requestParkingPopup] displayContent not supported by current parking system configuration -> defer popup request");
             this.deferredPopupRequest = displayContent;
         } else if (!this.powerEventListener.isInStandby() && this.isHigherPrioPopupVisible(displayContent)) {
-            this.getLogChannel().log(1078071040, "[AbstractParkingSystemControllerComponent#requestParkingPopup] a higher prio popup is currently visible -> popup is rejected");
+            this.getLogChannel().log(1000000, "[AbstractParkingSystemControllerComponent#requestParkingPopup] a higher prio popup is currently visible -> popup is rejected");
             this.showParkingPopup(new DisplayContent(), true);
             this.deferredPopupRequest = null;
         } else {
@@ -483,26 +458,24 @@ IParkingSystemHighProtocol {
                 this.showParkingPopup(displayContent, true);
                 this.powerManager.setExtendedPowerState(140, 0);
             } else {
-                this.getLogChannel().log(-2137614336, "[AbstractParkingSystemControllerComponent#requestParkingPopup] acknowledge required before activating parking system");
+                this.getLogChannel().log(10000000, "[AbstractParkingSystemControllerComponent#requestParkingPopup] acknowledge required before activating parking system");
                 this.showParkingPopup(displayContent, false);
             }
             this.deferredPopupRequest = null;
         }
     }
 
-    @Override
     public void responseLifeMonitoring(boolean bl) {
-        this.getLogChannel().log(-2137614336, "[AbstractParkingSystemControllerComponent#responseLifeMonitoring] monitoring=%1", bl);
+        this.getLogChannel().log(10000000, "[AbstractParkingSystemControllerComponent#responseLifeMonitoring] monitoring=%1", bl);
         this.getDSI().requestLifeMonitoring(true);
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void acknowledgeParkingPopup(DisplayContent displayContent) {
-        this.logMSC.log(1078071040, "<--- acknowledgeParkingPopup(%1)", (Object)AbstractParkingSystemControllerComponent$LogUtil.access$2500(displayContent));
-        this.getLogChannel().log(1078071040, "[AbstractParkingSystemControllerComponent#acknowledgeParkingPopup] displayContent=%1", (Object)AbstractParkingSystemControllerComponent$LogUtil.access$2500(displayContent));
+        this.logMSC.log(1000000, "<--- acknowledgeParkingPopup(%1)", (Object)LogUtil.logDisplayContent(displayContent));
+        this.getLogChannel().log(1000000, "[AbstractParkingSystemControllerComponent#acknowledgeParkingPopup] displayContent=%1", (Object)LogUtil.logDisplayContent(displayContent));
         if (this.isAcknowledgeRequired(displayContent) && displayContent.getPopup() != 0) {
             if (this.powerEventListener.isInStandby()) {
                 this.powerEventListener.setDisplayContentForMMIOn(displayContent);
@@ -527,7 +500,7 @@ IParkingSystemHighProtocol {
             if (bl) {
                 this.currentDisplayContent = displayContent;
             }
-            this.logMSC.log(1078071040, "---> showParkingPopup(%1)", (Object)AbstractParkingSystemControllerComponent$LogUtil.access$2500(displayContent));
+            this.logMSC.log(1000000, "---> showParkingPopup(%1)", (Object)LogUtil.logDisplayContent(displayContent));
             this.getDSI().showParkingPopup(displayContent);
         }
     }
@@ -538,12 +511,12 @@ IParkingSystemHighProtocol {
     private void cancelParkingPopup(int n) {
         Object object = mutex;
         synchronized (object) {
-            this.getLogChannel().log(-2137614336, "[AbstractParkingSystemControllerComponent#cancelParkingPopup] cancelReasion=%1", (Object)(n == 1 ? "ASG" : "FSG"));
+            this.getLogChannel().log(10000000, "[AbstractParkingSystemControllerComponent#cancelParkingPopup] cancelReasion=%1", (Object)(n == 1 ? "ASG" : "FSG"));
             this.deactivateCurrentlyVisibleParkingSystems(new DisplayContent(), new ArrayList());
             if (this.powerEventListener.isQueuedUp() && n == 1) {
-                this.getLogChannel().log(-2137614336, "[AbstractParkingSystemControllerComponent#cancelParkingPopup] queued up -> do nothing");
+                this.getLogChannel().log(10000000, "[AbstractParkingSystemControllerComponent#cancelParkingPopup] queued up -> do nothing");
             } else {
-                this.logMSC.log(1078071040, "---> cancelParkingPopup(%1)", (Object)AbstractParkingSystemControllerComponent$LogUtil.access$2500(this.getCurrentDisplayContent()));
+                this.logMSC.log(1000000, "---> cancelParkingPopup(%1)", (Object)LogUtil.logDisplayContent(this.getCurrentDisplayContent()));
                 this.getDSI().cancelParkingPopup(this.getCurrentDisplayContent(), n);
                 this.currentDisplayContent = new DisplayContent();
                 if (!this.plaActive) {
@@ -554,7 +527,7 @@ IParkingSystemHighProtocol {
     }
 
     private void activateParkingSystem(DisplayContent displayContent) {
-        this.getLogChannel().log(-2137614336, "[AbstractParkingSystemControllerComponent#activateParkingSystem] %1", (Object)AbstractParkingSystemControllerComponent$LogUtil.access$2500(displayContent));
+        this.getLogChannel().log(10000000, "[AbstractParkingSystemControllerComponent#activateParkingSystem] %1", (Object)LogUtil.logDisplayContent(displayContent));
         List list = this.getInvolvedParkingSystems(displayContent);
         this.deactivateCurrentlyVisibleParkingSystems(displayContent, list);
         Iterator iterator = list.iterator();
@@ -563,7 +536,7 @@ IParkingSystemHighProtocol {
         }
         if (this.isSDSProhibited(displayContent)) {
             this.setSDSDisabled(true);
-            this.getLogChannel().log(-2137614336, "[AbstractParkingSystemControllerComponent#deactivateSDS]");
+            this.getLogChannel().log(10000000, "[AbstractParkingSystemControllerComponent#deactivateSDS]");
         }
     }
 
@@ -571,7 +544,7 @@ IParkingSystemHighProtocol {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     protected void deactivateCurrentlyVisibleParkingSystems(DisplayContent displayContent, List list) {
-        this.getLogChannel().log(-2137614336, "[AbstractParkingSystemControllerComponent#deactivateCurrentlyVisibleParkingSystems] newContent=%1", (Object)displayContent);
+        this.getLogChannel().log(10000000, "[AbstractParkingSystemControllerComponent#deactivateCurrentlyVisibleParkingSystems] newContent=%1", (Object)displayContent);
         if (this.currentDisplayContent != null && this.currentDisplayContent.getPopup() != 0) {
             List list2 = this.getInvolvedParkingSystems(this.currentDisplayContent);
             int n = this.getMasterComponentID(list2, list);
@@ -600,7 +573,7 @@ IParkingSystemHighProtocol {
                 object.setActive(false, displayContent);
             }
         } else {
-            this.getLogChannel().log(-2137614336, "[AbstractParkingSystemControllerComponent#deactivateCurrentlyVisibleParkingSystems] no parking system active");
+            this.getLogChannel().log(10000000, "[AbstractParkingSystemControllerComponent#deactivateCurrentlyVisibleParkingSystems] no parking system active");
             Object object = mutex;
             synchronized (object) {
                 this.currentDisplayContent = displayContent;
@@ -619,7 +592,7 @@ IParkingSystemHighProtocol {
 
     private void setSDSDisabled(boolean bl) {
         if (this.sdsService != null) {
-            this.getLogChannel().log(-2137614336, "[AbstractParkingSystemControllerComponent#setSDSDisabled] call sdsService.disablePTT(%1)", bl);
+            this.getLogChannel().log(10000000, "[AbstractParkingSystemControllerComponent#setSDSDisabled] call sdsService.disablePTT(%1)", bl);
             try {
                 this.sdsService.disablePTT(bl, true, (byte)2);
             }
@@ -627,7 +600,7 @@ IParkingSystemHighProtocol {
                 this.getLogChannel().log(1000, "[AbstractParkingSystemControllerComponent#setSDSDisabled] Caught exception while calling sdsService.disablePTT(): disabler=SDSService.PTT_DISABLER_APS_OPS_RVC", (Throwable)exception);
             }
         } else {
-            this.getLogChannel().log(-1601830656, "[AbstractParkingSystemControllerComponent#setSDSDisabled] SDS service not available");
+            this.getLogChannel().log(100000, "[AbstractParkingSystemControllerComponent#setSDSDisabled] SDS service not available");
         }
     }
 
@@ -651,25 +624,23 @@ IParkingSystemHighProtocol {
         return this.hasVPSContent(displayContent) && (this.currentDisplayContent == null || !this.hasVPSContent(this.currentDisplayContent));
     }
 
-    @Override
     public boolean hasVPSContent(DisplayContent displayContent) {
         IParkingSystem iParkingSystem = (IParkingSystem)this.availableParkingSystems.get(4);
         boolean bl = iParkingSystem != null ? this.getInvolvedParkingSystems(displayContent).contains(iParkingSystem) : false;
-        this.getLogChannel().log(14808325, "[AbstractParkingSystemControllerComponent#hasVPSContent] %1, content=%2", bl, (Object)displayContent);
+        this.getLogChannel().log(100000000, "[AbstractParkingSystemControllerComponent#hasVPSContent] %1, content=%2", bl, (Object)displayContent);
         return bl;
     }
 
-    @Override
     public boolean hasOPSContent(DisplayContent displayContent) {
         boolean bl = this.hasComponentContent(displayContent, 2);
-        this.getLogChannel().log(14808325, "[AbstractParkingSystemControllerComponent#hasOPSContent] %1, content=%2", bl, (Object)displayContent);
+        this.getLogChannel().log(100000000, "[AbstractParkingSystemControllerComponent#hasOPSContent] %1, content=%2", bl, (Object)displayContent);
         return bl;
     }
 
     private boolean hasComponentContent(DisplayContent displayContent, int n) {
         IParkingSystem iParkingSystem = (IParkingSystem)this.availableParkingSystems.get(n);
         boolean bl = iParkingSystem != null ? this.getInvolvedParkingSystems(displayContent).contains(iParkingSystem) : false;
-        this.getLogChannel().log(14808325, "[AbstractParkingSystemControllerComponent#hasComponentContent] %1, content=%2 , componentId=%3", bl, (Object)displayContent, (Object)new Integer(n));
+        this.getLogChannel().log(100000000, "[AbstractParkingSystemControllerComponent#hasComponentContent] %1, content=%2 , componentId=%3", bl, (Object)displayContent, (Object)new Integer(n));
         return bl;
     }
 
@@ -707,24 +678,24 @@ IParkingSystemHighProtocol {
     }
 
     private boolean isPopupSupported(DisplayContent displayContent, boolean bl) {
-        this.getLogChannel().log(14808325, "[AbstractParkingSystemControllerComponent#isPopupSupported] content=%1 , fullSupport=%2", (Object)(null == displayContent ? "null" : displayContent.toString()), (Object)(bl ? "true" : "false"));
+        this.getLogChannel().log(100000000, "[AbstractParkingSystemControllerComponent#isPopupSupported] content=%1 , fullSupport=%2", (Object)(null == displayContent ? "null" : displayContent.toString()), (Object)(bl ? "true" : "false"));
         List list = this.getInvolvedParkingSystems(displayContent);
         if (bl && !list.isEmpty()) {
-            AbstractParkingSystemControllerComponent$ParkingSystemSubContentEntry abstractParkingSystemControllerComponent$ParkingSystemSubContentEntry = null;
+            ParkingSystemSubContentEntry parkingSystemSubContentEntry = null;
             for (int i2 = 0; i2 < this.parkingSystemSubSystemSet.length; ++i2) {
                 if (displayContent.getPopup() != this.parkingSystemSubSystemSet[i2].getPopup()) continue;
-                abstractParkingSystemControllerComponent$ParkingSystemSubContentEntry = this.parkingSystemSubSystemSet[i2];
+                parkingSystemSubContentEntry = this.parkingSystemSubSystemSet[i2];
             }
-            if (null != abstractParkingSystemControllerComponent$ParkingSystemSubContentEntry) {
-                List list2 = abstractParkingSystemControllerComponent$ParkingSystemSubContentEntry.getInvolvedParkingSystems();
+            if (null != parkingSystemSubContentEntry) {
+                List list2 = parkingSystemSubContentEntry.getInvolvedParkingSystems();
                 Iterator iterator = list2.iterator();
                 while (iterator.hasNext()) {
                     IParkingSystem iParkingSystem = (IParkingSystem)this.availableParkingSystems.get((Integer)iterator.next());
                     if (null != iParkingSystem && list.contains(iParkingSystem)) {
-                        this.getLogChannel().log(14808325, "[AbstractParkingSystemControllerComponent#isPopupSupported] parkingSystem(%1) available.", (Object)iParkingSystem.getName());
+                        this.getLogChannel().log(100000000, "[AbstractParkingSystemControllerComponent#isPopupSupported] parkingSystem(%1) available.", (Object)iParkingSystem.getName());
                         continue;
                     }
-                    this.getLogChannel().log(14808325, "[AbstractParkingSystemControllerComponent#isPopupSupported] parkingSystem(%1) not available.", (Object)(null == iParkingSystem ? "unknown" : iParkingSystem.getName()));
+                    this.getLogChannel().log(100000000, "[AbstractParkingSystemControllerComponent#isPopupSupported] parkingSystem(%1) not available.", (Object)(null == iParkingSystem ? "unknown" : iParkingSystem.getName()));
                     return false;
                 }
                 return true;
@@ -734,15 +705,13 @@ IParkingSystemHighProtocol {
         return !list.isEmpty();
     }
 
-    protected abstract void updateMenuEntryVisibility(ParkingSystemViewOptions parkingSystemViewOptions) {
-    }
+    protected abstract void updateMenuEntryVisibility(ParkingSystemViewOptions var1);
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void addPopupRequest(ParkingPopupIdentifier parkingPopupIdentifier, IParkingSystem iParkingSystem) {
-        this.getLogChannel().log(-2137614336, "[AbstractParkingSystemControllerComponent#addPopupRequest] hmiPopupID=%1, requestingComponent=%2", (Object)parkingPopupIdentifier, (long)iParkingSystem.getParkingSystemID());
+        this.getLogChannel().log(10000000, "[AbstractParkingSystemControllerComponent#addPopupRequest] hmiPopupID=%1, requestingComponent=%2", (Object)parkingPopupIdentifier, (long)iParkingSystem.getParkingSystemID());
         List list = (List)this.popupRequests.get(parkingPopupIdentifier);
         if (list == null) {
             list = new ArrayList();
@@ -759,7 +728,7 @@ IParkingSystemHighProtocol {
                 this.getPopupHandler().showPopup(parkingPopupIdentifier.getHmiPopupID());
             }
         } else {
-            this.getLogChannel().log(-2137614336, "[AbstractParkingSystemControllerComponent#addPopupRequest] popup already requested");
+            this.getLogChannel().log(10000000, "[AbstractParkingSystemControllerComponent#addPopupRequest] popup already requested");
             List list3 = list;
             synchronized (list3) {
                 if (!list.contains(iParkingSystem)) {
@@ -772,7 +741,6 @@ IParkingSystemHighProtocol {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void addPopupRequestSuppression(ParkingPopupIdentifier parkingPopupIdentifier, IParkingSystem iParkingSystem) {
         List list = (List)this.popupRequests.get(parkingPopupIdentifier);
         if (list == null) {
@@ -795,7 +763,6 @@ IParkingSystemHighProtocol {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void removePopupRequestSuppression(ParkingPopupIdentifier parkingPopupIdentifier, IParkingSystem iParkingSystem) {
         List list = (List)this.popupRequests.get(parkingPopupIdentifier);
         if (list != null) {
@@ -821,9 +788,8 @@ IParkingSystemHighProtocol {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void removePopupRequest(ParkingPopupIdentifier parkingPopupIdentifier, IParkingSystem iParkingSystem) {
-        this.getLogChannel().log(-2137614336, "[AbstractParkingSystemControllerComponent#removePopupRequest] hmiPopupID=%1, requestingComponent=%2", (Object)parkingPopupIdentifier, (long)iParkingSystem.getParkingSystemID());
+        this.getLogChannel().log(10000000, "[AbstractParkingSystemControllerComponent#removePopupRequest] hmiPopupID=%1, requestingComponent=%2", (Object)parkingPopupIdentifier, (long)iParkingSystem.getParkingSystemID());
         List list = (List)this.popupRequests.get(parkingPopupIdentifier);
         if (list != null) {
             boolean bl;
@@ -854,14 +820,13 @@ IParkingSystemHighProtocol {
                         ((Buffer)object).append(",");
                     }
                 }
-                this.getLogChannel().log(-2137614336, "[AbstractParkingSystemControllerComponent#removePopupRequest] popup still requested by other component (%1)", (Object)((Buffer)object).toString());
+                this.getLogChannel().log(10000000, "[AbstractParkingSystemControllerComponent#removePopupRequest] popup still requested by other component (%1)", (Object)((Buffer)object).toString());
             }
         } else {
-            this.getLogChannel().log(-1601830656, "[AbstractParkingSystemControllerComponent#removePopupRequest] popup was not requested before");
+            this.getLogChannel().log(100000, "[AbstractParkingSystemControllerComponent#removePopupRequest] popup was not requested before");
         }
     }
 
-    @Override
     public boolean equalsDisplayContent(DisplayContent displayContent, DisplayContent displayContent2) {
         if (displayContent == null || displayContent2 == null) {
             return false;
@@ -878,9 +843,9 @@ IParkingSystemHighProtocol {
         int n2 = this.getApplication().getFrameworkAccess().getHmiServiceApp().getCurrentPopup();
         int n3 = this.getParkingPopupPrio(displayContent);
         boolean bl = n3 < n;
-        this.getLogChannel().log(-2137614336, "[AbstractParkingSystemControllerComponent#isHigherPrioPopupVisible] standbyPopupVisible=%1, higherPrioPopupVisible=%2", this.isStandbyPopupVisible(), bl);
+        this.getLogChannel().log(10000000, "[AbstractParkingSystemControllerComponent#isHigherPrioPopupVisible] standbyPopupVisible=%1, higherPrioPopupVisible=%2", this.isStandbyPopupVisible(), bl);
         if (n2 != -1) {
-            this.getLogChannel().log(-2137614336, "[AbstractParkingSystemControllerComponent#isHigherPrioPopupVisible] parkingPopup: prio=%1; currentVisiblePopup: ID=%2, prio=%3", (long)n3, (long)n2, (long)n);
+            this.getLogChannel().log(10000000, "[AbstractParkingSystemControllerComponent#isHigherPrioPopupVisible] parkingPopup: prio=%1; currentVisiblePopup: ID=%2, prio=%3", (long)n3, (long)n2, (long)n);
         }
         return !this.isStandbyPopupVisible() && bl;
     }
@@ -897,21 +862,18 @@ IParkingSystemHighProtocol {
         return n;
     }
 
-    @Override
     public boolean isStandbyPopupVisible() {
         return this.getStandbyPopupID() != -1 && this.getApplication().getFrameworkAccess().getHmiServiceApp().getCurrentPopup() == this.getStandbyPopupID();
     }
 
-    @Override
     public void notifyPopupVisible(int n) {
     }
 
-    @Override
     public boolean notifyPopupHidden(int n) {
         AbstractParkingSystemPLAComponent abstractParkingSystemPLAComponent = (AbstractParkingSystemPLAComponent)this.getAvailableParkingSystems().get(16);
         if (abstractParkingSystemPLAComponent != null && abstractParkingSystemPLAComponent.isSystemActive()) {
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "[AbstractParkingSystemControllerComponent#notifyPopupHidden] hmiPopupID=%1", (long)n);
+                this.getLogChannel().log(1000000, "[AbstractParkingSystemControllerComponent#notifyPopupHidden] hmiPopupID=%1", (long)n);
             }
             abstractParkingSystemPLAComponent.canceledByHMI();
             return false;
@@ -919,8 +881,7 @@ IParkingSystemHighProtocol {
         return true;
     }
 
-    protected abstract int getStandbyPopupID() {
-    }
+    protected abstract int getStandbyPopupID();
 
     protected void reconfigParkingOptionDrawer() {
     }
@@ -940,23 +901,22 @@ IParkingSystemHighProtocol {
         if (audioDrawerContext != null && bl) {
             this.getChoiceModel(3915).setValue(1);
             if (this.isHighProtocol() && this.isHighProtocolReason(1)) {
-                this.getLogChannel().log(1078071040, "[AbstractParkingSystemControllerComponent#updateAudioDrawerContext] source='SOURCE_APS', state='ACTIVE_HIGH_PRIO'");
+                this.getLogChannel().log(1000000, "[AbstractParkingSystemControllerComponent#updateAudioDrawerContext] source='SOURCE_APS', state='ACTIVE_HIGH_PRIO'");
                 audioDrawerContext.setContext(AudioDrawerContext.SOURCE_APS, AudioDrawerContext.SOURCE_AUDIO_STATE_APS_ACTIVE_HIGH_PRIO);
             } else {
-                this.getLogChannel().log(1078071040, "[AbstractParkingSystemControllerComponent#updateAudioDrawerContext] source='SOURCE_APS', state='ACTIVE'");
+                this.getLogChannel().log(1000000, "[AbstractParkingSystemControllerComponent#updateAudioDrawerContext] source='SOURCE_APS', state='ACTIVE'");
                 audioDrawerContext.setContext(AudioDrawerContext.SOURCE_APS, AudioDrawerContext.SOURCE_AUDIO_STATE_ACTIVE);
             }
         } else if (audioDrawerContext != null && !bl) {
-            this.getLogChannel().log(1078071040, "[AbstractParkingSystemControllerComponent#updateAudioDrawerContext] source='SOURCE_APS', state='INACTIVE'");
+            this.getLogChannel().log(1000000, "[AbstractParkingSystemControllerComponent#updateAudioDrawerContext] source='SOURCE_APS', state='INACTIVE'");
             audioDrawerContext.setContext(AudioDrawerContext.SOURCE_APS, AudioDrawerContext.SOURCE_AUDIO_STATE_INACTIVE);
             this.getChoiceModel(3915).setValue(0);
         }
     }
 
-    @Override
     public void setHighProtocol(boolean bl, int[] nArray, boolean bl2) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractParkingSystemControllerComponent#setHighProtocol] activate='%1', reason='%2'", bl, (Object)(null == nArray ? "null" : nArray.toString()));
+            this.getLogChannel().log(1000000, "[AbstractParkingSystemControllerComponent#setHighProtocol] activate='%1', reason='%2'", bl, (Object)(null == nArray ? "null" : nArray.toString()));
         }
         this.highProtocol = bl;
         if (bl2) {
@@ -967,16 +927,14 @@ IParkingSystemHighProtocol {
                 this.highProtocolReasons.add(new Integer(nArray[i2]));
             }
         }
-        this.getChoiceModel(504176640).setValue(bl ? 1 : 0);
+        this.getChoiceModel(2100510).setValue(bl ? 1 : 0);
         this.notifyHighProtocolUpdated();
     }
 
-    @Override
     public boolean isHighProtocol() {
         return this.highProtocol;
     }
 
-    @Override
     public boolean isHighProtocolReason(int n) {
         if (null != this.highProtocolReasons) {
             return this.highProtocolReasons.contains(new Integer(n));
@@ -984,7 +942,6 @@ IParkingSystemHighProtocol {
         return false;
     }
 
-    @Override
     public int[] getHighProtocolReasons() {
         int n = this.highProtocolReasons.size();
         Object[] objectArray = this.highProtocolReasons.toArray();
@@ -1004,24 +961,11 @@ IParkingSystemHighProtocol {
 
     private void setVPSCleaningModel(int n) {
         int n2 = n == 1 ? 1 : 0;
-        this.getChoiceModel(1376591872).setValue(n2);
+        this.getChoiceModel(2100562).setValue(n2);
     }
 
     public static Object getParkingMutex() {
         return mutex;
-    }
-
-    static /* synthetic */ SDSService access$002(AbstractParkingSystemControllerComponent abstractParkingSystemControllerComponent, SDSService sDSService) {
-        abstractParkingSystemControllerComponent.sdsService = sDSService;
-        return abstractParkingSystemControllerComponent.sdsService;
-    }
-
-    static /* synthetic */ boolean access$100(AbstractParkingSystemControllerComponent abstractParkingSystemControllerComponent, DisplayContent displayContent) {
-        return abstractParkingSystemControllerComponent.isSDSProhibited(displayContent);
-    }
-
-    static /* synthetic */ void access$200(AbstractParkingSystemControllerComponent abstractParkingSystemControllerComponent, boolean bl) {
-        abstractParkingSystemControllerComponent.setSDSDisabled(bl);
     }
 
     static /* synthetic */ Class class$(String string) {
@@ -1033,69 +977,292 @@ IParkingSystemHighProtocol {
         }
     }
 
-    static /* synthetic */ ICarApplication access$300(AbstractParkingSystemControllerComponent abstractParkingSystemControllerComponent) {
-        return abstractParkingSystemControllerComponent.getApplication();
+    private static class LogUtil {
+        private static final String[] popupDesc = new String[]{"NONE", "OPS", "VPS", "VPSOPS", "OPSAUTOACTIVATION", "SETTINGS", "GENERAL", "OPSFLANKGUARD", "VPSOPSFLANKGUARD", "ARA", "ARAOPS", "ARAOPSFLANKGUARD", "ARAVPS", "ARAVPSOPS", "ARAVPSOPSFLANKGUARD", "OPSFLANKGUARDPLA", "VPSOPSFLANKGUARDPLA", "OPSOFFROAD", "VPSOPSOFFROAD"};
+        private static final String[] vpsScreenDesc = new String[]{"NOSCREEN", "FULLSCREEN", "SPLITSCREEN", "LASTSCREEN"};
+        private static final String[] vpsViewDesc = new String[]{"NOVIEW", "REARVIEW", "FRONTVIEW", "SIDEVIEW", "BIRDVIEW"};
+        private static final String[] vpsModeDesc = new String[]{"NOMODE", "PARKBOX", "PARALLELTOROAD", "OFFROAD", "RIGHTSIDEVIEW", "LEFTSIDEVIEW", "LEFTRIGHTSIDEVIEW", "CROSSING", "TRAILERASSIST", "BIRDVIEW", "ONLYSIDEVIEW", "3DBIRDVIEW", "TRAILERASSIST_ARA", "OFFROAD_KOG", "14 [INVALID]", "LASTMODE"};
+
+        private LogUtil() {
+        }
+
+        private static String logDisplayContent(DisplayContent displayContent) {
+            Buffer buffer = new Buffer();
+            buffer.append("popup=").append(LogUtil.getDescription(popupDesc, displayContent.popup));
+            buffer.append(", screen=").append(LogUtil.getDescription(vpsScreenDesc, displayContent.screen));
+            buffer.append(", view=").append(LogUtil.getDescription(vpsViewDesc, displayContent.view));
+            buffer.append(", mode=").append(LogUtil.getDescription(vpsModeDesc, displayContent.mode));
+            return buffer.toString();
+        }
+
+        private static String getDescription(String[] stringArray, int n) {
+            Buffer buffer = new Buffer();
+            buffer.append(n);
+            buffer.append(" (");
+            if (n >= 0 && n < stringArray.length) {
+                buffer.append(stringArray[n]);
+            } else {
+                buffer.append("UNKNOWN");
+            }
+            buffer.append(')');
+            return buffer.toString();
+        }
     }
 
-    static /* synthetic */ AudioDrawerContext access$402(AbstractParkingSystemControllerComponent abstractParkingSystemControllerComponent, AudioDrawerContext audioDrawerContext) {
-        abstractParkingSystemControllerComponent.audioDrawerContextService = audioDrawerContext;
-        return abstractParkingSystemControllerComponent.audioDrawerContextService;
+    private class LocalMsgListener
+    implements MsgListener {
+        private LocalMsgListener() {
+        }
+
+        public void processMsg(int n) {
+            ButtonModelApp buttonModelApp;
+            if (2 == n && AbstractParkingSystemControllerComponent.this.getLogChannel().isInfo()) {
+                AbstractParkingSystemControllerComponent.this.getLogChannel().log(1000000, "[AbstractParkingSystemControllerComponent.ParkingSystemMsgListener#processMsg] STARTUP_SHOWFIRSTSCREEN");
+            }
+            if (79 == n && 60 == AbstractParkingSystemControllerComponent.this.getChoiceModel(395).getValue() && null != (buttonModelApp = AbstractParkingSystemControllerComponent.this.getButtonModel(600977))) {
+                buttonModelApp.setButtonListener(new JokerKeyButtonListener());
+            }
+        }
     }
 
-    static /* synthetic */ ICarApplication access$500(AbstractParkingSystemControllerComponent abstractParkingSystemControllerComponent) {
-        return abstractParkingSystemControllerComponent.getApplication();
+    private class PowerEventListener
+    implements IPowerEventListener {
+        private DisplayContent displayContentForMMIOn;
+        private boolean isInStandby;
+        private boolean isQueuedUp = false;
+
+        private PowerEventListener() {
+        }
+
+        private void handleDisplayState(boolean bl) {
+            AbstractParkingSystemControllerComponent.this.getLogChannel().log(10000000, "[AbstractParkingSystemControllerComponent.PowerEventListener#handleDisplayState] displayOn=%1", bl);
+            if (!bl && AbstractParkingSystemControllerComponent.this.isAnyParkingSystemActive()) {
+                if (AbstractParkingSystemControllerComponent.this.plaActive) {
+                    IParkingSystem iParkingSystem = (IParkingSystem)AbstractParkingSystemControllerComponent.this.getAvailableParkingSystems().get(16);
+                    if (iParkingSystem instanceof AbstractParkingSystemPLAComponent) {
+                        ((AbstractParkingSystemPLAComponent)iParkingSystem).canceledByHMI();
+                    }
+                } else {
+                    AbstractParkingSystemControllerComponent.this.cancelParkingPopup(1);
+                }
+            }
+        }
+
+        public void notifyPowerListenerOnEnterState(int n) {
+            switch (n) {
+                case 2: 
+                case 3: {
+                    this.isInStandby = true;
+                    break;
+                }
+                case 1: {
+                    this.handleDisplayState(false);
+                }
+                default: {
+                    this.isInStandby = false;
+                }
+            }
+            if (!this.isInStandby && this.displayContentForMMIOn != null) {
+                AbstractParkingSystemControllerComponent.this.activateParkingSystem(this.displayContentForMMIOn);
+                this.displayContentForMMIOn = null;
+            }
+        }
+
+        public void notifyPowerListenerOnExitState(int n) {
+            switch (n) {
+                case 1: {
+                    this.handleDisplayState(true);
+                    break;
+                }
+            }
+        }
+
+        public void notifyPowerTriggerAction(int n) {
+        }
+
+        public void updateClampState(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
+        }
+
+        public boolean isInStandby() {
+            return this.isInStandby;
+        }
+
+        public boolean isQueuedUp() {
+            return this.isQueuedUp;
+        }
+
+        public void setDisplayContentForMMIOn(DisplayContent displayContent) {
+            this.displayContentForMMIOn = displayContent;
+        }
     }
 
-    static /* synthetic */ ICarApplication access$600(AbstractParkingSystemControllerComponent abstractParkingSystemControllerComponent) {
-        return abstractParkingSystemControllerComponent.getApplication();
+    private class VPSShowButtonListener
+    extends DefaultButtonListener {
+        private VPSShowButtonListener() {
+        }
+
+        public void keyPressed(int n, int n2, int n3) {
+            AbstractParkingSystemControllerComponent.this.parkingSoftkeyPressed();
+        }
     }
 
-    static /* synthetic */ boolean access$700(AbstractParkingSystemControllerComponent abstractParkingSystemControllerComponent) {
-        return abstractParkingSystemControllerComponent.isAnyParkingSystemActive();
+    private class JokerKeyButtonListener
+    extends DefaultButtonListener {
+        private JokerKeyButtonListener() {
+        }
+
+        public void keyPressed(int n, int n2, int n3) {
+            switch (n) {
+                case 600977: {
+                    AbstractParkingSystemControllerComponent.this.logModelData("keyPressed", n, n2, true);
+                    break;
+                }
+                default: {
+                    AbstractParkingSystemControllerComponent.this.logModelData("keyPressed", n, n2, false);
+                }
+            }
+        }
+
+        public void keyReleased(int n, int n2, int n3) {
+            if (600977 == n) {
+                int n4 = AbstractParkingSystemControllerComponent.this.getChoiceModel(395).getValue();
+                switch (n4) {
+                    case 60: {
+                        AbstractParkingSystemControllerComponent.this.parkingSoftkeyPressed();
+                        break;
+                    }
+                    default: {
+                        AbstractParkingSystemControllerComponent.this.logModelData("keyReleased", n, n2, false);
+                        break;
+                    }
+                }
+            } else {
+                AbstractParkingSystemControllerComponent.this.logModelData("keyReleased", n, n2, false);
+            }
+        }
     }
 
-    static /* synthetic */ boolean access$800(AbstractParkingSystemControllerComponent abstractParkingSystemControllerComponent) {
-        return abstractParkingSystemControllerComponent.plaActive;
+    private class VPSAbortButtonListener
+    extends DefaultButtonListener {
+        private VPSAbortButtonListener() {
+        }
+
+        public void keyPressed(int n, int n2, int n3) {
+            AbstractParkingSystemControllerComponent.this.getLogChannel().log(10000000, "keyPressed for modelID=%1", (long)n);
+            if (n == 2100320) {
+                AbstractParkingSystemControllerComponent.this.getLogChannel().log(10000000, "[AbstractParkingSystemControllerComponent.VPSAbortButtonListener#keyPressed] cancel popup, call DSI.setPDCPLASystemState");
+                if (AbstractParkingSystemControllerComponent.this.plaActive) {
+                    IParkingSystem iParkingSystem = (IParkingSystem)AbstractParkingSystemControllerComponent.this.getAvailableParkingSystems().get(16);
+                    if (iParkingSystem instanceof AbstractParkingSystemPLAComponent) {
+                        ((AbstractParkingSystemPLAComponent)iParkingSystem).canceledByHMI();
+                    }
+                } else {
+                    AbstractParkingSystemControllerComponent.this.getDSI().setPDCPLASystemState(new PDCPLASystemState(false, false));
+                }
+            }
+        }
     }
 
-    static /* synthetic */ void access$900(AbstractParkingSystemControllerComponent abstractParkingSystemControllerComponent, int n) {
-        abstractParkingSystemControllerComponent.cancelParkingPopup(n);
+    private class SDSServiceTrackerListener
+    implements CarServiceTrackerListener {
+        private SDSServiceTrackerListener() {
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void serviceAvailable(Object object) {
+            boolean bl;
+            AbstractParkingSystemControllerComponent.this.sdsService = (SDSService)object;
+            Object object2 = mutex;
+            synchronized (object2) {
+                bl = AbstractParkingSystemControllerComponent.this.isSDSProhibited(AbstractParkingSystemControllerComponent.this.currentDisplayContent);
+            }
+            if (bl) {
+                AbstractParkingSystemControllerComponent.this.setSDSDisabled(true);
+            }
+        }
+
+        public void serviceRemoved() {
+            AbstractParkingSystemControllerComponent.this.sdsService = null;
+        }
+
+        public String[] getTrackedServiceClazzName() {
+            return new String[]{(class$de$audi$atip$interapp$SDSService == null ? (class$de$audi$atip$interapp$SDSService = AbstractParkingSystemControllerComponent.class$("de.audi.atip.interapp.SDSService")) : class$de$audi$atip$interapp$SDSService).getName()};
+        }
     }
 
-    static /* synthetic */ void access$1000(AbstractParkingSystemControllerComponent abstractParkingSystemControllerComponent, DisplayContent displayContent) {
-        abstractParkingSystemControllerComponent.activateParkingSystem(displayContent);
+    private class PSCServiceTrackerCustomizer
+    implements ServiceTrackerCustomizer {
+        private PSCServiceTrackerCustomizer() {
+        }
+
+        public Object addingService(ServiceReference serviceReference) {
+            Object object = AbstractParkingSystemControllerComponent.this.getApplication().getBundleContext().getService(serviceReference);
+            if (object instanceof AudioDrawerContext) {
+                AbstractParkingSystemControllerComponent.this.audioDrawerContextService = (AudioDrawerContext)object;
+                return object;
+            }
+            AbstractParkingSystemControllerComponent.this.getApplication().getBundleContext().ungetService(serviceReference);
+            return null;
+        }
+
+        public void modifiedService(ServiceReference serviceReference, Object object) {
+        }
+
+        public void removedService(ServiceReference serviceReference, Object object) {
+            if (object instanceof AudioDrawerContext) {
+                AbstractParkingSystemControllerComponent.this.getApplication().getBundleContext().ungetService(serviceReference);
+                AbstractParkingSystemControllerComponent.this.audioDrawerContextService = null;
+            }
+        }
     }
 
-    static /* synthetic */ ChoiceModelApp access$1100(AbstractParkingSystemControllerComponent abstractParkingSystemControllerComponent, int n) {
-        return abstractParkingSystemControllerComponent.getChoiceModel(n);
-    }
+    private class ParkingSystemSubContentEntry {
+        private final int popup;
+        private final boolean parkingSystemAPS;
+        private final boolean parkingSystemOPS;
+        private final boolean parkingSystemVPS;
+        private final boolean parkingSystemARA;
+        private final boolean parkingSystemPLA;
+        private final boolean parkingSystemSETTINGS;
 
-    static /* synthetic */ ButtonModelApp access$1200(AbstractParkingSystemControllerComponent abstractParkingSystemControllerComponent, int n) {
-        return abstractParkingSystemControllerComponent.getButtonModel(n);
-    }
+        public ParkingSystemSubContentEntry(int n, boolean bl, boolean bl2, boolean bl3, boolean bl4, boolean bl5, boolean bl6) {
+            this.popup = n;
+            this.parkingSystemAPS = bl;
+            this.parkingSystemOPS = bl2;
+            this.parkingSystemVPS = bl3;
+            this.parkingSystemARA = bl4;
+            this.parkingSystemPLA = bl5;
+            this.parkingSystemSETTINGS = bl6;
+        }
 
-    static /* synthetic */ void access$1400(AbstractParkingSystemControllerComponent abstractParkingSystemControllerComponent, String string, int n, int n2, boolean bl) {
-        abstractParkingSystemControllerComponent.logModelData(string, n, n2, bl);
-    }
+        public int getPopup() {
+            return this.popup;
+        }
 
-    static /* synthetic */ void access$1500(AbstractParkingSystemControllerComponent abstractParkingSystemControllerComponent, String string, int n, int n2, boolean bl) {
-        abstractParkingSystemControllerComponent.logModelData(string, n, n2, bl);
-    }
-
-    static /* synthetic */ ChoiceModelApp access$1600(AbstractParkingSystemControllerComponent abstractParkingSystemControllerComponent, int n) {
-        return abstractParkingSystemControllerComponent.getChoiceModel(n);
-    }
-
-    static /* synthetic */ void access$1700(AbstractParkingSystemControllerComponent abstractParkingSystemControllerComponent, String string, int n, int n2, boolean bl) {
-        abstractParkingSystemControllerComponent.logModelData(string, n, n2, bl);
-    }
-
-    static /* synthetic */ void access$1800(AbstractParkingSystemControllerComponent abstractParkingSystemControllerComponent, String string, int n, int n2, boolean bl) {
-        abstractParkingSystemControllerComponent.logModelData(string, n, n2, bl);
-    }
-
-    static {
-        mutex = new Object();
+        public List getInvolvedParkingSystems() {
+            LinkedList linkedList = new LinkedList();
+            if (this.parkingSystemAPS) {
+                linkedList.add(new Integer(1));
+            }
+            if (this.parkingSystemOPS) {
+                linkedList.add(new Integer(2));
+            }
+            if (this.parkingSystemVPS) {
+                linkedList.add(new Integer(4));
+            }
+            if (this.parkingSystemARA) {
+                linkedList.add(new Integer(8));
+            }
+            if (this.parkingSystemPLA) {
+                linkedList.add(new Integer(16));
+            }
+            if (this.parkingSystemSETTINGS) {
+                linkedList.add(new Integer(32));
+            }
+            return linkedList;
+        }
     }
 }
 

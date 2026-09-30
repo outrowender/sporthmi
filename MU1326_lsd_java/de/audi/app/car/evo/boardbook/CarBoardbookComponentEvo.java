@@ -20,7 +20,6 @@ implements IActionProxyListener {
         super(iCarApplication);
     }
 
-    @Override
     public void init() {
         super.init();
         this.getApplication().getActionProxyDispatcher().addActionProxyListener(1, this);
@@ -31,40 +30,38 @@ implements IActionProxyListener {
         this.boardbookHandler.indicateBoardbookAvailable(false);
     }
 
-    @Override
     public int getID() {
         return 30;
     }
 
-    @Override
     public void actionProxyCallPerformed(int n, Map map) {
         switch (n) {
             case 1: {
                 this.boardbookHandler.setVideoLoading(false);
-                this.getLogChannel().log(1078071040, "%1#actionproxyCallPerformed() BrowserScreen entered", (Object)LOGCLASS);
+                this.getLogChannel().log(1000000, "%1#actionproxyCallPerformed() BrowserScreen entered", (Object)LOGCLASS);
                 this.startBoardbook();
                 break;
             }
             case 2: {
                 if (!this.boardbookHandler.isVideoLoading()) {
-                    this.getLogChannel().log(1078071040, "%1#actionproxyCallPerformed() BrowserScreen left", (Object)LOGCLASS);
+                    this.getLogChannel().log(1000000, "%1#actionproxyCallPerformed() BrowserScreen left", (Object)LOGCLASS);
                     this.boardbookHandler.setVideoLoading(false);
                     this.stopBoardbook();
                     break;
                 }
                 this.boardbookHandler.setVideoLoading(false);
-                this.getLogChannel().log(1078071040, "%1#actionproxyCallPerformed() BrowserVideoScreen left -> cancel video loading", (Object)LOGCLASS);
+                this.getLogChannel().log(1000000, "%1#actionproxyCallPerformed() BrowserVideoScreen left -> cancel video loading", (Object)LOGCLASS);
                 this.stopMediaPlayback();
                 break;
             }
             case 4: {
                 this.boardbookHandler.setVideoLoading(false);
-                this.getLogChannel().log(1078071040, "%1#actionproxyCallPerformed() BrowserVideoScreen left", (Object)LOGCLASS);
+                this.getLogChannel().log(1000000, "%1#actionproxyCallPerformed() BrowserVideoScreen left", (Object)LOGCLASS);
                 this.stopMediaPlayback();
                 break;
             }
             case 3: {
-                this.getLogChannel().log(1078071040, "%1#actionproxyCallPerformed() BrowserVideoScreen entered", (Object)LOGCLASS);
+                this.getLogChannel().log(1000000, "%1#actionproxyCallPerformed() BrowserVideoScreen entered", (Object)LOGCLASS);
                 this.boardbookHandler.setVideoLoading(false);
                 break;
             }
@@ -75,12 +72,11 @@ implements IActionProxyListener {
         }
     }
 
-    @Override
     public void updateTelState(int n, ITelState iTelState) {
         boolean bl;
         if (n == 2 && (bl = iTelState.isIncomingCallPresent())) {
             super.returntoVideoOverView();
-            this.getLogChannel().log(1078071040, "CarBoardbookComponentEvo#updateTelState() Returning to VideoOverView");
+            this.getLogChannel().log(1000000, "CarBoardbookComponentEvo#updateTelState() Returning to VideoOverView");
         }
     }
 

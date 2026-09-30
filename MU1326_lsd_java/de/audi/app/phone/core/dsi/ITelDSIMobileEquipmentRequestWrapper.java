@@ -8,163 +8,110 @@ import org.dsi.ifc.telephoneng.CFRequestData;
 import org.dsi.ifc.telephoneng.Favorite;
 
 public interface ITelDSIMobileEquipmentRequestWrapper {
-    default public void acceptCall(int n) {
-    }
+    public void acceptCall(int var1);
 
-    default public void hangupCall(int n) {
-    }
+    public void hangupCall(int var1);
 
-    default public void swapCalls() {
-    }
+    public void swapCalls();
 
-    default public void splitCall(short s) {
-    }
+    public void splitCall(short var1);
 
-    default public void joinCalls() {
-    }
+    public void joinCalls();
 
-    default public void dialNumber(String string) {
-    }
+    public void dialNumber(String var1);
 
-    default public void dialOperator(int n, String string) {
-    }
+    public void dialOperator(int var1, String var2);
 
-    default public void dialNumberFromDBEntry(String string, long l, String string2, short s, short s2, ResourceLocator resourceLocator, int n, int n2) {
-    }
+    public void dialNumberFromDBEntry(String var1, long var2, String var4, short var5, short var6, ResourceLocator var7, int var8, int var9);
 
-    default public void sendDTMF(String string) {
-    }
+    public void sendDTMF(String var1);
 
-    default public void requestNetworkRegistration(String string, int n) {
-    }
+    public void requestNetworkRegistration(String var1, int var2);
 
-    default public void requestAbortNetworkRegistration() {
-    }
+    public void requestAbortNetworkRegistration();
 
-    default public void requestNetworkSearch() {
-    }
+    public void requestNetworkSearch();
 
-    default public void requestAbortNetworkSearch() {
-    }
+    public void requestAbortNetworkSearch();
 
-    default public void requestCallForward(CFRequestData[] cFRequestDataArray) {
-    }
+    public void requestCallForward(CFRequestData[] var1);
 
-    default public void requestCallWaiting(int n) {
-    }
+    public void requestCallWaiting(int var1);
 
-    default public void requestCLIR(int n) {
-    }
+    public void requestCLIR(int var1);
 
-    default public void requestServiceCodeAbort() {
-    }
+    public void requestServiceCodeAbort();
 
-    default public void requestSetAutomaticPinEntryActive(boolean bl) {
-    }
+    public void requestSetAutomaticPinEntryActive(boolean var1);
 
-    default public void requestSetAutomaticRedialActive(boolean bl) {
-    }
+    public void requestSetAutomaticRedialActive(boolean var1);
 
-    default public void requestSetCDMAThreeWayCallingSetting(boolean bl) {
-    }
+    public void requestSetCDMAThreeWayCallingSetting(boolean var1);
 
-    default public void requestSetAutomaticEmergencyCallActive(boolean bl) {
-    }
+    public void requestSetAutomaticEmergencyCallActive(boolean var1);
 
-    default public void requestSetEnhancedPrivacyMode(boolean bl) {
-    }
+    public void requestSetEnhancedPrivacyMode(boolean var1);
 
-    default public void requestSetMailboxContent(String string) {
-    }
+    public void requestSetMailboxContent(String var1);
 
-    default public void requestSetPrivacyMode(boolean bl) {
-    }
+    public void requestSetPrivacyMode(boolean var1);
 
-    default public void requestTelPower(int n) {
-    }
+    public void requestTelPower(int var1);
 
-    default public void requestUnlockSIM(int n, String string, String string2) {
-    }
+    public void requestUnlockSIM(int var1, String var2, String var3);
 
-    default public void requestCheckSIMPINCode(String string) {
-    }
+    public void requestCheckSIMPINCode(String var1);
 
-    default public void requestChangeSIMCode(int n, String string, String string2) {
-    }
+    public void requestChangeSIMCode(int var1, String var2, String var3);
 
-    default public void requestSetHandsFreeMode(int n) {
-    }
+    public void requestSetHandsFreeMode(int var1);
 
-    default public void requestSetMICMuteState(int n) {
-    }
+    public void requestSetMICMuteState(int var1);
 
-    default public void requestSetLanguage(String string) {
-    }
+    public void requestSetLanguage(String var1);
 
-    default public void requestSIMPINRequired(String string, boolean bl) {
-    }
+    public void requestSIMPINRequired(String var1, boolean var2);
 
-    default public void restoreFactorySettings() {
-    }
+    public void restoreFactorySettings();
 
-    default public void requestSetMicGainLevel(int n) {
-    }
+    public void requestSetMicGainLevel(int var1);
 
-    default public void requestDecreaseMicGainLevel(short s) {
-    }
+    public void requestDecreaseMicGainLevel(short var1);
 
-    default public void requestIncreaseMicGainLevel(short s) {
-    }
+    public void requestIncreaseMicGainLevel(short var1);
 
-    default public void requestSetOptimizationMode(int n) {
-    }
+    public void requestSetOptimizationMode(int var1);
 
-    default public void requestUnlockOtherSIM(int n, String string) {
-    }
+    public void requestUnlockOtherSIM(int var1, String var2);
 
-    default public void requestSetSIMAliases(String string, String string2) {
-    }
+    public void requestSetSIMAliases(String var1, String var2);
 
-    default public void requestSetNADMode(int n) {
-    }
+    public void requestSetNADMode(int var1);
 
-    default public void requestRemoveOtherSIM() {
-    }
+    public void requestRemoveOtherSIM();
 
-    default public void requestSetPhoneReminderSetting(boolean bl) {
-    }
+    public void requestSetPhoneReminderSetting(boolean var1);
 
-    default public void requestSetPrefixActivated(boolean bl) {
-    }
+    public void requestSetPrefixActivated(boolean var1);
 
-    default public void requestSetPrefixContent(String string) {
-    }
+    public void requestSetPrefixContent(String var1);
 
-    default public void requestSetPhoneRingtone(int n, String string) {
-    }
+    public void requestSetPhoneRingtone(int var1, String var2);
 
-    default public void requestSetFavorites(Favorite[] favoriteArray) {
-    }
+    public void requestSetFavorites(Favorite[] var1);
 
-    default public void requestSetSIMName(String string) {
-    }
+    public void requestSetSIMName(String var1);
 
-    default public void requestSetESIMActive(boolean bl) {
-    }
+    public void requestSetESIMActive(boolean var1);
 
-    default public void deleteCallstacksAll(int n) {
-    }
+    public void deleteCallstacksAll(int var1);
 
-    default public void deleteCallstacksEntry(int n, int n2) {
-    }
+    public void deleteCallstacksEntry(int var1, int var2);
 
-    default public void resetMissedCallIndicator() {
-    }
+    public void resetMissedCallIndicator();
 
-    default public void revertCallstacks(boolean bl) {
-    }
+    public void revertCallstacks(boolean var1);
 
-    default public boolean isDSIAvailable() {
-    }
+    public boolean isDSIAvailable();
 }
 

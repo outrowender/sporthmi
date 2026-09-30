@@ -95,7 +95,7 @@ public final class CombiElementBank {
                 return this.combiElementBankDDP2.getFlag(1);
             }
         }
-        System.err.println(new StringBuffer().append("CombiElementBank.getTextElementAt - Invalid logical ID: ").append(n).toString());
+        System.err.println("CombiElementBank.getTextElementAt - Invalid logical ID: " + n);
         return null;
     }
 

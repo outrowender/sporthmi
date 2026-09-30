@@ -22,15 +22,13 @@ extends AbstractGetEntryCommand {
         super(abstractAddressBookApplication, l);
     }
 
-    @Override
     protected boolean handleGetEntryResult(AdbEntry adbEntry) {
-        this.logger.log(1078071040, "GetSpeedDialEntryCommand#handleGetEntryResult(): entry: %1", (Object)ADBDbgUtils.dbgShort(adbEntry));
+        this.logger.log(1000000, "GetSpeedDialEntryCommand#handleGetEntryResult(): entry: %1", (Object)ADBDbgUtils.dbgShort(adbEntry));
         return true;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "GetSpeedDialEntryCommand#execute(): entryId: %1, viewtype: SPEED_DIALS", this.entryId);
+        this.logger.log(1000000, "GetSpeedDialEntryCommand#execute(): entryId: %1, viewtype: SPEED_DIALS", this.entryId);
         boolean bl = this.adbDSIAccess.getEntries(new long[]{this.entryId}, 4, 0);
         if (!bl) {
             this.logger.log(10000, "GetSpeedDialEntryCommand#execute(): dsi call was not successful, finishing command and setting syncModel status to ERROR!.");

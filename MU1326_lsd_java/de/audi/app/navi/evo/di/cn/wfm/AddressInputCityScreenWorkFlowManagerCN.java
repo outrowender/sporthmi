@@ -15,7 +15,6 @@ extends AbstractAddressInputScreenWorkFlowManagerCN {
         super(navigationEnv, iCommandListFactory, spellerStack);
     }
 
-    @Override
     public CommandList handleWorkFlow(CommandList commandList, int n) {
         switch (n) {
             case 10102: {
@@ -27,19 +26,19 @@ extends AbstractAddressInputScreenWorkFlowManagerCN {
                 break;
             }
             default: {
-                this.logChannel.log(-2137614336, "%1#handleWorkFlow - screenEventId %2 is in range of city screen but not known as valid id.", (Object)this.CLASS_NAME, (long)n);
+                this.logChannel.log(10000000, "%1#handleWorkFlow - screenEventId %2 is in range of city screen but not known as valid id.", (Object)this.CLASS_NAME, (long)n);
             }
         }
         return commandList;
     }
 
     private void createCNCityScreenListElementSelectedWorkFlow(CommandList commandList) {
-        this.logChannel.log(-2137614336, "%1#createCNCityScreenListElementSelectedWorkFlow", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#createCNCityScreenListElementSelectedWorkFlow", (Object)this.CLASS_NAME);
         this.spellerStack.pop();
     }
 
     private void createCNCityScreenHistoryElementSelectedWorkFlow(CommandList commandList) {
-        this.logChannel.log(-2137614336, "%1#createCNCityScreenListElementSelectedWorkFlow", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#createCNCityScreenListElementSelectedWorkFlow", (Object)this.CLASS_NAME);
         this.spellerStack.pop();
     }
 }

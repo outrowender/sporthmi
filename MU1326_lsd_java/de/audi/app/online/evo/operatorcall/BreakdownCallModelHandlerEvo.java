@@ -13,7 +13,6 @@ extends AbstractBreakdownCallModelHandler {
         super(hMIService, abstractOperatorCall);
     }
 
-    @Override
     protected boolean isPhoneReadyForJokerkey() {
         return true;
     }

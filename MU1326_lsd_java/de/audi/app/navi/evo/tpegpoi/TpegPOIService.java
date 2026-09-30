@@ -5,7 +5,6 @@ package de.audi.app.navi.evo.tpegpoi;
 
 import de.audi.app.navi.evo.details.DetailsHMIListener;
 import de.audi.app.navi.evo.tpegpoi.TpegPOIManager;
-import de.audi.app.navi.evo.tpegpoi.TpegPOIService$1;
 import de.audi.atip.phone.ITelService;
 import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.ICommandListFactory;
@@ -16,6 +15,7 @@ import de.audi.tghu.navi.app.adb.NaviADBHandler;
 import de.audi.tghu.navi.app.addressinput.poi.IPoiService;
 import de.audi.tghu.navi.app.addressinput.poi.PoiDSIHandler;
 import de.audi.tghu.navi.app.addressinput.tpegpoi.AbstractTpegPOIService;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.details.IDetailsScreen;
 import de.audi.tghu.navi.app.favorite.INaviFavoriteHandler;
 import de.audi.tghu.navi.app.guidance.IVehicle;
@@ -53,7 +53,6 @@ extends AbstractTpegPOIService {
         this.initTpegPOIInput();
     }
 
-    @Override
     protected void initTpegPOIInput() {
         if (Util.isHURegionKR()) {
             this.inputManager = new TpegPOIManager(this.env, this.commandListFactory, this.previewMap, this.mapInterface, this.startGuidanceSequence, this.naviFavoriteHandler, this.poiService, this.detailsHMIListener, this.spellerStack, this.vehicle, this.iconHandler, this.routeManager, this.navAdbHandler, this.telService, this.homeAddressHandler);
@@ -62,15 +61,21 @@ extends AbstractTpegPOIService {
         }
     }
 
-    @Override
     public void startTpegPOI() {
         if (!this.tpegPOICommandListMonitor.isActive()) {
             CommandList commandList = ((TpegPOIManager)this.inputManager).getCategoryScreenListener().getStartCommandList();
             commandList.addMonitor(this.tpegPOICommandListMonitor);
-            commandList.setErrorCommand(new TpegPOIService$1(this, "TpegPOIService#startTpegPOI set DEST_TPEG_POI_DATA_AVAILABLE_CHOICE to TpegPOIConstants.TPEG_DATA_UNAVAILABLE"));
-            commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#startTpegPOI").toString());
+            commandList.setErrorCommand(new NavCommand("TpegPOIService#startTpegPOI set DEST_TPEG_POI_DATA_AVAILABLE_CHOICE to TpegPOIConstants.TPEG_DATA_UNAVAILABLE"){
+
+                public void execute() {
+                    this.env.getLogChannel().log(1000000, "TpegPOIService#startTpegPOI no TPEG POI data available");
+                    this.env.getChoiceModel(402067).setValue(0);
+                    this.getCommandList().commandFinished();
+                }
+            });
+            commandList.execute(this.CLASS_NAME + "#startTpegPOI");
         } else {
-            this.logChannel.log(-2137614336, "%1#startTpegPOI - the command list to start TPEG POI is still running - ignoring further calls.", (Object)this.CLASS_NAME);
+            this.logChannel.log(10000000, "%1#startTpegPOI - the command list to start TPEG POI is still running - ignoring further calls.", (Object)this.CLASS_NAME);
         }
     }
 }

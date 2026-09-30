@@ -4,10 +4,8 @@
 package de.audi.remotehmi;
 
 public interface IRemoteHMISpeechEntity {
-    default public int getId() {
-    }
+    public int getId();
 
-    default public String[] getTexts() {
-    }
+    public String[] getTexts();
 }
 

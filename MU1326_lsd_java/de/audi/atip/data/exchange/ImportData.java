@@ -3,29 +3,25 @@
  */
 package de.audi.atip.data.exchange;
 
+import de.audi.atip.data.exchange.KeyNotFoundException;
+import de.audi.atip.data.exchange.UnsupportedVersionException;
+import de.audi.atip.data.exchange.WrongDataTypeException;
+
 public interface ImportData {
-    default public boolean getBoolean(int n, int n2) {
-    }
+    public boolean getBoolean(int var1, int var2) throws KeyNotFoundException, UnsupportedVersionException, WrongDataTypeException;
 
-    default public byte getByte(int n, int n2) {
-    }
+    public byte getByte(int var1, int var2) throws KeyNotFoundException, UnsupportedVersionException, WrongDataTypeException;
 
-    default public short getShort(int n, int n2) {
-    }
+    public short getShort(int var1, int var2) throws KeyNotFoundException, UnsupportedVersionException, WrongDataTypeException;
 
-    default public int getInteger(int n, int n2) {
-    }
+    public int getInteger(int var1, int var2) throws KeyNotFoundException, UnsupportedVersionException, WrongDataTypeException;
 
-    default public long getLong(int n, int n2) {
-    }
+    public long getLong(int var1, int var2) throws KeyNotFoundException, UnsupportedVersionException, WrongDataTypeException;
 
-    default public float getFloat(int n, int n2) {
-    }
+    public float getFloat(int var1, int var2) throws KeyNotFoundException, UnsupportedVersionException, WrongDataTypeException;
 
-    default public double getDouble(int n, int n2) {
-    }
+    public double getDouble(int var1, int var2) throws KeyNotFoundException, UnsupportedVersionException, WrongDataTypeException;
 
-    default public String getString(int n, int n2) {
-    }
+    public String getString(int var1, int var2) throws KeyNotFoundException, UnsupportedVersionException, WrongDataTypeException;
 }
 

@@ -14,7 +14,6 @@ implements DSISSE {
         super(logChannel, "DSISSE");
     }
 
-    @Override
     public void requestSetMode(int n) {
         this.log("requestSetMode");
     }
@@ -23,12 +22,10 @@ implements DSISSE {
         this.log("requestStartProcessing");
     }
 
-    @Override
     public void requestSetMicGainLevel(int n) {
         this.log("requestSetMicGainLevel");
     }
 
-    @Override
     public void requestSetMicMuteState(int n) {
         this.log("requestSetMicMuteState");
     }

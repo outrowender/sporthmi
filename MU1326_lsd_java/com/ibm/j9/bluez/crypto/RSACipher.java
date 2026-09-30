@@ -9,23 +9,23 @@ import com.ibm.j9.bluez.crypto.CL3Exception;
 import java.util.Random;
 
 public class RSACipher {
-    private static final long P_HighNibbles;
-    private static final long Q_HighNibbles;
-    private static final long PERM;
-    public static final int RSA_HASH_DATA;
-    public static final int RSA_HASH_ALG;
-    public static final int RSA_SCHEME;
-    public static final int RSA_RAW;
-    public static final int RSA_PKCS1;
-    public static final int RSA_ISO9796;
-    public static final int RSA_OAEP;
-    public static final int RSA_PKCS1_MD2;
-    public static final int RSA_PKCS1_SHA;
-    public static final int RSA_PKCS1_MD5;
+    private static final long P_HighNibbles = -73301893889L;
+    private static final long Q_HighNibbles = -7296712466775684130L;
+    private static final long PERM = 2064737499334935870L;
+    public static final int RSA_HASH_DATA = 4096;
+    public static final int RSA_HASH_ALG = 7;
+    public static final int RSA_SCHEME = 224;
+    public static final int RSA_RAW = 0;
+    public static final int RSA_PKCS1 = 32;
+    public static final int RSA_ISO9796 = 64;
+    public static final int RSA_OAEP = 96;
+    public static final int RSA_PKCS1_MD2 = 33;
+    public static final int RSA_PKCS1_SHA = 35;
+    public static final int RSA_PKCS1_MD5 = 34;
     protected static final byte[] HASH_DS;
     protected static final byte[] DIGEST_INFOS;
-    public static final int T_RSA_PUBLIC_KEY;
-    public static final int T_RSA_PRIVATE_KEY;
+    public static final int T_RSA_PUBLIC_KEY = 5;
+    public static final int T_RSA_PRIVATE_KEY = 6;
 
     static {
         byte[] byArray = new byte[8];
@@ -195,7 +195,7 @@ public class RSACipher {
                                 }
                             }
                             if (n2 < 11) {
-                                throw new CL3Exception(0x8000080);
+                                throw new CL3Exception(-2147483640);
                             }
                             byArray3[1] = 1;
                             byArray3[--n2] = 0;
@@ -245,7 +245,7 @@ public class RSACipher {
             RSACipher.rsa(bigIntegerArray, RSACipher.isPrivateKey(cL3), n, byArray3, byArray2, n4, n5);
             return n5;
         }
-        throw new CL3Exception(0x3000080);
+        throw new CL3Exception(-2147483645);
     }
 
     public static int rsaDecrypt(CL3 cL3, int n, Object object, byte[] byArray, int n2, int n3, byte[] byArray2, int n4) {
@@ -269,7 +269,7 @@ public class RSACipher {
                             ++n2;
                         }
                         if (byArray3[0] != 0 || byArray3[1] != 2 || n6 == n5 || ++n2 < 11) {
-                            throw new CL3Exception(0x5000080);
+                            throw new CL3Exception(-2147483643);
                         }
                         break block8;
                     }
@@ -283,7 +283,7 @@ public class RSACipher {
                         ++n2;
                     }
                     if (!RSACipher.cmp(byArray3, 21, byArray4, 0, 20) || n2 == n5 || byArray3[n2++] != 1 || byArray3[0] != 0) {
-                        throw new CL3Exception(0x5000080);
+                        throw new CL3Exception(-2147483643);
                     }
                     break block8;
                 }
@@ -300,7 +300,7 @@ public class RSACipher {
             byArray2[n7] = (byte)(byArray2[n7] + 0);
             return n5 - n2;
         }
-        throw new CL3Exception(0x3000080);
+        throw new CL3Exception(-2147483645);
     }
 
     protected static void rsa(BigInteger[] bigIntegerArray, boolean bl, int n, byte[] byArray, byte[] byArray2, int n2, int n3) {
@@ -311,7 +311,7 @@ public class RSACipher {
                 bigInteger = bigInteger.modPow(bigIntegerArray[2], bigIntegerArray[0]);
             } else {
                 if (bigIntegerArray.length == 2) {
-                    throw new CL3Exception(385876096);
+                    throw new CL3Exception(-2147483625);
                 }
                 BigInteger bigInteger3 = bigInteger.remainder(bigIntegerArray[3]).modPow(bigIntegerArray[5], bigIntegerArray[3]);
                 BigInteger bigInteger4 = bigInteger.remainder(bigIntegerArray[4]).modPow(bigIntegerArray[6], bigIntegerArray[4]);
@@ -352,7 +352,7 @@ public class RSACipher {
                         if (n6 != 32) break block8;
                         n6 = n5 - n3 - 1;
                         if (n6 < 10) {
-                            throw new CL3Exception(0x8000080);
+                            throw new CL3Exception(-2147483640);
                         }
                         byArray3[0] = 0;
                         byArray3[n6] = 0;
@@ -368,7 +368,7 @@ public class RSACipher {
                     }
                     if (n6 != 96) break block10;
                     if (n3 + 20 + 20 + 2 > n5) {
-                        throw new CL3Exception(0x8000080);
+                        throw new CL3Exception(-2147483640);
                     }
                     CL3.sha(null, byArray3, 0, 0, byArray3, 21);
                     byArray3[0] = 0;
@@ -387,7 +387,7 @@ public class RSACipher {
             RSACipher.rsa(bigIntegerArray, RSACipher.isPrivateKey(cL3), 0, byArray3, byArray2, n4, n5);
             return n5;
         }
-        throw new CL3Exception(0x3000080);
+        throw new CL3Exception(-2147483645);
     }
 
     public static boolean rsaVerify(CL3 cL3, int n, Object object, byte[] byArray, int n2, int n3, byte[] byArray2, int n4, int n5) {
@@ -485,7 +485,7 @@ public class RSACipher {
             }
             return n5 == n3 && RSACipher.cmp(byArray3, n4, byArray, n2, n3);
         }
-        throw new CL3Exception(0x3000080);
+        throw new CL3Exception(-2147483645);
     }
 
     public static int rsaDecryptSignature(CL3 cL3, int n, Object object, byte[] byArray, int n2, int n3, byte[] byArray2, int n4) {
@@ -520,13 +520,13 @@ public class RSACipher {
 
     public static CL3 rsaKeyGen(int n, byte[] byArray, Random random) {
         if (n % 16 != 0) {
-            throw new CL3Exception(0x3000080);
+            throw new CL3Exception(-2147483645);
         }
         BigInteger[] bigIntegerArray = new BigInteger[8];
         BigInteger bigInteger = BigInteger.valueOf(1);
         int n2 = n / 16;
         byte[] byArray2 = new byte[n2];
-        BigInteger bigInteger2 = byArray == null ? BigInteger.valueOf(0x1000100) : new BigInteger(1, byArray);
+        BigInteger bigInteger2 = byArray == null ? BigInteger.valueOf(65537) : new BigInteger(1, byArray);
         BigInteger bigInteger3 = null;
         BigInteger bigInteger4 = null;
         long l = -73301893889L;
@@ -567,7 +567,7 @@ public class RSACipher {
     protected static void MGF1(byte[] byArray, int n, int n2, int n3, int n4) {
         int n5;
         if (n2 > 5120) {
-            throw new CL3Exception(385876096);
+            throw new CL3Exception(-2147483625);
         }
         CL3 cL3 = CL3.shaInit(null);
         if (n4 >= 64) {
@@ -641,7 +641,7 @@ public class RSACipher {
                 return byArray2;
             }
         }
-        throw new CL3Exception(0x3000080);
+        throw new CL3Exception(-2147483645);
     }
 
     static void padISO9796(byte[] byArray, int n, int n2, int n3) {
@@ -653,7 +653,7 @@ public class RSACipher {
                 n4 = byArray[n5 + n6 / 2 % n2] & 0xFF;
             }
             if ((n6 & 1) != 0) {
-                byArray[n5 + n6] = (byte)(2064737499334935870L >> (n4 << 2 & 0x3C) & 0 | (2064737499334935870L >> (n4 >> 2 & 0x3C) & 0) << 4);
+                byArray[n5 + n6] = (byte)(2064737499334935870L >> (n4 << 2 & 0x3C) & 0xFL | (2064737499334935870L >> (n4 >> 2 & 0x3C) & 0xFL) << 4);
                 continue;
             }
             byArray[n5 + n6] = (byte)n4;

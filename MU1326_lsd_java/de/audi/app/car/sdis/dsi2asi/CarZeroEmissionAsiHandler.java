@@ -11,7 +11,7 @@ import de.esolutions.fw.comm.core.method.MethodException;
 import org.dsi.ifc.global.CarViewOption;
 
 public class CarZeroEmissionAsiHandler {
-    public static final String LOGCHANNEL_NAME;
+    public static final String LOGCHANNEL_NAME = "App.CarSDIS.Base";
     protected final ISDISFramework sdisBase;
     protected final ASIHMISyncCarZeroEmissionAbstractBaseService asiService;
     protected final LogChannel logChannel;
@@ -19,14 +19,14 @@ public class CarZeroEmissionAsiHandler {
     public CarZeroEmissionAsiHandler(ISDISFramework iSDISFramework) {
         this.sdisBase = iSDISFramework;
         this.asiService = iSDISFramework.getASIDataUpdater().getZeroEmissionASI();
-        this.logChannel = iSDISFramework.getLogChannel("App.CarSDIS.Base");
+        this.logChannel = iSDISFramework.getLogChannel(LOGCHANNEL_NAME);
     }
 
     public void updateVisibilityState(CarViewOption carViewOption) {
-        this.logChannel.log(1078071040, "[CarZeroEmissionAsiHandler#updateVisibilityState] Interface for ASI not available.");
+        this.logChannel.log(1000000, "[CarZeroEmissionAsiHandler#updateVisibilityState] Interface for ASI not available.");
         try {
             int n = this.sdisBase.updateVisibility(carViewOption, (short)24);
-            this.logChannel.log(1078071040, "[CarZeroEmissionAsiHandler#updateVisibilityState] state='%1'", (long)n);
+            this.logChannel.log(1000000, "[CarZeroEmissionAsiHandler#updateVisibilityState] state='%1'", (long)n);
             this.asiService.updateZEVisibilityState(n);
         }
         catch (MethodException methodException) {

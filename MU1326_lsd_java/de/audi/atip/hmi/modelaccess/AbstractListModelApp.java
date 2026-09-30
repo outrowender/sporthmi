@@ -9,58 +9,40 @@ import de.audi.atip.hmi.modelaccess.HMIModelApp;
 
 public interface AbstractListModelApp
 extends HMIModelApp {
-    default public void setRowsPerScreen(int n) {
-    }
+    public void setRowsPerScreen(int var1);
 
-    default public void jumpToStartOfListSupported(boolean bl) {
-    }
+    public void jumpToStartOfListSupported(boolean var1);
 
-    default public void jumpToEndOfListSupported(boolean bl) {
-    }
+    public void jumpToEndOfListSupported(boolean var1);
 
-    default public void clear() {
-    }
+    public void clear();
 
-    default public boolean setFocusedCursorPosition(ListRow listRow, int n) {
-    }
+    public boolean setFocusedCursorPosition(ListRow var1, int var2);
 
-    default public void setMaxColumns(int n) {
-    }
+    public void setMaxColumns(int var1);
 
-    default public ListRow getRow(ListRowComparator listRowComparator) {
-    }
+    public ListRow getRow(ListRowComparator var1);
 
-    default public ListRow[] getRows(ListRowComparator listRowComparator) {
-    }
+    public ListRow[] getRows(ListRowComparator var1);
 
-    default public ListRow getFirstRow() {
-    }
+    public ListRow getFirstRow();
 
-    default public ListRow getLastRow() {
-    }
+    public ListRow getLastRow();
 
-    default public ListRow getPreviousRow(ListRow listRow) {
-    }
+    public ListRow getPreviousRow(ListRow var1);
 
-    default public ListRow getNextRow(ListRow listRow) {
-    }
+    public ListRow getNextRow(ListRow var1);
 
-    default public ListRow getVisibleRow(int n) {
-    }
+    public ListRow getVisibleRow(int var1);
 
-    default public boolean contains(ListRow listRow) {
-    }
+    public boolean contains(ListRow var1);
 
-    default public void enableFastScrolling(boolean bl) {
-    }
+    public void enableFastScrolling(boolean var1);
 
-    default public void setListLength(int n) {
-    }
+    public void setListLength(int var1);
 
-    default public int getListLength() {
-    }
+    public int getListLength();
 
-    default public int getVisibleRowsCount() {
-    }
+    public int getVisibleRowsCount();
 }
 

@@ -35,14 +35,12 @@ implements ISeatPopupHandlerController {
         this.factory = abstractSeatPopupFactory;
     }
 
-    @Override
     public void init(int[] nArray) {
         this.popupHandler = this.factory.createInstancePopupHandler();
         this.popupController = this.factory.createInstancePopupController();
         this.popupHandler.init(nArray);
     }
 
-    @Override
     public void deinit() {
         this.popupHandler.deinit();
     }
@@ -54,7 +52,6 @@ implements ISeatPopupHandlerController {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void notifySeatPopupHidden(int n) {
         ISeatPopupController iSeatPopupController = this.popupController;
         synchronized (iSeatPopupController) {
@@ -68,7 +65,7 @@ implements ISeatPopupHandlerController {
             }
             if (this.popinsWaitingForVisibleNotification.containsKey(n2)) {
                 if (this.mainController.isStandbyPopupVisible()) {
-                    this.logChannel.log(1078071040, "[SeatPopinHandlerController#notifySeatPopupHidden] Seat Popup won't be removed because it should replace the Standby Popup: popupID='%1'", (long)n);
+                    this.logChannel.log(1000000, "[SeatPopinHandlerController#notifySeatPopupHidden] Seat Popup won't be removed because it should replace the Standby Popup: popupID='%1'", (long)n);
                     return;
                 }
                 AbstractSeatPopin abstractSeatPopin = (AbstractSeatPopin)this.popinsWaitingForVisibleNotification.get(n2);
@@ -86,7 +83,6 @@ implements ISeatPopupHandlerController {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void notifySeatPopupVisible(int n) {
         ISeatPopupController iSeatPopupController = this.popupController;
         synchronized (iSeatPopupController) {
@@ -97,19 +93,17 @@ implements ISeatPopupHandlerController {
                 abstractSeatPopin.processVisibleNotification();
                 this.removeFromVisibleMap(n2);
             } else {
-                this.getLogChannel().log(-1601830656, "[SeatPopinController#notifyPartialPopinVisible] unexpected visible notification: popupID='%1'", (long)n);
+                this.getLogChannel().log(100000, "[SeatPopinController#notifyPartialPopinVisible] unexpected visible notification: popupID='%1'", (long)n);
             }
         }
     }
 
-    @Override
     public void notifySeatPopupRemoved(int n) {
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void hideSeatPopup(AbstractSeatPopin abstractSeatPopin) {
         ISeatPopupController iSeatPopupController = this.popupController;
         synchronized (iSeatPopupController) {
@@ -124,7 +118,6 @@ implements ISeatPopupHandlerController {
         }
     }
 
-    @Override
     public void setSeatPopinListenerServiceTracked(boolean bl) {
         this.mainController.setSeatPopinListenerServiceTracked(bl);
     }
@@ -132,7 +125,6 @@ implements ISeatPopupHandlerController {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void showSeatPopup(AbstractSeatPopin abstractSeatPopin) {
         ISeatPopupController iSeatPopupController = this.popupController;
         synchronized (iSeatPopupController) {
@@ -166,7 +158,6 @@ implements ISeatPopupHandlerController {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void removeShownPopup(AbstractSeatPopin abstractSeatPopin) {
         ISeatPopupController iSeatPopupController = this.popupController;
         synchronized (iSeatPopupController) {
@@ -183,7 +174,6 @@ implements ISeatPopupHandlerController {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setShownPopinContent(SeatPopinContent seatPopinContent, AbstractSeatPopin abstractSeatPopin) {
         ISeatPopupController iSeatPopupController = this.popupController;
         synchronized (iSeatPopupController) {
@@ -207,12 +197,10 @@ implements ISeatPopupHandlerController {
         }
     }
 
-    @Override
     public synchronized boolean isSeatContentShown(boolean bl) {
         return bl ? this.isSeatContentShownLeft : this.isSeatContentShownRight;
     }
 
-    @Override
     public synchronized void setSeatContentShown(boolean bl, boolean bl2) {
         if (bl) {
             this.isSeatContentShownLeft = bl2;
@@ -224,7 +212,6 @@ implements ISeatPopupHandlerController {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void replaceSeatPopin(AbstractSeatPopin abstractSeatPopin) {
         ISeatPopupController iSeatPopupController = this.popupController;
         synchronized (iSeatPopupController) {
@@ -235,33 +222,33 @@ implements ISeatPopupHandlerController {
 
     private void log(String string, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[SeatPopinHandlerController#%1] popupID=%2", (Object)string, (long)n);
+            this.getLogChannel().log(1000000, "[SeatPopinHandlerController#%1] popupID=%2", (Object)string, (long)n);
         }
     }
 
     private void log(String string, AbstractSeatPopin abstractSeatPopin) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[SeatPopinHandlerController#%1] popup=%2", (Object)string, (Object)abstractSeatPopin);
+            this.getLogChannel().log(1000000, "[SeatPopinHandlerController#%1] popup=%2", (Object)string, (Object)abstractSeatPopin);
         }
     }
 
     private void addToHiddenMap(Integer n, AbstractSeatPopin abstractSeatPopin) {
-        this.getLogChannel().log(-2137614336, "add popup  with ID: %1 into popinsWaitingForHiddenNotification map", (Object)n);
+        this.getLogChannel().log(10000000, "add popup  with ID: %1 into popinsWaitingForHiddenNotification map", (Object)n);
         this.popinsWaitingForHiddenNotification.put(n, abstractSeatPopin);
     }
 
     private void removeFromHiddenMap(Integer n) {
-        this.getLogChannel().log(-2137614336, "remove popup  with ID: %1 from popinsWaitingForHiddenNotification map", (Object)n);
+        this.getLogChannel().log(10000000, "remove popup  with ID: %1 from popinsWaitingForHiddenNotification map", (Object)n);
         this.popinsWaitingForHiddenNotification.remove(n);
     }
 
     private void addToVisibleMap(Integer n, AbstractSeatPopin abstractSeatPopin) {
-        this.getLogChannel().log(-2137614336, "add popup  with ID: %1 into popinsWaitingForVisibleNotification map", (Object)n);
+        this.getLogChannel().log(10000000, "add popup  with ID: %1 into popinsWaitingForVisibleNotification map", (Object)n);
         this.popinsWaitingForVisibleNotification.put(n, abstractSeatPopin);
     }
 
     private void removeFromVisibleMap(Integer n) {
-        this.getLogChannel().log(-2137614336, "remove popup  with ID: %1 from popinsWaitingForVisibleNotification map", (Object)n);
+        this.getLogChannel().log(10000000, "remove popup  with ID: %1 from popinsWaitingForVisibleNotification map", (Object)n);
         this.popinsWaitingForVisibleNotification.remove(n);
     }
 }

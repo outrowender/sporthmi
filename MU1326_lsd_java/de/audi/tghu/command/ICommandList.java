@@ -10,94 +10,64 @@ import de.audi.tghu.command.Monitor;
 import java.util.Collection;
 
 public interface ICommandList {
-    default public CommandListManager getManager() {
-    }
+    public CommandListManager getManager();
 
-    default public Collection getCommands() {
-    }
+    public Collection getCommands();
 
-    default public String getName() {
-    }
+    public String getName();
 
-    default public String getInvocationSource() {
-    }
+    public String getInvocationSource();
 
-    default public ICommandList add(Command command) {
-    }
+    public ICommandList add(Command var1);
 
-    default public ICommandList add(int n, Command command) {
-    }
+    public ICommandList add(int var1, Command var2);
 
-    default public ICommandList add(CommandList commandList) {
-    }
+    public ICommandList add(CommandList var1);
 
-    default public ICommandList add(int n, CommandList commandList) {
-    }
+    public ICommandList add(int var1, CommandList var2);
 
-    default public ICommandList add(Collection collection) {
-    }
+    public ICommandList add(Collection var1);
 
-    default public ICommandList add(int n, Collection collection) {
-    }
+    public ICommandList add(int var1, Collection var2);
 
-    default public void execute(String string) {
-    }
+    public void execute(String var1);
 
-    default public void commandFinishedWithPostCommand(Command command) {
-    }
+    public void commandFinishedWithPostCommand(Command var1);
 
-    default public void commandFinishedWithPostSequence(CommandList commandList) {
-    }
+    public void commandFinishedWithPostSequence(CommandList var1);
 
-    default public int getPos() {
-    }
+    public int getPos();
 
-    default public int size() {
-    }
+    public int size();
 
-    default public boolean hasActiveCommand() {
-    }
+    public boolean hasActiveCommand();
 
-    default public Command getActiveCommand() {
-    }
+    public Command getActiveCommand();
 
-    default public Command getErrorCommand() {
-    }
+    public Command getErrorCommand();
 
-    default public void setErrorCommand(Command command) {
-    }
+    public void setErrorCommand(Command var1);
 
-    default public void commandFinished() {
-    }
+    public void commandFinished();
 
-    default public void stop(String string) {
-    }
+    public void stop(String var1);
 
-    default public void commandAborted(long l) {
-    }
+    public void commandAborted(long var1);
 
-    default public void commandAborted(Exception exception) {
-    }
+    public void commandAborted(Exception var1);
 
-    default public void commandAborted(String string, String string2) {
-    }
+    public void commandAborted(String var1, String var2);
 
-    default public void commandAborted(String string) {
-    }
+    public void commandAborted(String var1);
 
-    default public void addMonitor(Monitor monitor) {
-    }
+    public void addMonitor(Monitor var1);
 
-    default public void put(Object object, Object object2) {
-    }
+    public void put(Object var1, Object var2);
 
-    default public Object get(Object object) {
-    }
+    public Object get(Object var1);
 
-    default public Object remove(Object object) {
-    }
+    public Object remove(Object var1);
 
-    default public String toString() {
-    }
+    public String toString();
 }
 

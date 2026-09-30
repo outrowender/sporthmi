@@ -6,13 +6,10 @@ package de.audi.app.sdsmanager.apps.media;
 import de.audi.app.sdsmanager.nbest.IPicklist;
 
 public interface IMediaSDSPicklistHandler {
-    default public IPicklist getEntryPicklist() {
-    }
+    public IPicklist getEntryPicklist();
 
-    default public void setEntryPicklist(IPicklist iPicklist) {
-    }
+    public void setEntryPicklist(IPicklist var1);
 
-    default public void setListmode(byte by) {
-    }
+    public void setListmode(byte var1);
 }
 

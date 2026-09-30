@@ -14,17 +14,14 @@ implements PublicKey {
         this.encodedKeySpec = byArray;
     }
 
-    @Override
     public String getAlgorithm() {
         return this.algorithm;
     }
 
-    @Override
     public byte[] getEncoded() {
         return (byte[])this.encodedKeySpec.clone();
     }
 
-    @Override
     public String getFormat() {
         return "X.509";
     }

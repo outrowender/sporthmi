@@ -8,7 +8,6 @@ import java.io.Serializable;
 
 public interface IFavoriteStorage
 extends Serializable {
-    default public FavoriteListRow getFavoriteListRow() {
-    }
+    public FavoriteListRow getFavoriteListRow();
 }
 

@@ -19,8 +19,6 @@ import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.hmi.modelaccess.HMIModelApp;
 import de.audi.atip.interapp.ADBSDSAddressDetails;
 import de.audi.atip.interapp.ADBSDSService;
-import de.audi.atip.interapp.ADBSDSService$EmailAddressDetails;
-import de.audi.atip.interapp.ADBSDSService$TelNumberDetails;
 import de.audi.atip.interapp.ADBSDSServiceListener;
 import de.audi.atip.log.LogChannel;
 import org.dsi.ifc.global.ResourceLocator;
@@ -42,7 +40,7 @@ implements ADBSDSService {
     }
 
     public void setSDSServiceListener(ADBSDSServiceListener aDBSDSServiceListener) {
-        this.log.log(1078071040, "ADBSDSHandler#setSDSServiceListener(): got ADBSDSServiceListener: %1", (Object)aDBSDSServiceListener);
+        this.log.log(1000000, "ADBSDSHandler#setSDSServiceListener(): got ADBSDSServiceListener: %1", (Object)aDBSDSServiceListener);
         this.sdsListener = aDBSDSServiceListener;
     }
 
@@ -54,9 +52,8 @@ implements ADBSDSService {
         return this.rowBuilder;
     }
 
-    @Override
     public void fillAdbPickList(long[] lArray, String[] stringArray, int[] nArray) {
-        this.log.log(1078071040, "ADBSDSHandler#fillAdbPickList()");
+        this.log.log(1000000, "ADBSDSHandler#fillAdbPickList()");
         if (lArray == null || stringArray == null || nArray == null || lArray.length != stringArray.length || stringArray.length != nArray.length) {
             this.log.log(10000, "ADBSDSHandler#fillAdbPickList(): invalid parameters!");
             this.fillAdbPickListResult(1);
@@ -65,34 +62,30 @@ implements ADBSDSService {
         GetPickListDataSetsCommand.createGetPickListDataSetsCommand(this.appAdr, lArray, stringArray, nArray, this);
     }
 
-    @Override
     public void fillTelNumberList(long l, int n) {
-        this.log.log(1078071040, "ADBSDSHandler#fillTelNumberList(): entryID: %1, phoneNumberTypes: %2", l, (long)n);
+        this.log.log(1000000, "ADBSDSHandler#fillTelNumberList(): entryID: %1, phoneNumberTypes: %2", l, (long)n);
         GetSDSTelNumberListCommand.createGetSDSTelNumberListCommand(this.appAdr, l, this, n);
     }
 
-    @Override
-    public ADBSDSService$TelNumberDetails getTelNumberDetails(int n) {
+    public ADBSDSService.TelNumberDetails getTelNumberDetails(int n) {
         BaseListModelApp baseListModelApp = this.appAdr.getHMIService().getBaseListModel(3857);
         ADBEntryDetailsListRow aDBEntryDetailsListRow = (ADBEntryDetailsListRow)baseListModelApp.getRow(n);
-        ADBSDSService$TelNumberDetails aDBSDSService$TelNumberDetails = new ADBSDSService$TelNumberDetails();
+        ADBSDSService.TelNumberDetails telNumberDetails = new ADBSDSService.TelNumberDetails();
         PhoneData phoneData = aDBEntryDetailsListRow.getEntry().getPhoneData()[aDBEntryDetailsListRow.getDataIndex()];
-        aDBSDSService$TelNumberDetails.telNumber = phoneData.getNumber();
-        aDBSDSService$TelNumberDetails.telNumberType = phoneData.getNumberType();
-        aDBSDSService$TelNumberDetails.combinedName = aDBEntryDetailsListRow.getEntry().getCombinedName();
-        aDBSDSService$TelNumberDetails.entryType = aDBEntryDetailsListRow.getEntry().getEntryType();
-        this.log.log(1078071040, "ADBSDSHandler#getTelNumberDetails(): combinedName: %1, telNumber: %2, telNumberType: %3", (Object)aDBSDSService$TelNumberDetails.combinedName, (Object)aDBSDSService$TelNumberDetails.telNumber, (long)aDBSDSService$TelNumberDetails.telNumberType);
-        return aDBSDSService$TelNumberDetails;
+        telNumberDetails.telNumber = phoneData.getNumber();
+        telNumberDetails.telNumberType = phoneData.getNumberType();
+        telNumberDetails.combinedName = aDBEntryDetailsListRow.getEntry().getCombinedName();
+        telNumberDetails.entryType = aDBEntryDetailsListRow.getEntry().getEntryType();
+        this.log.log(1000000, "ADBSDSHandler#getTelNumberDetails(): combinedName: %1, telNumber: %2, telNumberType: %3", (Object)telNumberDetails.combinedName, (Object)telNumberDetails.telNumber, (long)telNumberDetails.telNumberType);
+        return telNumberDetails;
     }
 
-    @Override
     public void fillEmailList(long l) {
-        this.log.log(-2137614336, "ADBSDSHandler#fillEmailList(): entryID: %1", l);
+        this.log.log(10000000, "ADBSDSHandler#fillEmailList(): entryID: %1", l);
         GetSDSEmailListCommand.createGetSDSEmailListCommand(this.appAdr, l, this);
     }
 
-    @Override
-    public ADBSDSService$EmailAddressDetails getEmailAddressDetails(int n, int n2) {
+    public ADBSDSService.EmailAddressDetails getEmailAddressDetails(int n, int n2) {
         HMIModelApp hMIModelApp = this.appAdr.getHMIService().getModelApp(n);
         if (hMIModelApp == null || !(hMIModelApp instanceof BaseListModelApp)) {
             this.log.log(10000, "ADBSDSHandler#getEmailAddressDetails(): model with id %1 not found or not a BaseListModelApp", (long)n);
@@ -105,22 +98,20 @@ implements ADBSDSService {
             return null;
         }
         ADBEntryDetailsListRow aDBEntryDetailsListRow = (ADBEntryDetailsListRow)evoListRow;
-        ADBSDSService$EmailAddressDetails aDBSDSService$EmailAddressDetails = new ADBSDSService$EmailAddressDetails();
+        ADBSDSService.EmailAddressDetails emailAddressDetails = new ADBSDSService.EmailAddressDetails();
         EmailData emailData = aDBEntryDetailsListRow.getEntry().getEmailData()[aDBEntryDetailsListRow.getDataIndex()];
-        aDBSDSService$EmailAddressDetails.email = emailData.getEmailAddr();
-        aDBSDSService$EmailAddressDetails.combinedName = aDBEntryDetailsListRow.getEntry().getCombinedName();
-        aDBSDSService$EmailAddressDetails.entryType = aDBEntryDetailsListRow.getEntry().getEntryType();
-        this.log.log(1078071040, "ADBSDSHandler#getEmailAddressDetails(): combinedName: %1, email: %2, entryType: %3", (Object)aDBSDSService$EmailAddressDetails.combinedName, (Object)aDBSDSService$EmailAddressDetails.email, (Object)ADBDbgUtils.dbgEntryType(aDBSDSService$EmailAddressDetails.entryType));
-        return aDBSDSService$EmailAddressDetails;
+        emailAddressDetails.email = emailData.getEmailAddr();
+        emailAddressDetails.combinedName = aDBEntryDetailsListRow.getEntry().getCombinedName();
+        emailAddressDetails.entryType = aDBEntryDetailsListRow.getEntry().getEntryType();
+        this.log.log(1000000, "ADBSDSHandler#getEmailAddressDetails(): combinedName: %1, email: %2, entryType: %3", (Object)emailAddressDetails.combinedName, (Object)emailAddressDetails.email, (Object)ADBDbgUtils.dbgEntryType(emailAddressDetails.entryType));
+        return emailAddressDetails;
     }
 
-    @Override
     public void showAddresses(long l, boolean bl, boolean bl2) {
-        this.log.log(1078071040, "ADBSDSHandler#showAddresses(): entryID: %1", l);
+        this.log.log(1000000, "ADBSDSHandler#showAddresses(): entryID: %1", l);
         GetSDSAddressesCommand.createGetSDSAddressesCommand(this.appAdr, l, this, bl, bl2);
     }
 
-    @Override
     public ADBSDSAddressDetails getAddressDetails(int n) {
         if (this.addressDetails == null || this.addressDetails.length == 0) {
             this.log.log(10000, "ADBSDSHandler#getAddressDetails(): no addressDetails available.");
@@ -128,51 +119,46 @@ implements ADBSDSService {
         }
         for (int i2 = 0; i2 < this.addressDetails.length; ++i2) {
             if (this.addressDetails[i2].getAddressType() != n) continue;
-            this.log.log(1078071040, "ADBSDSHandler#getAddressDetails(): returning addressDetails with addressType: %1", (long)this.addressDetails[i2].getAddressType());
+            this.log.log(1000000, "ADBSDSHandler#getAddressDetails(): returning addressDetails with addressType: %1", (long)this.addressDetails[i2].getAddressType());
             return this.addressDetails[i2];
         }
         this.log.log(10000, "ADBSDSHandler#getAddressDetails(): no addressDetails available for addressType %1.", (long)n);
         return null;
     }
 
-    @Override
     public long getCurrentEntryId() {
         long l = this.appAdr.getCurrentEntry() != null ? this.appAdr.getCurrentEntry().entryId : 0L;
-        this.log.log(1078071040, "ADBSDSHandler#getCurrentEntryId(): currentEntryId: %1", l);
+        this.log.log(1000000, "ADBSDSHandler#getCurrentEntryId(): currentEntryId: %1", l);
         return l;
     }
 
-    @Override
     public int getAdbProfileID() {
         int n = this.appAdr.getAdbStateHandler().getActiveProfile();
-        this.log.log(1078071040, "ADBSDSHandler#getAdbProfileID(): activeProfileNum: %1", (long)n);
+        this.log.log(1000000, "ADBSDSHandler#getAdbProfileID(): activeProfileNum: %1", (long)n);
         return n;
     }
 
-    @Override
     public void openEntryDetails(long l) {
-        this.log.log(1078071040, "ADBSDSHandler#openEntryDetails(): entryID: %1", l);
-        SDSGetEntryCommand.createSDSGetEntryCommand(this.appAdr, l, this.appAdr.getHMIService().getModelApp(1370491392), this);
+        this.log.log(1000000, "ADBSDSHandler#openEntryDetails(): entryID: %1", l);
+        SDSGetEntryCommand.createSDSGetEntryCommand(this.appAdr, l, this.appAdr.getHMIService().getModelApp(700497), this);
     }
 
-    @Override
     public long getEntryIDFromListRow(EvoListRow evoListRow) {
         long l = 0L;
         if (evoListRow != null && evoListRow instanceof ADBListRow) {
             l = ((ADBListRow)((Object)evoListRow)).getEntryId();
         }
-        this.log.log(1078071040, "ADBSDSHandler#getEntryIDFromListRow(): returning entryId %1", l);
+        this.log.log(1000000, "ADBSDSHandler#getEntryIDFromListRow(): returning entryId %1", l);
         return l;
     }
 
-    @Override
     public void getEntryNames(long[] lArray) {
-        this.log.log(1078071040, "ADBSDSHandler#getEntryNames(): entryIDs: %1", (Object)lArray);
+        this.log.log(1000000, "ADBSDSHandler#getEntryNames(): entryIDs: %1", (Object)lArray);
         GetEntryNamesCommand.createGetEntryNamesCommand(this.appAdr, lArray, this);
     }
 
     public void fillAdbPickListResult(int n) {
-        this.log.log(1078071040, "ADBSDSHandler#fillAdbPickListResult(): resultCode: %1", (Object)ADBDbgUtils.dbgAdbSDSServiceResultCode(n));
+        this.log.log(1000000, "ADBSDSHandler#fillAdbPickListResult(): resultCode: %1", (Object)ADBDbgUtils.dbgAdbSDSServiceResultCode(n));
         if (this.sdsListener != null) {
             this.sdsListener.responseFillAdbPickList(n);
         } else {
@@ -181,7 +167,7 @@ implements ADBSDSService {
     }
 
     public void fillTelNumberListResult(int n, String string, ResourceLocator resourceLocator, int[] nArray) {
-        this.log.log(1078071040, "ADBSDSHandler#fillTelNumberListResult(): resultCode: %1, combinedName: %2, contactPicture: %3, totalNumPhoneNumbers: %4", (Object)ADBDbgUtils.dbgAdbSDSServiceResultCode(n), (Object)string, (Object)resourceLocator, (Object)nArray);
+        this.log.log(1000000, "ADBSDSHandler#fillTelNumberListResult(): resultCode: %1, combinedName: %2, contactPicture: %3, totalNumPhoneNumbers: %4", (Object)ADBDbgUtils.dbgAdbSDSServiceResultCode(n), (Object)string, (Object)resourceLocator, (Object)nArray);
         if (this.sdsListener != null) {
             this.sdsListener.responseFillTelNumberList(n, string, resourceLocator == null ? -1 : resourceLocator.getId(), resourceLocator == null ? null : resourceLocator.getUrl(), nArray);
         } else {
@@ -190,7 +176,7 @@ implements ADBSDSService {
     }
 
     public void fillEmailListResult(int n, String string, ResourceLocator resourceLocator, int n2) {
-        this.log.log(1078071040, "ADBSDSHandler#fillEmailListResult(): resultCode: %1, combinedName: %2, contactPicture: %3, totalNumEmailAddresses: %4", (Object)ADBDbgUtils.dbgAdbSDSServiceResultCode(n), (Object)string, (Object)resourceLocator, (long)n2);
+        this.log.log(1000000, "ADBSDSHandler#fillEmailListResult(): resultCode: %1, combinedName: %2, contactPicture: %3, totalNumEmailAddresses: %4", (Object)ADBDbgUtils.dbgAdbSDSServiceResultCode(n), (Object)string, (Object)resourceLocator, (long)n2);
         if (this.sdsListener != null) {
             this.sdsListener.responseFillEmailList(n, string, resourceLocator == null ? -1 : resourceLocator.getId(), resourceLocator == null ? null : resourceLocator.getUrl(), n2);
         } else {
@@ -199,7 +185,7 @@ implements ADBSDSService {
     }
 
     public void showAddressesResult(int n, int[] nArray, String string) {
-        this.log.log(1078071040, "ADBSDSHandler#showAddressesResult(): resultCode: %2, availableAddresses: %1", (Object)nArray, (Object)ADBDbgUtils.dbgAdbSDSServiceResultCode(n));
+        this.log.log(1000000, "ADBSDSHandler#showAddressesResult(): resultCode: %2, availableAddresses: %1", (Object)nArray, (Object)ADBDbgUtils.dbgAdbSDSServiceResultCode(n));
         if (this.sdsListener != null) {
             this.sdsListener.responseShowAddresses(n, nArray, string);
         } else {
@@ -207,18 +193,16 @@ implements ADBSDSService {
         }
     }
 
-    @Override
     public byte freezeDynamicLists() {
         return 0;
     }
 
-    @Override
     public byte unfreezeDynamicLists() {
         return 0;
     }
 
     public void openEntryDetailsResult(int n, String string) {
-        this.log.log(1078071040, "ADBSDSHandler#openEntryDetailsResult(): success: %2, entryName: %1", (Object)string, (Object)ADBDbgUtils.dbgAdbSDSServiceResultCode(n));
+        this.log.log(1000000, "ADBSDSHandler#openEntryDetailsResult(): success: %2, entryName: %1", (Object)string, (Object)ADBDbgUtils.dbgAdbSDSServiceResultCode(n));
         if (this.sdsListener != null) {
             this.sdsListener.responseOpenEntryDetails(n, string);
         } else {
@@ -227,7 +211,7 @@ implements ADBSDSService {
     }
 
     public void getEntryNamesResult(String[] stringArray) {
-        this.log.log(1078071040, "ADBSDSHandler#getEntryNamesResult(): entryNames: %1", (Object)stringArray);
+        this.log.log(1000000, "ADBSDSHandler#getEntryNamesResult(): entryNames: %1", (Object)stringArray);
         if (this.sdsListener != null) {
             this.sdsListener.responseGetEntryNames(stringArray);
         } else {

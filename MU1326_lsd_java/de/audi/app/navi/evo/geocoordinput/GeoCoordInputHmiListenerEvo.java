@@ -21,15 +21,14 @@ implements OptionModelListener {
         super(navigationEnv, geoCoordInputManager, naviFavoriteHandler);
         this.navAdbHandler = naviADBHandler;
         this.poiService = iPoiService;
-        navigationEnv.getHMIService().getOptionModel(1964901888).setCustomIDListener(this, 2);
-        navigationEnv.getHMIService().getOptionModel(1948124672).setCustomIDListener(this, 2);
-        navigationEnv.getHMIService().getOptionModel(1293944320).setCustomIDListener(this, 2);
-        navigationEnv.getHMIService().getOptionModel(-467728896).setCustomIDListener(this, 2);
+        navigationEnv.getHMIService().getOptionModel(401013).setCustomIDListener(this, 2);
+        navigationEnv.getHMIService().getOptionModel(401012).setCustomIDListener(this, 2);
+        navigationEnv.getHMIService().getOptionModel(401485).setCustomIDListener(this, 2);
+        navigationEnv.getHMIService().getOptionModel(401380).setCustomIDListener(this, 2);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3, int n4, int n5) {
-        this.logChannel.log(-2137614336, "GeoCoordInputHmiListenerEvo#keyPressed modelID=%1, targetRow=%2", (long)n, (long)n3);
+        this.logChannel.log(10000000, "GeoCoordInputHmiListenerEvo#keyPressed modelID=%1, targetRow=%2", (long)n, (long)n3);
         switch (n) {
             case 401013: {
                 this.favoriteHandler.addToFavorites(this.geoCoordInputManager.getCurrentCoordinates());
@@ -48,27 +47,23 @@ implements OptionModelListener {
                 break;
             }
             default: {
-                this.logChannel.log(-2137614336, "GeoCoordInputHmiListenerEvo#keyPressed - invalid model id received. id=%1", (long)n);
+                this.logChannel.log(10000000, "GeoCoordInputHmiListenerEvo#keyPressed - invalid model id received. id=%1", (long)n);
             }
         }
         this.env.getHMIService().getOptionModel(n).fireEvent(n5);
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3, int n4, int n5) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3, int n4, int n5) {
     }
 
-    @Override
     public void customAction(int n, int n2, int n3, int n4, int n5) {
     }
 
-    @Override
     public void enterGeoCoordInput(int n) {
-        this.logChannel.log(-2137614336, "GeoCoordInputHmiListenerEvo#enterGeoCoordInput terminalID=%1", (long)n);
+        this.logChannel.log(10000000, "GeoCoordInputHmiListenerEvo#enterGeoCoordInput terminalID=%1", (long)n);
         super.enterGeoCoordInput(n);
         this.geoCoordInputManager.enter();
     }

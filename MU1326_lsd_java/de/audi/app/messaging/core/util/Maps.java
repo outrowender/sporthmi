@@ -4,14 +4,12 @@
 package de.audi.app.messaging.core.util;
 
 import de.audi.app.messaging.core.util.IFormatter;
-import de.audi.app.messaging.core.util.Maps$ElementFormatter;
 import de.esolutions.fw.util.commons.Buffer;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map$Entry;
 
 public final class Maps {
-    private static final IFormatter DEFAULT_ELEMENT_FORMATTER = new Maps$ElementFormatter(IFormatter.SIMPLE_FORMATTER, IFormatter.SIMPLE_FORMATTER);
+    private static final IFormatter DEFAULT_ELEMENT_FORMATTER = new ElementFormatter(IFormatter.SIMPLE_FORMATTER, IFormatter.SIMPLE_FORMATTER);
 
     public static String toString(Map map) {
         return Maps.toString(map, DEFAULT_ELEMENT_FORMATTER);
@@ -37,9 +35,9 @@ public final class Maps {
             if (!map.isEmpty()) {
                 Iterator iterator = map.entrySet().iterator();
                 while (iterator.hasNext()) {
-                    Map$Entry map$Entry = (Map$Entry)iterator.next();
+                    Map.Entry entry = (Map.Entry)iterator.next();
                     buffer.append(string);
-                    buffer.append(iFormatter.format(map$Entry));
+                    buffer.append(iFormatter.format(entry));
                     if (iterator.hasNext()) {
                         buffer.append(string2);
                         continue;
@@ -55,6 +53,28 @@ public final class Maps {
 
     public static int getInitialHashMapCapacity(int n, int n2) {
         return n * 100 / n2 + 1;
+    }
+
+    public static class ElementFormatter
+    implements IFormatter {
+        private final IFormatter keyFormatter;
+        private final IFormatter valueFormatter;
+
+        public ElementFormatter(IFormatter iFormatter, IFormatter iFormatter2) {
+            this.keyFormatter = iFormatter;
+            this.valueFormatter = iFormatter2;
+        }
+
+        public String format(Object object) {
+            Buffer buffer = new Buffer();
+            Map.Entry entry = (Map.Entry)object;
+            String string = this.keyFormatter.format(entry.getKey());
+            String string2 = this.valueFormatter.format(entry.getValue());
+            buffer.append(string);
+            buffer.append(" -> ");
+            buffer.append(string2);
+            return buffer.toString();
+        }
     }
 }
 

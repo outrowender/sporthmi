@@ -17,7 +17,7 @@ import java.util.SortedSet;
 
 class TTSASRContextImpl
 implements ITTSASRAppContext {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "TTSASRContextImpl";
     private final LogChannel lc = Logger.getGrammarAddingLog();
     private final SpeechTreeSet newRuleIDSet = new SpeechTreeSet();
     private final SpeechTreeSet newSlotIDSet = new SpeechTreeSet();
@@ -31,7 +31,6 @@ implements ITTSASRAppContext {
         this.dynamicLists = iDynamicLists;
     }
 
-    @Override
     public boolean isDynamicListUpdate() {
         return this.dynamicListUpdate;
     }
@@ -39,23 +38,22 @@ implements ITTSASRAppContext {
     private void setRuleIDs(int n, int n2) {
         switch (n2) {
             case 6: {
-                this.lc.log(-2137614336, "[%1#setRuleIDs] Setting ruleIDForNBest to %2!", (Object)"TTSASRContextImpl", (long)n);
+                this.lc.log(10000000, "[%1#setRuleIDs] Setting ruleIDForNBest to %2!", (Object)LOGCLASS, (long)n);
                 this.ruleIDForNBest = n;
                 break;
             }
             case 5: {
-                this.lc.log(-2137614336, "[%1#setRuleIDs] Adding ruleID %2 to ruleIDsForSpelling!", (Object)"TTSASRContextImpl", (long)n);
+                this.lc.log(10000000, "[%1#setRuleIDs] Adding ruleID %2 to ruleIDsForSpelling!", (Object)LOGCLASS, (long)n);
                 this.ruleIDsForSpelling.add(new Integer(n));
                 break;
             }
         }
     }
 
-    @Override
     public void addToGrammar(int n, String string) {
-        this.lc.log(-2137614336, "[%1#addToGrammar] ruleID=%3, grammarText=%2", (Object)"TTSASRContextImpl", (Object)string, (long)n);
+        this.lc.log(10000000, "[%1#addToGrammar] ruleID=%3, grammarText=%2", (Object)LOGCLASS, (Object)string, (long)n);
         if (n < 0) {
-            this.lc.log(-1601830656, "[%1#addToGrammar] Unhandled ruleID %2!", (Object)"TTSASRContextImpl", (long)n);
+            this.lc.log(100000, "[%1#addToGrammar] Unhandled ruleID %2!", (Object)LOGCLASS, (long)n);
             return;
         }
         Integer n2 = new Integer(n);
@@ -63,11 +61,10 @@ implements ITTSASRAppContext {
         this.newSRGSStrings.put(n2, string);
     }
 
-    @Override
     public void addToGrammar(int n, int n2) {
-        this.lc.log(-2137614336, "[%1#addToGrammar] ruleID=%2, grammarType=%3", (Object)"TTSASRContextImpl", (long)n, (long)n2);
+        this.lc.log(10000000, "[%1#addToGrammar] ruleID=%2, grammarType=%3", (Object)LOGCLASS, (long)n, (long)n2);
         if (n < 0) {
-            this.lc.log(-1601830656, "[%1#addToGrammar] Unhandled ruleID %2!", (Object)"TTSASRContextImpl", (long)n);
+            this.lc.log(100000, "[%1#addToGrammar] Unhandled ruleID %2!", (Object)LOGCLASS, (long)n);
             return;
         }
         this.newRuleIDSet.add(new Integer(n));
@@ -88,19 +85,18 @@ implements ITTSASRAppContext {
                 }
             }
             buffer.append("], gramType=").append(n2);
-            logChannel.log(-2137614336, "[%1#addToGrammar] %2", (Object)"TTSASRContextImpl", (Object)buffer);
+            logChannel.log(10000000, "[%1#addToGrammar] %2", (Object)LOGCLASS, (Object)buffer);
         }
     }
 
-    @Override
     public void addToGrammar(int n, int[] nArray, int n2) {
         TTSASRContextImpl.logAddToGrammar(n, nArray, n2, this.lc);
         if (n < 0 && !TTSASRContextImpl.isDynamicListUpdate(n)) {
-            this.lc.log(-1601830656, "[%1#addToGrammar] Unhandled ruleID %2!", (Object)"TTSASRContextImpl", (long)n);
+            this.lc.log(100000, "[%1#addToGrammar] Unhandled ruleID %2!", (Object)LOGCLASS, (long)n);
             return;
         }
         if (nArray == null) {
-            this.lc.log(-1601830656, "[%1#addToGrammar] No slotIDs given!", (Object)"TTSASRContextImpl");
+            this.lc.log(100000, "[%1#addToGrammar] No slotIDs given!", (Object)LOGCLASS);
             return;
         }
         this.dynamicListUpdate = TTSASRContextImpl.isDynamicListUpdate(n);
@@ -111,12 +107,12 @@ implements ITTSASRAppContext {
             for (n3 = 0; n3 < n4; ++n3) {
                 int n5 = nArray[n3];
                 if (this.dynamicLists.contains(n5)) continue;
-                this.lc.log(-1601830656, "[%1#addToGrammar] No slot entries available for slot %2 and curSlotModelID %3!", (Object)"TTSASRContextImpl", (long)n3, (long)n5);
+                this.lc.log(100000, "[%1#addToGrammar] No slot entries available for slot %2 and curSlotModelID %3!", (Object)LOGCLASS, (long)n3, (long)n5);
                 bl = false;
                 break;
             }
             if (bl) {
-                this.lc.log(-2137614336, "[%1#addToGrammar] Slot entries available!", (Object)"TTSASRContextImpl");
+                this.lc.log(10000000, "[%1#addToGrammar] Slot entries available!", (Object)LOGCLASS);
                 for (n3 = 0; n3 < n4; ++n3) {
                     this.newSlotIDSet.add(new Integer(nArray[n3]));
                 }
@@ -130,27 +126,22 @@ implements ITTSASRAppContext {
         this.setRuleIDs(n, n2);
     }
 
-    @Override
     public SortedSet getRuleIds() {
         return this.newRuleIDSet;
     }
 
-    @Override
     public SortedSet getSlotIds() {
         return this.newSlotIDSet;
     }
 
-    @Override
     public int getRuleIDForNBest() {
         return this.ruleIDForNBest;
     }
 
-    @Override
     public List getRuleIDsForSpelling() {
         return this.ruleIDsForSpelling;
     }
 
-    @Override
     public String getSRGSString(int n) {
         return (String)this.newSRGSStrings.get(new Integer(n));
     }

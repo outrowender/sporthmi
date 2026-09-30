@@ -7,24 +7,24 @@ import de.audi.atip.hmi.model.list.EvoListRow;
 import de.esolutions.fw.util.commons.Buffer;
 
 public class TelLoggingUtils {
-    public static final String EMPTY_STRING;
-    public static final String SEPARATOR;
-    public static final String NEW_LINE;
+    public static final String EMPTY_STRING = "";
+    public static final String SEPARATOR = ", ";
+    public static final String NEW_LINE = "\n";
 
     private static Buffer baseListRowMsg(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
         Buffer buffer = new Buffer();
         buffer.append("row=");
         buffer.append(evoListRow);
-        buffer.append(", ");
+        buffer.append(SEPARATOR);
         buffer.append("model=");
         buffer.append(n);
-        buffer.append(", ");
+        buffer.append(SEPARATOR);
         buffer.append("index=");
         buffer.append(n2);
-        buffer.append(", ");
+        buffer.append(SEPARATOR);
         buffer.append("col=");
         buffer.append(n3);
-        buffer.append(", ");
+        buffer.append(SEPARATOR);
         buffer.append("terminal=");
         buffer.append(n4);
         return buffer;
@@ -34,16 +34,16 @@ public class TelLoggingUtils {
         Buffer buffer = new Buffer();
         buffer.append("modelID=");
         buffer.append(n);
-        buffer.append(", ");
+        buffer.append(SEPARATOR);
         buffer.append("targetModelID=");
         buffer.append(n2);
-        buffer.append(", ");
+        buffer.append(SEPARATOR);
         buffer.append("targetRow=");
         buffer.append(n3);
-        buffer.append(", ");
+        buffer.append(SEPARATOR);
         buffer.append("targetWidgetID=");
         buffer.append(n4);
-        buffer.append(", ");
+        buffer.append(SEPARATOR);
         buffer.append("terminalID=");
         buffer.append(n5);
         return buffer;
@@ -53,13 +53,13 @@ public class TelLoggingUtils {
         Buffer buffer = new Buffer();
         buffer.append("modelID=");
         buffer.append(n);
-        buffer.append(", ");
+        buffer.append(SEPARATOR);
         buffer.append("row=");
         buffer.append(n2);
-        buffer.append(", ");
+        buffer.append(SEPARATOR);
         buffer.append("col=");
         buffer.append(n3);
-        buffer.append(", ");
+        buffer.append(SEPARATOR);
         buffer.append("terminalID=");
         buffer.append(n4);
         return buffer;
@@ -69,13 +69,13 @@ public class TelLoggingUtils {
         Buffer buffer = new Buffer();
         buffer.append("model=");
         buffer.append(n);
-        buffer.append(", ");
+        buffer.append(SEPARATOR);
         buffer.append("text=");
         buffer.append(string);
-        buffer.append(", ");
+        buffer.append(SEPARATOR);
         buffer.append("latestChar=");
         buffer.append(c2);
-        buffer.append(", ");
+        buffer.append(SEPARATOR);
         buffer.append("terminal=");
         buffer.append(n2);
         return buffer;
@@ -109,13 +109,13 @@ public class TelLoggingUtils {
         Buffer buffer = new Buffer();
         buffer.append("modelID=");
         buffer.append(n);
-        buffer.append(", ");
+        buffer.append(SEPARATOR);
         buffer.append("itemID=");
         buffer.append(n2);
-        buffer.append(", ");
+        buffer.append(SEPARATOR);
         buffer.append("col=");
         buffer.append(n3);
-        buffer.append(", ");
+        buffer.append(SEPARATOR);
         buffer.append("terminalID=");
         buffer.append(n4);
         return buffer;
@@ -125,13 +125,13 @@ public class TelLoggingUtils {
         Buffer buffer = new Buffer();
         buffer.append("errorCode=");
         buffer.append(n);
-        buffer.append(", ");
+        buffer.append(SEPARATOR);
         buffer.append("errorMsg=");
         buffer.append(string);
-        buffer.append(", ");
+        buffer.append(SEPARATOR);
         buffer.append("requestType=");
         buffer.append(n2);
-        buffer.append(", ");
+        buffer.append(SEPARATOR);
         return buffer;
     }
 
@@ -143,10 +143,10 @@ public class TelLoggingUtils {
         Buffer buffer = new Buffer();
         buffer.append("modelID=");
         buffer.append(n);
-        buffer.append(", ");
+        buffer.append(SEPARATOR);
         buffer.append("keyID=");
         buffer.append(n2);
-        buffer.append(", ");
+        buffer.append(SEPARATOR);
         buffer.append("terminalID=");
         buffer.append(n3);
         return buffer;
@@ -156,10 +156,10 @@ public class TelLoggingUtils {
         Buffer buffer = new Buffer();
         buffer.append("model=");
         buffer.append(n);
-        buffer.append(", ");
+        buffer.append(SEPARATOR);
         buffer.append("focusedCharacter=");
         buffer.append(c2);
-        buffer.append(", ");
+        buffer.append(SEPARATOR);
         buffer.append("terminal=");
         buffer.append(n2);
         return buffer;
@@ -169,13 +169,13 @@ public class TelLoggingUtils {
         Buffer buffer = new Buffer();
         buffer.append("menuItemID=");
         buffer.append(n);
-        buffer.append(", ");
+        buffer.append(SEPARATOR);
         buffer.append("model=");
         buffer.append(n2);
-        buffer.append(", ");
+        buffer.append(SEPARATOR);
         buffer.append("uniqueListRowID=");
         buffer.append(l);
-        buffer.append(", ");
+        buffer.append(SEPARATOR);
         buffer.append("terminal=");
         buffer.append(n3);
         return buffer;
@@ -185,11 +185,11 @@ public class TelLoggingUtils {
         Buffer buffer = new Buffer();
         if (objectArray != null) {
             if (objectArray.length > 0) {
-                buffer.append("\n");
+                buffer.append(NEW_LINE);
                 for (int i2 = 0; i2 < objectArray.length; ++i2) {
                     buffer.append(objectArray[i2]);
                     if (i2 >= objectArray.length - 1) continue;
-                    buffer.append("\n");
+                    buffer.append(NEW_LINE);
                 }
             } else {
                 buffer.append("[]");

@@ -6,45 +6,7 @@ package de.audi.app.phone.core.dsi;
 import de.audi.app.phone.core.dsi.ITelDSIResponseErrorHandler;
 import de.audi.app.phone.core.dsi.ITelDSIResponseListener;
 import de.audi.app.phone.core.dsi.TelDefaultDSIResponseListener;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$1;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$10;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$11;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$12;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$13;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$14;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$15;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$16;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$17;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$18;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$19;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$2;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$20;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$21;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$22;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$23;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$24;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$25;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$26;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$27;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$28;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$29;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$3;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$30;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$31;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$32;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$33;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$34;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$35;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$36;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$37;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$38;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$39;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$4;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$5;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$6;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$7;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$8;
-import de.audi.app.phone.core.dsi.TelResultHandlerWrapper$9;
+import de.audi.app.phone.core.event.AbstractTelDSIResponseEvent;
 import de.audi.app.phone.core.event.TelEventQueue;
 import org.dsi.ifc.telephoneng.CFResponseData;
 import org.dsi.ifc.telephoneng.LockStateStruct;
@@ -73,211 +35,513 @@ implements ITelDSIResponseListener {
         }
     }
 
-    @Override
-    public void responseAbortNetworkRegistration(int n, int n2) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$1(this, 2000, n, n2));
+    public void responseAbortNetworkRegistration(final int n, final int n2) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2000){
+
+            public void run() {
+                TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n, n2);
+                TelResultHandlerWrapper.this.listener.responseAbortNetworkRegistration(n, n2);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseAbortNetworkRegistration(n, n2);
+                }
+            }
+        });
     }
 
-    @Override
-    public void responseAbortNetworkSearch(int n, int n2) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$2(this, 2001, n, n2));
+    public void responseAbortNetworkSearch(final int n, final int n2) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2001){
+
+            public void run() {
+                TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n, n2);
+                TelResultHandlerWrapper.this.listener.responseAbortNetworkSearch(n, n2);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseAbortNetworkSearch(n, n2);
+                }
+            }
+        });
     }
 
-    @Override
-    public void responseAcceptCall(int n, int n2) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$3(this, 2002, n, n2));
+    public void responseAcceptCall(final int n, final int n2) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2002){
+
+            public void run() {
+                TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n, n2);
+                TelResultHandlerWrapper.this.listener.responseAcceptCall(n, n2);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseAcceptCall(n, n2);
+                }
+            }
+        });
     }
 
-    @Override
-    public void responseCallForward(CFResponseData[] cFResponseDataArray, int n, int n2) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$4(this, 2003, n, n2, cFResponseDataArray));
+    public void responseCallForward(final CFResponseData[] cFResponseDataArray, final int n, final int n2) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2003){
+
+            public void run() {
+                TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n, n2);
+                TelResultHandlerWrapper.this.listener.responseCallForward(cFResponseDataArray, n, n2);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseCallForward(cFResponseDataArray, n, n2);
+                }
+            }
+        });
     }
 
-    @Override
-    public void responseCallWaiting(int n, int n2, int n3, int n4) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$5(this, 2004, n3, n4, n, n2));
+    public void responseCallWaiting(final int n, final int n2, final int n3, final int n4) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2004){
+
+            public void run() {
+                TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n3, n4);
+                TelResultHandlerWrapper.this.listener.responseCallWaiting(n, n2, n3, n4);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseCallWaiting(n, n2, n3, n4);
+                }
+            }
+        });
     }
 
-    @Override
-    public void responseChangeSIMCode(int n, int n2, int n3) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$6(this, 2005, n2, n3, n));
+    public void responseChangeSIMCode(final int n, final int n2, final int n3) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2005){
+
+            public void run() {
+                TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n2, n3);
+                TelResultHandlerWrapper.this.listener.responseChangeSIMCode(n, n2, n3);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseChangeSIMCode(n, n2, n3);
+                }
+            }
+        });
     }
 
-    @Override
-    public void responseCLIR(int n, int n2, int n3, int n4) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$7(this, 2006, n3, n4, n, n2));
+    public void responseCLIR(final int n, final int n2, final int n3, final int n4) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2006){
+
+            public void run() {
+                TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n3, n4);
+                TelResultHandlerWrapper.this.listener.responseCLIR(n, n2, n3, n4);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseCLIR(n, n2, n3, n4);
+                }
+            }
+        });
     }
 
-    @Override
-    public void responseDialNumber(int n, int n2, SuppServiceResponseStruct suppServiceResponseStruct, int n3) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$8(this, 2007, n2, n, n3, suppServiceResponseStruct));
+    public void responseDialNumber(final int n, final int n2, final SuppServiceResponseStruct suppServiceResponseStruct, final int n3) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2007){
+
+            public void run() {
+                if (n2 == 0) {
+                    TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n, n3);
+                }
+                TelResultHandlerWrapper.this.listener.responseDialNumber(n, n2, suppServiceResponseStruct, n3);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseDialNumber(n, n2, suppServiceResponseStruct, n3);
+                }
+            }
+        });
     }
 
-    @Override
-    public void responseDialOperator(int n, SuppServiceResponseStruct suppServiceResponseStruct, int n2) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$9(this, 2034, n, n2, suppServiceResponseStruct));
+    public void responseDialOperator(final int n, final SuppServiceResponseStruct suppServiceResponseStruct, final int n2) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2034){
+
+            public void run() {
+                TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n, n2);
+                TelResultHandlerWrapper.this.listener.responseDialOperator(n, suppServiceResponseStruct, n2);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseDialOperator(n, suppServiceResponseStruct, n2);
+                }
+            }
+        });
     }
 
-    @Override
-    public void responseHangupCall(int n, int n2) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$10(this, 2010, n, n2));
+    public void responseHangupCall(final int n, final int n2) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2010){
+
+            public void run() {
+                TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n, n2);
+                TelResultHandlerWrapper.this.listener.responseHangupCall(n, n2);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseHangupCall(n, n2);
+                }
+            }
+        });
     }
 
-    @Override
-    public void responseJoinCalls(int n, int n2) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$11(this, 2011, n, n2));
+    public void responseJoinCalls(final int n, final int n2) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2011){
+
+            public void run() {
+                TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n, n2);
+                TelResultHandlerWrapper.this.listener.responseJoinCalls(n, n2);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseJoinCalls(n, n2);
+                }
+            }
+        });
     }
 
-    @Override
-    public void responseNetworkRegistration(int n, int n2) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$12(this, 2012, n, n2));
+    public void responseNetworkRegistration(final int n, final int n2) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2012){
+
+            public void run() {
+                TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n, n2);
+                TelResultHandlerWrapper.this.listener.responseNetworkRegistration(n, n2);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseNetworkRegistration(n, n2);
+                }
+            }
+        });
     }
 
-    @Override
-    public void responseNetworkSearch(NetworkProvider[] networkProviderArray, int n, int n2) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$13(this, 2013, n, n2, networkProviderArray));
+    public void responseNetworkSearch(final NetworkProvider[] networkProviderArray, final int n, final int n2) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2013){
+
+            public void run() {
+                TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n, n2);
+                TelResultHandlerWrapper.this.listener.responseNetworkSearch(networkProviderArray, n, n2);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseNetworkSearch(networkProviderArray, n, n2);
+                }
+            }
+        });
     }
 
-    @Override
-    public void responseRestoreFactorySettings(int n, int n2) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$14(this, 2016, n, n2));
+    public void responseRestoreFactorySettings(final int n, final int n2) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2016){
+
+            public void run() {
+                TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n, n2);
+                TelResultHandlerWrapper.this.listener.responseRestoreFactorySettings(n, n2);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseRestoreFactorySettings(n, n2);
+                }
+            }
+        });
     }
 
-    @Override
-    public void responseSendDTMF(int n, int n2) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$15(this, 2008, n, n2));
+    public void responseSendDTMF(final int n, final int n2) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2008){
+
+            public void run() {
+                TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n, n2);
+                TelResultHandlerWrapper.this.listener.responseSendDTMF(n, n2);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseSendDTMF(n, n2);
+                }
+            }
+        });
     }
 
-    @Override
-    public void responseServiceCodeAbort(int n, int n2) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$16(this, 2020, n, n2));
+    public void responseServiceCodeAbort(final int n, final int n2) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2020){
+
+            public void run() {
+                TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n, n2);
+                TelResultHandlerWrapper.this.listener.responseServiceCodeAbort(n, n2);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseServiceCodeAbort(n, n2);
+                }
+            }
+        });
     }
 
-    @Override
-    public void responseSetAutomaticEmergencyCallActive(int n, int n2) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$17(this, 2025, n, n2));
+    public void responseSetAutomaticEmergencyCallActive(final int n, final int n2) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2025){
+
+            public void run() {
+                TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n, n2);
+                TelResultHandlerWrapper.this.listener.responseSetAutomaticEmergencyCallActive(n, n2);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseSetAutomaticEmergencyCallActive(n, n2);
+                }
+            }
+        });
     }
 
-    @Override
-    public void responseSetAutomaticPinEntryActive(int n, int n2) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$18(this, 2018, n, n2));
+    public void responseSetAutomaticPinEntryActive(final int n, final int n2) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2018){
+
+            public void run() {
+                TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n, n2);
+                TelResultHandlerWrapper.this.listener.responseSetAutomaticPinEntryActive(n, n2);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseSetAutomaticPinEntryActive(n, n2);
+                }
+            }
+        });
     }
 
-    @Override
-    public void responseSetAutomaticRedialActive(int n, int n2) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$19(this, 2019, n, n2));
+    public void responseSetAutomaticRedialActive(final int n, final int n2) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2019){
+
+            public void run() {
+                TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n, n2);
+                TelResultHandlerWrapper.this.listener.responseSetAutomaticRedialActive(n, n2);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseSetAutomaticRedialActive(n, n2);
+                }
+            }
+        });
     }
 
-    @Override
-    public void responseSetCDMAThreeWayCallingSetting(int n, int n2) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$20(this, 2024, n, n2));
+    public void responseSetCDMAThreeWayCallingSetting(final int n, final int n2) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2024){
+
+            public void run() {
+                TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n, n2);
+                TelResultHandlerWrapper.this.listener.responseSetCDMAThreeWayCallingSetting(n, n2);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseSetCDMAThreeWayCallingSetting(n, n2);
+                }
+            }
+        });
     }
 
-    @Override
-    public void responseSetESIMActive(int n, int n2) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$21(this, 2041, n, n2));
+    public void responseSetESIMActive(final int n, final int n2) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2041){
+
+            public void run() {
+                TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n, n2);
+                TelResultHandlerWrapper.this.listener.responseSetESIMActive(n, n2);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseSetESIMActive(n, n2);
+                }
+            }
+        });
     }
 
-    @Override
-    public void responseSetHandsFreeMode(int n, int n2) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$22(this, 2017, n, n2));
+    public void responseSetHandsFreeMode(final int n, final int n2) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2017){
+
+            public void run() {
+                TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n, n2);
+                TelResultHandlerWrapper.this.listener.responseSetHandsFreeMode(n, n2);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseSetHandsFreeMode(n, n2);
+                }
+            }
+        });
     }
 
-    @Override
-    public void responseSetMailboxContent(int n, int n2) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$23(this, 2026, n, n2));
+    public void responseSetMailboxContent(final int n, final int n2) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2026){
+
+            public void run() {
+                TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n, n2);
+                TelResultHandlerWrapper.this.listener.responseSetMailboxContent(n, n2);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseSetMailboxContent(n, n2);
+                }
+            }
+        });
     }
 
-    @Override
-    public void responseSetMICMuteState(int n, int n2) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$24(this, 2028, n, n2));
+    public void responseSetMICMuteState(final int n, final int n2) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2028){
+
+            public void run() {
+                TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n, n2);
+                TelResultHandlerWrapper.this.listener.responseSetMICMuteState(n, n2);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseSetMICMuteState(n, n2);
+                }
+            }
+        });
     }
 
-    @Override
-    public void responseSetNADMode(int n, int n2, int n3) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$25(this, 2030, n2, n3, n));
+    public void responseSetNADMode(final int n, final int n2, final int n3) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2030){
+
+            public void run() {
+                TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n2, n3);
+                TelResultHandlerWrapper.this.listener.responseSetNADMode(n, n2, n3);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseSetNADMode(n, n2, n3);
+                }
+            }
+        });
     }
 
-    @Override
-    public void responseSetOptimizationMode(int n, int n2, int n3) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$26(this, 2029, n2, n3, n));
+    public void responseSetOptimizationMode(final int n, final int n2, final int n3) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2029){
+
+            public void run() {
+                TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n2, n3);
+                TelResultHandlerWrapper.this.listener.responseSetOptimizationMode(n, n2, n3);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseSetOptimizationMode(n, n2, n3);
+                }
+            }
+        });
     }
 
-    @Override
-    public void responseSetPhoneReminderSetting(int n, int n2) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$27(this, 2036, n, n2));
+    public void responseSetPhoneReminderSetting(final int n, final int n2) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2036){
+
+            public void run() {
+                TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n, n2);
+                TelResultHandlerWrapper.this.listener.responseSetPhoneReminderSetting(n, n2);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseSetPhoneReminderSetting(n, n2);
+                }
+            }
+        });
     }
 
-    @Override
-    public void responseSetPhoneRingtone(int n, int n2) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$28(this, 2038, n, n2));
+    public void responseSetPhoneRingtone(final int n, final int n2) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2038){
+
+            public void run() {
+                TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n, n2);
+                TelResultHandlerWrapper.this.listener.responseSetPhoneRingtone(n, n2);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseSetPhoneRingtone(n, n2);
+                }
+            }
+        });
     }
 
-    @Override
-    public void responseSetPrivacyMode(int n, int n2) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$29(this, 2027, n, n2));
+    public void responseSetPrivacyMode(final int n, final int n2) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2027){
+
+            public void run() {
+                TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n, n2);
+                TelResultHandlerWrapper.this.listener.responseSetPrivacyMode(n, n2);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseSetPrivacyMode(n, n2);
+                }
+            }
+        });
     }
 
-    @Override
-    public void responseSIMPINRequired(int n, int n2) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$30(this, 2009, n, n2));
+    public void responseSIMPINRequired(final int n, final int n2) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2009){
+
+            public void run() {
+                TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n, n2);
+                TelResultHandlerWrapper.this.listener.responseSIMPINRequired(n, n2);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseSIMPINRequired(n, n2);
+                }
+            }
+        });
     }
 
-    @Override
-    public void responseSplitCall(int n, int n2) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$31(this, 2021, n, n2));
+    public void responseSplitCall(final int n, final int n2) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2021){
+
+            public void run() {
+                TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n, n2);
+                TelResultHandlerWrapper.this.listener.responseSplitCall(n, n2);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseSplitCall(n, n2);
+                }
+            }
+        });
     }
 
-    @Override
-    public void responseSwapCalls(int n, int n2) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$32(this, 2022, n, n2));
+    public void responseSwapCalls(final int n, final int n2) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2022){
+
+            public void run() {
+                TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n, n2);
+                TelResultHandlerWrapper.this.listener.responseSwapCalls(n, n2);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseSwapCalls(n, n2);
+                }
+            }
+        });
     }
 
-    @Override
-    public void responseTelPower(int n, int n2) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$33(this, 2023, n, n2));
+    public void responseTelPower(final int n, final int n2) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2023){
+
+            public void run() {
+                TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n, n2);
+                TelResultHandlerWrapper.this.listener.responseTelPower(n, n2);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseTelPower(n, n2);
+                }
+            }
+        });
     }
 
-    @Override
-    public void responseUnlockOtherSIM(int n, int n2) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$34(this, 2031, n, n2));
+    public void responseUnlockOtherSIM(final int n, final int n2) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2031){
+
+            public void run() {
+                TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n, n2);
+                TelResultHandlerWrapper.this.listener.responseUnlockOtherSIM(n, n2);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseUnlockOtherSIM(n, n2);
+                }
+            }
+        });
     }
 
-    @Override
-    public void responseUnlockSIM(int n, int n2, LockStateStruct lockStateStruct) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$35(this, 2014, n, n2, lockStateStruct));
+    public void responseUnlockSIM(final int n, final int n2, final LockStateStruct lockStateStruct) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2014){
+
+            public void run() {
+                TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n, n2);
+                TelResultHandlerWrapper.this.listener.responseUnlockSIM(n, n2, lockStateStruct);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseUnlockSIM(n, n2, lockStateStruct);
+                }
+            }
+        });
     }
 
-    @Override
-    public void responseChangeTopology(int n, int n2) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$36(this, 2000, n, n2));
+    public void responseChangeTopology(final int n, final int n2) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2000){
+
+            public void run() {
+                TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n, n2);
+                TelResultHandlerWrapper.this.listener.responseChangeTopology(n, n2);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseChangeTopology(n, n2);
+                }
+            }
+        });
     }
 
-    @Override
-    public void responseSetSIMAliases(int n, int n2) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$37(this, 2032, n, n2));
+    public void responseSetSIMAliases(final int n, final int n2) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2032){
+
+            public void run() {
+                TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n, n2);
+                TelResultHandlerWrapper.this.listener.responseSetSIMAliases(n, n2);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseSetSIMAliases(n, n2);
+                }
+            }
+        });
     }
 
-    @Override
-    public void responseCheckSIMPINCode(int n, int n2) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$38(this, 2015, n, n2));
+    public void responseCheckSIMPINCode(final int n, final int n2) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2015){
+
+            public void run() {
+                TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n, n2);
+                TelResultHandlerWrapper.this.listener.responseCheckSIMPINCode(n, n2);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseCheckSIMPINCode(n, n2);
+                }
+            }
+        });
     }
 
-    @Override
-    public void responseRemoveOtherSIM(int n, int n2) {
-        this.telEventQueue.enqueue(new TelResultHandlerWrapper$39(this, 2033, n, n2));
-    }
+    public void responseRemoveOtherSIM(final int n, final int n2) {
+        this.telEventQueue.enqueue(new AbstractTelDSIResponseEvent(2033){
 
-    static /* synthetic */ void access$000(TelResultHandlerWrapper telResultHandlerWrapper, int n, int n2) {
-        telResultHandlerWrapper.checkSendErrorResultToHandler(n, n2);
-    }
-
-    static /* synthetic */ ITelDSIResponseListener access$100(TelResultHandlerWrapper telResultHandlerWrapper) {
-        return telResultHandlerWrapper.listener;
-    }
-
-    static /* synthetic */ ITelDSIResponseListener[] access$200(TelResultHandlerWrapper telResultHandlerWrapper) {
-        return telResultHandlerWrapper.globalResponseListeners;
+            public void run() {
+                TelResultHandlerWrapper.this.checkSendErrorResultToHandler(n, n2);
+                TelResultHandlerWrapper.this.listener.responseRemoveOtherSIM(n, n2);
+                for (int i2 = 0; i2 < TelResultHandlerWrapper.this.globalResponseListeners.length; ++i2) {
+                    TelResultHandlerWrapper.this.globalResponseListeners[i2].responseRemoveOtherSIM(n, n2);
+                }
+            }
+        });
     }
 }
 

@@ -32,12 +32,12 @@ implements ServiceTrackerCustomizer {
     }
 
     public void openTracker() {
-        this.log.log(1078071040, "[WirelessChargingServiceTracker#openTracker] %1", (Object)this);
+        this.log.log(1000000, "[WirelessChargingServiceTracker#openTracker] %1", (Object)this);
         this.tracker.open();
     }
 
     public void closeTracker() {
-        this.log.log(1078071040, "[WirelessChargingServiceTracker#closeTracker] %1", (Object)this);
+        this.log.log(1000000, "[WirelessChargingServiceTracker#closeTracker] %1", (Object)this);
         this.tracker.close();
     }
 
@@ -55,21 +55,18 @@ implements ServiceTrackerCustomizer {
         return buffer.toString();
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
-        this.log.log(1078071040, "[WirelessChargingServiceTracker#addingService] reference=%1", (Object)serviceReference);
+        this.log.log(1000000, "[WirelessChargingServiceTracker#addingService] reference=%1", (Object)serviceReference);
         return this.customizer.addingService(serviceReference);
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
-        this.log.log(1078071040, "[WirelessChargingServiceTracker#modifiedService] reference=%1, service=%2", (Object)serviceReference, object);
+        this.log.log(1000000, "[WirelessChargingServiceTracker#modifiedService] reference=%1, service=%2", (Object)serviceReference, object);
         this.customizer.modifiedService(serviceReference, object);
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
-        this.log.log(1078071040, "[WirelessChargingServiceTracker#removedService] reference=%1, service=%2", (Object)serviceReference, object);
+        this.log.log(1000000, "[WirelessChargingServiceTracker#removedService] reference=%1, service=%2", (Object)serviceReference, object);
         this.customizer.removedService(serviceReference, object);
     }
 }

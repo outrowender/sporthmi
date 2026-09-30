@@ -17,9 +17,8 @@ extends AbstractSearchResultFormatter {
         this.log = logChannel;
     }
 
-    @Override
     public SearchResultListRow formatResult(SearchResult searchResult) {
-        this.log.log(-2137614336, "OnlineSearchResultFormatter#formatResult(): result: %1", (Object)searchResult);
+        this.log.log(10000000, "OnlineSearchResultFormatter#formatResult(): result: %1", (Object)searchResult);
         return new OnlineSearchResultListRow(searchResult);
     }
 }

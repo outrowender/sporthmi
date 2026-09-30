@@ -12,18 +12,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 public class Record {
-    public static final int MAX_RECORD_LENGTH;
-    private static final int HEADER_LENGTH;
+    public static final int MAX_RECORD_LENGTH = 16384;
+    private static final int HEADER_LENGTH = 5;
     private final byte[] version;
     private final byte contentType;
     private final byte[] data;
-    private static boolean recordDebug;
-    private static String lineTerminator;
-
-    static {
-        recordDebug = false;
-        lineTerminator = Util.getLineTerminator();
-    }
+    private static boolean recordDebug = false;
+    private static String lineTerminator = Util.getLineTerminator();
 
     public Record(byte by, byte[] byArray, byte[] byArray2) {
         this.contentType = by;
@@ -33,7 +28,7 @@ public class Record {
         System.arraycopy((Object)byArray2, 0, (Object)this.data, 0, byArray2.length);
     }
 
-    public static Record readRecord(InputStream inputStream) {
+    public static Record readRecord(InputStream inputStream) throws IOException {
         int n = -1;
         int n2 = 0;
         byte[] byArray = new byte[5];
@@ -78,7 +73,7 @@ public class Record {
         return record;
     }
 
-    public void writeRecord(OutputStream outputStream) {
+    public void writeRecord(OutputStream outputStream) throws IOException {
         if (recordDebug) {
             System.err.println("====WRITE=====");
             System.err.print(this.toString());
@@ -116,9 +111,9 @@ public class Record {
 
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
-        stringBuffer.append(new StringBuffer("ContentType: ").append(SSLProtocol.getContentTypeName(this.contentType)).append(lineTerminator).toString());
-        stringBuffer.append(new StringBuffer("Version: ").append(this.version[0]).append(".").append(this.version[1]).append(lineTerminator).toString());
-        stringBuffer.append(new StringBuffer("Data (").append(this.data.length).append("): ").append(Util.getStringForByteArray(this.data)).append(lineTerminator).toString());
+        stringBuffer.append("ContentType: " + SSLProtocol.getContentTypeName(this.contentType) + lineTerminator);
+        stringBuffer.append("Version: " + this.version[0] + "." + this.version[1] + lineTerminator);
+        stringBuffer.append("Data (" + this.data.length + "): " + Util.getStringForByteArray(this.data) + lineTerminator);
         return stringBuffer.toString();
     }
 }

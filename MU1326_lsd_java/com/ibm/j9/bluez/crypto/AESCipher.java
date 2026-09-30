@@ -63,10 +63,10 @@ public class AESCipher {
                 if (n % 4 == 0) {
                     if (n == 0) {
                         n5 = AES_S[n4];
-                        n2 = 50397442;
+                        n2 = 33620227;
                     } else {
                         n5 = AES_Si[n4];
-                        n2 = 185403662;
+                        n2 = 235474187;
                     }
                     n3 = nArray2[n5];
                 }
@@ -87,7 +87,7 @@ public class AESCipher {
     public static CL3Key aesKey(byte[] byArray, int n, int n2, int n3) {
         int n4;
         if (n3 != 16 && n3 != 24 && n3 != 32 || n2 != 16 && n2 != 24 && n2 != 32) {
-            throw new CL3Exception(0x3000080);
+            throw new CL3Exception(-2147483645);
         }
         int n5 = n2 / 4;
         int n6 = n4 * (((n4 = n3 / 4) > n5 ? n4 : n5) + 7);
@@ -136,7 +136,7 @@ public class AESCipher {
         int n17 = nArray3.length - 1;
         int n18 = nArray3[n17];
         if (n5 % n18 != 0) {
-            throw new CL3Exception(0x3000080);
+            throw new CL3Exception(-2147483645);
         }
         if (n == 0) {
             n16 = 0;

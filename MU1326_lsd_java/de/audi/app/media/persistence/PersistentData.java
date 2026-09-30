@@ -8,12 +8,12 @@ import java.io.Serializable;
 
 public class PersistentData
 implements Serializable {
-    private static final long serialVersionUID;
-    public static final byte TYPE_BOOLEAN;
-    public static final byte TYPE_INT;
-    public static final byte TYPE_STRING;
-    public static final PersistentData BOOLEAN_TRUE;
-    public static final PersistentData BOOLEAN_FALSE;
+    private static final long serialVersionUID = -4154515985512802569L;
+    public static final byte TYPE_BOOLEAN = 1;
+    public static final byte TYPE_INT = 2;
+    public static final byte TYPE_STRING = 3;
+    public static final PersistentData BOOLEAN_TRUE = new PersistentData(1, Boolean.TRUE);
+    public static final PersistentData BOOLEAN_FALSE = new PersistentData(1, Boolean.FALSE);
     private final byte type;
     private final Object value;
 
@@ -70,7 +70,7 @@ implements Serializable {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         PersistentData persistentData = (PersistentData)object;
@@ -85,11 +85,6 @@ implements Serializable {
         n = 31 * n + this.type;
         n = 31 * n + (this.value == null ? 0 : this.value.hashCode());
         return n;
-    }
-
-    static {
-        BOOLEAN_TRUE = new PersistentData(1, Boolean.TRUE);
-        BOOLEAN_FALSE = new PersistentData(1, Boolean.FALSE);
     }
 }
 

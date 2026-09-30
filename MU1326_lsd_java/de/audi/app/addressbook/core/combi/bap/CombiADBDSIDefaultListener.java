@@ -19,21 +19,18 @@ extends ADBDSIDefaultListener {
         this.appAdr = combiADBHandler;
     }
 
-    @Override
     public void updateDownloadCountMe(DownloadInfo downloadInfo, int n) {
         if (n == 1) {
             this.appAdr.getStateHandler().updateDownloadCountMe(downloadInfo);
         }
     }
 
-    @Override
     public void updateDownloadCountSim(DownloadInfo downloadInfo, int n) {
         if (n == 1) {
             this.appAdr.getStateHandler().updateDownloadCountSim(downloadInfo);
         }
     }
 
-    @Override
     public void updateAlphabeticalIndex(IndexInformation[] indexInformationArray, int n) {
         if (n == 1) {
             this.appAdr.updateAlphabeticalIndex(indexInformationArray);

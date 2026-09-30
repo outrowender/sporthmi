@@ -35,7 +35,6 @@ extends AbstractBAPIndicationHandlerFSG {
         super(abstractBAPModuleFSG, logChannel);
     }
 
-    @Override
     public void processIndicationStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG, StartResultMethod startResultMethod) {
         switch (bAPFunctionMethodFSG.getFctID()) {
             case 34: {
@@ -64,7 +63,6 @@ extends AbstractBAPIndicationHandlerFSG {
         }
     }
 
-    @Override
     public void processIndicationAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
         switch (bAPFunctionMethodFSG.getFctID()) {
             case 34: {
@@ -93,7 +91,6 @@ extends AbstractBAPIndicationHandlerFSG {
         }
     }
 
-    @Override
     public void processIndicationSet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, SetGetProperty setGetProperty) {
         switch (bAPFunctionPropertyFSG.getFctID()) {
             default: 
@@ -101,7 +98,6 @@ extends AbstractBAPIndicationHandlerFSG {
         this.logChannel.log(10000, "AbstractBAPIndicationHandlerNavi#processIndicationSet not implemented for fctID=%1", (Object)bAPFunctionPropertyFSG.getFctIDDescription());
     }
 
-    @Override
     public void processIndicationSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, SetGetProperty setGetProperty) {
         switch (bAPFunctionPropertyFSG.getFctID()) {
             case 25: {
@@ -150,7 +146,6 @@ extends AbstractBAPIndicationHandlerFSG {
         }
     }
 
-    @Override
     public void processIndicationAck(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, AckProperty ackProperty) {
         switch (bAPFunctionPropertyFSG.getFctID()) {
             default: 
@@ -158,7 +153,6 @@ extends AbstractBAPIndicationHandlerFSG {
         this.logChannel.log(10000, "AbstractBAPIndicationHandlerNavi#processIndicationAck not implemented for fctID=%1", (Object)bAPFunctionPropertyFSG.getFctIDDescription());
     }
 
-    @Override
     public void processIndicationAckArray(BAPFunctionArrayFSG bAPFunctionArrayFSG, BAPArray bAPArray) {
         switch (bAPFunctionArrayFSG.getFctID()) {
             default: 
@@ -166,7 +160,6 @@ extends AbstractBAPIndicationHandlerFSG {
         this.logChannel.log(10000, "AbstractBAPIndicationHandlerNavi#processIndicationAck not implemented for fctID=%1", (Object)bAPFunctionArrayFSG.getFctIDDescription());
     }
 
-    @Override
     public void processIndicationSetArray(BAPFunctionArrayFSG bAPFunctionArrayFSG, SetGetArray setGetArray) {
         switch (bAPFunctionArrayFSG.getFctID()) {
             default: 
@@ -174,7 +167,6 @@ extends AbstractBAPIndicationHandlerFSG {
         this.logChannel.log(10000, "AbstractBAPIndicationHandlerNavi#processIndicationSetArray not implemented for fctID=%1", (Object)bAPFunctionArrayFSG.getFctIDDescription());
     }
 
-    @Override
     public void processIndicationSetGetArray(BAPFunctionArrayFSG bAPFunctionArrayFSG, SetGetArray setGetArray) {
         switch (bAPFunctionArrayFSG.getFctID()) {
             default: 
@@ -182,64 +174,44 @@ extends AbstractBAPIndicationHandlerFSG {
         this.logChannel.log(10000, "AbstractBAPIndicationHandlerNavi#processIndicationSetGetArray not implemented for fctID=%1", (Object)bAPFunctionArrayFSG.getFctIDDescription());
     }
 
-    protected abstract void processTmCinfoSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, TMCinfo_SetGet tMCinfo_SetGet) {
-    }
+    protected abstract void processTmCinfoSetGet(BAPFunctionPropertyFSG var1, TMCinfo_SetGet var2);
 
-    protected abstract void processMagnetFieldZoneSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, MagnetFieldZone_SetGet magnetFieldZone_SetGet) {
-    }
+    protected abstract void processMagnetFieldZoneSetGet(BAPFunctionPropertyFSG var1, MagnetFieldZone_SetGet var2);
 
-    protected abstract void processCalibrationSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, Calibration_SetGet calibration_SetGet) {
-    }
+    protected abstract void processCalibrationSetGet(BAPFunctionPropertyFSG var1, Calibration_SetGet var2);
 
-    protected abstract void processAsgCapabilitiesSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, ASG_Capabilities_SetGet aSG_Capabilities_SetGet) {
-    }
+    protected abstract void processAsgCapabilitiesSetGet(BAPFunctionPropertyFSG var1, ASG_Capabilities_SetGet var2);
 
-    protected abstract void processRgActDeactAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processRgActDeactAbort(BAPFunctionMethodFSG var1);
 
-    protected abstract void processRgActDeactStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG, RG_ActDeact_StartResult rG_ActDeact_StartResult) {
-    }
+    protected abstract void processRgActDeactStartResult(BAPFunctionMethodFSG var1, RG_ActDeact_StartResult var2);
 
-    protected abstract void processRepeatLastNavAnnouncementAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processRepeatLastNavAnnouncementAbort(BAPFunctionMethodFSG var1);
 
-    protected abstract void processRepeatLastNavAnnouncementStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processRepeatLastNavAnnouncementStartResult(BAPFunctionMethodFSG var1);
 
-    protected abstract void processVoiceGuidanceSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, VoiceGuidance_SetGet voiceGuidance_SetGet) {
-    }
+    protected abstract void processVoiceGuidanceSetGet(BAPFunctionPropertyFSG var1, VoiceGuidance_SetGet var2);
 
-    protected abstract void processActiveRgTypeSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, ActiveRgType_SetGet activeRgType_SetGet) {
-    }
+    protected abstract void processActiveRgTypeSetGet(BAPFunctionPropertyFSG var1, ActiveRgType_SetGet var2);
 
-    protected abstract void processGetNextListPosAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processGetNextListPosAbort(BAPFunctionMethodFSG var1);
 
-    protected abstract void processGetNextListPosStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG, GetNextListPos_StartResult getNextListPos_StartResult) {
-    }
+    protected abstract void processGetNextListPosStartResult(BAPFunctionMethodFSG var1, GetNextListPos_StartResult var2);
 
-    protected abstract void processNbSpellerAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processNbSpellerAbort(BAPFunctionMethodFSG var1);
 
-    protected abstract void processNbSpellerStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG, NbSpeller_StartResult nbSpeller_StartResult) {
-    }
+    protected abstract void processNbSpellerStartResult(BAPFunctionMethodFSG var1, NbSpeller_StartResult var2);
 
-    protected abstract void processMapColorAndTypeSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, MapColorAndType_SetGet mapColorAndType_SetGet) {
-    }
+    protected abstract void processMapColorAndTypeSetGet(BAPFunctionPropertyFSG var1, MapColorAndType_SetGet var2);
 
-    protected abstract void processMapViewAndOrientationSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, MapViewAndOrientation_SetGet mapViewAndOrientation_SetGet) {
-    }
+    protected abstract void processMapViewAndOrientationSetGet(BAPFunctionPropertyFSG var1, MapViewAndOrientation_SetGet var2);
 
-    protected abstract void processMapScaleSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, MapScale_SetGet mapScale_SetGet) {
-    }
+    protected abstract void processMapScaleSetGet(BAPFunctionPropertyFSG var1, MapScale_SetGet var2);
 
-    protected abstract void processPoiSearchAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-    }
+    protected abstract void processPoiSearchAbort(BAPFunctionMethodFSG var1);
 
-    protected abstract void processPoiSearchStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG, POI_Search_StartResult pOI_Search_StartResult) {
-    }
+    protected abstract void processPoiSearchStartResult(BAPFunctionMethodFSG var1, POI_Search_StartResult var2);
 
-    protected abstract void processMapPresentationSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, Map_Presentation_SetGet map_Presentation_SetGet) {
-    }
+    protected abstract void processMapPresentationSetGet(BAPFunctionPropertyFSG var1, Map_Presentation_SetGet var2);
 }
 

@@ -4,10 +4,8 @@
 package de.audi.atip.interapp.eni;
 
 public interface ENIServiceEcall {
-    default public void confirmExpirationWarning() {
-    }
+    public void confirmExpirationWarning();
 
-    default public void confirmEcallExpirated() {
-    }
+    public void confirmEcallExpirated();
 }
 

@@ -18,14 +18,12 @@ implements IParkingFocusPropertyConfig {
         return this.config;
     }
 
-    @Override
     public void configureFocusProperties(ParkingFocusPropertyCollection parkingFocusPropertyCollection) {
         if (this.getConfig() != null) {
             this.getConfig().configureFocusProperties(this.prepareFocusProperties(parkingFocusPropertyCollection));
         }
     }
 
-    protected abstract ParkingFocusPropertyCollection prepareFocusProperties(ParkingFocusPropertyCollection parkingFocusPropertyCollection) {
-    }
+    protected abstract ParkingFocusPropertyCollection prepareFocusProperties(ParkingFocusPropertyCollection var1);
 }
 

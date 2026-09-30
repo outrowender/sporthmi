@@ -22,15 +22,13 @@ implements CombiBAPServicePhone2 {
         super(combiModulePhone2);
     }
 
-    @Override
     public void setAppServiceListener(BAPServiceListener bAPServiceListener) {
         super.setAppServiceListener(bAPServiceListener);
         this.moduleFsg.getInitializationManager().notifyAppServiceChanged(bAPServiceListener != null);
     }
 
-    @Override
     public void updateMobileServiceSupport(boolean[] blArray) {
-        this.logChannel.log(-2137614336, "[AppConnectorPhone2#updateMobileServiceSupport] called");
+        this.logChannel.log(10000000, "[AppConnectorPhone2#updateMobileServiceSupport] called");
         MobileServiceSupport_Status mobileServiceSupport_Status = (MobileServiceSupport_Status)this.moduleFsg.getBAPFunctionPropertyFSG(16).getLastStatus();
         if (blArray.length < 7) {
             this.logChannel.log(10000, "[AppConnectorPhone2#updateMobileServiceSupport] fctList array too short (length=%1)", (long)blArray.length);
@@ -53,13 +51,12 @@ implements CombiBAPServicePhone2 {
         mobileServiceSupport_Status2.fctList.fctPhoneModuleStateSupported = blArray[5] && this.moduleFsg.getFunctionList().isFunctionSupported(23);
         mobileServiceSupport_Status2.fctList.fctConnectionStateSupported = mobileServiceSupport_Status.fctList.fctConnectionStateSupported;
         mobileServiceSupport_Status2.fctList.fctAutomaticCallForwardingSupported = blArray[6] && this.moduleFsg.getFunctionList().isFunctionSupported(25);
-        this.logChannel.log(1078071040, "[AppConnectorPhone2#updateMobileServiceSupport] %1", (Object)mobileServiceSupport_Status2);
+        this.logChannel.log(1000000, "[AppConnectorPhone2#updateMobileServiceSupport] %1", (Object)mobileServiceSupport_Status2);
         this.sendPropertyStatus(16, mobileServiceSupport_Status2);
     }
 
-    @Override
     public void updateRegisterState(int n, int n2, int n3) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone2#updateRegisterState] registerState=%1, networkType=%2, packetDataNetworkType=%3", (long)n, (long)n2, (long)n3);
+        this.logChannel.log(1000000, "[AppConnectorPhone2#updateRegisterState] registerState=%1, networkType=%2, packetDataNetworkType=%3", (long)n, (long)n2, (long)n3);
         RegisterState2_Status registerState2_Status = new RegisterState2_Status();
         registerState2_Status.registerState = n;
         registerState2_Status.networkType = n2;
@@ -67,18 +64,16 @@ implements CombiBAPServicePhone2 {
         this.sendPropertyStatus(17, registerState2_Status);
     }
 
-    @Override
     public void updateLockState(int n) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone2#updateLockState] lockState=%1", (long)n);
+        this.logChannel.log(1000000, "[AppConnectorPhone2#updateLockState] lockState=%1", (long)n);
         LockState2_Status lockState2_Status = new LockState2_Status();
         lockState2_Status.lockState = n;
         this.sendPropertyStatus(18, lockState2_Status);
     }
 
-    @Override
     public void updateNetworkProvider(int n, String string, int n2, String string2) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone2#updateNetworkProvider] networkProviderState=%2, networkProviderName=%1, ...", (Object)string, (long)n);
-        this.logChannel.log(1078071040, "[AppConnectorPhone2#updateNetworkProvider] serviceProviderState=%2, serviceProviderName=%1, ...", (Object)string2, (long)n2);
+        this.logChannel.log(1000000, "[AppConnectorPhone2#updateNetworkProvider] networkProviderState=%2, networkProviderName=%1, ...", (Object)string, (long)n);
+        this.logChannel.log(1000000, "[AppConnectorPhone2#updateNetworkProvider] serviceProviderState=%2, serviceProviderName=%1, ...", (Object)string2, (long)n2);
         NetworkProvider2_Status networkProvider2_Status = new NetworkProvider2_Status();
         networkProvider2_Status.networkProviderState = n;
         networkProvider2_Status.networkProviderName.setContent(string);
@@ -87,18 +82,16 @@ implements CombiBAPServicePhone2 {
         this.sendPropertyStatus(19, networkProvider2_Status);
     }
 
-    @Override
     public void updateSignalQuality(int n) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone2#updateSignalQuality] quality=%1", (long)n);
+        this.logChannel.log(1000000, "[AppConnectorPhone2#updateSignalQuality] quality=%1", (long)n);
         SignalQuality2_Status signalQuality2_Status = new SignalQuality2_Status();
         signalQuality2_Status.quality = n;
         this.sendPropertyStatus(20, signalQuality2_Status);
     }
 
-    @Override
     public void updatePhoneModuleState(int n, int n2, int n3, int n4) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone2#updatePhoneModuleState] moduleState=%1, simState=%2, ...", (long)n, (long)n4);
-        this.logChannel.log(1078071040, "[AppConnectorPhone2#updatePhoneModuleState] moduleSupportedServices=%1, moduleActiveServices=%2, ...", (long)n2, (long)n3);
+        this.logChannel.log(1000000, "[AppConnectorPhone2#updatePhoneModuleState] moduleState=%1, simState=%2, ...", (long)n, (long)n4);
+        this.logChannel.log(1000000, "[AppConnectorPhone2#updatePhoneModuleState] moduleSupportedServices=%1, moduleActiveServices=%2, ...", (long)n2, (long)n3);
         PhoneModuleState_Status phoneModuleState_Status = new PhoneModuleState_Status();
         phoneModuleState_Status.moduleState = n;
         phoneModuleState_Status.moduleSupportedServices = n2;
@@ -107,9 +100,8 @@ implements CombiBAPServicePhone2 {
         this.sendPropertyStatus(23, phoneModuleState_Status);
     }
 
-    @Override
     public void updateAutomaticCallForwarding(int n) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone2#updateAutomaticCallForwarding] divertState=%1", (long)n);
+        this.logChannel.log(1000000, "[AppConnectorPhone2#updateAutomaticCallForwarding] divertState=%1", (long)n);
         AutomaticCallForwarding_Status automaticCallForwarding_Status = new AutomaticCallForwarding_Status();
         automaticCallForwarding_Status.divertState.forwardingStateValid = n > 0;
         automaticCallForwarding_Status.divertState.forwardingIfBusy = this.hasAttribute(n, 1);

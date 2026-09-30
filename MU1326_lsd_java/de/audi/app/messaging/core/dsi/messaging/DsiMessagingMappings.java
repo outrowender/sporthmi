@@ -23,7 +23,7 @@ public final class DsiMessagingMappings {
                 arrayList.add(messageListEntry.getMessageID());
             }
             if (logChannel != null && logChannel.isInfo() && !arrayList.isEmpty()) {
-                logChannel.log(1078071040, "[DsiMessagingMappings#mmsToSms] Mapped MessageListEntry instances from MMS to SMS, list of affected message IDs: %1", (Object)Collections.toString(arrayList));
+                logChannel.log(1000000, "[DsiMessagingMappings#mmsToSms] Mapped MessageListEntry instances from MMS to SMS, list of affected message IDs: %1", (Object)Collections.toString(arrayList));
             }
         }
         return listEntryArray;
@@ -33,7 +33,7 @@ public final class DsiMessagingMappings {
         if (messageDetails != null && messageDetails.getType() == 5) {
             messageDetails.type = 1;
             if (logChannel != null && logChannel.isInfo()) {
-                logChannel.log(1078071040, "[DsiMessagingMappings#mmsToSms] Mapped MessageDetails instance from MMS to SMS, affected message ID: %1", (Object)messageDetails.getMessageID());
+                logChannel.log(1000000, "[DsiMessagingMappings#mmsToSms] Mapped MessageDetails instance from MMS to SMS, affected message ID: %1", (Object)messageDetails.getMessageID());
             }
         }
         return messageDetails;

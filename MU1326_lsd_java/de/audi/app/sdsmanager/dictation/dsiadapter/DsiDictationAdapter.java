@@ -5,33 +5,26 @@ package de.audi.app.sdsmanager.dictation.dsiadapter;
 
 import de.audi.app.sdsmanager.dictation.DictationComponentManager;
 import de.audi.app.sdsmanager.dictation.component.AbstractDictationComponent;
-import de.audi.app.sdsmanager.dictation.dsiadapter.DsiDictationAdapter$1;
-import de.audi.app.sdsmanager.dictation.dsiadapter.DsiDictationAdapter$10;
-import de.audi.app.sdsmanager.dictation.dsiadapter.DsiDictationAdapter$11;
-import de.audi.app.sdsmanager.dictation.dsiadapter.DsiDictationAdapter$12;
-import de.audi.app.sdsmanager.dictation.dsiadapter.DsiDictationAdapter$13;
-import de.audi.app.sdsmanager.dictation.dsiadapter.DsiDictationAdapter$2;
-import de.audi.app.sdsmanager.dictation.dsiadapter.DsiDictationAdapter$3;
-import de.audi.app.sdsmanager.dictation.dsiadapter.DsiDictationAdapter$4;
-import de.audi.app.sdsmanager.dictation.dsiadapter.DsiDictationAdapter$5;
-import de.audi.app.sdsmanager.dictation.dsiadapter.DsiDictationAdapter$6;
-import de.audi.app.sdsmanager.dictation.dsiadapter.DsiDictationAdapter$7;
-import de.audi.app.sdsmanager.dictation.dsiadapter.DsiDictationAdapter$8;
-import de.audi.app.sdsmanager.dictation.dsiadapter.DsiDictationAdapter$9;
-import de.audi.app.sdsmanager.dictation.dsiadapter.DsiDictationAdapter$DsiAccessClient;
-import de.audi.app.sdsmanager.dictation.dsiadapter.DsiDictationAdapter$DsiOnlineDictationListener;
+import de.audi.app.sdsmanager.dictation.dsi.AbstractDsiOnlineDictationCommand;
+import de.audi.app.sdsmanager.dictation.dsi.DsiOnlineDictationEmptyListener;
+import de.audi.app.sdsmanager.dictation.dsi.IDsiAccessClient;
+import de.audi.app.sdsmanager.dictation.dsiadapter.ActivateDictationCommand;
 import de.audi.app.sdsmanager.dictation.dsiadapter.DsiDictationAdapterListenerProxy;
 import de.audi.app.sdsmanager.dictation.dsiadapter.IDsiDictationAdapter;
 import de.audi.app.sdsmanager.dictation.dsiadapter.IDsiDictationAdapterListener;
 import de.audi.app.sdsmanager.dictation.dsiadapter.ITranscriptPreprocessor;
+import de.audi.app.sdsmanager.dictation.dsiadapter.ProcessVoiceDataCommand;
 import de.audi.app.sdsmanager.dictation.dsiadapter.ServiceProviderInfo;
+import de.audi.app.sdsmanager.dictation.dsiadapter.SetLanguageCommand;
+import de.audi.app.sdsmanager.dictation.dsiadapter.StartDictationCommand;
+import de.audi.app.sdsmanager.dictation.dsiadapter.StopDictationCommand;
 import de.audi.app.sdsmanager.dictation.dsiadapter.TranscriptPreprocessor;
 import de.audi.app.sdsmanager.dictation.osgi.BundleEnvironment;
 import de.audi.app.sdsmanager.dictation.util.DictationUtil;
-import de.audi.atip.log.LogChannel;
 import de.audi.atip.util.Util;
 import de.audi.tghu.command.Monitor;
 import de.esolutions.fw.util.commons.job.DispatcherBase;
+import java.util.LinkedList;
 import java.util.Set;
 import java.util.TreeSet;
 import org.dsi.ifc.online.DictationValueSentence;
@@ -39,13 +32,13 @@ import org.dsi.ifc.online.DictationValueSentence;
 public final class DsiDictationAdapter
 extends AbstractDictationComponent
 implements IDsiDictationAdapter {
-    private static final int RQ_SET_LANGUAGE;
-    private static final int RQ_SET_FALLBACK_LANGUAGE;
-    private static final int RQ_SET_USER_ID;
-    private static final int RQ_ACTIVATE_DICTATION;
-    private static final int RQ_START_DICTATION;
-    private static final int RQ_PROCESS_VOICE_DATA;
-    private static final int RQ_STOP_DICTATION;
+    private static final int RQ_SET_LANGUAGE = 0;
+    private static final int RQ_SET_FALLBACK_LANGUAGE = 1;
+    private static final int RQ_SET_USER_ID = 2;
+    private static final int RQ_ACTIVATE_DICTATION = 3;
+    private static final int RQ_START_DICTATION = 4;
+    private static final int RQ_PROCESS_VOICE_DATA = 5;
+    private static final int RQ_STOP_DICTATION = 6;
     private final ITranscriptPreprocessor transcriptPreprocessor;
     private final Set currentRequests = new TreeSet();
     private volatile DispatcherBase dispatcher;
@@ -64,14 +57,13 @@ implements IDsiDictationAdapter {
         this.transcriptPreprocessor = new TranscriptPreprocessor(this.log);
     }
 
-    @Override
     public void init(DictationComponentManager dictationComponentManager) {
         super.init(dictationComponentManager);
         this.dispatcher = dictationComponentManager.getDispatcherManager().getInternalTaskDispatcher();
         this.cmdMonitor = new Monitor(dictationComponentManager.getDispatcherManager().getCommandListManager().getLogChannel());
-        dictationComponentManager.getDsiOnlineDictationPrimaryListener().addSubscriber(new DsiDictationAdapter$DsiOnlineDictationListener(this, null));
+        dictationComponentManager.getDsiOnlineDictationPrimaryListener().addSubscriber(new DsiOnlineDictationListener());
         this.initListenerProxy();
-        dictationComponentManager.getDsiOnlineDictationAccess().addDsiAccessClient(new DsiDictationAdapter$DsiAccessClient(this, null));
+        dictationComponentManager.getDsiOnlineDictationAccess().addDsiAccessClient(new DsiAccessClient());
     }
 
     private void initListenerProxy() {
@@ -123,275 +115,301 @@ implements IDsiDictationAdapter {
     }
 
     private void logIllegalRequest(String string, int n, Set set) {
-        this.log.log(-1601830656, "%1 Illegal request: activationState = %2, currentRequests = %3", (Object)string, (Object)String.valueOf(n), (Object)DictationUtil.collectionToString(set));
+        this.log.log(100000, "%1 Illegal request: activationState = %2, currentRequests = %3", (Object)string, (Object)String.valueOf(n), (Object)DictationUtil.collectionToString(set));
     }
 
-    @Override
     public void addListener(IDsiDictationAdapterListener iDsiDictationAdapterListener) {
-        this.log.log(1078071040, "[DsiDictationAdapter#addListener] listener = %1", (Object)iDsiDictationAdapterListener);
+        this.log.log(1000000, "[DsiDictationAdapter#addListener] listener = %1", (Object)iDsiDictationAdapterListener);
         this.listenerProxy.addListener(iDsiDictationAdapterListener);
     }
 
-    @Override
     public void removeListener(IDsiDictationAdapterListener iDsiDictationAdapterListener) {
-        this.log.log(1078071040, "[DsiDictationAdapter#removeListener] listener = %1", (Object)iDsiDictationAdapterListener);
+        this.log.log(1000000, "[DsiDictationAdapter#removeListener] listener = %1", (Object)iDsiDictationAdapterListener);
         this.listenerProxy.removeListener(iDsiDictationAdapterListener);
     }
 
-    @Override
-    public void requestSetLanguage(String string) {
-        this.dispatcher.execute(new DsiDictationAdapter$1(this, string));
+    public void requestSetLanguage(final String string) {
+        this.dispatcher.execute(new Runnable(){
+
+            public void run() {
+                DsiDictationAdapter.this.log.log(1000000, "[DsiDictationAdapter#requestSetLanguage] language = %1", (Object)string);
+                if (DsiDictationAdapter.this.isRequestInProgress(0)) {
+                    DsiDictationAdapter.this.logIllegalRequest("[DsiDictationAdapter#requestSetLanguage]", DsiDictationAdapter.this.activationState, DsiDictationAdapter.this.currentRequests);
+                    DsiDictationAdapter.this.listenerProxy.responseSetLanguage(3);
+                } else {
+                    DsiDictationAdapter.this.markRequestInProgress(0);
+                    SetLanguageCommand.schedule(DsiDictationAdapter.this.dictationComponentManager, DsiDictationAdapter.this.cmdMonitor, string, false);
+                }
+            }
+        });
     }
 
-    @Override
-    public void requestSetFallbackLanguage(String string) {
-        this.dispatcher.execute(new DsiDictationAdapter$2(this, string));
+    public void requestSetFallbackLanguage(final String string) {
+        this.dispatcher.execute(new Runnable(){
+
+            public void run() {
+                DsiDictationAdapter.this.log.log(1000000, "[DsiDictationAdapter#requestSetFallbackLanguage] fallbackLanguage = %1", (Object)string);
+                if (DsiDictationAdapter.this.isRequestInProgress(1)) {
+                    DsiDictationAdapter.this.logIllegalRequest("[DsiDictationAdapter#requestSetFallbackLanguage]", DsiDictationAdapter.this.activationState, DsiDictationAdapter.this.currentRequests);
+                    DsiDictationAdapter.this.listenerProxy.responseSetFallbackLanguage(3);
+                } else {
+                    DsiDictationAdapter.this.markRequestInProgress(1);
+                    SetLanguageCommand.schedule(DsiDictationAdapter.this.dictationComponentManager, DsiDictationAdapter.this.cmdMonitor, string, true);
+                }
+            }
+        });
     }
 
-    @Override
-    public void requestSetUserId(String string) {
-        this.dispatcher.execute(new DsiDictationAdapter$3(this, string));
+    public void requestSetUserId(final String string) {
+        this.dispatcher.execute(new Runnable(){
+
+            public void run() {
+                DsiDictationAdapter.this.log.log(1000000, "[DsiDictationAdapter#requestSetUserId] userId = %1", (Object)string);
+                if (DsiDictationAdapter.this.isRequestInProgress(2)) {
+                    DsiDictationAdapter.this.logIllegalRequest("[DsiDictationAdapter#requestSetUserId]", DsiDictationAdapter.this.activationState, DsiDictationAdapter.this.currentRequests);
+                    DsiDictationAdapter.this.listenerProxy.responseSetUserId(3);
+                } else {
+                    DsiDictationAdapter.this.markRequestInProgress(2);
+                    DsiDictationAdapter.this.setUserId(string);
+                    DsiDictationAdapter.this.listenerProxy.responseSetUserId(0);
+                    DsiDictationAdapter.this.markRequestCompleted(2);
+                }
+            }
+        });
     }
 
-    @Override
     public void requestActivateDictation() {
-        this.dispatcher.execute(new DsiDictationAdapter$4(this));
+        this.dispatcher.execute(new Runnable(){
+
+            public void run() {
+                DsiDictationAdapter.this.log.log(1000000, "[DsiDictationAdapter#requestActivateDictation]");
+                if (DsiDictationAdapter.this.activationState != 0 || DsiDictationAdapter.this.isRequestInProgress(3) || DsiDictationAdapter.this.isRequestInProgress(4) || DsiDictationAdapter.this.isRequestInProgress(5) || DsiDictationAdapter.this.isRequestInProgress(6)) {
+                    DsiDictationAdapter.this.logIllegalRequest("[DsiDictationAdapter#requestActivateDictation]", DsiDictationAdapter.this.activationState, DsiDictationAdapter.this.currentRequests);
+                    DsiDictationAdapter.this.listenerProxy.responseActivateDictation(3);
+                } else {
+                    DsiDictationAdapter.this.markRequestInProgress(3);
+                    ActivateDictationCommand.schedule(DsiDictationAdapter.this.dictationComponentManager, DsiDictationAdapter.this.cmdMonitor);
+                }
+            }
+        });
     }
 
-    @Override
-    public void requestStartDictation(String string) {
-        this.dispatcher.execute(new DsiDictationAdapter$5(this, string));
+    public void requestStartDictation(final String string) {
+        this.dispatcher.execute(new Runnable(){
+
+            public void run() {
+                DsiDictationAdapter.this.log.log(1000000, "[DsiDictationAdapter#requestStartDictation] customGrammar = %1", (Object)string);
+                if (DsiDictationAdapter.this.activationState != 1 || DsiDictationAdapter.this.isRequestInProgress(3) || DsiDictationAdapter.this.isRequestInProgress(4) || DsiDictationAdapter.this.isRequestInProgress(5) || DsiDictationAdapter.this.isRequestInProgress(6)) {
+                    DsiDictationAdapter.this.logIllegalRequest("[DsiDictationAdapter#requestStartDictation]", DsiDictationAdapter.this.activationState, DsiDictationAdapter.this.currentRequests);
+                    DsiDictationAdapter.this.listenerProxy.responseStartDictation(3);
+                } else {
+                    DsiDictationAdapter.this.cachedStartDictationResult = 0;
+                    DsiDictationAdapter.this.markRequestInProgress(4);
+                    StartDictationCommand.schedule(DsiDictationAdapter.this.dictationComponentManager, DsiDictationAdapter.this.cmdMonitor, string, DsiDictationAdapter.this.userId);
+                }
+            }
+        });
     }
 
-    @Override
     public void requestProcessVoiceData() {
-        this.dispatcher.execute(new DsiDictationAdapter$6(this));
+        this.dispatcher.execute(new Runnable(){
+
+            public void run() {
+                DsiDictationAdapter.this.log.log(1000000, "[DsiDictationAdapter#requestProcessVoiceData]");
+                if (DsiDictationAdapter.this.activationState != 2 || DsiDictationAdapter.this.isRequestInProgress(3) || DsiDictationAdapter.this.isRequestInProgress(4) || DsiDictationAdapter.this.isRequestInProgress(5) || DsiDictationAdapter.this.isRequestInProgress(6)) {
+                    DsiDictationAdapter.this.logIllegalRequest("[DsiDictationAdapter#requestProcessVoiceData]", DsiDictationAdapter.this.activationState, DsiDictationAdapter.this.currentRequests);
+                    DsiDictationAdapter.this.listenerProxy.responseProcessVoiceData(3, null);
+                } else if (DsiDictationAdapter.this.cachedStartDictationResult != 0) {
+                    DsiDictationAdapter.this.log.log(10000000, "[DsiDictationAdapter#requestProcessVoiceData] The DSI reported an error prior to this call. Responding with cached error code.");
+                    DsiDictationAdapter.this.setActivationState(1);
+                    DsiDictationAdapter.this.listenerProxy.responseProcessVoiceData(DsiDictationAdapter.this.cachedStartDictationResult, null);
+                } else {
+                    DsiDictationAdapter.this.markRequestInProgress(5);
+                    DsiDictationAdapter.this.setActivationState(3);
+                    ProcessVoiceDataCommand.schedule(DsiDictationAdapter.this.dictationComponentManager, DsiDictationAdapter.this.cmdMonitor);
+                }
+            }
+        });
     }
 
-    @Override
     public void requestStopDictation() {
-        this.dispatcher.execute(new DsiDictationAdapter$7(this));
+        this.dispatcher.execute(new Runnable(){
+
+            public void run() {
+                boolean bl;
+                DsiDictationAdapter.this.log.log(1000000, "[DsiDictationAdapter#requestStopDictation]");
+                boolean bl2 = !DsiDictationAdapter.this.isRequestInProgress(3) && !DsiDictationAdapter.this.isRequestInProgress(4) && !DsiDictationAdapter.this.isRequestInProgress(5) && !DsiDictationAdapter.this.isRequestInProgress(6);
+                boolean bl3 = bl2 && DsiDictationAdapter.this.activationState == 1;
+                boolean bl4 = DsiDictationAdapter.this.isRequestInProgress(4) && DsiDictationAdapter.this.activationState == 1;
+                boolean bl5 = bl2 && DsiDictationAdapter.this.activationState == 2;
+                boolean bl6 = bl = DsiDictationAdapter.this.isRequestInProgress(5) && DsiDictationAdapter.this.activationState == 3;
+                if (!(bl3 || bl4 || bl5 || bl)) {
+                    DsiDictationAdapter.this.logIllegalRequest("[DsiDictationAdapter#requestStopDictation]", DsiDictationAdapter.this.activationState, DsiDictationAdapter.this.currentRequests);
+                    DsiDictationAdapter.this.listenerProxy.responseStopDictation(3);
+                } else if (bl3) {
+                    DsiDictationAdapter.this.log.log(10000000, "[DsiDictationAdapter#requestStopDictation] No dictation in progress, signalling OK to the client.");
+                    DsiDictationAdapter.this.listenerProxy.responseStopDictation(0);
+                } else {
+                    DsiDictationAdapter.this.markRequestInProgress(6);
+                    DsiDictationAdapter.this.cmdMonitor.stopMonitoredLists("[DsiDictationAdapter#requestStopDictation] has been called.");
+                    StopDictationCommand.schedule(DsiDictationAdapter.this.dictationComponentManager, DsiDictationAdapter.this.cmdMonitor);
+                }
+            }
+        });
     }
 
-    void handleSetLanguageResult(int n, String string, boolean bl) {
-        this.dispatcher.execute(new DsiDictationAdapter$8(this, n, string, bl));
+    void handleSetLanguageResult(final int n, final String string, final boolean bl) {
+        this.dispatcher.execute(new Runnable(){
+
+            public void run() {
+                DsiDictationAdapter.this.log.log(10000000, "[DsiDictationAdapter#handleSetLanguageResult] result = %1, languageCode = %2, isFallbackLanguage = %3", (Object)String.valueOf(n), (Object)string, (Object)String.valueOf(bl));
+                if (n == 0) {
+                    String string3 = DsiDictationAdapter.this.language;
+                    String string2 = DsiDictationAdapter.this.fallbackLanguage;
+                    if (!bl) {
+                        string3 = string;
+                    } else {
+                        string2 = string;
+                    }
+                    DsiDictationAdapter.this.setLanguage(string3, string2);
+                }
+                if (!bl) {
+                    DsiDictationAdapter.this.listenerProxy.responseSetLanguage(n);
+                } else {
+                    DsiDictationAdapter.this.listenerProxy.responseSetFallbackLanguage(n);
+                }
+                DsiDictationAdapter.this.markRequestCompleted(bl ? 1 : 0);
+            }
+        });
     }
 
-    void handleActivateDictationResult(int n) {
-        this.dispatcher.execute(new DsiDictationAdapter$9(this, n));
+    void handleActivateDictationResult(final int n) {
+        this.dispatcher.execute(new Runnable(){
+
+            public void run() {
+                DsiDictationAdapter.this.log.log(10000000, "[DsiDictationAdapter#handleActivateDictationResult] result = %1", (long)n);
+                if (DsiDictationAdapter.this.isRequestInProgress(3)) {
+                    if (n == 0) {
+                        DsiDictationAdapter.this.setActivationState(1);
+                    } else {
+                        DsiDictationAdapter.this.setActivationState(0);
+                    }
+                    DsiDictationAdapter.this.listenerProxy.responseActivateDictation(n);
+                    DsiDictationAdapter.this.markRequestCompleted(3);
+                } else {
+                    DsiDictationAdapter.this.log.log(10000000, "[DsiDictationAdapter#handleActivateDictationResult] Discarding obsolete result.");
+                }
+            }
+        });
     }
 
-    void handleProcessVoiceDataResult(int n, DictationValueSentence dictationValueSentence) {
-        this.dispatcher.execute(new DsiDictationAdapter$10(this, n, dictationValueSentence));
+    void handleProcessVoiceDataResult(final int n, final DictationValueSentence dictationValueSentence) {
+        this.dispatcher.execute(new Runnable(){
+
+            public void run() {
+                DsiDictationAdapter.this.log.log(10000000, "[DsiDictationAdapter#handleProcessVoiceDataResult] result = %1", (long)n);
+                if (DsiDictationAdapter.this.isRequestInProgress(5)) {
+                    int n2 = n;
+                    LinkedList linkedList = new LinkedList();
+                    if (n == 0) {
+                        DsiDictationAdapter.this.setServiceProviderInfo(new ServiceProviderInfo(dictationValueSentence));
+                        try {
+                            linkedList = DsiDictationAdapter.this.transcriptPreprocessor.preprocessTranscript(dictationValueSentence);
+                        }
+                        catch (Exception exception) {
+                            DictationUtil.logException(DsiDictationAdapter.this.log, exception, "[DsiDictationAdapter#handleProcessVoiceDataResult]");
+                            n2 = 1;
+                        }
+                    }
+                    DsiDictationAdapter.this.setActivationState(1);
+                    DsiDictationAdapter.this.listenerProxy.responseProcessVoiceData(n2, linkedList);
+                    DsiDictationAdapter.this.markRequestCompleted(5);
+                } else {
+                    DsiDictationAdapter.this.log.log(10000000, "[DsiDictationAdapter#handleProcessVoiceDataResult] Discarding obsolete result.");
+                }
+            }
+        });
     }
 
-    void handleStartDictationResult(int n) {
-        this.dispatcher.execute(new DsiDictationAdapter$11(this, n));
+    void handleStartDictationResult(final int n) {
+        this.dispatcher.execute(new Runnable(){
+
+            public void run() {
+                DsiDictationAdapter.this.log.log(10000000, "[DsiDictationAdapter#handleStartDictationResult] result = %1", (long)n);
+                if (DsiDictationAdapter.this.isRequestInProgress(4)) {
+                    if (n == 0) {
+                        DsiDictationAdapter.this.setActivationState(2);
+                    } else {
+                        DsiDictationAdapter.this.setActivationState(0);
+                    }
+                    DsiDictationAdapter.this.listenerProxy.responseStartDictation(n);
+                    DsiDictationAdapter.this.markRequestCompleted(4);
+                } else {
+                    DsiDictationAdapter.this.log.log(10000000, "[DsiDictationAdapter#handleStartDictationResult] Discarding obsolete result.");
+                }
+            }
+        });
     }
 
-    void handleStopDictationResult(int n) {
-        this.dispatcher.execute(new DsiDictationAdapter$12(this, n));
+    void handleStopDictationResult(final int n) {
+        this.dispatcher.execute(new Runnable(){
+
+            public void run() {
+                DsiDictationAdapter.this.log.log(10000000, "[DsiDictationAdapter#handleStopDictationResult] result = %1", (long)n);
+                if (DsiDictationAdapter.this.isRequestInProgress(6)) {
+                    if (n == 0) {
+                        DsiDictationAdapter.this.setActivationState(1);
+                    } else {
+                        DsiDictationAdapter.this.setActivationState(0);
+                    }
+                    DsiDictationAdapter.this.listenerProxy.responseStopDictation(n);
+                    DsiDictationAdapter.this.markRequestCompleted(6);
+                } else {
+                    DsiDictationAdapter.this.log.log(10000000, "[DsiDictationAdapter#handleStopDictationResult] Discarding obsolete result.");
+                }
+            }
+        });
     }
 
-    private void handleDictationResult(int n) {
-        this.dispatcher.execute(new DsiDictationAdapter$13(this, n));
+    private void handleDictationResult(final int n) {
+        this.dispatcher.execute(new Runnable(){
+
+            public void run() {
+                DsiDictationAdapter.this.log.log(10000000, "[DsiDictationAdapter#handleDictationResult] result = %1", (long)n);
+                if (DsiDictationAdapter.this.activationState == 2) {
+                    DsiDictationAdapter.this.cachedStartDictationResult = n;
+                } else {
+                    DsiDictationAdapter.this.log.log(100000, "[DsiDictationAdapter#handleDictationResult] Invalid state, ignoring call.");
+                }
+            }
+        });
     }
 
-    static /* synthetic */ LogChannel access$201(DsiDictationAdapter dsiDictationAdapter) {
-        return dsiDictationAdapter.log;
+    private class DsiAccessClient
+    implements IDsiAccessClient {
+        private DsiAccessClient() {
+        }
+
+        public void updateDsiAvailability(final boolean bl) {
+            DsiDictationAdapter.this.dispatcher.execute(new Runnable(){
+
+                public void run() {
+                    DsiDictationAdapter.this.log.log(10000000, "[DsiDictationAdapter#updateDsiAvailability] dsiAvailable = %1", bl);
+                    DsiDictationAdapter.this.setDsiAvailable(bl);
+                }
+            });
+        }
     }
 
-    static /* synthetic */ boolean access$300(DsiDictationAdapter dsiDictationAdapter, int n) {
-        return dsiDictationAdapter.isRequestInProgress(n);
-    }
+    private class DsiOnlineDictationListener
+    extends DsiOnlineDictationEmptyListener {
+        private DsiOnlineDictationListener() {
+        }
 
-    static /* synthetic */ int access$400(DsiDictationAdapter dsiDictationAdapter) {
-        return dsiDictationAdapter.activationState;
-    }
-
-    static /* synthetic */ Set access$500(DsiDictationAdapter dsiDictationAdapter) {
-        return dsiDictationAdapter.currentRequests;
-    }
-
-    static /* synthetic */ void access$600(DsiDictationAdapter dsiDictationAdapter, String string, int n, Set set) {
-        dsiDictationAdapter.logIllegalRequest(string, n, set);
-    }
-
-    static /* synthetic */ DsiDictationAdapterListenerProxy access$700(DsiDictationAdapter dsiDictationAdapter) {
-        return dsiDictationAdapter.listenerProxy;
-    }
-
-    static /* synthetic */ void access$800(DsiDictationAdapter dsiDictationAdapter, int n) {
-        dsiDictationAdapter.markRequestInProgress(n);
-    }
-
-    static /* synthetic */ DictationComponentManager access$901(DsiDictationAdapter dsiDictationAdapter) {
-        return dsiDictationAdapter.dictationComponentManager;
-    }
-
-    static /* synthetic */ Monitor access$1000(DsiDictationAdapter dsiDictationAdapter) {
-        return dsiDictationAdapter.cmdMonitor;
-    }
-
-    static /* synthetic */ LogChannel access$1101(DsiDictationAdapter dsiDictationAdapter) {
-        return dsiDictationAdapter.log;
-    }
-
-    static /* synthetic */ DictationComponentManager access$1201(DsiDictationAdapter dsiDictationAdapter) {
-        return dsiDictationAdapter.dictationComponentManager;
-    }
-
-    static /* synthetic */ LogChannel access$1301(DsiDictationAdapter dsiDictationAdapter) {
-        return dsiDictationAdapter.log;
-    }
-
-    static /* synthetic */ void access$1400(DsiDictationAdapter dsiDictationAdapter, String string) {
-        dsiDictationAdapter.setUserId(string);
-    }
-
-    static /* synthetic */ void access$1500(DsiDictationAdapter dsiDictationAdapter, int n) {
-        dsiDictationAdapter.markRequestCompleted(n);
-    }
-
-    static /* synthetic */ LogChannel access$1601(DsiDictationAdapter dsiDictationAdapter) {
-        return dsiDictationAdapter.log;
-    }
-
-    static /* synthetic */ DictationComponentManager access$1701(DsiDictationAdapter dsiDictationAdapter) {
-        return dsiDictationAdapter.dictationComponentManager;
-    }
-
-    static /* synthetic */ LogChannel access$1801(DsiDictationAdapter dsiDictationAdapter) {
-        return dsiDictationAdapter.log;
-    }
-
-    static /* synthetic */ int access$1902(DsiDictationAdapter dsiDictationAdapter, int n) {
-        dsiDictationAdapter.cachedStartDictationResult = n;
-        return dsiDictationAdapter.cachedStartDictationResult;
-    }
-
-    static /* synthetic */ DictationComponentManager access$2001(DsiDictationAdapter dsiDictationAdapter) {
-        return dsiDictationAdapter.dictationComponentManager;
-    }
-
-    static /* synthetic */ String access$2100(DsiDictationAdapter dsiDictationAdapter) {
-        return dsiDictationAdapter.userId;
-    }
-
-    static /* synthetic */ LogChannel access$2201(DsiDictationAdapter dsiDictationAdapter) {
-        return dsiDictationAdapter.log;
-    }
-
-    static /* synthetic */ int access$1900(DsiDictationAdapter dsiDictationAdapter) {
-        return dsiDictationAdapter.cachedStartDictationResult;
-    }
-
-    static /* synthetic */ LogChannel access$2301(DsiDictationAdapter dsiDictationAdapter) {
-        return dsiDictationAdapter.log;
-    }
-
-    static /* synthetic */ void access$2400(DsiDictationAdapter dsiDictationAdapter, int n) {
-        dsiDictationAdapter.setActivationState(n);
-    }
-
-    static /* synthetic */ DictationComponentManager access$2501(DsiDictationAdapter dsiDictationAdapter) {
-        return dsiDictationAdapter.dictationComponentManager;
-    }
-
-    static /* synthetic */ LogChannel access$2601(DsiDictationAdapter dsiDictationAdapter) {
-        return dsiDictationAdapter.log;
-    }
-
-    static /* synthetic */ LogChannel access$2701(DsiDictationAdapter dsiDictationAdapter) {
-        return dsiDictationAdapter.log;
-    }
-
-    static /* synthetic */ DictationComponentManager access$2801(DsiDictationAdapter dsiDictationAdapter) {
-        return dsiDictationAdapter.dictationComponentManager;
-    }
-
-    static /* synthetic */ LogChannel access$2901(DsiDictationAdapter dsiDictationAdapter) {
-        return dsiDictationAdapter.log;
-    }
-
-    static /* synthetic */ String access$3000(DsiDictationAdapter dsiDictationAdapter) {
-        return dsiDictationAdapter.language;
-    }
-
-    static /* synthetic */ String access$3100(DsiDictationAdapter dsiDictationAdapter) {
-        return dsiDictationAdapter.fallbackLanguage;
-    }
-
-    static /* synthetic */ void access$3200(DsiDictationAdapter dsiDictationAdapter, String string, String string2) {
-        dsiDictationAdapter.setLanguage(string, string2);
-    }
-
-    static /* synthetic */ LogChannel access$3301(DsiDictationAdapter dsiDictationAdapter) {
-        return dsiDictationAdapter.log;
-    }
-
-    static /* synthetic */ LogChannel access$3401(DsiDictationAdapter dsiDictationAdapter) {
-        return dsiDictationAdapter.log;
-    }
-
-    static /* synthetic */ LogChannel access$3501(DsiDictationAdapter dsiDictationAdapter) {
-        return dsiDictationAdapter.log;
-    }
-
-    static /* synthetic */ void access$3600(DsiDictationAdapter dsiDictationAdapter, ServiceProviderInfo serviceProviderInfo) {
-        dsiDictationAdapter.setServiceProviderInfo(serviceProviderInfo);
-    }
-
-    static /* synthetic */ ITranscriptPreprocessor access$3700(DsiDictationAdapter dsiDictationAdapter) {
-        return dsiDictationAdapter.transcriptPreprocessor;
-    }
-
-    static /* synthetic */ LogChannel access$3801(DsiDictationAdapter dsiDictationAdapter) {
-        return dsiDictationAdapter.log;
-    }
-
-    static /* synthetic */ LogChannel access$3901(DsiDictationAdapter dsiDictationAdapter) {
-        return dsiDictationAdapter.log;
-    }
-
-    static /* synthetic */ LogChannel access$4001(DsiDictationAdapter dsiDictationAdapter) {
-        return dsiDictationAdapter.log;
-    }
-
-    static /* synthetic */ LogChannel access$4101(DsiDictationAdapter dsiDictationAdapter) {
-        return dsiDictationAdapter.log;
-    }
-
-    static /* synthetic */ LogChannel access$4201(DsiDictationAdapter dsiDictationAdapter) {
-        return dsiDictationAdapter.log;
-    }
-
-    static /* synthetic */ LogChannel access$4301(DsiDictationAdapter dsiDictationAdapter) {
-        return dsiDictationAdapter.log;
-    }
-
-    static /* synthetic */ LogChannel access$4401(DsiDictationAdapter dsiDictationAdapter) {
-        return dsiDictationAdapter.log;
-    }
-
-    static /* synthetic */ LogChannel access$4501(DsiDictationAdapter dsiDictationAdapter) {
-        return dsiDictationAdapter.log;
-    }
-
-    static /* synthetic */ void access$4600(DsiDictationAdapter dsiDictationAdapter, int n) {
-        dsiDictationAdapter.handleDictationResult(n);
-    }
-
-    static /* synthetic */ LogChannel access$4801(DsiDictationAdapter dsiDictationAdapter) {
-        return dsiDictationAdapter.log;
-    }
-
-    static /* synthetic */ void access$4900(DsiDictationAdapter dsiDictationAdapter, boolean bl) {
-        dsiDictationAdapter.setDsiAvailable(bl);
-    }
-
-    static /* synthetic */ DispatcherBase access$5000(DsiDictationAdapter dsiDictationAdapter) {
-        return dsiDictationAdapter.dispatcher;
+        public void dictationResult(int n) {
+            int n2 = AbstractDsiOnlineDictationCommand.mapDsiErrorCode(n);
+            DsiDictationAdapter.this.handleDictationResult(n2);
+        }
     }
 }
 

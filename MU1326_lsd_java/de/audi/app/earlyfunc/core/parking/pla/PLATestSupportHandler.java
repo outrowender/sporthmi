@@ -40,17 +40,14 @@ implements ITestSupportHandlerNotification {
         this.testSupportHandler.deinit();
     }
 
-    @Override
     public void debugDataVisible(boolean bl) {
         this.testSupportVisible = bl;
         this.updateDebugData();
     }
 
-    @Override
     public void commandEntrySelected(int n) {
     }
 
-    @Override
     public TestSupportDataReceiverEntry[] getCommandEntries() {
         return new TestSupportDataReceiverEntry[0];
     }
@@ -61,14 +58,14 @@ implements ITestSupportHandlerNotification {
                 this.testSupportData[0] = "";
                 this.testSupportData[1] = "";
                 this.testSupportData[2] = "--- DSI ---";
-                this.testSupportData[3] = new StringBuffer().append("PLA Mode        : ").append(PLATestSupportHandler.getDebugPLAMode(this.plaStatus.getMode())).toString();
-                this.testSupportData[4] = new StringBuffer().append("Instructions    : ").append(PLATestSupportHandler.getDebugPLAInstructions(this.plaStatus.getInstructions())).toString();
-                this.testSupportData[5] = new StringBuffer().append("Parking Spots   : ").append(PLATestSupportHandler.getDebugPLAParkingSpots(this.plaStatus.getParkingSpot())).append(", PreSelection: ").append(PLATestSupportHandler.getDebugPLAPreSelection(this.plaStatus.getPreSelection())).toString();
-                this.testSupportData[6] = new StringBuffer().append("Driving Direc.  : ").append(PLATestSupportHandler.getDebugPLADrivingDirection(this.plaStatus.getDrivingDirection())).toString();
-                this.testSupportData[7] = new StringBuffer().append("PLA Message     : ").append(this.plaMessage).toString();
+                this.testSupportData[3] = "PLA Mode        : " + PLATestSupportHandler.getDebugPLAMode(this.plaStatus.getMode());
+                this.testSupportData[4] = "Instructions    : " + PLATestSupportHandler.getDebugPLAInstructions(this.plaStatus.getInstructions());
+                this.testSupportData[5] = "Parking Spots   : " + PLATestSupportHandler.getDebugPLAParkingSpots(this.plaStatus.getParkingSpot()) + ", PreSelection: " + PLATestSupportHandler.getDebugPLAPreSelection(this.plaStatus.getPreSelection());
+                this.testSupportData[6] = "Driving Direc.  : " + PLATestSupportHandler.getDebugPLADrivingDirection(this.plaStatus.getDrivingDirection());
+                this.testSupportData[7] = "PLA Message     : " + this.plaMessage;
                 this.testSupportData[8] = "";
                 this.testSupportData[9] = "--- HMI ---";
-                this.testSupportData[10] = new StringBuffer().append("Last DSI-Calls : selected=").append(this.lastSelected).append(", preSelected=").append(this.lastPreSelected).toString();
+                this.testSupportData[10] = "Last DSI-Calls : selected=" + this.lastSelected + ", preSelected=" + this.lastPreSelected;
             } else {
                 this.testSupportData[0] = "";
                 this.testSupportData[1] = "";
@@ -77,10 +74,10 @@ implements ITestSupportHandlerNotification {
                 this.testSupportData[4] = "Instructions    : --";
                 this.testSupportData[5] = "Parking Spots   : --";
                 this.testSupportData[6] = "Driving Direc.  : --";
-                this.testSupportData[7] = new StringBuffer().append("PLA Message     : ").append(this.plaMessage).toString();
+                this.testSupportData[7] = "PLA Message     : " + this.plaMessage;
                 this.testSupportData[8] = "";
                 this.testSupportData[9] = "--- HMI ---";
-                this.testSupportData[10] = new StringBuffer().append("Last DSI-Calls  : selected=").append(this.lastSelected).append(", preSelected=").append(this.lastPreSelected).toString();
+                this.testSupportData[10] = "Last DSI-Calls  : selected=" + this.lastSelected + ", preSelected=" + this.lastPreSelected;
             }
             this.testSupportHandler.updateData(this.testSupportData);
         }
@@ -104,7 +101,7 @@ implements ITestSupportHandlerNotification {
                 return "FORWARD";
             }
         }
-        return new StringBuffer().append("Unknown: ").append(n).toString();
+        return "Unknown: " + n;
     }
 
     protected static String getDebugPLAInstructions(PDCPLAInstructions pDCPLAInstructions) {
@@ -141,7 +138,7 @@ implements ITestSupportHandlerNotification {
                 return "BR";
             }
         }
-        return new StringBuffer().append("Unknown: ").append(n).toString();
+        return "Unknown: " + n;
     }
 
     protected static String getDebugPLAParkingSpots(PDCPLAParkingSpot pDCPLAParkingSpot) {
@@ -196,7 +193,7 @@ implements ITestSupportHandlerNotification {
                 return "RESUME";
             }
         }
-        return new StringBuffer().append("Unknown: ").append(n).toString();
+        return "Unknown: " + n;
     }
 
     protected void updateDSIPLAStatus(PDCPLAStatus pDCPLAStatus) {

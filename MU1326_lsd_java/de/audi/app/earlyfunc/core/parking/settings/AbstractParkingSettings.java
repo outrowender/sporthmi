@@ -15,58 +15,51 @@ import org.dsi.ifc.carparkingsystem.ParkingSystemViewOptions;
 public abstract class AbstractParkingSettings
 extends AbstractDSICarParkingSystemAdapter
 implements ChoiceListener {
-    private static final String COMPONENT_NAME;
-    public static final short CODING_ID;
-    public static final int PDC_DEFAULT_FREQ_FRONT;
-    public static final int PDC_DEFAULT_FREQ_REAR;
+    private static final String COMPONENT_NAME = "ParkingSettings";
+    public static final short CODING_ID = 2;
+    public static final int PDC_DEFAULT_FREQ_FRONT = 4;
+    public static final int PDC_DEFAULT_FREQ_REAR = 6;
     private volatile ParkingSystemViewOptions currViewOptions;
     private final ParkingSystemEntertainmentLowering entertainmentLowering;
     private volatile int focusGained = 0;
-    private static final int FOCUS_CONTENT_NONE;
-    private static final int FOCUS_CONTENT_VOLUME_FRONT;
-    private static final int FOCUS_CONTENT_VOLUME_REAR;
+    private static final int FOCUS_CONTENT_NONE = 0;
+    private static final int FOCUS_CONTENT_VOLUME_FRONT = 1;
+    private static final int FOCUS_CONTENT_VOLUME_REAR = 2;
     private PDCSound currentlySelectedVolumeFront = new PDCSound(1, 4);
     private PDCSound currentlySelectedVolumeRear = new PDCSound(1, 6);
     private PDCSound currentlyChangingVolumeFront = new PDCSound(0, 4);
     private PDCSound currentlyChangingVolumeRear = new PDCSound(0, 6);
-    private static final int FOCUS_LOST;
+    private static final int FOCUS_LOST = -1;
 
     public AbstractParkingSettings(ICarApplication iCarApplication) {
         super(iCarApplication, "App.EarlyFunc.Parking.Settings");
         this.entertainmentLowering = new ParkingSystemEntertainmentLowering(this.getLogChannel());
     }
 
-    @Override
     public void initBusiness() {
         this.entertainmentLowering.init(this.getDSI(), this.getApplication());
     }
 
-    @Override
     public void deinit() {
         this.entertainmentLowering.deinit();
         super.deinit();
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
-        this.getLogChannel().log(1078071040, "[AbstractParkingSettings#keyPressed] modelID='%1', keyID='%2'", (long)n, (long)n2);
+        this.getLogChannel().log(1000000, "[AbstractParkingSettings#keyPressed] modelID='%1', keyID='%2'", (long)n, (long)n2);
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
-        this.getLogChannel().log(1078071040, "[AbstractParkingSettings#keyReleased] modelID='%1', keyID='%2'", (long)n, (long)n2);
+        this.getLogChannel().log(1000000, "[AbstractParkingSettings#keyReleased] modelID='%1', keyID='%2'", (long)n, (long)n2);
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.getLogChannel().log(1078071040, "[AbstractParkingSettings#keyReleased] modelID='%1', keyID='%2'", (long)n, (long)n2);
+        this.getLogChannel().log(1000000, "[AbstractParkingSettings#keyReleased] modelID='%1', keyID='%2'", (long)n, (long)n2);
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
         this.logModelData("itemSelected:", n, n2, true);
         if (n == ParkingSettingsConstant.VPSDEFAULTVIEW.getModelID()) {
@@ -75,16 +68,15 @@ implements ChoiceListener {
             this.itemSelectedPDCVolumeFront(n2);
         } else if (n == this.getVolumeSettingsRear().getModelID()) {
             this.itemSelectedPDCVolumeRear(n2);
-        } else if (n == 806166528) {
+        } else if (n == 2100528) {
             boolean bl = 1 == n2;
-            this.getLogChannel().log(1078071040, "AbstractParkingSettings: DSI().setPDCAutoActivation(%1)", (Object)(bl ? "true" : "false"));
+            this.getLogChannel().log(1000000, "AbstractParkingSettings: DSI().setPDCAutoActivation(%1)", (Object)(bl ? "true" : "false"));
             this.getDSI().setPDCAutoActivation(bl);
         } else {
             this.logModelData("itemSelected:", n, n2, false);
         }
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
         this.logModelData("itemFocused:", n, n2, true);
         if (n == this.getVolumeSettingsFront().getModelID()) {
@@ -99,7 +91,7 @@ implements ChoiceListener {
     private void itemFocusedPDCVolumeFront(int n) {
         if (n == -1) {
             if (this.focusGained == 1) {
-                this.getLogChannel().log(1078071040, "[AbstractParkingSettings#itemFocusedPDCVolumeFront] focus lost --> dsi.setPDCSoundFront(%1)", (Object)this.currentlySelectedVolumeFront);
+                this.getLogChannel().log(1000000, "[AbstractParkingSettings#itemFocusedPDCVolumeFront] focus lost --> dsi.setPDCSoundFront(%1)", (Object)this.currentlySelectedVolumeFront);
                 this.getDSI().setPDCSoundFront(this.currentlySelectedVolumeFront);
                 this.setFocusGained(0);
             }
@@ -112,7 +104,7 @@ implements ChoiceListener {
     private void itemFocusedPDCVolumeRear(int n) {
         if (n == -1) {
             if (this.focusGained == 2) {
-                this.getLogChannel().log(1078071040, "[AbstractParkingSettings#itemFocusedPDCVolumeRear] focus lost --> dsi.setPDCSoundRear(%1)", (Object)this.currentlySelectedVolumeRear);
+                this.getLogChannel().log(1000000, "[AbstractParkingSettings#itemFocusedPDCVolumeRear] focus lost --> dsi.setPDCSoundRear(%1)", (Object)this.currentlySelectedVolumeRear);
                 this.getDSI().setPDCSoundRear(this.currentlySelectedVolumeRear);
                 this.setFocusGained(0);
             }
@@ -129,7 +121,7 @@ implements ChoiceListener {
     private void itemSelectedAutoVPSViewSwitching(int n) {
         if (n < ParkingSettingsConstant.VPSDEFAULTVIEW.getSelectableOptions().length) {
             int n2 = ParkingSettingsConstant.VPSDEFAULTVIEW.getSelectableOptions()[n];
-            this.getLogChannel().log(1078071040, "[AbstractParkingSettings#itemSelectedAutoVPSViewSwitching] dsi.setVPSDefaultView(%1)", (long)n2);
+            this.getLogChannel().log(1000000, "[AbstractParkingSettings#itemSelectedAutoVPSViewSwitching] dsi.setVPSDefaultView(%1)", (long)n2);
             this.getDSI().setVPSDefaultView(n2);
         }
     }
@@ -146,7 +138,7 @@ implements ChoiceListener {
     private void sendDSISetVolumeRear(int n) {
         if (n < this.getVolumeSettingsRear().getSelectableOptions().length) {
             PDCSound pDCSound = new PDCSound(this.getVolumeRear(n), 6);
-            this.getLogChannel().log(1078071040, "[AbstractParkingSettings#sendDSISetVolumeRear] dsi.setPDCSoundRear(%1)", (Object)pDCSound);
+            this.getLogChannel().log(1000000, "[AbstractParkingSettings#sendDSISetVolumeRear] dsi.setPDCSoundRear(%1)", (Object)pDCSound);
             this.getDSI().setPDCSoundRear(pDCSound);
         }
     }
@@ -163,7 +155,7 @@ implements ChoiceListener {
     private void sendDSISetVolumeFront(int n) {
         if (n < this.getVolumeSettingsFront().getSelectableOptions().length) {
             PDCSound pDCSound = new PDCSound(this.getVolumeFront(n), 4);
-            this.getLogChannel().log(1078071040, "[AbstractParkingSettings#sendDSISetVolumeFront] dsi.setPDCSoundFront(%1)", (Object)pDCSound);
+            this.getLogChannel().log(1000000, "[AbstractParkingSettings#sendDSISetVolumeFront] dsi.setPDCSoundFront(%1)", (Object)pDCSound);
             this.getDSI().setPDCSoundFront(pDCSound);
         }
     }
@@ -182,9 +174,8 @@ implements ChoiceListener {
         return -1;
     }
 
-    @Override
     public void updateParkingSystemViewOptions(ParkingSystemViewOptions parkingSystemViewOptions, int n) {
-        this.getLogChannel().log(1078071040, "[AbstractParkingSettings#updateParkingSystemViewOptions] parkingSystemViewOptions=%1, valid=%2", (Object)parkingSystemViewOptions, (long)n);
+        this.getLogChannel().log(1000000, "[AbstractParkingSettings#updateParkingSystemViewOptions] parkingSystemViewOptions=%1, valid=%2", (Object)parkingSystemViewOptions, (long)n);
         if (n == 1) {
             this.currViewOptions = parkingSystemViewOptions;
             this.entertainmentLowering.updateViewOptions(this.currViewOptions);
@@ -193,11 +184,10 @@ implements ChoiceListener {
         }
     }
 
-    @Override
     public void updatePDCSoundFront(PDCSound pDCSound, int n) {
         if (pDCSound != null) {
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "[AbstractParkingSettings#updatePDCSoundFront] sound=%1, valid=%2", (Object)pDCSound, (long)n);
+                this.getLogChannel().log(1000000, "[AbstractParkingSettings#updatePDCSoundFront] sound=%1, valid=%2", (Object)pDCSound, (long)n);
             }
             if (n == 1) {
                 if (this.focusGained == 1) {
@@ -215,11 +205,10 @@ implements ChoiceListener {
         this.currentlyChangingVolumeFront.volume = 0;
     }
 
-    @Override
     public void updatePDCSoundRear(PDCSound pDCSound, int n) {
         if (pDCSound != null) {
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "[AbstractParkingSettings#updatePDCSoundRear] sound=%1, valid=%2", (Object)pDCSound, (long)n);
+                this.getLogChannel().log(1000000, "[AbstractParkingSettings#updatePDCSoundRear] sound=%1, valid=%2", (Object)pDCSound, (long)n);
             }
             if (n == 1) {
                 if (this.focusGained == 2) {
@@ -237,21 +226,19 @@ implements ChoiceListener {
         this.currentlyChangingVolumeRear.volume = 0;
     }
 
-    @Override
     public void updateVPSDefaultView(int n, int n2) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractParkingSettings#updateVPSDefaultView] vpsDefaultView=%1, valid=%2", (long)n, (long)n2);
+            this.getLogChannel().log(1000000, "[AbstractParkingSettings#updateVPSDefaultView] vpsDefaultView=%1, valid=%2", (long)n, (long)n2);
         }
         if (n2 == 1) {
             ParkingSettingsConstant.VPSDEFAULTVIEW.setModelValue(this.getChoiceModel(ParkingSettingsConstant.VPSDEFAULTVIEW.getModelID()), n, this.getLogChannel());
         }
     }
 
-    @Override
     public void updatePDCOPSAutoActivation(boolean bl, int n) {
-        this.getLogChannel().log(1078071040, "updatePDCOPSAutoActivation: autoActivation=%1, valid=%2", bl, (long)n);
+        this.getLogChannel().log(1000000, "updatePDCOPSAutoActivation: autoActivation=%1, valid=%2", bl, (long)n);
         if (n == 1) {
-            this.getChoiceModel(806166528).setValue(bl ? 1 : 0);
+            this.getChoiceModel(2100528).setValue(bl ? 1 : 0);
         }
     }
 
@@ -263,12 +250,10 @@ implements ChoiceListener {
         return ParkingSettingsConstant.VOLUMEREAR;
     }
 
-    @Override
     public String getName() {
-        return "ParkingSettings";
+        return COMPONENT_NAME;
     }
 
-    @Override
     public String getCurrentViewOptions() {
         if (this.currViewOptions == null) {
             return "no view options received yet";
@@ -276,28 +261,24 @@ implements ChoiceListener {
         return this.currViewOptions.toString();
     }
 
-    @Override
     protected void initModels() {
         this.getChoiceModel(ParkingSettingsConstant.VPSDEFAULTVIEW.getModelID()).setChoiceListener(this);
         this.getChoiceModel(this.getVolumeSettingsFront().getModelID()).setChoiceListener(this);
         this.getChoiceModel(this.getVolumeSettingsRear().getModelID()).setChoiceListener(this);
-        this.getChoiceModel(806166528).setChoiceListener(this);
+        this.getChoiceModel(2100528).setChoiceListener(this);
     }
 
-    @Override
     protected void deinitModels() {
         this.getChoiceModel(ParkingSettingsConstant.VPSDEFAULTVIEW.getModelID()).resetListener();
         this.getChoiceModel(this.getVolumeSettingsFront().getModelID()).resetListener();
         this.getChoiceModel(this.getVolumeSettingsRear().getModelID()).resetListener();
-        this.getChoiceModel(806166528).resetListener();
+        this.getChoiceModel(2100528).resetListener();
     }
 
-    @Override
     public CarDSIAttributesSet[] getDSIAttributesSets() {
         return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{1}, new int[]{ParkingSettingsConstant.VPSDEFAULTVIEW.getDsiAttribute(), this.getVolumeSettingsFront().getDsiAttribute(), this.getVolumeSettingsRear().getDsiAttribute(), 41})};
     }
 
-    protected abstract void updateMenuEntryVisibility(ParkingSystemViewOptions parkingSystemViewOptions) {
-    }
+    protected abstract void updateMenuEntryVisibility(ParkingSystemViewOptions var1);
 }
 

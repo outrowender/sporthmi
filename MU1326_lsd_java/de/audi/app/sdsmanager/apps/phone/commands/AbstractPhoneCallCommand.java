@@ -27,16 +27,16 @@ extends AbstractSystemCallCommand {
     }
 
     protected void dial(String string) {
-        this.logger.log(-2137614336, "%1#dial number=%2!", (Object)this.getName(), (Object)string);
+        this.logger.log(10000000, "%1#dial number=%2!", (Object)this.getName(), (Object)string);
         this.phoneService.dialNumber(string, this.phoneSDSHandler, true);
         this.sdsHandlerService.setSDSNumberDialingActive(true);
         this.sdsHandlerService.switchEntertainment(false);
     }
 
     public void dialNumberResponse(int n) {
-        this.logger.log(-2137614336, "%1#dialNumberResponse: result=%2!", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "%1#dialNumberResponse: result=%2!", (Object)this.getName(), (long)n);
         int n2 = SDSUtils.translate(n, TEL_SERVICE_TO_MAPPING_RESULT);
-        if (n2 == 128) {
+        if (n2 == Integer.MIN_VALUE) {
             n2 = 30001;
         } else if (n2 == 30000) {
             this.switchToPhoneContext();

@@ -6,22 +6,22 @@ package de.audi.app.media.source.state;
 import de.esolutions.fw.util.commons.Buffer;
 
 public class SourceStateUpdate {
-    public static final int UPDATE_TYPE_SLOTS_LIST;
-    public static final int UPDATE_TYPE_AVAILABILITY;
-    public static final int UPDATE_TYPE_POWER_CLAMP_S;
-    public static final int UPDATE_TYPE_WLAN_STATE;
-    public static final int UPDATE_TYPE_BT_STATE;
-    public static final int UPDATE_TYPE_BT_ACTION_FINISHED;
-    public static final int UPDATE_TYPE_BT_ACTION_STARTED;
-    public static final int UPDATE_TYPE_ONLINE_SERVICES;
-    public static final int UPDATE_TYPE_ONLINE_INTERAPP_SERVICE;
-    public static final int UPDATE_TYPE_TV_SERVICE;
-    public static final int UPDATE_TYPE_ONLINE_LASTMODE;
-    public static final int UPDATE_TYPE_TV_AVAILABILITY;
-    public static final int UPDATE_TYPE_ONLINE_DEVICE_APP_STARTED;
-    public static final int UPDATE_TYPE_WLAN_DEVICE_CONNECTED;
-    public static final int UPDATE_TYPE_NUMBER_OF_MEDIA_SLOTS;
-    public static final int UPDATE_TYPE_SDIS_CONNECTED;
+    public static final int UPDATE_TYPE_SLOTS_LIST = 1;
+    public static final int UPDATE_TYPE_AVAILABILITY = 2;
+    public static final int UPDATE_TYPE_POWER_CLAMP_S = 3;
+    public static final int UPDATE_TYPE_WLAN_STATE = 4;
+    public static final int UPDATE_TYPE_BT_STATE = 5;
+    public static final int UPDATE_TYPE_BT_ACTION_FINISHED = 6;
+    public static final int UPDATE_TYPE_BT_ACTION_STARTED = 7;
+    public static final int UPDATE_TYPE_ONLINE_SERVICES = 8;
+    public static final int UPDATE_TYPE_ONLINE_INTERAPP_SERVICE = 9;
+    public static final int UPDATE_TYPE_TV_SERVICE = 10;
+    public static final int UPDATE_TYPE_ONLINE_LASTMODE = 11;
+    public static final int UPDATE_TYPE_TV_AVAILABILITY = 12;
+    public static final int UPDATE_TYPE_ONLINE_DEVICE_APP_STARTED = 13;
+    public static final int UPDATE_TYPE_WLAN_DEVICE_CONNECTED = 14;
+    public static final int UPDATE_TYPE_NUMBER_OF_MEDIA_SLOTS = 15;
+    public static final int UPDATE_TYPE_SDIS_CONNECTED = 16;
     private final int type;
     private final Object update;
 
@@ -89,7 +89,7 @@ public class SourceStateUpdate {
                 return "UPDATE_TYPE_SDIS_CONNECTED";
             }
         }
-        return new StringBuffer().append("UNKNOWN (").append(n).append(")").toString();
+        return "UNKNOWN (" + n + ")";
     }
 }
 

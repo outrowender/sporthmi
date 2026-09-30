@@ -55,9 +55,8 @@ DSIListener {
         this.logChannel = this.application.getFrameworkAccess().getLogChannel(string);
     }
 
-    @Override
     public void init() {
-        this.logChannel.log(1078071040, "[AbstractCarComponent#init] called for '%1'", (Object)this.getName());
+        this.logChannel.log(1000000, "[AbstractCarComponent#init] called for '%1'", (Object)this.getName());
         this.dsiSet = this.getDSIAttributesSets();
         this.initModels();
         this.initVisibility();
@@ -66,9 +65,8 @@ DSIListener {
         }
     }
 
-    @Override
     public void deinit() {
-        this.logChannel.log(1078071040, "[AbstractCarComponent#deinit] called for '%1'", (Object)this.getName());
+        this.logChannel.log(1000000, "[AbstractCarComponent#deinit] called for '%1'", (Object)this.getName());
         this.deinitVisibility();
         if (this.isUsingDSI()) {
             this.deRegisterDSI();
@@ -76,20 +74,16 @@ DSIListener {
         this.deinitModels();
     }
 
-    protected abstract void initModels() {
-    }
+    protected abstract void initModels();
 
-    protected abstract void deinitModels() {
-    }
+    protected abstract void deinitModels();
 
-    protected abstract void initVisibility() {
-    }
+    protected abstract void initVisibility();
 
     protected void initBusiness() {
     }
 
-    protected abstract void deinitVisibility() {
-    }
+    protected abstract void deinitVisibility();
 
     private void registerDSI() {
         Hashtable hashtable = new Hashtable();
@@ -125,32 +119,32 @@ DSIListener {
         CarDSIAttributesSet[] carDSIAttributesSetArray = this.dsiSet;
         if (this.dsi != null) {
             for (int i2 = 0; i2 < carDSIAttributesSetArray.length; ++i2) {
-                this.getLogChannel().log(1078071040, "[AbstractCarComponent#setDSIAttributeNotification] for component '%2', attribute set '%1'", (long)carDSIAttributesSetArray[i2].getID(), (long)this.getID());
+                this.getLogChannel().log(1000000, "[AbstractCarComponent#setDSIAttributeNotification] for component '%2', attribute set '%1'", (long)carDSIAttributesSetArray[i2].getID(), (long)this.getID());
                 CarDSIAttributesSet carDSIAttributesSet = carDSIAttributesSetArray[i2];
                 if (carDSIAttributesSet.hasPrimaryAttributes()) {
                     if (this.getLogChannel().isInfo()) {
-                        this.getLogChannel().log(1078071040, "[AbstractCarComponent#setDSIAttributeNotification] for component '%1', set notification for primaryAttributes for set '%2'", (Object)Integer.toString(this.getID()), (Object)carDSIAttributesSet.toString());
+                        this.getLogChannel().log(1000000, "[AbstractCarComponent#setDSIAttributeNotification] for component '%1', set notification for primaryAttributes for set '%2'", (Object)Integer.toString(this.getID()), (Object)carDSIAttributesSet.toString());
                     }
                     this.dsi.setNotification(carDSIAttributesSet.getPrimaryAttributes(), (DSIListener)this);
                     continue;
                 }
                 if (carDSIAttributesSetArray[i2].hasSecondaryAttributes()) {
                     if (this.getLogChannel().isInfo()) {
-                        this.getLogChannel().log(1078071040, "[AbstractCarComponent#setDSIAttributeNotification] for component '%1', set '%2' has no primary attributes, set notification for secondary attributes", (Object)Integer.toString(this.getID()), (Object)carDSIAttributesSet.toString());
+                        this.getLogChannel().log(1000000, "[AbstractCarComponent#setDSIAttributeNotification] for component '%1', set '%2' has no primary attributes, set notification for secondary attributes", (Object)Integer.toString(this.getID()), (Object)carDSIAttributesSet.toString());
                     }
                     this.dsi.setNotification(carDSIAttributesSet.getSecondaryAttributes(), (DSIListener)this);
                     carDSIAttributesSet.setSecondaryAttributesRequested();
                     continue;
                 }
                 if (!this.getLogChannel().isInfo()) continue;
-                this.getLogChannel().log(-1601830656, "[AbstractCarComponent#setDSIAttributeNotification] for component '%1', set '%2' has no primary or secondary attributes", (Object)Integer.toString(this.getID()), (Object)carDSIAttributesSet.toString());
+                this.getLogChannel().log(100000, "[AbstractCarComponent#setDSIAttributeNotification] for component '%1', set '%2' has no primary or secondary attributes", (Object)Integer.toString(this.getID()), (Object)carDSIAttributesSet.toString());
             }
         }
     }
 
     public final void primaryAttributeReceived(int n, int n2) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractCarComponent#primaryAttributeReceived] attribute '%3' for component '%2', attribute set '%1'", (long)n, (long)this.getID(), (long)n2);
+            this.getLogChannel().log(1000000, "[AbstractCarComponent#primaryAttributeReceived] attribute '%3' for component '%2', attribute set '%1'", (long)n, (long)this.getID(), (long)n2);
         }
         CarDSIAttributesSet[] carDSIAttributesSetArray = this.dsiSet;
         for (int i2 = 0; i2 < carDSIAttributesSetArray.length; ++i2) {
@@ -160,14 +154,14 @@ DSIListener {
             if (!carDSIAttributesSet.allPrimaryAttributesReceived()) continue;
             if (carDSIAttributesSet.hasSecondaryAttributes()) {
                 if (this.getLogChannel().isInfo()) {
-                    this.getLogChannel().log(1078071040, "[AbstractCarComponent#primaryAttributeReceived] all primary attributes for component '%2' (set '%1') received, set notification for secondary attributes", (Object)carDSIAttributesSet.toString(), (long)this.getID(), (long)n2);
+                    this.getLogChannel().log(1000000, "[AbstractCarComponent#primaryAttributeReceived] all primary attributes for component '%2' (set '%1') received, set notification for secondary attributes", (Object)carDSIAttributesSet.toString(), (long)this.getID(), (long)n2);
                 }
                 carDSIAttributesSet.setSecondaryAttributesRequested();
                 this.dsi.setNotification(carDSIAttributesSet.getSecondaryAttributes(), (DSIListener)this);
                 continue;
             }
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "[AbstractCarComponent#primaryAttributeReceived] all primary attributes for component '%2' (set '%1') received, no secondary attributes available, nothing more to do", (Object)carDSIAttributesSet.toString(), (long)this.getID(), (long)n2);
+                this.getLogChannel().log(1000000, "[AbstractCarComponent#primaryAttributeReceived] all primary attributes for component '%2' (set '%1') received, no secondary attributes available, nothing more to do", (Object)carDSIAttributesSet.toString(), (long)this.getID(), (long)n2);
             }
             carDSIAttributesSet.setSecondaryAttributesRequested();
         }
@@ -247,9 +241,7 @@ DSIListener {
         return this.dsi;
     }
 
-    @Override
-    public abstract int getID() {
-    }
+    public abstract int getID();
 
     public CarDSIAttributesSet[] getLifeAttributesSets() {
         return this.dsiSet;
@@ -419,9 +411,8 @@ DSIListener {
         return n2;
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
-        this.logChannel.log(1078071040, "[AbstractCarComponent#addingService] called for component '%1', DSI available", (Object)this.getName());
+        this.logChannel.log(1000000, "[AbstractCarComponent#addingService] called for component '%1', DSI available", (Object)this.getName());
         Object object = this.getApplication().getBundleContext().getService(serviceReference);
         this.dsi = (DSIBase)object;
         this.dsiAvailable(true);
@@ -430,36 +421,30 @@ DSIListener {
         return object;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
-        this.logChannel.log(1078071040, "[AbstractCarComponent#removedService] called for component '%1', DSI removed", (Object)this.getName());
+        this.logChannel.log(1000000, "[AbstractCarComponent#removedService] called for component '%1', DSI removed", (Object)this.getName());
         this.dsiAvailable(false);
         this.dsi = null;
         this.getApplication().getBundleContext().ungetService(serviceReference);
     }
 
     protected void dsiAvailable(boolean bl) {
-        this.logChannel.log(1078071040, "[AbstractCarComponent#dsiAvailable] available='%1' for component '%2'", bl, (Object)this.getName());
+        this.logChannel.log(1000000, "[AbstractCarComponent#dsiAvailable] available='%1' for component '%2'", bl, (Object)this.getName());
     }
 
-    @Override
     public void setSimulatedDSI(DSIBase dSIBase) {
-        this.logChannel.log(1078071040, "[AbstractCarComponent#setSimulatedDSI] called, mode='%1'", dSIBase != null);
+        this.logChannel.log(1000000, "[AbstractCarComponent#setSimulatedDSI] called, mode='%1'", dSIBase != null);
         this.dsi = dSIBase;
     }
 
-    public abstract String getDSIListenerClassName() {
-    }
+    public abstract String getDSIListenerClassName();
 
-    public abstract String getDSIClassName() {
-    }
+    public abstract String getDSIClassName();
 
-    public abstract boolean isUsingDSI() {
-    }
+    public abstract boolean isUsingDSI();
 
     protected BrowserModelApp getBrowserModel(int n) {
         return this.application.getFrameworkAccess().getHmiServiceApp().getBrowserModel(n);
@@ -521,7 +506,6 @@ DSIListener {
         return this.application.getFrameworkAccess().getHmiServiceApp().getPropertyModel(n);
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
         this.getLogChannel().log(1000, "[AbstractCarComponent#asyncException] componentID='%4', errorCode='%1', message='%2', requestType='%3'", (Object)Integer.toString(n), (Object)string, (Object)Integer.toString(n2), (Object)Integer.toString(this.getID()));
     }
@@ -534,7 +518,7 @@ DSIListener {
                 StackTraceElement stackTraceElement = stackTraceElementArray[1];
                 string = new StringBuffer().append(stackTraceElement.getClassName()).append(".").append(stackTraceElementArray[1].getMethodName()).toString();
             }
-            this.getLogChannel().log(1078071040, "%1 not implemented", (Object)string);
+            this.getLogChannel().log(1000000, "%1 not implemented", (Object)string);
         }
         catch (Exception exception) {
             this.getLogChannel().log(10000, "Exception: ", (Throwable)exception);
@@ -543,9 +527,9 @@ DSIListener {
 
     protected void logModelData(String string, int n, int n2, boolean bl) {
         if (bl) {
-            this.getLogChannel().log(1078071040, "%1 modelID:(MODELID#%2), data:%3", (Object)string, (long)n, (long)n2);
+            this.getLogChannel().log(1000000, "%1 modelID:(MODELID#%2), data:%3", (Object)string, (long)n, (long)n2);
         } else {
-            this.getLogChannel().log(-1601830656, "%1 invalid modelID:(MODELID#%2), data:%3", (Object)string, (long)n, (long)n2);
+            this.getLogChannel().log(100000, "%1 invalid modelID:(MODELID#%2), data:%3", (Object)string, (long)n, (long)n2);
         }
     }
 
@@ -555,10 +539,10 @@ DSIListener {
         }
         ISDISCarInfoDistributor iSDISCarInfoDistributor = this.getApplication().getSDISConnector().getSDISCarInfoDistributor();
         if (iSDISCarInfoDistributor != null) {
-            this.getLogChannel().log(1078071040, "sendContentToSDIS: send content %2 (%1)", object, (long)n);
+            this.getLogChannel().log(1000000, "sendContentToSDIS: send content %2 (%1)", object, (long)n);
             iSDISCarInfoDistributor.sendContent(n, object);
         } else {
-            this.getLogChannel().log(1078071040, "sendContentToSDIS: store content %2 (%1)", object, (long)n);
+            this.getLogChannel().log(1000000, "sendContentToSDIS: store content %2 (%1)", object, (long)n);
             ISDISConnector iSDISConnector = this.getApplication().getSDISConnector();
             iSDISConnector.storeValue(n, object);
         }

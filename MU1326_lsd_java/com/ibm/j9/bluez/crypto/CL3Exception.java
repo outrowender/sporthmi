@@ -5,22 +5,21 @@ package com.ibm.j9.bluez.crypto;
 
 public class CL3Exception
 extends RuntimeException {
-    public static final int BER;
-    public static final int VERSION;
-    public static final int OID;
-    public static final int PARAM;
-    public static final int RANGE;
-    public static final int INVALID;
-    public static final int NOTIMPL;
-    public static final int ILLUSE;
-    public static final int OBJECT;
-    public static final int NOALG;
-    public static final int SELFFAIL;
+    public static final int BER = -2147483627;
+    public static final int VERSION = -2147483647;
+    public static final int OID = -2147483646;
+    public static final int PARAM = -2147483645;
+    public static final int RANGE = -2147483640;
+    public static final int INVALID = -2147483643;
+    public static final int NOTIMPL = -2147483626;
+    public static final int ILLUSE = -2147483625;
+    public static final int OBJECT = -2147483636;
+    public static final int NOALG = -2147483624;
+    public static final int SELFFAIL = -2147483623;
     public int reason;
-    private static String[] reasonCodes;
+    private static String[] reasonCodes = new String[64];
 
     static {
-        reasonCodes = new String[64];
         CL3Exception.reasonCodes[21] = "Illegal ASN.1/BER encoding";
         CL3Exception.reasonCodes[1] = "Unknown data version";
         CL3Exception.reasonCodes[2] = "Unknown OID";
@@ -41,10 +40,9 @@ extends RuntimeException {
         this.reason = n;
     }
 
-    @Override
     public String getMessage() {
-        int n = this.reason ^ 0x80;
-        return new StringBuffer("reason=0x").append(Long.toString((long)this.reason & 0, 16)).append(" (").append(n < 0 || n > reasonCodes.length ? "?" : reasonCodes[n]).append(")").toString();
+        int n = this.reason ^ Integer.MIN_VALUE;
+        return "reason=0x" + Long.toString((long)this.reason & 0xFFFFFFFFL, 16) + " (" + (n < 0 || n > reasonCodes.length ? "?" : reasonCodes[n]) + ")";
     }
 }
 

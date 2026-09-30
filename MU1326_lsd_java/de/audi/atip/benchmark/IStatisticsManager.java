@@ -11,28 +11,22 @@ import de.audi.atip.benchmark.IScreenStatistics;
 public interface IStatisticsManager {
     public static final boolean INSTRUMENTATION_ENABLED = Boolean.getBoolean("EnableInstrumentation");
     public static final boolean INSTRUMENT_RES_LOADING_ON_DEMAND = Boolean.getBoolean("OnDemandResLoadingStats");
-    public static final int MASK_SCREEN_STATISTICS;
-    public static final int MASK_ANIMATION_STATISTICS;
-    public static final int MASK_RESOURCE_LOADER_STATISTICS;
-    public static final int MASK_IMAGE_LOADER_STATISTICS;
-    public static final int MASK_ALL_STATISTICS;
+    public static final int MASK_SCREEN_STATISTICS = 1;
+    public static final int MASK_ANIMATION_STATISTICS = 2;
+    public static final int MASK_RESOURCE_LOADER_STATISTICS = 4;
+    public static final int MASK_IMAGE_LOADER_STATISTICS = 8;
+    public static final int MASK_ALL_STATISTICS = 15;
 
-    default public void stopGathering(String string) {
-    }
+    public void stopGathering(String var1);
 
-    default public void startGathering(int n) {
-    }
+    public void startGathering(int var1);
 
-    default public IScreenStatistics getScreenStatistics() {
-    }
+    public IScreenStatistics getScreenStatistics();
 
-    default public IAnimationStatistics getAnimationStatistics() {
-    }
+    public IAnimationStatistics getAnimationStatistics();
 
-    default public IKZBStatistics getResourceLoaderStatistics() {
-    }
+    public IKZBStatistics getResourceLoaderStatistics();
 
-    default public IImageLoaderStatistics getImageLoaderStatistics() {
-    }
+    public IImageLoaderStatistics getImageLoaderStatistics();
 }
 

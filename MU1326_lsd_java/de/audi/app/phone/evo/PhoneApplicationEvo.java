@@ -112,9 +112,9 @@ implements ITelEvoApplication {
         super(iFrameworkAccess, bundleContext, "App.Phone.Main");
         Integer n = Integer.getInteger("INTELLICALL_MODE");
         int n2 = n != null ? n : 0;
-        iFrameworkAccess.getHmiServiceApp().getChoiceModel(-1902771200).setValue(n2);
+        iFrameworkAccess.getHmiServiceApp().getChoiceModel(300686).setValue(n2);
         if (Boolean.getBoolean("TEL_DEVELOPMENT")) {
-            iFrameworkAccess.getHmiServiceApp().getChoiceModel(-2070543360).setValue(1);
+            iFrameworkAccess.getHmiServiceApp().getChoiceModel(300676).setValue(1);
         }
         this.dsiSearchManager = iFrameworkAccess.getSysConst(523) == 1 ? new TelEvoDSISearchManager(this) : null;
         this.intellicallHandler = this.dsiSearchManager != null ? new TelIntellicallHandler((ITelEvoApplication)this, this.dsiSearchManager) : new TelIntellicallHandler((ITelEvoApplication)this, new TelDummyDSISearchAccess(this));
@@ -133,13 +133,11 @@ implements ITelEvoApplication {
         this.dsiResponseErrorHandler = new TelEvoDSIResponseErrorHandler(this);
     }
 
-    @Override
     public void init() {
         super.init();
         this.actionProxy.init();
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.actionProxy.deinit();
@@ -149,7 +147,6 @@ implements ITelEvoApplication {
         return this.getFrameworkAccess().getScreenRes() == 4;
     }
 
-    @Override
     protected void addComponents() {
         this.addPhoneComponent(this.intellicallHandler);
         this.addPhoneComponent(new TelInitPhoneNotFuncAssociatedHandler(this));
@@ -214,72 +211,58 @@ implements ITelEvoApplication {
         this.addPhoneComponent(new TelTerminalModeHandler(this));
     }
 
-    @Override
     public ITelDSIResponseListener getDefaultListener() {
         return this.defaultDSIResponseListener;
     }
 
-    @Override
     public ITelFavoriteHandler getFavoriteHandler() {
         return this.favoriteHandler;
     }
 
-    @Override
     public ITelADBHandler getADBHandler() {
         return this.adbHandler;
     }
 
-    @Override
     public ITelCallControl getCallControl() {
         return this.callControl;
     }
 
-    @Override
     public ITelTextFactory getTextFactory() {
         return this.textFactory;
     }
 
-    @Override
     public IEmergencyTextFactory geEmergencyTextFactory() {
         return this.koreaEmergencyTextFactory;
     }
 
-    @Override
     public ITelDialSuppServiceHandler getDialSuppServiceHandler() {
         return this.dialSuppServiceHandler;
     }
 
-    @Override
     public ITelAudio getAudio() {
         return this.audio;
     }
 
-    @Override
     public ITelEPMHandler getEPMHandler() {
         return this.enhancedPrivacyModeHandler.getResponseListener();
     }
 
-    @Override
     public ITelIntellicallHandler getIntellicallHandler() {
         return this.intellicallHandler;
     }
 
-    @Override
     public ITelBluetoothHandler getBluetoothHandler() {
         return this.bluetoothHandler;
     }
 
-    @Override
     public ITelDSIResponseErrorHandler getDSIDefaultResponseErrorHandler() {
         return this.dsiResponseErrorHandler;
     }
 
-    @Override
     public LogChannel getLogChannel(String string) {
         return this.getFrameworkAccess().getLogChannel(string);
     }
 
-    @Override
     public IEntertainmentDrawerControllerNew getNewEntertainmentDrawerController() {
         return this.newEntertainmentDrawerController;
     }

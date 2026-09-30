@@ -13,10 +13,10 @@ public class TextfieldModel
 extends ButtonModel
 implements TextfieldModelGUI,
 TextfieldModelApp {
-    public static final int TEXT1_CHANGED;
-    public static final int TEXT2_CHANGED;
-    public static final int BOTH_TEXTS_CHANGED;
-    public static final int BITMAP_CHANGED;
+    public static final int TEXT1_CHANGED = 1;
+    public static final int TEXT2_CHANGED = 2;
+    public static final int BOTH_TEXTS_CHANGED = 3;
+    public static final int BITMAP_CHANGED = 4;
     private String mText1 = "";
     private String mText2 = "";
     private int iconRessourceID = -1;
@@ -32,7 +32,6 @@ TextfieldModelApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public String dumpContent() {
         Buffer buffer = new Buffer(100);
         buffer.append(super.dumpContent());
@@ -51,7 +50,6 @@ TextfieldModelApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void copy(AbstractModel abstractModel) {
         try {
             Object object = this.mutex;
@@ -69,7 +67,6 @@ TextfieldModelApp {
         }
     }
 
-    @Override
     public int getModelType() {
         return 8;
     }
@@ -77,7 +74,6 @@ TextfieldModelApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public String getText1() {
         Object object = this.mutex;
         synchronized (object) {
@@ -88,7 +84,6 @@ TextfieldModelApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public String getText2() {
         Object object = this.mutex;
         synchronized (object) {
@@ -99,7 +94,6 @@ TextfieldModelApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setText1(String string) {
         Object object = this.mutex;
         synchronized (object) {
@@ -112,7 +106,6 @@ TextfieldModelApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setText2(String string) {
         Object object = this.mutex;
         synchronized (object) {
@@ -125,7 +118,6 @@ TextfieldModelApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setTexts(String string, String string2) {
         Object object = this.mutex;
         synchronized (object) {
@@ -139,7 +131,6 @@ TextfieldModelApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setBitmapResourceID(int n) {
         Object object = this.mutex;
         synchronized (object) {
@@ -152,7 +143,6 @@ TextfieldModelApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int getBitmapRessourceID() {
         Object object = this.mutex;
         synchronized (object) {

@@ -8,30 +8,25 @@ import de.audi.app.car.common.app.ICarApplication;
 
 public abstract class AbstractBaseCharismaComponent
 extends AbstractDSICarDrivingCharacteristicsAdapter {
-    public static final int CHARISMA_POPUP_ID_INVALID;
+    public static final int CHARISMA_POPUP_ID_INVALID = -1;
 
     public AbstractBaseCharismaComponent(ICarApplication iCarApplication, String string) {
         super(iCarApplication, string);
     }
 
-    public abstract int getPopUpID() {
-    }
+    public abstract int getPopUpID();
 
-    public abstract void showCharismaPopup(int n, int n2) {
-    }
+    public abstract void showCharismaPopup(int var1, int var2);
 
-    public abstract void cancelCharismaPopup(int n, int n2) {
-    }
+    public abstract void cancelCharismaPopup(int var1, int var2);
 
-    public abstract boolean isDriveSelectScreenVisible() {
-    }
+    public abstract boolean isDriveSelectScreenVisible();
 
-    public abstract int getStandbyPopupID() {
-    }
+    public abstract int getStandbyPopupID();
 
     public void setDriveSelectPowerManagementActive(boolean bl) {
         if (this.hasToWakeMUFromStandby()) {
-            this.getLogChannel().log(1078071040, "[AbstractCharismaComponent#setDriveSelectPowerManagementActive] powerManager.setExtendedPowerState: active='%1'", bl);
+            this.getLogChannel().log(1000000, "[AbstractCharismaComponent#setDriveSelectPowerManagementActive] powerManager.setExtendedPowerState: active='%1'", bl);
             try {
                 this.getApplication().getFrameworkAccess().getPowerMgr().setExtendedPowerState(bl ? 132 : 133, 0);
             }

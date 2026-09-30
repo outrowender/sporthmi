@@ -14,167 +14,129 @@ import de.audi.atip.interapp.combi.bap.phone.data.FsgSetup;
 
 public interface CombiBAPServicePhone
 extends CombiBAPService {
-    public static final int MOBILE_SERVICE_SUPPORT_ACTIVE_USER;
-    public static final int MOBILE_SERVICE_SUPPORT_REGISTER_STATE;
-    public static final int MOBILE_SERVICE_SUPPORT_LOCK_STATE;
-    public static final int MOBILE_SERVICE_SUPPORT_NETWORK_PROVIDER;
-    public static final int MOBILE_SERVICE_SUPPORT_SIGNAL_QUALITY;
-    public static final int MOBILE_SERVICE_SUPPORT_CALL_STATE;
-    public static final int MOBILE_SERVICE_SUPPORT_CALL_INFO;
-    public static final int MOBILE_SERVICE_SUPPORT_CALL_DURATION_SYNC;
-    public static final int MOBILE_SERVICE_SUPPORT_DISCONNECT_REASON;
-    public static final int MOBILE_SERVICE_SUPPORT_DIAL_NUMBER;
-    public static final int MOBILE_SERVICE_SUPPORT_DIAL_SERVICE;
-    public static final int MOBILE_SERVICE_SUPPORT_CONFIRM_EMERGENCY_CALL;
-    public static final int MOBILE_SERVICE_SUPPORT_HANGUP_CALL;
-    public static final int MOBILE_SERVICE_SUPPORT_ACCEPT_CALL;
-    public static final int MOBILE_SERVICE_SUPPORT_CALL_HOLD;
-    public static final int MOBILE_SERVICE_SUPPORT_RESUME_CALL;
-    public static final int MOBILE_SERVICE_SUPPORT_HANDSFREE_ON_OFF;
-    public static final int MOBILE_SERVICE_SUPPORT_MICRO_MUTE_ON_OFF;
-    public static final int MOBILE_SERVICE_SUPPORT_MP_RELEASE_ACTIVE_CALL_ACCEPT_WAITING_CALL;
-    public static final int MOBILE_SERVICE_SUPPORT_MP_SWAP;
-    public static final int MOBILE_SERVICE_SUPPORT_MP_CALL_HOLD_ACCEPT_WAITING_CALL;
-    public static final int MOBILE_SERVICE_SUPPORT_MP_RELEASE_ALL_CALLS_ACCEPT_WAITING_CALL;
-    public static final int MOBILE_SERVICE_SUPPORT_MP_SET_WAITING_CALL_ON_HOLD;
-    public static final int MOBILE_SERVICE_SUPPORT_CC_JOIN;
-    public static final int MOBILE_SERVICE_SUPPORT_CC_SPLIT;
-    public static final int MOBILE_SERVICE_SUPPORT_KEYPAD;
-    public static final int MOBILE_SERVICE_SUPPORT_MOBILE_BATTERY_LEVEL;
-    public static final int MOBILE_SERVICE_SUPPORT_DATA_CONNECTION_INDICATION;
-    public static final int MOBILE_SERVICE_SUPPORT_MISSED_CALL_INDICATION;
-    public static final int MOBILE_SERVICE_SUPPORT_MISSED_CALLS;
-    public static final int MOBILE_SERVICE_SUPPORT_RECEIVED_CALLS;
-    public static final int MOBILE_SERVICE_SUPPORT_DIALED_NUMBERS;
-    public static final int MOBILE_SERVICE_SUPPORT_COMBINED_NUMBERS;
-    public static final int MOBILE_SERVICE_SUPPORT_CALL_STACK_DELETE_ALL;
-    public static final int MOBILE_SERVICE_SUPPORT_PB_STATE;
-    public static final int MOBILE_SERVICE_SUPPORT_PHONEBOOK;
-    public static final int MOBILE_SERVICE_SUPPORT_PB_SPELLER;
-    public static final int MOBILE_SERVICE_SUPPORT_GET_NEXT_LIST_POS;
-    public static final int MOBILE_SERVICE_SUPPORT_SMS_STATE;
-    public static final int MOBILE_SERVICE_SUPPORT_RINGTONE_MUTE_ON_OFF;
-    public static final int MOBILE_SERVICE_SUPPORT_AUTOMATIC_REDIAL;
-    public static final int MOBILE_SERVICE_SUPPORT_AUTOMATIC_REDIAL_EXTENDED_INFO;
-    public static final int MOBILE_SERVICE_SUPPORT_SUPPORTED_SERVICE_NUMBERS;
-    public static final int MOBILE_SERVICE_SUPPORT_FAVORITE_LIST;
-    public static final int MOBILE_SERVICE_SUPPORT_MAX;
-    public static final int BATTERY_LEVEL_UNKNOWN_DEVICE_NOT_CONNECTED;
-    public static final int BATTERY_LEVEL_UNKNOWN_LEVEL_NOT_RECEIVED;
-    public static final int CALL_DURATION_NOT_AVAILABLE;
+    public static final int MOBILE_SERVICE_SUPPORT_ACTIVE_USER = 0;
+    public static final int MOBILE_SERVICE_SUPPORT_REGISTER_STATE = 1;
+    public static final int MOBILE_SERVICE_SUPPORT_LOCK_STATE = 2;
+    public static final int MOBILE_SERVICE_SUPPORT_NETWORK_PROVIDER = 3;
+    public static final int MOBILE_SERVICE_SUPPORT_SIGNAL_QUALITY = 4;
+    public static final int MOBILE_SERVICE_SUPPORT_CALL_STATE = 5;
+    public static final int MOBILE_SERVICE_SUPPORT_CALL_INFO = 6;
+    public static final int MOBILE_SERVICE_SUPPORT_CALL_DURATION_SYNC = 7;
+    public static final int MOBILE_SERVICE_SUPPORT_DISCONNECT_REASON = 8;
+    public static final int MOBILE_SERVICE_SUPPORT_DIAL_NUMBER = 9;
+    public static final int MOBILE_SERVICE_SUPPORT_DIAL_SERVICE = 10;
+    public static final int MOBILE_SERVICE_SUPPORT_CONFIRM_EMERGENCY_CALL = 11;
+    public static final int MOBILE_SERVICE_SUPPORT_HANGUP_CALL = 12;
+    public static final int MOBILE_SERVICE_SUPPORT_ACCEPT_CALL = 13;
+    public static final int MOBILE_SERVICE_SUPPORT_CALL_HOLD = 14;
+    public static final int MOBILE_SERVICE_SUPPORT_RESUME_CALL = 15;
+    public static final int MOBILE_SERVICE_SUPPORT_HANDSFREE_ON_OFF = 16;
+    public static final int MOBILE_SERVICE_SUPPORT_MICRO_MUTE_ON_OFF = 17;
+    public static final int MOBILE_SERVICE_SUPPORT_MP_RELEASE_ACTIVE_CALL_ACCEPT_WAITING_CALL = 18;
+    public static final int MOBILE_SERVICE_SUPPORT_MP_SWAP = 19;
+    public static final int MOBILE_SERVICE_SUPPORT_MP_CALL_HOLD_ACCEPT_WAITING_CALL = 20;
+    public static final int MOBILE_SERVICE_SUPPORT_MP_RELEASE_ALL_CALLS_ACCEPT_WAITING_CALL = 21;
+    public static final int MOBILE_SERVICE_SUPPORT_MP_SET_WAITING_CALL_ON_HOLD = 22;
+    public static final int MOBILE_SERVICE_SUPPORT_CC_JOIN = 23;
+    public static final int MOBILE_SERVICE_SUPPORT_CC_SPLIT = 24;
+    public static final int MOBILE_SERVICE_SUPPORT_KEYPAD = 25;
+    public static final int MOBILE_SERVICE_SUPPORT_MOBILE_BATTERY_LEVEL = 26;
+    public static final int MOBILE_SERVICE_SUPPORT_DATA_CONNECTION_INDICATION = 27;
+    public static final int MOBILE_SERVICE_SUPPORT_MISSED_CALL_INDICATION = 28;
+    public static final int MOBILE_SERVICE_SUPPORT_MISSED_CALLS = 29;
+    public static final int MOBILE_SERVICE_SUPPORT_RECEIVED_CALLS = 30;
+    public static final int MOBILE_SERVICE_SUPPORT_DIALED_NUMBERS = 31;
+    public static final int MOBILE_SERVICE_SUPPORT_COMBINED_NUMBERS = 32;
+    public static final int MOBILE_SERVICE_SUPPORT_CALL_STACK_DELETE_ALL = 33;
+    public static final int MOBILE_SERVICE_SUPPORT_PB_STATE = 34;
+    public static final int MOBILE_SERVICE_SUPPORT_PHONEBOOK = 35;
+    public static final int MOBILE_SERVICE_SUPPORT_PB_SPELLER = 36;
+    public static final int MOBILE_SERVICE_SUPPORT_GET_NEXT_LIST_POS = 37;
+    public static final int MOBILE_SERVICE_SUPPORT_SMS_STATE = 38;
+    public static final int MOBILE_SERVICE_SUPPORT_RINGTONE_MUTE_ON_OFF = 39;
+    public static final int MOBILE_SERVICE_SUPPORT_AUTOMATIC_REDIAL = 40;
+    public static final int MOBILE_SERVICE_SUPPORT_AUTOMATIC_REDIAL_EXTENDED_INFO = 41;
+    public static final int MOBILE_SERVICE_SUPPORT_SUPPORTED_SERVICE_NUMBERS = 42;
+    public static final int MOBILE_SERVICE_SUPPORT_FAVORITE_LIST = 43;
+    public static final int MOBILE_SERVICE_SUPPORT_MAX = 44;
+    public static final int BATTERY_LEVEL_UNKNOWN_DEVICE_NOT_CONNECTED = 255;
+    public static final int BATTERY_LEVEL_UNKNOWN_LEVEL_NOT_RECEIVED = 254;
+    public static final int CALL_DURATION_NOT_AVAILABLE = 65535;
 
-    default public void updateFsgSetup(FsgSetup fsgSetup) {
-    }
+    public void updateFsgSetup(FsgSetup var1);
 
-    default public void updateFSGOperationState(int n, boolean bl, boolean bl2) {
-    }
+    public void updateFSGOperationState(int var1, boolean var2, boolean var3);
 
-    default public void updateMobileServiceSupport(boolean[] blArray) {
-    }
+    public void updateMobileServiceSupport(boolean[] var1);
 
-    default public void updateRegisterState(int n, int n2, int n3) {
-    }
+    public void updateRegisterState(int var1, int var2, int var3);
 
-    default public void updateLockState(int n) {
-    }
+    public void updateLockState(int var1);
 
-    default public void updateNetworkProvider(int n, String string, int n2, String string2) {
-    }
+    public void updateNetworkProvider(int var1, String var2, int var3, String var4);
 
-    default public void updateSignalQuality(int n) {
-    }
+    public void updateSignalQuality(int var1);
 
-    default public void updateCallStates(CombiBAPCallState[] combiBAPCallStateArray, boolean bl) {
-    }
+    public void updateCallStates(CombiBAPCallState[] var1, boolean var2);
 
-    default public void updateCallInfo(CombiBAPCallInfo[] combiBAPCallInfoArray) {
-    }
+    public void updateCallInfo(CombiBAPCallInfo[] var1);
 
-    default public void updateCallDurations(CallStartTime[] callStartTimeArray) {
-    }
+    public void updateCallDurations(CallStartTime[] var1);
 
-    default public void updateDisconnectReason(int n) {
-    }
+    public void updateDisconnectReason(int var1);
 
-    default public void dialNumberResult(int n) {
-    }
+    public void dialNumberResult(int var1);
 
-    default public void dialNumberFromAdbEntryResult(int n) {
-    }
+    public void dialNumberFromAdbEntryResult(int var1);
 
-    default public void dialServiceResult(int n) {
-    }
+    public void dialServiceResult(int var1);
 
-    default public void confirmEmergencyCallResult(int n) {
-    }
+    public void confirmEmergencyCallResult(int var1);
 
-    default public void hangupCallResult(int n) {
-    }
+    public void hangupCallResult(int var1);
 
-    default public void acceptCallResult(int n) {
-    }
+    public void acceptCallResult(int var1);
 
-    default public void callHoldResult(int n) {
-    }
+    public void callHoldResult(int var1);
 
-    default public void resumeCallResult(int n) {
-    }
+    public void resumeCallResult(int var1);
 
-    default public void updateMicMuteState(boolean bl) {
-    }
+    public void updateMicMuteState(boolean var1);
 
-    default public void releaseActiveCallAcceptWaitingCallResult(int n) {
-    }
+    public void releaseActiveCallAcceptWaitingCallResult(int var1);
 
-    default public void swapCallsResult(int n) {
-    }
+    public void swapCallsResult(int var1);
 
-    default public void callHoldAcceptWaitingCallResult(int n) {
-    }
+    public void callHoldAcceptWaitingCallResult(int var1);
 
-    default public void releaseAllCallsAcceptWaitingCallResult(int n) {
-    }
+    public void releaseAllCallsAcceptWaitingCallResult(int var1);
 
-    default public void setWaitingCallOnHoldResult(int n) {
-    }
+    public void setWaitingCallOnHoldResult(int var1);
 
-    default public void joinCallsResult(int n) {
-    }
+    public void joinCallsResult(int var1);
 
-    default public void splitCallResult(int n) {
-    }
+    public void splitCallResult(int var1);
 
-    default public void updateMobileBatteryLevel(CombiBAPhoneMobileBatteryLevel combiBAPhoneMobileBatteryLevel) {
-    }
+    public void updateMobileBatteryLevel(CombiBAPhoneMobileBatteryLevel var1);
 
-    default public void updateMissedCallIndication(int n, int n2) {
-    }
+    public void updateMissedCallIndication(int var1, int var2);
 
-    default public void updateMissedCalls(CombiBAPCallStackEntry[] combiBAPCallStackEntryArray) {
-    }
+    public void updateMissedCalls(CombiBAPCallStackEntry[] var1);
 
-    default public void updateReceivedCalls(CombiBAPCallStackEntry[] combiBAPCallStackEntryArray) {
-    }
+    public void updateReceivedCalls(CombiBAPCallStackEntry[] var1);
 
-    default public void updateDialedNumbers(CombiBAPCallStackEntry[] combiBAPCallStackEntryArray) {
-    }
+    public void updateDialedNumbers(CombiBAPCallStackEntry[] var1);
 
-    default public void updateCombinedNumbers(CombiBAPCallStackEntry[] combiBAPCallStackEntryArray) {
-    }
+    public void updateCombinedNumbers(CombiBAPCallStackEntry[] var1);
 
-    default public void updateRingToneMuteState(boolean bl) {
-    }
+    public void updateRingToneMuteState(boolean var1);
 
-    default public void updateAutomaticRedialActive(boolean bl) {
-    }
+    public void updateAutomaticRedialActive(boolean var1);
 
-    default public void updateAutomaticRedialExtendedInfo(int n, String string, String string2, int n2) {
-    }
+    public void updateAutomaticRedialExtendedInfo(int var1, String var2, String var3, int var4);
 
-    default public void updateSupportedServiceNumbers(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
-    }
+    public void updateSupportedServiceNumbers(boolean var1, boolean var2, boolean var3, boolean var4);
 
-    default public void updateFavoriteList(CombiBAPFavoriteNumberEntry[] combiBAPFavoriteNumberEntryArray) {
-    }
+    public void updateFavoriteList(CombiBAPFavoriteNumberEntry[] var1);
 }
 

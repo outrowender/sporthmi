@@ -8,20 +8,20 @@ import de.audi.atip.hmi.event.ATIPEventListener;
 
 public class SDSEvent
 extends ATIPEvent {
-    public static final int SDSEvent_FIRST;
-    public static final int SDS_COMMAND;
-    public static final int SDSEvent_LAST;
-    public static final int FIRST;
-    public static final int LAST;
-    public static final int UP;
-    public static final int DOWN;
-    public static final int ROW;
-    public static final int ROW_ABSOLUTE;
-    public static final int ROW_SDS;
-    public static final int READ_LINE_ABSOLUTE;
-    public static final int READ_LINE;
-    public static final int READ_LINE_BY_ID;
-    public static final int VALUE_CLEAR_SELECTION;
+    public static final int SDSEvent_FIRST = 10701;
+    public static final int SDS_COMMAND = 10701;
+    public static final int SDSEvent_LAST = 10701;
+    public static final int FIRST = 1;
+    public static final int LAST = 2;
+    public static final int UP = 3;
+    public static final int DOWN = 4;
+    public static final int ROW = 5;
+    public static final int ROW_ABSOLUTE = 6;
+    public static final int ROW_SDS = 7;
+    public static final int READ_LINE_ABSOLUTE = 8;
+    public static final int READ_LINE = 9;
+    public static final int READ_LINE_BY_ID = 10;
+    public static final int VALUE_CLEAR_SELECTION = 11;
     private int responseType;
     private int sdsCommand;
     private int value;
@@ -70,7 +70,7 @@ extends ATIPEvent {
     }
 
     public String toString() {
-        return new StringBuffer().append("SDSEvent: ResponseType = ").append(this.getResponseType()).append(" SDSCommand = ").append(this.getSDSCommand()).toString();
+        return "SDSEvent: ResponseType = " + this.getResponseType() + " SDSCommand = " + this.getSDSCommand();
     }
 }
 

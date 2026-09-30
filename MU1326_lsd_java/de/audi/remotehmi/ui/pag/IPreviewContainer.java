@@ -3,140 +3,194 @@
  */
 package de.audi.remotehmi.ui.pag;
 
-import de.audi.remotehmi.ui.pag.IPreviewContainer$IGenericButton;
-import de.audi.remotehmi.ui.pag.IPreviewContainer$IMapInfo;
-import de.audi.remotehmi.ui.pag.IPreviewContainer$INavInfo;
+import de.audi.remotehmi.ui.mib2.grid.GeoPosition;
 import java.util.List;
 
 public interface IPreviewContainer {
-    public static final int STATUS_UNLOADED;
-    public static final int STATUS_DATA_LOADED;
-    public static final int STATUS_ERROR;
+    public static final int STATUS_UNLOADED = 0;
+    public static final int STATUS_DATA_LOADED = 1;
+    public static final int STATUS_ERROR = 2;
 
-    default public int getStatus() {
+    public int getStatus();
+
+    public String getUrl();
+
+    public void setGridId(String var1);
+
+    public void setPreviewMap(IMapInfo var1, boolean var2);
+
+    public void setTitle(String var1, boolean var2);
+
+    public void setTimeStamp(String var1, boolean var2);
+
+    public void setImage(String var1, boolean var2);
+
+    public void updateImage(String var1);
+
+    public void setDescriptionText(String var1, boolean var2);
+
+    public void setDescription2Text(String var1, boolean var2);
+
+    public void setImageText(String var1, boolean var2);
+
+    public void setNavInfo(INavInfo var1, boolean var2);
+
+    public void setGenericButton1(IGenericButton var1, boolean var2);
+
+    public void setGenericButton2(IGenericButton var1, boolean var2);
+
+    public void setComments(List var1, boolean var2);
+
+    public void setPhoneButton(String var1, boolean var2);
+
+    public void setMail(String var1, boolean var2);
+
+    public void setImageList(List var1, boolean var2);
+
+    public void setTable2(List var1, boolean var2);
+
+    public void setTable(List var1, boolean var2);
+
+    public String getTitle(boolean var1);
+
+    public String getImage(boolean var1);
+
+    public IMapInfo getPreviewMap(boolean var1);
+
+    public String getTimeStamp(boolean var1);
+
+    public String getDescriptionText(boolean var1);
+
+    public String getDescription2Text(boolean var1);
+
+    public String getImageText(boolean var1);
+
+    public INavInfo getNavInfo(boolean var1);
+
+    public IGenericButton getGenericButton1(boolean var1);
+
+    public IGenericButton getGenericButton2(boolean var1);
+
+    public List getComments(boolean var1);
+
+    public String getPhoneButton(boolean var1);
+
+    public String getMail(boolean var1);
+
+    public List getImageList(boolean var1);
+
+    public List getTable(boolean var1);
+
+    public List getTable2(boolean var1);
+
+    public String getGridId();
+
+    public boolean hasContent();
+
+    public void setTTSContent(String var1);
+
+    public String getTTSContent();
+
+    public boolean getMinOnItemIsBlockable();
+
+    public void setMinOnItemIsBlockable(boolean var1);
+
+    public static interface IMapInfo {
+        public void setMapDecoratorGeoPosition(GeoPosition var1);
+
+        public GeoPosition getMapDecoratorGeoPosition();
+
+        public int getStyle();
+
+        public void setStyle(int var1);
     }
 
-    default public String getUrl() {
+    public static interface INavInfo {
+        public void setPosition(GeoPosition var1);
+
+        public void setStreet(String var1);
+
+        public void setZip(String var1);
+
+        public void setCountry(String var1);
+
+        public void setNumber(String var1);
+
+        public void setName(String var1);
+
+        public void setCity(String var1);
+
+        public void setCalculateRRD(boolean var1);
+
+        public void setStartRg(boolean var1);
+
+        public GeoPosition getPosition();
+
+        public String getStreet();
+
+        public String getZip();
+
+        public String getCountry();
+
+        public String getNumber();
+
+        public String getName();
+
+        public String getCity();
+
+        public boolean isCalculateRRD();
+
+        public boolean isStartRg();
+
+        public String getState();
+
+        public void setState(String var1);
     }
 
-    default public void setGridId(String string) {
+    public static interface IGenericButton {
+        public void setSelectionId(String var1);
+
+        public void setText(String var1);
+
+        public void setImage(String var1);
+
+        public String getSelectionId();
+
+        public String getText();
+
+        public String getImage();
+
+        public void setDescription(String var1);
+
+        public String getDescription();
     }
 
-    default public void setPreviewMap(IMapInfo iMapInfo, boolean bl) {
+    public static interface IPreviewComment {
+        public void setText(String var1);
+
+        public void setProfile(String var1);
+
+        public void setTimestamp(String var1);
+
+        public void setImage(String var1);
+
+        public void setLikes(String var1);
+
+        public String getText();
+
+        public String getProfile();
+
+        public String getTimestamp();
+
+        public String getImage();
+
+        public String getLikes();
     }
 
-    default public void setTitle(String string, boolean bl) {
-    }
+    public static interface IBlockableObject {
+        public boolean isBlockable();
 
-    default public void setTimeStamp(String string, boolean bl) {
-    }
-
-    default public void setImage(String string, boolean bl) {
-    }
-
-    default public void updateImage(String string) {
-    }
-
-    default public void setDescriptionText(String string, boolean bl) {
-    }
-
-    default public void setDescription2Text(String string, boolean bl) {
-    }
-
-    default public void setImageText(String string, boolean bl) {
-    }
-
-    default public void setNavInfo(INavInfo iNavInfo, boolean bl) {
-    }
-
-    default public void setGenericButton1(IGenericButton iGenericButton, boolean bl) {
-    }
-
-    default public void setGenericButton2(IGenericButton iGenericButton, boolean bl) {
-    }
-
-    default public void setComments(List list, boolean bl) {
-    }
-
-    default public void setPhoneButton(String string, boolean bl) {
-    }
-
-    default public void setMail(String string, boolean bl) {
-    }
-
-    default public void setImageList(List list, boolean bl) {
-    }
-
-    default public void setTable2(List list, boolean bl) {
-    }
-
-    default public void setTable(List list, boolean bl) {
-    }
-
-    default public String getTitle(boolean bl) {
-    }
-
-    default public String getImage(boolean bl) {
-    }
-
-    default public IMapInfo getPreviewMap(boolean bl) {
-    }
-
-    default public String getTimeStamp(boolean bl) {
-    }
-
-    default public String getDescriptionText(boolean bl) {
-    }
-
-    default public String getDescription2Text(boolean bl) {
-    }
-
-    default public String getImageText(boolean bl) {
-    }
-
-    default public INavInfo getNavInfo(boolean bl) {
-    }
-
-    default public IGenericButton getGenericButton1(boolean bl) {
-    }
-
-    default public IGenericButton getGenericButton2(boolean bl) {
-    }
-
-    default public List getComments(boolean bl) {
-    }
-
-    default public String getPhoneButton(boolean bl) {
-    }
-
-    default public String getMail(boolean bl) {
-    }
-
-    default public List getImageList(boolean bl) {
-    }
-
-    default public List getTable(boolean bl) {
-    }
-
-    default public List getTable2(boolean bl) {
-    }
-
-    default public String getGridId() {
-    }
-
-    default public boolean hasContent() {
-    }
-
-    default public void setTTSContent(String string) {
-    }
-
-    default public String getTTSContent() {
-    }
-
-    default public boolean getMinOnItemIsBlockable() {
-    }
-
-    default public void setMinOnItemIsBlockable(boolean bl) {
+        public Object getValue();
     }
 }
 

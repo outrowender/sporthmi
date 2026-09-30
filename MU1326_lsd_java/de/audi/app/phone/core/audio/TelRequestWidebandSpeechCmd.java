@@ -18,26 +18,24 @@ implements ITelAudioCmdListener {
     private final DSISoundListener listener;
 
     public TelRequestWidebandSpeechCmd(LogChannel logChannel, DSISound dSISound, HMIAudioService hMIAudioService, boolean bl, DSISoundListener dSISoundListener) {
-        super(logChannel, new StringBuffer().append("TelRequestWidebandSpeechCmd: ").append(bl).toString(), hMIAudioService);
+        super(logChannel, "TelRequestWidebandSpeechCmd: " + bl, hMIAudioService);
         this.dsiSound = dSISound;
         this.on = bl;
         this.listener = dSISoundListener;
     }
 
-    @Override
     public void execute() {
         if (this.dsiSound != null) {
-            this.logger.log(1078071040, "[TelRequestWidebandSpeechCmd#execute] onoff=%1", this.on);
+            this.logger.log(1000000, "[TelRequestWidebandSpeechCmd#execute] onoff=%1", this.on);
             this.dsiSound.setWidebandSpeech(0, this.on);
         } else {
-            this.logger.log(-1601830656, "[TelRequestWidebandSpeechCmd#execute] logMessage");
+            this.logger.log(100000, "[TelRequestWidebandSpeechCmd#execute] logMessage");
             this.getCommandList().commandFinished();
         }
     }
 
-    @Override
     public void responseWidebandSpeech(int n, boolean bl) {
-        this.logger.log(1078071040, "[TelRequestWidebandSpeechCmd#responseWidebandSpeech] onoff=%1", bl);
+        this.logger.log(1000000, "[TelRequestWidebandSpeechCmd#responseWidebandSpeech] onoff=%1", bl);
         if (this.listener != null) {
             this.listener.responseWidebandSpeech(n, bl);
         }

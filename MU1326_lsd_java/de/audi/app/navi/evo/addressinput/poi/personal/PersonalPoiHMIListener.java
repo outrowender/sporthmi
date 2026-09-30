@@ -22,27 +22,23 @@ implements ButtonListener {
     }
 
     private void initListeners() {
-        this.env.getButtonModel(1746863616).setButtonListener(this);
+        this.env.getButtonModel(401256).setButtonListener(this);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "PersonalPOIHMIListener#keyPressed - modelID: %1; keyID: %2", (long)n, (long)n2);
-        if (n == 1746863616) {
+        this.logChannel.log(10000000, "PersonalPOIHMIListener#keyPressed - modelID: %1; keyID: %2", (long)n, (long)n2);
+        if (n == 401256) {
             this.personalPoiHandler.deletePersonalPOIDataBases();
         }
         this.env.fireModelEvent(n, n3);
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 }

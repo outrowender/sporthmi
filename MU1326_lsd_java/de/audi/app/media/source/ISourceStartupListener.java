@@ -6,7 +6,6 @@ package de.audi.app.media.source;
 import de.audi.app.media.source.ISourceSlot;
 
 public interface ISourceStartupListener {
-    default public void sourceStartupFinished(ISourceSlot iSourceSlot) {
-    }
+    public void sourceStartupFinished(ISourceSlot var1);
 }
 

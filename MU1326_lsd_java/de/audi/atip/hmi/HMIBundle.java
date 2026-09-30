@@ -11,61 +11,43 @@ import java.net.URL;
 import java.util.List;
 
 public interface HMIBundle {
-    public static final String PROP_KEY_APP_NAME;
-    public static final String PROP_KEY_SKIN;
+    public static final String PROP_KEY_APP_NAME = "ApplicationName";
+    public static final String PROP_KEY_SKIN = "Skin";
 
-    default public Screen getScreen(int n, int n2) {
-    }
+    public Screen getScreen(int var1, int var2);
 
-    default public String getSkin() {
-    }
+    public String getSkin();
 
-    default public int getId() {
-    }
+    public int getId();
 
-    default public URL getKzbUrlFromClassloader(int n) {
-    }
+    public URL getKzbUrlFromClassloader(int var1);
 
-    default public URL getKzbUrlFromClassloader(String string) {
-    }
+    public URL getKzbUrlFromClassloader(String var1);
 
-    default public URL getImageUrlFromClassloader(int n) {
-    }
+    public URL getImageUrlFromClassloader(int var1);
 
-    default public URL getImageUrlFromClassloader(int n, int n2) {
-    }
+    public URL getImageUrlFromClassloader(int var1, int var2);
 
-    default public String getImagePath(int n, int n2) {
-    }
+    public String getImagePath(int var1, int var2);
 
-    default public String getKzbPath(String string) {
-    }
+    public String getKzbPath(String var1);
 
-    default public String getKzbPath(int n, int n2) {
-    }
+    public String getKzbPath(int var1, int var2);
 
-    default public String getText(int n) {
-    }
+    public String getText(int var1);
 
-    default public IDrawerController[] getSelectionDrawers(int n) {
-    }
+    public IDrawerController[] getSelectionDrawers(int var1);
 
-    default public IDrawerController[] getOptionDrawers(int n) {
-    }
+    public IDrawerController[] getOptionDrawers(int var1);
 
-    default public List getEntertainmentDrawerContent(int n) {
-    }
+    public List getEntertainmentDrawerContent(int var1);
 
-    default public IDrawerController getEntertainmentDrawer(int n) {
-    }
+    public IDrawerController getEntertainmentDrawer(int var1);
 
-    default public HMIConditionBank getConditionBank() {
-    }
+    public HMIConditionBank getConditionBank();
 
-    default public IPartialPopupController[] getPartialPopupStubs(int n) {
-    }
+    public IPartialPopupController[] getPartialPopupStubs(int var1);
 
-    default public IPartialPopupController getPartialPopup(int n, int n2) {
-    }
+    public IPartialPopupController getPartialPopup(int var1, int var2);
 }
 

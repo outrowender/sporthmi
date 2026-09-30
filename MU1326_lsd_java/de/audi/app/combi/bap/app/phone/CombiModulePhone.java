@@ -67,9 +67,8 @@ extends AbstractCombiModule {
         this.listManager = new ListManagerPhone(this, abstractCombiBAPApplication.isMOSTListSupported());
     }
 
-    @Override
     protected void initModuleComponents() {
-        this.logChannel.log(-2137614336, "[CombiModulePhone#initModuleComponents]");
+        this.logChannel.log(10000000, "[CombiModulePhone#initModuleComponents]");
         this.indicationHandler = new BAPIndicationHandlerPhone(this);
         this.functionRegistration = CombiModulePhone.customInitialize(new FunctionRegistrationPhone(this));
         this.initializationManager = new InitializationManagerPhone(this, this.getBAPFunctionPropertyFSG(15), this.getBAPFunctionPropertyFSG(22), this.bapApplication.getDSIBAPController(), this.bapApplication.getPowerState());
@@ -77,49 +76,42 @@ extends AbstractCombiModule {
 
     private static IFunctionRegistrationFSG customInitialize(FunctionRegistrationPhone functionRegistrationPhone) {
         CallDurationSync_Status callDurationSync_Status = new CallDurationSync_Status();
-        callDurationSync_Status.timeStampCall0 = -65536;
-        callDurationSync_Status.timeStampCall1 = -65536;
-        callDurationSync_Status.timeStampCall2 = -65536;
-        callDurationSync_Status.timeStampCall3 = -65536;
-        callDurationSync_Status.timeStampCall4 = -65536;
-        callDurationSync_Status.timeStampCall5 = -65536;
-        callDurationSync_Status.timeStampCall6 = -65536;
+        callDurationSync_Status.timeStampCall0 = 65535;
+        callDurationSync_Status.timeStampCall1 = 65535;
+        callDurationSync_Status.timeStampCall2 = 65535;
+        callDurationSync_Status.timeStampCall3 = 65535;
+        callDurationSync_Status.timeStampCall4 = 65535;
+        callDurationSync_Status.timeStampCall5 = 65535;
+        callDurationSync_Status.timeStampCall6 = 65535;
         BAPFunctionPropertyFSG bAPFunctionPropertyFSG = functionRegistrationPhone.getBAPFunctionPropertyFSG(24);
         bAPFunctionPropertyFSG.setInitialStatus(callDurationSync_Status);
         return functionRegistrationPhone;
     }
 
-    @Override
     protected void initServiceManager(BundleContext bundleContext) {
         this.serviceManager = new ServiceManagerPhone(this, bundleContext);
     }
 
-    @Override
     protected void initDiagnosisConnector() {
         this.diagnosisConnectorFsg = new CombiDiagnosisConnectorPhone((AbstractCombiBAPApplication)this.bapApplication, this);
     }
 
-    @Override
     public String getLSGDescription() {
         return "0x28 (PHONE)";
     }
 
-    @Override
     public IFunctionIDs getFunctionIDs() {
         return new FunctionIDsPhone();
     }
 
-    @Override
     public IErrorCodes getErrorIDs() {
         return new ErrorCodesPhone();
     }
 
-    @Override
     public int[] getErrorMapping() {
         return ERROR_MAPPING;
     }
 
-    @Override
     public IDataTypeMapping getDataTypeMapping() {
         return new DataTypeMappingPhone();
     }

@@ -4,10 +4,8 @@
 package de.audi.app.media.dsi.media;
 
 public interface IMediaVideoFormat {
-    default public boolean setVideoFormat(int n) {
-    }
+    public boolean setVideoFormat(int var1);
 
-    default public int getHMIVideoFormatID(int n) {
-    }
+    public int getHMIVideoFormatID(int var1);
 }
 

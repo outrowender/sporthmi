@@ -23,43 +23,34 @@ implements HMIAudioServiceListener {
         this.hmiAudioServiceListener = new PhoneServiceProvider((class$de$audi$atip$audio$HMIAudioServiceListener == null ? (class$de$audi$atip$audio$HMIAudioServiceListener = TelDefaultHMIAudioServiceListener.class$("de.audi.atip.audio.HMIAudioServiceListener")) : class$de$audi$atip$audio$HMIAudioServiceListener).getName(), this, hashtable, this.getApplication().getBundleContext(), this.log);
     }
 
-    @Override
     public void init() {
         super.init();
         this.hmiAudioServiceListener.startService();
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.hmiAudioServiceListener.stopService();
     }
 
-    @Override
     public void updateAMAvailable(boolean bl) {
     }
 
-    @Override
     public void stopConnection(int n, int n2) {
     }
 
-    @Override
     public void pauseConnection(int n, int n2) {
     }
 
-    @Override
     public void startConnection(int n, int n2) {
     }
 
-    @Override
     public void errorConnection(int n, int n2, int n3) {
     }
 
-    @Override
     public void fadedIn(int n, int n2) {
     }
 
-    @Override
     public void updateVolumeLock(int n, int n2, boolean bl) {
     }
 

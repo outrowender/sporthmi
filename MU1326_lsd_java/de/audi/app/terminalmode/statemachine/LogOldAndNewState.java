@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  de.audi.app.terminalmode.statemachine.TMState
  */
 package de.audi.app.terminalmode.statemachine;
 
@@ -13,18 +10,17 @@ import de.audi.app.terminalmode.statemachine.commands.AbstractStateHandlerComman
 
 public class LogOldAndNewState
 extends AbstractStateHandlerCommand {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "LogOldAndNewState";
     private final TMState newState;
 
     public LogOldAndNewState(IContext iContext, TMState tMState, IStateHandler iStateHandler) {
-        super(iContext.getLogger().state(), "LogOldAndNewState", iContext, iStateHandler);
+        super(iContext.getLogger().state(), LOGCLASS, iContext, iStateHandler);
         this.newState = tMState;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[%1.execute] currentState=%2", (Object)"LogOldAndNewState", (Object)this.stateHandler.getCurrentState());
-        this.logger.log(-2137614336, "[%1.execute] newState=%2", (Object)"LogOldAndNewState", (Object)this.newState);
+        this.logger.log(10000000, "[%1.execute] currentState=%2", (Object)LOGCLASS, (Object)this.stateHandler.getCurrentState());
+        this.logger.log(10000000, "[%1.execute] newState=%2", (Object)LOGCLASS, (Object)this.newState);
         this.getCommandList().commandFinished();
     }
 }

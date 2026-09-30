@@ -15,68 +15,58 @@ import de.audi.tghu.swdl.app.hmiswitcher.manager.engineering.AbstractEngineering
 
 public class EngineeringProgressManagerEvo
 extends AbstractEngineeringProgressManager {
-    private static final int SWDL_STATE_META_INFO;
-    private static final int SWDL_STATE_PROGESS;
-    private static final int SWDL_STATE_SUMMARY;
+    private static final int SWDL_STATE_META_INFO = 1;
+    private static final int SWDL_STATE_PROGESS = 2;
+    private static final int SWDL_STATE_SUMMARY = 3;
 
     public EngineeringProgressManagerEvo(SwdlEnv swdlEnv, AbstractSwdlJoinedDownloadState abstractSwdlJoinedDownloadState, AbstractPopupManager abstractPopupManager, AbstractEngineeringDeviceInfoManager abstractEngineeringDeviceInfoManager, AbstractEngineeringSelectionManager abstractEngineeringSelectionManager, SwdlDSIHandlerProgress swdlDSIHandlerProgress, SwdlDSIHandlerDeviceInfo swdlDSIHandlerDeviceInfo, SwdlDSIHandlerSelection swdlDSIHandlerSelection) {
         super(swdlEnv, abstractSwdlJoinedDownloadState, abstractPopupManager, abstractEngineeringDeviceInfoManager, abstractEngineeringSelectionManager, swdlDSIHandlerProgress, swdlDSIHandlerDeviceInfo, swdlDSIHandlerSelection);
     }
 
-    @Override
     protected void showProgress(int n) {
-        this.getLogHMI().log(1078071040, "showProgress");
-        this.getHMIService().getChoiceModel(468785408).setValue(2);
-        this.getHMIService().fireSMEvent(n, -1125115648);
+        this.getLogHMI().log(1000000, "showProgress");
+        this.getHMIService().getChoiceModel(1700123).setValue(2);
+        this.getHMIService().fireSMEvent(n, 1700028);
     }
 
-    @Override
     protected void showTriggerReboot(int n) {
-        this.getLogHMI().log(1078071040, "showTriggerReboot");
-        this.getHMIService().fireSMEvent(n, -1309665024);
+        this.getLogHMI().log(1000000, "showTriggerReboot");
+        this.getHMIService().fireSMEvent(n, 1700017);
     }
 
-    @Override
     protected void showSummary(int n) {
-        this.getLogHMI().log(1078071040, "showSummary");
-        this.getHMIService().getChoiceModel(468785408).setValue(3);
-        this.getHMIService().fireSMEvent(n, -1125115648);
+        this.getLogHMI().log(1000000, "showSummary");
+        this.getHMIService().getChoiceModel(1700123).setValue(3);
+        this.getHMIService().fireSMEvent(n, 1700028);
     }
 
-    @Override
     protected void showReadMetaInfo(int n) {
-        this.getLogHMI().log(1078071040, "showReadMetaInfo");
-        this.getHMIService().getChoiceModel(468785408).setValue(1);
-        this.getHMIService().fireSMEvent(n, -1125115648);
+        this.getLogHMI().log(1000000, "showReadMetaInfo");
+        this.getHMIService().getChoiceModel(1700123).setValue(1);
+        this.getHMIService().fireSMEvent(n, 1700028);
     }
 
-    @Override
     protected void fireSMEventHKReturn(int n) {
-        this.getLogHMI().log(1078071040, "fireSMEventHKReturn");
+        this.getLogHMI().log(1000000, "fireSMEventHKReturn");
         this.getHMIService().fireSMEvent(n, 1741);
     }
 
-    @Override
     protected void showPopupSwdlReboot() {
-        this.getLogHMI().log(1078071040, "showPopupSwdlReboot");
-        this.getHMIService().fireSMEvent(0, -1309665024);
+        this.getLogHMI().log(1000000, "showPopupSwdlReboot");
+        this.getHMIService().fireSMEvent(0, 1700017);
     }
 
-    @Override
     protected void showProgressScreen() {
-        this.getLogHMI().log(1078071040, "showProgressScreen");
-        this.getHMIService().fireSMEvent(0, -1292887808);
+        this.getLogHMI().log(1000000, "showProgressScreen");
+        this.getHMIService().fireSMEvent(0, 1700018);
     }
 
-    @Override
     public void showSummaryUota(boolean bl) {
     }
 
-    @Override
     public void switchUotaProgressState(boolean bl) {
     }
 
-    @Override
     public void showPopupUpdateSuccessful() {
     }
 }

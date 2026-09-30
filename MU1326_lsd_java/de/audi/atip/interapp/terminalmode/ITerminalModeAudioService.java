@@ -4,7 +4,6 @@
 package de.audi.atip.interapp.terminalmode;
 
 public interface ITerminalModeAudioService {
-    default public void muteIncomingCarPlayRingtone() {
-    }
+    public void muteIncomingCarPlayRingtone();
 }
 

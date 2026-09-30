@@ -19,14 +19,12 @@ implements IAudioSdisListener {
         super(logChannel, "SdisAudioListener");
     }
 
-    @Override
     public void updateActiveConnection(int n, int n2) {
         this.log();
         this.activeConnection = n;
         this.acTerminal = n2;
     }
 
-    @Override
     public void updateActiveEntertainmentConnection(int n, int n2) {
         this.log();
         this.activeEntConnection = n;

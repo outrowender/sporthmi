@@ -26,7 +26,6 @@ extends AbstractListAdapterBAP {
         super(abstractCombiModule, 33, arrayHandler);
     }
 
-    @Override
     protected int getCommonRecordAddress(boolean[] blArray) {
         boolean bl;
         boolean bl2;
@@ -43,7 +42,6 @@ extends AbstractListAdapterBAP {
         return CombiBAPAddressListEntry.getRecordAddress(bl6, bl4, bl5, bl2, bl11, bl7, bl3, bl8, bl9, bl, bl12, bl10);
     }
 
-    @Override
     protected BAPArrayElement convertArrayElement(CombiBAPArrayElement combiBAPArrayElement, ArrayHeader arrayHeader) {
         Address_List_Data address_List_Data = new Address_List_Data(arrayHeader);
         if (combiBAPArrayElement instanceof CombiBAPAddressListEntry) {
@@ -61,29 +59,25 @@ extends AbstractListAdapterBAP {
             address_List_Data.poi_Type = combiBAPAddressListEntry.getPOIType();
             address_List_Data.address_Type = combiBAPAddressListEntry.getAddressType();
         } else {
-            this.logChannel.log(10000, "[AddressListAdapterBAP#convertArrayElement] wrong dataType (expected: %1, is: %2)", (Object)(class$de$audi$atip$interapp$combi$bap$phone$data$CombiBAPAddressListEntry == null ? (class$de$audi$atip$interapp$combi$bap$phone$data$CombiBAPAddressListEntry = AddressListAdapterBAP.class$("de.audi.atip.interapp.combi.bap.phone.data.CombiBAPAddressListEntry")) : class$de$audi$atip$interapp$combi$bap$phone$data$CombiBAPAddressListEntry).getName(), (Object)super.getClass().getName());
+            this.logChannel.log(10000, "[AddressListAdapterBAP#convertArrayElement] wrong dataType (expected: %1, is: %2)", (Object)(class$de$audi$atip$interapp$combi$bap$phone$data$CombiBAPAddressListEntry == null ? (class$de$audi$atip$interapp$combi$bap$phone$data$CombiBAPAddressListEntry = AddressListAdapterBAP.class$("de.audi.atip.interapp.combi.bap.phone.data.CombiBAPAddressListEntry")) : class$de$audi$atip$interapp$combi$bap$phone$data$CombiBAPAddressListEntry).getName(), (Object)combiBAPArrayElement.getClass().getName());
         }
         return address_List_Data;
     }
 
-    @Override
     protected BAPArrayElement createArrayElement(ArrayHeader arrayHeader, int n) {
         Address_List_Data address_List_Data = new Address_List_Data(arrayHeader);
         address_List_Data.setPos(n);
         return address_List_Data;
     }
 
-    @Override
     protected ChangedArray createChangedArraySerializer() {
         return new Address_List_ChangedArray();
     }
 
-    @Override
     protected StatusArray createStatusArraySerializer() {
         return new Address_List_StatusArray();
     }
 
-    @Override
     protected void sendStatusRequest(GetArrayIndication getArrayIndication, CombiBAPArrayElement[] combiBAPArrayElementArray, StatusArray statusArray) {
         Address_List_StatusArray address_List_StatusArray = (Address_List_StatusArray)statusArray;
         address_List_StatusArray.otherListType = ((GetArrayIndicationAddressList)getArrayIndication).getOtherListType();

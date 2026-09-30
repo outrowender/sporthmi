@@ -28,12 +28,11 @@ extends AbstractADBCommand {
         this.destinationProfile = n3;
     }
 
-    @Override
     public void execute() {
         boolean bl;
-        this.logger.log(-2137614336, "VCardImportCommand#execute()");
+        this.logger.log(10000000, "VCardImportCommand#execute()");
         if (this.destinationProfile != 0 && this.vCardExchangeAdbHandler.getAdbStateHandler().getActiveProfile() != this.destinationProfile) {
-            this.logger.log(-1601830656, "VCardImportCommand#execute(): vCard import destination profile differs from active profile, finishing import command.");
+            this.logger.log(100000, "VCardImportCommand#execute(): vCard import destination profile differs from active profile, finishing import command.");
             this.commandList.commandFinished();
             return;
         }
@@ -42,7 +41,7 @@ extends AbstractADBCommand {
             return;
         }
         ResourceLocator[] resourceLocatorArray = this.fileSelectionBrowser.getResourceLocators(this.offset, this.windowSize);
-        this.logger.log(-2137614336, "VCardImportCommand#execute(): resourceLocators: %1", (Object)ADBDbgUtils.dbg(resourceLocatorArray));
+        this.logger.log(10000000, "VCardImportCommand#execute(): resourceLocators: %1", (Object)ADBDbgUtils.dbg(resourceLocatorArray));
         boolean bl2 = bl = resourceLocatorArray != null && this.adbDSIAccess.importVCard(resourceLocatorArray, this.destinationProfile);
         if (!bl) {
             this.logger.log(10000, "VCardImportCommand#execute(): importVCard dsi call was not successful, or resourceLocators could not be fetched from file browser, finishing command.");
@@ -50,15 +49,13 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public long getTimeout() {
         return -1L;
     }
 
-    @Override
     public void importVCardResult(int n, int n2, int n3, int n4) {
         if (this.logger.isDebug()) {
-            this.logger.log(-2137614336, "VCardImportCommand#importVCardResult(): success: %1, countSuccess: %3, countFailure: %4, failureReason: %2", (Object)ADBDbgUtils.dbgSuccessFlag(n), (Object)ADBDbgUtils.dbgFailureReason(n4), (Object)Integer.toString(n2), (long)n3);
+            this.logger.log(10000000, "VCardImportCommand#importVCardResult(): success: %1, countSuccess: %3, countFailure: %4, failureReason: %2", (Object)ADBDbgUtils.dbgSuccessFlag(n), (Object)ADBDbgUtils.dbgFailureReason(n4), (Object)Integer.toString(n2), (long)n3);
         }
         this.vCardExchangeAdbHandler.getImportProgress().updateImportProgress(n2, n3, n4);
         this.commandList.commandFinished();

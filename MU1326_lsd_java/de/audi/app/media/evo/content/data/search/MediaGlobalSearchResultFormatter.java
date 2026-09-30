@@ -10,7 +10,7 @@ import org.dsi.ifc.search.SearchResult;
 
 public class MediaGlobalSearchResultFormatter
 extends MediaSearchResultFormatter {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "MediaGlobalSearchResultFormatter";
 
     public MediaGlobalSearchResultFormatter(LogChannel logChannel) {
         super(logChannel, 0, 1);
@@ -22,10 +22,9 @@ extends MediaSearchResultFormatter {
         this.setLayoutForFormatType(4, 1);
     }
 
-    @Override
     public SearchResultListRow formatResult(SearchResult searchResult) {
         if (this.logger.isDebug2()) {
-            this.logger.log(14808325, "[%1.formatResult]", (Object)"MediaGlobalSearchResultFormatter");
+            this.logger.log(100000000, "[%1.formatResult]", (Object)LOGCLASS);
         }
         switch (searchResult.getEntryType()) {
             case 5: {
@@ -56,7 +55,6 @@ extends MediaSearchResultFormatter {
         return super.formatResult(searchResult);
     }
 
-    @Override
     public void setLayout(int n) {
     }
 }

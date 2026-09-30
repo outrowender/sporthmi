@@ -4,10 +4,8 @@
 package de.audi.atip.interapp;
 
 public interface IBattCtrlCommunicationService {
-    default public void chargeTimerMetricsUpdated(int n) {
-    }
+    public void chargeTimerMetricsUpdated(int var1);
 
-    default public void climateTimerMetricsUpdated(int n) {
-    }
+    public void climateTimerMetricsUpdated(int var1);
 }
 

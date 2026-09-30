@@ -4,6 +4,7 @@
 package com.ibm.oti.util;
 
 import java.io.FilterInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 public class PasswordProtectedInputStream
@@ -16,8 +17,7 @@ extends FilterInputStream {
         this.password = byArray;
     }
 
-    @Override
-    public int read() {
+    public int read() throws IOException {
         int n = this.in.read();
         if (n >= 0) {
             n ^= this.password[this.pwdIndex];
@@ -26,8 +26,7 @@ extends FilterInputStream {
         return n;
     }
 
-    @Override
-    public int read(byte[] byArray, int n, int n2) {
+    public int read(byte[] byArray, int n, int n2) throws IOException {
         int n3 = this.in.read(byArray, n, n2);
         if (n3 > 0) {
             int n4 = n + n3;
@@ -41,8 +40,7 @@ extends FilterInputStream {
         return n3;
     }
 
-    @Override
-    public long skip(long l) {
+    public long skip(long l) throws IOException {
         long l2 = super.skip(l);
         this.pwdIndex = (int)((long)this.pwdIndex + l2);
         return l2;

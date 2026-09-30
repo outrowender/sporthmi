@@ -18,15 +18,13 @@ extends AbstractSystemCallCommand {
         this.sdsManager = appSDSManager;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: Setting flag for SDS aborting!", (Object)this.getName());
+        this.logger.log(10000000, "%1#execute: Setting flag for SDS aborting!", (Object)this.getName());
         this.sdsManager.setSDSAborting(true);
         SDSUtils.updateSDSNumbers(false);
         this.sendResult(3000);
     }
 
-    @Override
     public boolean isSDSEndSequenceCommand() {
         return true;
     }

@@ -117,7 +117,7 @@ implements ServiceTrackerCustomizer {
         if (this.sysConstManager != null) {
             return this.sysConstManager.getSysConst(n);
         }
-        this.log.log(-1601830656, "Early acess to SysConst: Index %1", (long)n);
+        this.log.log(100000, "Early acess to SysConst: Index %1", (long)n);
         int n2 = this.sysConst2ValueIntMap.get(n);
         if (n2 != -1) {
             return n2;
@@ -136,11 +136,10 @@ implements ServiceTrackerCustomizer {
         return this.sysConstManager;
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.context.getService(serviceReference);
         if (object instanceof ISysConstManager) {
-            this.log.log(-2137614336, "The ISysConstManager was added to the SysConstProvider");
+            this.log.log(10000000, "The ISysConstManager was added to the SysConstProvider");
             this.sysConstManager = (ISysConstManager)object;
             this.sysConstManager.initSysConstants(this.sysConst2ValueIntMap, this.getCodingReader());
             return object;
@@ -148,11 +147,9 @@ implements ServiceTrackerCustomizer {
         return null;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
     }
 

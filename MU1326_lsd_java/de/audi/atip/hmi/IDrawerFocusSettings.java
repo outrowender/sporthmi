@@ -4,6 +4,6 @@
 package de.audi.atip.hmi;
 
 public interface IDrawerFocusSettings {
-    public static final int FOCUS_SETTINGS_NEUE_EIGENSCHAFT;
+    public static final int FOCUS_SETTINGS_NEUE_EIGENSCHAFT = 744165851;
 }
 

@@ -18,20 +18,19 @@ extends AbstractSystemCallCommand {
         this.hmiService = hMIService;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute ", (Object)this.getName());
+        this.logger.log(10000000, "%1#execute ", (Object)this.getName());
         String string = SDSModelAccess.getSlotModelStrings()[0];
-        this.logger.log(-2137614336, "%1#execute: lineNumberStr=%2 (1-indexed)!", (Object)this.getName(), (Object)string);
+        this.logger.log(10000000, "%1#execute: lineNumberStr=%2 (1-indexed)!", (Object)this.getName(), (Object)string);
         int n = 1;
         try {
             n = Integer.parseInt(string);
         }
         catch (NumberFormatException numberFormatException) {
-            this.logger.log(-2137614336, "%1#execute: No number found in first slot, asssuming selection of first entry!", (Object)this.getName());
+            this.logger.log(10000000, "%1#execute: No number found in first slot, asssuming selection of first entry!", (Object)this.getName());
         }
         int[] nArray = new int[]{20000, 20006, 20001};
-        this.logger.log(-2137614336, "%1#execute: Setting lineNumber %2 with media answers for OK/INVALID/ERROR!", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "%1#execute: Setting lineNumber %2 with media answers for OK/INVALID/ERROR!", (Object)this.getName(), (long)n);
         this.hmiService.fireSDSEvent(2, 5, n, nArray);
     }
 }

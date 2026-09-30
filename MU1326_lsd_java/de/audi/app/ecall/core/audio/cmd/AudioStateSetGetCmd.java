@@ -21,9 +21,8 @@ extends Command {
         this.audioSource = n;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "AudioStateSetGetCmd#execute(): audioSource %1", (long)this.audioSource);
+        this.logger.log(1000000, "AudioStateSetGetCmd#execute(): audioSource %1", (long)this.audioSource);
         this.bapServiceAdapter.setAudioSource(this.audioSource);
         this.getCommandList().commandFinished();
     }

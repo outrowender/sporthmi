@@ -3,8 +3,6 @@
  */
 package com.ibm.oti.util;
 
-import com.ibm.oti.util.IdentityHashtable$Iterator;
-
 public class IdentityHashtable
 implements Cloneable {
     public static final Object ABSENT_FLAG = new Object();
@@ -13,8 +11,8 @@ implements Cloneable {
     Object[] elementData;
     private int loadFactor;
     private int maxSize;
-    private static final int DEFAULT_SIZE;
-    private static final int DEFAULT_LOAD_FACTOR;
+    private static final int DEFAULT_SIZE = 101;
+    private static final int DEFAULT_LOAD_FACTOR = 50;
 
     public IdentityHashtable() {
         this(101);
@@ -60,7 +58,7 @@ implements Cloneable {
     }
 
     private void computeMaxSize() {
-        this.maxSize = (int)((long)this.elementKeys.length * (long)this.loadFactor / 0);
+        this.maxSize = (int)((long)this.elementKeys.length * (long)this.loadFactor / 100L);
     }
 
     public synchronized boolean contains(Object object) {
@@ -85,7 +83,7 @@ implements Cloneable {
         Object object2;
         int n;
         int n2 = objectArray.length;
-        int n3 = n = (System.identityHashCode(object) & 0xFFFFFF7F) % n2;
+        int n3 = n = (System.identityHashCode(object) & Integer.MAX_VALUE) % n2;
         while (n3 < n2) {
             object2 = objectArray[n3];
             if (object2 == null || object2 == object) {
@@ -120,12 +118,12 @@ implements Cloneable {
         return this.elementCount == 0;
     }
 
-    public synchronized void iterate(IdentityHashtable$Iterator identityHashtable$Iterator) {
+    public synchronized void iterate(Iterator iterator) {
         int n = 0;
         while (n < this.elementKeys.length) {
             Object object = this.elementKeys[n];
             if (object != null) {
-                identityHashtable$Iterator.iterate(object, this.elementData[n]);
+                iterator.iterate(object, this.elementData[n]);
             }
             ++n;
         }
@@ -176,7 +174,7 @@ implements Cloneable {
         int n3 = this.elementKeys.length;
         while ((object2 = this.elementKeys[n = (n + 1) % n3]) != null) {
             boolean bl;
-            int n4 = (System.identityHashCode(object2) & 0xFFFFFF7F) % n3;
+            int n4 = (System.identityHashCode(object2) & Integer.MAX_VALUE) % n3;
             boolean bl2 = bl = n4 > n2;
             if (n < n2) {
                 bl = bl || n4 <= n;
@@ -217,6 +215,10 @@ implements Cloneable {
         }
         stringBuffer.append('}');
         return stringBuffer.toString();
+    }
+
+    public static interface Iterator {
+        public void iterate(Object var1, Object var2);
     }
 }
 

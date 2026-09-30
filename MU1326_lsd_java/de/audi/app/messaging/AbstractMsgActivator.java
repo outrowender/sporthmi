@@ -16,11 +16,10 @@ extends AbstractActivator {
     private volatile ServiceManager serviceManager;
     protected volatile AbstractMsgApplication msgApp;
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         this.log = this.framework.getLogChannel("App.Messaging.Main");
-        this.log.log(1078071040, "[MsgActivator#start]");
+        this.log.log(1000000, "[MsgActivator#start]");
         MessagingBundleContext messagingBundleContext = new MessagingBundleContext(this.framework, bundleContext);
         this.serviceManager = new ServiceManager(messagingBundleContext);
         this.msgApp = this.createMsgApplication(messagingBundleContext);
@@ -28,9 +27,8 @@ extends AbstractActivator {
         this.msgApp.connect(this.serviceManager);
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
-        this.log.log(-1601830656, "[MsgActivator#stop] Shutting down.");
+        this.log.log(100000, "[MsgActivator#stop] Shutting down.");
         this.serviceManager.disconnect();
         this.msgApp.disconnect();
         this.msgApp.dispose();
@@ -40,7 +38,6 @@ extends AbstractActivator {
         super.stop(bundleContext);
     }
 
-    protected abstract AbstractMsgApplication createMsgApplication(MessagingBundleContext messagingBundleContext) {
-    }
+    protected abstract AbstractMsgApplication createMsgApplication(MessagingBundleContext var1);
 }
 

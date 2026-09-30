@@ -4,14 +4,6 @@
 package de.audi.app.eni;
 
 import de.audi.app.eni.AbstractENIActivator;
-import de.audi.app.eni.ENIActivator$1;
-import de.audi.app.eni.ENIActivator$2;
-import de.audi.app.eni.ENIActivator$3;
-import de.audi.app.eni.ENIActivator$4;
-import de.audi.app.eni.ENIActivator$5;
-import de.audi.app.eni.ENIActivator$6;
-import de.audi.app.eni.ENIActivator$7;
-import de.audi.app.eni.ENIActivator$8;
 import de.audi.app.eni.ENIGateway;
 import de.audi.atip.base.IFrameworkAccess;
 import de.audi.atip.interapp.bap.eni.BAPServiceENI;
@@ -61,11 +53,10 @@ implements ServiceTrackerCustomizer {
     static /* synthetic */ Class class$de$audi$atip$interapp$eni$ENIServiceEcall;
     static /* synthetic */ Class class$de$audi$atip$interapp$eni$ENIServiceOnline;
 
-    @Override
     public final void start(BundleContext bundleContext) {
         super.start(bundleContext);
         this.initCore();
-        this.getLogMain().log(1078071040, "ENIActivator#start: called");
+        this.getLogMain().log(1000000, "ENIActivator#start: called");
         this.dispatcher = this.getFramework().getDispatcherManager().createDispatcher("App.ENI", new JobLogger(this.getLogMain()));
         this.dispatcher.start();
         this.eniGateway = new ENIGateway(this.dispatcher, this.getLogMain());
@@ -79,10 +70,9 @@ implements ServiceTrackerCustomizer {
         }
     }
 
-    @Override
     public final void stop(BundleContext bundleContext) {
         Object object;
-        this.getLogMain().log(1078071040, "ENIActivator#stop: called");
+        this.getLogMain().log(1000000, "ENIActivator#stop: called");
         super.stop(bundleContext);
         this.serviceTracker.close();
         this.serviceTracker = null;
@@ -108,56 +98,122 @@ implements ServiceTrackerCustomizer {
         this.cleanupCore();
     }
 
-    @Override
-    public final Object addingService(ServiceReference serviceReference) {
-        Object object = this.bundleContext.getService(serviceReference);
+    public final Object addingService(final ServiceReference serviceReference) {
+        final Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof IFrameworkAccess) {
-            this.getLogMain().log(1078071040, "ENIActivator#addingService: received %1", object);
-            this.dispatcher.execute(new ENIActivator$1(this, object, serviceReference));
+            this.getLogMain().log(1000000, "ENIActivator#addingService: received %1", object);
+            this.dispatcher.execute(new Runnable(){
+
+                public void run() {
+                    ENIActivator.this.frameworkAccess = (IFrameworkAccess)object;
+                    ENIActivator.this.trackedServices.add(serviceReference);
+                    ENIActivator.this.eniGateway.setFrameworkAccess(ENIActivator.this.frameworkAccess);
+                }
+            });
         }
         if (object instanceof BAPServiceENI) {
-            this.getLogMain().log(1078071040, "ENIActivator#addingService: received %1", object);
-            this.dispatcher.execute(new ENIActivator$2(this, object, serviceReference));
+            this.getLogMain().log(1000000, "ENIActivator#addingService: received %1", object);
+            this.dispatcher.execute(new Runnable(){
+
+                public void run() {
+                    ENIActivator.this.bapServiceENI = (BAPServiceENI)object;
+                    ENIActivator.this.trackedServices.add(serviceReference);
+                    ENIActivator.this.provideServices(ENIActivator.this.bapServiceENI);
+                }
+            });
             return object;
         }
         if (object instanceof BAPServiceRemoteServices) {
-            this.getLogMain().log(1078071040, "ENIActivator#addingService: received %1", object);
-            this.dispatcher.execute(new ENIActivator$3(this, object, serviceReference));
+            this.getLogMain().log(1000000, "ENIActivator#addingService: received %1", object);
+            this.dispatcher.execute(new Runnable(){
+
+                public void run() {
+                    ENIActivator.this.remoteService = (BAPServiceRemoteServices)object;
+                    ENIActivator.this.trackedServices.add(serviceReference);
+                    ENIActivator.this.eniGateway.setBAPServiceRemoteServices(ENIActivator.this.remoteService);
+                }
+            });
             return object;
         }
         if (object instanceof ENIServiceEcallListener) {
-            this.getLogMain().log(1078071040, "ENIActivator#addingService: received %1", object);
-            this.dispatcher.execute(new ENIActivator$4(this, object, serviceReference));
+            this.getLogMain().log(1000000, "ENIActivator#addingService: received %1", object);
+            this.dispatcher.execute(new Runnable(){
+
+                public void run() {
+                    ENIActivator.this.eniServiceEcallListener = (ENIServiceEcallListener)object;
+                    ENIActivator.this.eniGateway.registerEcallListener(ENIActivator.this.eniServiceEcallListener);
+                    ENIActivator.this.trackedServices.add(serviceReference);
+                }
+            });
             return object;
         }
         if (object instanceof ENIServiceOnlineListener) {
-            this.getLogMain().log(1078071040, "ENIActivator#addingService: received %1", object);
-            this.dispatcher.execute(new ENIActivator$5(this, object, serviceReference));
+            this.getLogMain().log(1000000, "ENIActivator#addingService: received %1", object);
+            this.dispatcher.execute(new Runnable(){
+
+                public void run() {
+                    ENIActivator.this.eniServiceOnlineListener = (ENIServiceOnlineListener)object;
+                    ENIActivator.this.eniGateway.setEniServiceOnlineListener(ENIActivator.this.eniServiceOnlineListener);
+                    ENIActivator.this.trackedServices.add(serviceReference);
+                }
+            });
             return object;
         }
         if (object instanceof ENIMobileKeyListener) {
-            this.getLogMain().log(1078071040, "ENIActivator#addingService: received %1", object);
-            this.dispatcher.execute(new ENIActivator$6(this, object, serviceReference));
+            this.getLogMain().log(1000000, "ENIActivator#addingService: received %1", object);
+            this.dispatcher.execute(new Runnable(){
+
+                public void run() {
+                    ENIActivator.this.eniMobileKeyListener = (ENIMobileKeyListener)object;
+                    ENIActivator.this.eniGateway.registerMobileKeyListener(ENIActivator.this.eniMobileKeyListener);
+                    ENIActivator.this.trackedServices.add(serviceReference);
+                }
+            });
             return object;
         }
         if (object instanceof ENIMobileKeyStatusDisplayListener) {
-            this.getLogMain().log(1078071040, "ENIActivator#addingService: received %1", object);
-            this.dispatcher.execute(new ENIActivator$7(this, object, serviceReference));
+            this.getLogMain().log(1000000, "ENIActivator#addingService: received %1", object);
+            this.dispatcher.execute(new Runnable(){
+
+                public void run() {
+                    ENIActivator.this.eniMobileKeyStatusDisplayListener = (ENIMobileKeyStatusDisplayListener)object;
+                    ENIActivator.this.eniGateway.registerMobileKeyStatusDisplayListener(ENIActivator.this.eniMobileKeyStatusDisplayListener);
+                    ENIActivator.this.trackedServices.add(serviceReference);
+                }
+            });
             return object;
         }
-        this.getLogMain().log(-1601830656, "ENIActivator#addingService: unknown service: %1", object);
+        this.getLogMain().log(100000, "ENIActivator#addingService: unknown service: %1", object);
         this.bundleContext.ungetService(serviceReference);
         return null;
     }
 
-    @Override
     public final void modifiedService(ServiceReference serviceReference, Object object) {
-        this.getLogMain().log(-1601830656, "ENIActivator#modifiedService: ignored (%1)", object);
+        this.getLogMain().log(100000, "ENIActivator#modifiedService: ignored (%1)", object);
     }
 
-    @Override
-    public final void removedService(ServiceReference serviceReference, Object object) {
-        this.dispatcher.execute(new ENIActivator$8(this, object, serviceReference));
+    public final void removedService(final ServiceReference serviceReference, final Object object) {
+        this.dispatcher.execute(new Runnable(){
+
+            public void run() {
+                if (ENIActivator.this.bapServiceENI.equals(object)) {
+                    ENIActivator.this.bapServiceENI = null;
+                    ENIActivator.this.trackedServices.remove(serviceReference);
+                    ENIActivator.this.getLogMain().log(1000000, "ENIActivator#removedService: removed %1", object);
+                } else if (ENIActivator.this.eniServiceEcallListener.equals(object)) {
+                    ENIActivator.this.eniServiceEcallListener = null;
+                    ENIActivator.this.trackedServices.remove(serviceReference);
+                    ENIActivator.this.getLogMain().log(1000000, "ENIActivator#removedService: removed %1", object);
+                } else if (ENIActivator.this.eniServiceOnlineListener.equals(object)) {
+                    ENIActivator.this.eniServiceOnlineListener = null;
+                    ENIActivator.this.trackedServices.remove(serviceReference);
+                    ENIActivator.this.getLogMain().log(1000000, "ENIActivator#removedService: removed %1", object);
+                } else {
+                    ENIActivator.this.getLogMain().log(100000, "ENIActivator#removingService: unknown service: %1", object);
+                    return;
+                }
+            }
+        });
     }
 
     private void provideServices(BAPServiceENI bAPServiceENI) {
@@ -174,7 +230,7 @@ implements ServiceTrackerCustomizer {
         String string = clazz.getName();
         properties.put("DEVICE_NAME", string);
         this.providedServices.add(this.bundleContext.registerService(string, object, (Dictionary)properties));
-        this.getLogMain().log(1078071040, "ENIActivator#provideServices: provided %1", (Object)string);
+        this.getLogMain().log(1000000, "ENIActivator#provideServices: provided %1", (Object)string);
     }
 
     static /* synthetic */ Class class$(String string) {
@@ -184,81 +240,6 @@ implements ServiceTrackerCustomizer {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ IFrameworkAccess access$002(ENIActivator eNIActivator, IFrameworkAccess iFrameworkAccess) {
-        eNIActivator.frameworkAccess = iFrameworkAccess;
-        return eNIActivator.frameworkAccess;
-    }
-
-    static /* synthetic */ List access$100(ENIActivator eNIActivator) {
-        return eNIActivator.trackedServices;
-    }
-
-    static /* synthetic */ IFrameworkAccess access$000(ENIActivator eNIActivator) {
-        return eNIActivator.frameworkAccess;
-    }
-
-    static /* synthetic */ ENIGateway access$200(ENIActivator eNIActivator) {
-        return eNIActivator.eniGateway;
-    }
-
-    static /* synthetic */ BAPServiceENI access$302(ENIActivator eNIActivator, BAPServiceENI bAPServiceENI) {
-        eNIActivator.bapServiceENI = bAPServiceENI;
-        return eNIActivator.bapServiceENI;
-    }
-
-    static /* synthetic */ BAPServiceENI access$300(ENIActivator eNIActivator) {
-        return eNIActivator.bapServiceENI;
-    }
-
-    static /* synthetic */ void access$400(ENIActivator eNIActivator, BAPServiceENI bAPServiceENI) {
-        eNIActivator.provideServices(bAPServiceENI);
-    }
-
-    static /* synthetic */ BAPServiceRemoteServices access$502(ENIActivator eNIActivator, BAPServiceRemoteServices bAPServiceRemoteServices) {
-        eNIActivator.remoteService = bAPServiceRemoteServices;
-        return eNIActivator.remoteService;
-    }
-
-    static /* synthetic */ BAPServiceRemoteServices access$500(ENIActivator eNIActivator) {
-        return eNIActivator.remoteService;
-    }
-
-    static /* synthetic */ ENIServiceEcallListener access$602(ENIActivator eNIActivator, ENIServiceEcallListener eNIServiceEcallListener) {
-        eNIActivator.eniServiceEcallListener = eNIServiceEcallListener;
-        return eNIActivator.eniServiceEcallListener;
-    }
-
-    static /* synthetic */ ENIServiceEcallListener access$600(ENIActivator eNIActivator) {
-        return eNIActivator.eniServiceEcallListener;
-    }
-
-    static /* synthetic */ ENIServiceOnlineListener access$702(ENIActivator eNIActivator, ENIServiceOnlineListener eNIServiceOnlineListener) {
-        eNIActivator.eniServiceOnlineListener = eNIServiceOnlineListener;
-        return eNIActivator.eniServiceOnlineListener;
-    }
-
-    static /* synthetic */ ENIServiceOnlineListener access$700(ENIActivator eNIActivator) {
-        return eNIActivator.eniServiceOnlineListener;
-    }
-
-    static /* synthetic */ ENIMobileKeyListener access$802(ENIActivator eNIActivator, ENIMobileKeyListener eNIMobileKeyListener) {
-        eNIActivator.eniMobileKeyListener = eNIMobileKeyListener;
-        return eNIActivator.eniMobileKeyListener;
-    }
-
-    static /* synthetic */ ENIMobileKeyListener access$800(ENIActivator eNIActivator) {
-        return eNIActivator.eniMobileKeyListener;
-    }
-
-    static /* synthetic */ ENIMobileKeyStatusDisplayListener access$902(ENIActivator eNIActivator, ENIMobileKeyStatusDisplayListener eNIMobileKeyStatusDisplayListener) {
-        eNIActivator.eniMobileKeyStatusDisplayListener = eNIMobileKeyStatusDisplayListener;
-        return eNIActivator.eniMobileKeyStatusDisplayListener;
-    }
-
-    static /* synthetic */ ENIMobileKeyStatusDisplayListener access$900(ENIActivator eNIActivator) {
-        return eNIActivator.eniMobileKeyStatusDisplayListener;
     }
 }
 

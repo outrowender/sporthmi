@@ -53,21 +53,18 @@ implements BaseListModelListener {
         super(iTelApplication, "App.Phone.Main");
     }
 
-    @Override
     public void init() {
         super.init();
         this.getApplication().getGlobalTelephoneStateManager().registerListener(this);
         this.getCallListList().setListener(this);
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.getApplication().getGlobalTelephoneStateManager().removeListener(this);
         this.getCallListList().resetListener();
     }
 
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         this.state = iGlobalTelephoneStateStruct;
         switch (n) {
@@ -91,19 +88,16 @@ implements BaseListModelListener {
                 break;
             }
             default: {
-                this.log.log(-2137614336, "[AbstractCallListBaseListModelHandler#updateGlobalTelephoneStateProperty] no handling for key %1", (long)n);
+                this.log.log(10000000, "[AbstractCallListBaseListModelHandler#updateGlobalTelephoneStateProperty] no handling for key %1", (long)n);
             }
         }
     }
 
-    protected abstract EvoListRow getNewListRow(AbstractPhoneCall abstractPhoneCall, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct, int n, LogChannel logChannel) {
-    }
+    protected abstract EvoListRow getNewListRow(AbstractPhoneCall var1, IGlobalTelephoneStateStruct var2, int var3, LogChannel var4);
 
-    protected abstract BaseListModelApp getCallListList() {
-    }
+    protected abstract BaseListModelApp getCallListList();
 
-    protected abstract void callSelected(EvoListRow evoListRow, int n) {
-    }
+    protected abstract void callSelected(EvoListRow var1, int var2);
 
     public void updateCallList(IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         this.updateListModel(iGlobalTelephoneStateStruct);
@@ -200,7 +194,7 @@ implements BaseListModelListener {
                 if (abstractPhoneCall == null || !baseListModelApp.contains(abstractPhoneCall.getTelCallID())) continue;
                 int n = baseListModelApp.getIndexForUniqueID(abstractPhoneCall.getTelCallID());
                 EvoListRow evoListRow = this.getNewListRow(abstractPhoneCall, iGlobalTelephoneStateStruct, abstractPhoneCallArray.length, this.log);
-                this.log.log(-2137614336, "[AbstractCallListBaseListModelHandler#updateListModelWithCurrentState] row[%2]=%1", (Object)evoListRow, (long)i2);
+                this.log.log(10000000, "[AbstractCallListBaseListModelHandler#updateListModelWithCurrentState] row[%2]=%1", (Object)evoListRow, (long)i2);
                 baseListModelApp.setRow(n, evoListRow);
             }
             this.getCallListList().update(baseListModelApp);
@@ -208,7 +202,7 @@ implements BaseListModelListener {
     }
 
     protected void updateListModel(IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
-        this.log.log(-2137614336, "[AbstractCallListBaseListModelHandler#updateListModel] updating the list model.");
+        this.log.log(10000000, "[AbstractCallListBaseListModelHandler#updateListModel] updating the list model.");
         CallStateStruct callStateStruct = this.getCallLeadingDeviceCallState(iGlobalTelephoneStateStruct);
         if (iGlobalTelephoneStateStruct != null && iGlobalTelephoneStateStruct.getConnectedGatewayState() != null && iGlobalTelephoneStateStruct.getConnectedGatewayState().isLowPrioritySOSEmergencyCallType()) {
             return;
@@ -243,7 +237,7 @@ implements BaseListModelListener {
                 AbstractPhoneCall abstractPhoneCall = abstractPhoneCallArray[i2];
                 if (!AbstractCallListBaseListModelHandler.isCallStateAllowed(abstractPhoneCall)) continue;
                 EvoListRow evoListRow = this.getNewListRow(abstractPhoneCall, iGlobalTelephoneStateStruct, abstractPhoneCallArray.length, this.log);
-                this.log.log(-2137614336, "[AbstractCallListBaseListModelHandler#addListRows] row[%2]=%1", (Object)evoListRow, (long)i2);
+                this.log.log(10000000, "[AbstractCallListBaseListModelHandler#addListRows] row[%2]=%1", (Object)evoListRow, (long)i2);
                 baseListModelApp.append(evoListRow);
             }
         }
@@ -253,21 +247,17 @@ implements BaseListModelListener {
         baseListModelApp.removeAll();
     }
 
-    @Override
     public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.log.log(1078071040, "[AbstractCallListBaseListModelHandler#itemSelected] %1", (Object)TelLoggingUtils.itemSelectedBaseList(evoListRow, n, n2, n3, n4));
+        this.log.log(1000000, "[AbstractCallListBaseListModelHandler#itemSelected] %1", (Object)TelLoggingUtils.itemSelectedBaseList(evoListRow, n, n2, n3, n4));
         this.callSelected(evoListRow, n4);
     }
 
-    @Override
     public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 }

@@ -12,43 +12,36 @@ import org.dsi.ifc.carcomfort.WiperViewOptions;
 public abstract class AbstractEasyEntryComponent
 extends AbstractDSICarComfortAdapter
 implements ChoiceListener {
-    public static final short CODING_ID;
-    private static final String LOGCHANNEL_NAME;
+    public static final short CODING_ID = 12;
+    private static final String LOGCHANNEL_NAME = "App.Car.Seat";
     private volatile WiperViewOptions currentViewOptions;
-    public static final int ENABLED;
-    public static final int DISABLED;
+    public static final int ENABLED = 1;
+    public static final int DISABLED = 0;
 
     public AbstractEasyEntryComponent(ICarApplication iCarApplication) {
-        super(iCarApplication, "App.Car.Seat");
+        super(iCarApplication, LOGCHANNEL_NAME);
     }
 
-    @Override
     protected void initModels() {
-        this.getChoiceModel(925436160).setChoiceListener(this);
+        this.getChoiceModel(600375).setChoiceListener(this);
     }
 
-    @Override
     protected void deinitModels() {
-        this.getChoiceModel(925436160).resetListener();
+        this.getChoiceModel(600375).resetListener();
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
         this.logModelData("[AbstractEasyEntryComponent#itemSelected]", n, n2, true);
         switch (n) {
@@ -62,21 +55,19 @@ implements ChoiceListener {
         }
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 
     private void itemSelectedEasyEntryDriver(boolean bl) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractEasyEntryComponent#itemSelectedEasyEntryDriver] dsi.setEasyEntrySteeringColumn: state=%1", bl);
+            this.getLogChannel().log(1000000, "[AbstractEasyEntryComponent#itemSelectedEasyEntryDriver] dsi.setEasyEntrySteeringColumn: state=%1", bl);
         }
         this.getDSI().setEasyEntrySteeringColumn(bl);
     }
 
-    @Override
     public void updateWiperViewOptions(WiperViewOptions wiperViewOptions, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractEasyEntryComponent#updateWiperViewOptions] viewOptions='%1', valid='%2'", (Object)(wiperViewOptions != null ? this.formatViewOptionsLog(wiperViewOptions.toString()) : "null"), (long)n);
+            this.getLogChannel().log(1000000, "[AbstractEasyEntryComponent#updateWiperViewOptions] viewOptions='%1', valid='%2'", (Object)(wiperViewOptions != null ? this.formatViewOptionsLog(wiperViewOptions.toString()) : "null"), (long)n);
         }
         if (n == 1 && wiperViewOptions != null) {
             this.currentViewOptions = wiperViewOptions;
@@ -85,25 +76,21 @@ implements ChoiceListener {
         }
     }
 
-    @Override
     public void updateEasyEntrySteeringColumn(boolean bl, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractEasyEntryComponent#updateEasyEntrySteeringColumn] enable='%1', valid='%2'", bl, (long)n);
+            this.getLogChannel().log(1000000, "[AbstractEasyEntryComponent#updateEasyEntrySteeringColumn] enable='%1', valid='%2'", bl, (long)n);
         }
         if (n == 1) {
-            this.getChoiceModel(925436160).setValue(bl ? 1 : 0);
+            this.getChoiceModel(600375).setValue(bl ? 1 : 0);
         }
     }
 
-    @Override
     public CarDSIAttributesSet[] getDSIAttributesSets() {
         return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{21}, new int[]{28})};
     }
 
-    protected abstract void updateMenuEntryVisibility(WiperViewOptions wiperViewOptions) {
-    }
+    protected abstract void updateMenuEntryVisibility(WiperViewOptions var1);
 
-    @Override
     public String getCurrentViewOptions() {
         if (this.currentViewOptions == null) {
             return "no view options received yet";
@@ -111,7 +98,6 @@ implements ChoiceListener {
         return this.currentViewOptions.toString();
     }
 
-    @Override
     public String getName() {
         return "Car Seat Driver Easy Entry";
     }

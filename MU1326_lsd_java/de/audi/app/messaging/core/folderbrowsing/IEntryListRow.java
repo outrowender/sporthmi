@@ -6,13 +6,10 @@ package de.audi.app.messaging.core.folderbrowsing;
 import org.dsi.ifc.messaging.ListEntry;
 
 public interface IEntryListRow {
-    default public ListEntry getListEntry() {
-    }
+    public ListEntry getListEntry();
 
-    default public int getItemOffset() {
-    }
+    public int getItemOffset();
 
-    default public int getIconId() {
-    }
+    public int getIconId();
 }
 

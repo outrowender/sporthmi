@@ -5,25 +5,25 @@ package com.ibm.j9.ssl;
 
 public class SSLProtocol {
     public static final byte[] SSL_PROTOCOL_VERSION;
-    public static final String SSL_PROTOCOL_NAME;
-    public static final byte ALERT_LEVEL_WARNING;
-    public static final byte ALERT_LEVEL_FATAL;
-    public static final byte ALERT_CLOSE_NOTIFY;
-    public static final byte ALERT_UNEXPECTED_MESSAGE;
-    public static final byte ALERT_BAD_RECORD_MAC;
-    public static final byte ALERT_DECOMPRESSION_FAILURE;
-    public static final byte ALERT_HANDSHAKE_FAILURE;
-    public static final byte ALERT_NO_CERTIFICATE;
-    public static final byte ALERT_BAD_CERTIFICATE;
-    public static final byte ALERT_UNSUPPORTED_CERTIFICATE;
-    public static final byte ALERT_CERTIFICATE_REVOKED;
-    public static final byte ALERT_CERTIFICATE_EXPIRED;
-    public static final byte ALERT_CERTIFICATE_UNKNOWN;
-    public static final byte ALERT_ILLEGAL_PARAMETER;
-    public static final byte CONTENT_CHANGE_CIPHER_SPEC;
-    public static final byte CONTENT_ALERT;
-    public static final byte CONTENT_HANDSHAKE;
-    public static final byte CONTENT_APPLICATION_DATA;
+    public static final String SSL_PROTOCOL_NAME = "SSLv3";
+    public static final byte ALERT_LEVEL_WARNING = 1;
+    public static final byte ALERT_LEVEL_FATAL = 2;
+    public static final byte ALERT_CLOSE_NOTIFY = 0;
+    public static final byte ALERT_UNEXPECTED_MESSAGE = 10;
+    public static final byte ALERT_BAD_RECORD_MAC = 20;
+    public static final byte ALERT_DECOMPRESSION_FAILURE = 30;
+    public static final byte ALERT_HANDSHAKE_FAILURE = 40;
+    public static final byte ALERT_NO_CERTIFICATE = 41;
+    public static final byte ALERT_BAD_CERTIFICATE = 42;
+    public static final byte ALERT_UNSUPPORTED_CERTIFICATE = 43;
+    public static final byte ALERT_CERTIFICATE_REVOKED = 44;
+    public static final byte ALERT_CERTIFICATE_EXPIRED = 45;
+    public static final byte ALERT_CERTIFICATE_UNKNOWN = 46;
+    public static final byte ALERT_ILLEGAL_PARAMETER = 47;
+    public static final byte CONTENT_CHANGE_CIPHER_SPEC = 20;
+    public static final byte CONTENT_ALERT = 21;
+    public static final byte CONTENT_HANDSHAKE = 22;
+    public static final byte CONTENT_APPLICATION_DATA = 23;
     private static String[] contentTypeNames;
 
     static {

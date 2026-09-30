@@ -11,18 +11,18 @@ import de.audi.atip.log.LogChannel;
 
 public class BoardbookFilePlayerSession
 implements IMediaFilePlayerSession {
-    private static final int RESOLUTION_X_SCREEN_G24;
-    private static final int RESOLUTION_Y_SCREEN_G24;
-    private static final int RESOLUTION_X_VIDEO_G24;
-    private static final int RESOLUTION_Y_VIDEO_G24;
-    private static final int RESOLUTION_X_SCREEN_G22;
-    private static final int RESOLUTION_Y_SCREEN_G22;
-    private static final int RESOLUTION_X_VIDEO_G22;
-    private static final int RESOLUTION_Y_VIDEO_G22;
-    private static final int RESOLUTION_X_SCREEN_G21;
-    private static final int RESOLUTION_Y_SCREEN_G21;
-    private static final int RESOLUTION_X_VIDEO_G21;
-    private static final int RESOLUTION_Y_VIDEO_G21;
+    private static final int RESOLUTION_X_SCREEN_G24 = 800;
+    private static final int RESOLUTION_Y_SCREEN_G24 = 480;
+    private static final int RESOLUTION_X_VIDEO_G24 = 640;
+    private static final int RESOLUTION_Y_VIDEO_G24 = 360;
+    private static final int RESOLUTION_X_SCREEN_G22 = 1024;
+    private static final int RESOLUTION_Y_SCREEN_G22 = 480;
+    private static final int RESOLUTION_X_VIDEO_G22 = 853;
+    private static final int RESOLUTION_Y_VIDEO_G22 = 480;
+    private static final int RESOLUTION_X_SCREEN_G21 = 800;
+    private static final int RESOLUTION_Y_SCREEN_G21 = 480;
+    private static final int RESOLUTION_X_VIDEO_G21 = 640;
+    private static final int RESOLUTION_Y_VIDEO_G21 = 360;
     final int currentScreenRes;
     final boolean isEvoHighMMIKombi;
     private int state;
@@ -48,17 +48,14 @@ implements IMediaFilePlayerSession {
         this.url = string;
     }
 
-    @Override
     public int getAudioConnection() {
         return 201;
     }
 
-    @Override
     public int getType() {
         return 0;
     }
 
-    @Override
     public String getName() {
         return "BoardbookVideoSession";
     }
@@ -66,17 +63,16 @@ implements IMediaFilePlayerSession {
     private void calcAndSetVideoScaling(int n, int n2, int n3, int n4) {
         int n5 = n3 > n ? 0 : (n - n3) / 2;
         int n6 = n4 > n2 ? 0 : (n2 - n4) / 2;
-        this.logChannel.log(1078071040, "BoardbookFilePlayerSession#calcAndSetVideoScaling():  XRes = %1  and YRes = %2", (long)n3, (long)n4);
-        this.logChannel.log(1078071040, "BoardbookFilePlayerSession#calcAndSetVideoScaling():  XPos = %1  and YPos = %2", (long)n5, (long)n6);
+        this.logChannel.log(1000000, "BoardbookFilePlayerSession#calcAndSetVideoScaling():  XRes = %1  and YRes = %2", (long)n3, (long)n4);
+        this.logChannel.log(1000000, "BoardbookFilePlayerSession#calcAndSetVideoScaling():  XPos = %1  and YPos = %2", (long)n5, (long)n6);
         this.player.setVideoScaling(n5, n6, n3, n4);
     }
 
-    @Override
     public void onActive(IMediaSessionPlayer iMediaSessionPlayer) {
         this.handler.setVideoLoading(false);
-        this.logChannel.log(1078071040, "BoardbookFilePlayerSession#onActive()");
+        this.logChannel.log(1000000, "BoardbookFilePlayerSession#onActive()");
         this.player = (IMediaFileSessionPlayer)iMediaSessionPlayer;
-        this.logChannel.log(1078071040, "ScreenRes: %1", (long)this.currentScreenRes);
+        this.logChannel.log(1000000, "ScreenRes: %1", (long)this.currentScreenRes);
         switch (this.currentScreenRes) {
             case 1: {
                 this.calcAndSetVideoScaling(800, 480, 640, 360);
@@ -99,20 +95,17 @@ implements IMediaFilePlayerSession {
         this.player.play(this.url, false);
     }
 
-    @Override
     public void onSuspend() {
-        this.logChannel.log(1078071040, "BoardbookFilePlayerSession#onSuspended()");
+        this.logChannel.log(1000000, "BoardbookFilePlayerSession#onSuspended()");
     }
 
-    @Override
     public void onClose() {
-        this.logChannel.log(1078071040, "BoardbookFilePlayerSession#onClose()");
+        this.logChannel.log(1000000, "BoardbookFilePlayerSession#onClose()");
         this.player = null;
     }
 
-    @Override
     public void updateState(int n) {
-        this.logChannel.log(1078071040, "BoardbookFilePlayerSession#updateState: update session state %1", (long)n);
+        this.logChannel.log(1000000, "BoardbookFilePlayerSession#updateState: update session state %1", (long)n);
         this.state = n;
         if (n == 2 && this.oldstate != 2) {
             this.handler.triggerScreenChangeToVideo();
@@ -123,15 +116,13 @@ implements IMediaFilePlayerSession {
         }
     }
 
-    @Override
     public void updatePlayPosition(int n, int n2) {
-        this.logChannel.log(1078071040, "BoardbooFilePlayerSession#updatePlayPosition %1 %2", (long)n, (long)n2);
+        this.logChannel.log(1000000, "BoardbooFilePlayerSession#updatePlayPosition %1 %2", (long)n, (long)n2);
         this.handler.updatePlayPosition(n, n2);
     }
 
-    @Override
     public void updateVideoContext(int n) {
-        this.logChannel.log(1078071040, "BoardbookFilePlayerSession#updateVideoDisplayContext received display context %1", (long)n);
+        this.logChannel.log(1000000, "BoardbookFilePlayerSession#updateVideoDisplayContext received display context %1", (long)n);
         this.handler.getDisplayContextModel().setValue(n);
     }
 

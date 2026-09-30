@@ -16,22 +16,20 @@ extends AbstractEcallAudioCmd {
         this.connection = n;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "EcallReleaseConnectionCmd#execute(): release connection: %1 ", (long)this.connection);
+        this.logger.log(1000000, "EcallReleaseConnectionCmd#execute(): release connection: %1 ", (long)this.connection);
         boolean bl = this.isStopped(this.connection);
         this.audioService.releaseConnection(this.connection);
         if (bl) {
             this.getCommandList().commandFinished();
         } else {
-            this.logger.log(1078071040, "EcallReleaseConnectionCmd#execute(): waiting for stopConnection");
+            this.logger.log(1000000, "EcallReleaseConnectionCmd#execute(): waiting for stopConnection");
         }
     }
 
-    @Override
     public void stopConnection(int n, int n2) {
         if (n == this.connection) {
-            this.logger.log(1078071040, "[EcallReleaseConnectionCmd#stopConnection] AC:%1", (long)n);
+            this.logger.log(1000000, "[EcallReleaseConnectionCmd#stopConnection] AC:%1", (long)n);
             this.getCommandList().commandFinished();
         }
     }

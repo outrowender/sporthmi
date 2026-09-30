@@ -13,7 +13,6 @@ public class MediaTransferActivator
 extends AbstractActivator {
     static /* synthetic */ Class class$de$audi$app$media$extension$IMediaTerminalExtension;
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         if (!this.getFramework().isFrontMU()) {
@@ -24,7 +23,6 @@ extends AbstractActivator {
         this.registerService((class$de$audi$app$media$extension$IMediaTerminalExtension == null ? (class$de$audi$app$media$extension$IMediaTerminalExtension = MediaTransferActivator.class$("de.audi.app.media.extension.IMediaTerminalExtension")) : class$de$audi$app$media$extension$IMediaTerminalExtension).getName(), (Object)new MediaEvoTransferTerminalExtension(), (Dictionary)hashtable);
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         super.stop(bundleContext);
     }

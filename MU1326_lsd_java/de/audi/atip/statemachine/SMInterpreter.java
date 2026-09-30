@@ -8,28 +8,20 @@ import de.audi.atip.hmi.event.StateMachineEvent;
 import de.audi.atip.statemachine.SMListener;
 
 public interface SMInterpreter {
-    default public void startPopup(int n, int n2) {
-    }
+    public void startPopup(int var1, int var2);
 
-    default public void stopPopup(int n, int n2) {
-    }
+    public void stopPopup(int var1, int var2);
 
-    default public void processEvent(StateMachineEvent stateMachineEvent) {
-    }
+    public void processEvent(StateMachineEvent var1);
 
-    default public void processUpdate(ModelUpdateEvent modelUpdateEvent) {
-    }
+    public void processUpdate(ModelUpdateEvent var1);
 
-    default public void registersSMListener(SMListener sMListener) {
-    }
+    public void registersSMListener(SMListener var1);
 
-    default public void setActiveSubterminal(int n, int n2) {
-    }
+    public void setActiveSubterminal(int var1, int var2);
 
-    default public int getActiveSubterminal(int n) {
-    }
+    public int getActiveSubterminal(int var1);
 
-    default public void jointModeLeft(int n) {
-    }
+    public void jointModeLeft(int var1);
 }
 

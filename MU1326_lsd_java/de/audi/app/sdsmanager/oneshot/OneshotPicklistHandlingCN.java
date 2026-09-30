@@ -12,7 +12,6 @@ extends OneshotPicklistHandlingVDE {
         super(hMIService);
     }
 
-    @Override
     public int getSlotLevelOffset() {
         return 0;
     }

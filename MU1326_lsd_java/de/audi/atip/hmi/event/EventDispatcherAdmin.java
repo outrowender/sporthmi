@@ -7,46 +7,32 @@ import de.esolutions.fw.util.commons.job.IJobFilter;
 import java.io.PrintStream;
 
 public interface EventDispatcherAdmin {
-    default public boolean isUserInteraction(Object object) {
-    }
+    public boolean isUserInteraction(Object var1);
 
-    default public void blockScreenChangeDisturbingEvents() {
-    }
+    public void blockScreenChangeDisturbingEvents();
 
-    default public void unBlockScreenChangeDisturbingEvents() {
-    }
+    public void unBlockScreenChangeDisturbingEvents();
 
-    default public void blockHardkeys() {
-    }
+    public void blockHardkeys();
 
-    default public void unBlockHardkeys() {
-    }
+    public void unBlockHardkeys();
 
-    default public void lockUsage() {
-    }
+    public void lockUsage();
 
-    default public void unlockUsage() {
-    }
+    public void unlockUsage();
 
-    default public void setKombiSyncFocus(int n) {
-    }
+    public void setKombiSyncFocus(int var1);
 
-    default public void addEventFilter(IJobFilter iJobFilter) {
-    }
+    public void addEventFilter(IJobFilter var1);
 
-    default public void removeEventFilter(IJobFilter iJobFilter) {
-    }
+    public void removeEventFilter(IJobFilter var1);
 
-    default public void setPriority(int n) {
-    }
+    public void setPriority(int var1);
 
-    default public String[] getStatisticData() {
-    }
+    public String[] getStatisticData();
 
-    default public void dumpEventQueue(PrintStream printStream) {
-    }
+    public void dumpEventQueue(PrintStream var1);
 
-    default public void dump(PrintStream printStream) {
-    }
+    public void dump(PrintStream var1);
 }
 

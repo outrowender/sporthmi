@@ -6,9 +6,11 @@ package de.audi.swdiagnosis.media.dsi;
 import de.audi.app.media.osgi.IServiceTracker;
 import de.audi.app.media.osgi.ServiceManagerImpl;
 import de.audi.atip.activator.AbstractActivator;
+import de.audi.atip.diag.sw.SwDiagnosisManager;
 import de.audi.swdiagnosis.media.dsi.MediaDSISimulation;
-import de.audi.swdiagnosis.media.dsi.MediaDSISimulationActivator$1;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
+import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
 public class MediaDSISimulationActivator
 extends AbstractActivator {
@@ -16,15 +18,29 @@ extends AbstractActivator {
     private MediaDSISimulation simulation;
     static /* synthetic */ Class class$de$audi$atip$diag$sw$SwDiagnosisManager;
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
-        ServiceManagerImpl serviceManagerImpl = new ServiceManagerImpl(bundleContext, this.getFramework());
-        this.diagGatewayTracker = serviceManagerImpl.createServiceTracker(class$de$audi$atip$diag$sw$SwDiagnosisManager == null ? (class$de$audi$atip$diag$sw$SwDiagnosisManager = MediaDSISimulationActivator.class$("de.audi.atip.diag.sw.SwDiagnosisManager")) : class$de$audi$atip$diag$sw$SwDiagnosisManager, new MediaDSISimulationActivator$1(this, serviceManagerImpl));
+        final ServiceManagerImpl serviceManagerImpl = new ServiceManagerImpl(bundleContext, this.getFramework());
+        this.diagGatewayTracker = serviceManagerImpl.createServiceTracker(class$de$audi$atip$diag$sw$SwDiagnosisManager == null ? (class$de$audi$atip$diag$sw$SwDiagnosisManager = MediaDSISimulationActivator.class$("de.audi.atip.diag.sw.SwDiagnosisManager")) : class$de$audi$atip$diag$sw$SwDiagnosisManager, new ServiceTrackerCustomizer(){
+
+            public Object addingService(ServiceReference serviceReference) {
+                SwDiagnosisManager swDiagnosisManager = (SwDiagnosisManager)serviceManagerImpl.getService(serviceReference);
+                MediaDSISimulationActivator.this.simulation = new MediaDSISimulation(serviceManagerImpl);
+                swDiagnosisManager.addDiagGateway(MediaDSISimulationActivator.this.simulation);
+                return swDiagnosisManager;
+            }
+
+            public void removedService(ServiceReference serviceReference, Object object) {
+                ((SwDiagnosisManager)object).removeDiagGateway(MediaDSISimulationActivator.this.simulation);
+                serviceManagerImpl.releaseService(serviceReference);
+            }
+
+            public void modifiedService(ServiceReference serviceReference, Object object) {
+            }
+        });
         this.diagGatewayTracker.open();
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         this.diagGatewayTracker.close();
         super.stop(bundleContext);
@@ -37,15 +53,6 @@ extends AbstractActivator {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ MediaDSISimulation access$002(MediaDSISimulationActivator mediaDSISimulationActivator, MediaDSISimulation mediaDSISimulation) {
-        mediaDSISimulationActivator.simulation = mediaDSISimulation;
-        return mediaDSISimulationActivator.simulation;
-    }
-
-    static /* synthetic */ MediaDSISimulation access$000(MediaDSISimulationActivator mediaDSISimulationActivator) {
-        return mediaDSISimulationActivator.simulation;
     }
 }
 

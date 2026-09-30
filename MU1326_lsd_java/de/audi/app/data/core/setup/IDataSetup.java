@@ -4,30 +4,24 @@
 package de.audi.app.data.core.setup;
 
 public interface IDataSetup {
-    public static final int GENERAL_PERMISSION_MANUAL;
-    public static final int GENERAL_PERMISSION_AUTOMATIC;
-    public static final int GENERAL_PERMISSION_NEVER;
-    public static final int GENERAL_PERMISSION_PENDING;
-    public static final int PERMISSION_PENDING;
-    public static final int PERMISSION_DENY;
-    public static final int PERMISSION_ALLOW;
+    public static final int GENERAL_PERMISSION_MANUAL = 0;
+    public static final int GENERAL_PERMISSION_AUTOMATIC = 1;
+    public static final int GENERAL_PERMISSION_NEVER = 2;
+    public static final int GENERAL_PERMISSION_PENDING = 3;
+    public static final int PERMISSION_PENDING = -1;
+    public static final int PERMISSION_DENY = 0;
+    public static final int PERMISSION_ALLOW = 1;
 
-    default public void activateDataConnection() {
-    }
+    public void activateDataConnection();
 
-    default public void deactivateDataConnection() {
-    }
+    public void deactivateDataConnection();
 
-    default public void setOnlinePermissionToAlways() {
-    }
+    public void setOnlinePermissionToAlways();
 
-    default public void activateRoamingPermission() {
-    }
+    public void activateRoamingPermission();
 
-    default public void deactivateRoamingPermission() {
-    }
+    public void deactivateRoamingPermission();
 
-    default public boolean isLocalNetModeEnabled() {
-    }
+    public boolean isLocalNetModeEnabled();
 }
 

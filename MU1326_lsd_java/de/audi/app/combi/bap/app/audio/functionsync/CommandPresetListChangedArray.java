@@ -23,16 +23,14 @@ implements IAcknowledgeListener {
         this.forceFullRangeUpdate = bl;
     }
 
-    @Override
     public void processAcknowledge(int n, int n2) {
         if (n2 == 4) {
-            this.logger.log(-2137614336, "[CommandPresetListChangedArray#processAcknowledge] PresetList acknowledged");
+            this.logger.log(10000000, "[CommandPresetListChangedArray#processAcknowledge] PresetList acknowledged");
             this.presetListArray.removeAcknowledgeListener(this);
             this.commandList.commandFinished();
         }
     }
 
-    @Override
     public void execute() {
         ArrayHandler arrayHandler = this.presetListArray.getArrayHandler();
         if (arrayHandler != null) {

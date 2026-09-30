@@ -19,8 +19,8 @@ implements IPoiParentChildCategoryScreenModelAccess {
     private final IEvoListRowBuilder listRowBuilder;
     private BaseListModelApp previewListModel;
     private LIValueListElement parentElement;
-    public static final int CHOICE_ENABLED;
-    public static final int CHOICE_DISABLED;
+    public static final int CHOICE_ENABLED = 1;
+    public static final int CHOICE_DISABLED = 0;
 
     public PoiParentChildCategoryScreenModelAccess(NavigationEnv navigationEnv, IEvoListRowBuilder iEvoListRowBuilder, int n) {
         super(navigationEnv);
@@ -28,16 +28,14 @@ implements IPoiParentChildCategoryScreenModelAccess {
         this.previewListModel = navigationEnv.getBaseListModel(n);
     }
 
-    @Override
     public void onStart() {
         this.previewListModel.removeAll();
     }
 
-    @Override
     public void onUpdateResultList(LIValueList lIValueList, long l, String string, boolean bl) {
-        this.logChannel.log(-2137614336, "%1#onUpdateResultList(matchCount = %2)", (Object)this.CLASS_NAME, l);
+        this.logChannel.log(10000000, "%1#onUpdateResultList(matchCount = %2)", (Object)this.CLASS_NAME, l);
         for (int i2 = 0; i2 < lIValueList.getList().length; ++i2) {
-            this.logChannel.log(-2137614336, "%1#onUpdateResultList(element.name = %2, element.listIndex = %3)", (Object)this.CLASS_NAME, (Object)lIValueList.getList()[i2].data, (long)lIValueList.getList()[i2].listIndex);
+            this.logChannel.log(10000000, "%1#onUpdateResultList(element.name = %2, element.listIndex = %3)", (Object)this.CLASS_NAME, (Object)lIValueList.getList()[i2].data, (long)lIValueList.getList()[i2].listIndex);
         }
         if (!Util.isListValid(lIValueList) || lIValueList.getList().length == 0) {
             this.previewListModel.removeAll();
@@ -47,7 +45,7 @@ implements IPoiParentChildCategoryScreenModelAccess {
         int n = lIValueListElementArray.length;
         int n2 = this.previewListModel.getLength();
         this.previewListModel.setLength((int)l + 1);
-        this.logChannel.log(-2137614336, "%1#onUpdateResultList - previewlistlength: %2, currentListModelLength: %3", (Object)this.CLASS_NAME, (long)n, (long)n2);
+        this.logChannel.log(10000000, "%1#onUpdateResultList - previewlistlength: %2, currentListModelLength: %3", (Object)this.CLASS_NAME, (long)n, (long)n2);
         if (n2 == 0) {
             EvoListRow evoListRow = this.listRowBuilder.buildListRow(this.parentElement, -1);
             this.previewListModel.setRow(0, evoListRow);
@@ -63,17 +61,15 @@ implements IPoiParentChildCategoryScreenModelAccess {
         }
     }
 
-    @Override
     public void setParentElement(LIValueListElement lIValueListElement) {
         this.parentElement = lIValueListElement;
     }
 
-    @Override
     public void onElementSelected(LIValueListElement lIValueListElement) {
-        this.env.getChoiceModel(505284096).setValue(0);
-        this.logChannel.log(-2137614336, "%1#onElementSelected - selectedElement.data=%2", (Object)this.CLASS_NAME, (Object)lIValueListElement.data);
+        this.env.getChoiceModel(400926).setValue(0);
+        this.logChannel.log(10000000, "%1#onElementSelected - selectedElement.data=%2", (Object)this.CLASS_NAME, (Object)lIValueListElement.data);
         if (!Util.isHURegionAsia()) {
-            this.env.getLabelModel(-249559552).setText(lIValueListElement.data);
+            this.env.getLabelModel(401649).setText(lIValueListElement.data);
         }
     }
 }

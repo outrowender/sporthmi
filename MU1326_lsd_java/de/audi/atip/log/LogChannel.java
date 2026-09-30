@@ -1,25 +1,22 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package de.audi.atip.log;
 
 public abstract class LogChannel {
     public String name;
     protected int loglevel = 0;
-    public static final int FLAG_WIDTH;
-    public static final int POS1;
-    public static final int POS2;
-    public static final int POS3;
-    public static final int POS4;
-    public static final int FLAG_LONG;
-    public static final int FLAG_OBJECT;
-    public static final int FLAG_BOOL_TRUE;
-    public static final int FLAG_BOOL_FALSE;
-    public static final int FLAG_DOUBLE;
-    public static final int FLAG_CHAR;
+    public static final int FLAG_WIDTH = 3;
+    public static final int POS1 = 0;
+    public static final int POS2 = 3;
+    public static final int POS3 = 6;
+    public static final int POS4 = 9;
+    public static final int FLAG_LONG = 1;
+    public static final int FLAG_OBJECT = 2;
+    public static final int FLAG_BOOL_TRUE = 3;
+    public static final int FLAG_BOOL_FALSE = 4;
+    public static final int FLAG_DOUBLE = 5;
+    public static final int FLAG_CHAR = 6;
 
     public final int getCurrentLogThreshold() {
         return this.loglevel;
@@ -30,22 +27,20 @@ public abstract class LogChannel {
     }
 
     public boolean isDebug2() {
-        return 14808325 <= this.loglevel;
+        return 100000000 <= this.loglevel;
     }
 
     public final boolean isDebug() {
-        return -2137614336 <= this.loglevel;
+        return 10000000 <= this.loglevel;
     }
 
     public boolean isInfo() {
-        return 1078071040 <= this.loglevel;
+        return 1000000 <= this.loglevel;
     }
 
-    public abstract void log(int n, String string, Object object, Object object2, Object object3, Object object4, long l, long l2, long l3, int n2, Throwable throwable) {
-    }
+    public abstract void log(int var1, String var2, Object var3, Object var4, Object var5, Object var6, long var7, long var9, long var11, int var13, Throwable var14);
 
-    public abstract void log(int n, int n2, Object object, Object object2, Object object3, Object object4, long l, long l2, long l3, int n3, Throwable throwable) {
-    }
+    public abstract void log(int var1, int var2, Object var3, Object var4, Object var5, Object var6, long var7, long var9, long var11, int var13, Throwable var14);
 
     public boolean log(int n, String string) {
         if (n <= this.loglevel) {
@@ -173,13 +168,13 @@ public abstract class LogChannel {
 
     public void log(int n, String string, double d2) {
         if (n <= this.loglevel) {
-            this.log(n, string, null, null, null, null, Double.doubleToLongBits((double)d2), 0L, 0L, 5, null);
+            this.log(n, string, null, null, null, null, Double.doubleToLongBits(d2), 0L, 0L, 5, null);
         }
     }
 
     public void log(int n, String string, double d2, double d3, double d4) {
         if (n <= this.loglevel) {
-            this.log(n, string, null, null, null, null, Double.doubleToLongBits((double)d2), Double.doubleToLongBits((double)d3), Double.doubleToLongBits((double)d4), 365, null);
+            this.log(n, string, null, null, null, null, Double.doubleToLongBits(d2), Double.doubleToLongBits(d3), Double.doubleToLongBits(d4), 365, null);
         }
     }
 
@@ -240,7 +235,7 @@ public abstract class LogChannel {
                 string = "UNDEF";
             }
         }
-        return new StringBuffer().append("Name=").append(this.name).append(", Level=").append(string).toString();
+        return "Name=" + this.name + ", Level=" + string;
     }
 
     public boolean log(int n, int n2) {
@@ -369,13 +364,13 @@ public abstract class LogChannel {
 
     public void log(int n, int n2, double d2) {
         if (n <= this.loglevel) {
-            this.log(n, n2, null, null, null, null, Double.doubleToLongBits((double)d2), 0L, 0L, 5, null);
+            this.log(n, n2, null, null, null, null, Double.doubleToLongBits(d2), 0L, 0L, 5, null);
         }
     }
 
     public void log(int n, int n2, double d2, double d3, double d4) {
         if (n <= this.loglevel) {
-            this.log(n, n2, null, null, null, null, Double.doubleToLongBits((double)d2), Double.doubleToLongBits((double)d3), Double.doubleToLongBits((double)d4), 365, null);
+            this.log(n, n2, null, null, null, null, Double.doubleToLongBits(d2), Double.doubleToLongBits(d3), Double.doubleToLongBits(d4), 365, null);
         }
     }
 

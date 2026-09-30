@@ -4,7 +4,6 @@
 package de.audi.app.bluetooth.core.interapp;
 
 public interface IDataBluetoothStateListener {
-    default public void updateHfpConnection(boolean bl, boolean bl2) {
-    }
+    public void updateHfpConnection(boolean var1, boolean var2);
 }
 

@@ -8,98 +8,75 @@ import de.audi.app.car.common.mer.MenuEntryType;
 import java.util.List;
 
 public interface IMenuEntry {
-    public static final int STATE_FUNCTIONAL;
-    public static final int STATE_INVISIBLE;
-    public static final int STATE_DISABLED_ERROR;
-    public static final int STATE_DISABLED_CLAMP15;
-    public static final int STATE_DISABLED_SPEED;
-    public static final int STATE_DISABLED_ENGINE;
-    public static final int STATE_DISABLED_BUS_NOT_ACTIVE;
-    public static final int STATE_DISABLED_VEHICLE_STANDSTILL;
-    public static final int STATE_DISABLED_SYSTEM_OFF;
-    public static final int STATE_DISABLED_TRAILER_HITCHED;
-    public static final int STATE_DISABLED_SPECIAL_ERROR;
-    public static final int STATE_DISABLED_NO_VIN_RECEIVED;
-    public static final int STATE_DISABLED_RESERVED_01;
-    public static final int STATE_DISABLED_RESERVED_02;
-    public static final int STATE_DISABLED_RESERVED_03;
-    public static final int STATE_DISABLED_RESERVED_04;
-    public static final int STATE_DISABLED_RESERVED_05;
-    public static final int STATE_DISABLED_RESERVED_06;
-    public static final int STATE_DISABLED_RESERVED_07;
-    public static final int STATE_DISABLED_RESERVED_08;
-    public static final int STATE_DISABLED_RESERVED_09;
-    public static final int AVAILABLE_MODEL_STATE_NOT_FUNCTIONAL;
-    public static final int AVAILABLE_MODEL_STATE_FUNCTIONAL;
-    public static final int NO_VISIBILITY_CHOICEMODEL_ID;
+    public static final int STATE_FUNCTIONAL = 0;
+    public static final int STATE_INVISIBLE = 1;
+    public static final int STATE_DISABLED_ERROR = 2;
+    public static final int STATE_DISABLED_CLAMP15 = 3;
+    public static final int STATE_DISABLED_SPEED = 4;
+    public static final int STATE_DISABLED_ENGINE = 5;
+    public static final int STATE_DISABLED_BUS_NOT_ACTIVE = 2;
+    public static final int STATE_DISABLED_VEHICLE_STANDSTILL = 6;
+    public static final int STATE_DISABLED_SYSTEM_OFF = 7;
+    public static final int STATE_DISABLED_TRAILER_HITCHED = 8;
+    public static final int STATE_DISABLED_SPECIAL_ERROR = 9;
+    public static final int STATE_DISABLED_NO_VIN_RECEIVED = 10;
+    public static final int STATE_DISABLED_RESERVED_01 = 11;
+    public static final int STATE_DISABLED_RESERVED_02 = 12;
+    public static final int STATE_DISABLED_RESERVED_03 = 13;
+    public static final int STATE_DISABLED_RESERVED_04 = 14;
+    public static final int STATE_DISABLED_RESERVED_05 = 15;
+    public static final int STATE_DISABLED_RESERVED_06 = 16;
+    public static final int STATE_DISABLED_RESERVED_07 = 17;
+    public static final int STATE_DISABLED_RESERVED_08 = 18;
+    public static final int STATE_DISABLED_RESERVED_09 = 19;
+    public static final int AVAILABLE_MODEL_STATE_NOT_FUNCTIONAL = 0;
+    public static final int AVAILABLE_MODEL_STATE_FUNCTIONAL = 1;
+    public static final int NO_VISIBILITY_CHOICEMODEL_ID = -1;
 
-    default public IMenuEntry getParent() {
-    }
+    public IMenuEntry getParent();
 
-    default public void setChildren(IMenuEntry[] iMenuEntryArray) {
-    }
+    public void setChildren(IMenuEntry[] var1);
 
-    default public void setParent(IMenuEntry iMenuEntry) {
-    }
+    public void setParent(IMenuEntry var1);
 
-    default public IMenuEntry[] getChildren() {
-    }
+    public IMenuEntry[] getChildren();
 
-    default public void init(IMenuEntryRegistry iMenuEntryRegistry) {
-    }
+    public void init(IMenuEntryRegistry var1);
 
-    default public void deinit() {
-    }
+    public void deinit();
 
-    default public void notifyComponentsInitialized() {
-    }
+    public void notifyComponentsInitialized();
 
-    default public void register() {
-    }
+    public void register();
 
-    default public void deregister() {
-    }
+    public void deregister();
 
-    default public boolean isRegistered() {
-    }
+    public boolean isRegistered();
 
-    default public void updateState(int n) {
-    }
+    public void updateState(int var1);
 
-    default public int getState() {
-    }
+    public int getState();
 
-    default public boolean isTop() {
-    }
+    public boolean isTop();
 
-    default public boolean isLeaf() {
-    }
+    public boolean isLeaf();
 
-    default public int getID() {
-    }
+    public int getID();
 
-    default public MenuEntryType getType() {
-    }
+    public MenuEntryType getType();
 
-    default public boolean isType(MenuEntryType menuEntryType) {
-    }
+    public boolean isType(MenuEntryType var1);
 
-    default public boolean isRegistrable() {
-    }
+    public boolean isRegistrable();
 
-    default public void addChildrenToListRecursively(List list) {
-    }
+    public void addChildrenToListRecursively(List var1);
 
-    default public void setFunctionalStateValues(int[] nArray) {
-    }
+    public void setFunctionalStateValues(int[] var1);
 
-    default public void updateStateViewOptions(int n) {
-    }
+    public void updateStateViewOptions(int var1);
 
-    default public void updateStateMenuOperation(int n) {
-    }
+    public void updateStateMenuOperation(int var1);
 
-    default public int getStateViewOptionsForRegistration() {
-    }
+    public int getStateViewOptionsForRegistration();
 }
 

@@ -6,10 +6,10 @@ package de.audi.atip.interapp.terminalmode;
 import de.esolutions.fw.util.commons.Buffer;
 
 public class TerminalModeDevice {
-    public static final int CONN_METHOD_UNKNOWN;
-    public static final int CONN_METHOD_CARPLAY;
-    public static final int CONN_METHOD_ANDROIDAUTO;
-    public static final int CONN_METHOD_CARLIFE;
+    public static final int CONN_METHOD_UNKNOWN = 0;
+    public static final int CONN_METHOD_CARPLAY = 1;
+    public static final int CONN_METHOD_ANDROIDAUTO = 2;
+    public static final int CONN_METHOD_CARLIFE = 3;
     private final String deviceName;
     private final int connectionMethod;
     private final boolean active;
@@ -72,7 +72,7 @@ public class TerminalModeDevice {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         TerminalModeDevice terminalModeDevice = (TerminalModeDevice)object;

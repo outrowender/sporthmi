@@ -49,5 +49,48 @@ public class TrackDataChangedEvent {
     public String toString() {
         return new Buffer(100).append("TrackDataChangedEvent [").append(this.title).append(", ").append(this.artist).append(", ").append(this.album).append(", ").append(this.genre).append(", ").append(this.composer).append(", ").append(this.duration).append("]").toString();
     }
+
+    public static class Builder {
+        private String title = "";
+        private int duration = 0;
+        private String album = "";
+        private String artist = "";
+        private String genre = "";
+        private String composer = "";
+
+        public TrackDataChangedEvent build() {
+            return new TrackDataChangedEvent(this.title, this.duration, this.album, this.artist, this.genre, this.composer);
+        }
+
+        public Builder setAlbum(String string) {
+            this.album = string;
+            return this;
+        }
+
+        public Builder setArtist(String string) {
+            this.artist = string;
+            return this;
+        }
+
+        public Builder setComposer(String string) {
+            this.composer = string;
+            return this;
+        }
+
+        public Builder setDuration(int n) {
+            this.duration = n;
+            return this;
+        }
+
+        public Builder setGenre(String string) {
+            this.genre = string;
+            return this;
+        }
+
+        public Builder setTitle(String string) {
+            this.title = string;
+            return this;
+        }
+    }
 }
 

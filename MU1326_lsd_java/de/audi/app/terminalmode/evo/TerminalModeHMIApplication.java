@@ -8,7 +8,7 @@ import de.audi.app.terminalmode.IContext;
 
 public class TerminalModeHMIApplication
 extends AbstractTerminalModeHMIApplication {
-    static final String LOGCLASS;
+    static final String LOGCLASS = "TerminalModeHMIApplication";
     final int APPLICATION_ID;
 
     public TerminalModeHMIApplication(IContext iContext) {
@@ -16,19 +16,16 @@ extends AbstractTerminalModeHMIApplication {
         this.APPLICATION_ID = 43;
     }
 
-    @Override
     public int getId() {
         return 32;
     }
 
-    @Override
     protected String getLogClass() {
-        return "TerminalModeHMIApplication";
+        return LOGCLASS;
     }
 
-    @Override
     protected int getTerminalModeScreenId() {
-        return 13905920;
+        return 3200000;
     }
 }
 

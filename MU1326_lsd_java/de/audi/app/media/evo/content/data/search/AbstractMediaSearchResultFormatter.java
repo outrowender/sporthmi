@@ -8,19 +8,19 @@ import de.audi.atip.search.util.AbstractSearchResultFormatter;
 
 public abstract class AbstractMediaSearchResultFormatter
 extends AbstractSearchResultFormatter {
-    private static final String LOGCLASS;
-    public static final int COUNT_FORMATTER_TYPES;
-    public static final int FORMATTER_TYPE_TITLE;
-    public static final int FORMATTER_TYPE_ARTIST;
-    public static final int FORMATTER_TYPE_ALBUM;
-    public static final int FORMATTER_TYPE_GENRE;
-    public static final int FORMATTER_TYPE_VIDEO;
-    public static final int FORMATTER_TYPE_PLAYLIST;
-    public static final int FORMATTER_TYPE_PHYSICAL;
-    public static final int FORMATTER_TYPE_COMPOSERS;
-    public static final int FORMATTER_TYPE_AUDIOBOOKS;
-    public static final int FORMATTER_TYPE_PODCASTS;
-    public static final int FORMATTER_TYPE_FAVORITES;
+    private static final String LOGCLASS = "AbstractMediaSearchResultFormatter";
+    public static final int COUNT_FORMATTER_TYPES = 11;
+    public static final int FORMATTER_TYPE_TITLE = 0;
+    public static final int FORMATTER_TYPE_ARTIST = 1;
+    public static final int FORMATTER_TYPE_ALBUM = 2;
+    public static final int FORMATTER_TYPE_GENRE = 3;
+    public static final int FORMATTER_TYPE_VIDEO = 4;
+    public static final int FORMATTER_TYPE_PLAYLIST = 5;
+    public static final int FORMATTER_TYPE_PHYSICAL = 6;
+    public static final int FORMATTER_TYPE_COMPOSERS = 7;
+    public static final int FORMATTER_TYPE_AUDIOBOOKS = 8;
+    public static final int FORMATTER_TYPE_PODCASTS = 9;
+    public static final int FORMATTER_TYPE_FAVORITES = 10;
     protected final LogChannel logger;
     private volatile int formatterType;
 
@@ -33,19 +33,18 @@ extends AbstractSearchResultFormatter {
         if (n == this.formatterType) {
             return;
         }
-        this.logger.log(1078071040, "[%1.setFormatterType] %2", (Object)"AbstractMediaSearchResultFormatter", (long)n);
+        this.logger.log(1000000, "[%1.setFormatterType] %2", (Object)LOGCLASS, (long)n);
         this.formatterType = n;
     }
 
     protected int getFormatterType() {
         if (this.logger.isDebug2()) {
-            this.logger.log(14808325, "[%1.getFormatterType] type='%2'", (Object)"AbstractMediaSearchResultFormatter", (Object)AbstractMediaSearchResultFormatter.getFormatterType(this.formatterType));
+            this.logger.log(100000000, "[%1.getFormatterType] type='%2'", (Object)LOGCLASS, (Object)AbstractMediaSearchResultFormatter.getFormatterType(this.formatterType));
         }
         return this.formatterType;
     }
 
-    public abstract void setLayout(int n) {
-    }
+    public abstract void setLayout(int var1);
 
     private static String getFormatterType(int n) {
         switch (n) {

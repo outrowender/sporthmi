@@ -25,8 +25,7 @@ StreamConnection {
     private int access;
     private boolean append = false;
 
-    @Override
-    public javax.microedition.io.Connection setParameters2(String string, int n, boolean bl) {
+    public javax.microedition.io.Connection setParameters2(String string, int n, boolean bl) throws IOException {
         String[][] stringArray = ConnectionUtil.NO_PARAMETERS;
         int n2 = string.indexOf(59);
         if (n2 != -1) {
@@ -37,7 +36,7 @@ StreamConnection {
         return this;
     }
 
-    private void setParameters(String string, String[][] stringArray, int n, boolean bl) {
+    private void setParameters(String string, String[][] stringArray, int n, boolean bl) throws IOException {
         int n2;
         int n3 = 0;
         if ((string = Util.decode(string, false)).startsWith("//")) {
@@ -89,13 +88,11 @@ StreamConnection {
         }
     }
 
-    @Override
-    public void close() {
+    public void close() throws IOException {
         this.file = null;
     }
 
-    @Override
-    public InputStream openInputStream() {
+    public InputStream openInputStream() throws IOException {
         if (this.file == null) {
             throw new IOException(Msg.getString("K00ac"));
         }
@@ -105,8 +102,7 @@ StreamConnection {
         return new FileInputStream(this.file);
     }
 
-    @Override
-    public OutputStream openOutputStream() {
+    public OutputStream openOutputStream() throws IOException {
         if (this.file == null) {
             throw new IOException(Msg.getString("K00ac"));
         }

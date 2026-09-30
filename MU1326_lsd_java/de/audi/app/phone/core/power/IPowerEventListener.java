@@ -4,16 +4,12 @@
 package de.audi.app.phone.core.power;
 
 public interface IPowerEventListener {
-    default public void notifyPowerListenerOnEnterState(int n) {
-    }
+    public void notifyPowerListenerOnEnterState(int var1);
 
-    default public void notifyPowerListenerOnExitState(int n) {
-    }
+    public void notifyPowerListenerOnExitState(int var1);
 
-    default public void notifyPowerTriggerAction(int n) {
-    }
+    public void notifyPowerTriggerAction(int var1);
 
-    default public void updateClampState(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
-    }
+    public void updateClampState(boolean var1, boolean var2, boolean var3, boolean var4);
 }
 

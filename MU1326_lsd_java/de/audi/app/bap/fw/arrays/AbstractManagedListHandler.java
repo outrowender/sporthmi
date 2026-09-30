@@ -13,7 +13,7 @@ import de.audi.atip.interapp.combi.bap.data.CombiBAPArrayElement;
 
 public abstract class AbstractManagedListHandler
 extends AbstractArrayHandler {
-    private static final int UNKNOWN_ENTRY_ID;
+    private static final int UNKNOWN_ENTRY_ID = 65535;
     protected volatile CombiBAPArrayElement[] list = new CombiBAPArrayElement[0];
 
     public AbstractManagedListHandler(AbstractBAPModuleFSG abstractBAPModuleFSG, String string) {
@@ -25,9 +25,9 @@ extends AbstractArrayHandler {
             this.logChannel.log(10000, "[%1#updateList] invalid list update: newList is null", (Object)this.className);
             return;
         }
-        this.logChannel.log(-2137614336, "[%1#updateList] listSize=%2", (Object)this.className, (long)combiBAPArrayElementArray.length);
+        this.logChannel.log(10000000, "[%1#updateList] listSize=%2", (Object)this.className, (long)combiBAPArrayElementArray.length);
         if (this.list.length == 0 && combiBAPArrayElementArray.length == 0) {
-            this.logChannel.log(-2137614336, "[%1#updateList] list is still empty -> don't send ChangedArray", (Object)this.className);
+            this.logChannel.log(10000000, "[%1#updateList] list is still empty -> don't send ChangedArray", (Object)this.className);
         } else {
             ListDelta listDelta = ListDelta.compare(this.list, combiBAPArrayElementArray);
             this.list = combiBAPArrayElementArray;
@@ -35,14 +35,12 @@ extends AbstractArrayHandler {
         }
     }
 
-    @Override
     public void requestListElements(GetArrayIndication getArrayIndication) {
         super.requestListElements(getArrayIndication);
         CombiBAPArrayElement[] combiBAPArrayElementArray = this.getListSectionForRequest(getArrayIndication);
         this.responseListElements(getArrayIndication.getTaID(), combiBAPArrayElementArray);
     }
 
-    @Override
     public void responseListElements(int n, CombiBAPArrayElement[] combiBAPArrayElementArray) {
         super.responseListElements(n, combiBAPArrayElementArray);
     }
@@ -59,7 +57,6 @@ extends AbstractArrayHandler {
         return this.list;
     }
 
-    @Override
     public CombiBAPArrayElement getArrayElement(int n) {
         if (this.list != null) {
             for (int i2 = 0; i2 < this.list.length; ++i2) {
@@ -70,14 +67,11 @@ extends AbstractArrayHandler {
         return null;
     }
 
-    @Override
     public int getCurrentListSize() {
         return this.list.length;
     }
 
-    @Override
-    public abstract void getNextListPos(int n, int n2) {
-    }
+    public abstract void getNextListPos(int var1, int var2);
 
     protected final void getNextListPosForArbitraryIds(int n, int n2) {
         int n3 = ArrayUtils.getIndexInList(this.list, n);
@@ -122,10 +116,9 @@ extends AbstractArrayHandler {
     }
 
     private void getNextListPosFailed(int n) {
-        this.getNextListPosResult(false, n, -65536, -65536);
+        this.getNextListPosResult(false, n, 65535, 65535);
     }
 
-    @Override
     public int getPredecessorID(int n) {
         if (this.list != null) {
             for (int i2 = 0; i2 < this.list.length; ++i2) {
@@ -136,7 +129,6 @@ extends AbstractArrayHandler {
         return 0;
     }
 
-    @Override
     public int getSuccessorID(int n) {
         if (this.list != null) {
             for (int i2 = 0; i2 < this.list.length; ++i2) {

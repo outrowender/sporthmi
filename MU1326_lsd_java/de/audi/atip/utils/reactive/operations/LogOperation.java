@@ -5,11 +5,14 @@ package de.audi.atip.utils.reactive.operations;
 
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.utils.reactive.observables.Sink;
-import de.audi.atip.utils.reactive.operations.LogOperation$1;
 import de.audi.atip.utils.reactive.operations.Operation;
+import de.audi.atip.utils.reactive.operations.SinkWrapper;
 
-public class LogOperation
-implements Operation {
+/*
+ * This class specifies class file version 49.0 but uses Java 6 signatures.  Assumed Java 6.
+ */
+public class LogOperation<T>
+implements Operation<T, T> {
     private final LogChannel lc;
     private final String comment;
 
@@ -18,20 +21,16 @@ implements Operation {
         this.comment = string;
     }
 
-    /*
-     * Handled unverifiable bytecode (illegal jump).
-     */
     @Override
-    public Sink decorateSink(Sink sink) {
-        return new LogOperation$1(this, sink, sink);
-    }
+    public Sink<T> decorateSink(final Sink<T> sink) {
+        return new SinkWrapper<T>(sink){
 
-    static /* synthetic */ String access$000(LogOperation logOperation) {
-        return logOperation.comment;
-    }
-
-    static /* synthetic */ LogChannel access$100(LogOperation logOperation) {
-        return logOperation.lc;
+            @Override
+            public void accept(T t) {
+                LogOperation.this.lc.log(10000000, "[LogOperation.log] %1 %2", (Object)LogOperation.this.comment, t != null ? t : "null");
+                sink.accept(t);
+            }
+        };
     }
 }
 

@@ -4,7 +4,6 @@
 package de.audi.app.sdsmanager.apps.adb.commands;
 
 public interface IADBNumberCommand {
-    default public void responseFillTelNumberList(int n, String string, int n2, String string2, int[] nArray) {
-    }
+    public void responseFillTelNumberList(int var1, String var2, int var3, String var4, int[] var5);
 }
 

@@ -26,19 +26,16 @@ extends AbstractNavigationActivator {
     static /* synthetic */ Class class$de$audi$atip$hmi$view$IPartialPopupListener;
     static /* synthetic */ Class class$de$audi$atip$statemachine$ActionProxy;
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
     }
 
-    @Override
     protected Navigation createNavigation(NavigationEnv navigationEnv) {
         NavigationEvo.createInstance(navigationEnv);
         NavigationEvo navigationEvo = NavigationEvo.getInstanceEvo();
         return navigationEvo;
     }
 
-    @Override
     protected void registerProvidedServices(Navigation navigation, NavigationEnv navigationEnv) {
         super.registerProvidedServices(navigation, navigationEnv);
         this.registerActionProxy((NaviActionProxyImplEvo)navigation.navigationActionProxy);
@@ -54,12 +51,10 @@ extends AbstractNavigationActivator {
         navigation.getNaviTabletService().registerService(this);
     }
 
-    @Override
     protected void startRequiredDSIServices(NavigationEnv navigationEnv) {
         super.startRequiredDSIServices(navigationEnv);
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         NavigationEvo navigationEvo = (NavigationEvo)this.navigation;
         navigationEvo.getSearchController().deinit(bundleContext);
@@ -74,12 +69,10 @@ extends AbstractNavigationActivator {
         this.registerFrameworkService(class$de$audi$atip$statemachine$ActionProxy == null ? (class$de$audi$atip$statemachine$ActionProxy = NavigationActivator.class$("de.audi.atip.statemachine.ActionProxy")) : class$de$audi$atip$statemachine$ActionProxy, naviActionProxyImplEvo, hashtable);
     }
 
-    @Override
     public IIDMapper getTextConstantsMapper() {
         return this.textConstants;
     }
 
-    @Override
     public IIDMapper getSMEventConstantsMapper() {
         return this.smEventConstants;
     }

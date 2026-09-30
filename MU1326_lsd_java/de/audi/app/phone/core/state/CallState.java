@@ -18,29 +18,29 @@ import org.dsi.ifc.telephoneng.CallInformation;
 import org.dsi.ifc.telephoneng.DisconnectReason;
 
 public class CallState {
-    public static final int TRANSITION_UNDEFINED;
-    public static final int TRANSITION_DIALED;
-    public static final int TRANSITION_ACCEPT_INCOMING_CALL;
-    public static final int TRANSITION_JOIN_CONFERENCE;
-    public static final int TRANSITION_IDLE;
-    public static final int TRANSITION_IDLE_2_ACTIVE;
-    public static final int CONFERENCE_DUMMY_CALLID;
-    private static final int CALLTYPE_MASK_SINGLE_CALL;
-    private static final int CALLTYPE_MASK_CONFERENCE_CALL;
-    private static final int CALLSTATE_MASK_DIALING;
-    private static final int CALLSTATE_MASK_RINGING;
-    private static final int CALLSTATE_MASK_ACTIVE;
-    private static final int CALLSTATE_MASK_DISCONNECTING;
-    private static final int CALLSTATE_MASK_HOLD;
-    private static final int MP_MASK_ACTIVE_CONFERENCE;
-    private static final int MP_MASK_ACTIVE_SINGLE;
-    private static final int MP_MASK_DIALING;
-    private static final int MP_MASK_DISCONNECTING_SINGLE;
-    private static final int MP_MASK_DISCONNECTING_CONFERENCE;
-    private static final int MP_MASK_ON_HOLD_CONFERENCE;
-    private static final int MP_MASK_ON_HOLD_SINGLE;
-    private static final int MP_MASK_RINGING;
-    private static final int MP_MASK_IDLE;
+    public static final int TRANSITION_UNDEFINED = 0;
+    public static final int TRANSITION_DIALED = 1;
+    public static final int TRANSITION_ACCEPT_INCOMING_CALL = 2;
+    public static final int TRANSITION_JOIN_CONFERENCE = 3;
+    public static final int TRANSITION_IDLE = 4;
+    public static final int TRANSITION_IDLE_2_ACTIVE = 5;
+    public static final int CONFERENCE_DUMMY_CALLID = 254;
+    private static final int CALLTYPE_MASK_SINGLE_CALL = 2;
+    private static final int CALLTYPE_MASK_CONFERENCE_CALL = 4;
+    private static final int CALLSTATE_MASK_DIALING = 8;
+    private static final int CALLSTATE_MASK_RINGING = 16;
+    private static final int CALLSTATE_MASK_ACTIVE = 32;
+    private static final int CALLSTATE_MASK_DISCONNECTING = 64;
+    private static final int CALLSTATE_MASK_HOLD = 128;
+    private static final int MP_MASK_ACTIVE_CONFERENCE = 128;
+    private static final int MP_MASK_ACTIVE_SINGLE = 64;
+    private static final int MP_MASK_DIALING = 32;
+    private static final int MP_MASK_DISCONNECTING_SINGLE = 16;
+    private static final int MP_MASK_DISCONNECTING_CONFERENCE = 8;
+    private static final int MP_MASK_ON_HOLD_CONFERENCE = 4;
+    private static final int MP_MASK_ON_HOLD_SINGLE = 2;
+    private static final int MP_MASK_RINGING = 1;
+    private static final int MP_MASK_IDLE = 0;
     private final HashMap callStateMaskToMPCallStateMap = new HashMap();
     private final HashMap dsiCallStateToBitMaskMap = new HashMap();
     private final HashMap singleCallToMPMaskMap = new HashMap();
@@ -260,7 +260,7 @@ public class CallState {
 
     private void determineTransition() {
         this.transition = this.isTransitionToIdle() ? 4 : (this.isTransitionDialed() ? 1 : (this.isTransitionJoinToConference() ? 3 : (this.isTransitionAcceptIncomingCall() ? 2 : (this.isTransitionDirectToActive() ? 5 : 0))));
-        this.log.log(1078071040, "[CallState#determineTransition] %1", (Object)CallState.getTransitionString(this.transition));
+        this.log.log(1000000, "[CallState#determineTransition] %1", (Object)CallState.getTransitionString(this.transition));
     }
 
     private boolean isTransitionDirectToActive() {
@@ -388,7 +388,7 @@ public class CallState {
                 this.createPhoneCalls(arrayList);
             }
         }
-        this.log.log(-2137614336, "[CallState#updatePhoneCalls] callList=%1, phoneCalls=%2", (Object)Converter.array2String(callInformationArray), (Object)Converter.array2String(this.phoneCalls));
+        this.log.log(10000000, "[CallState#updatePhoneCalls] callList=%1, phoneCalls=%2", (Object)Converter.array2String(callInformationArray), (Object)Converter.array2String(this.phoneCalls));
     }
 
     private void createPhoneCalls(ArrayList arrayList) {
@@ -451,7 +451,7 @@ public class CallState {
                 s = 1;
             }
             if (s != 0) continue;
-            this.log.log(-2137614336, "[CallState#updatePhoneCalls] removing phone call with id %1", (long)callInformation.getTelCallID());
+            this.log.log(10000000, "[CallState#updatePhoneCalls] removing phone call with id %1", (long)callInformation.getTelCallID());
             iterator.remove();
         }
     }
@@ -811,7 +811,7 @@ public class CallState {
     public boolean hasBCall() {
         Object object = this.mutex;
         synchronized (object) {
-            return this.callWithTypePresent(768);
+            return this.callWithTypePresent(196608);
         }
     }
 
@@ -821,7 +821,7 @@ public class CallState {
     public boolean hasPCall() {
         Object object = this.mutex;
         synchronized (object) {
-            return this.callWithTypePresent(256);
+            return this.callWithTypePresent(65536);
         }
     }
 
@@ -831,7 +831,7 @@ public class CallState {
     public boolean hasCCall() {
         Object object = this.mutex;
         synchronized (object) {
-            return this.callWithTypePresent(512);
+            return this.callWithTypePresent(131072);
         }
     }
 }

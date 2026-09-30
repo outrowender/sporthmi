@@ -4,7 +4,6 @@
 package de.audi.remotehmi.remoteinterface;
 
 public interface IRemoteInterfaceListener {
-    default public void callFctLinkResult(int n, String string) {
-    }
+    public void callFctLinkResult(int var1, String var2);
 }
 

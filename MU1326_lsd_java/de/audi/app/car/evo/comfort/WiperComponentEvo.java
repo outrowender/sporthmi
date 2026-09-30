@@ -13,25 +13,21 @@ extends AbstractWiperComponent {
         super(iCarApplication);
     }
 
-    @Override
     protected void initVisibility() {
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-1222113024, (short)12);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-1305999104, (short)12);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600247, (short)12);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600242, (short)12);
     }
 
-    @Override
     protected void deinitVisibility() {
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-1222113024);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-1305999104);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600247);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600242);
     }
 
-    @Override
     protected void updateMenuEntryVisibility(WiperViewOptions wiperViewOptions) {
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1222113024, this.getMenuEntryVisibilityState(wiperViewOptions.getWiperServicePosition()));
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1305999104, this.getMenuEntryVisibilityState(wiperViewOptions.getWiperRainSensorOnOff()));
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600247, this.getMenuEntryVisibilityState(wiperViewOptions.getWiperServicePosition()));
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600242, this.getMenuEntryVisibilityState(wiperViewOptions.getWiperRainSensorOnOff()));
     }
 
-    @Override
     public int getID() {
         return 12;
     }

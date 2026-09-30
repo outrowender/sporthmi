@@ -12,8 +12,8 @@ import org.dsi.ifc.base.DSIListener;
 public abstract class Command
 implements DSIListener,
 ICommand {
-    public static final long COMMAND_TIMEOUT_HIGH;
-    public static final long COMMAND_TIMEOUT_NONE;
+    public static final long COMMAND_TIMEOUT_HIGH = 60000L;
+    public static final long COMMAND_TIMEOUT_NONE = -1L;
     protected ICommandList commandList;
     protected LogChannel logger;
     protected String name;
@@ -27,38 +27,31 @@ ICommand {
         this.setName(string);
     }
 
-    @Override
     public ICommandList getCommandList() {
         return this.commandList;
     }
 
-    @Override
     public void setCommandList(ICommandList iCommandList) {
         this.commandList = iCommandList;
     }
 
-    @Override
-    public abstract void execute() {
-    }
+    public abstract void execute();
 
-    @Override
     public void abort() {
-        this.logger.log(-2137614336, "[Command#abort] %1", (Object)this);
+        this.logger.log(10000000, "[Command#abort] %1", (Object)this);
     }
 
     protected Command canceled() {
         return null;
     }
 
-    @Override
     public long getTimeout() {
-        return 0;
+        return 60000L;
     }
 
-    @Override
     public String getName() {
         if (this.name == null) {
-            this.setName(super.getClass().getName());
+            this.setName(this.getClass().getName());
         }
         return this.name;
     }
@@ -71,9 +64,8 @@ ICommand {
         return this.getName();
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
-        this.logger.log(-2137614336, "[Command#asyncException] Called, error message: %1, error code: %2, request type: %3 ", (Object)string, (long)n, (long)n2);
+        this.logger.log(10000000, "[Command#asyncException] Called, error message: %1, error code: %2, request type: %3 ", (Object)string, (long)n, (long)n2);
     }
 }
 

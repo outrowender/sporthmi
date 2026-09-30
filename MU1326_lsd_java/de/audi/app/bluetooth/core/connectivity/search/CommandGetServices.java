@@ -26,33 +26,29 @@ extends AbstractCommandRequestPasskeyResponse {
         this.responseHandler = iDiscoveredServiceHandler;
     }
 
-    @Override
     public void execute() {
         if (this.dsiBluetooth != null) {
             this.dsiBluetooth.requestGetServices(this.deviceAddress);
         } else {
-            this.logger.log(-1601830656, "CommandGetServices#execute(): dsiBluetooth is NULL");
+            this.logger.log(100000, "CommandGetServices#execute(): dsiBluetooth is NULL");
             this.commandList.commandFinished();
         }
     }
 
-    @Override
     protected void pairingFinished() {
-        this.logger.log(-2137614336, "CommandGetServices#pairingFinished(): Resuming connection attempt.");
+        this.logger.log(10000000, "CommandGetServices#pairingFinished(): Resuming connection attempt.");
         this.bluetoothApplication.getBondingState().updateBondingState(1);
     }
 
-    @Override
     public void abort() {
-        this.logger.log(-1601830656, "CommandGetServices#abort(): resetting serviceDiscoveryActive!");
+        this.logger.log(100000, "CommandGetServices#abort(): resetting serviceDiscoveryActive!");
         this.bluetoothApplication.getSecurity().serviceDiscoveryActive(false);
         this.bluetoothApplication.getMediaBluetoothStateProvider().serviceDiscoveryStopped();
     }
 
-    @Override
     public void responseGetServices(String string, String string2, int n, int n2) {
         if (n2 == 0) {
-            this.logger.log(1078071040, "CommandGetServices#responseGetServices(): %1 %2 supports services: %3", (Object)string2, (Object)string, (long)n);
+            this.logger.log(1000000, "CommandGetServices#responseGetServices(): %1 %2 supports services: %3", (Object)string2, (Object)string, (long)n);
         } else {
             this.logger.log(10000, "CommandGetServices#responseGetServices(): %1 %2 supports services: %3", (Object)string2, (Object)string, (long)n);
         }

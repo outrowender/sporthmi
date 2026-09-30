@@ -38,7 +38,7 @@ public final class User {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         User user = (User)object;
@@ -49,7 +49,7 @@ public final class User {
     }
 
     public String toString() {
-        return new StringBuffer().append("OnlineUser [login=").append(this.login).append(", isMainUser=").append(this.isMainUser).append("]").toString();
+        return "OnlineUser [login=" + this.login + ", isMainUser=" + this.isMainUser + "]";
     }
 }
 

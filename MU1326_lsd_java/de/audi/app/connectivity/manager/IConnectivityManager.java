@@ -6,23 +6,18 @@ package de.audi.app.connectivity.manager;
 import de.audi.app.wlan.core.client.Network;
 
 public interface IConnectivityManager {
-    public static final int MEDIATYPE_OTHER;
-    public static final int MEDIATYPE_BLUETOOTH;
-    public static final int MEDIATYPE_WLAN;
+    public static final int MEDIATYPE_OTHER = 0;
+    public static final int MEDIATYPE_BLUETOOTH = 1;
+    public static final int MEDIATYPE_WLAN = 2;
 
-    default public void connectivityManagerEntered() {
-    }
+    public void connectivityManagerEntered();
 
-    default public void responseConnectService(int n, int n2) {
-    }
+    public void responseConnectService(int var1, int var2);
 
-    default public void updateTrustedWlanNetworks(Network[] networkArray) {
-    }
+    public void updateTrustedWlanNetworks(Network[] var1);
 
-    default public void updateUPnPState(String string) {
-    }
+    public void updateUPnPState(String var1);
 
-    default public void updateActiveMediaDevice(int n, String string) {
-    }
+    public void updateActiveMediaDevice(int var1, String var2);
 }
 

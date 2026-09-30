@@ -4,18 +4,14 @@
 package de.audi.app.earlyfunc.core.parking;
 
 public interface IParkingSystemHighProtocol {
-    public static final int HIGH_PROTOCOL_REASON_AUDIODRAWERCONTEXT_HIGH_PRIO;
+    public static final int HIGH_PROTOCOL_REASON_AUDIODRAWERCONTEXT_HIGH_PRIO = 1;
 
-    default public void setHighProtocol(boolean bl, int[] nArray, boolean bl2) {
-    }
+    public void setHighProtocol(boolean var1, int[] var2, boolean var3);
 
-    default public boolean isHighProtocol() {
-    }
+    public boolean isHighProtocol();
 
-    default public boolean isHighProtocolReason(int n) {
-    }
+    public boolean isHighProtocolReason(int var1);
 
-    default public int[] getHighProtocolReasons() {
-    }
+    public int[] getHighProtocolReasons();
 }
 

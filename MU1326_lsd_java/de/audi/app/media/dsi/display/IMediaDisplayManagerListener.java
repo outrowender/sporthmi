@@ -4,16 +4,12 @@
 package de.audi.app.media.dsi.display;
 
 public interface IMediaDisplayManagerListener {
-    default public void updateBrigthness(int n, int n2) {
-    }
+    public void updateBrigthness(int var1, int var2);
 
-    default public void updateContrast(int n, int n2) {
-    }
+    public void updateContrast(int var1, int var2);
 
-    default public void updateColor(int n, int n2) {
-    }
+    public void updateColor(int var1, int var2);
 
-    default public void updateTint(int n, int n2) {
-    }
+    public void updateTint(int var1, int var2);
 }
 

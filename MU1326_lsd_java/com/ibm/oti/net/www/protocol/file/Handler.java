@@ -10,12 +10,10 @@ import java.net.URLStreamHandler;
 
 public class Handler
 extends URLStreamHandler {
-    @Override
     public URLConnection openConnection(URL uRL) {
         return new FileURLConnection(uRL);
     }
 
-    @Override
     protected void parseURL(URL uRL, String string, int n, int n2) {
         if (n2 < n) {
             return;
@@ -37,7 +35,7 @@ extends URLStreamHandler {
             string2 = string2.substring(0, string2.length() - 2);
         }
         while ((n = string2.indexOf("/./", n)) >= 0) {
-            string2 = new StringBuffer(String.valueOf(string2.substring(0, n))).append(string2.substring(n + 2)).toString();
+            string2 = String.valueOf(string2.substring(0, n)) + string2.substring(n + 2);
         }
         n = 0;
         while ((n = string2.indexOf("/..", n)) >= 0 && (n + 3 == string2.length() || string2.charAt(n + 3) == '/')) {
@@ -46,7 +44,7 @@ extends URLStreamHandler {
                 continue;
             }
             int n2 = string2.lastIndexOf(47, n - 1);
-            string2 = n + 4 > string2.length() ? string2.substring(0, n2 + 1) : new StringBuffer(String.valueOf(string2.substring(0, n2 + 1))).append(string2.substring(n + 4)).toString();
+            string2 = n + 4 > string2.length() ? string2.substring(0, n2 + 1) : String.valueOf(string2.substring(0, n2 + 1)) + string2.substring(n + 4);
         }
         if (string2.length() == 0 && string.length() > 0) {
             string2 = string.charAt(0) == '/' ? "/" : ".";

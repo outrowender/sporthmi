@@ -17,12 +17,10 @@ extends AbstractTel1EnqueuedBAPPropertyHandler {
         super(iTelApplication, dispatcherBase);
     }
 
-    @Override
     protected boolean doProcessGlobalTelephoneStateUpdate(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
-        return iGlobalTelephoneStateStruct != null && (n == 0xB000400 || n == 0x1000400 || n == 0x10000100 || n == 0xF000100 || n == 0x3000100);
+        return iGlobalTelephoneStateStruct != null && (n == 262155 || n == 262145 || n == 65552 || n == 65551 || n == 65539);
     }
 
-    @Override
     protected void updateAsync() {
         CombiBAPServicePhone combiBAPServicePhone = this.getCombiService();
         IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct = this.getTelephoneState();
@@ -43,14 +41,14 @@ extends AbstractTel1EnqueuedBAPPropertyHandler {
                     buffer.append(bl4);
                     buffer.append(", emergencyCallSupported=");
                     buffer.append(bl);
-                    this.log.log(1078071040, "[BAPPropertyTelSupportedServiceNumbers#update] %1", (Object)buffer);
+                    this.log.log(1000000, "[BAPPropertyTelSupportedServiceNumbers#update] %1", (Object)buffer);
                 }
                 combiBAPServicePhone.updateSupportedServiceNumbers(bl2, bl3, bl4, bl);
             } else {
-                this.log.log(-1601830656, "[BAPPropertyTelSupportedServiceNumbers#update] state is null --> NOP!");
+                this.log.log(100000, "[BAPPropertyTelSupportedServiceNumbers#update] state is null --> NOP!");
             }
         } else {
-            this.log.log(-1601830656, "[BAPPropertyTelSupportedServiceNumbers#update] CombiBAPServicePhone is null --> NOP!");
+            this.log.log(100000, "[BAPPropertyTelSupportedServiceNumbers#update] CombiBAPServicePhone is null --> NOP!");
         }
     }
 

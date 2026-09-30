@@ -27,9 +27,8 @@ extends AbstractADBCommand {
         this.taID = n3;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "GetPhonebookListElementsCommand#execute()");
+        this.logger.log(10000000, "GetPhonebookListElementsCommand#execute()");
         boolean bl = this.adbDSIAccess.getViewWindow(this.startPos, 6, 1, this.numberOfElements);
         if (!bl) {
             this.logger.log(10000, "GetPhonebookListElementsCommand#execute(): dsi call was not successful, finishing command.");
@@ -37,11 +36,10 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public void getViewWindowResult(int n, DataSet[] dataSetArray, int n2) {
         if (this.logger.isDebug()) {
-            this.logger.log(-2137614336, "GetPhonebookListElementsCommand#getViewWindowResult(): dataSetList: %1, success: %2; totalEntries: %3", (Object)dataSetArray, (Object)ADBDbgUtils.dbgSuccessFlag(n), (long)n2);
-            this.logger.log(-2137614336, "GetPhonebookListElementsCommand#getViewWindowResult(): dataSetList: %1", (Object)ADBDbgUtils.dbg(dataSetArray));
+            this.logger.log(10000000, "GetPhonebookListElementsCommand#getViewWindowResult(): dataSetList: %1, success: %2; totalEntries: %3", (Object)dataSetArray, (Object)ADBDbgUtils.dbgSuccessFlag(n), (long)n2);
+            this.logger.log(10000000, "GetPhonebookListElementsCommand#getViewWindowResult(): dataSetList: %1", (Object)ADBDbgUtils.dbg(dataSetArray));
         }
         if (n == 0) {
             CombiBAPPhonebookEntry[] combiBAPPhonebookEntryArray = new CombiBAPPhonebookEntry[dataSetArray.length];

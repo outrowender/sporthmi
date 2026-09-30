@@ -28,10 +28,10 @@ extends TestSupportHandler {
 
     public static void createSingletonInstance(BundleContext bundleContext, String string, SLMRulesMap sLMRulesMap) {
         if (instance != null) {
-            LC.log(-2137614336, "SDSStatisticsHandler#createSingletonInstance: SDS-statistics singleton already created!");
+            LC.log(10000000, "SDSStatisticsHandler#createSingletonInstance: SDS-statistics singleton already created!");
             return;
         }
-        LC.log(-2137614336, "SDSStatisticsHandler#createSingletonInstance: Create instance now!");
+        LC.log(10000000, "SDSStatisticsHandler#createSingletonInstance: Create instance now!");
         instance = new SDSStatisticsHandler(bundleContext, string, sLMRulesMap);
         instance.init();
     }
@@ -40,7 +40,7 @@ extends TestSupportHandler {
         if (instance != null) {
             instance.deinit();
         } else {
-            LC.log(-1601830656, "SDSStatisticsHandler#deinitSingletonInstance: SDS-statistics singleton not existing!");
+            LC.log(100000, "SDSStatisticsHandler#deinitSingletonInstance: SDS-statistics singleton not existing!");
         }
     }
 
@@ -50,7 +50,7 @@ extends TestSupportHandler {
         }
         NBestListEntry nBestListEntry = SDSUtils.isEmpty(nBestList) ? null : nBestList.getEntries()[0];
         String[] stringArray = dataConverter.getLastSDSCommandInfos(nBestListEntry);
-        LC.log(-2137614336, "SDSStatisticsHandler#addSpeechRecognitionData: %1", (Object)SDSUtils.toString(stringArray, true));
+        LC.log(10000000, "SDSStatisticsHandler#addSpeechRecognitionData: %1", (Object)SDSUtils.toString(stringArray, true));
         instance.updateData(stringArray);
     }
 }

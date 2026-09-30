@@ -10,7 +10,6 @@ import de.audi.app.connectivity.IEvoConnectivity;
 import de.audi.app.connectivity.core.common.CommandSetNadRole;
 import de.audi.app.connectivity.core.common.CommandTogglePhones;
 import de.audi.app.connectivity.manager.CoMaRemoteHMIProxy;
-import de.audi.app.connectivity.manager.CoMaSelectionHandler$1;
 import de.audi.app.connectivity.manager.ConnectivityManager;
 import de.audi.app.connectivity.manager.ISelectionHandler;
 import de.audi.app.connectivity.manager.TerminalModeProxy;
@@ -30,16 +29,16 @@ import org.osgi.framework.ServiceRegistration;
 class CoMaSelectionHandler
 implements ISelectionHandler,
 SDISConnectionStateListener {
-    private static final int ASK_FOR_CONNECTION_BLUE;
-    private static final int ASK_FOR_CONNECTION_WLAN;
-    private static final int ASK_FOR_CONNECTION_BLUE_AND_WLAN_DATA;
-    private static final int SELECTION_BLUE_CONNECT;
-    private static final int SELECTION_BLUE_DISCONNECT;
-    private static final int SELECTION_BLUE_CHANGE;
-    private static final int SELECTION_NEW_DEVICE;
-    private static final int SELECTION_WLAN_CONNECT;
-    private static final int SELECTION_WLAN_DISCONNECT;
-    private static final int SELECTION_OTHER;
+    private static final int ASK_FOR_CONNECTION_BLUE = 1;
+    private static final int ASK_FOR_CONNECTION_WLAN = 2;
+    private static final int ASK_FOR_CONNECTION_BLUE_AND_WLAN_DATA = 4;
+    private static final int SELECTION_BLUE_CONNECT = 0;
+    private static final int SELECTION_BLUE_DISCONNECT = 1;
+    private static final int SELECTION_BLUE_CHANGE = 2;
+    private static final int SELECTION_NEW_DEVICE = 3;
+    private static final int SELECTION_WLAN_CONNECT = 4;
+    private static final int SELECTION_WLAN_DISCONNECT = 5;
+    private static final int SELECTION_OTHER = 7;
     private volatile boolean isSdisConnected;
     private ServiceRegistration sdisConStateListenerRegistration;
     private final IEvoConnectivity connectivity;
@@ -94,13 +93,22 @@ SDISConnectionStateListener {
         this.rhmi = new CoMaRemoteHMIProxy(bundleContext, this.log);
         this.smartphoneProxy = terminalModeProxy;
         this.coma = connectivityManager;
-        this.comaDeviceSelected = this.hmiService.getChoiceModel(0x22262600);
-        this.askForConnectionType = this.hmiService.getChoiceModel(589702656);
-        iEvoConnectivity.getDiagnosis().addDiagnosisComponent((IDiagComponent)new CoMaSelectionHandler$1(this));
+        this.comaDeviceSelected = this.hmiService.getChoiceModel(0x262622);
+        this.askForConnectionType = this.hmiService.getChoiceModel(0x262623);
+        iEvoConnectivity.getDiagnosis().addDiagnosisComponent(new IDiagComponent(){
+
+            public void cmdComaSelectionHandlerEnableSDISConnection() {
+                CoMaSelectionHandler.this.updateSdisConnected(true);
+            }
+
+            public void cmdComaSelectionHandlerDisableSDISConnection() {
+                CoMaSelectionHandler.this.updateSdisConnected(false);
+            }
+        });
     }
 
     void responseConnectService(int n, int n2) {
-        this.log.log(1078071040, "CoMaSelectionHandler#responseConnectService(): requestedService=%1, connected=%2", (long)n, (long)n2);
+        this.log.log(1000000, "CoMaSelectionHandler#responseConnectService(): requestedService=%1, connected=%2", (long)n, (long)n2);
         if (this.isDataDeviceChange && n == 4) {
             if (n == n2) {
                 this.connectivity.getWlan().getMode().switchWlanState(true);
@@ -110,9 +118,8 @@ SDISConnectionStateListener {
         }
     }
 
-    @Override
     public void deviceSelected(IDeviceSelection iDeviceSelection, int n) {
-        this.log.log(1078071040, "CoMaSelectionHandler#deviceSelected(): %2 %3, connected:%1", iDeviceSelection.isConnected(), (Object)iDeviceSelection.getName(), (Object)iDeviceSelection.getDeviceIdentifier());
+        this.log.log(1000000, "CoMaSelectionHandler#deviceSelected(): %2 %3, connected:%1", iDeviceSelection.isConnected(), (Object)iDeviceSelection.getName(), (Object)iDeviceSelection.getDeviceIdentifier());
         switch (iDeviceSelection.getType()) {
             case 0: {
                 this.simSelected(iDeviceSelection, n);
@@ -146,18 +153,18 @@ SDISConnectionStateListener {
 
     private void simSelected(IDeviceSelection iDeviceSelection, int n) {
         boolean bl = iDeviceSelection.isConnected();
-        this.log.log(1078071040, "CoMaSelectionHandler#simSelected(): isConnected=%1", bl);
+        this.log.log(1000000, "CoMaSelectionHandler#simSelected(): isConnected=%1", bl);
         this.comaDeviceSelected.setValue(7);
         if (bl) {
-            this.log.log(-2137614336, "CoMaSelectionHandler#simSelected(): NAD mode downgrade");
+            this.log.log(10000000, "CoMaSelectionHandler#simSelected(): NAD mode downgrade");
             CommandSetNadRole.schedule(this.connectivity.getBluetooth().getCommandListManager(), this.log, this.connectivity.getPhone(), 2);
         } else {
             AbstractCoMaDevice abstractCoMaDevice = this.coma.getSim();
             if (abstractCoMaDevice != null && abstractCoMaDevice.isConnected(3)) {
-                this.log.log(-2137614336, "CoMaSelectionHandler#simSelected(): toggle phone roles");
+                this.log.log(10000000, "CoMaSelectionHandler#simSelected(): toggle phone roles");
                 CommandTogglePhones.schedule(this.connectivity.getBluetooth().getCommandListManager(), this.log, this.connectivity.getPhone());
             } else {
-                this.log.log(-2137614336, "CoMaSelectionHandler#simSelected(): NAD mode upgrade (via setNadRole)");
+                this.log.log(10000000, "CoMaSelectionHandler#simSelected(): NAD mode upgrade (via setNadRole)");
                 this.coma.initNadModeUpgrade();
                 CommandSetNadRole.schedule(this.connectivity.getBluetooth().getCommandListManager(), this.log, this.connectivity.getPhone(), n == 0 ? 0 : 1);
             }
@@ -171,15 +178,15 @@ SDISConnectionStateListener {
             int n3 = this.connectivity.getBluetooth().getSupportedBtProfiles().getConnectableServices(n2, n == 0);
             int n4 = trustedDevice.getOfferedServiceTypes() & n3;
             if (bl) {
-                this.log.log(1078071040, "CoMaSelectionHandler#blueDeviceSelected(): Disconnecting category %1", (long)n);
+                this.log.log(1000000, "CoMaSelectionHandler#blueDeviceSelected(): Disconnecting category %1", (long)n);
                 this.comaDeviceSelected.setValue(1);
                 this.connectivity.getBluetooth().getConnection().disconnectService(string, trustedDevice.getActiveServiceTypes() & n4);
             } else if (this.isPhoneSelectedForOtherRole(trustedDevice, n)) {
-                this.log.log(1078071040, "CoMaSelectionHandler#blueDeviceSelected(): Toggling phone roles");
+                this.log.log(1000000, "CoMaSelectionHandler#blueDeviceSelected(): Toggling phone roles");
                 this.comaDeviceSelected.setValue(7);
                 CommandTogglePhones.schedule(this.connectivity.getBluetooth().getCommandListManager(), this.log, this.connectivity.getPhone());
             } else {
-                this.log.log(1078071040, "CoMaSelectionHandler#blueDeviceSelected(): Connecting category %1, service %2", (long)n, (long)n4);
+                this.log.log(1000000, "CoMaSelectionHandler#blueDeviceSelected(): Connecting category %1, service %2", (long)n, (long)n4);
                 if (n2 == 1) {
                     this.isDataDeviceChange = true;
                     this.comaDeviceSelected.setValue(2);
@@ -202,18 +209,18 @@ SDISConnectionStateListener {
     private void wlanDeviceSelected(String string) {
         Network network = this.connectivity.getWlan().getTrustedNetworkList().getNetwork(string);
         if (network.isActive()) {
-            this.log.log(1078071040, "CoMaSelectionHandler#wlanDeviceSelected(): Disconnecting from WLAN hotspot %1", (Object)network);
+            this.log.log(1000000, "CoMaSelectionHandler#wlanDeviceSelected(): Disconnecting from WLAN hotspot %1", (Object)network);
             this.comaDeviceSelected.setValue(5);
             this.connectivity.getWlan().getConnection().disconnectNetwork(network.getNetworkName(), network.getBssidAddress());
         } else {
-            this.log.log(1078071040, "CoMaSelectionHandler#wlanDeviceSelected(): Connecting to WLAN hotspot %1", (Object)network);
+            this.log.log(1000000, "CoMaSelectionHandler#wlanDeviceSelected(): Connecting to WLAN hotspot %1", (Object)network);
             this.comaDeviceSelected.setValue(4);
             this.connectivity.getWlan().getConnection().connectNetwork(network);
         }
     }
 
     private void rhmiDeviceSelected(String string, boolean bl) {
-        this.log.log(1078071040, "CoMaSelectionHandler#rhmiDeviceSelected(): %2, currently connected=%1", bl, (Object)string);
+        this.log.log(1000000, "CoMaSelectionHandler#rhmiDeviceSelected(): %2, currently connected=%1", bl, (Object)string);
         this.comaDeviceSelected.setValue(7);
         if (bl) {
             this.rhmi.disconnectAppServer(string);
@@ -223,7 +230,7 @@ SDISConnectionStateListener {
     }
 
     private void smartphoneSelected(String string, boolean bl) {
-        this.log.log(1078071040, "CoMaSelectionHandler#smartphoneSelected(): %2, currently active=%1", bl, (Object)string);
+        this.log.log(1000000, "CoMaSelectionHandler#smartphoneSelected(): %2, currently active=%1", bl, (Object)string);
         this.comaDeviceSelected.setValue(7);
         if (bl) {
             this.smartphoneProxy.deactivateSmartphone(string);
@@ -233,14 +240,13 @@ SDISConnectionStateListener {
     }
 
     private void upnpDeviceSelected() {
-        this.log.log(1078071040, "CoMaSelectionHandler#upnpDeviceSelected(): Doing nothing");
+        this.log.log(1000000, "CoMaSelectionHandler#upnpDeviceSelected(): Doing nothing");
         this.comaDeviceSelected.setValue(7);
     }
 
-    @Override
     public void connectNewDeviceSelected(int n) {
         int n2;
-        this.log.log(1078071040, "CoMaSelectionHandler#connectNewDeviceSelected(): Service type %1", (long)n);
+        this.log.log(1000000, "CoMaSelectionHandler#connectNewDeviceSelected(): Service type %1", (long)n);
         boolean bl = true;
         switch (n) {
             case 16: {
@@ -306,9 +312,8 @@ SDISConnectionStateListener {
         this.sdisConStateListenerRegistration = null;
     }
 
-    @Override
     public void updateSdisConnected(boolean bl) {
-        this.log.log(1078071040, "CoMaSelectionHandler#updateSdisConnected(): isSdis connected = %1", bl);
+        this.log.log(1000000, "CoMaSelectionHandler#updateSdisConnected(): isSdis connected = %1", bl);
         this.isSdisConnected = bl;
     }
 

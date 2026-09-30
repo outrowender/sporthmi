@@ -64,7 +64,6 @@ implements ServiceTrackerCustomizer {
     static /* synthetic */ Class class$de$audi$atip$diag$sw$SwDiagnosisManager;
     static /* synthetic */ Class class$de$audi$atip$interapp$tts$TTSService;
 
-    @Override
     public void start(BundleContext bundleContext) {
         Object object;
         super.start(bundleContext);
@@ -103,7 +102,6 @@ implements ServiceTrackerCustomizer {
         this.initTracker();
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         this.deinitTracker();
         this.getEnv().deinit();
@@ -115,8 +113,8 @@ implements ServiceTrackerCustomizer {
 
     private final void logServiceProblem(String string, ServiceReference serviceReference, Object object, Throwable throwable) {
         LogChannel logChannel = this.getEnv().getFw().getLogChannel("App.Settings.Main");
-        logChannel.log(-1601830656, "AbstractSettingsActivator.%1(svcRef= %2, serivce= %3) failed!", (Object)string, (Object)serviceReference, object);
-        logChannel.log(-1601830656, "with Exception: ", throwable);
+        logChannel.log(100000, "AbstractSettingsActivator.%1(svcRef= %2, serivce= %3) failed!", (Object)string, (Object)serviceReference, object);
+        logChannel.log(100000, "with Exception: ", throwable);
     }
 
     protected final SettingsEnv getEnv() {
@@ -155,7 +153,6 @@ implements ServiceTrackerCustomizer {
         this.serviceTracker = this.closeTracker(this.serviceTracker);
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.getBundleContext().getService(serviceReference);
         try {
@@ -218,14 +215,12 @@ implements ServiceTrackerCustomizer {
         return object;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         try {
             ETCHandler eTCHandler;

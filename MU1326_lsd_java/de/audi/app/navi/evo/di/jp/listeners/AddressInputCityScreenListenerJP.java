@@ -5,16 +5,18 @@ package de.audi.app.navi.evo.di.jp.listeners;
 
 import de.audi.app.navi.evo.addressinput.AddressInputHistoryElementListRow;
 import de.audi.app.navi.evo.addressinput.AddressInputLIValueListElementListRow;
+import de.audi.app.navi.evo.di.AddressInputUtilEvo;
 import de.audi.app.navi.evo.di.jp.listeners.AbstractAddressInputListenerJP;
-import de.audi.app.navi.evo.di.jp.listeners.AddressInputCityScreenListenerJP$1;
 import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.hmi.model.list.TiledListModelListener;
 import de.audi.atip.hmi.model.menu.MenuModelListener;
 import de.audi.atip.interapp.navigation.previewmap.IPreviewMap;
 import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.ICommandListFactory;
-import de.audi.tghu.navi.app.CityHistory$HistoryEntry;
+import de.audi.tghu.navi.app.CityHistory;
 import de.audi.tghu.navi.app.NavigationEnv;
+import de.audi.tghu.navi.app.addressinput.ReturnNavLocationToRemoteHmiFromCurrentLDSequence;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.di.IAddressInputManager;
 import de.audi.tghu.navi.app.di.sequences.matchspeller.AddressInputCityZipSequence;
 import org.dsi.ifc.navigation.LICityHistoryEntry;
@@ -29,13 +31,12 @@ MenuModelListener {
 
     public AddressInputCityScreenListenerJP(NavigationEnv navigationEnv, IPreviewMap iPreviewMap, ICommandListFactory iCommandListFactory, IAddressInputManager iAddressInputManager, AddressInputCityZipSequence addressInputCityZipSequence, int n, int n2, int n3) {
         super(navigationEnv, iPreviewMap, iCommandListFactory, iAddressInputManager, addressInputCityZipSequence, n, n2, n3);
-        this.cityNeedsWard = -1641806336;
+        this.cityNeedsWard = 402590;
         this.wardAvailable = 1;
         this.wardUnavailable = 0;
         this.initListeners();
     }
 
-    @Override
     protected void initListeners() {
         this.tiledListModel = this.env.getTiledListModel(this.tiledListModelId);
         this.tiledListModel.setListener(this);
@@ -45,58 +46,67 @@ MenuModelListener {
         this.menuModel.setListener(this);
     }
 
-    @Override
-    public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.logChannel.log(-2137614336, "%1#itemSelected row=%2, model=%3, index=%4", (Object)this.CLASS_NAME, (Object)evoListRow, (Object)Integer.toString(n), (long)n2);
+    public void itemSelected(EvoListRow evoListRow, final int n, int n2, int n3, final int n4) {
+        this.logChannel.log(10000000, "%1#itemSelected row=%2, model=%3, index=%4", (Object)this.CLASS_NAME, (Object)evoListRow, (Object)Integer.toString(n), (long)n2);
         this.inputManager.getMainScreenListener().resetPreviousLocation();
         CommandList commandList = null;
-        int n5 = this.inputManager.getActiveSpellerContextId();
+        final int n5 = this.inputManager.getActiveSpellerContextId();
         if (evoListRow instanceof AddressInputLIValueListElementListRow) {
-            this.logChannel.log(-2137614336, "%1#itemSelected row is instanceOf AddressInputLIValueListElementListRow", (Object)this.CLASS_NAME);
+            this.logChannel.log(10000000, "%1#itemSelected row is instanceOf AddressInputLIValueListElementListRow", (Object)this.CLASS_NAME);
             AddressInputLIValueListElementListRow addressInputLIValueListElementListRow = (AddressInputLIValueListElementListRow)evoListRow;
             commandList = this.inputManager.handleAddressInputEvent(this.inputSequence.getSelectListElementCommandList(addressInputLIValueListElementListRow.getElement()), 20202);
         } else if (evoListRow instanceof AddressInputHistoryElementListRow) {
-            this.logChannel.log(-2137614336, "%1#itemSelected row is instanceOf AddressInputHistoryElementListRow", (Object)this.CLASS_NAME);
+            this.logChannel.log(10000000, "%1#itemSelected row is instanceOf AddressInputHistoryElementListRow", (Object)this.CLASS_NAME);
             AddressInputHistoryElementListRow addressInputHistoryElementListRow = (AddressInputHistoryElementListRow)evoListRow;
-            CityHistory$HistoryEntry cityHistory$HistoryEntry = addressInputHistoryElementListRow.getHistoryEntry();
-            commandList = this.inputManager.handleAddressInputEvent(((AddressInputCityZipSequence)this.inputSequence).getSelectHistoryElementCommandList((LICityHistoryEntry)cityHistory$HistoryEntry.getEntry()), 20203);
+            CityHistory.HistoryEntry historyEntry = addressInputHistoryElementListRow.getHistoryEntry();
+            commandList = this.inputManager.handleAddressInputEvent(((AddressInputCityZipSequence)this.inputSequence).getSelectHistoryElementCommandList((LICityHistoryEntry)historyEntry.getEntry()), 20203);
         }
         if (commandList != null) {
-            commandList.add(new AddressInputCityScreenListenerJP$1(this, n, n4, n5));
+            commandList.add(new NavCommand(){
+
+                public void execute() {
+                    CommandList commandList = AddressInputCityScreenListenerJP.this.commandListFactory.createCommandList();
+                    if (this.env.getChoiceModel(402590).getValue() == 1) {
+                        commandList.add(new NavCommand("Delay fire model event"){
+
+                            public void execute() {
+                                this.env.fireModelEvent(n, n4);
+                                this.getCommandList().commandFinished();
+                            }
+                        });
+                        commandList.add(AddressInputCityScreenListenerJP.this.inputManager.handleAddressInputEvent(AddressInputCityScreenListenerJP.this.commandListFactory.createCommandList(), 20703));
+                    } else if (this.env.getChoiceModel(402590).getValue() == 0) {
+                        if (AddressInputUtilEvo.isRemoteHMIPOIContext(this.env) && n5 == 92) {
+                            commandList.add(new ReturnNavLocationToRemoteHmiFromCurrentLDSequence(AddressInputCityScreenListenerJP.this.commandListFactory).getStartCommandList());
+                        }
+                        commandList.add(new NavCommand("Delay fire model event"){
+
+                            public void execute() {
+                                this.env.fireModelEvent(n, n4);
+                                this.getCommandList().commandFinished();
+                            }
+                        });
+                    }
+                    this.getCommandList().commandFinishedWithPostSequence(commandList);
+                }
+            });
             commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#itemSelected").toString());
         } else {
             this.env.fireModelEvent(n, n4);
         }
     }
 
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.logChannel.log(-2137614336, "%1#itemFocused - item focused was called with model = %2, index = %3", (Object)this.CLASS_NAME, (long)n, (long)n2);
+        this.logChannel.log(10000000, "%1#itemFocused - item focused was called with model = %2, index = %3", (Object)this.CLASS_NAME, (long)n, (long)n2);
         if (evoListRow instanceof AddressInputHistoryElementListRow) {
             if (this.previewMap != null) {
                 AddressInputHistoryElementListRow addressInputHistoryElementListRow = (AddressInputHistoryElementListRow)evoListRow;
-                CityHistory$HistoryEntry cityHistory$HistoryEntry = addressInputHistoryElementListRow.getHistoryEntry();
-                ((AddressInputCityZipSequence)this.inputSequence).showHistoryLocationInPreviewMap(this.previewMap, (LICityHistoryEntry)cityHistory$HistoryEntry.getEntry());
+                CityHistory.HistoryEntry historyEntry = addressInputHistoryElementListRow.getHistoryEntry();
+                ((AddressInputCityZipSequence)this.inputSequence).showHistoryLocationInPreviewMap(this.previewMap, (LICityHistoryEntry)historyEntry.getEntry());
             }
         } else {
             super.itemFocused(evoListRow, n, n2, n3, n4);
         }
-    }
-
-    static /* synthetic */ ICommandListFactory access$000(AddressInputCityScreenListenerJP addressInputCityScreenListenerJP) {
-        return addressInputCityScreenListenerJP.commandListFactory;
-    }
-
-    static /* synthetic */ ICommandListFactory access$300(AddressInputCityScreenListenerJP addressInputCityScreenListenerJP) {
-        return addressInputCityScreenListenerJP.commandListFactory;
-    }
-
-    static /* synthetic */ IAddressInputManager access$400(AddressInputCityScreenListenerJP addressInputCityScreenListenerJP) {
-        return addressInputCityScreenListenerJP.inputManager;
-    }
-
-    static /* synthetic */ ICommandListFactory access$500(AddressInputCityScreenListenerJP addressInputCityScreenListenerJP) {
-        return addressInputCityScreenListenerJP.commandListFactory;
     }
 }
 

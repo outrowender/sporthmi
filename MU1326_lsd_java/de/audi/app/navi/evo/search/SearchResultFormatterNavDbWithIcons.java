@@ -16,8 +16,8 @@ import org.dsi.ifc.search.SearchResult;
 
 public class SearchResultFormatterNavDbWithIcons
 extends SearchResultFormatterNavDb {
-    private static final int SEARCHRESULT_MASK_FULL;
-    private static final int MISSING;
+    private static final int SEARCHRESULT_MASK_FULL = -1;
+    private static final int MISSING = 0;
     protected ICarKombiService carKombiService;
     protected int primaryFueltypeId = 0;
     protected int primaryFueltypeMask;
@@ -29,7 +29,6 @@ extends SearchResultFormatterNavDb {
         this.carKombiService = iCarKombiService;
     }
 
-    @Override
     public SearchResultListRow formatResult(SearchResult searchResult) {
         SearchResultListRow searchResultListRow = super.formatResult(searchResult);
         if (this.carKombiService != null) {

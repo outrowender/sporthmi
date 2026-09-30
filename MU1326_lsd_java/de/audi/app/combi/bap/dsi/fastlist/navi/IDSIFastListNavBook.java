@@ -9,16 +9,12 @@ import org.dsi.ifc.kombifastlist.DataAddress;
 
 public interface IDSIFastListNavBook
 extends IDSIFastListNavi {
-    default public void responseNavBook(int n, int n2, int n3, int n4, ArrayHeader arrayHeader) {
-    }
+    public void responseNavBook(int var1, int var2, int var3, int var4, ArrayHeader var5);
 
-    default public void responseNavBookArray(DataAddress[] dataAddressArray) {
-    }
+    public void responseNavBookArray(DataAddress[] var1);
 
-    default public void responseNavBookJobs(int n, int n2) {
-    }
+    public void responseNavBookJobs(int var1, int var2);
 
-    default public void pushCurrentListSizeNavBook(int n) {
-    }
+    public void pushCurrentListSizeNavBook(int var1);
 }
 

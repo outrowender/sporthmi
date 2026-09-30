@@ -9,19 +9,14 @@ import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 
 public interface ChoiceModelHandler
 extends ButtonModelHandler {
-    default public void updateOnItemSelected(int n) {
-    }
+    public void updateOnItemSelected(int var1);
 
-    default public void updateOnItemFocused(int n) {
-    }
+    public void updateOnItemFocused(int var1);
 
-    default public void updateChoiceModelValue(int n) {
-    }
+    public void updateChoiceModelValue(int var1);
 
-    default public ChoiceModelApp getChoiceModel() {
-    }
+    public ChoiceModelApp getChoiceModel();
 
-    default public ChoiceModelEventBusiness getChoiceModelBusiness() {
-    }
+    public ChoiceModelEventBusiness getChoiceModelBusiness();
 }
 

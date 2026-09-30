@@ -4,43 +4,40 @@
 package de.audi.atip.storagecache;
 
 public interface CacheEventListener {
-    public static final String APP_ID_ONLINE_TRAFFIC;
-    public static final String APP_ID_TRAFFICLIGHT;
-    public static final String APP_ID_GOOGLE_EARTH;
-    public static final String APP_ID_SATELLITEMAPS_EB;
-    public static final String APP_ID_SATELLITEMAPS_AW;
-    public static final String APP_ID_WEATHER_IN_MAP;
-    public static final String APP_ID_POI_ONLINE;
-    public static final String APP_ID_PRESET_LAYOUT;
-    public static final String APP_ID_DEST_IMPORT;
-    public static final String APP_ID_DICTATION;
-    public static final String APP_ID_HOTSPOT;
-    public static final String APP_ID_CORE;
-    public static final String APP_ID_GRACENOTE;
-    public static final String APP_ID_UOTA;
-    public static final String APP_ID_OPERATORCALL;
-    public static final String APP_ID_OPERATORCALL_TOKEN_ID_POICALL;
-    public static final String APP_ID_UOTA_TOKEN_ID_PPOI;
-    public static final String APP_ID_UOTA_TOKEN_ID_NAVDATA;
-    public static final String APP_ID_ONLINE_TRAFFIC_TOKEN_ID_OT;
-    public static final String APP_ID_TRAFFICLIGHT_TOKEN_ID_TL;
-    public static final String APP_ID_GOOGLE_EARTH_TOKEN_ID_GE;
-    public static final String APP_ID_SATELLITEMAPS_TOKEN_ID_EB;
-    public static final String APP_ID_SATELLITEMAPS_TOKEN_ID_AW;
-    public static final String APP_ID_WEATHER_IN_MAP_TOKEN_ID_WEATHER;
-    public static final String APP_ID_POI_ONLINE_TOKEN_ID_HAPTIC;
-    public static final String APP_ID_POI_ONLINE_TOKEN_ID_SDS;
-    public static final String APP_ID_DEST_IMPORT_TOKEN_ID_DI;
-    public static final String APP_ID_DICTATION_TOKEN_ID_DICT;
-    public static final String APP_ID_GRACENOTE_TOKEN_ID_GN;
+    public static final String APP_ID_ONLINE_TRAFFIC = "service_dsi_onlinetraffic";
+    public static final String APP_ID_TRAFFICLIGHT = "service_trafficlight";
+    public static final String APP_ID_GOOGLE_EARTH = "service_dsi_satellitemaps";
+    public static final String APP_ID_SATELLITEMAPS_EB = "ebnav";
+    public static final String APP_ID_SATELLITEMAPS_AW = "awnavicore";
+    public static final String APP_ID_WEATHER_IN_MAP = "weatherinmaponlineservice";
+    public static final String APP_ID_POI_ONLINE = "service_dsi_poi";
+    public static final String APP_ID_PRESET_LAYOUT = "service_dsi_presetlayout";
+    public static final String APP_ID_DEST_IMPORT = "service_dsi_destimport";
+    public static final String APP_ID_DICTATION = "dictation";
+    public static final String APP_ID_HOTSPOT = "hotspotwlan";
+    public static final String APP_ID_CORE = "service_core";
+    public static final String APP_ID_GRACENOTE = "online_metadata_service_app";
+    public static final String APP_ID_UOTA = "UpdateOverTheAir";
+    public static final String APP_ID_OPERATORCALL = "service_dsi_operatorcall";
+    public static final String APP_ID_OPERATORCALL_TOKEN_ID_POICALL = "poicall";
+    public static final String APP_ID_UOTA_TOKEN_ID_PPOI = "lic_uota_ppoi";
+    public static final String APP_ID_UOTA_TOKEN_ID_NAVDATA = "lic_uota_nav";
+    public static final String APP_ID_ONLINE_TRAFFIC_TOKEN_ID_OT = "lic_traffic";
+    public static final String APP_ID_TRAFFICLIGHT_TOKEN_ID_TL = "trafficlightsinfo_v1";
+    public static final String APP_ID_GOOGLE_EARTH_TOKEN_ID_GE = "satellitemaps";
+    public static final String APP_ID_SATELLITEMAPS_TOKEN_ID_EB = "satellitemaps_eb";
+    public static final String APP_ID_SATELLITEMAPS_TOKEN_ID_AW = "satellitemaps";
+    public static final String APP_ID_WEATHER_IN_MAP_TOKEN_ID_WEATHER = "weatherGrid";
+    public static final String APP_ID_POI_ONLINE_TOKEN_ID_HAPTIC = "poi_haptic";
+    public static final String APP_ID_POI_ONLINE_TOKEN_ID_SDS = "poi_sds";
+    public static final String APP_ID_DEST_IMPORT_TOKEN_ID_DI = "zieleinspeisung";
+    public static final String APP_ID_DICTATION_TOKEN_ID_DICT = "dictation";
+    public static final String APP_ID_GRACENOTE_TOKEN_ID_GN = "gracenote";
 
-    default public String[] getServiceIDs() {
-    }
+    public String[] getServiceIDs();
 
-    default public String[] getTokens(String string) {
-    }
+    public String[] getTokens(String var1);
 
-    default public void updateToken(String string, String string2, Object object) {
-    }
+    public void updateToken(String var1, String var2, Object var3);
 }
 

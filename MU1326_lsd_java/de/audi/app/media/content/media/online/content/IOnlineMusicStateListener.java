@@ -4,7 +4,6 @@
 package de.audi.app.media.content.media.online.content;
 
 public interface IOnlineMusicStateListener {
-    default public void updateMusicState(int n, int n2, int n3) {
-    }
+    public void updateMusicState(int var1, int var2, int var3);
 }
 

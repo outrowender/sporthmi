@@ -29,8 +29,7 @@ extends DSIAndroidAuto2DefaultListener {
         this.context = iContext;
     }
 
-    protected abstract String getLogClass() {
-    }
+    protected abstract String getLogClass();
 
     protected boolean isValid(int n) {
         return 1 == n;
@@ -41,11 +40,11 @@ extends DSIAndroidAuto2DefaultListener {
     }
 
     protected void requestDSIUpdate(Resource resource, ResourceOwner resourceOwner) {
-        this.context.getCommandListHelper().create().addSingle(new UpdateResource(this.context, resource, resourceOwner, this.stateHandler)).execute(new StringBuffer().append(this.getLogClass()).append(".updateResource").toString());
+        this.context.getCommandListHelper().create().addSingle(new UpdateResource(this.context, resource, resourceOwner, this.stateHandler)).execute(this.getLogClass() + ".updateResource");
     }
 
     protected void requestDSIUpdate(Application application, ApplicationOwner applicationOwner) {
-        this.context.getCommandListHelper().create().addSingle(new UpdateApplication(this.context, application, applicationOwner, this.stateHandler)).execute(new StringBuffer().append(this.getLogClass()).append(".updateApplication").toString());
+        this.context.getCommandListHelper().create().addSingle(new UpdateApplication(this.context, application, applicationOwner, this.stateHandler)).execute(this.getLogClass() + ".updateApplication");
     }
 }
 

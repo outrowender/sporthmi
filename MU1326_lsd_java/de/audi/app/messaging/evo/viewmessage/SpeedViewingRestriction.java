@@ -6,8 +6,7 @@ package de.audi.app.messaging.evo.viewmessage;
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
 import de.audi.app.messaging.core.component.AbstractMessagingComponent;
 import de.audi.app.messaging.core.osgi.MessagingBundleContext;
-import de.audi.app.messaging.evo.viewmessage.SpeedViewingRestriction$MySpeedThresholdListener;
-import de.audi.atip.log.LogChannel;
+import de.audi.atip.sysapp.SpeedThresholdListener;
 
 public final class SpeedViewingRestriction
 extends AbstractMessagingComponent {
@@ -15,28 +14,35 @@ extends AbstractMessagingComponent {
         super(messagingBundleContext, "App.Messaging.Main");
     }
 
-    @Override
     public void init(AbstractMsgApplication abstractMsgApplication) {
         super.init(abstractMsgApplication);
-        abstractMsgApplication.getMessagingService().addSpeedThresholdListener(new SpeedViewingRestriction$MySpeedThresholdListener(this, null));
+        abstractMsgApplication.getMessagingService().addSpeedThresholdListener(new MySpeedThresholdListener());
     }
 
     private void enableViewingRestriction(boolean bl) {
-        this.log.log(-2137614336, "[SpeedViewingRestriction#enableViewingRestriction] enable = %1", bl);
+        this.log.log(10000000, "[SpeedViewingRestriction#enableViewingRestriction] enable = %1", bl);
         int n = bl ? 4 : 0;
-        this.framework.getHmiServiceApp().getChoiceModel(1771249920).setValue(n);
+        this.framework.getHmiServiceApp().getChoiceModel(2200425).setValue(n);
     }
 
-    static /* synthetic */ LogChannel access$100(SpeedViewingRestriction speedViewingRestriction) {
-        return speedViewingRestriction.log;
-    }
+    private final class MySpeedThresholdListener
+    implements SpeedThresholdListener {
+        private MySpeedThresholdListener() {
+        }
 
-    static /* synthetic */ void access$200(SpeedViewingRestriction speedViewingRestriction, boolean bl) {
-        speedViewingRestriction.enableViewingRestriction(bl);
-    }
+        public void exceedsUpperThreshold(int n) {
+            if (n == 11) {
+                SpeedViewingRestriction.this.log.log(1000000, "[SpeedViewingRestriction#exceedsUpperThreshold]");
+                SpeedViewingRestriction.this.enableViewingRestriction(true);
+            }
+        }
 
-    static /* synthetic */ LogChannel access$300(SpeedViewingRestriction speedViewingRestriction) {
-        return speedViewingRestriction.log;
+        public void belowLowerThreshold(int n) {
+            if (n == 11) {
+                SpeedViewingRestriction.this.log.log(1000000, "[SpeedViewingRestriction#belowLowerThreshold]");
+                SpeedViewingRestriction.this.enableViewingRestriction(false);
+            }
+        }
     }
 }
 

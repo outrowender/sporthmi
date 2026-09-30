@@ -7,10 +7,8 @@ import de.audi.atip.log.LogChannel;
 import org.dsi.ifc.base.DSIBase;
 
 public interface ModelEventBusiness {
-    default public LogChannel getLogChannel() {
-    }
+    public LogChannel getLogChannel();
 
-    default public DSIBase getDSI() {
-    }
+    public DSIBase getDSI();
 }
 

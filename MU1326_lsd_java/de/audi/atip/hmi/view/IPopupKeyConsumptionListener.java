@@ -4,7 +4,6 @@
 package de.audi.atip.hmi.view;
 
 public interface IPopupKeyConsumptionListener {
-    default public void hKPressed(boolean bl, int n) {
-    }
+    public void hKPressed(boolean var1, int var2);
 }
 

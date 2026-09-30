@@ -9,7 +9,7 @@ import com.ibm.oti.security.provider.RSAPrivateCrtKey;
 import com.ibm.oti.security.provider.RSAPrivateKey;
 import com.ibm.oti.security.provider.RSAPublicKey;
 import com.ibm.oti.security.provider.X509Certificate;
-import com.ibm.oti.util.ASN1Decoder$Node;
+import com.ibm.oti.util.ASN1Decoder;
 import com.ibm.oti.util.ASN1Encoder;
 import com.ibm.oti.util.SHAOutputStream;
 import java.io.IOException;
@@ -20,22 +20,22 @@ import java.util.Enumeration;
 import java.util.Random;
 
 public class PKCS1 {
-    public static final int[] OID_RSA = new int[]{1, 2, 840, -1917124352, 1, 1, 1};
+    public static final int[] OID_RSA = new int[]{1, 2, 840, 113549, 1, 1, 1};
     public static final int[] OID_SHA1 = new int[]{1, 3, 14, 3, 2, 26};
-    public static final int[] OID_MD5 = new int[]{1, 2, 840, -1917124352, 2, 5};
+    public static final int[] OID_MD5 = new int[]{1, 2, 840, 113549, 2, 5};
     private SHAOutputStream sha = null;
     private MD5OutputStream md5 = null;
-    private static final int NULL_HASH;
-    private static final int SHA1_HASH;
-    private static final int MD5_HASH;
-    private static final int MD2_HASH;
+    private static final int NULL_HASH = -1;
+    private static final int SHA1_HASH = 1;
+    private static final int MD5_HASH = 2;
+    private static final int MD2_HASH = 3;
     private int hashAlg = -1;
 
-    public PKCS1(String string) {
+    public PKCS1(String string) throws IllegalArgumentException {
         this.SECU_initialiser(string);
     }
 
-    private void SECU_initialiser(String string) {
+    private void SECU_initialiser(String string) throws IllegalArgumentException {
         if (string.equals("SHA1")) {
             this.sha = new SHAOutputStream();
             this.hashAlg = 1;
@@ -49,11 +49,11 @@ public class PKCS1 {
         }
     }
 
-    public byte[] encryptPKCS_15(RSAPublicKey rSAPublicKey, byte[] byArray, Random random) {
+    public byte[] encryptPKCS_15(RSAPublicKey rSAPublicKey, byte[] byArray, Random random) throws IOException {
         return this.SECU_encryptPKCS_15(rSAPublicKey, byArray, random);
     }
 
-    private byte[] SECU_encryptPKCS_15(RSAPublicKey rSAPublicKey, byte[] byArray, Random random) {
+    private byte[] SECU_encryptPKCS_15(RSAPublicKey rSAPublicKey, byte[] byArray, Random random) throws IOException {
         int n = this.countOctets(rSAPublicKey);
         if (byArray.length > n - 11) {
             throw new IOException("Message too long");
@@ -74,7 +74,7 @@ public class PKCS1 {
         return byArray5;
     }
 
-    public boolean verifySSA_PKCS1_v15(RSAPublicKey rSAPublicKey, InputStream inputStream, byte[] byArray) {
+    public boolean verifySSA_PKCS1_v15(RSAPublicKey rSAPublicKey, InputStream inputStream, byte[] byArray) throws IOException {
         return this.verifySSA_PKCS1_v15Impl(rSAPublicKey, this.digest(inputStream), byArray);
     }
 
@@ -99,36 +99,36 @@ public class PKCS1 {
         }
     }
 
-    public byte[] signSSA_PKCS1_v15(RSAPrivateKey rSAPrivateKey, InputStream inputStream) {
+    public byte[] signSSA_PKCS1_v15(RSAPrivateKey rSAPrivateKey, InputStream inputStream) throws IOException {
         return this.signSSA_PKCS1_v15Impl(rSAPrivateKey, this.digest(inputStream));
     }
 
-    public byte[] signSSA_PKCS1_v15(RSAPrivateKey rSAPrivateKey, byte[] byArray) {
+    public byte[] signSSA_PKCS1_v15(RSAPrivateKey rSAPrivateKey, byte[] byArray) throws IOException {
         return this.signSSA_PKCS1_v15Impl(rSAPrivateKey, this.digest(byArray));
     }
 
-    public byte[] signSSA_PKCS1_v15Impl(RSAPrivateKey rSAPrivateKey, byte[] byArray) {
+    public byte[] signSSA_PKCS1_v15Impl(RSAPrivateKey rSAPrivateKey, byte[] byArray) throws IOException {
         int n = this.countOctets(rSAPrivateKey);
         byte[] byArray2 = this.EMSA_PKCS1_v15_ENCODE(byArray, n);
         byte[] byArray3 = this.completeSignSSA_PKCS1_v15Impl(rSAPrivateKey, n, byArray2);
         return byArray3;
     }
 
-    private byte[] completeSignSSA_PKCS1_v15Impl(RSAPrivateKey rSAPrivateKey, int n, byte[] byArray) {
+    private byte[] completeSignSSA_PKCS1_v15Impl(RSAPrivateKey rSAPrivateKey, int n, byte[] byArray) throws IOException {
         BigInteger bigInteger = this.OS2IP(byArray);
         BigInteger bigInteger2 = this.RSADP(rSAPrivateKey, bigInteger);
         byte[] byArray2 = this.I2OSP(bigInteger2, n);
         return byArray2;
     }
 
-    public byte[] signSSA_PKCS1_v15Impl_NO_DER(RSAPrivateKey rSAPrivateKey, byte[] byArray) {
+    public byte[] signSSA_PKCS1_v15Impl_NO_DER(RSAPrivateKey rSAPrivateKey, byte[] byArray) throws IOException {
         int n = this.countOctets(rSAPrivateKey);
         byte[] byArray2 = this.form_EM(byArray, n);
         byte[] byArray3 = this.completeSignSSA_PKCS1_v15Impl(rSAPrivateKey, n, byArray2);
         return byArray3;
     }
 
-    public BigInteger RSAEP(RSAPublicKey rSAPublicKey, BigInteger bigInteger) {
+    public BigInteger RSAEP(RSAPublicKey rSAPublicKey, BigInteger bigInteger) throws IOException {
         if (bigInteger.min(BigInteger.ZERO) == bigInteger) {
             throw new IOException("Message representative out of range");
         }
@@ -138,7 +138,7 @@ public class PKCS1 {
         return bigInteger.modPow(rSAPublicKey.getPublicExponent(), rSAPublicKey.getModulus());
     }
 
-    public BigInteger RSADP(RSAPrivateKey rSAPrivateKey, BigInteger bigInteger) {
+    public BigInteger RSADP(RSAPrivateKey rSAPrivateKey, BigInteger bigInteger) throws IOException {
         if (bigInteger.min(BigInteger.ZERO) == bigInteger) {
             throw new IOException("Ciphertext representative out of range");
         }
@@ -148,7 +148,7 @@ public class PKCS1 {
         return bigInteger.modPow(rSAPrivateKey.getPrivateExponent(), rSAPrivateKey.getModulus());
     }
 
-    public BigInteger RSADP(RSAPrivateCrtKey rSAPrivateCrtKey, BigInteger bigInteger) {
+    public BigInteger RSADP(RSAPrivateCrtKey rSAPrivateCrtKey, BigInteger bigInteger) throws IOException {
         if (bigInteger.min(BigInteger.ZERO) == bigInteger) {
             throw new IOException("Ciphertext representative out of range");
         }
@@ -162,27 +162,27 @@ public class PKCS1 {
         return bigInteger5;
     }
 
-    private byte[] EMSA_PKCS1_v15_ENCODE(byte[] byArray, int n) {
-        ASN1Decoder$Node aSN1Decoder$Node = new ASN1Decoder$Node();
-        aSN1Decoder$Node.type = 6;
-        aSN1Decoder$Node.data = this.getDigestAlgorithmOID();
-        ASN1Decoder$Node aSN1Decoder$Node2 = new ASN1Decoder$Node();
-        aSN1Decoder$Node2.type = 5;
-        aSN1Decoder$Node2.data = null;
-        ASN1Decoder$Node aSN1Decoder$Node3 = new ASN1Decoder$Node();
-        aSN1Decoder$Node3.type = 16;
-        aSN1Decoder$Node3.data = new ASN1Decoder$Node[]{aSN1Decoder$Node, aSN1Decoder$Node2};
-        ASN1Decoder$Node aSN1Decoder$Node4 = new ASN1Decoder$Node();
-        aSN1Decoder$Node4.type = 4;
-        aSN1Decoder$Node4.data = byArray;
-        ASN1Decoder$Node aSN1Decoder$Node5 = new ASN1Decoder$Node();
-        aSN1Decoder$Node5.type = 16;
-        aSN1Decoder$Node5.data = new ASN1Decoder$Node[]{aSN1Decoder$Node3, aSN1Decoder$Node4};
-        byte[] byArray2 = ASN1Encoder.encodeNode(aSN1Decoder$Node5);
+    private byte[] EMSA_PKCS1_v15_ENCODE(byte[] byArray, int n) throws IOException {
+        ASN1Decoder.Node node = new ASN1Decoder.Node();
+        node.type = 6;
+        node.data = this.getDigestAlgorithmOID();
+        ASN1Decoder.Node node2 = new ASN1Decoder.Node();
+        node2.type = 5;
+        node2.data = null;
+        ASN1Decoder.Node node3 = new ASN1Decoder.Node();
+        node3.type = 16;
+        node3.data = new ASN1Decoder.Node[]{node, node2};
+        ASN1Decoder.Node node4 = new ASN1Decoder.Node();
+        node4.type = 4;
+        node4.data = byArray;
+        ASN1Decoder.Node node5 = new ASN1Decoder.Node();
+        node5.type = 16;
+        node5.data = new ASN1Decoder.Node[]{node3, node4};
+        byte[] byArray2 = ASN1Encoder.encodeNode(node5);
         return this.form_EM(byArray2, n);
     }
 
-    private byte[] form_EM(byte[] byArray, int n) {
+    private byte[] form_EM(byte[] byArray, int n) throws IOException {
         if (n < byArray.length + 11) {
             throw new IOException("Intended encoded message too short");
         }
@@ -215,8 +215,8 @@ public class PKCS1 {
         return new BigInteger(1, byArray);
     }
 
-    private byte[] MGF1(byte[] byArray, int n) {
-        if (n > 0x800000) {
+    private byte[] MGF1(byte[] byArray, int n) throws IOException {
+        if (n > 32768) {
             throw new IOException("Mask too long");
         }
         byte[] byArray2 = new byte[]{};
@@ -232,7 +232,7 @@ public class PKCS1 {
         return byArray4;
     }
 
-    private byte[] exclusiveOr(byte[] byArray, byte[] byArray2) {
+    private byte[] exclusiveOr(byte[] byArray, byte[] byArray2) throws IOException {
         if (byArray.length != byArray2.length) {
             throw new IOException("Different argument lengths");
         }
@@ -323,7 +323,7 @@ public class PKCS1 {
         }
     }
 
-    private byte[] digest(InputStream inputStream) {
+    private byte[] digest(InputStream inputStream) throws IOException {
         int n;
         if (this.sha != null) {
             this.sha.reset();

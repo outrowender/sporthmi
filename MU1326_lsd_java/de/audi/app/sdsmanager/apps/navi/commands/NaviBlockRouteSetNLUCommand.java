@@ -21,13 +21,12 @@ extends AbstractSystemCallCommand {
         this.nBestStorage = nBestStorageAccess;
     }
 
-    @Override
     public void execute() {
         IPicklistSlot iPicklistSlot = this.nBestStorage.getSlotForPicklistElement(0, 0, (byte)0, true);
         IPicklistSlot iPicklistSlot2 = this.nBestStorage.getSlotForPicklistElement(1, 0, (byte)0, true);
         String string = iPicklistSlot == null ? "" : iPicklistSlot.getText();
         int n = (int)(iPicklistSlot2 == null ? -1L : iPicklistSlot2.getObjID());
-        this.logger.log(-2137614336, "%1#execute: distance=%2, unit=%3", (Object)this.getName(), (Object)string, (long)n);
+        this.logger.log(10000000, "%1#execute: distance=%2, unit=%3", (Object)this.getName(), (Object)string, (long)n);
         if (SDSUtils.isEmpty(string)) {
             this.handleInvalidSlotValues();
             return;
@@ -57,14 +56,14 @@ extends AbstractSystemCallCommand {
         StringTokenizer stringTokenizer = new StringTokenizer(string);
         string = stringTokenizer.nextToken();
         SDSModelAccess.setSlotModel(1, string);
-        this.sendResult(1083965440);
+        this.sendResult(40000);
     }
 
     private void handleInvalidSlotValues() {
-        this.logger.log(-2137614336, "%1#handleInvalidSlotValues: reset slot label and scale unit model", (Object)this.getName());
+        this.logger.log(10000000, "%1#handleInvalidSlotValues: reset slot label and scale unit model", (Object)this.getName());
         SDSModelAccess.setNaviScaleUnits(-1);
         SDSModelAccess.setSlotModel(1, "");
-        this.sendResult(1083965440);
+        this.sendResult(40000);
     }
 }
 

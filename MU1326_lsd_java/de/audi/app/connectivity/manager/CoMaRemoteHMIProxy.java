@@ -27,7 +27,7 @@ implements ServiceTrackerCustomizer {
         if (this.rhmi != null) {
             this.rhmi.activateSource(string);
         } else {
-            this.log.log(-1601830656, "CoMaRemoteHMIProxy#connectAppServer(): IConnectivityRHMIService not available!");
+            this.log.log(100000, "CoMaRemoteHMIProxy#connectAppServer(): IConnectivityRHMIService not available!");
         }
     }
 
@@ -35,11 +35,10 @@ implements ServiceTrackerCustomizer {
         if (this.rhmi != null) {
             this.rhmi.deactivateSource(string);
         } else {
-            this.log.log(-1601830656, "CoMaRemoteHMIProxy#disConnectAppServer(): IConnectivityRHMIService not available!");
+            this.log.log(100000, "CoMaRemoteHMIProxy#disConnectAppServer(): IConnectivityRHMIService not available!");
         }
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof IConnectivityRHMIService) {
@@ -49,7 +48,6 @@ implements ServiceTrackerCustomizer {
         return null;
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof IConnectivityRHMIService) {
             this.rhmi = null;
@@ -57,7 +55,6 @@ implements ServiceTrackerCustomizer {
         }
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
         if (object instanceof IConnectivityRHMIService) {
             this.rhmi = (IConnectivityRHMIService)object;

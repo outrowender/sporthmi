@@ -34,6 +34,8 @@ import de.audi.atip.interapp.phone.ITelMuteMicService;
 import de.audi.atip.interapp.phone.ITelServiceAudio;
 import de.audi.atip.interapp.terminalmode.ITerminalModeAudioService;
 import de.audi.atip.start.ILastmodeHandler;
+import de.audi.atip.util.osgi.NullDSIAudioManagement;
+import de.audi.atip.util.osgi.NullDSISound;
 import de.audi.audio.ATIPAudioServiceImpl;
 import de.audi.audio.AudioEnv;
 import de.audi.audio.CombiServiceHandler;
@@ -44,36 +46,40 @@ import de.audi.audio.dsi.DSIAudioListenerImpl;
 import de.audi.audio.dsi.DSIMediaRouterListenerImpl;
 import de.audi.audio.dsi.DSISoundListenerImpl;
 import de.audi.audio.earlysound.ReadinessSound;
-import de.audi.audio.init.ATIPAudioManager$DSIAudioDisposer;
-import de.audi.audio.init.ATIPAudioManager$DSIMediaRouterDisposer;
-import de.audi.audio.init.ATIPAudioManager$DSISoundDisposer;
 import de.audi.audio.init.DSISoundNotifications;
+import de.audi.audio.intra.IAudioListener;
 import de.audi.audio.intra.ISoundListener;
 import de.audi.audio.services.ATIPMediaRouterServiceImpl;
 import de.audi.audio.services.BaseAudioService;
 import de.audi.audio.services.EntertainmentAudioService;
+import de.audi.audio.services.NullDSIMediaRouter;
 import de.audi.audio.services.ToneAudioService;
 import de.audi.audio.sse.NullDSISSE;
 import de.audi.audio.sse.SSEHandler;
-import de.audi.audio.volume.OnOffVolumeRange$Controller;
+import de.audi.audio.volume.OnOffVolumeRange;
+import de.audi.audio.volume.StatusbarMuteIcon;
 import de.audi.audio.volume.UserMuteRestorer;
 import de.audi.tghu.waveplayer.WavePlayer;
 import de.mib.swdiagnosis.audio.AudioDiagnosis;
+import org.dsi.ifc.audio.DSIAudioManagement;
+import org.dsi.ifc.audio.DSISound;
 import org.dsi.ifc.audio.DSISoundListener;
+import org.dsi.ifc.base.DSIListener;
+import org.dsi.ifc.media.DSIMediaRouter;
 import org.dsi.ifc.powermanagement.DSIPowerManagementListener;
 import org.dsi.ifc.sse.DSISSE;
 import org.dsi.ifc.sse.DSISSEListener;
 
 public class ATIPAudioManager {
     private final BaseAudioService[] clients = new BaseAudioService[34];
-    final ATIPAudioManager$DSISoundDisposer dsiSoundDisposer;
-    final ATIPAudioManager$DSIAudioDisposer dsiAudioDisposer;
-    final ATIPAudioManager$DSIMediaRouterDisposer dsiMediaRouterDisposer;
+    final DSISoundDisposer dsiSoundDisposer;
+    final DSIAudioDisposer dsiAudioDisposer;
+    final DSIMediaRouterDisposer dsiMediaRouterDisposer;
     private final InterAppHandler interAppHandler;
     private final DSIAudioListenerImpl dsiAudioListener;
     private final AudioEnv env;
     private final DSISoundListenerImpl dsiSoundListener;
-    private final OnOffVolumeRange$Controller controller;
+    private final OnOffVolumeRange.Controller controller;
     private final CombiServiceHandler combiHandler;
     private final ATIPAudioService atipAudioService;
     private final DSISoundNotifications dsiSoundNotifications;
@@ -86,10 +92,10 @@ public class ATIPAudioManager {
     private final DSIMediaRouterListenerImpl dsiMediaRouterListener;
 
     ATIPAudioManager(AudioEnv audioEnv) {
-        audioEnv.lcMain.log(14808325, "[ATIPAudioManager.new] Before initialization");
-        this.dsiAudioDisposer = new ATIPAudioManager$DSIAudioDisposer(this);
-        this.dsiSoundDisposer = new ATIPAudioManager$DSISoundDisposer(this);
-        this.dsiMediaRouterDisposer = new ATIPAudioManager$DSIMediaRouterDisposer(this);
+        audioEnv.lcMain.log(100000000, "[ATIPAudioManager.new] Before initialization");
+        this.dsiAudioDisposer = new DSIAudioDisposer();
+        this.dsiSoundDisposer = new DSISoundDisposer();
+        this.dsiMediaRouterDisposer = new DSIMediaRouterDisposer();
         this.env = audioEnv;
         this.interAppHandler = new InterAppHandler(audioEnv);
         ChoiceModelApp choiceModelApp = audioEnv.getChoiceModel(0, 4628);
@@ -139,7 +145,7 @@ public class ATIPAudioManager {
         this.clients[32] = new BaseAudioService(audioEnv, "EXLAP");
         this.clients[33] = new BaseAudioService(audioEnv, "HEARTBEAT");
         this.combiHandler = new CombiServiceHandler(audioEnv, baseAudioService);
-        this.controller = new OnOffVolumeRange$Controller(audioEnv, this.interAppHandler, this.combiHandler);
+        this.controller = new OnOffVolumeRange.Controller(audioEnv, this.interAppHandler, this.combiHandler);
         this.atipAudioService = new ATIPAudioServiceImpl(audioEnv, this.controller);
         this.mediaRouterService = new ATIPMediaRouterServiceImpl(audioEnv);
         this.dsiMediaRouterListener = new DSIMediaRouterListenerImpl(audioEnv);
@@ -147,7 +153,7 @@ public class ATIPAudioManager {
         this.dsiSoundListener.setListeners(iSoundListenerArray);
         this.dsiAudioListener.registerAudioService(baseAudioService);
         audioEnv.getErrorMgr().registerDumpInfoProvider(DumpAudioProvider.INSTANCE);
-        audioEnv.lcMain.log(14808325, "[ATIPAudioManager.new] After initialization");
+        audioEnv.lcMain.log(100000000, "[ATIPAudioManager.new] After initialization");
     }
 
     void registerListener(HMIAudioServiceListener hMIAudioServiceListener, int n) {
@@ -230,7 +236,7 @@ public class ATIPAudioManager {
             this.readinessSound.setService(wavePlayer.getRingTonePlayer());
             return object;
         }
-        this.env.lcMain.log(-1601830656, "[ATIPAudioManager.register] Unsupported service '%1' registered!", object);
+        this.env.lcMain.log(100000, "[ATIPAudioManager.register] Unsupported service '%1' registered!", object);
         return null;
     }
 
@@ -261,7 +267,7 @@ public class ATIPAudioManager {
         } else if (object instanceof WavePlayer) {
             this.readinessSound.setService(new NullRingTonePlayer(this.env.lcMain));
         } else {
-            this.env.lcMain.log(-1601830656, "[ATIPAudioManager.deregister] Unsupported service '%1' deregistered!", object);
+            this.env.lcMain.log(100000, "[ATIPAudioManager.deregister] Unsupported service '%1' deregistered!", object);
         }
     }
 
@@ -309,48 +315,73 @@ public class ATIPAudioManager {
         return this.audioFocusManager;
     }
 
-    OnOffVolumeRange$Controller getController() {
+    OnOffVolumeRange.Controller getController() {
         return this.controller;
     }
 
-    static /* synthetic */ AudioEnv access$000(ATIPAudioManager aTIPAudioManager) {
-        return aTIPAudioManager.env;
+    final class DSIAudioDisposer {
+        DSIAudioDisposer() {
+        }
+
+        void addDSI(DSIAudioManagement dSIAudioManagement) {
+            ((ATIPAudioManager)ATIPAudioManager.this).env.lcMain.log(1000000, "[DSIAudioDisposer.addDSI] %1", (Object)dSIAudioManagement);
+            this.setDSI(dSIAudioManagement);
+            ATIPAudioManager.this.dsiAudioListener.register(ATIPAudioManager.this.controller);
+            ATIPAudioManager.this.dsiAudioListener.setInternalListeners(new IAudioListener[]{new StatusbarMuteIcon(ATIPAudioManager.this.env), ATIPAudioManager.this.dsiSoundNotifications, ATIPAudioManager.this.userMuteRestorer, ATIPAudioManager.this.controller.getRange(0), ATIPAudioManager.this.controller.getRange(3), ATIPAudioManager.this.controller.getRange(4), ATIPAudioManager.this.combiHandler, ATIPAudioManager.this.readinessSound.getAudioListener(), ((ATIPAudioManager)ATIPAudioManager.this).sseHandler.audioListener});
+        }
+
+        void removeDSI() {
+            ((ATIPAudioManager)ATIPAudioManager.this).env.lcMain.log(1000000, "[DSIAudioDisposer.removeDSI]");
+            this.setDSI(new NullDSIAudioManagement(((ATIPAudioManager)ATIPAudioManager.this).env.lcDSI));
+        }
+
+        private void setDSI(DSIAudioManagement dSIAudioManagement) {
+            ATIPAudioManager.this.env.setDSIAudo(dSIAudioManagement);
+            ATIPAudioManager.this.controller.getRange(0).setService(dSIAudioManagement);
+        }
+
+        void setNotifications(DSIAudioManagement dSIAudioManagement) {
+            int[] nArray = new int[]{1, 2, 3};
+            ((ATIPAudioManager)ATIPAudioManager.this).env.lcMain.log(1000000, "[DSIAudioDisposer.setNotifications] %1: %2", (Object)dSIAudioManagement, (Object)nArray);
+            dSIAudioManagement.setNotification(nArray, (DSIListener)ATIPAudioManager.this.dsiAudioListener);
+        }
     }
 
-    static /* synthetic */ OnOffVolumeRange$Controller access$100(ATIPAudioManager aTIPAudioManager) {
-        return aTIPAudioManager.controller;
+    final class DSISoundDisposer {
+        DSISoundDisposer() {
+        }
+
+        void addDSI(DSISound dSISound) {
+            ((ATIPAudioManager)ATIPAudioManager.this).env.lcMain.log(1000000, "[DSISoundDisposer.addDSI] %1", (Object)dSISound);
+            this.setDSI(dSISound);
+            ATIPAudioManager.this.dsiSoundNotifications.addDSI(dSISound);
+            dSISound.getMenuVolumeRange(82, 1);
+        }
+
+        void removeDSI() {
+            ((ATIPAudioManager)ATIPAudioManager.this).env.lcMain.log(1000000, "[DSISoundDisposer.removeDSI]");
+            this.setDSI(new NullDSISound(((ATIPAudioManager)ATIPAudioManager.this).env.lcDSI));
+        }
+
+        private void setDSI(DSISound dSISound) {
+            ATIPAudioManager.this.controller.getRange(0).setService(dSISound);
+        }
     }
 
-    static /* synthetic */ DSIAudioListenerImpl access$200(ATIPAudioManager aTIPAudioManager) {
-        return aTIPAudioManager.dsiAudioListener;
-    }
+    final class DSIMediaRouterDisposer {
+        DSIMediaRouterDisposer() {
+        }
 
-    static /* synthetic */ DSISoundNotifications access$300(ATIPAudioManager aTIPAudioManager) {
-        return aTIPAudioManager.dsiSoundNotifications;
-    }
+        void addDSI(DSIMediaRouter dSIMediaRouter) {
+            ((ATIPAudioManager)ATIPAudioManager.this).env.lcDSI.log(1000000, "[DSIMediaRouterDisposer.addDSI] %1", (Object)dSIMediaRouter);
+            int[] nArray = new int[]{2};
+            dSIMediaRouter.setNotification(nArray, (DSIListener)ATIPAudioManager.this.dsiMediaRouterListener);
+            ATIPAudioManager.this.mediaRouterService.setDSIMediaRouter(dSIMediaRouter);
+        }
 
-    static /* synthetic */ UserMuteRestorer access$400(ATIPAudioManager aTIPAudioManager) {
-        return aTIPAudioManager.userMuteRestorer;
-    }
-
-    static /* synthetic */ CombiServiceHandler access$500(ATIPAudioManager aTIPAudioManager) {
-        return aTIPAudioManager.combiHandler;
-    }
-
-    static /* synthetic */ ReadinessSound access$600(ATIPAudioManager aTIPAudioManager) {
-        return aTIPAudioManager.readinessSound;
-    }
-
-    static /* synthetic */ SSEHandler access$700(ATIPAudioManager aTIPAudioManager) {
-        return aTIPAudioManager.sseHandler;
-    }
-
-    static /* synthetic */ DSIMediaRouterListenerImpl access$800(ATIPAudioManager aTIPAudioManager) {
-        return aTIPAudioManager.dsiMediaRouterListener;
-    }
-
-    static /* synthetic */ ATIPMediaRouterService access$900(ATIPAudioManager aTIPAudioManager) {
-        return aTIPAudioManager.mediaRouterService;
+        void removeDSI() {
+            ATIPAudioManager.this.mediaRouterService.setDSIMediaRouter(new NullDSIMediaRouter(((ATIPAudioManager)ATIPAudioManager.this).env.lcDSI));
+        }
     }
 }
 

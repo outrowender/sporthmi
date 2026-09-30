@@ -15,16 +15,15 @@ extends BoardbookHandler {
     public BoardbookHandlerEvo(LogChannel logChannel, HMIService hMIService, ICarApplication iCarApplication) {
         super(logChannel, iCarApplication.getFrameworkAccess());
         this.app = iCarApplication;
-        iCarApplication.getMenuEntryRegistry().registerMenuEntry(1177094400, (short)23);
+        iCarApplication.getMenuEntryRegistry().registerMenuEntry(600390, (short)23);
     }
 
-    @Override
     public void indicateBoardbookAvailable(boolean bl) {
-        this.logChannel.log(1078071040, "BoardbookHandlerEVO#indicateBoardbookAvailable %1", bl);
+        this.logChannel.log(1000000, "BoardbookHandlerEVO#indicateBoardbookAvailable %1", bl);
         if (bl) {
-            this.app.getMenuEntryRegistry().updateMenuEntryVisibility(1177094400, 0);
+            this.app.getMenuEntryRegistry().updateMenuEntryVisibility(600390, 0);
         } else {
-            this.app.getMenuEntryRegistry().updateMenuEntryVisibility(1177094400, 0);
+            this.app.getMenuEntryRegistry().updateMenuEntryVisibility(600390, 0);
         }
     }
 }

@@ -13,14 +13,13 @@ public abstract class CL3BasedKey
 extends Key {
     CL3Key workingKey;
 
-    CL3BasedKey(Provider provider, byte[] byArray) {
+    CL3BasedKey(Provider provider, byte[] byArray) throws IOException {
         super(provider, byArray);
         if (byArray.length != this.getMinimumKeyLength()) {
             throw new IOException(Msg.getString("K01f9"));
         }
     }
 
-    public abstract int getMinimumKeyLength() {
-    }
+    public abstract int getMinimumKeyLength();
 }
 

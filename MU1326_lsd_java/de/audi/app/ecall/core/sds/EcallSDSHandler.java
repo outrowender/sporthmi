@@ -27,17 +27,14 @@ ServiceTrackerCustomizer {
         this.sdsService = new NullSDSService(this.getLogger());
     }
 
-    @Override
     public void init() {
         this.sdsPhoneServiceListenerTracker.openTracker();
     }
 
-    @Override
     public void deinit() {
         this.sdsPhoneServiceListenerTracker.closeTracker();
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.getApplication().getBundleContext().getService(serviceReference);
         if (object instanceof SDSService) {
@@ -48,11 +45,9 @@ ServiceTrackerCustomizer {
         return null;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof AbstractSDSService) {
             this.getApplication().getBundleContext().ungetService(serviceReference);
@@ -60,15 +55,13 @@ ServiceTrackerCustomizer {
         }
     }
 
-    @Override
     public void enablePTT() {
-        this.log.log(1078071040, "EcallSDSHandler#enablePTT(): called");
+        this.log.log(1000000, "EcallSDSHandler#enablePTT(): called");
         this.sdsService.disablePTT(false, true, (byte)3);
     }
 
-    @Override
     public void disablePTT() {
-        this.log.log(1078071040, "EcallSDSHandler#disablePTT(): called");
+        this.log.log(1000000, "EcallSDSHandler#disablePTT(): called");
         this.sdsService.disablePTT(true, true, (byte)3);
     }
 

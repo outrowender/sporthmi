@@ -14,34 +14,34 @@ import org.dsi.ifc.media.AudioStream;
 
 public class DVDVideoSettingsAudioStream
 extends AbstractSettingsList {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "DVDVideoSettingsAudioStream";
     private final BaseListModelApp audioStreamList;
     private final ChoiceModelApp leaveSettingsTrigger;
     private final ChoiceModelApp previewLanguage;
     private final ChoiceModelApp previewChannel;
     private final ChoiceModelApp previewFormat;
     private final MediaTerminal mediaTerminal;
-    private static final int AUDIOSTREAM_LIST_COLUMNS;
-    private static final int AUDIOSTREAM_LIST_COL_LANGUAGE;
-    private static final int AUDIOSTREAM_LIST_COL_CHANNELS;
-    private static final int AUDIOSTREAM_LIST_COL_FORMAT;
-    private static final int AUDIOSTREAM_LIST_COL_SELECTION;
-    private static final int AUDIOSTREAM_LIST_COL_LANGUAGE_CODE;
-    private static final int CODING_UNDEF;
-    private static final int CODING_DOLBYAC3;
-    private static final int CODING_MPEG;
-    private static final int CODING_MPEGEXT;
-    private static final int CODING_LPCM;
-    private static final int CODING_DTS;
-    private static final int CODING_SDDS;
-    private static final int CODING_MLP;
-    private static final int CHANNELS_UNKNOWN;
-    private static final int CHANNELS_1;
-    private static final int CHANNELS_2;
-    private static final int CHANNELS_21;
-    private static final int CHANNELS_4;
-    private static final int CHANNELS_51;
-    private static final int CHANNELS_71;
+    private static final int AUDIOSTREAM_LIST_COLUMNS = 5;
+    private static final int AUDIOSTREAM_LIST_COL_LANGUAGE = 0;
+    private static final int AUDIOSTREAM_LIST_COL_CHANNELS = 1;
+    private static final int AUDIOSTREAM_LIST_COL_FORMAT = 2;
+    private static final int AUDIOSTREAM_LIST_COL_SELECTION = 3;
+    private static final int AUDIOSTREAM_LIST_COL_LANGUAGE_CODE = 4;
+    private static final int CODING_UNDEF = 0;
+    private static final int CODING_DOLBYAC3 = 1;
+    private static final int CODING_MPEG = 2;
+    private static final int CODING_MPEGEXT = 3;
+    private static final int CODING_LPCM = 4;
+    private static final int CODING_DTS = 5;
+    private static final int CODING_SDDS = 6;
+    private static final int CODING_MLP = 7;
+    private static final int CHANNELS_UNKNOWN = 0;
+    private static final int CHANNELS_1 = 1;
+    private static final int CHANNELS_2 = 2;
+    private static final int CHANNELS_21 = 3;
+    private static final int CHANNELS_4 = 4;
+    private static final int CHANNELS_51 = 5;
+    private static final int CHANNELS_71 = 6;
     private final IMediaDSIPlayerController dsiPlayer;
 
     public DVDVideoSettingsAudioStream(IMediaTerminal iMediaTerminal, IMediaDSIPlayerController iMediaDSIPlayerController, BaseListModelApp baseListModelApp, ChoiceModelApp choiceModelApp, ChoiceModelApp choiceModelApp2, ChoiceModelApp choiceModelApp3, ChoiceModelApp choiceModelApp4) {
@@ -57,23 +57,20 @@ extends AbstractSettingsList {
         this.mediaTerminal = (MediaTerminal)iMediaTerminal;
     }
 
-    @Override
     protected int getCheckboxColumn() {
         return 3;
     }
 
-    @Override
     protected BaseListModelApp getListModel() {
         return this.audioStreamList;
     }
 
-    @Override
     protected void entrySelected(int n) {
         this.dsiPlayer.setAudioStream(n);
     }
 
     public void updateAudioStreamList(AudioStream[] audioStreamArray) {
-        this.logger.main().log(1078071040, "[%1.updateAudioStreamList] called.", (Object)"DVDVideoSettingsAudioStream");
+        this.logger.main().log(1000000, "[%1.updateAudioStreamList] called.", (Object)LOGCLASS);
         if (0 == audioStreamArray.length) {
             this.leaveSettingsTrigger.setValue(this.leaveSettingsTrigger.getValue() == 1 ? 2 : 1);
         }
@@ -88,7 +85,7 @@ extends AbstractSettingsList {
     }
 
     public void updateActiveAudioStream(int n) {
-        this.logger.main().log(1078071040, "[%1.updateActiveAudioStream] activeAudioStreamIdx='%2'.", (Object)"DVDVideoSettingsAudioStream", (long)n);
+        this.logger.main().log(1000000, "[%1.updateActiveAudioStream] activeAudioStreamIdx='%2'.", (Object)LOGCLASS, (long)n);
         if (this.updateActiveEntry(n)) {
             int n2 = this.audioStreamList.getRow(n).getInteger(4);
             this.previewLanguage.setValue(this.languageMapper.getArrayPosition(n2));
@@ -96,9 +93,9 @@ extends AbstractSettingsList {
             this.previewChannel.setValue(n3);
             int n4 = this.audioStreamList.getRow(n).getInteger(2);
             this.previewFormat.setValue(n4);
-            this.logger.main().log(1078071040, "[%1.updateActiveAudioStream] updateActiveEntry called.", (Object)"DVDVideoSettingsAudioStream");
+            this.logger.main().log(1000000, "[%1.updateActiveAudioStream] updateActiveEntry called.", (Object)LOGCLASS);
             if (n3 == 5 || n3 == 6) {
-                this.logger.main().log(1078071040, "[%1.updateActiveAudioStream] channelID:%2 (%3)", (Object)"DVDVideoSettingsAudioStream", (Object)Integer.toString(n3), (Object)(n3 == 5 ? "5.1" : "7.1"));
+                this.logger.main().log(1000000, "[%1.updateActiveAudioStream] channelID:%2 (%3)", (Object)LOGCLASS, (Object)Integer.toString(n3), (Object)(n3 == 5 ? "5.1" : "7.1"));
                 this.mediaTerminal.getAudioManager().getToneService().setSurroundForActiveEntertainment(true);
             }
         } else {
@@ -143,7 +140,7 @@ extends AbstractSettingsList {
                 return 6;
             }
         }
-        this.logger.dsi().log(1078071040, "[%1.getChannelsID()] Invalid number of channels in audiostream: '%1'", (Object)audioStream);
+        this.logger.dsi().log(1000000, "[%1.getChannelsID()] Invalid number of channels in audiostream: '%1'", (Object)audioStream);
         return 0;
     }
 
@@ -174,7 +171,7 @@ extends AbstractSettingsList {
                 return 7;
             }
         }
-        this.logger.dsi().log(1078071040, "[%1.getAudioFormatIconID()] Invalid audio coding in audiostream: '%1'", (Object)audioStream);
+        this.logger.dsi().log(1000000, "[%1.getAudioFormatIconID()] Invalid audio coding in audiostream: '%1'", (Object)audioStream);
         return 0;
     }
 }

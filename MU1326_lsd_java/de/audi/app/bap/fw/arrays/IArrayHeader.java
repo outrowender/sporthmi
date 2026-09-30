@@ -4,43 +4,30 @@
 package de.audi.app.bap.fw.arrays;
 
 public interface IArrayHeader {
-    default public void setStart(int n) {
-    }
+    public void setStart(int var1);
 
-    default public int getStart() {
-    }
+    public int getStart();
 
-    default public int getStartOffset() {
-    }
+    public int getStartOffset();
 
-    default public int getNumberOfElements() {
-    }
+    public int getNumberOfElements();
 
-    default public boolean isModeShift() {
-    }
+    public boolean isModeShift();
 
-    default public boolean isModeArrayDirectionBackward() {
-    }
+    public boolean isModeArrayDirectionBackward();
 
-    default public boolean isModePositionTransmitted() {
-    }
+    public boolean isModePositionTransmitted();
 
-    default public boolean isModeIndexSize16Bit() {
-    }
+    public boolean isModeIndexSize16Bit();
 
-    default public int getRecordAddress() {
-    }
+    public int getRecordAddress();
 
-    default public void setRecordAddress(int n) {
-    }
+    public void setRecordAddress(int var1);
 
-    default public int getJobID() {
-    }
+    public int getJobID();
 
-    default public int hashCode() {
-    }
+    public int hashCode();
 
-    default public boolean equals(Object object) {
-    }
+    public boolean equals(Object var1);
 }
 

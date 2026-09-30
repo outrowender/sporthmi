@@ -4,7 +4,6 @@
 package de.audi.atip.odp;
 
 public interface SDSODPTelServiceListener {
-    default public void responseDialNumber(byte by) {
-    }
+    public void responseDialNumber(byte var1);
 }
 

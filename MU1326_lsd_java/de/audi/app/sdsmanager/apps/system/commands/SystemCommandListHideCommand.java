@@ -27,9 +27,8 @@ implements ISDSScreenFadedOutUpdatable {
         this.commandType = (byte)SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: commandType=%2", (Object)this.getName(), (long)this.commandType);
+        this.logger.log(10000000, "%1#execute: commandType=%2", (Object)this.getName(), (long)this.commandType);
         boolean bl = true;
         switch (this.commandType) {
             case 1: {
@@ -45,15 +44,15 @@ implements ISDSScreenFadedOutUpdatable {
                 break;
             }
             case 3: {
-                this.logger.log(-2137614336, "%1#execute: command type HELP -> NOP!", (Object)this.getName());
+                this.logger.log(10000000, "%1#execute: command type HELP -> NOP!", (Object)this.getName());
                 break;
             }
             case 4: {
-                this.logger.log(-2137614336, "%1#execute: command type DISPLAY OFF -> NOP!", (Object)this.getName());
+                this.logger.log(10000000, "%1#execute: command type DISPLAY OFF -> NOP!", (Object)this.getName());
                 break;
             }
             default: {
-                this.logger.log(-1601830656, "%1#execute: Unhandled command type %2!", (Object)this.getName(), (long)this.commandType);
+                this.logger.log(100000, "%1#execute: Unhandled command type %2!", (Object)this.getName(), (long)this.commandType);
             }
         }
         if (bl) {
@@ -65,7 +64,7 @@ implements ISDSScreenFadedOutUpdatable {
         this.sdsPopupHelper.removeBigCommandDisplay();
         int n = this.hmiListener.getCurrentSDSScreenId();
         if (SDSManagerBaseActivator.getMapping().isBigCommandDisplay(n)) {
-            this.logger.log(-2137614336, "%1#removeBigCommandDisplay: current screen ID belongs to big command display -> wait for fading out", (Object)this.getName());
+            this.logger.log(10000000, "%1#removeBigCommandDisplay: current screen ID belongs to big command display -> wait for fading out", (Object)this.getName());
             return false;
         }
         return true;
@@ -75,7 +74,7 @@ implements ISDSScreenFadedOutUpdatable {
         this.sdsPopupHelper.removeFurtherCommandDisplay();
         int n = this.hmiListener.getCurrentSDSScreenId();
         if (SDSManagerBaseActivator.getMapping().isFurtherCommandDisplay(n)) {
-            this.logger.log(-2137614336, "%1#removeFurtherCommandDisplay: current screen ID belongs to further command display -> wait for fading out", (Object)this.getName());
+            this.logger.log(10000000, "%1#removeFurtherCommandDisplay: current screen ID belongs to further command display -> wait for fading out", (Object)this.getName());
             return false;
         }
         return true;
@@ -86,9 +85,8 @@ implements ISDSScreenFadedOutUpdatable {
         this.processingFinished();
     }
 
-    @Override
     public void updateSDSScreenFadedOut(int n) {
-        this.logger.log(-2137614336, "%1#updateSDSScreenFadedOut: called -> finish command", (Object)this.getName());
+        this.logger.log(10000000, "%1#updateSDSScreenFadedOut: called -> finish command", (Object)this.getName());
         this.finishedCommand();
     }
 }

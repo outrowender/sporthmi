@@ -24,12 +24,10 @@ ButtonModelApp {
         super(n, n2);
     }
 
-    @Override
     public void resetListener() {
         this.buttonListener = DUMMY_LISTENER;
     }
 
-    @Override
     public String dumpContent() {
         Buffer buffer = new Buffer(200);
         buffer.append(super.dumpContent());
@@ -43,7 +41,6 @@ ButtonModelApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     protected void copy(AbstractModel abstractModel) {
         try {
             Object object = this.mutex;
@@ -59,17 +56,14 @@ ButtonModelApp {
         }
     }
 
-    @Override
     public int getModelType() {
         return 1;
     }
 
-    @Override
     public boolean isEmpty() {
         return false;
     }
 
-    @Override
     public void setButtonListener(ButtonListener buttonListener) {
         this.buttonListener = buttonListener != null ? buttonListener : DUMMY_LISTENER;
     }
@@ -77,7 +71,6 @@ ButtonModelApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setPressed(boolean bl) {
         Object object = this.mutex;
         synchronized (object) {
@@ -89,12 +82,10 @@ ButtonModelApp {
         this.fireModelUpdateEvent(1);
     }
 
-    @Override
     public boolean getPressed() {
         return this.pressed;
     }
 
-    @Override
     public void keyPressed(int n, int n2) {
         try {
             this.buttonListener.keyPressed(this.id, n, n2);
@@ -104,7 +95,6 @@ ButtonModelApp {
         }
     }
 
-    @Override
     public void keyReleased(int n, int n2) {
         try {
             this.buttonListener.keyReleased(this.id, n, n2);
@@ -114,7 +104,6 @@ ButtonModelApp {
         }
     }
 
-    @Override
     public void keyTyped(int n, int n2) {
         try {
             this.buttonListener.keyTyped(this.id, n, n2);
@@ -124,7 +113,6 @@ ButtonModelApp {
         }
     }
 
-    @Override
     public void keyLongTyped(int n, int n2) {
         try {
             this.buttonListener.keyLongTyped(this.id, n, n2);

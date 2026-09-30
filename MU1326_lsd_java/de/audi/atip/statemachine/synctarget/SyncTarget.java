@@ -13,12 +13,10 @@ extends AbstractSyncTarget {
         super(n, n2, syncTargetManager);
     }
 
-    @Override
     public boolean execute(SyncTargetProcessor syncTargetProcessor) {
         return syncTargetProcessor.processSyncTransition(this.transitionID);
     }
 
-    @Override
     public void activated(SyncTargetProcessor syncTargetProcessor) {
     }
 }

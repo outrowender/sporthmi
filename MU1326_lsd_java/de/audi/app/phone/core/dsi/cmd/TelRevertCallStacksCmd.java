@@ -6,8 +6,8 @@ package de.audi.app.phone.core.dsi.cmd;
 import de.audi.app.phone.core.dsi.ITelDSIMobileEquipmentRequestWrapper;
 import de.audi.app.phone.core.dsi.ITelDSIResponseListener;
 import de.audi.app.phone.core.dsi.cmd.AbstractTelDSIMECommand;
-import de.audi.app.phone.core.dsi.cmd.TelRevertCallStacksCmd$1;
 import de.audi.atip.log.LogChannel;
+import de.audi.tghu.command.Command;
 import de.audi.tghu.command.CommandListManager;
 import de.audi.tghu.command.Monitor;
 
@@ -21,16 +21,21 @@ extends AbstractTelDSIMECommand {
     }
 
     public void schedule(CommandListManager commandListManager, Monitor monitor) {
-        TelRevertCallStacksCmd.schedule(commandListManager, this, "TelRevertCallStacksCmd", new TelRevertCallStacksCmd$1(this, this.logger, "TelRevertCallStacksCmdError"), monitor);
+        TelRevertCallStacksCmd.schedule(commandListManager, this, "TelRevertCallStacksCmd", new Command(this.logger, "TelRevertCallStacksCmdError"){
+
+            public void execute() {
+                this.logger.log(100000, "[TelRevertCallStacksCmd.schedule().new Command() {...}#execute] Error.");
+                this.getCommandList().commandFinished();
+            }
+        }, monitor);
     }
 
-    @Override
     public void execute() {
         if (this.isDSIAvailable()) {
-            this.logger.log(1078071040, "[TelRevertCallStacksCmd#execute] isReverted=%1", this.isReverted);
+            this.logger.log(1000000, "[TelRevertCallStacksCmd#execute] isReverted=%1", this.isReverted);
             this.dsi.revertCallstacks(this.isReverted);
         } else {
-            this.logger.log(-1601830656, "[TelRevertCallStacksCmd#execute] dsi is null --> NOP!");
+            this.logger.log(100000, "[TelRevertCallStacksCmd#execute] dsi is null --> NOP!");
         }
         this.getCommandList().commandFinished();
     }

@@ -21,21 +21,20 @@ extends AbstractSystemCallCommand {
         this.service = naviService;
     }
 
-    @Override
     public void execute() {
         this.sdsHandler.setSDSAddressInputMode((byte)5);
         if (this.service.isHomeAvailable()) {
-            this.logger.log(-2137614336, "[%1#execute] Home address available, setting input mode!", (Object)this.getName());
+            this.logger.log(10000000, "[%1#execute] Home address available, setting input mode!", (Object)this.getName());
             SDSModelAccess.setFavoritesStatus(0);
             byte by = this.service.selectHomeAddressForRouteGuidance();
-            this.logger.log(-2137614336, "[%1#execute] Navi setting home address for route guidance result=%2!", (Object)this.getName(), (long)by);
+            this.logger.log(10000000, "[%1#execute] Navi setting home address for route guidance result=%2!", (Object)this.getName(), (long)by);
             if (by == 0) {
                 this.sendResult(3000);
                 return;
             }
             this.sendResult(3001);
         } else {
-            this.logger.log(-2137614336, "[%1#execute] No home address available, preparing jump to D4_NAV_WIZARD_FAVORITES_NODATA!", (Object)this.getName());
+            this.logger.log(10000000, "[%1#execute] No home address available, preparing jump to D4_NAV_WIZARD_FAVORITES_NODATA!", (Object)this.getName());
             SDSModelAccess.setFavoritesStatus(1);
             this.sendResult(3006);
         }

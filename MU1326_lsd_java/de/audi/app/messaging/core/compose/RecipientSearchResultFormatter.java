@@ -13,7 +13,6 @@ extends AbstractSearchResultFormatter {
     RecipientSearchResultFormatter() {
     }
 
-    @Override
     public SearchResultListRow formatResult(SearchResult searchResult) {
         return new RecipientSearchListRow(searchResult);
     }

@@ -6,36 +6,27 @@ package com.ibm.j9.ssl;
 import com.ibm.j9.ssl.CipherSpec;
 import com.ibm.j9.ssl.ConnectionState;
 import com.ibm.j9.ssl.SessionState;
+import java.io.IOException;
 
 public interface HandshakeSocket {
-    default public String getHostName() {
-    }
+    public String getHostName();
 
-    default public void sendSocketAlert(byte by, byte by2) {
-    }
+    public void sendSocketAlert(byte var1, byte var2);
 
-    default public long getTimeoutLength() {
-    }
+    public long getTimeoutLength();
 
-    default public boolean readData() {
-    }
+    public boolean readData() throws IOException;
 
-    default public void writeData(byte[] byArray, int n, int n2, byte by) {
-    }
+    public void writeData(byte[] var1, int var2, int var3, byte var4) throws IOException;
 
-    default public void setSessionState(SessionState sessionState) {
-    }
+    public void setSessionState(SessionState var1);
 
-    default public void setWriteConnectionState(ConnectionState connectionState) {
-    }
+    public void setWriteConnectionState(ConnectionState var1) throws IOException;
 
-    default public void setReadPendingConnectionState(ConnectionState connectionState) {
-    }
+    public void setReadPendingConnectionState(ConnectionState var1) throws IOException;
 
-    default public CipherSpec[] getEnabledCipherSpecs() {
-    }
+    public CipherSpec[] getEnabledCipherSpecs();
 
-    default public String[] getEnabledProtocols() {
-    }
+    public String[] getEnabledProtocols();
 }
 

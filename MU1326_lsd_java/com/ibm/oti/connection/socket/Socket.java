@@ -4,9 +4,8 @@
 package com.ibm.oti.connection.socket;
 
 public abstract class Socket {
-    public static final int FLAG_BROKEN_SO_LINGER_SHUTDOWN;
+    public static final int FLAG_BROKEN_SO_LINGER_SHUTDOWN = 8;
 
-    public static native int getSocketFlags() {
-    }
+    public static native int getSocketFlags();
 }
 

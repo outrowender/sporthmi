@@ -45,7 +45,7 @@ extends ActivationStateStruct {
                 return "UNKNOWN";
             }
         }
-        return new StringBuffer().append("Unknown telFeat ").append(n).toString();
+        return "Unknown telFeat " + n;
     }
 
     private static String getTelFeatures(int n) {
@@ -85,7 +85,6 @@ extends ActivationStateStruct {
         super(n, n2, n3, s, string);
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer();
         buffer.append("ActivationStateStruct");

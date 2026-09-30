@@ -33,42 +33,34 @@ implements IEcallStateStruct {
         this.allowedEmergencyNumbersList = emergencyNumberArray;
     }
 
-    @Override
     public int getBapAudioSource() {
         return this.bapAudioSource;
     }
 
-    @Override
     public PendingServiceRequests getPendingServiceCalls() {
         return this.pendingServiceCalls;
     }
 
-    @Override
     public int getServiceCallKind() {
         return this.serviceCallKind;
     }
 
-    @Override
     public int getServiceState() {
         return this.serviceState;
     }
 
-    @Override
     public boolean isUSMRequestPresent() {
         return this.pendingServiceCalls != null && this.pendingServiceCalls.isBreakdownServicePending() && this.pendingServiceCalls.isManualEmergencyCallPending();
     }
 
-    @Override
     public PhoneCall[] getPhoneCalls() {
         return this.phoneCalls;
     }
 
-    @Override
     public PhoneCall getCurrentPhoneCall() {
         return this.phoneCalls == null ? null : this.phoneCalls[0];
     }
 
-    @Override
     public PhoneCall getCurrentPhoneCallByKind(int n) {
         if (this.phoneCalls != null) {
             for (int i2 = 0; i2 < this.phoneCalls.length; ++i2) {
@@ -79,7 +71,6 @@ implements IEcallStateStruct {
         return null;
     }
 
-    @Override
     public PhoneCall getCurrentHighPriorityPhoneCall() {
         if (this.phoneCalls != null) {
             for (int i2 = 0; i2 < this.phoneCalls.length; ++i2) {
@@ -90,17 +81,14 @@ implements IEcallStateStruct {
         return null;
     }
 
-    @Override
     public ITelState getCustomerTelState() {
         return this.customerTelState;
     }
 
-    @Override
     public boolean getCustomerCallActive() {
         return this.customerTelState != null && this.customerTelState.getCallActive();
     }
 
-    @Override
     public boolean isActiveCustomerCallPresent() {
         return this.customerTelState != null && (this.customerTelState.isActiveCallPresent() || this.customerTelState.isOutgoingCallPresent());
     }
@@ -115,12 +103,10 @@ implements IEcallStateStruct {
         return false;
     }
 
-    @Override
     public boolean isServiceActive() {
         return this.serviceCallKind == 0 ? this.isEcallNotIdle() : true;
     }
 
-    @Override
     public boolean isCallActive() {
         if (this.phoneCalls != null) {
             for (int i2 = 0; i2 < this.phoneCalls.length; ++i2) {
@@ -131,28 +117,23 @@ implements IEcallStateStruct {
         return false;
     }
 
-    @Override
     public boolean isCallActive(int n) {
         PhoneCall phoneCall = this.getCurrentPhoneCallByKind(n);
         return EcallStateStruct.isEcallActive(phoneCall);
     }
 
-    @Override
     public boolean isEmergencyConnecting() {
         return this.serviceState == 5 || this.serviceState == 18 || this.serviceState == 7;
     }
 
-    @Override
     public boolean isEmergencyConnected() {
         return this.serviceState == 6 && this.hasEmergencyCallValidState(2);
     }
 
-    @Override
     public boolean isEmergencyCallBackIncoming() {
         return this.serviceState == 6 && this.hasEmergencyCallValidState(1);
     }
 
-    @Override
     public boolean isServiceIDLE() {
         return this.serviceState == 0 && this.serviceCallKind == 0;
     }
@@ -183,12 +164,10 @@ implements IEcallStateStruct {
         return phoneCall.getState() == 0;
     }
 
-    @Override
     public String getEmergencyNumberToBeDialed() {
         return this.emergencyNumberToBeDialed;
     }
 
-    @Override
     public EmergencyNumber[] getAllowedEmergencyNumbersList() {
         return this.allowedEmergencyNumbersList;
     }

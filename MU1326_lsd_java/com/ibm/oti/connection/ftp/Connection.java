@@ -6,8 +6,6 @@ package com.ibm.oti.connection.ftp;
 import com.ibm.oti.connection.ConnectionUtil;
 import com.ibm.oti.connection.CreateConnection;
 import com.ibm.oti.connection.DataConnection;
-import com.ibm.oti.connection.ftp.Connection$1;
-import com.ibm.oti.connection.ftp.Connection$2;
 import com.ibm.oti.util.Msg;
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -29,18 +27,17 @@ implements CreateConnection {
     private OutputStream ctrlOutput;
     private OutputStream outputStream;
     private boolean streamOpen = false;
-    private static final int FTP_DATAOPEN;
-    private static final int FTP_OPENDATA;
-    private static final int FTP_OK;
-    private static final int FTP_USERREADY;
-    private static final int FTP_TRANSFEROK;
-    private static final int FTP_LOGGEDIN;
-    private static final int FTP_FILEOK;
-    private static final int FTP_PASWD;
-    private static final int FTP_NOTFOUND;
+    private static final int FTP_DATAOPEN = 125;
+    private static final int FTP_OPENDATA = 150;
+    private static final int FTP_OK = 200;
+    private static final int FTP_USERREADY = 220;
+    private static final int FTP_TRANSFEROK = 226;
+    private static final int FTP_LOGGEDIN = 230;
+    private static final int FTP_FILEOK = 250;
+    private static final int FTP_PASWD = 331;
+    private static final int FTP_NOTFOUND = 550;
 
-    @Override
-    public void close() {
+    public void close() throws IOException {
         this.host = null;
         if (!this.streamOpen) {
             if (this.inputStream != null) {
@@ -51,8 +48,7 @@ implements CreateConnection {
         }
     }
 
-    @Override
-    public InputStream openInputStream() {
+    public InputStream openInputStream() throws IOException {
         if (this.host == null) {
             throw new IOException(Msg.getString("K00ac"));
         }
@@ -63,8 +59,7 @@ implements CreateConnection {
         return this.inputStream;
     }
 
-    @Override
-    public OutputStream openOutputStream() {
+    public OutputStream openOutputStream() throws IOException {
         if (this.host == null) {
             throw new IOException(Msg.getString("K00ac"));
         }
@@ -102,8 +97,7 @@ implements CreateConnection {
         catch (Exception exception) {}
     }
 
-    @Override
-    public javax.microedition.io.Connection setParameters2(String string, int n, boolean bl) {
+    public javax.microedition.io.Connection setParameters2(String string, int n, boolean bl) throws IOException {
         String[][] stringArray = ConnectionUtil.NO_PARAMETERS;
         int n2 = string.indexOf(59);
         if (n2 != -1) {
@@ -114,7 +108,7 @@ implements CreateConnection {
         return this;
     }
 
-    private void setParameters(String string, String[][] stringArray, int n, boolean bl) {
+    private void setParameters(String string, String[][] stringArray, int n, boolean bl) throws IOException {
         Object object;
         char c2 = 'I';
         int n2 = 0;
@@ -154,7 +148,7 @@ implements CreateConnection {
                     this.user = string2;
                 }
             }
-            this.host = ((String)object).indexOf(":") == -1 ? new StringBuffer(String.valueOf(object)).append(":21").toString() : object;
+            this.host = ((String)object).indexOf(":") == -1 ? String.valueOf(object) + ":21" : object;
         } else {
             this.host = "localhost:21";
             this.file = string;
@@ -162,7 +156,7 @@ implements CreateConnection {
         StreamConnection streamConnection = null;
         object = null;
         com.ibm.oti.connection.socket.Connection connection = new com.ibm.oti.connection.socket.Connection();
-        connection.setParameters2(new StringBuffer("//").append(this.host).toString(), 3, false);
+        connection.setParameters2("//" + this.host, 3, false);
         this.ctrlOutput = connection.openOutputStream();
         this.ctrlInput = new BufferedInputStream(connection.openInputStream());
         try {
@@ -191,17 +185,51 @@ implements CreateConnection {
         }
         this.disconnect(connection, (StreamConnectionNotifier)object);
         if (n == 1) {
-            InputStream inputStream = streamConnection.openInputStream();
+            final InputStream inputStream = streamConnection.openInputStream();
             streamConnection.close();
-            this.inputStream = new Connection$1(this, inputStream);
+            this.inputStream = new InputStream(){
+
+                public int available() throws IOException {
+                    return inputStream.available();
+                }
+
+                public int read() throws IOException {
+                    return inputStream.read();
+                }
+
+                public int read(byte[] byArray, int n, int n2) throws IOException {
+                    return inputStream.read(byArray, n, n2);
+                }
+
+                public long skip(long l) throws IOException {
+                    return inputStream.skip(l);
+                }
+
+                public void close() throws IOException {
+                    inputStream.close();
+                }
+            };
         } else {
-            OutputStream outputStream = streamConnection.openOutputStream();
+            final OutputStream outputStream = streamConnection.openOutputStream();
             streamConnection.close();
-            this.outputStream = new Connection$2(this, outputStream);
+            this.outputStream = new OutputStream(){
+
+                public void write(int n) throws IOException {
+                    outputStream.write(n);
+                }
+
+                public void write(byte[] byArray, int n, int n2) throws IOException {
+                    outputStream.write(byArray, n, n2);
+                }
+
+                public void close() throws IOException {
+                    outputStream.close();
+                }
+            };
         }
     }
 
-    private int getReply() {
+    private int getReply() throws IOException {
         String string = this.readLine();
         if (string.length() >= 4) {
             String string2 = string.substring(0, 3);
@@ -217,18 +245,18 @@ implements CreateConnection {
         throw new IOException(Msg.getString("K00dd", string));
     }
 
-    private void login() {
+    private void login() throws IOException {
         int n = this.getReply();
         if (n != 220) {
             throw new IOException(Msg.getString("K0097", this.host));
         }
-        this.write(new StringBuffer("USER ").append(this.user).append("\r\n").toString());
+        this.write("USER " + this.user + "\r\n");
         n = this.getReply();
         if (n != 331 && n != 230) {
             throw new IOException(Msg.getString("K0098", this.host));
         }
         if (n == 331) {
-            this.write(new StringBuffer("PASS ").append(this.password).append("\r\n").toString());
+            this.write("PASS " + this.password + "\r\n");
             n = this.getReply();
             if (n != 200 && n != 220 && n != 230) {
                 throw new IOException(Msg.getString("K0098", this.host));
@@ -236,7 +264,7 @@ implements CreateConnection {
         }
     }
 
-    private String readLine() {
+    private String readLine() throws IOException {
         int n;
         StringBuffer stringBuffer = new StringBuffer();
         while ((n = this.ctrlInput.read()) != 10) {
@@ -245,7 +273,7 @@ implements CreateConnection {
         return stringBuffer.toString();
     }
 
-    private boolean readMultiLine(String string) {
+    private boolean readMultiLine(String string) throws IOException {
         String string2 = this.readLine();
         if (string2.length() < 4) {
             return true;
@@ -253,21 +281,21 @@ implements CreateConnection {
         return !string2.substring(0, 3).equals(string) || string2.charAt(3) != ' ';
     }
 
-    private void setType(char c2) {
-        this.write(new StringBuffer("TYPE ").append(c2).append("\r\n").toString());
+    private void setType(char c2) throws IOException {
+        this.write("TYPE " + c2 + "\r\n");
         if (this.getReply() != 200) {
             throw new IOException(Msg.getString("K009b"));
         }
     }
 
-    private void cd() {
+    private void cd() throws IOException {
         int n = this.file.lastIndexOf(47);
         if (n > 0) {
             String string = this.file.substring(0, n);
-            this.write(new StringBuffer("CWD ").append(string).append("\r\n").toString());
+            this.write("CWD " + string + "\r\n");
             int n2 = this.getReply();
             if (n2 != 250 && string.length() > 0 && string.charAt(0) == '/') {
-                this.write(new StringBuffer("CWD ").append(string.substring(1)).append("\r\n").toString());
+                this.write("CWD " + string.substring(1) + "\r\n");
                 n2 = this.getReply();
             }
             if (n2 != 250) {
@@ -276,19 +304,19 @@ implements CreateConnection {
         }
     }
 
-    private void sendFile() {
-        this.write(new StringBuffer("STOR ").append(this.file.substring(this.file.lastIndexOf(47) + 1)).append("\r\n").toString());
+    private void sendFile() throws IOException {
+        this.write("STOR " + this.file.substring(this.file.lastIndexOf(47) + 1) + "\r\n");
         int n = this.getReply();
         if (n != 150 && n != 200 && n != 125) {
             throw new IOException(Msg.getString("K009a"));
         }
     }
 
-    private void getFile() {
-        this.write(new StringBuffer("RETR ").append(this.file).append("\r\n").toString());
+    private void getFile() throws IOException {
+        this.write("RETR " + this.file + "\r\n");
         int n = this.getReply();
         if (n == 550 && this.file.length() > 0 && this.file.charAt(0) == '/') {
-            this.write(new StringBuffer("RETR ").append(this.file.substring(1)).append("\r\n").toString());
+            this.write("RETR " + this.file.substring(1) + "\r\n");
             n = this.getReply();
         }
         if (n != 150 && n != 226) {
@@ -296,15 +324,15 @@ implements CreateConnection {
         }
     }
 
-    private void port(int n, String string) {
+    private void port(int n, String string) throws IOException {
         string = string.replace('.', ',');
-        this.write(new StringBuffer("PORT ").append(string).append(",").append(n >> 8).append(',').append(n & 0xFF).append("\r\n").toString());
+        this.write("PORT " + string + "," + (n >> 8) + ',' + (n & 0xFF) + "\r\n");
         if (this.getReply() != 200) {
             throw new IOException(Msg.getString("K0099"));
         }
     }
 
-    private void write(String string) {
+    private void write(String string) throws IOException {
         this.ctrlOutput.write(string.getBytes("ISO8859_1"));
     }
 }

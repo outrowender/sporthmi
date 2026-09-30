@@ -30,33 +30,30 @@ extends AbstractBluetoothCommand {
             choiceModelApp.setStatus(0);
             choiceModelApp.setValue(-1);
         } else {
-            this.logger.log(-1601830656, "CommandDisconnectService(): commandMonitor is NULL");
+            this.logger.log(100000, "CommandDisconnectService(): commandMonitor is NULL");
         }
     }
 
-    @Override
     public void execute() {
         if (this.dsiBluetooth != null) {
             this.dsiBluetooth.requestDisconnectService(this.deviceAddress, this.service);
         } else {
-            this.logger.log(-1601830656, "CommandDisconnectService#execute(): dsiBluetooth is NULL");
+            this.logger.log(100000, "CommandDisconnectService#execute(): dsiBluetooth is NULL");
             this.commandList.commandFinished();
         }
     }
 
-    @Override
     public void abort() {
-        this.logger.log(-1601830656, "CommandDisconnectService#abort()");
+        this.logger.log(100000, "CommandDisconnectService#abort()");
         if (this.commandMonitor != null) {
             this.commandMonitor.setStatus(2);
         } else {
-            this.logger.log(-1601830656, "CommandDisconnectService#abort(): monitor is NULL");
+            this.logger.log(100000, "CommandDisconnectService#abort(): monitor is NULL");
         }
     }
 
-    @Override
     public void responseDisconnectService(String string, int n, int n2) {
-        this.logger.log(1078071040, "CommandDisconnectService#responseDisconnectService(): result=%1", (long)n2);
+        this.logger.log(1000000, "CommandDisconnectService#responseDisconnectService(): result=%1", (long)n2);
         if (this.commandMonitor != null) {
             this.commandMonitor.setValue(n2);
             if (n2 == 0) {
@@ -65,7 +62,7 @@ extends AbstractBluetoothCommand {
                 this.commandMonitor.setStatus(2);
             }
         } else {
-            this.logger.log(-1601830656, "CommandDisconnectService#responseDisconnectService(): monitor is NULL");
+            this.logger.log(100000, "CommandDisconnectService#responseDisconnectService(): monitor is NULL");
         }
         this.commandList.commandFinished();
     }

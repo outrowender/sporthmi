@@ -26,7 +26,7 @@ public class SpeechTTSHandler {
     private boolean isIgnoreSpeakingFailed = false;
 
     public SpeechTTSHandler() {
-        this.lc.log(-2137614336, "SpeechTTSHandler initialized.");
+        this.lc.log(10000000, "SpeechTTSHandler initialized.");
     }
 
     public void stop() {
@@ -35,14 +35,14 @@ public class SpeechTTSHandler {
 
     public void setTTSService(TTSSDSService tTSSDSService) {
         if (tTSSDSService == null) {
-            this.lc.log(-1601830656, "[SpeechTTSHandler#setTTSService] No TTSSDSService given!");
+            this.lc.log(100000, "[SpeechTTSHandler#setTTSService] No TTSSDSService given!");
             return;
         }
         this.ttsService = tTSSDSService;
     }
 
     public void unsetTTSService() {
-        this.lc.log(-2137614336, "[SpeechTTSHandler#unsetTTSService] called");
+        this.lc.log(10000000, "[SpeechTTSHandler#unsetTTSService] called");
         this.ttsService = null;
     }
 
@@ -52,22 +52,22 @@ public class SpeechTTSHandler {
     }
 
     public void playText(String string) {
-        this.lc.log(-2137614336, "[SpeechTTSHandler#playText] text=%1, canceling progress icon timer and removing progress icon!", (Object)string);
+        this.lc.log(10000000, "[SpeechTTSHandler#playText] text=%1, canceling progress icon timer and removing progress icon!", (Object)string);
         this.sdsAdapter.checkSDSProgressIconRemovalAfterPrompt();
         this.sdsAdapter.setSDSProgressIconRemovalAfterPrompt(true);
         if (this.ttsService == null) {
-            this.lc.log(-1601830656, "[SpeechTTSHandler#playText] No TTSSDSService available!");
+            this.lc.log(100000, "[SpeechTTSHandler#playText] No TTSSDSService available!");
             this.sdsAdapter.sendSpeechSMEvent(2000, false, false);
             return;
         }
         String string2 = this.handlePromptTypeZIP(string);
         if (!this.isTextSpeakable(string2)) {
-            this.lc.log(-1601830656, "[SpeechTTSHandler#playText] Text not speakable!");
+            this.lc.log(100000, "[SpeechTTSHandler#playText] Text not speakable!");
             this.sdsAdapter.sendSpeechSMEvent(2000, false, false);
             return;
         }
         if (this.getTTSPromptRequestsCounter() > 0) {
-            this.lc.log(-1601830656, "[SpeechTTSHandler#playText] Text will be queued, another prompt is playing!");
+            this.lc.log(100000, "[SpeechTTSHandler#playText] Text will be queued, another prompt is playing!");
         }
         this.incrementTTSPromptRequestsCounter("[SpeechTTSHandler#playText]");
         this.sdsTimeoutHandler.cancelEventTimer();
@@ -86,23 +86,23 @@ public class SpeechTTSHandler {
         if (this.promptType != 3) {
             return string;
         }
-        this.lc.log(-2137614336, "[SpeechTTSHandler#handlePromptTypeZIP] Prompt type ZIP active!");
+        this.lc.log(10000000, "[SpeechTTSHandler#handlePromptTypeZIP] Prompt type ZIP active!");
         this.resetPromptType();
         int n = string.indexOf("<say-as");
         int n2 = string.indexOf(44);
         int n3 = string.indexOf("</say-as>");
         String string2 = string;
         if (n >= 0 && n2 >= n && n3 > n2) {
-            this.lc.log(-2137614336, "[SpeechTTSHandler#handlePromptTypeZIP] Removing text starting with ',' at pos. %1 within <say-as> between pos. %2 and %3!", (long)n2, (long)n, (long)n3);
-            string2 = new StringBuffer().append(string.substring(n, n2)).append(string.substring(n3)).toString();
+            this.lc.log(10000000, "[SpeechTTSHandler#handlePromptTypeZIP] Removing text starting with ',' at pos. %1 within <say-as> between pos. %2 and %3!", (long)n2, (long)n, (long)n3);
+            string2 = string.substring(n, n2) + string.substring(n3);
         }
-        this.lc.log(-2137614336, "[SpeechTTSHandler#handlePromptTypeZIP] new promptText=%1!", (Object)string2);
+        this.lc.log(10000000, "[SpeechTTSHandler#handlePromptTypeZIP] new promptText=%1!", (Object)string2);
         return string2;
     }
 
     private boolean isTextSpeakable(String string) {
         if (!SDSUtils.isSpeakable(string)) {
-            this.lc.log(-2137614336, "[SpeechTTSHandler#isTextSpeakable] Text '%1' not speakable!", (Object)string);
+            this.lc.log(10000000, "[SpeechTTSHandler#isTextSpeakable] Text '%1' not speakable!", (Object)string);
             return false;
         }
         int n = string.indexOf("interpret-as=\"sms\"");
@@ -113,7 +113,7 @@ public class SpeechTTSHandler {
         int n3 = string.indexOf("</");
         if (n2 > 0 && n3 > n2) {
             String string2 = string.substring(n2 + 1, n3);
-            this.lc.log(-2137614336, "[SpeechTTSHandler#isTextSpeakable] smsText=%1!", (Object)string2);
+            this.lc.log(10000000, "[SpeechTTSHandler#isTextSpeakable] smsText=%1!", (Object)string2);
             return SDSUtils.isSpeakable(string2);
         }
         return true;
@@ -134,16 +134,16 @@ public class SpeechTTSHandler {
             return false;
         }
         if (this.isTTSAborting()) {
-            this.lc.log(-1601830656, "[SpeechTTSHandler#abort] TTS already aborting!");
+            this.lc.log(100000, "[SpeechTTSHandler#abort] TTS already aborting!");
             return true;
         }
         if (this.getTTSPromptRequestsCounter() == 0) {
-            this.lc.log(-2137614336, "[SpeechTTSHandler#abort] No TTS prompts enqueued!");
+            this.lc.log(10000000, "[SpeechTTSHandler#abort] No TTS prompts enqueued!");
             this.ttsAborting = false;
             return false;
         }
         this.ttsAborting = true;
-        this.lc.log(-2137614336, "[SpeechTTSHandler#abort] Aborting the current prompt!");
+        this.lc.log(10000000, "[SpeechTTSHandler#abort] Aborting the current prompt!");
         this.sdsTimeoutHandler.cancelEventTimer();
         this.sdsTimeoutHandler.restartTTSTimer();
         this.ttsService.abortSpeaking();
@@ -159,12 +159,12 @@ public class SpeechTTSHandler {
     }
 
     public void setPromptType(byte by) {
-        this.lc.log(-2137614336, "[SpeechTTSHandler#setPromptType] type=%1!", (long)by);
+        this.lc.log(10000000, "[SpeechTTSHandler#setPromptType] type=%1!", (long)by);
         this.promptType = by;
     }
 
     public void resetPromptType() {
-        this.lc.log(-2137614336, "[SpeechTTSHandler#resetPromptType] Set prompt type to PROMPT_TYPE_NONE!");
+        this.lc.log(10000000, "[SpeechTTSHandler#resetPromptType] Set prompt type to PROMPT_TYPE_NONE!");
         this.promptType = 0;
     }
 
@@ -189,7 +189,7 @@ public class SpeechTTSHandler {
     }
 
     void setIllegalCommand(boolean bl) {
-        this.lc.log(-2137614336, "[SpeechTTSHandler#setIllegalCommand] value=%1", bl);
+        this.lc.log(10000000, "[SpeechTTSHandler#setIllegalCommand] value=%1", bl);
         this.illegalCommand = bl;
     }
 
@@ -203,7 +203,7 @@ public class SpeechTTSHandler {
             if (this.ttsPromptRequestsCounter == 1) {
                 this.sdsTimeoutHandler.restartTTSTimer();
             }
-            this.lc.log(-2137614336, "[SpeechTTSHandler#incrementTTSPromptRequestsCounter] incremented TTS prompt requests counter to %2, caller=%1!", (Object)string, (long)this.ttsPromptRequestsCounter);
+            this.lc.log(10000000, "[SpeechTTSHandler#incrementTTSPromptRequestsCounter] incremented TTS prompt requests counter to %2, caller=%1!", (Object)string, (long)this.ttsPromptRequestsCounter);
         }
     }
 
@@ -220,7 +220,7 @@ public class SpeechTTSHandler {
                 this.sdsTimeoutHandler.cancelSDSSessionAbortingTTSTimer();
             }
             this.systemVBIHandler.stopRecognitionProlongAtPromptEnd();
-            this.lc.log(-2137614336, "[SpeechTTSHandler#decrementTTSPromptRequestsCounter] decremented TTS prompt requests counter to %2, caller=%1!", (Object)string, (long)this.ttsPromptRequestsCounter);
+            this.lc.log(10000000, "[SpeechTTSHandler#decrementTTSPromptRequestsCounter] decremented TTS prompt requests counter to %2, caller=%1!", (Object)string, (long)this.ttsPromptRequestsCounter);
         }
     }
 

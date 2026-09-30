@@ -5,13 +5,16 @@ package de.audi.app.terminalmode.statemachine;
 
 import de.audi.app.terminalmode.util.Enum;
 
+/*
+ * This class specifies class file version 49.0 but uses Java 6 signatures.  Assumed Java 6.
+ */
 public final class Application
-extends Enum {
-    public static final int COUNT;
-    public static final Application SPEECH;
-    public static final Application NAVI;
-    public static final Application PHONE;
-    private static final Application[] internalList;
+extends Enum<Application> {
+    public static final int COUNT = 3;
+    public static final Application SPEECH = new Application(0, "SPEECH");
+    public static final Application NAVI = new Application(1, "NAVI");
+    public static final Application PHONE = new Application(2, "PHONE");
+    private static final Application[] internalList = new Application[]{SPEECH, NAVI, PHONE};
 
     protected Application(int n, String string) {
         super(n, string);
@@ -19,13 +22,6 @@ extends Enum {
 
     public static Application[] values() {
         return (Application[])internalList.clone();
-    }
-
-    static {
-        SPEECH = new Application(0, "SPEECH");
-        NAVI = new Application(1, "NAVI");
-        PHONE = new Application(2, "PHONE");
-        internalList = new Application[]{SPEECH, NAVI, PHONE};
     }
 }
 

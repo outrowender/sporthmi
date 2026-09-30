@@ -7,7 +7,6 @@ import de.audi.atip.hmi.modelaccess.HMIModelGUI;
 
 public interface DataModelGUI
 extends HMIModelGUI {
-    default public Object get() {
-    }
+    public Object get();
 }
 

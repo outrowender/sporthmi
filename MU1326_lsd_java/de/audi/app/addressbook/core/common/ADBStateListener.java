@@ -7,31 +7,22 @@ import org.dsi.ifc.organizer.AdbViewSize;
 import org.dsi.ifc.organizer.ProfileInfo;
 
 public interface ADBStateListener {
-    default public void setAdbReady(boolean bl) {
-    }
+    public void setAdbReady(boolean var1);
 
-    default public void updateProfileInfo(ProfileInfo[] profileInfoArray, int n) {
-    }
+    public void updateProfileInfo(ProfileInfo[] var1, int var2);
 
-    default public void updateDownloadState(int n, int n2) {
-    }
+    public void updateDownloadState(int var1, int var2);
 
-    default public void updateDownloadState2ndPhone(int n, int n2) {
-    }
+    public void updateDownloadState2ndPhone(int var1, int var2);
 
-    default public void updateNewEntryAvailable(boolean bl) {
-    }
+    public void updateNewEntryAvailable(boolean var1);
 
-    default public void updateNewPublicProfileEntryAvailable(boolean bl) {
-    }
+    public void updateNewPublicProfileEntryAvailable(boolean var1);
 
-    default public void updateNewTopDestEntryAvailable(boolean bl) {
-    }
+    public void updateNewTopDestEntryAvailable(boolean var1);
 
-    default public void updateNewPublicProfileTopDestEntryAvailable(boolean bl) {
-    }
+    public void updateNewPublicProfileTopDestEntryAvailable(boolean var1);
 
-    default public void updateViewSizes(AdbViewSize adbViewSize) {
-    }
+    public void updateViewSizes(AdbViewSize var1);
 }
 

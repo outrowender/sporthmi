@@ -4,11 +4,11 @@
 package de.audi.app.media.source.state.providers;
 
 public class BluetoothState {
-    public static final int DEACTIVATED;
-    public static final int AUDIO_PLAYER_DEACTIVATED;
-    public static final int AUDIO_PLAYER_NOT_CONNECTED;
-    public static final int RECONNECTING;
-    public static final int READY;
+    public static final int DEACTIVATED = 0;
+    public static final int AUDIO_PLAYER_DEACTIVATED = 1;
+    public static final int AUDIO_PLAYER_NOT_CONNECTED = 2;
+    public static final int RECONNECTING = 3;
+    public static final int READY = 4;
     private final int state;
 
     public BluetoothState(int n) {
@@ -50,7 +50,7 @@ public class BluetoothState {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         BluetoothState bluetoothState = (BluetoothState)object;
@@ -75,7 +75,7 @@ public class BluetoothState {
                 return "RECONNECTING";
             }
         }
-        return new StringBuffer().append("UNKNOWN (").append(this.state).append(")").toString();
+        return "UNKNOWN (" + this.state + ")";
     }
 }
 

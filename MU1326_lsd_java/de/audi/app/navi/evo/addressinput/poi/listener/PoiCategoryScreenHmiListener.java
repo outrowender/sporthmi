@@ -27,7 +27,6 @@ BaseListModelListener {
         this.inputSequence = poiCategoryScreenInputSequence;
     }
 
-    @Override
     public CommandList getStartCommandList() {
         this.preparePreviewMap();
         return this.inputSequence.getStartCommandList();
@@ -38,13 +37,11 @@ BaseListModelListener {
         return this.inputSequence.getStartCommandList(n);
     }
 
-    @Override
     public void preparePreviewMap() {
         this.displayMultiplePois = true;
         this.previewSearchLocation(this.poiSearchArea.getSearchContext(), this.poiSearchArea.getLocation());
     }
 
-    @Override
     protected void registerAsListener() {
         this.env.getButtonModel(PoiScreensEvo.getPoiCategoryScreenSearchByNameButtonModel()).setButtonListener(this);
         this.env.getButtonModel(PoiScreensEvo.getPoiCategoryScreenAllCategoriesButtonModel()).setButtonListener(this);
@@ -56,9 +53,8 @@ BaseListModelListener {
         return this.inputSequence;
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "PoiCategoryScreenHmiListener#keyTyped(%1, %2, %3)", (long)n, (long)n2, (long)n3);
+        this.logChannel.log(10000000, "PoiCategoryScreenHmiListener#keyTyped(%1, %2, %3)", (long)n, (long)n2, (long)n3);
         switch (n) {
             case 402557: {
                 this.poiManager.executePoiSelectionEvent(this.inputSequence.getStartSearchByName(), 501);
@@ -69,54 +65,46 @@ BaseListModelListener {
                 break;
             }
             default: {
-                this.logChannel.log(-2137614336, "PoiCategoryScreenHmiListener#keyTyped: Unexpected model ID: %1", (long)n);
+                this.logChannel.log(10000000, "PoiCategoryScreenHmiListener#keyTyped: Unexpected model ID: %1", (long)n);
             }
         }
         this.env.fireModelEvent(n, n3);
     }
 
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.logChannel.log(-2137614336, "PoiCategoryScreenHmiListener#itemselected(%1, %2, %3)", (long)n, (long)n2, (long)n4);
+        this.logChannel.log(10000000, "PoiCategoryScreenHmiListener#itemselected(%1, %2, %3)", (long)n, (long)n2, (long)n4);
         if (n != PoiScreensEvo.getPoiCategoryScreenBaseListModel()) {
-            this.logChannel.log(-2137614336, "PoiCategoryScreenHmiListener#itemSelected: Unexpected model ID: %1", (long)n);
+            this.logChannel.log(10000000, "PoiCategoryScreenHmiListener#itemSelected: Unexpected model ID: %1", (long)n);
             return;
         }
         LIValueListElement lIValueListElement = PoiScreensEvo.getLiValueListElementFromRow(evoListRow, n);
         this.poiManager.executePoiSelectionEvent(this.inputSequence.getListElementSelected(lIValueListElement), 503);
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "PoiCategoryScreenHmiListener#itemSelected: Selected element.data = %1", (Object)lIValueListElement.getData());
+            this.logChannel.log(100000000, "PoiCategoryScreenHmiListener#itemSelected: Selected element.data = %1", (Object)lIValueListElement.getData());
         }
         this.env.fireModelEvent(n, n4);
     }
 
-    @Override
     public void itemFocused(int n, int n2, long l, int n3) {
-        this.logChannel.log(14808325, "PoiCategoryScreenHmiListener#itemFocused() - menuItemId: %1, model: %2, uniquteListRowID: %3", (long)n, (long)n2, l);
+        this.logChannel.log(100000000, "PoiCategoryScreenHmiListener#itemFocused() - menuItemId: %1, model: %2, uniquteListRowID: %3", (long)n, (long)n2, l);
         this.preparePreviewMap();
     }
 
-    @Override
     public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 }

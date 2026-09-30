@@ -68,15 +68,15 @@ import org.osgi.framework.BundleContext;
 
 public class CarEvoApplication
 extends AbstractCarApplication {
-    private static final String LOG_CHANNEL_NAME;
-    private static final String LOG_CHANNEL_MER_NAME;
+    private static final String LOG_CHANNEL_NAME = "App.Car.Main";
+    private static final String LOG_CHANNEL_MER_NAME = "App.Car.MER";
     private final IMenuEntryStructure menuEntryStructure;
     private final CarEvoActionProxyImpl actionProxyImplementation;
 
     public CarEvoApplication(IFrameworkAccess iFrameworkAccess, BundleContext bundleContext) {
-        super(iFrameworkAccess, bundleContext, "App.Car.Main");
+        super(iFrameworkAccess, bundleContext, LOG_CHANNEL_NAME);
         CarFuncAdap carFuncAdap = this.getCarMenuCoding();
-        this.menuEntryStructure = new CarEvoMenuEntryStructure(iFrameworkAccess, iFrameworkAccess.getLogChannel("App.Car.MER"), carFuncAdap);
+        this.menuEntryStructure = new CarEvoMenuEntryStructure(iFrameworkAccess, iFrameworkAccess.getLogChannel(LOG_CHANNEL_MER_NAME), carFuncAdap);
         this.actionProxyImplementation = new CarEvoActionProxyImpl(iFrameworkAccess, bundleContext, this.actionProxyDispatcher);
         boolean bl = this.isComponentAvailable((short)28, carFuncAdap);
         if (this.isComponentAvailable((short)17, carFuncAdap)) {
@@ -235,36 +235,30 @@ extends AbstractCarApplication {
         this.addCarComponent(new ComfortInterappControlComponentEVO(this));
     }
 
-    @Override
     public void init() {
         super.init();
         this.actionProxyImplementation.init();
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.actionProxyImplementation.deinit();
     }
 
-    @Override
     public IMenuEntryStructure getMenuEntryStructure() {
         return this.menuEntryStructure;
     }
 
-    @Override
     public int getId() {
         return 6;
     }
 
-    @Override
     public String getApplicationName() {
         return "AppCar";
     }
 
-    @Override
     public LogChannel getMerLogChannel() {
-        return this.getFrameworkAccess().getLogChannel("App.Car.MER");
+        return this.getFrameworkAccess().getLogChannel(LOG_CHANNEL_MER_NAME);
     }
 }
 

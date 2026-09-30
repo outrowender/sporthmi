@@ -4,8 +4,8 @@
 package de.audi.atip.interapp.bap.ecall.data;
 
 public final class SignalQuality {
-    private static final int MIN_STRENGTH;
-    private static final int MAX_STRENGTH;
+    private static final int MIN_STRENGTH = 0;
+    private static final int MAX_STRENGTH = 100;
     private final int strengthPercent;
 
     public static SignalQuality getInstanceFromSignalStrengthPercent(int n) {
@@ -33,7 +33,7 @@ public final class SignalQuality {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         SignalQuality signalQuality = (SignalQuality)object;
@@ -41,7 +41,7 @@ public final class SignalQuality {
     }
 
     public String toString() {
-        return new StringBuffer().append("SignalQuality [strengthPercent=").append(this.strengthPercent).append("]").toString();
+        return "SignalQuality [strengthPercent=" + this.strengthPercent + "]";
     }
 }
 

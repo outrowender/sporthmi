@@ -7,16 +7,16 @@ import de.audi.atip.interapp.AbstractSDSApplicationService;
 import de.audi.atip.interapp.IWordPredictionCallback;
 import de.audi.atip.interapp.NaviMsgDetails;
 import de.audi.atip.interapp.NaviOnlineService;
-import de.audi.atip.interapp.NaviService$IRRDCallback;
-import de.audi.atip.interapp.NaviService$NaviInfoDetails;
-import de.audi.atip.interapp.NaviService$NaviSUIDetails;
-import de.audi.atip.interapp.NaviService$POISDSListEntry;
 import de.audi.atip.interapp.SDSListEntry;
 import de.audi.atip.interapp.icon.RenderingInfoProvider;
 import de.audi.atip.interapp.navigation.previewmap.gui.GuiTooltipInformationContainer;
+import de.audi.atip.metrics.DateMetric;
+import de.audi.atip.metrics.Distance;
+import de.esolutions.fw.util.commons.Buffer;
 import java.util.Map;
 import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.global.NavLocationWgs84;
+import org.dsi.ifc.navigation.RrdCalculationInfo;
 import org.dsi.ifc.online.OperatorCallResult;
 import org.dsi.ifc.organizer.AdbEntry;
 import org.dsi.ifc.tmc.LocalHazardInformation;
@@ -24,653 +24,629 @@ import org.dsi.ifc.tmc.TmcMessage;
 
 public interface NaviService
 extends AbstractSDSApplicationService {
-    public static final byte RESULT_OK;
-    public static final byte RESULT_ERROR;
-    public static final byte RESULT_AMBIGUOUS;
-    public static final byte RESULT_INVALID;
-    public static final byte OPERATION_STATE_FULLY_OPERABLE;
-    public static final byte OPERATION_STATE_NOT_OPERABLE;
-    public static final byte OPERATION_STATE_SD_REMOVED;
-    public static final byte GUIDANCE_MODE_COMPACT;
-    public static final byte GUIDANCE_MODE_COMPLETE;
-    public static final byte GUIDANCE_MODE_TRAFFIC;
-    public static final byte GUIDANCE_MODE_OFF;
-    public static final byte ROUTE_OPTION_DYNAMIC_AUTO;
-    public static final byte ROUTE_OPTION_DYNAMIC_MANUAL;
-    public static final byte ROUTE_OPTION_DYNAMIC_OFF;
-    public static final byte DESTINATION_TYPE_COUNTRY;
-    public static final byte DESTINATION_TYPE_CITY;
-    public static final byte DESTINATION_TYPE_STREET;
-    public static final byte DESTINATION_TYPE_HOUSE_NUMBER;
-    public static final byte DESTINATION_TYPE_CENTER;
-    public static final byte DESTINATION_TYPE_JUNCTION;
-    public static final byte DESTINATION_TYPE_ZIP;
-    public static final byte DESTINATION_TYPE_STATE;
-    public static final byte DESTINATION_TYPE_CITY_AND_STREET;
-    public static final byte DESTINATION_TYPE_LASTDEST;
-    public static final byte DESTINATION_TYPE_POI;
-    public static final byte DESTINATION_TYPE_SUBMUNICIPALTOWN_AND_STREET;
-    public static final byte DESTINATION_TYPE_PLACENAME;
-    public static final byte DESTINATION_TYPE_CHOME;
-    public static final byte DESTINATION_TYPE_WARD;
-    public static final byte DESTINATION_TYPE_VILLAGE_AND_STREET;
-    public static final byte DESTINATION_TYPE_TELENUMBER;
-    public static final byte DESTINATION_TYPE_PREFECTURE;
-    public static final byte DESTINATION_TYPE_PROVINCE;
-    public static final byte DESTINATION_TYPE_MAPCODE;
-    public static final byte DESTINATION_TYPE_TELEPHONENUMBER;
-    public static final byte DESTINATION_TYPE_CITY_FOR_STATE;
-    public static final byte DESTINATION_STATUS_NAVIGABLE;
-    public static final byte DESTINATION_STATUS_NOT_NAVIGABLE;
-    public static final byte POI_TYPE_CLASS_CATEGORY;
-    public static final byte POI_TYPE_NAME;
-    public static final byte POI_SEARCH_AREA_NATIONWIDE;
-    public static final byte POI_SEARCH_AREA_CURRENT_POSITION;
-    public static final byte POI_SEARCH_AREA_TARGET_POSITION;
-    public static final byte POI_SEARCH_AREA_ALONG_ROUTE;
-    public static final byte POI_SEARCH_AREA_OTHER_TOWN;
-    public static final byte POI_SEARCH_AREA_OTHER_COUNTRY;
-    public static final byte POI_SEARCH_AREA_STOPOVER_POSITION;
-    public static final byte POI_RETURN_TYPE_LIST;
-    public static final byte POI_RETURN_VALUE_LIST;
-    public static final byte POI_RETURN_MAIN_SCREEN;
-    public static final byte NAVI_FAVORITE_NORMAL;
-    public static final byte NAVI_FAVORITE_NODATA;
-    public static final int BLOCK_ROUTE_NEXT_SECTION;
-    public static final int BLOCK_ROUTE_MINIMAL_OFFSET;
-    public static final int BLOCK_ROUTE_MINIMAL_DISTANCE;
-    public static final int BLOCK_ROUTE_REACTION_TIME;
-    public static final long SUI_ID_NONE;
-    public static final byte ALTERNATIVE_ROUTE_NUMBER_1;
-    public static final byte ALTERNATIVE_ROUTE_NUMBER_2;
-    public static final byte ALTERNATIVE_ROUTE_NUMBER_3;
-    public static final String NAVI_SERVICE_NAME;
-    public static final byte SDS_INPUT_MODE_NONE;
-    public static final byte SDS_INPUT_MODE_ADDRESS;
-    public static final byte SDS_INPUT_MODE_LASTDEST;
-    public static final byte SDS_INPUT_MODE_FAVORITE;
-    public static final byte SDS_INPUT_MODE_NAVIGATETO;
-    public static final byte SDS_INPUT_MODE_HOME;
-    public static final byte SDS_INPUT_MODE_ONE_SHOT;
-    public static final byte SDS_INPUT_MODE_ADDRESS_ONLINE_POI;
-    public static final byte SDS_INPUT_MODE_INTELLIDEST;
-    public static final byte SDS_INPUT_MODE_OFFICE;
-    public static final String SDS_ONE_SHOT_COUNTRY;
-    public static final String SDS_ONE_SHOT_CITY;
-    public static final String SDS_ONE_SHOT_STREET;
-    public static final String SDS_ONE_SHOT_HOUSENUMBER;
-    public static final String SDS_ONE_SHOT_JUNCTION;
-    public static final String SDS_ONE_SHOT_PROVINCE;
-    public static final String SDS_ONE_SHOT_PREFECTURE;
-    public static final String SDS_ONE_SHOT_WARD;
-    public static final String SDS_ONE_SHOT_PLACENAME;
-    public static final String SDS_ONE_SHOT_CHOME;
-    public static final String SDS_ONE_SHOT_SUBMUNICIPALTOWN_AND_STREET;
-    public static final String SDS_ONE_SHOT_VILLAGE_AND_STREET;
-    public static final byte SDS_INPUT_POI_TOP_POI_LIST;
-    public static final byte SDS_INPUT_POI_PICK_LIST;
-    public static final byte SDS_INPUT_POI_RESULT_LIST;
-    public static final byte SDS_INPUT_SUI_PICKLIST;
-    public static final byte NATURAL_POI_CATEGORY_FUEL;
-    public static final byte NATURAL_POI_CATEGORY_RESTAURANT;
-    public static final byte NATURAL_POI_CATEGORY_REST_AREA;
-    public static final byte NATURAL_POI_CATEGORY_REST_AREA_NAR;
-    public static final byte NATURAL_POI_CATEGORY_WC;
-    public static final byte NATURAL_POI_CATEGORY_ATM;
-    public static final byte INFO_DETAILS_DISTANCE_UNIT_KM;
-    public static final byte INFO_DETAILS_DISTANCE_UNIT_METER;
-    public static final byte INFO_DETAILS_DISTANCE_UNIT_MILES;
-    public static final byte INFO_DETAILS_DISTANCE_UNIT_YARDS;
-    public static final byte INFO_DETAILS_DISTANCE_UNIT_FEET;
-    public static final byte SPEED_LIMIT_UNIT_INVALID;
-    public static final byte SPEED_LIMIT_UNIT_KMH;
-    public static final byte SPEED_LIMIT_UNIT_MPH;
-    public static final byte SEMDIDYN_ROUTE_TYPE_OLD_ROUTE;
-    public static final byte SEMIDYN_ROUTE_TYPE_BETTER_ROUTE;
-    public static final int ROUTE_PROFILE_FAST;
-    public static final int ROUTE_PROFILE_SHORT;
-    public static final int ROUTE_PROFILE_ECO;
-    public static final int ROUTE_PROFILE_AVOIDTOLL;
-    public static final int ROUTE_PROFILE_RECOMMENDED;
-    public static final int LOCATIONDISAMBIGUATION_DEFAULT;
-    public static final int LOCATIONDISAMBIGUATION_ROADSEGMENT_MOTORWAY;
-    public static final int LOCATIONDISAMBIGUATION_ROADSEGMENT_TUNNEL;
-    public static final int LOCATIONDISAMBIGUATION_ROADSEGMENT_FERRY;
-    public static final int LOCATIONDISAMBIGUATION_ROADSEGMENT_TOOLLROAD;
-    public static final int LOCATIONDISAMBIGUATION_ROADSEGMENT_BRIDGE;
-    public static final int LOCATIONDISAMBIGUATION_ROADSEGMENT_OTHERROAD;
-    public static final String LIST_OF_STREAMED_LOCATIONS;
-    public static final int STOPOVER_INDEX_NEXT_STOPOVER;
-    public static final int STOPOVER_INDEX_BEFORE_DESTINATION;
-    public static final int STOPOVER_INDEX_DEFAULT;
-    public static final int DESTINATION_INDEX_LAST_DESTINATION;
-    public static final int DESTINATION_INDEX_ALL_DESTINATIONS;
-    public static final int NAVI_OPERATOR_CALL_SHOW_DETAIL_SCREEN;
-    public static final int NAVI_OPERATOR_CALL_ADD_TO_FAVORITES;
-    public static final int NAVI_OPERATOR_CALL_ADD_TO_CONTACT;
-    public static final int NAVI_OPERATOR_CALL_SAVE_AS_HOMEADDRESS;
-    public static final int NAVI_OPERATOR_CALL_SAVE_TO_CONTACT;
-
-    default public void insertAsStopover(byte by, int n, boolean bl, boolean bl2) {
-    }
+    public static final byte RESULT_OK = 0;
+    public static final byte RESULT_ERROR = 1;
+    public static final byte RESULT_AMBIGUOUS = 2;
+    public static final byte RESULT_INVALID = 3;
+    public static final byte OPERATION_STATE_FULLY_OPERABLE = 0;
+    public static final byte OPERATION_STATE_NOT_OPERABLE = 1;
+    public static final byte OPERATION_STATE_SD_REMOVED = 2;
+    public static final byte GUIDANCE_MODE_COMPACT = 0;
+    public static final byte GUIDANCE_MODE_COMPLETE = 1;
+    public static final byte GUIDANCE_MODE_TRAFFIC = 2;
+    public static final byte GUIDANCE_MODE_OFF = 3;
+    public static final byte ROUTE_OPTION_DYNAMIC_AUTO = 0;
+    public static final byte ROUTE_OPTION_DYNAMIC_MANUAL = 1;
+    public static final byte ROUTE_OPTION_DYNAMIC_OFF = 2;
+    public static final byte DESTINATION_TYPE_COUNTRY = 0;
+    public static final byte DESTINATION_TYPE_CITY = 1;
+    public static final byte DESTINATION_TYPE_STREET = 2;
+    public static final byte DESTINATION_TYPE_HOUSE_NUMBER = 3;
+    public static final byte DESTINATION_TYPE_CENTER = 4;
+    public static final byte DESTINATION_TYPE_JUNCTION = 5;
+    public static final byte DESTINATION_TYPE_ZIP = 6;
+    public static final byte DESTINATION_TYPE_STATE = 7;
+    public static final byte DESTINATION_TYPE_CITY_AND_STREET = 8;
+    public static final byte DESTINATION_TYPE_LASTDEST = 9;
+    public static final byte DESTINATION_TYPE_POI = 10;
+    public static final byte DESTINATION_TYPE_SUBMUNICIPALTOWN_AND_STREET = 11;
+    public static final byte DESTINATION_TYPE_PLACENAME = 12;
+    public static final byte DESTINATION_TYPE_CHOME = 13;
+    public static final byte DESTINATION_TYPE_WARD = 14;
+    public static final byte DESTINATION_TYPE_VILLAGE_AND_STREET = 15;
+    public static final byte DESTINATION_TYPE_TELENUMBER = 16;
+    public static final byte DESTINATION_TYPE_PREFECTURE = 17;
+    public static final byte DESTINATION_TYPE_PROVINCE = 18;
+    public static final byte DESTINATION_TYPE_MAPCODE = 19;
+    public static final byte DESTINATION_TYPE_TELEPHONENUMBER = 20;
+    public static final byte DESTINATION_TYPE_CITY_FOR_STATE = 21;
+    public static final byte DESTINATION_STATUS_NAVIGABLE = 0;
+    public static final byte DESTINATION_STATUS_NOT_NAVIGABLE = 1;
+    public static final byte POI_TYPE_CLASS_CATEGORY = 0;
+    public static final byte POI_TYPE_NAME = 1;
+    public static final byte POI_SEARCH_AREA_NATIONWIDE = 0;
+    public static final byte POI_SEARCH_AREA_CURRENT_POSITION = 1;
+    public static final byte POI_SEARCH_AREA_TARGET_POSITION = 2;
+    public static final byte POI_SEARCH_AREA_ALONG_ROUTE = 3;
+    public static final byte POI_SEARCH_AREA_OTHER_TOWN = 4;
+    public static final byte POI_SEARCH_AREA_OTHER_COUNTRY = 5;
+    public static final byte POI_SEARCH_AREA_STOPOVER_POSITION = 6;
+    public static final byte POI_RETURN_TYPE_LIST = 0;
+    public static final byte POI_RETURN_VALUE_LIST = 1;
+    public static final byte POI_RETURN_MAIN_SCREEN = 2;
+    public static final byte NAVI_FAVORITE_NORMAL = 0;
+    public static final byte NAVI_FAVORITE_NODATA = 1;
+    public static final int BLOCK_ROUTE_NEXT_SECTION = -1;
+    public static final int BLOCK_ROUTE_MINIMAL_OFFSET = 10;
+    public static final int BLOCK_ROUTE_MINIMAL_DISTANCE = 300;
+    public static final int BLOCK_ROUTE_REACTION_TIME = 10;
+    public static final long SUI_ID_NONE = -1L;
+    public static final byte ALTERNATIVE_ROUTE_NUMBER_1 = 0;
+    public static final byte ALTERNATIVE_ROUTE_NUMBER_2 = 1;
+    public static final byte ALTERNATIVE_ROUTE_NUMBER_3 = 2;
+    public static final String NAVI_SERVICE_NAME = "AppNavi";
+    public static final byte SDS_INPUT_MODE_NONE = 0;
+    public static final byte SDS_INPUT_MODE_ADDRESS = 1;
+    public static final byte SDS_INPUT_MODE_LASTDEST = 2;
+    public static final byte SDS_INPUT_MODE_FAVORITE = 3;
+    public static final byte SDS_INPUT_MODE_NAVIGATETO = 4;
+    public static final byte SDS_INPUT_MODE_HOME = 5;
+    public static final byte SDS_INPUT_MODE_ONE_SHOT = 6;
+    public static final byte SDS_INPUT_MODE_ADDRESS_ONLINE_POI = 7;
+    public static final byte SDS_INPUT_MODE_INTELLIDEST = 8;
+    public static final byte SDS_INPUT_MODE_OFFICE = 9;
+    public static final String SDS_ONE_SHOT_COUNTRY = "SDS_ONE_SHOT_COUNTRY";
+    public static final String SDS_ONE_SHOT_CITY = "SDS_ONE_SHOT_CITY";
+    public static final String SDS_ONE_SHOT_STREET = "SDS_ONE_SHOT_STREET";
+    public static final String SDS_ONE_SHOT_HOUSENUMBER = "SDS_ONE_SHOT_HOUSENUMBER";
+    public static final String SDS_ONE_SHOT_JUNCTION = "SDS_ONE_SHOT_JUNCTION";
+    public static final String SDS_ONE_SHOT_PROVINCE = "SDS_ONE_SHOT_PROVINCE";
+    public static final String SDS_ONE_SHOT_PREFECTURE = "SDS_ONE_SHOT_PREFECTURE";
+    public static final String SDS_ONE_SHOT_WARD = "SDS_ONE_SHOT_WARD";
+    public static final String SDS_ONE_SHOT_PLACENAME = "SDS_ONE_SHOT_PLACENAME";
+    public static final String SDS_ONE_SHOT_CHOME = "SDS_ONE_SHOT_CHOME";
+    public static final String SDS_ONE_SHOT_SUBMUNICIPALTOWN_AND_STREET = "SDS_ONE_SHOT_SUBMUNICIPALTOWN_AND_STREET";
+    public static final String SDS_ONE_SHOT_VILLAGE_AND_STREET = "SDS_ONE_SHOT_VILLAGE_AND_STREET";
+    public static final byte SDS_INPUT_POI_TOP_POI_LIST = 0;
+    public static final byte SDS_INPUT_POI_PICK_LIST = 1;
+    public static final byte SDS_INPUT_POI_RESULT_LIST = 2;
+    public static final byte SDS_INPUT_SUI_PICKLIST = 3;
+    public static final byte NATURAL_POI_CATEGORY_FUEL = 1;
+    public static final byte NATURAL_POI_CATEGORY_RESTAURANT = 2;
+    public static final byte NATURAL_POI_CATEGORY_REST_AREA = 3;
+    public static final byte NATURAL_POI_CATEGORY_REST_AREA_NAR = 102;
+    public static final byte NATURAL_POI_CATEGORY_WC = 4;
+    public static final byte NATURAL_POI_CATEGORY_ATM = 5;
+    public static final byte INFO_DETAILS_DISTANCE_UNIT_KM = 0;
+    public static final byte INFO_DETAILS_DISTANCE_UNIT_METER = 1;
+    public static final byte INFO_DETAILS_DISTANCE_UNIT_MILES = 2;
+    public static final byte INFO_DETAILS_DISTANCE_UNIT_YARDS = 3;
+    public static final byte INFO_DETAILS_DISTANCE_UNIT_FEET = 4;
+    public static final byte SPEED_LIMIT_UNIT_INVALID = -1;
+    public static final byte SPEED_LIMIT_UNIT_KMH = 0;
+    public static final byte SPEED_LIMIT_UNIT_MPH = 1;
+    public static final byte SEMDIDYN_ROUTE_TYPE_OLD_ROUTE = 0;
+    public static final byte SEMIDYN_ROUTE_TYPE_BETTER_ROUTE = 1;
+    public static final int ROUTE_PROFILE_FAST = 0;
+    public static final int ROUTE_PROFILE_SHORT = 1;
+    public static final int ROUTE_PROFILE_ECO = 2;
+    public static final int ROUTE_PROFILE_AVOIDTOLL = 3;
+    public static final int ROUTE_PROFILE_RECOMMENDED = 4;
+    public static final int LOCATIONDISAMBIGUATION_DEFAULT = 0;
+    public static final int LOCATIONDISAMBIGUATION_ROADSEGMENT_MOTORWAY = 1;
+    public static final int LOCATIONDISAMBIGUATION_ROADSEGMENT_TUNNEL = 2;
+    public static final int LOCATIONDISAMBIGUATION_ROADSEGMENT_FERRY = 3;
+    public static final int LOCATIONDISAMBIGUATION_ROADSEGMENT_TOOLLROAD = 4;
+    public static final int LOCATIONDISAMBIGUATION_ROADSEGMENT_BRIDGE = 5;
+    public static final int LOCATIONDISAMBIGUATION_ROADSEGMENT_OTHERROAD = 6;
+    public static final String LIST_OF_STREAMED_LOCATIONS = "LIST_OF_STREAMED_LOCATIONS";
+    public static final int STOPOVER_INDEX_NEXT_STOPOVER = -1;
+    public static final int STOPOVER_INDEX_BEFORE_DESTINATION = -2;
+    public static final int STOPOVER_INDEX_DEFAULT = -1;
+    public static final int DESTINATION_INDEX_LAST_DESTINATION = -1;
+    public static final int DESTINATION_INDEX_ALL_DESTINATIONS = -2;
+    public static final int NAVI_OPERATOR_CALL_SHOW_DETAIL_SCREEN = 0;
+    public static final int NAVI_OPERATOR_CALL_ADD_TO_FAVORITES = 1;
+    public static final int NAVI_OPERATOR_CALL_ADD_TO_CONTACT = 2;
+    public static final int NAVI_OPERATOR_CALL_SAVE_AS_HOMEADDRESS = 3;
+    public static final int NAVI_OPERATOR_CALL_SAVE_TO_CONTACT = 4;
 
-    default public void insertAsStopover(NavLocation navLocation, int n, boolean bl) {
-    }
+    public void insertAsStopover(byte var1, int var2, boolean var3, boolean var4);
 
-    default public int computeRelativeDirection(int n, int n2) {
-    }
+    public void insertAsStopover(NavLocation var1, int var2, boolean var3);
 
-    default public int computeRelativeAirDistance(int n, int n2) {
-    }
+    public int computeRelativeDirection(int var1, int var2);
 
-    default public void calculateRRDForNavArray(NavLocation[] navLocationArray, IRRDCallback iRRDCallback) {
-    }
+    public int computeRelativeAirDistance(int var1, int var2);
 
-    default public void calculateRRDForNavLocationWgs84Array(NavLocationWgs84[] navLocationWgs84Array, IRRDCallback iRRDCallback) {
-    }
+    public void calculateRRDForNavArray(NavLocation[] var1, IRRDCallback var2);
 
-    default public void stopRRDCalculation() {
-    }
+    public void calculateRRDForNavLocationWgs84Array(NavLocationWgs84[] var1, IRRDCallback var2);
 
-    default public void setMOSTFrameVisible(boolean bl) {
-    }
+    public void stopRRDCalculation();
 
-    default public void setAnnouncementRepeatMode(boolean bl) {
-    }
+    public void setMOSTFrameVisible(boolean var1);
 
-    default public void abortActiveAnnouncement() {
-    }
+    public void setAnnouncementRepeatMode(boolean var1);
 
-    default public void setTrailerStatus(boolean bl) {
-    }
+    public void abortActiveAnnouncement();
 
-    default public NaviOnlineService getNaviOnlineService() {
-    }
+    public void setTrailerStatus(boolean var1);
 
-    default public void setOnlineTraffic(boolean bl) {
-    }
+    public NaviOnlineService getNaviOnlineService();
 
-    default public void setLocation(byte[] byArray) {
-    }
+    public void setOnlineTraffic(boolean var1);
 
-    default public void setLocation(NavLocation navLocation) {
-    }
+    public void setLocation(byte[] var1);
 
-    default public void setLocation(OperatorCallResult operatorCallResult) {
-    }
+    public void setLocation(NavLocation var1);
 
-    default public byte getOperationState() {
-    }
+    public void setLocation(OperatorCallResult var1);
 
-    default public boolean getRgActiveStatus() {
-    }
+    public byte getOperationState();
 
-    default public void stopRouteGuidance() {
-    }
+    public boolean getRgActiveStatus();
 
-    default public void startRouteGuidance(byte by, boolean bl) {
-    }
+    public void stopRouteGuidance();
 
-    default public void addSelectedDestinationAtIndex(int n, boolean bl) {
-    }
+    public void startRouteGuidance(byte var1, boolean var2);
 
-    default public void calculateAlternativeRoutes() {
-    }
+    public void addSelectedDestinationAtIndex(int var1, boolean var2);
 
-    default public void selectAlternativeRoute(byte by) {
-    }
+    public void calculateAlternativeRoutes();
 
-    default public boolean isEtcDemoMode() {
-    }
+    public void selectAlternativeRoute(byte var1);
 
-    default public boolean isDieselPrimaryEngineType() {
-    }
+    public boolean isEtcDemoMode();
 
-    default public void setGuidanceMode(byte by) {
-    }
+    public boolean isDieselPrimaryEngineType();
 
-    default public NaviInfoDetails getAddressDetails(byte by) {
-    }
+    public void setGuidanceMode(byte var1);
 
-    default public void setRouteOptionDynamic(int n) {
-    }
+    public NaviInfoDetails getAddressDetails(byte var1);
 
-    default public void synchronizeSpeechCountryWithCurrentLD() {
-    }
+    public void setRouteOptionDynamic(int var1);
 
-    default public void dialDetailsNumber() {
-    }
+    public void synchronizeSpeechCountryWithCurrentLD();
 
-    default public void notifyAbort() {
-    }
+    public void dialDetailsNumber();
 
-    default public void startDestinationInput(int n) {
-    }
+    public void notifyAbort();
 
-    default public void startDestinationInputWithCurrentLD(int n) {
-    }
+    public void startDestinationInput(int var1);
 
-    default public void nextDestinationInput(int n) {
-    }
+    public void startDestinationInputWithCurrentLD(int var1);
 
-    default public void triggerAddressInputReturn(int n) {
-    }
+    public void nextDestinationInput(int var1);
 
-    default public void triggerAddressInputReturn(int n, int n2) {
-    }
+    public void triggerAddressInputReturn(int var1);
 
-    default public void startRouteGuidance(int n, int n2) {
-    }
+    public void triggerAddressInputReturn(int var1, int var2);
 
-    default public void startRouteGuidance(boolean bl, NavLocation navLocation) {
-    }
+    public void startRouteGuidance(int var1, int var2);
 
-    default public void startPoiSearchByName() {
-    }
+    public void startRouteGuidance(boolean var1, NavLocation var2);
 
-    default public void checkRouteGuidance() {
-    }
+    public void startPoiSearchByName();
 
-    default public void setCountry(String string, String string2) {
-    }
+    public void checkRouteGuidance();
 
-    default public void setState(String string, String string2) {
-    }
+    public void setCountry(String var1, String var2);
 
-    default public void setCountryAndState(String string, String string2, String string3, String string4) {
-    }
+    public void setState(String var1, String var2);
 
-    default public void setCity(String string, String string2) {
-    }
+    public void setCountryAndState(String var1, String var2, String var3, String var4);
 
-    default public void setCenter() {
-    }
+    public void setCity(String var1, String var2);
 
-    default public void setStreet(String string, String string2) {
-    }
+    public void setCenter();
 
-    default public void setJunction(String string, String string2) {
-    }
+    public void setStreet(String var1, String var2);
 
-    default public void setHouseNumber(String string, String string2) {
-    }
+    public void setJunction(String var1, String var2);
 
-    default public void setHouseNumberByIndex(int n) {
-    }
+    public void setHouseNumber(String var1, String var2);
 
-    default public void setZIPCode(String string, String string2) {
-    }
+    public void setHouseNumberByIndex(int var1);
 
-    default public void setProvince(String string, String string2) {
-    }
+    public void setZIPCode(String var1, String var2);
 
-    default public void setPrefecture(String string, String string2) {
-    }
+    public void setProvince(String var1, String var2);
 
-    default public void setPlacename(String string, String string2) {
-    }
+    public void setPrefecture(String var1, String var2);
 
-    default public void setWard(String string, String string2) {
-    }
+    public void setPlacename(String var1, String var2);
 
-    default public void setChome(String string, String string2) {
-    }
+    public void setWard(String var1, String var2);
 
-    default public void setSubmunicipaltownOrStreet(String string, String string2) {
-    }
+    public void setChome(String var1, String var2);
 
-    default public void setVillageAndStreet(String string, String string2) {
-    }
+    public void setSubmunicipaltownOrStreet(String var1, String var2);
 
-    default public void setOneShotData(Map map) {
-    }
+    public void setVillageAndStreet(String var1, String var2);
 
-    default public void querySpelledCityResultList(String string) {
-    }
+    public void setOneShotData(Map var1);
 
-    default public void querySpelledStreetResultList(String string) {
-    }
+    public void querySpelledCityResultList(String var1);
 
-    default public void selectSpelledCityName(boolean bl, Object object) {
-    }
+    public void querySpelledStreetResultList(String var1);
 
-    default public void selectSpelledStreetName(boolean bl, Object object) {
-    }
+    public void selectSpelledCityName(boolean var1, Object var2);
 
-    default public void querySpelledStreetResultList2(String string) {
-    }
+    public void selectSpelledStreetName(boolean var1, Object var2);
 
-    default public void selectSpelledStreetName2(boolean bl, Object object) {
-    }
+    public void querySpelledStreetResultList2(String var1);
 
-    default public void validateSpelledStreetName(String string) {
-    }
+    public void selectSpelledStreetName2(boolean var1, Object var2);
 
-    default public void queryCityListLength() {
-    }
+    public void validateSpelledStreetName(String var1);
 
-    default public void queryZIPCodeListLength() {
-    }
+    public void queryCityListLength();
 
-    default public void queryStreetListLength() {
-    }
+    public void queryZIPCodeListLength();
 
-    default public void queryIntersectionListLength() {
-    }
+    public void queryStreetListLength();
 
-    default public void queryHouseNrListLength() {
-    }
+    public void queryIntersectionListLength();
 
-    default public boolean isDestTypeAvailable(int n) {
-    }
+    public void queryHouseNrListLength();
 
-    default public boolean isDestTypeSet(int n) {
-    }
+    public boolean isDestTypeAvailable(int var1);
 
-    default public boolean isLastDestAvailable() {
-    }
+    public boolean isDestTypeSet(int var1);
 
-    default public boolean isHomeAvailable() {
-    }
+    public boolean isLastDestAvailable();
 
-    default public boolean isOfficeAvailable() {
-    }
+    public boolean isHomeAvailable();
 
-    default public byte setHomeAddress() {
-    }
+    public boolean isOfficeAvailable();
 
-    default public byte setOfficeAddress() {
-    }
+    public byte setHomeAddress();
 
-    default public byte selectHomeAddressForRouteGuidance() {
-    }
+    public byte setOfficeAddress();
 
-    default public byte selectOfficeAddressForRouteGuidance() {
-    }
+    public byte selectHomeAddressForRouteGuidance();
 
-    default public boolean isRouteGuidancePossible() {
-    }
+    public byte selectOfficeAddressForRouteGuidance();
 
-    default public String getCurrentCountryCode() {
-    }
+    public boolean isRouteGuidancePossible();
 
-    default public String getAIFCountryCode() {
-    }
+    public String getCurrentCountryCode();
 
-    default public byte fillNaviPickList(SDSListEntry[] sDSListEntryArray) {
-    }
+    public String getAIFCountryCode();
 
-    default public byte fillNaviFavoritePickList(SDSListEntry[] sDSListEntryArray) {
-    }
+    public byte fillNaviPickList(SDSListEntry[] var1);
 
-    default public byte fillLastDestinationPickList(SDSListEntry[] sDSListEntryArray) {
-    }
+    public byte fillNaviFavoritePickList(SDSListEntry[] var1);
 
-    default public byte fillNaviSUIList(NaviSUIDetails[] naviSUIDetailsArray) {
-    }
+    public byte fillLastDestinationPickList(SDSListEntry[] var1);
 
-    default public void reduceRouteToFinalDestination() {
-    }
+    public byte fillNaviSUIList(NaviSUIDetails[] var1);
 
-    default public NaviInfoDetails getNaviInfo(boolean bl) {
-    }
+    public void reduceRouteToFinalDestination();
 
-    default public byte setPOISearchArea(byte by) {
-    }
+    public NaviInfoDetails getNaviInfo(boolean var1);
 
-    default public void triggerPOIReturn() {
-    }
+    public byte setPOISearchArea(byte var1);
 
-    default public POISDSListEntry getPOIEntryDetails(int n, byte by) {
-    }
+    public void triggerPOIReturn();
 
-    default public byte fillPOIPickList(SDSListEntry[] sDSListEntryArray) {
-    }
+    public POISDSListEntry getPOIEntryDetails(int var1, byte var2);
 
-    default public void selectPOI(int n) {
-    }
+    public byte fillPOIPickList(SDSListEntry[] var1);
 
-    default public void selectPOIbyListIndex(int n) {
-    }
+    public void selectPOI(int var1);
 
-    default public void selectTopPOI(int n) {
-    }
+    public void selectPOIbyListIndex(int var1);
 
-    default public void blockRoute(int n) {
-    }
+    public void selectTopPOI(int var1);
 
-    default public void unblockRoute() {
-    }
+    public void blockRoute(int var1);
 
-    default public void requestPostCodeFormat() {
-    }
+    public void unblockRoute();
 
-    default public void flushPOIPicklistModelGroup() {
-    }
+    public void requestPostCodeFormat();
 
-    default public void switchToSemidynamicRouteGuidance() {
-    }
+    public void flushPOIPicklistModelGroup();
 
-    default public boolean hasBetterRoute() {
-    }
+    public void switchToSemidynamicRouteGuidance();
 
-    default public int getSavingTime() {
-    }
+    public boolean hasBetterRoute();
 
-    default public long getTrafficDelayOnCurrentRoute() {
-    }
+    public int getSavingTime();
 
-    default public void selectRoute(byte by, boolean bl) {
-    }
+    public long getTrafficDelayOnCurrentRoute();
 
-    default public void requestCurrentSpeedLimit() {
-    }
+    public void selectRoute(byte var1, boolean var2);
 
-    default public void diagStartDemoRouteGuidance(int[] nArray) {
-    }
+    public void requestCurrentSpeedLimit();
 
-    default public void diagStopRouteGuidance() {
-    }
+    public void diagStartDemoRouteGuidance(int[] var1);
 
-    default public int startTrufflesSearch(String string, String[] stringArray) {
-    }
+    public void diagStopRouteGuidance();
 
-    default public void cancelSDSTrufflesSearch(boolean bl) {
-    }
+    public int startTrufflesSearch(String var1, String[] var2);
 
-    default public boolean isTrufflesConflictmodeAvailable() {
-    }
+    public void cancelSDSTrufflesSearch(boolean var1);
 
-    default public int triggerTrufflesConflictmode(String string, String[] stringArray) {
-    }
+    public boolean isTrufflesConflictmodeAvailable();
 
-    default public void setLastDestinationByIndex(int n) {
-    }
+    public int triggerTrufflesConflictmode(String var1, String[] var2);
 
-    default public void setLastDestinationById(long l) {
-    }
+    public void setLastDestinationByIndex(int var1);
 
-    default public void setFavoriteDestinationByIndex(int n) {
-    }
+    public void setLastDestinationById(long var1);
 
-    default public void setFavoriteDestinationById(long l) {
-    }
+    public void setFavoriteDestinationByIndex(int var1);
 
-    default public void setIntelliDestinationByIndex(int n) {
-    }
+    public void setFavoriteDestinationById(long var1);
 
-    default public void setDestination(AdbEntry adbEntry, int n) {
-    }
+    public void setIntelliDestinationByIndex(int var1);
 
-    default public void setDestination(String string, String string2) {
-    }
+    public void setDestination(AdbEntry var1, int var2);
 
-    default public String getPoiName(NavLocation navLocation) {
-    }
+    public void setDestination(String var1, String var2);
 
-    default public String getAdditionalNameFromNavLocation(NavLocation navLocation) {
-    }
+    public String getPoiName(NavLocation var1);
 
-    default public NavLocation getCurrentNavLocation() {
-    }
+    public String getAdditionalNameFromNavLocation(NavLocation var1);
 
-    default public NavLocation getCurrentPoiSearchAreaLocation() {
-    }
+    public NavLocation getCurrentNavLocation();
 
-    default public NaviInfoDetails getFormattedPoiSearchAreaLocation() {
-    }
+    public NavLocation getCurrentPoiSearchAreaLocation();
 
-    default public NavLocation getCurrentCarPosition() {
-    }
+    public NaviInfoDetails getFormattedPoiSearchAreaLocation();
 
-    default public int getCurrentCarHeading() {
-    }
+    public NavLocation getCurrentCarPosition();
 
-    default public NavLocation getLastDestination() {
-    }
+    public int getCurrentCarHeading();
 
-    default public void startGeoCoordinateInput() {
-    }
+    public NavLocation getLastDestination();
 
-    default public void disclaimerAccept() {
-    }
+    public void startGeoCoordinateInput();
 
-    default public byte sdsEnterRubberband() {
-    }
+    public void disclaimerAccept();
 
-    default public byte setSdsRouteInfo(int n) {
-    }
+    public byte sdsEnterRubberband();
 
-    default public void updateDetailScreenInfo() {
-    }
+    public byte setSdsRouteInfo(int var1);
 
-    default public void setRouteProfile(int n) {
-    }
+    public void updateDetailScreenInfo();
 
-    default public boolean isCruiseMode() {
-    }
+    public void setRouteProfile(int var1);
 
-    default public void enterMapCode() {
-    }
+    public boolean isCruiseMode();
 
-    default public void inputMapCode(String string) {
-    }
+    public void enterMapCode();
 
-    default public void deleteLastMapCodeInput() {
-    }
+    public void inputMapCode(String var1);
 
-    default public void clearMapCode() {
-    }
+    public void deleteLastMapCodeInput();
 
-    default public void disambiguateMapCode() {
-    }
+    public void clearMapCode();
 
-    default public void triggerMapCodeReturn() {
-    }
+    public void disambiguateMapCode();
 
-    default public void selectDisambiguatedMapCodeByIndex(int n) {
-    }
+    public void triggerMapCodeReturn();
 
-    default public String getLastValidMapCodeBlock() {
-    }
+    public void selectDisambiguatedMapCodeByIndex(int var1);
 
-    default public String getCurrentMapCode() {
-    }
+    public String getLastValidMapCodeBlock();
 
-    default public boolean isCurrentMapCodeNavigable() {
-    }
+    public String getCurrentMapCode();
 
-    default public boolean isFurtherMapCodeInputPossible() {
-    }
+    public boolean isCurrentMapCodeNavigable();
 
-    default public void enterTelephoneNumber() {
-    }
+    public boolean isFurtherMapCodeInputPossible();
 
-    default public void inputTelephoneNumber(String string) {
-    }
+    public void enterTelephoneNumber();
 
-    default public void deleteLastTelephoneNumberInput() {
-    }
+    public void inputTelephoneNumber(String var1);
 
-    default public void clearTelephoneNumber() {
-    }
+    public void deleteLastTelephoneNumberInput();
 
-    default public void selectTelephoneNumberByIndex(int n) {
-    }
+    public void clearTelephoneNumber();
 
-    default public String getLastValidTelephoneNumberBlock() {
-    }
+    public void selectTelephoneNumberByIndex(int var1);
 
-    default public String getCurrentTelephoneNumber() {
-    }
+    public String getLastValidTelephoneNumberBlock();
 
-    default public boolean isFurtherTelephonenumberInputPossible() {
-    }
+    public String getCurrentTelephoneNumber();
 
-    default public void startTpegPOI() {
-    }
+    public boolean isFurtherTelephonenumberInputPossible();
 
-    default public void getTpegPOIResultsByCategoryIndex(int n) {
-    }
+    public void startTpegPOI();
 
-    default public void selectTpegPOIResultByIndex(int n) {
-    }
+    public void getTpegPOIResultsByCategoryIndex(int var1);
 
-    default public void triggerTpegPoiReturn() {
-    }
+    public void selectTpegPOIResultByIndex(int var1);
 
-    default public void destOptShowInMap(NavLocation navLocation, boolean bl, boolean bl2) {
-    }
+    public void triggerTpegPoiReturn();
 
-    default public void destOptShowInMap(NavLocationWgs84 navLocationWgs84, boolean bl, boolean bl2) {
-    }
+    public void destOptShowInMap(NavLocation var1, boolean var2, boolean var3);
 
-    default public void sendOperatorCallResult(OperatorCallResult operatorCallResult, int n) {
-    }
+    public void destOptShowInMap(NavLocationWgs84 var1, boolean var2, boolean var3);
 
-    default public void setVisibleKombiMapOrStreetView(boolean bl) {
-    }
+    public void sendOperatorCallResult(OperatorCallResult var1, int var2);
 
-    default public RenderingInfoProvider getRenderingInfoProvider() {
-    }
+    public void setVisibleKombiMapOrStreetView(boolean var1);
 
-    default public void saveAsFavorite(NavLocation navLocation, boolean bl) {
-    }
+    public RenderingInfoProvider getRenderingInfoProvider();
 
-    default public void saveAsFavorite(byte by, String string, boolean bl) {
-    }
+    public void saveAsFavorite(NavLocation var1, boolean var2);
 
-    default public void saveAsFavorite(NavLocationWgs84 navLocationWgs84, String string, boolean bl) {
-    }
+    public void saveAsFavorite(byte var1, String var2, boolean var3);
 
-    default public void setOperatorCallResultLocation(NavLocationWgs84 navLocationWgs84) {
-    }
+    public void saveAsFavorite(NavLocationWgs84 var1, String var2, boolean var3);
 
-    default public void indicateVICSEmergencyPopupShown(boolean bl) {
-    }
+    public void setOperatorCallResultLocation(NavLocationWgs84 var1);
 
-    default public void getDatabaseNamesForWordPrediction(IWordPredictionCallback iWordPredictionCallback) {
-    }
+    public void indicateVICSEmergencyPopupShown(boolean var1);
 
-    default public void setFavoriteContext(int n) {
-    }
+    public void getDatabaseNamesForWordPrediction(IWordPredictionCallback var1);
+
+    public void setFavoriteContext(int var1);
+
+    public void updateLocalHazardInformation(LocalHazardInformation[] var1);
+
+    public void showPoiDetailsPopup();
+
+    public NaviMsgDetails requestCurrentNaviDataforMessage();
+
+    public void savePreviewLocation(NavLocation var1);
 
-    default public void updateLocalHazardInformation(LocalHazardInformation[] localHazardInformationArray) {
+    public void savePreviewTmcMsg(TmcMessage var1);
+
+    public void fillToolTipInformationContainerByNavLocation(NavLocation var1, GuiTooltipInformationContainer var2);
+
+    public static class NaviDetails {
+        public String country;
+        public String countryAbbreviation;
+        public String state;
+        public String stateAbbreviation;
+        public String city;
+        public String cityStringID;
+        public String street;
+        public String streetStringID;
+        public String houseNumber;
+        public String houseNumberStringID;
+        public long poiID;
+        public String poiName;
+        public String provinceOrPrefecture;
+        public String provinceOrPrefectureStringID;
+        public String placeName;
+        public String placeNameStringID;
+        public String ward;
+        public String wardStringID;
+        public String chome;
+        public String chomeStringID;
+
+        public String toString() {
+            Buffer buffer = new Buffer("country=");
+            buffer.append(this.country).append(" (").append(this.countryAbbreviation).append("), state=").append(this.state).append(" (").append(this.stateAbbreviation).append("), city=").append(this.city).append(" (").append(this.cityStringID).append("), street=").append(this.street).append(" (").append(this.streetStringID).append("), houseNumber=").append(this.houseNumber).append(" (").append(this.houseNumberStringID).append("), poiName=").append(this.poiName).append(" (").append(this.poiID).append("), provinceOrPrefecture=").append(this.provinceOrPrefecture).append(" (").append(this.provinceOrPrefectureStringID).append("), placeName=").append(this.placeName).append(" (").append(this.placeNameStringID).append("), ward=").append(this.ward).append(" (").append(this.wardStringID).append("), chome=").append(this.chome).append(" (").append(this.chomeStringID).append(")");
+            return buffer.toString();
+        }
     }
+
+    public static class OneshotData {
+        private final String text;
+        private final long id;
+        private final String stringID;
+
+        public OneshotData(String string, String string2, long l) {
+            this.text = string;
+            this.stringID = string2;
+            this.id = l;
+        }
+
+        public OneshotData(String string, String string2) {
+            this.text = string;
+            this.stringID = string2;
+            this.id = -1L;
+        }
 
-    default public void showPoiDetailsPopup() {
+        public String getText() {
+            return this.text;
+        }
+
+        public long getObjId() {
+            return this.id;
+        }
+
+        public String getStringId() {
+            return this.stringID;
+        }
+
+        public final String toString() {
+            return new Buffer().append(this.text).append(" (").append(this.id).append(", ").append(this.stringID).append(")").toString();
+        }
+
+        public int hashCode() {
+            int n = 1;
+            n = 31 * n + (int)(this.id ^ this.id >>> 32);
+            n = 31 * n + (this.stringID == null ? 0 : this.stringID.hashCode());
+            n = 31 * n + (this.text == null ? 0 : this.text.hashCode());
+            return n;
+        }
+
+        public boolean equals(Object object) {
+            if (this == object) {
+                return true;
+            }
+            if (object == null) {
+                return false;
+            }
+            if (this.getClass() != object.getClass()) {
+                return false;
+            }
+            OneshotData oneshotData = (OneshotData)object;
+            if (this.text != oneshotData.getText()) {
+                return false;
+            }
+            if (this.stringID != oneshotData.getStringId()) {
+                return false;
+            }
+            return this.id == oneshotData.getObjId();
+        }
     }
 
-    default public NaviMsgDetails requestCurrentNaviDataforMessage() {
+    public static interface IRRDCallback {
+        public void updateRrdItems(RrdCalculationInfo[] var1);
     }
+
+    public static class NaviSUIDetails
+    extends NaviDetails {
+        public long poiIconID = -1L;
+        public long adbID = -1L;
+        public String adbName = "";
+        public int entryChildren = 0;
 
-    default public void savePreviewLocation(NavLocation navLocation) {
+        public String toString() {
+            Buffer buffer = new Buffer(super.toString());
+            buffer.append(", poiIconID=").append(this.poiIconID).append("; adbName=").append(this.adbName).append(" (").append(this.adbID).append("); entryChildren=").append(this.entryChildren);
+            return buffer.toString();
+        }
     }
 
-    default public void savePreviewTmcMsg(TmcMessage tmcMessage) {
+    public static class NaviInfoDetails
+    extends NaviDetails {
+        public float distance;
+        public int distanceUnit;
+        public DateMetric time;
+
+        public String toString() {
+            Buffer buffer = new Buffer(super.toString());
+            buffer.append(", distance=").append(this.distance).append(", unit=").append(this.distanceUnit).append(", time=").append(this.time != null ? this.time.format() : "??:??");
+            return buffer.toString();
+        }
     }
+
+    public static class POISDSListEntry
+    extends SDSListEntry {
+        private final Distance distance;
+
+        public POISDSListEntry() {
+            super("", 0L);
+            this.distance = new Distance(0.0f, 1);
+        }
+
+        public POISDSListEntry(String string, long l) {
+            super(string, l);
+            this.distance = new Distance(0.0f, 1);
+        }
+
+        public POISDSListEntry(String string, long l, Distance distance) {
+            super(string, l);
+            this.distance = distance;
+        }
+
+        public Distance getDistance() {
+            return this.distance;
+        }
 
-    default public void fillToolTipInformationContainerByNavLocation(NavLocation navLocation, GuiTooltipInformationContainer guiTooltipInformationContainer) {
+        public String toString() {
+            return new Buffer(super.toString()).append(", poiDistance=").append(this.distance).toString();
+        }
     }
 }
 

@@ -25,13 +25,12 @@ extends AbstractSystemCallCommand {
         this.nBestStorage = nBestStorageAccess;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: adbSelectionInterrupt=%1", (Object)this.getName(), (Object)this.adbSelectionInterrupt);
+        this.logger.log(10000000, "%1#execute: adbSelectionInterrupt=%1", (Object)this.getName(), (Object)this.adbSelectionInterrupt);
         SDSModelAccess.setADBSelectionInterrupt(this.adbSelectionInterrupt ? 1 : 0);
         if (this.adbSelectionInterrupt) {
             long l = this.nBestStorage.getSlotObjID(0, 0);
-            this.logger.log(-2137614336, "%1#execute: adbEntrySelectionInterruptID=%1!", (Object)this.getName(), this.adbHandler.getADBEntrySelectionInterruptID());
+            this.logger.log(10000000, "%1#execute: adbEntrySelectionInterruptID=%1!", (Object)this.getName(), this.adbHandler.getADBEntrySelectionInterruptID());
             this.adbHandler.setADBEntrySelectionInterruptID(l);
         }
     }

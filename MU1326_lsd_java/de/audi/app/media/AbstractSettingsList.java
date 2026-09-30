@@ -16,25 +16,22 @@ extends AbstractMediaTerminalComponent
 implements BaseListModelListener {
     protected final String EMPTY_TEXT;
     protected final DVDVideoSettingsLanguageMapping languageMapper = new DVDVideoSettingsLanguageMapping();
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "AbstractSettingsList";
 
     protected AbstractSettingsList(IMediaTerminal iMediaTerminal) {
         super(iMediaTerminal);
         this.EMPTY_TEXT = "";
     }
 
-    protected abstract int getCheckboxColumn() {
-    }
+    protected abstract int getCheckboxColumn();
 
-    protected abstract BaseListModelApp getListModel() {
-    }
+    protected abstract BaseListModelApp getListModel();
 
-    protected abstract void entrySelected(int n) {
-    }
+    protected abstract void entrySelected(int var1);
 
     protected boolean updateActiveEntry(int n) {
         EvoListRow evoListRow;
-        this.logger.hmi().log(1078071040, "[%1.updateActiveEntry] Select entry '%2'.", (Object)"AbstractSettingsList", (long)n);
+        this.logger.hmi().log(1000000, "[%1.updateActiveEntry] Select entry '%2'.", (Object)LOGCLASS, (long)n);
         BaseListModelApp baseListModelApp = this.getListModel();
         BaseListModelApp baseListModelApp2 = baseListModelApp.getCopy();
         SelectedItem selectedItem = baseListModelApp2.getSelected();
@@ -44,7 +41,7 @@ implements BaseListModelListener {
         }
         evoListRow = baseListModelApp2.getRow(n);
         if (n < 0 || n >= baseListModelApp.getLength() || evoListRow == null) {
-            this.logger.hmi().log(1078071040, "[%1.updateActiveEntry] Index out of range or selected row is null. Ignore.", (Object)"AbstractSettingsList");
+            this.logger.hmi().log(1000000, "[%1.updateActiveEntry] Index out of range or selected row is null. Ignore.", (Object)LOGCLASS);
             baseListModelApp2.setSelectedIndex(n);
             baseListModelApp.update(baseListModelApp2);
             return false;
@@ -56,21 +53,17 @@ implements BaseListModelListener {
         return true;
     }
 
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.logger.hmi().log(1078071040, "[%1.itemSelected] model '%2', row '%3'.", (Object)"AbstractSettingsList", (long)n, evoListRow.getUniqueID());
+        this.logger.hmi().log(1000000, "[%1.itemSelected] model '%2', row '%3'.", (Object)LOGCLASS, (long)n, evoListRow.getUniqueID());
         this.entrySelected(n2);
     }
 
-    @Override
     public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 }

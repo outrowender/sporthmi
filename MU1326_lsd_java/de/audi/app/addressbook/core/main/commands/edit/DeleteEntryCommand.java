@@ -24,9 +24,8 @@ extends AbstractADBCommand {
         this.syncModel = hMIModelApp;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "DeleteEntryCommand#execute()");
+        this.logger.log(10000000, "DeleteEntryCommand#execute()");
         boolean bl = this.adbDSIAccess.deleteEntries(new long[]{this.entryId}, 0, 0);
         if (!bl) {
             this.logger.log(10000, "DeleteEntryCommand#execute(): dsi call was not successful, finishing command.");
@@ -34,9 +33,8 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public void deleteEntriesResult(int n) {
-        this.logger.log(1078071040, "DeleteEntryCommand#deleteEntriesResult(): success: %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
+        this.logger.log(1000000, "DeleteEntryCommand#deleteEntriesResult(): success: %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
         if (n == 0) {
             this.appAdr.getADBOrganizerSearch().refreshByPosition();
         }
@@ -44,7 +42,6 @@ extends AbstractADBCommand {
         this.checkCommandFinished();
     }
 
-    @Override
     public void invalidData(int n) {
         this.appAdr.handleInvalidData(n, false);
         ++this.numDSIResponsesReceived;
@@ -53,7 +50,7 @@ extends AbstractADBCommand {
 
     private void checkCommandFinished() {
         if (this.numDSIResponsesReceived == 2) {
-            this.logger.log(-2137614336, "DeleteEntryCommand#checkCommandFinished(): finishing command.");
+            this.logger.log(10000000, "DeleteEntryCommand#checkCommandFinished(): finishing command.");
             this.syncModel.setStatus(1);
             this.commandList.commandFinished();
         }

@@ -10,55 +10,38 @@ import de.esolutions.fw.util.commons.job.DispatcherBase;
 import org.dsi.ifc.global.ResourceLocator;
 
 public interface IOnlinePlayer {
-    default public OnlinePlayerState getState() {
-    }
+    public OnlinePlayerState getState();
 
-    default public Queue getPlayerQueue() {
-    }
+    public Queue getPlayerQueue();
 
-    default public IAudioManager getAudioManager() {
-    }
+    public IAudioManager getAudioManager();
 
-    default public DispatcherBase getDispatcher() {
-    }
+    public DispatcherBase getDispatcher();
 
-    default public void setPlaybackURL(String string) {
-    }
+    public void setPlaybackURL(String var1);
 
-    default public void resume() {
-    }
+    public void resume();
 
-    default public void pause() {
-    }
+    public void pause();
 
-    default public boolean seek(boolean bl) {
-    }
+    public boolean seek(boolean var1);
 
-    default public boolean skip(int n) {
-    }
+    public boolean skip(int var1);
 
-    default public void setPlayposition(long l, int n) {
-    }
+    public void setPlayposition(long var1, int var3);
 
-    default public void stop() {
-    }
+    public void stop();
 
-    default public void updatePlayingTrack(long l, String string, String string2, String string3, ResourceLocator resourceLocator) {
-    }
+    public void updatePlayingTrack(long var1, String var3, String var4, String var5, ResourceLocator var6);
 
-    default public void notifyAudioSettings() {
-    }
+    public void notifyAudioSettings();
 
-    default public void setPlaybackMode(int n) {
-    }
+    public void setPlaybackMode(int var1);
 
-    default public void setHMIPlaybackMode() {
-    }
+    public void setHMIPlaybackMode();
 
-    default public void playbackModeChanged(int n, boolean bl) {
-    }
+    public void playbackModeChanged(int var1, boolean var2);
 
-    default public void updateOnlineCoverArt(ResourceLocator resourceLocator) {
-    }
+    public void updateOnlineCoverArt(ResourceLocator var1);
 }
 

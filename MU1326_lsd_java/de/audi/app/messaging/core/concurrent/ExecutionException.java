@@ -5,7 +5,7 @@ package de.audi.app.messaging.core.concurrent;
 
 public class ExecutionException
 extends Exception {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
 
     protected ExecutionException() {
     }

@@ -4,70 +4,48 @@
 package de.audi.atip.interapp.audio;
 
 public interface ISoundHandlerListener {
-    default public void updateBalance(short s) {
-    }
+    public void updateBalance(short var1);
 
-    default public void updateBalanceRange(int n, int n2) {
-    }
+    public void updateBalanceRange(int var1, int var2);
 
-    default public void updateFader(short s) {
-    }
+    public void updateFader(short var1);
 
-    default public void updateFaderRange(int n, int n2) {
-    }
+    public void updateFaderRange(int var1, int var2);
 
-    default public void updateBass(short s) {
-    }
+    public void updateBass(short var1);
 
-    default public void updateBassRange(int n, int n2) {
-    }
+    public void updateBassRange(int var1, int var2);
 
-    default public void updateTreble(short s) {
-    }
+    public void updateTreble(short var1);
 
-    default public void updateTrebleRange(int n, int n2) {
-    }
+    public void updateTrebleRange(int var1, int var2);
 
-    default public void updateSubwoofer(short s) {
-    }
+    public void updateSubwoofer(short var1);
 
-    default public void updateSubwooferRange(int n, int n2) {
-    }
+    public void updateSubwooferRange(int var1, int var2);
 
-    default public void updateSurroundLevel(short s) {
-    }
+    public void updateSurroundLevel(short var1);
 
-    default public void updateSurroundLevelRange(int n, int n2) {
-    }
+    public void updateSurroundLevelRange(int var1, int var2);
 
-    default public void updateNoiseCompensation(short s) {
-    }
+    public void updateNoiseCompensation(short var1);
 
-    default public void updateNoiseCompensationRange(int n, int n2) {
-    }
+    public void updateNoiseCompensationRange(int var1, int var2);
 
-    default public void updateThreeDMode(int n) {
-    }
+    public void updateThreeDMode(int var1);
 
-    default public void updateThreeDModeRange(int n, int n2) {
-    }
+    public void updateThreeDModeRange(int var1, int var2);
 
-    default public void updateAmplifier(int n) {
-    }
+    public void updateAmplifier(int var1);
 
-    default public void updatePresetPositionList(int n) {
-    }
+    public void updatePresetPositionList(int var1);
 
-    default public void updatePresetPosition(int n) {
-    }
+    public void updatePresetPosition(int var1);
 
-    default public void updatePresetEqList(int n) {
-    }
+    public void updatePresetEqList(int var1);
 
-    default public void updatePresetEq(int n) {
-    }
+    public void updatePresetEq(int var1);
 
-    default public void distributeValuesAndRanges(ISoundHandlerListener iSoundHandlerListener) {
-    }
+    public void distributeValuesAndRanges(ISoundHandlerListener var1);
 }
 

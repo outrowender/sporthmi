@@ -30,27 +30,22 @@ implements ITelServiceConnectivityListener {
         this.role = n;
     }
 
-    @Override
     public void execute() {
         this.phone.setNadRole(this, this.role);
     }
 
-    @Override
     public void responseSetNadRole(int n) {
         this.commandList.commandFinished();
     }
 
-    @Override
     public void responseSetNadMode(int n) {
         this.logger.log(10000, "CommandSetNadRole#responseSetNadMode(): Unexpected method call");
     }
 
-    @Override
     public void responseChangePhoneModulePowerState(int n) {
         this.logger.log(10000, "CommandSetNadRole#responseChangePhoneModulePowerState(): Unexpected method call");
     }
 
-    @Override
     public void responseTogglePhones(int n) {
         this.logger.log(10000, "CommandSetNadRole#responseTogglePhones(): Unexpected method call");
     }

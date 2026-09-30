@@ -12,7 +12,6 @@ import de.audi.app.sdsmanager.nbest.IPicklistSlot;
 import de.audi.app.sdsmanager.nbest.NBestStorageAccess;
 import de.audi.app.sdsmanager.syscall.ISystemCallParameter;
 import de.audi.atip.interapp.NaviService;
-import de.audi.atip.interapp.NaviService$OneshotData;
 import de.audi.atip.log.LogChannel;
 
 public class NaviHouseNumberResolveCommand
@@ -30,23 +29,22 @@ extends AbstractSystemCallCommand {
         this.mode = (byte)SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[%1#execute] mode=%2", (Object)this.getName(), (long)this.mode);
+        this.logger.log(10000000, "[%1#execute] mode=%2", (Object)this.getName(), (long)this.mode);
         if (this.mode == 10) {
             this.resolveOneshotHousenumber();
         } else if (this.mode == 7) {
             this.resolveStepByStepHousenumber();
         } else {
             this.logger.log(10000, "[%1#execute] mode %2 invalid", (Object)this.getName(), (long)this.mode);
-            this.sendResult(1100742656);
+            this.sendResult(40001);
         }
     }
 
     private void resolveOneshotHousenumber() {
-        NaviService$OneshotData naviService$OneshotData = this.sdsHandler.getOneshotData((byte)2);
-        if (naviService$OneshotData != null) {
-            this.naviService.setHouseNumber(naviService$OneshotData.getText(), naviService$OneshotData.getStringId());
+        NaviService.OneshotData oneshotData = this.sdsHandler.getOneshotData((byte)2);
+        if (oneshotData != null) {
+            this.naviService.setHouseNumber(oneshotData.getText(), oneshotData.getStringId());
         } else {
             this.logger.log(10000, "[%1#resolveOneshotHousenumber] oneshot data is null");
             this.sendResult(3001);
@@ -58,30 +56,30 @@ extends AbstractSystemCallCommand {
         for (int i2 = 0; i2 < iPicklist.getSize(); ++i2) {
             IPicklistSlot iPicklistSlot = iPicklist.getSlot(i2, 0);
             if (iPicklistSlot != null && !SDSUtils.isEmpty(iPicklistSlot.getText()) && !SDSUtils.isEmpty(iPicklistSlot.getObjectStringID())) {
-                this.logger.log(1078071040, "[%1#resolveStepbyStepHousenumber] found valid entry at index %2", (Object)this.getName(), (long)i2);
+                this.logger.log(1000000, "[%1#resolveStepbyStepHousenumber] found valid entry at index %2", (Object)this.getName(), (long)i2);
                 this.sdsHandler.setSpokenHouseNumberUnresolved(iPicklistSlot);
                 this.naviService.setHouseNumber(iPicklistSlot.getText(), iPicklistSlot.getObjectStringID());
                 return;
             }
             if (iPicklistSlot == null || !SDSUtils.isEmpty(iPicklistSlot.getObjectStringID())) continue;
-            this.logger.log(1078071040, "[%1#resolveStepbyStepHousenumber] found invalid entry at index %2", (Object)this.getName(), (long)i2);
-            this.sendResult(1234960384);
+            this.logger.log(1000000, "[%1#resolveStepbyStepHousenumber] found invalid entry at index %2", (Object)this.getName(), (long)i2);
+            this.sendResult(40009);
             return;
         }
-        this.logger.log(1078071040, "[%1#resolveStepbyStepHousenumber] No valid entry found in the picklist", (Object)this.getName());
+        this.logger.log(1000000, "[%1#resolveStepbyStepHousenumber] No valid entry found in the picklist", (Object)this.getName());
         IPicklistSlot iPicklistSlot = this.sdsHandler.getSpokenHouseNumberUnresolved();
         if (iPicklistSlot != null) {
-            this.logger.log(1078071040, "[%1#resolveStepbyStepHousenumber] using the stored house number slot", (Object)this.getName());
+            this.logger.log(1000000, "[%1#resolveStepbyStepHousenumber] using the stored house number slot", (Object)this.getName());
             this.naviService.setHouseNumber(iPicklistSlot.getText(), iPicklistSlot.getObjectStringID());
             return;
         }
-        this.logger.log(-1601830656, "[%1#resolveStepbyStepHousenumber] no valid entry found", (Object)this.getName());
-        this.sendResult(1184628736);
+        this.logger.log(100000, "[%1#resolveStepbyStepHousenumber] no valid entry found", (Object)this.getName());
+        this.sendResult(40006);
     }
 
     public void sdsDestinationSetResult(byte by) {
-        this.logger.log(-2137614336, "[%1#sdsDestinationSetResult] result=%2", (Object)this.getName(), (long)by);
-        this.sendResult(by == 0 ? 1083965440 : 1100742656);
+        this.logger.log(10000000, "[%1#sdsDestinationSetResult] result=%2", (Object)this.getName(), (long)by);
+        this.sendResult(by == 0 ? 40000 : 40001);
     }
 }
 

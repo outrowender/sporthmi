@@ -29,10 +29,8 @@ implements BundleActivator {
         return this.framework;
     }
 
-    protected abstract void startInternal(BundleContext bundleContext) {
-    }
+    protected abstract void startInternal(BundleContext var1);
 
-    @Override
     public final void start(BundleContext bundleContext) {
         if (!this.isStarted) {
             this.bundleContext = bundleContext;
@@ -48,7 +46,6 @@ implements BundleActivator {
         }
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         this.isStarted = false;
     }

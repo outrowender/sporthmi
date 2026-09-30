@@ -4,10 +4,9 @@
 package de.audi.atip.interapp;
 
 public interface MapServiceListener {
-    public static final int POPUP_TYPE_GOOGLE_OFFLINE;
-    public static final int POPUP_TYPE_GOOGLE_NO_DATA;
+    public static final int POPUP_TYPE_GOOGLE_OFFLINE = 0;
+    public static final int POPUP_TYPE_GOOGLE_NO_DATA = 1;
 
-    default public void onEnterGoogleMapPopup(int n) {
-    }
+    public void onEnterGoogleMapPopup(int var1);
 }
 

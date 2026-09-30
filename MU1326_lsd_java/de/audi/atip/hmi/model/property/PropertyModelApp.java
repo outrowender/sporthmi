@@ -7,13 +7,10 @@ import de.audi.atip.hmi.modelaccess.HMIModelApp;
 
 public interface PropertyModelApp
 extends HMIModelApp {
-    default public void setProperties(int n, int[] nArray) {
-    }
+    public void setProperties(int var1, int[] var2);
 
-    default public int getCategory() {
-    }
+    public int getCategory();
 
-    default public int[] getProperties() {
-    }
+    public int[] getProperties();
 }
 

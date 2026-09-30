@@ -12,7 +12,7 @@ import org.dsi.ifc.organizer.AdbEntry;
 public class CreateTelFavoriteCommand
 extends AbstractGetEntryCommand {
     private AddressBookEvoApplication appAdr;
-    public static final int PHONE_DATA_INDEX_NONE;
+    public static final int PHONE_DATA_INDEX_NONE = -1;
     private int phoneDataIndex;
     static /* synthetic */ Class class$de$audi$app$addressbook$evo$main$commands$CreateTelFavoriteCommand;
 
@@ -22,7 +22,6 @@ extends AbstractGetEntryCommand {
         this.phoneDataIndex = n;
     }
 
-    @Override
     protected boolean handleGetEntryResult(AdbEntry adbEntry) {
         if (adbEntry != null) {
             if (this.phoneDataIndex != -1 && adbEntry.phoneData[this.phoneDataIndex] != null) {

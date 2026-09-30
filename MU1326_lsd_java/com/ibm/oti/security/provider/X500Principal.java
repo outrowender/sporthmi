@@ -4,12 +4,10 @@
 package com.ibm.oti.security.provider;
 
 import com.ibm.oti.security.provider.ASN1OID;
-import com.ibm.oti.security.provider.X500Principal$AttributeValuePair;
 import com.ibm.oti.text.Normalizer;
 import com.ibm.oti.util.ASN1Decoder;
-import com.ibm.oti.util.ASN1Decoder$BMPString;
-import com.ibm.oti.util.ASN1Decoder$Node;
 import com.ibm.oti.util.ASN1Encoder;
+import com.ibm.oti.util.ASN1Exception;
 import com.ibm.oti.util.Msg;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -22,30 +20,24 @@ import java.util.Vector;
 
 public class X500Principal
 implements Principal {
-    public static final int OUTPUT_RFC1779;
-    public static final int OUTPUT_RFC2253;
-    public static final int OUTPUT_CANONICAL;
-    private static final int RFC_1779;
-    private static final int RFC_2253;
-    private static final int RFC_2459;
+    public static final int OUTPUT_RFC1779 = 0;
+    public static final int OUTPUT_RFC2253 = 1;
+    public static final int OUTPUT_CANONICAL = 2;
+    private static final int RFC_1779 = 0;
+    private static final int RFC_2253 = 1;
+    private static final int RFC_2459 = 2;
     private int[] supportedStandards;
     private boolean[] outputMarker;
     protected Vector attributeTypes;
     protected Vector attributeValues;
-    private static final ASN1OID[] RFC_1779_OIDs;
-    private static final ASN1OID[] RFC_2253_OIDs;
-    private static final ASN1OID[] RFC_2459_OIDs;
-    private static final String[] RFC_1779_OID_keys;
-    private static final String[] RFC_2253_OID_keys;
-    private static final String[] RFC_2459_OID_keys;
+    private static final ASN1OID[] RFC_1779_OIDs = new ASN1OID[7];
+    private static final ASN1OID[] RFC_2253_OIDs = new ASN1OID[2];
+    private static final ASN1OID[] RFC_2459_OIDs = new ASN1OID[9];
+    private static final String[] RFC_1779_OID_keys = new String[7];
+    private static final String[] RFC_2253_OID_keys = new String[2];
+    private static final String[] RFC_2459_OID_keys = new String[9];
 
     static {
-        RFC_1779_OIDs = new ASN1OID[7];
-        RFC_2253_OIDs = new ASN1OID[2];
-        RFC_2459_OIDs = new ASN1OID[9];
-        RFC_1779_OID_keys = new String[7];
-        RFC_2253_OID_keys = new String[2];
-        RFC_2459_OID_keys = new String[9];
         int n = 0;
         int[] nArray = new int[]{2, 5, 4, 3};
         X500Principal.RFC_1779_OIDs[n] = new ASN1OID(nArray);
@@ -73,7 +65,7 @@ implements Principal {
         int[] nArray2 = new int[7];
         nArray2[1] = 9;
         nArray2[2] = 2342;
-        nArray2[3] = 754525185;
+        nArray2[3] = 19200300;
         nArray2[4] = 100;
         nArray2[5] = 1;
         nArray2[6] = 25;
@@ -84,7 +76,7 @@ implements Principal {
         int[] nArray3 = new int[7];
         nArray3[1] = 9;
         nArray3[2] = 2342;
-        nArray3[3] = 754525185;
+        nArray3[3] = 19200300;
         nArray3[4] = 100;
         nArray3[5] = 1;
         nArray3[6] = 1;
@@ -108,7 +100,7 @@ implements Principal {
         nArray = new int[]{2, 5, 4, 44};
         X500Principal.RFC_2459_OIDs[++n] = new ASN1OID(nArray);
         X500Principal.RFC_2459_OID_keys[n] = "GENERATION";
-        nArray = new int[]{1, 2, 840, -1917124352, 1, 9, 1};
+        nArray = new int[]{1, 2, 840, 113549, 1, 9, 1};
         X500Principal.RFC_2459_OIDs[++n] = new ASN1OID(nArray);
         X500Principal.RFC_2459_OID_keys[n] = "EMAILADDRESS";
         nArray = new int[]{2, 5, 4, 46};
@@ -137,7 +129,7 @@ implements Principal {
         }
     }
 
-    public X500Principal(byte[] byArray) {
+    public X500Principal(byte[] byArray) throws ASN1Exception {
         int[] nArray = new int[3];
         nArray[1] = 1;
         nArray[2] = 2;
@@ -147,11 +139,11 @@ implements Principal {
         this.attributeValues = new Vector();
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byArray);
         ASN1Decoder aSN1Decoder = new ASN1Decoder(byteArrayInputStream);
-        ASN1Decoder$Node aSN1Decoder$Node = aSN1Decoder.readContents();
-        this.initFrom(aSN1Decoder$Node);
+        ASN1Decoder.Node node = aSN1Decoder.readContents();
+        this.initFrom(node);
     }
 
-    public X500Principal(InputStream inputStream) {
+    public X500Principal(InputStream inputStream) throws ASN1Exception {
         int[] nArray = new int[3];
         nArray[1] = 1;
         nArray[2] = 2;
@@ -160,11 +152,11 @@ implements Principal {
         this.attributeTypes = new Vector();
         this.attributeValues = new Vector();
         ASN1Decoder aSN1Decoder = new ASN1Decoder(inputStream);
-        ASN1Decoder$Node aSN1Decoder$Node = aSN1Decoder.readContents();
-        this.initFrom(aSN1Decoder$Node);
+        ASN1Decoder.Node node = aSN1Decoder.readContents();
+        this.initFrom(node);
     }
 
-    public X500Principal(ASN1Decoder$Node aSN1Decoder$Node) {
+    public X500Principal(ASN1Decoder.Node node) {
         int[] nArray = new int[3];
         nArray[1] = 1;
         nArray[2] = 2;
@@ -172,18 +164,18 @@ implements Principal {
         this.outputMarker = null;
         this.attributeTypes = new Vector();
         this.attributeValues = new Vector();
-        this.initFrom(aSN1Decoder$Node);
+        this.initFrom(node);
     }
 
-    private void initFrom(ASN1Decoder$Node aSN1Decoder$Node) {
-        ASN1Decoder$Node[] aSN1Decoder$NodeArray = (ASN1Decoder$Node[])aSN1Decoder$Node.data;
+    private void initFrom(ASN1Decoder.Node node) {
+        ASN1Decoder.Node[] nodeArray = (ASN1Decoder.Node[])node.data;
         int n = 0;
-        while (n < aSN1Decoder$NodeArray.length) {
-            ASN1Decoder$Node[] aSN1Decoder$NodeArray2 = (ASN1Decoder$Node[])aSN1Decoder$NodeArray[n].data;
-            ASN1Decoder$Node[] aSN1Decoder$NodeArray3 = (ASN1Decoder$Node[])aSN1Decoder$NodeArray2[0].data;
+        while (n < nodeArray.length) {
+            ASN1Decoder.Node[] nodeArray2 = (ASN1Decoder.Node[])nodeArray[n].data;
+            ASN1Decoder.Node[] nodeArray3 = (ASN1Decoder.Node[])nodeArray2[0].data;
             String string = null;
-            string = aSN1Decoder$NodeArray3[1].data instanceof ASN1Decoder$BMPString ? ((ASN1Decoder$BMPString)aSN1Decoder$NodeArray3[1].data).bmpString : (String)aSN1Decoder$NodeArray3[1].data;
-            ASN1OID aSN1OID = new ASN1OID((int[])aSN1Decoder$NodeArray3[0].data);
+            string = nodeArray3[1].data instanceof ASN1Decoder.BMPString ? ((ASN1Decoder.BMPString)nodeArray3[1].data).bmpString : (String)nodeArray3[1].data;
+            ASN1OID aSN1OID = new ASN1OID((int[])nodeArray3[0].data);
             this.attributeTypes.addElement(aSN1OID);
             this.attributeValues.addElement(string);
             ++n;
@@ -323,7 +315,6 @@ implements Principal {
         return null;
     }
 
-    @Override
     public String getName() {
         return this.getName(1);
     }
@@ -357,10 +348,10 @@ implements Principal {
         int n2 = 0;
         while (n2 < this.attributeTypes.size()) {
             if (!this.outputMarker[n2]) {
-                String string = new StringBuffer("OID.").append(((ASN1OID)this.attributeTypes.elementAt(n2)).toString()).toString();
+                String string = "OID." + ((ASN1OID)this.attributeTypes.elementAt(n2)).toString();
                 String string2 = (String)this.attributeValues.elementAt(n2);
-                X500Principal$AttributeValuePair x500Principal$AttributeValuePair = new X500Principal$AttributeValuePair(string, string2);
-                vector.add(x500Principal$AttributeValuePair);
+                AttributeValuePair attributeValuePair = new AttributeValuePair(string, string2);
+                vector.add(attributeValuePair);
                 this.outputMarker[n2] = true;
             }
             ++n2;
@@ -377,14 +368,14 @@ implements Principal {
         TreeSet treeSet = new TreeSet();
         Object object3 = vector.iterator();
         while (object3.hasNext()) {
-            object2 = (X500Principal$AttributeValuePair)object3.next();
+            object2 = (AttributeValuePair)object3.next();
             treeSet.add(object2);
         }
         object3 = new StringBuffer();
         object2 = treeSet.iterator();
         while (object2.hasNext()) {
-            object = (X500Principal$AttributeValuePair)object2.next();
-            ((StringBuffer)object3).append(((X500Principal$AttributeValuePair)object).getOutputString(2));
+            object = (AttributeValuePair)object2.next();
+            ((StringBuffer)object3).append(((AttributeValuePair)object).getOutputString(2));
             ((StringBuffer)object3).append(this.getSeparator());
         }
         ((StringBuffer)object3).deleteCharAt(((StringBuffer)object3).length() - 1);
@@ -399,8 +390,8 @@ implements Principal {
         StringBuffer stringBuffer = new StringBuffer();
         Iterator iterator = vector.iterator();
         while (iterator.hasNext()) {
-            X500Principal$AttributeValuePair x500Principal$AttributeValuePair = (X500Principal$AttributeValuePair)iterator.next();
-            stringBuffer.append(x500Principal$AttributeValuePair.getOutputString(1));
+            AttributeValuePair attributeValuePair = (AttributeValuePair)iterator.next();
+            stringBuffer.append(attributeValuePair.getOutputString(1));
             stringBuffer.append(this.getSeparator());
         }
         stringBuffer.deleteCharAt(stringBuffer.length() - 1);
@@ -417,8 +408,8 @@ implements Principal {
                 if (this.attributeTypes.elementAt(n2).equals(aSN1OID)) {
                     String string = this.getKeyForOID(aSN1OID, nArray);
                     String string2 = (String)this.attributeValues.elementAt(n2);
-                    X500Principal$AttributeValuePair x500Principal$AttributeValuePair = new X500Principal$AttributeValuePair(string, string2);
-                    vector2.add(x500Principal$AttributeValuePair);
+                    AttributeValuePair attributeValuePair = new AttributeValuePair(string, string2);
+                    vector2.add(attributeValuePair);
                     this.outputMarker[n2] = true;
                 }
                 ++n2;
@@ -428,12 +419,10 @@ implements Principal {
         return vector2;
     }
 
-    @Override
     public int hashCode() {
         return this.getName(2).hashCode();
     }
 
-    @Override
     public String toString() {
         return this.getName();
     }
@@ -450,7 +439,6 @@ implements Principal {
         return null;
     }
 
-    @Override
     public boolean equals(Object object) {
         if (!(object instanceof X500Principal)) {
             return false;
@@ -459,37 +447,37 @@ implements Principal {
     }
 
     public byte[] getEncoded() {
-        ASN1Decoder$Node aSN1Decoder$Node = this.toASN1Node();
-        byte[] byArray = ASN1Encoder.encodeNode(aSN1Decoder$Node);
+        ASN1Decoder.Node node = this.toASN1Node();
+        byte[] byArray = ASN1Encoder.encodeNode(node);
         return byArray;
     }
 
-    public ASN1Decoder$Node toASN1Node() {
-        ASN1Decoder$Node[] aSN1Decoder$NodeArray = new ASN1Decoder$Node[this.attributeTypes.size()];
+    public ASN1Decoder.Node toASN1Node() {
+        ASN1Decoder.Node[] nodeArray = new ASN1Decoder.Node[this.attributeTypes.size()];
         int n = 0;
         while (n < this.attributeTypes.size()) {
-            ASN1Decoder$Node[] aSN1Decoder$NodeArray2 = new ASN1Decoder$Node[2];
-            ASN1Decoder$Node aSN1Decoder$Node = new ASN1Decoder$Node();
-            aSN1Decoder$Node.type = 6;
-            aSN1Decoder$Node.data = ((ASN1OID)this.attributeTypes.elementAt(n)).representation();
-            aSN1Decoder$NodeArray2[0] = aSN1Decoder$Node;
-            ASN1Decoder$Node aSN1Decoder$Node2 = new ASN1Decoder$Node();
-            aSN1Decoder$Node2.type = 12;
-            aSN1Decoder$Node2.data = this.attributeValues.elementAt(n);
-            aSN1Decoder$NodeArray2[1] = aSN1Decoder$Node2;
-            ASN1Decoder$Node aSN1Decoder$Node3 = new ASN1Decoder$Node();
-            aSN1Decoder$Node3.type = 16;
-            aSN1Decoder$Node3.data = aSN1Decoder$NodeArray2;
-            ASN1Decoder$Node aSN1Decoder$Node4 = new ASN1Decoder$Node();
-            aSN1Decoder$Node4.type = 17;
-            aSN1Decoder$Node4.data = new ASN1Decoder$Node[]{aSN1Decoder$Node3};
-            aSN1Decoder$NodeArray[n] = aSN1Decoder$Node4;
+            ASN1Decoder.Node[] nodeArray2 = new ASN1Decoder.Node[2];
+            ASN1Decoder.Node node = new ASN1Decoder.Node();
+            node.type = 6;
+            node.data = ((ASN1OID)this.attributeTypes.elementAt(n)).representation();
+            nodeArray2[0] = node;
+            ASN1Decoder.Node node2 = new ASN1Decoder.Node();
+            node2.type = 12;
+            node2.data = this.attributeValues.elementAt(n);
+            nodeArray2[1] = node2;
+            ASN1Decoder.Node node3 = new ASN1Decoder.Node();
+            node3.type = 16;
+            node3.data = nodeArray2;
+            ASN1Decoder.Node node4 = new ASN1Decoder.Node();
+            node4.type = 17;
+            node4.data = new ASN1Decoder.Node[]{node3};
+            nodeArray[n] = node4;
             ++n;
         }
-        ASN1Decoder$Node aSN1Decoder$Node = new ASN1Decoder$Node();
-        aSN1Decoder$Node.type = 16;
-        aSN1Decoder$Node.data = aSN1Decoder$NodeArray;
-        return aSN1Decoder$Node;
+        ASN1Decoder.Node node = new ASN1Decoder.Node();
+        node.type = 16;
+        node.data = nodeArray;
+        return node;
     }
 
     X500Principal() {
@@ -504,6 +492,76 @@ implements Principal {
 
     public char getSeparator() {
         return ',';
+    }
+
+    private static class AttributeValuePair
+    implements Comparable {
+        private String type;
+        private String value;
+
+        public AttributeValuePair(String string, String string2) {
+            this.type = string;
+            this.value = string2;
+        }
+
+        public int compareTo(Object object) {
+            AttributeValuePair attributeValuePair = (AttributeValuePair)object;
+            if (this.isOID(this.type)) {
+                if (this.isOID(attributeValuePair.type)) {
+                    return this.type.compareTo(attributeValuePair.type);
+                }
+                return 1;
+            }
+            if (this.isOID(attributeValuePair.type)) {
+                return -1;
+            }
+            return this.type.compareTo(attributeValuePair.type);
+        }
+
+        private boolean isOID(String string) {
+            return string.toLowerCase().startsWith("oid");
+        }
+
+        public String getOutputString(int n) {
+            StringBuffer stringBuffer = new StringBuffer(this.type.length() + this.value.length() + 3);
+            stringBuffer.append(this.type);
+            stringBuffer.append('=');
+            String string = this.value;
+            string = n == 2 ? this.stripInternalWhitespace(this.value.trim()) : this.value;
+            if (this.value.charAt(0) == ' ' || this.value.charAt(0) == '#' || this.value.charAt(this.value.length() - 1) == ' ' || this.value.indexOf(44) != -1 || this.value.indexOf(61) != -1 || this.value.indexOf(43) != -1 || this.value.indexOf(60) != -1 || this.value.indexOf(62) != -1 || this.value.indexOf(35) != -1 || this.value.indexOf(59) != -1) {
+                stringBuffer.append('\"');
+                stringBuffer.append(string);
+                stringBuffer.append('\"');
+            } else {
+                stringBuffer.append(string);
+            }
+            return stringBuffer.toString();
+        }
+
+        private String stripInternalWhitespace(String string) {
+            char[] cArray = string.toCharArray();
+            char[] cArray2 = new char[string.length()];
+            int n = 0;
+            int n2 = 0;
+            while (n2 < string.length()) {
+                if (Character.isWhitespace(cArray[n2])) {
+                    cArray2[n++] = 32;
+                    ++n2;
+                    while (Character.isWhitespace(cArray[n2])) {
+                        ++n2;
+                    }
+                    cArray2[n++] = cArray[n2];
+                } else {
+                    cArray2[n++] = cArray[n2];
+                }
+                ++n2;
+            }
+            return new String(cArray2);
+        }
+
+        public String toString() {
+            return this.getOutputString(1);
+        }
     }
 }
 

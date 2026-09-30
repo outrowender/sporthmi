@@ -59,7 +59,7 @@ import de.vw.mib.bap.requests.ResultMethod;
 
 public class BAPIndicationHandlerAudio
 extends AbstractBAPIndicationHandlerAudio {
-    private static final int SOURCE_UNKNOWN;
+    private static final int SOURCE_UNKNOWN = -1;
 
     protected BAPIndicationHandlerAudio(CombiModuleAudio combiModuleAudio) {
         super(combiModuleAudio, combiModuleAudio.getLogChannel());
@@ -81,7 +81,6 @@ extends AbstractBAPIndicationHandlerAudio {
         return this.module().getTerminalModeServiceListener();
     }
 
-    @Override
     public GetArrayIndication evaluateGetArrayIndication(int n, GetArray getArray) {
         GetArrayIndication getArrayIndication = null;
         switch (n) {
@@ -156,17 +155,15 @@ extends AbstractBAPIndicationHandlerAudio {
         return null;
     }
 
-    @Override
     protected void processAnnouncementEscapeAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-        this.logChannel.log(-2137614336, "[BAPIndicationHandlerAudio#processAnnouncementEscapeAbort] Method can't be aborted: %1", (Object)bAPFunctionMethodFSG.getFctIDDescription());
+        this.logChannel.log(10000000, "[BAPIndicationHandlerAudio#processAnnouncementEscapeAbort] Method can't be aborted: %1", (Object)bAPFunctionMethodFSG.getFctIDDescription());
         AnnouncementEscape_Result announcementEscape_Result = (AnnouncementEscape_Result)((CombiModuleAudio)this.module).createResultSerializer(29);
         announcementEscape_Result.announcementEscapeResult = 3;
         bAPFunctionMethodFSG.resultAbortNotSuccessfulREQ(announcementEscape_Result);
     }
 
-    @Override
     protected void processAnnouncementEscapeStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-        this.logChannel.log(-2137614336, "[BAPIndicationHandlerAudio#processAnnouncementEscapeStartResult] calling tuner service 'cancelAnnouncement'");
+        this.logChannel.log(10000000, "[BAPIndicationHandlerAudio#processAnnouncementEscapeStartResult] calling tuner service 'cancelAnnouncement'");
         if (this.getTunerServiceListener() != null) {
             this.getTunerServiceListener().cancelAnnouncement();
         } else {
@@ -176,26 +173,23 @@ extends AbstractBAPIndicationHandlerAudio {
         }
     }
 
-    @Override
     protected void processAsgCapabilitiesSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, ASG_Capabilities_SetGet aSG_Capabilities_SetGet) {
-        this.logChannel.log(-2137614336, "[BAPIndicationHandlerAudio#processAsgCapabilitiesSetGet] called (dabLongPs=%1, sdarsLongPs=%2)", aSG_Capabilities_SetGet.presentationCapabilities.dabLongPs, aSG_Capabilities_SetGet.presentationCapabilities.sdarsLongPs);
+        this.logChannel.log(10000000, "[BAPIndicationHandlerAudio#processAsgCapabilitiesSetGet] called (dabLongPs=%1, sdarsLongPs=%2)", aSG_Capabilities_SetGet.presentationCapabilities.dabLongPs, aSG_Capabilities_SetGet.presentationCapabilities.sdarsLongPs);
         boolean bl = aSG_Capabilities_SetGet.presentationCapabilities.dabLongPs;
         boolean bl2 = aSG_Capabilities_SetGet.presentationCapabilities.sdarsLongPs;
         if (this.getTunerServiceListener() != null) {
-            this.logChannel.log(-2137614336, "[BAPIndicationHandlerAudio#processAsgCapabilitiesSetGet] call tunerService 'setProgramStringLength(%1, %2)'", bl, bl2);
+            this.logChannel.log(10000000, "[BAPIndicationHandlerAudio#processAsgCapabilitiesSetGet] call tunerService 'setProgramStringLength(%1, %2)'", bl, bl2);
             this.getTunerServiceListener().setProgramStringLength(bl, bl2);
         } else {
-            this.logChannel.log(-2137614336, "[BAPIndicationHandlerAudio#processAsgCapabilitiesSetGet] tunerService not available");
+            this.logChannel.log(10000000, "[BAPIndicationHandlerAudio#processAsgCapabilitiesSetGet] tunerService not available");
             this.module().getTunerService().updateProgramStringLength(bl, bl2);
         }
     }
 
-    @Override
     protected void processDedicatedAudioControlAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
         this.module().getDedicatedAudioControlHandler().processAbort();
     }
 
-    @Override
     protected void processDedicatedAudioControlStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG, DedicatedAudioControl_StartResult dedicatedAudioControl_StartResult) {
         if (BAPIndicationHandlerAudio.reservedValueUsed(dedicatedAudioControl_StartResult)) {
             this.logChannel.log(10000, "[BAPIndicationHandlerAudio#processDedicatedAudioControlStartResult] Reserved Value Used. serializer: %1", (Object)dedicatedAudioControl_StartResult);
@@ -212,24 +206,21 @@ extends AbstractBAPIndicationHandlerAudio {
         return dedicatedAudioControl_StartResult.listType >= 6 && dedicatedAudioControl_StartResult.listType <= 255;
     }
 
-    @Override
     protected void processGeneralInfoSwitchesSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, GeneralInfoSwitches_SetGet generalInfoSwitches_SetGet) {
         bAPFunctionPropertyFSG.functionNotSupported();
     }
 
-    @Override
     protected void processGetNextListPosAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-        this.logChannel.log(-2137614336, "[BAPIndicationHandlerAudio#processGetNextListPosAbort] Method can't be aborted: %1", (Object)bAPFunctionMethodFSG.getFctIDDescription());
+        this.logChannel.log(10000000, "[BAPIndicationHandlerAudio#processGetNextListPosAbort] Method can't be aborted: %1", (Object)bAPFunctionMethodFSG.getFctIDDescription());
         GetNextListPos_Result getNextListPos_Result = (GetNextListPos_Result)((CombiModuleAudio)this.module).createResultSerializer(44);
         getNextListPos_Result.getNextListPos_Result = 3;
         bAPFunctionMethodFSG.resultAbortNotSuccessfulREQ(getNextListPos_Result);
     }
 
-    @Override
     protected void processGetNextListPosStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG, GetNextListPos_StartResult getNextListPos_StartResult) {
         Object object;
         int n;
-        this.logChannel.log(-2137614336, "[BAPIndicationHandlerAudio#processGetNextListPosStartResult] called for listType %1", (long)getNextListPos_StartResult.listType);
+        this.logChannel.log(10000000, "[BAPIndicationHandlerAudio#processGetNextListPosStartResult] called for listType %1", (long)getNextListPos_StartResult.listType);
         if (BAPIndicationHandlerAudio.reservedValueUsed(getNextListPos_StartResult)) {
             this.logChannel.log(10000, "[BAPIndicationHandlerAudio#processGetNextListPosStartResult] Reserved Value Used. serializer: %1", (Object)getNextListPos_StartResult);
             this.sendAppErrorOutOfRange(bAPFunctionMethodFSG);
@@ -289,8 +280,8 @@ extends AbstractBAPIndicationHandlerAudio {
             object = (GetNextListPos_Result)((CombiModuleAudio)this.module).createResultSerializer(44);
             ((GetNextListPos_Result)object).getNextListPos_Result = 1;
             ((GetNextListPos_Result)object).currentPos = getNextListPos_StartResult.currentPos;
-            ((GetNextListPos_Result)object).nextPos = -65536;
-            ((GetNextListPos_Result)object).absoluteListPos = -65536;
+            ((GetNextListPos_Result)object).nextPos = 65535;
+            ((GetNextListPos_Result)object).absoluteListPos = 65535;
             bAPFunctionMethodFSG.resultREQ((ResultMethod)object);
         }
     }
@@ -299,15 +290,13 @@ extends AbstractBAPIndicationHandlerAudio {
         return getNextListPos_StartResult.listType >= 6 && getNextListPos_StartResult.listType <= 255;
     }
 
-    @Override
     protected void processMediaBrowserControlAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-        this.logChannel.log(-2137614336, "[BAPIndicationHandlerAudio#processMediaBrowserControlAbort] Method can't be aborted: %1", (Object)bAPFunctionMethodFSG.getFctIDDescription());
+        this.logChannel.log(10000000, "[BAPIndicationHandlerAudio#processMediaBrowserControlAbort] Method can't be aborted: %1", (Object)bAPFunctionMethodFSG.getFctIDDescription());
         MediaBrowserControl_Result mediaBrowserControl_Result = (MediaBrowserControl_Result)((CombiModuleAudio)this.module).createResultSerializer(38);
         mediaBrowserControl_Result.browserControlResult = 3;
         bAPFunctionMethodFSG.resultAbortNotSuccessfulREQ(mediaBrowserControl_Result);
     }
 
-    @Override
     protected void processMediaBrowserControlStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG, MediaBrowserControl_StartResult mediaBrowserControl_StartResult) {
         if (BAPIndicationHandlerAudio.reservedValueUsed(mediaBrowserControl_StartResult)) {
             this.logChannel.log(10000, "[BAPIndicationHandlerAudio#processMediaBrowserControlStartResult] Reserved Value Used. serializer: %1", (Object)mediaBrowserControl_StartResult);
@@ -317,7 +306,7 @@ extends AbstractBAPIndicationHandlerAudio {
         CombiBAPServiceAudioListener combiBAPServiceAudioListener = this.getActiveAudioServiceListener();
         if (combiBAPServiceAudioListener != null && combiBAPServiceAudioListener.equals(this.getMediaServiceListener())) {
             if (mediaBrowserControl_StartResult.control == 3) {
-                this.logChannel.log(-1601830656, "[BAPIndicationHandlerAudio#processMediaBrowserControlStartResult] control 'go to source' not supported");
+                this.logChannel.log(100000, "[BAPIndicationHandlerAudio#processMediaBrowserControlStartResult] control 'go to source' not supported");
                 MediaBrowserControl_Result mediaBrowserControl_Result = (MediaBrowserControl_Result)((CombiModuleAudio)this.module).createResultSerializer(38);
                 mediaBrowserControl_Result.browserControlResult = 1;
                 bAPFunctionMethodFSG.resultREQ(mediaBrowserControl_Result);
@@ -325,11 +314,11 @@ extends AbstractBAPIndicationHandlerAudio {
                 BAPFunctionArrayFSG bAPFunctionArrayFSG = this.module().getBAPFunctionArrayFSG(36);
                 MediaBrowserListHandler mediaBrowserListHandler = (MediaBrowserListHandler)bAPFunctionArrayFSG.getArrayHandler();
                 if (mediaBrowserControl_StartResult.control == 0 && mediaBrowserListHandler.isPlaybackFolder()) {
-                    this.logChannel.log(-2137614336, "[BAPIndicationHandlerAudio#processMediaBrowserControlStartResult] playback folder is already the current browsed folder -> don't start function sync");
+                    this.logChannel.log(10000000, "[BAPIndicationHandlerAudio#processMediaBrowserControlStartResult] playback folder is already the current browsed folder -> don't start function sync");
                 } else {
-                    this.logChannel.log(-1601830656, "[BAPIndicationHandlerAudio#processMediaBrowserControlStartResult] playback folder change not supported -> don't start function sync");
+                    this.logChannel.log(100000, "[BAPIndicationHandlerAudio#processMediaBrowserControlStartResult] playback folder change not supported -> don't start function sync");
                 }
-                this.logChannel.log(-2137614336, "[BAPIndicationHandlerAudio#processMediaBrowserControlStartResult] calling goTo(%1)", (long)mediaBrowserControl_StartResult.control);
+                this.logChannel.log(10000000, "[BAPIndicationHandlerAudio#processMediaBrowserControlStartResult] calling goTo(%1)", (long)mediaBrowserControl_StartResult.control);
                 this.getMediaServiceListener().goTo(mediaBrowserControl_StartResult.control, mediaBrowserControl_StartResult.reference);
             }
         } else {
@@ -344,41 +333,37 @@ extends AbstractBAPIndicationHandlerAudio {
         return mediaBrowserControl_StartResult.control >= 5 && mediaBrowserControl_StartResult.control <= 255;
     }
 
-    @Override
     protected void processMediaFileInfoAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-        this.logChannel.log(-2137614336, "[BAPIndicationHandlerAudio#processMediaFileInfoAbort] Method can't be aborted: %1", (Object)bAPFunctionMethodFSG.getFctIDDescription());
+        this.logChannel.log(10000000, "[BAPIndicationHandlerAudio#processMediaFileInfoAbort] Method can't be aborted: %1", (Object)bAPFunctionMethodFSG.getFctIDDescription());
         MediaFileInfo_Result mediaFileInfo_Result = (MediaFileInfo_Result)((CombiModuleAudio)this.module).createResultSerializer(39);
         mediaFileInfo_Result.mediaFileInfoResult = 3;
         bAPFunctionMethodFSG.resultAbortNotSuccessfulREQ(mediaFileInfo_Result);
     }
 
-    @Override
     protected void processMediaFileInfoStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG, MediaFileInfo_StartResult mediaFileInfo_StartResult) {
         bAPFunctionMethodFSG.functionNotSupported();
     }
 
-    @Override
     protected void processSdsStateSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, SDS_State_SetGet sDS_State_SetGet) {
         if (this.module().getFunctionList().isFunctionSupported(bAPFunctionPropertyFSG.getFctID())) {
-            this.logChannel.log(-2137614336, "[BAPIndicationHandlerAudio#processSdsStateSetGet] SetGet not supported, just reply status message");
+            this.logChannel.log(10000000, "[BAPIndicationHandlerAudio#processSdsStateSetGet] SetGet not supported, just reply status message");
             SDS_State_Status sDS_State_Status = (SDS_State_Status)bAPFunctionPropertyFSG.getLastStatus();
             this.module().getSDSService().updateSDSState(sDS_State_Status.state);
             if (this.module().getExternalKeyListener() != null) {
                 if (sDS_State_SetGet.state == 3) {
-                    this.logChannel.log(-2137614336, "[BAPIndicationHandlerAudio#processSdsStateSetGet] send key event");
+                    this.logChannel.log(10000000, "[BAPIndicationHandlerAudio#processSdsStateSetGet] send key event");
                     this.module().getExternalKeyListener().supplyExternalKey(100, 50, 1, 1);
                     this.module().getExternalKeyListener().supplyExternalKey(100, 50, 0, 1);
                 }
             } else {
-                this.logChannel.log(-2137614336, "[BAPIndicationHandlerAudio#processSdsStateSetGet] externalKeyListener is null");
+                this.logChannel.log(10000000, "[BAPIndicationHandlerAudio#processSdsStateSetGet] externalKeyListener is null");
             }
         } else {
-            this.logChannel.log(-2137614336, "[BAPIndicationHandlerAudio#processSdsStateSetGet] SDSState not supported");
+            this.logChannel.log(10000000, "[BAPIndicationHandlerAudio#processSdsStateSetGet] SDSState not supported");
             bAPFunctionPropertyFSG.functionNotSupported();
         }
     }
 
-    @Override
     protected void processPreferredListSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, PreferredList_SetGet preferredList_SetGet) {
         if (BAPIndicationHandlerAudio.reservedValueUsed(preferredList_SetGet)) {
             this.logChannel.log(10000, "[BAPIndicationHandlerAudio#processPreferredListSetGet] Reserved Value Used. serializer: %1", (Object)preferredList_SetGet);
@@ -387,7 +372,7 @@ extends AbstractBAPIndicationHandlerAudio {
         }
         CombiBAPServiceAudioListener combiBAPServiceAudioListener = this.getActiveAudioServiceListener();
         if (combiBAPServiceAudioListener != null) {
-            this.logChannel.log(-2137614336, "[BAPIndicationHandlerAudio#processPreferredListSetGet] calling 'setPreferredList' at active audio service");
+            this.logChannel.log(10000000, "[BAPIndicationHandlerAudio#processPreferredListSetGet] calling 'setPreferredList' at active audio service");
             combiBAPServiceAudioListener.setPreferredList(preferredList_SetGet.list);
         } else {
             this.logChannel.log(10000, "[BAPIndicationHandlerAudio#processPreferredListSetGet] audio service listener unavailable");
@@ -401,7 +386,6 @@ extends AbstractBAPIndicationHandlerAudio {
         return preferredList_SetGet.list >= 4 && preferredList_SetGet.list <= 255;
     }
 
-    @Override
     protected void processMuteSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, Mute_SetGet mute_SetGet) {
         CombiBAPServiceToneListener combiBAPServiceToneListener = this.module().getToneServiceListener();
         if (combiBAPServiceToneListener != null) {
@@ -409,7 +393,7 @@ extends AbstractBAPIndicationHandlerAudio {
             if (mute_Status.muteState.muting == mute_SetGet.muteState.muting) {
                 bAPFunctionPropertyFSG.resendLastStatus();
             } else {
-                this.logChannel.log(-2137614336, "[BAPIndicationHandlerAudio#processMuteSetGet] calling toneService->setMuteState(muting=%1)", mute_SetGet.muteState.muting);
+                this.logChannel.log(10000000, "[BAPIndicationHandlerAudio#processMuteSetGet] calling toneService->setMuteState(muting=%1)", mute_SetGet.muteState.muting);
                 combiBAPServiceToneListener.setMuteState(mute_SetGet.muteState.muting);
             }
         } else {
@@ -418,7 +402,6 @@ extends AbstractBAPIndicationHandlerAudio {
         }
     }
 
-    @Override
     protected void processSourceStateSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, SourceState_SetGet sourceState_SetGet) {
         if (BAPIndicationHandlerAudio.reservedValueUsed(sourceState_SetGet)) {
             this.logChannel.log(10000, "[BAPIndicationHandlerAudio#processSourceStateSetGet] Reserved Value Used. serializer: %1", (Object)sourceState_SetGet);
@@ -431,7 +414,7 @@ extends AbstractBAPIndicationHandlerAudio {
             if (sourceState_Status.stateInfo == sourceState_SetGet.stateInfo && sourceState_Status.stateInfo_Scope == sourceState_SetGet.stateInfo_Scope) {
                 bAPFunctionPropertyFSG.resendLastStatus();
             } else {
-                this.logChannel.log(-2137614336, "[BAPIndicationHandlerAudio#processSourceStateSetGet] calling 'setActiveSourceState' at active audio service");
+                this.logChannel.log(10000000, "[BAPIndicationHandlerAudio#processSourceStateSetGet] calling 'setActiveSourceState' at active audio service");
                 combiBAPServiceAudioListener.setActiveSourceState(sourceState_SetGet.stateInfo, sourceState_SetGet.stateInfo_Scope);
             }
         } else {
@@ -447,15 +430,13 @@ extends AbstractBAPIndicationHandlerAudio {
         return sourceState_SetGet.stateInfo_Scope >= 9 && sourceState_SetGet.stateInfo_Scope <= 255;
     }
 
-    @Override
     protected void processSwitchRadioMediaAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-        this.logChannel.log(-2137614336, "[BAPIndicationHandlerAudio#processSwitchRadioMediaAbort] Method can't be aborted: %1", (Object)bAPFunctionMethodFSG.getFctIDDescription());
+        this.logChannel.log(10000000, "[BAPIndicationHandlerAudio#processSwitchRadioMediaAbort] Method can't be aborted: %1", (Object)bAPFunctionMethodFSG.getFctIDDescription());
         SwitchRadioMedia_Result switchRadioMedia_Result = (SwitchRadioMedia_Result)((CombiModuleAudio)this.module).createResultSerializer(45);
         switchRadioMedia_Result.switchRadioMediaResult = 3;
         bAPFunctionMethodFSG.resultAbortNotSuccessfulREQ(switchRadioMedia_Result);
     }
 
-    @Override
     protected void processSwitchRadioMediaStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG, SwitchRadioMedia_StartResult switchRadioMedia_StartResult) {
         if (BAPIndicationHandlerAudio.reservedValueUsed(switchRadioMedia_StartResult)) {
             this.logChannel.log(10000, "[BAPIndicationHandlerAudio#processSwitchRadioMediaStartResult] Reserved Value Used. serializer: %1", (Object)switchRadioMedia_StartResult);
@@ -463,29 +444,29 @@ extends AbstractBAPIndicationHandlerAudio {
             return;
         }
         int n = this.module().getAudioApplicationFocusHandler().getAudioApplicationInFocus();
-        this.logChannel.log(-2137614336, "[BAPIndicationHandlerAudio#processSwitchRadioMediaStartResult] source=%1 activeAudioApplication=%2", (long)switchRadioMedia_StartResult.source, (long)n);
+        this.logChannel.log(10000000, "[BAPIndicationHandlerAudio#processSwitchRadioMediaStartResult] source=%1 activeAudioApplication=%2", (long)switchRadioMedia_StartResult.source, (long)n);
         if (this.audioSourceForApp(n) == switchRadioMedia_StartResult.source) {
             this.reportActivateSourceResult(0);
             return;
         }
         switch (n) {
             case 0: {
-                this.logChannel.log(-2137614336, "[BAPIndicationHandlerAudio#processSwitchRadioMediaStartResult] going from radio (tuner) to media.");
+                this.logChannel.log(10000000, "[BAPIndicationHandlerAudio#processSwitchRadioMediaStartResult] going from radio (tuner) to media.");
                 this.switchToSource(this.getMediaServiceListener(), switchRadioMedia_StartResult.source);
                 break;
             }
             case 1: {
-                this.logChannel.log(-2137614336, "[BAPIndicationHandlerAudio#processSwitchRadioMediaStartResult] going from media to radio.");
+                this.logChannel.log(10000000, "[BAPIndicationHandlerAudio#processSwitchRadioMediaStartResult] going from media to radio.");
                 this.switchToSource(this.getTunerServiceListener(), switchRadioMedia_StartResult.source);
                 break;
             }
             case 2: {
-                this.logChannel.log(-2137614336, "[BAPIndicationHandlerAudio#processSwitchRadioMediaStartResult] going from media (tv) to radio.");
+                this.logChannel.log(10000000, "[BAPIndicationHandlerAudio#processSwitchRadioMediaStartResult] going from media (tv) to radio.");
                 this.switchToSource(this.getTunerServiceListener(), switchRadioMedia_StartResult.source);
                 break;
             }
             case 3: {
-                this.logChannel.log(-2137614336, "[BAPIndicationHandlerAudio#processSwitchRadioMediaStartResult] going from media (terminal mode) to radio.");
+                this.logChannel.log(10000000, "[BAPIndicationHandlerAudio#processSwitchRadioMediaStartResult] going from media (terminal mode) to radio.");
                 this.switchToSource(this.getTunerServiceListener(), switchRadioMedia_StartResult.source);
                 break;
             }
@@ -517,7 +498,7 @@ extends AbstractBAPIndicationHandlerAudio {
 
     private void switchToSource(CombiBAPServiceAudioListener combiBAPServiceAudioListener, int n) {
         if (combiBAPServiceAudioListener == null) {
-            this.logChannel.log(-1601830656, "[BAPIndicationHandlerAudio#switchToSource] Can't switch to source. audioServiceListener is null.");
+            this.logChannel.log(100000, "[BAPIndicationHandlerAudio#switchToSource] Can't switch to source. audioServiceListener is null.");
             this.reportActivateSourceResult(1);
             return;
         }
@@ -533,15 +514,13 @@ extends AbstractBAPIndicationHandlerAudio {
         combiBAPServiceAudio.activateSourceResult(n);
     }
 
-    @Override
     protected void processSwitchSourceAbort(BAPFunctionMethodFSG bAPFunctionMethodFSG) {
-        this.logChannel.log(-2137614336, "[BAPIndicationHandlerAudio#processSwitchSourceAbort] Method can't be aborted: %1", (Object)bAPFunctionMethodFSG.getFctIDDescription());
+        this.logChannel.log(10000000, "[BAPIndicationHandlerAudio#processSwitchSourceAbort] Method can't be aborted: %1", (Object)bAPFunctionMethodFSG.getFctIDDescription());
         SwitchSource_Result switchSource_Result = (SwitchSource_Result)((CombiModuleAudio)this.module).createResultSerializer(34);
         switchSource_Result.switchSourceResult = 3;
         bAPFunctionMethodFSG.resultAbortNotSuccessfulREQ(switchSource_Result);
     }
 
-    @Override
     protected void processSwitchSourceStartResult(BAPFunctionMethodFSG bAPFunctionMethodFSG, SwitchSource_StartResult switchSource_StartResult) {
         int n = switchSource_StartResult.sourceList_Reference;
         BAPFunctionArrayFSG bAPFunctionArrayFSG = this.module().getBAPFunctionArrayFSG(32);
@@ -556,28 +535,28 @@ extends AbstractBAPIndicationHandlerAudio {
             int n4 = combiBAPAudioSource.getPartitionNumber();
             int n5 = SourceListHandler.getApplicationForSourceType(n2);
             if (n5 != this.module().getAudioApplicationFocusHandler().getAudioApplicationInFocus()) {
-                this.logChannel.log(-2137614336, "[BAPIndicationHandlerAudio#processSwitchSourceStartResult] trying context change from app=%1 to app=%2", (long)this.module().getAudioApplicationFocusHandler().getAudioApplicationInFocus(), (long)n5);
+                this.logChannel.log(10000000, "[BAPIndicationHandlerAudio#processSwitchSourceStartResult] trying context change from app=%1 to app=%2", (long)this.module().getAudioApplicationFocusHandler().getAudioApplicationInFocus(), (long)n5);
                 BAPFunctionMethodFSG bAPFunctionMethodFSG2 = this.module().getBAPFunctionMethodFSG(34);
                 bAPFunctionMethodFSG2.setResultWaiting(0);
             }
             switch (n5) {
                 case 0: {
-                    this.logChannel.log(-2137614336, "[BAPIndicationHandlerAudio#processSwitchSourceStartResult] calling 'switchSource' at Tuner service (sourceType=%1, slotNumber=%2, partitionNumber=%3)", (long)n2, (long)n3, (long)n4);
+                    this.logChannel.log(10000000, "[BAPIndicationHandlerAudio#processSwitchSourceStartResult] calling 'switchSource' at Tuner service (sourceType=%1, slotNumber=%2, partitionNumber=%3)", (long)n2, (long)n3, (long)n4);
                     this.getTunerServiceListener().switchSource(n2, n3, n4);
                     break;
                 }
                 case 1: {
-                    this.logChannel.log(-2137614336, "[BAPIndicationHandlerAudio#processSwitchSourceStartResult] calling 'switchSource' at Media service (sourceType=%1, slotNumber=%2, partitionNumber=%3)", (long)n2, (long)n3, (long)n4);
+                    this.logChannel.log(10000000, "[BAPIndicationHandlerAudio#processSwitchSourceStartResult] calling 'switchSource' at Media service (sourceType=%1, slotNumber=%2, partitionNumber=%3)", (long)n2, (long)n3, (long)n4);
                     this.getMediaServiceListener().switchSource(n2, n3, n4);
                     break;
                 }
                 case 2: {
-                    this.logChannel.log(-2137614336, "[BAPIndicationHandlerAudio#processSwitchSourceStartResult] calling 'switchSource' at TV service (sourceType=%1, slotNumber=%2, partitionNumber=%3): %1", (long)n2, (long)n3, (long)n4);
+                    this.logChannel.log(10000000, "[BAPIndicationHandlerAudio#processSwitchSourceStartResult] calling 'switchSource' at TV service (sourceType=%1, slotNumber=%2, partitionNumber=%3): %1", (long)n2, (long)n3, (long)n4);
                     this.getTVServiceListener().switchSource(n2, n3, n4);
                     break;
                 }
                 case 3: {
-                    this.logChannel.log(-2137614336, "[BAPIndicationHandlerAudio#processSwitchSourceStartResult] calling 'switchSource' at TerminalMode service (sourceType=%1, slotNumber=%2, partitionNumber=%3): %1", (long)n2, (long)n3, (long)n4);
+                    this.logChannel.log(10000000, "[BAPIndicationHandlerAudio#processSwitchSourceStartResult] calling 'switchSource' at TerminalMode service (sourceType=%1, slotNumber=%2, partitionNumber=%3): %1", (long)n2, (long)n3, (long)n4);
                     this.getTerminalModeServiceListener().switchSource(n2, n3, n4);
                     break;
                 }
@@ -589,9 +568,8 @@ extends AbstractBAPIndicationHandlerAudio {
         }
     }
 
-    @Override
     protected void processCurrentVolumeExtendedSetGet(BAPFunctionPropertyFSG bAPFunctionPropertyFSG, CurrentVolumeExtended_SetGet currentVolumeExtended_SetGet) {
-        this.logChannel.log(1078071040, "[BAPIndicationHandlerAudio#processCurrentVolumeExtendedSetGet] changingVolumeType: %1, genericVolume: %2", (long)currentVolumeExtended_SetGet.changingVolumeType, (long)currentVolumeExtended_SetGet.genericVolume);
+        this.logChannel.log(1000000, "[BAPIndicationHandlerAudio#processCurrentVolumeExtendedSetGet] changingVolumeType: %1, genericVolume: %2", (long)currentVolumeExtended_SetGet.changingVolumeType, (long)currentVolumeExtended_SetGet.genericVolume);
         this.module().getToneServiceListener().setVolume(currentVolumeExtended_SetGet.changingVolumeType, currentVolumeExtended_SetGet.genericVolume);
     }
 

@@ -14,7 +14,7 @@ extends AbstractTel1BAPMethodHandler {
     }
 
     void setAutomaticRedialActive(boolean bl) {
-        this.log.log(-1601830656, "[TelBAPMethodSetAutomaticRedialActive#setAutomaticRedialActive] NOP!");
+        this.log.log(100000, "[TelBAPMethodSetAutomaticRedialActive#setAutomaticRedialActive] NOP!");
     }
 }
 

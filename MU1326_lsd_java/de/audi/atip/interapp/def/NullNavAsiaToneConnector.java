@@ -14,12 +14,10 @@ implements NavAsiaToneConnector {
         super(logChannel, n, "NavAsiaToneConnector");
     }
 
-    @Override
     public void navAsiaAnnouncementVolumeEntered(int n) {
         this.log("navAsiaAnnouncementVolumeEntered");
     }
 
-    @Override
     public void navAsiaAnnouncementVolumeLeft(int n) {
         this.log("navAsiaAnnouncementVolumeLeft");
     }

@@ -5,7 +5,6 @@ package de.audi.atip.data.exchange;
 
 public interface ExchangeRecordComparable
 extends Comparable {
-    default public int getKey() {
-    }
+    public int getKey();
 }
 

@@ -10,7 +10,6 @@ import de.audi.app.messaging.evo.application.MsgApplicationEvo;
 
 public final class MsgActivator
 extends AbstractMsgActivator {
-    @Override
     protected AbstractMsgApplication createMsgApplication(MessagingBundleContext messagingBundleContext) {
         return new MsgApplicationEvo(messagingBundleContext);
     }

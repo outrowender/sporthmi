@@ -9,99 +9,68 @@ import de.audi.app.media.source.ISourceActivationCallbackHandler;
 
 public interface IMediaDSIPlayerController
 extends IDSIController {
-    public static final int SETENTRY_PLAY_FROM_THE_BEGINNING;
+    public static final int SETENTRY_PLAY_FROM_THE_BEGINNING = -1;
 
-    default public void setPlayerListener(IMediaPlayerListener iMediaPlayerListener) {
-    }
+    public void setPlayerListener(IMediaPlayerListener var1);
 
-    default public void activate(long l, long l2) {
-    }
+    public void activate(long var1, long var3);
 
-    default public void setSourceActivationListener(ISourceActivationCallbackHandler iSourceActivationCallbackHandler) {
-    }
+    public void setSourceActivationListener(ISourceActivationCallbackHandler var1);
 
-    default public void deactivate() {
-    }
+    public void deactivate();
 
-    default public boolean setPlaybackMode(int n) {
-    }
+    public boolean setPlaybackMode(int var1);
 
-    default public boolean setVideoNorm(int n) {
-    }
+    public boolean setVideoNorm(int var1);
 
-    default public boolean requestCoverArtURL(long l) {
-    }
+    public boolean requestCoverArtURL(long var1);
 
-    default public boolean setEntry(long l, int n) {
-    }
+    public boolean setEntry(long var1, int var3);
 
-    default public boolean resume() {
-    }
+    public boolean resume();
 
-    default public boolean pause() {
-    }
+    public boolean pause();
 
-    default public boolean stop() {
-    }
+    public boolean stop();
 
-    default public boolean skip(int n, int n2) {
-    }
+    public boolean skip(int var1, int var2);
 
-    default public boolean touchEvent(int n, int n2, int n3) {
-    }
+    public boolean touchEvent(int var1, int var2, int var3);
 
-    default public boolean requestPlayView(long l, int n, int n2, int n3) {
-    }
+    public boolean requestPlayView(long var1, int var3, int var4, int var5);
 
-    default public void discardPlayViewRequest(int n) {
-    }
+    public void discardPlayViewRequest(int var1);
 
-    default public boolean executeMenuCmd(int n) {
-    }
+    public boolean executeMenuCmd(int var1);
 
-    default public boolean setVideoAngle(int n) {
-    }
+    public boolean setVideoAngle(int var1);
 
-    default public boolean setAudioStream(int n) {
-    }
+    public boolean setAudioStream(int var1);
 
-    default public boolean setVideoFormat(int n) {
-    }
+    public boolean setVideoFormat(int var1);
 
-    default public boolean setSubtitleLanguage(int n) {
-    }
+    public boolean setSubtitleLanguage(int var1);
 
-    default public boolean requestDetailInfo(long l) {
-    }
+    public boolean requestDetailInfo(long var1);
 
-    default public boolean setPlaySelection(int n, long l, boolean bl) {
-    }
+    public boolean setPlaySelection(int var1, long var2, boolean var4);
 
-    default public boolean setPlaySelectionCoverflow(int n) {
-    }
+    public boolean setPlaySelectionCoverflow(int var1);
 
-    default public boolean grantTempPMLRequest() {
-    }
+    public boolean grantTempPMLRequest();
 
-    default public boolean denyTempPMLRequest() {
-    }
+    public boolean denyTempPMLRequest();
 
-    default public boolean dsiSeek(boolean bl, int n) {
-    }
+    public boolean dsiSeek(boolean var1, int var2);
 
-    default public boolean playSimilarEntries(long l, int n) {
-    }
+    public boolean playSimilarEntries(long var1, int var3);
 
-    default public boolean setPlaybackURL(String string) {
-    }
+    public boolean setPlaybackURL(String var1);
 
-    default public boolean requestFullQualifiedName(long l) {
-    }
+    public boolean requestFullQualifiedName(long var1);
 
-    default public boolean setVideoRect(int n, int n2, int n3, int n4) {
-    }
+    public boolean setVideoRect(int var1, int var2, int var3, int var4);
 
-    default public void deactivateSource() {
-    }
+    public void deactivateSource() throws InterruptedException;
 }
 

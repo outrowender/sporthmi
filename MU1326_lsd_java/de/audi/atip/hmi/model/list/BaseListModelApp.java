@@ -13,120 +13,82 @@ import java.util.List;
 
 public interface BaseListModelApp
 extends HMIModelApp {
-    public static final int INDEX_NO_SELECTION;
+    public static final int INDEX_NO_SELECTION = -1;
 
-    default public void trigger(ModelTrigger modelTrigger) {
-    }
+    public void trigger(ModelTrigger var1);
 
-    default public MenuModelApp getMenu() {
-    }
+    public MenuModelApp getMenu();
 
-    default public void setLength(int n) {
-    }
+    public void setLength(int var1);
 
-    default public int getLength() {
-    }
+    public int getLength();
 
-    default public int getIndexForUniqueID(long l) {
-    }
+    public int getIndexForUniqueID(long var1);
 
-    default public boolean contains(long l) {
-    }
+    public boolean contains(long var1);
 
-    default public EvoListRow getRow(int n) {
-    }
+    public EvoListRow getRow(int var1);
 
-    default public EvoListRow getRowByUniqueID(long l) {
-    }
+    public EvoListRow getRowByUniqueID(long var1);
 
-    default public void setRow(int n, EvoListRow evoListRow) {
-    }
+    public void setRow(int var1, EvoListRow var2);
 
-    default public void setRows(int n, int n2, EvoListRow[] evoListRowArray) {
-    }
+    public void setRows(int var1, int var2, EvoListRow[] var3);
 
-    default public void clearRows(int n, int n2) {
-    }
+    public void clearRows(int var1, int var2);
 
-    default public void clearRow(int n) {
-    }
+    public void clearRow(int var1);
 
-    default public void clearAll() {
-    }
+    public void clearAll();
 
-    default public void setSelectedIndex(int n) {
-    }
+    public void setSelectedIndex(int var1);
 
-    default public boolean setSelectedUniqueID(long l) {
-    }
+    public boolean setSelectedUniqueID(long var1);
 
-    default public SelectedItem getSelected() {
-    }
+    public SelectedItem getSelected();
 
-    default public void insertBefore(long l, EvoListRow evoListRow) {
-    }
+    public void insertBefore(long var1, EvoListRow var3);
 
-    default public void insertBefore(long l, EvoListRow[] evoListRowArray) {
-    }
+    public void insertBefore(long var1, EvoListRow[] var3);
 
-    default public void insertAfter(long l, EvoListRow evoListRow) {
-    }
+    public void insertAfter(long var1, EvoListRow var3);
 
-    default public void insertAfter(long l, EvoListRow[] evoListRowArray) {
-    }
+    public void insertAfter(long var1, EvoListRow[] var3);
 
-    default public void insertAfterAndOpen(long l, EvoListRow[] evoListRowArray) {
-    }
+    public void insertAfterAndOpen(long var1, EvoListRow[] var3);
 
-    default public void append(EvoListRow evoListRow) {
-    }
+    public void append(EvoListRow var1);
 
-    default public void append(EvoListRow[] evoListRowArray) {
-    }
+    public void append(EvoListRow[] var1);
 
-    default public void remove(EvoListRow evoListRow) {
-    }
+    public void remove(EvoListRow var1);
 
-    default public void remove(long l) {
-    }
+    public void remove(long var1);
 
-    default public void remove(EvoListRow[] evoListRowArray) {
-    }
+    public void remove(EvoListRow[] var1);
 
-    default public void remove(long[] lArray) {
-    }
+    public void remove(long[] var1);
 
-    default public void removeByIndex(int n) {
-    }
+    public void removeByIndex(int var1);
 
-    default public void removeAndClose(long l, int n) {
-    }
+    public void removeAndClose(long var1, int var3);
 
-    default public void removeAll() {
-    }
+    public void removeAll();
 
-    default public BaseListModelApp getCopy() {
-    }
+    public BaseListModelApp getCopy();
 
-    default public BaseListModelApp getEmptyCopy() {
-    }
+    public BaseListModelApp getEmptyCopy();
 
-    default public BaseListModelApp getEmptyCopyWithoutEvents() {
-    }
+    public BaseListModelApp getEmptyCopyWithoutEvents();
 
-    default public void update(BaseListModelApp baseListModelApp) {
-    }
+    public void update(BaseListModelApp var1);
 
-    default public void updateModelWithPendingEvents(BaseListModelApp baseListModelApp) {
-    }
+    public void updateModelWithPendingEvents(BaseListModelApp var1);
 
-    default public void setListener(BaseListModelListener baseListModelListener) {
-    }
+    public void setListener(BaseListModelListener var1);
 
-    default public List asList() {
-    }
+    public List asList();
 
-    default public void setRowsWithoutEvent(int n, int n2, EvoListRow[] evoListRowArray) {
-    }
+    public void setRowsWithoutEvent(int var1, int var2, EvoListRow[] var3);
 }
 

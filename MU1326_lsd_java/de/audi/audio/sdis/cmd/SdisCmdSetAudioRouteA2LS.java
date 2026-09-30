@@ -18,9 +18,8 @@ extends Command {
         this.dsiMediaRouter = dSIMediaRouter;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[SdisCmdSetAudioRouteA2LS.execute] -> DSIMediaRouter.setAudioRoutes() VIRTUALCHANNEL_A2LS PHYSICALCHANNEL_MPL1");
+        this.logger.log(10000000, "[SdisCmdSetAudioRouteA2LS.execute] -> DSIMediaRouter.setAudioRoutes() VIRTUALCHANNEL_A2LS PHYSICALCHANNEL_MPL1");
         this.dsiMediaRouter.setAudioRoutes(A2LS_ROUTE);
         this.commandList.commandFinished();
     }

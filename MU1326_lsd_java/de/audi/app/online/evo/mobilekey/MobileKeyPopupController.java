@@ -27,33 +27,33 @@ implements MsgListener {
         } else {
             this.log.log(10000, "MobileKeyPopupController#isLockingConceptCoded: Drawer blocking bit model is null!");
         }
-        this.log.log(-2137614336, "MobileKeyPopupController#isLockingConceptCoded: blocking: %1", bl);
+        this.log.log(10000000, "MobileKeyPopupController#isLockingConceptCoded: blocking: %1", bl);
         return bl;
     }
 
     private boolean isLockingConceptActive() {
-        this.log.log(-2137614336, "MobileKeyPopupController#isLockingConceptActive: active: %1", this.lockingActive);
+        this.log.log(10000000, "MobileKeyPopupController#isLockingConceptActive: active: %1", this.lockingActive);
         return this.lockingActive;
     }
 
     private boolean isPopupAllowed() {
-        this.log.log(-2137614336, "MobileKeyPopupController#isPopupAllowed");
+        this.log.log(10000000, "MobileKeyPopupController#isPopupAllowed");
         if (!this.isLockingConceptCoded()) {
-            this.log.log(-2137614336, "MobileKeyPopupController#isPopupAllowed: locking concept not coded, popups allowed.");
+            this.log.log(10000000, "MobileKeyPopupController#isPopupAllowed: locking concept not coded, popups allowed.");
             return true;
         }
         boolean bl = !this.isLockingConceptActive();
-        this.log.log(-2137614336, "MobileKeyPopupController#isPopupAllowed: locking concept coded, popups: %1.", bl);
+        this.log.log(10000000, "MobileKeyPopupController#isPopupAllowed: locking concept coded, popups: %1.", bl);
         return bl;
     }
 
     public void showPopup(int n, boolean bl) {
-        this.log.log(1078071040, "MobileKeyPopupController#showPopup");
+        this.log.log(1000000, "MobileKeyPopupController#showPopup");
         if (!this.isPopupAllowed()) {
-            this.log.log(1078071040, "MobileKeyPopupController#showPopup: popups not allowed!");
+            this.log.log(1000000, "MobileKeyPopupController#showPopup: popups not allowed!");
             return;
         }
-        this.log.log(1078071040, "MobileKeyPopupController#showPopup: show popup. id: %1, partial: %2", (Object)Integer.toString(n), (Object)Boolean.toString(bl));
+        this.log.log(1000000, "MobileKeyPopupController#showPopup: show popup. id: %1, partial: %2", (Object)Integer.toString(n), (Object)Boolean.toString(bl));
         if (bl) {
             this.hmiService.showPartialPopup(0, n);
         } else {
@@ -61,13 +61,12 @@ implements MsgListener {
         }
     }
 
-    @Override
     public void processMsg(int n) {
         if (n == 206) {
-            this.log.log(1078071040, "MobileKeyPopupController#processMsg: Locking concept enabled");
+            this.log.log(1000000, "MobileKeyPopupController#processMsg: Locking concept enabled");
             this.lockingActive = true;
         } else if (n == 207) {
-            this.log.log(1078071040, "MobileKeyPopupController#processMsg: Locking concept disabled");
+            this.log.log(1000000, "MobileKeyPopupController#processMsg: Locking concept disabled");
             this.lockingActive = false;
         }
     }

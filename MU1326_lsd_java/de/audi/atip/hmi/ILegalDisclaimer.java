@@ -4,10 +4,8 @@
 package de.audi.atip.hmi;
 
 public interface ILegalDisclaimer {
-    default public boolean isSpellerAccessAllowed() {
-    }
+    public boolean isSpellerAccessAllowed();
 
-    default public boolean showDisclaimer(int n) {
-    }
+    public boolean showDisclaimer(int var1);
 }
 

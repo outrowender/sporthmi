@@ -4,7 +4,6 @@
 package de.audi.atip.util.osgi;
 
 public interface IOsgiServiceClient {
-    default public void setService(Object object) {
-    }
+    public void setService(Object var1);
 }
 

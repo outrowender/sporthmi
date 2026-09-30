@@ -4,10 +4,8 @@
 package de.audi.app.phone.core.dsi;
 
 public interface ITelTopology {
-    default public int[] getTopology() {
-    }
+    public int[] getTopology();
 
-    default public boolean isInitState() {
-    }
+    public boolean isInitState();
 }
 

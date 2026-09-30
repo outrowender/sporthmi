@@ -7,34 +7,24 @@ import de.audi.atip.statemachine.ActionProxy;
 
 public interface MessagingActionProxy
 extends ActionProxy {
-    default public void parentFolderSelected(int n) {
-    }
+    public void parentFolderSelected(int var1);
 
-    default public void readoutScreensExited(int n) {
-    }
+    public void readoutScreensExited(int var1);
 
-    default public void detailViewTransition(int n, int n2) {
-    }
+    public void detailViewTransition(int var1, int var2);
 
-    default public void messageCompositionTransition(int n, int n2) {
-    }
+    public void messageCompositionTransition(int var1, int var2);
 
-    default public void compositionSpeedThresholdPopupReturn(int n) {
-    }
+    public void compositionSpeedThresholdPopupReturn(int var1);
 
-    default public void messagingTransition(int n, int n2) {
-    }
+    public void messagingTransition(int var1, int var2);
 
-    default public void editViewTransition(int n, int n2) {
-    }
+    public void editViewTransition(int var1, int var2);
 
-    default public void templateReplacementExited(int n) {
-    }
+    public void templateReplacementExited(int var1);
 
-    default public void officeEnteredFromMainWizard(int n) {
-    }
+    public void officeEnteredFromMainWizard(int var1);
 
-    default public void searchableViewTransition(int n, int n2, int n3) {
-    }
+    public void searchableViewTransition(int var1, int var2, int var3);
 }
 

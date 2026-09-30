@@ -27,37 +27,30 @@ extends AbstractDSIController {
         this.dsiProxy = dSICarlifeProxy;
     }
 
-    @Override
     public void init() {
         this.startDSI();
     }
 
-    @Override
     public void deinit() {
         this.stopDSI();
     }
 
-    @Override
     protected Class getDSIServiceClass() {
         return class$org$dsi$ifc$carlife$DSICarlife == null ? (class$org$dsi$ifc$carlife$DSICarlife = CarlifeDSIController.class$("org.dsi.ifc.carlife.DSICarlife")) : class$org$dsi$ifc$carlife$DSICarlife;
     }
 
-    @Override
     protected DSIListener getDSIListener() {
         return this.listener;
     }
 
-    @Override
     protected Class getDSIListenerClass() {
         return class$org$dsi$ifc$carlife$DSICarlifeListener == null ? (class$org$dsi$ifc$carlife$DSICarlifeListener = CarlifeDSIController.class$("org.dsi.ifc.carlife.DSICarlifeListener")) : class$org$dsi$ifc$carlife$DSICarlifeListener;
     }
 
-    @Override
     protected void addDSIService(DSIBase dSIBase) {
         this.dsiProxy.addDSIService((DSICarlife)dSIBase);
     }
 
-    @Override
     protected void removeDSIService() {
         this.dsiProxy.removeDSIService();
     }

@@ -12,7 +12,6 @@ extends AbstractCoMaDevice {
         super(3, 128, 128, 128, string, string, 0);
     }
 
-    @Override
     PropertyListCell getProperties() {
         return null;
     }

@@ -23,139 +23,94 @@ import de.audi.atip.hmi.view.Screen;
 
 public interface HMIService
 extends IHMIServiceApp {
-    default public HMIModel getModel(int n) {
-    }
+    public HMIModel getModel(int var1);
 
-    default public HMIModel getModel(int n, int n2) {
-    }
+    public HMIModel getModel(int var1, int var2);
 
-    default public IDisplayManager getDisplayManager() {
-    }
+    public IDisplayManager getDisplayManager();
 
-    default public ILegalDisclaimer getLegalDisclaimer() {
-    }
+    public ILegalDisclaimer getLegalDisclaimer();
 
-    default public EventDispatcher getEventDispatcher() {
-    }
+    public EventDispatcher getEventDispatcher();
 
-    default public EventDispatcherAdmin getEventDispatcherAdmin() {
-    }
+    public EventDispatcherAdmin getEventDispatcherAdmin();
 
-    default public HMITerminal getHMITerminal(int n) {
-    }
+    public HMITerminal getHMITerminal(int var1);
 
-    default public IRootWindow getRootWindow(int n) {
-    }
+    public IRootWindow getRootWindow(int var1);
 
-    default public IModelConnectService getModelConnectService(int n) {
-    }
+    public IModelConnectService getModelConnectService(int var1);
 
-    default public IFocusManager getFocusManager() {
-    }
+    public IFocusManager getFocusManager();
 
-    default public void lockCurrentScreen(int n, boolean bl) {
-    }
+    public void lockCurrentScreen(int var1, boolean var2);
 
-    default public boolean isPartialPopupVisibleInSlot(int n, int n2) {
-    }
+    public boolean isPartialPopupVisibleInSlot(int var1, int var2);
 
-    default public void replacePartialPopup(int n, int n2, int n3) {
-    }
+    public void replacePartialPopup(int var1, int var2, int var3);
 
-    default public void removeAllPartialPopupsForSlots(int n, int[] nArray) {
-    }
+    public void removeAllPartialPopupsForSlots(int var1, int[] var2);
 
-    default public Object getImage(int n, int n2, int n3, int n4) {
-    }
+    public Object getImage(int var1, int var2, int var3, int var4);
 
-    default public Object getUncachedImage(int n, int n2, int n3, int n4) {
-    }
+    public Object getUncachedImage(int var1, int var2, int var3, int var4);
 
-    default public void fireSMEventFromModelId(int n, int n2) {
-    }
+    public void fireSMEventFromModelId(int var1, int var2);
 
-    default public void fireSMEventFromModelId(int n, int n2, AdditionalScreenData additionalScreenData) {
-    }
+    public void fireSMEventFromModelId(int var1, int var2, AdditionalScreenData var3);
 
-    default public void fireKeyEvent(int n, long l, int n2, int n3) {
-    }
+    public void fireKeyEvent(int var1, long var2, int var4, int var5);
 
-    default public void fireKeyEventDirectlyInEventDispatchThread(int n, long l, int n2, int n3) {
-    }
+    public void fireKeyEventDirectlyInEventDispatchThread(int var1, long var2, int var4, int var5) throws Exception;
 
-    default public void fireJoyStickEvent(int n, long l, int n2, int n3, int n4) {
-    }
+    public void fireJoyStickEvent(int var1, long var2, int var4, int var5, int var6);
 
-    default public void fireWheelButtonEvent(int n, long l, int n2, int n3, int n4, int n5) {
-    }
+    public void fireWheelButtonEvent(int var1, long var2, int var4, int var5, int var6, int var7);
 
-    default public void fireTouchEvent(int n, long l, int n2, int n3, int n4, int n5, int n6) {
-    }
+    public void fireTouchEvent(int var1, long var2, int var4, int var5, int var6, int var7, int var8);
 
-    default public void fireTouchEvent(int n, long l, int n2, int n3, int n4, String string, int[] nArray, int n5) {
-    }
+    public void fireTouchEvent(int var1, long var2, int var4, int var5, int var6, String var7, int[] var8, int var9);
 
-    default public void fireTouchEvent(int n, long l, int n2, int n3, int n4, int n5, boolean bl, int n6, int n7, int n8, int n9) {
-    }
+    public void fireTouchEvent(int var1, long var2, int var4, int var5, int var6, int var7, boolean var8, int var9, int var10, int var11, int var12);
 
-    default public void fireGestureEvent(int n, long l, int n2, int n3, int n4) {
-    }
+    public void fireGestureEvent(int var1, long var2, int var4, int var5, int var6);
 
-    default public void fireGestureEvent(int n, long l, int n2, int n3, int n4, int n5, int n6, int n7) {
-    }
+    public void fireGestureEvent(int var1, long var2, int var4, int var5, int var6, int var7, int var8, int var9);
 
-    default public void fireGestureEvent(int n, long l, int n2, int n3, String[] stringArray, int[] nArray, int n4) {
-    }
+    public void fireGestureEvent(int var1, long var2, int var4, int var5, String[] var6, int[] var7, int var8);
 
-    default public void fireSDSEvent(int n, int n2, int n3, int[] nArray) {
-    }
+    public void fireSDSEvent(int var1, int var2, int var3, int[] var4);
 
-    default public void postModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
-    }
+    public void postModelUpdateEvent(ModelUpdateEvent var1);
 
-    default public ModelUpdateEvent getModelUpdateEvent(int n) {
-    }
+    public ModelUpdateEvent getModelUpdateEvent(int var1);
 
-    default public void postComponentConditionEvent(int[] nArray) {
-    }
+    public void postComponentConditionEvent(int[] var1);
 
-    default public void takeScreenshot(int n, String string) {
-    }
+    public void takeScreenshot(int var1, String var2);
 
-    default public void setUnsupportedDevelopmentBuild(boolean bl) {
-    }
+    public void setUnsupportedDevelopmentBuild(boolean var1);
 
-    default public void setFallbackScreen(int n, Screen screen) {
-    }
+    public void setFallbackScreen(int var1, Screen var2);
 
-    default public void showFallbackScreen(int n) {
-    }
+    public void showFallbackScreen(int var1);
 
-    default public boolean isScreenChangeAnimationRunning(int n) {
-    }
+    public boolean isScreenChangeAnimationRunning(int var1);
 
-    default public IComponentConditionManager getComponentConditionManager() {
-    }
+    public IComponentConditionManager getComponentConditionManager();
 
-    default public HMIBundle getHMIBundle(int n) {
-    }
+    public HMIBundle getHMIBundle(int var1);
 
-    default public void showVisualFeedback(long l, String string, int n) {
-    }
+    public void showVisualFeedback(long var1, String var3, int var4);
 
-    default public IPopupManager getPopupManager(int n) {
-    }
+    public IPopupManager getPopupManager(int var1);
 
-    default public IScreenManager getScreenManager(int n) {
-    }
+    public IScreenManager getScreenManager(int var1);
 
-    default public Screen getCurrentlyActiveCombiScreen() {
-    }
+    public Screen getCurrentlyActiveCombiScreen();
 
-    default public Screen[] getCurrentlyActiveCombiScreens() {
-    }
+    public Screen[] getCurrentlyActiveCombiScreens();
 
-    default public void refreshTerminal(int n) {
-    }
+    public void refreshTerminal(int var1);
 }
 

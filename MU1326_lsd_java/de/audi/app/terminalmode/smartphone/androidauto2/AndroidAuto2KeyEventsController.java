@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  de.audi.app.terminalmode.TerminalModeUtils
  */
 package de.audi.app.terminalmode.smartphone.androidauto2;
 
@@ -17,7 +14,7 @@ import org.dsi.ifc.androidauto2.TouchEvent;
 
 public final class AndroidAuto2KeyEventsController
 implements ITerminalModeDSIKeyEventsController {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "TerminalModeDSIKeyEventsController";
     private volatile Key lastJoystickkey;
     private final boolean[] downState = new boolean[3];
     private final DSIAndroidAuto2 dsi;
@@ -28,24 +25,23 @@ implements ITerminalModeDSIKeyEventsController {
         this.lc = logChannel;
     }
 
-    @Override
     public void updateKey(Key key, KeyState keyState) {
-        if (TerminalModeUtils.isJoystickMiddleposition((Key)key)) {
+        if (TerminalModeUtils.isJoystickMiddleposition(key)) {
             if (null == this.lastJoystickkey) {
                 return;
             }
-            this.lc.log(1078071040, "[%1.updateKey] joystick middle position, release button %2", (Object)"TerminalModeDSIKeyEventsController", (Object)this.lastJoystickkey);
+            this.lc.log(1000000, "[%1.updateKey] joystick middle position, release button %2", (Object)LOGCLASS, (Object)this.lastJoystickkey);
             this.dsi.postButtonEvent(this.getKeyId(this.lastJoystickkey), 1);
             this.lastJoystickkey = null;
             return;
         }
         int n = this.getKeyId(key);
         if (0 == n) {
-            this.lc.log(1078071040, "[%1.updateKey] unknown key id", (Object)"TerminalModeDSIKeyEventsController");
+            this.lc.log(1000000, "[%1.updateKey] unknown key id", (Object)LOGCLASS);
             return;
         }
-        this.lc.log(1078071040, "[%1.updateKey] %2", (Object)"TerminalModeDSIKeyEventsController", (long)n);
-        if (TerminalModeUtils.isJoystick((Key)key)) {
+        this.lc.log(1000000, "[%1.updateKey] %2", (Object)LOGCLASS, (long)n);
+        if (TerminalModeUtils.isJoystick(key)) {
             this.lastJoystickkey = key;
         }
         this.dsi.postButtonEvent(n, this.getKeyState(keyState));
@@ -53,7 +49,7 @@ implements ITerminalModeDSIKeyEventsController {
 
     public void updateTouchEvent(int n, int n2, int n3, int n4, int n5, int n6, int n7) {
         Object object;
-        this.lc.log(1078071040, "[%1.updateTouchEvent]", (Object)"TerminalModeDSIKeyEventsController");
+        this.lc.log(1000000, "[%1.updateTouchEvent]", (Object)LOGCLASS);
         TouchEvent[] touchEventArray = new TouchEvent[n2];
         if (n2 >= 1) {
             touchEventArray[0] = new TouchEvent(n4, n5, 0);
@@ -64,7 +60,7 @@ implements ITerminalModeDSIKeyEventsController {
         }
         if (this.lc.isDebug()) {
             if (n2 >= 1) {
-                this.lc.log(1078071040, "[%1.updateTouchEvent] %2/%3", (Object)"TerminalModeDSIKeyEventsController", (long)touchEventArray[0].getX(), (long)touchEventArray[0].getY());
+                this.lc.log(1000000, "[%1.updateTouchEvent] %2/%3", (Object)LOGCLASS, (long)touchEventArray[0].getX(), (long)touchEventArray[0].getY());
             } else if (n2 >= 2) {
                 object = new Buffer(50);
                 ((Buffer)object).append(touchEventArray[0].getX());
@@ -74,7 +70,7 @@ implements ITerminalModeDSIKeyEventsController {
                 ((Buffer)object).append(touchEventArray[1].getX());
                 ((Buffer)object).append('/');
                 ((Buffer)object).append(touchEventArray[1].getY());
-                this.lc.log(1078071040, "[%1.updateTouchEvent] %2", (Object)"TerminalModeDSIKeyEventsController", (Object)((Buffer)object).toString());
+                this.lc.log(1000000, "[%1.updateTouchEvent] %2", (Object)LOGCLASS, (Object)((Buffer)object).toString());
             }
         }
         int n8 = 0;
@@ -90,9 +86,8 @@ implements ITerminalModeDSIKeyEventsController {
         this.dsi.postTouchEvent(this.getDSITouchInputId(n), touchEventArray, n8, 0);
     }
 
-    @Override
     public void updateTouchEvents(de.audi.app.terminalmode.keyevents.TouchEvent[] touchEventArray) {
-        this.lc.log(1078071040, "[%1.updateTouchEvents] %2 %3", (Object)"TerminalModeDSIKeyEventsController", (Object)Integer.toString(touchEventArray.length), (Object)touchEventArray[0]);
+        this.lc.log(1000000, "[%1.updateTouchEvents] %2 %3", (Object)LOGCLASS, (Object)Integer.toString(touchEventArray.length), (Object)touchEventArray[0]);
         TouchEvent[] touchEventArray2 = new TouchEvent[touchEventArray.length];
         int n = 0;
         for (int i2 = 0; i2 < touchEventArray.length; ++i2) {
@@ -124,7 +119,6 @@ implements ITerminalModeDSIKeyEventsController {
         return new int[]{n5, n6};
     }
 
-    @Override
     public void updateRotary(int n) {
         this.dsi.postRotaryEvent(n);
     }
@@ -136,7 +130,7 @@ implements ITerminalModeDSIKeyEventsController {
         if (keyState.is(KeyState.RELEASED)) {
             return 1;
         }
-        this.lc.log(1078071040, "[%1.getKeyState] Unsupported key state %2", (Object)"TerminalModeDSIKeyEventsController", (Object)keyState);
+        this.lc.log(1000000, "[%1.getKeyState] Unsupported key state %2", (Object)LOGCLASS, (Object)keyState);
         return -1;
     }
 
@@ -165,7 +159,7 @@ implements ITerminalModeDSIKeyEventsController {
         if (key.is(Key.SOFTKEY_WEST)) {
             return 1;
         }
-        this.lc.log(1078071040, "[%1.getKeyId] Unsupport %2", (Object)"TerminalModeDSIKeyEventsController", (Object)key);
+        this.lc.log(1000000, "[%1.getKeyId] Unsupport %2", (Object)LOGCLASS, (Object)key);
         return 0;
     }
 
@@ -178,9 +172,8 @@ implements ITerminalModeDSIKeyEventsController {
         return 0;
     }
 
-    @Override
     public void updateCharacterEvent(String[] stringArray, int[] nArray) {
-        this.lc.log(1078071040, "[%1.updateCharacterEvent]", (Object)"TerminalModeDSIKeyEventsController");
+        this.lc.log(1000000, "[%1.updateCharacterEvent]", (Object)LOGCLASS);
     }
 }
 

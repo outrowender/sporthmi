@@ -14,105 +14,86 @@ import de.audi.atip.log.LogChannel;
 
 public class NullTransferJob
 extends AbstractTransferJobEvo {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "NullTransferJob";
 
     public NullTransferJob(LogChannel logChannel, ITransferController iTransferController, EvoTransferController evoTransferController, EvoTransferState evoTransferState) {
         super(logChannel, iTransferController, evoTransferController, evoTransferState);
     }
 
-    @Override
     public int getType() {
         return 0;
     }
 
-    @Override
     public String getName() {
         return "JobNone";
     }
 
-    @Override
     public void start() {
-        this.logger.log(1078071040, "[%1.start]", (Object)"NullTransferJob");
+        this.logger.log(1000000, "[%1.start]", (Object)LOGCLASS);
     }
 
-    @Override
     public void readyForTransfer() {
-        this.logger.log(1078071040, "[%1.readyForTransfer]", (Object)"NullTransferJob");
+        this.logger.log(1000000, "[%1.readyForTransfer]", (Object)LOGCLASS);
     }
 
-    @Override
     public void activationSuccessful(ISourceSlot iSourceSlot, IBrowseListContext iBrowseListContext) {
-        this.logger.log(1078071040, "[%1.activationSuccessful]", (Object)"NullTransferJob");
+        this.logger.log(1000000, "[%1.activationSuccessful]", (Object)LOGCLASS);
     }
 
-    @Override
     public void activationFailed(ISourceSlot iSourceSlot) {
-        this.logger.log(1078071040, "[%1.activationFailed]", (Object)"NullTransferJob");
+        this.logger.log(1000000, "[%1.activationFailed]", (Object)LOGCLASS);
     }
 
     public void abortImport() {
-        this.logger.log(1078071040, "[%1.abortImport]", (Object)"NullTransferJob");
+        this.logger.log(1000000, "[%1.abortImport]", (Object)LOGCLASS);
     }
 
-    @Override
     public void importWillBeResumed() {
-        this.logger.log(1078071040, "[%1.importWillBeResumed]", (Object)"NullTransferJob");
+        this.logger.log(1000000, "[%1.importWillBeResumed]", (Object)LOGCLASS);
     }
 
-    @Override
     public void importIsSuspended() {
     }
 
-    @Override
     public void startFailed() {
-        this.logger.log(1078071040, "[%1.startFailed]", (Object)"NullTransferJob");
+        this.logger.log(1000000, "[%1.startFailed]", (Object)LOGCLASS);
     }
 
-    @Override
     public void browseModeChanged(boolean bl, int n) {
-        this.logger.log(1078071040, "[%1.browseModeChanged]", (Object)"NullTransferJob");
+        this.logger.log(1000000, "[%1.browseModeChanged]", (Object)LOGCLASS);
     }
 
-    @Override
     public void addSelectionResult(boolean bl, int n, int n2, boolean bl2, long l, long l2, long l3, long l4) {
-        this.logger.log(1078071040, "[%1.addSelectionResult]", (Object)"NullTransferJob");
+        this.logger.log(1000000, "[%1.addSelectionResult]", (Object)LOGCLASS);
     }
 
-    @Override
     public void browseFolderChanged(boolean bl, MediaListEntry[] mediaListEntryArray, int n) {
-        this.logger.log(1078071040, "[%1.browseFolderChanged]", (Object)"NullTransferJob");
+        this.logger.log(1000000, "[%1.browseFolderChanged]", (Object)LOGCLASS);
     }
 
-    @Override
     public void responseList(boolean bl, MediaListEntry[] mediaListEntryArray, int n) {
     }
 
-    @Override
     public void importAborted(long l, long l2, long l3, boolean bl) {
-        this.logger.log(1078071040, "[%1.importAborted]", (Object)"NullTransferJob");
+        this.logger.log(1000000, "[%1.importAborted]", (Object)LOGCLASS);
     }
 
-    @Override
     public void importFinished(long l, long l2, long l3, boolean bl) {
-        this.logger.log(1078071040, "[%1.importFinished]", (Object)"NullTransferJob");
+        this.logger.log(1000000, "[%1.importFinished]", (Object)LOGCLASS);
     }
 
-    @Override
     public void deletionFinished() {
-        this.logger.log(1078071040, "[%1.deletionFinished]", (Object)"NullTransferJob");
+        this.logger.log(1000000, "[%1.deletionFinished]", (Object)LOGCLASS);
     }
 
-    @Override
     public void deletionAborted() {
-        this.logger.log(1078071040, "[%1.deletionAborted]", (Object)"NullTransferJob");
+        this.logger.log(1000000, "[%1.deletionAborted]", (Object)LOGCLASS);
     }
 
-    @Override
     public void encodingQualityChanged(boolean bl, int n) {
-        this.logger.log(1078071040, "[%1.encodingQualityChanged]", (Object)"NullTransferJob");
+        this.logger.log(1000000, "[%1.encodingQualityChanged]", (Object)LOGCLASS);
     }
 
-    @Override
     public boolean isWaiting() {
         return false;
     }

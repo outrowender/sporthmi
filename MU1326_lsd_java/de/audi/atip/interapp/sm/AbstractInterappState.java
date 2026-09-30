@@ -31,20 +31,15 @@ implements IInterappState {
         return abstractInterappState;
     }
 
-    protected abstract void handleEvent(IInterappConDataEvent iInterappConDataEvent) {
-    }
+    protected abstract void handleEvent(IInterappConDataEvent var1);
 
-    protected abstract void handleEvent(IInterappPhoneEvent iInterappPhoneEvent) {
-    }
+    protected abstract void handleEvent(IInterappPhoneEvent var1);
 
-    protected abstract void handleEvent(IInterappConBluetoothEvent iInterappConBluetoothEvent) {
-    }
+    protected abstract void handleEvent(IInterappConBluetoothEvent var1);
 
-    protected abstract void handleEvent(IInterappConWlanEvent iInterappConWlanEvent) {
-    }
+    protected abstract void handleEvent(IInterappConWlanEvent var1);
 
-    protected abstract void handleEvent(IInterappConManagerEvent iInterappConManagerEvent) {
-    }
+    protected abstract void handleEvent(IInterappConManagerEvent var1);
 
     protected void transitionTo(IInterappEvent iInterappEvent, AbstractInterappState abstractInterappState) {
         this.sm.transitionTo(iInterappEvent, abstractInterappState);

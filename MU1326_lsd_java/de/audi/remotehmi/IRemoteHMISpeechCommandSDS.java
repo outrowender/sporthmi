@@ -4,26 +4,20 @@
 package de.audi.remotehmi;
 
 public interface IRemoteHMISpeechCommandSDS {
-    public static final int ID_PREFIX_GLOBAL;
-    public static final int ID_PREFIX_HELP_TOPIC;
-    public static final String DEFAULT_CONFIRMATION_PROMPT;
+    public static final int ID_PREFIX_GLOBAL = 10000000;
+    public static final int ID_PREFIX_HELP_TOPIC = 20000000;
+    public static final String DEFAULT_CONFIRMATION_PROMPT = "$";
 
-    default public String[] getConfirmationPrompts() {
-    }
+    public String[] getConfirmationPrompts();
 
-    default public String[] getShortConfirmationPrompts() {
-    }
+    public String[] getShortConfirmationPrompts();
 
-    default public String getText() {
-    }
+    public String getText();
 
-    default public String getIDName() {
-    }
+    public String getIDName();
 
-    default public boolean isStopDialog() {
-    }
+    public boolean isStopDialog();
 
-    default public int getID() {
-    }
+    public int getID();
 }
 

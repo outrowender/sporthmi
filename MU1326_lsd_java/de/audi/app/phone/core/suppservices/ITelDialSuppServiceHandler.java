@@ -7,10 +7,8 @@ import org.dsi.ifc.telephoneng.ServiceCodeTypeStruct;
 import org.dsi.ifc.telephoneng.SuppServiceResponseStruct;
 
 public interface ITelDialSuppServiceHandler {
-    default public void updateServiceCodeType(ServiceCodeTypeStruct serviceCodeTypeStruct, int n) {
-    }
+    public void updateServiceCodeType(ServiceCodeTypeStruct var1, int var2);
 
-    default public void responseDialNumber(int n, SuppServiceResponseStruct suppServiceResponseStruct) {
-    }
+    public void responseDialNumber(int var1, SuppServiceResponseStruct var2);
 }
 

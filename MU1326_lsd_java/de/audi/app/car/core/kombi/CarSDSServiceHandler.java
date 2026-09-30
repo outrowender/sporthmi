@@ -5,7 +5,6 @@ package de.audi.app.car.core.kombi;
 
 import de.audi.app.car.common.app.ICarApplication;
 import de.audi.app.car.common.service.CarServiceProvider;
-import de.audi.app.car.core.kombi.CarSDSServiceHandler$1;
 import de.audi.atip.interapp.car.CarSDSService;
 import de.audi.atip.interapp.car.ICarRemainingRangeListener;
 import de.audi.atip.log.LogChannel;
@@ -46,7 +45,7 @@ implements CarSDSService {
     }
 
     protected void updateRemainingRangeViewOption(int n) {
-        this.logChannel.log(1078071040, "[CarSDSServiceHandler#updateRemainingRangeViewOption] vo='%1'", (long)n);
+        this.logChannel.log(1000000, "[CarSDSServiceHandler#updateRemainingRangeViewOption] vo='%1'", (long)n);
         this.vo = n;
         this.updateRemainingRange(this.valid, this.value, this.unit);
     }
@@ -56,7 +55,7 @@ implements CarSDSService {
      */
     protected void updateRemainingRange(boolean bl, int n, int n2) {
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[CarSDSServiceHandler#updateRemainingRange] valid='%1', value='%2', unit='%3'", (Object)Boolean.toString(bl), (long)n, (long)n2);
+            this.logChannel.log(1000000, "[CarSDSServiceHandler#updateRemainingRange] valid='%1', value='%2', unit='%3'", (Object)Boolean.toString(bl), (long)n, (long)n2);
         }
         Object object = this.mutex;
         synchronized (object) {
@@ -79,16 +78,31 @@ implements CarSDSService {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void addRemainingRangeListener(ICarRemainingRangeListener iCarRemainingRangeListener) {
-        this.logChannel.log(1078071040, "[CarSDSServiceHandler#addRemaningRangeListener]");
+    public void addRemainingRangeListener(final ICarRemainingRangeListener iCarRemainingRangeListener) {
+        this.logChannel.log(1000000, "[CarSDSServiceHandler#addRemaningRangeListener]");
         Object object = this.mutex;
         synchronized (object) {
             if (!this.listeners.contains(iCarRemainingRangeListener)) {
                 this.listeners.add(iCarRemainingRangeListener);
-                this.application.getJobDispatcher().execute(new CarSDSServiceHandler$1(this, iCarRemainingRangeListener));
+                this.application.getJobDispatcher().execute(new Runnable(){
+
+                    /*
+                     * WARNING - Removed try catching itself - possible behaviour change.
+                     */
+                    public void run() {
+                        Object object = CarSDSServiceHandler.this.mutex;
+                        synchronized (object) {
+                            try {
+                                iCarRemainingRangeListener.updateRemainingRange(CarSDSServiceHandler.this.calculateRemainingRangeState(CarSDSServiceHandler.this.vo, CarSDSServiceHandler.this.valid), CarSDSServiceHandler.this.value, CarSDSServiceHandler.this.unit);
+                            }
+                            catch (Exception exception) {
+                                CarSDSServiceHandler.this.logChannel.log(1000, "[CarSDSServiceHandler#addRemaningRangeListener] exception occured within the listener", (Throwable)exception);
+                            }
+                        }
+                    }
+                });
             } else {
-                this.logChannel.log(-1601830656, "[CarSDSServiceHandler#addRemaningRangeListener] listener already registered");
+                this.logChannel.log(100000, "[CarSDSServiceHandler#addRemaningRangeListener] listener already registered");
             }
         }
     }
@@ -96,9 +110,8 @@ implements CarSDSService {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void removeRemainingRangeListener(ICarRemainingRangeListener iCarRemainingRangeListener) {
-        this.logChannel.log(1078071040, "[CarSDSServiceHandler#removeRemaningRangeListener]");
+        this.logChannel.log(1000000, "[CarSDSServiceHandler#removeRemaningRangeListener]");
         Object object = this.mutex;
         synchronized (object) {
             this.listeners.remove(iCarRemainingRangeListener);
@@ -124,34 +137,6 @@ implements CarSDSService {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ Object access$000(CarSDSServiceHandler carSDSServiceHandler) {
-        return carSDSServiceHandler.mutex;
-    }
-
-    static /* synthetic */ int access$100(CarSDSServiceHandler carSDSServiceHandler) {
-        return carSDSServiceHandler.vo;
-    }
-
-    static /* synthetic */ boolean access$200(CarSDSServiceHandler carSDSServiceHandler) {
-        return carSDSServiceHandler.valid;
-    }
-
-    static /* synthetic */ int access$300(CarSDSServiceHandler carSDSServiceHandler, int n, boolean bl) {
-        return carSDSServiceHandler.calculateRemainingRangeState(n, bl);
-    }
-
-    static /* synthetic */ int access$400(CarSDSServiceHandler carSDSServiceHandler) {
-        return carSDSServiceHandler.value;
-    }
-
-    static /* synthetic */ int access$500(CarSDSServiceHandler carSDSServiceHandler) {
-        return carSDSServiceHandler.unit;
-    }
-
-    static /* synthetic */ LogChannel access$600(CarSDSServiceHandler carSDSServiceHandler) {
-        return carSDSServiceHandler.logChannel;
     }
 }
 

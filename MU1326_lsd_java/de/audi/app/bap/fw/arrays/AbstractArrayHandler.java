@@ -29,22 +29,18 @@ implements ArrayHandler {
         this.className = string;
     }
 
-    @Override
     public void addListAdapter(IListAdapter iListAdapter) {
         this.listAdapters.add(iListAdapter);
     }
 
-    @Override
     public int getNumberOfElements() {
         return this.getCurrentListSize();
     }
 
-    @Override
     public void requestListElements(GetArrayIndication getArrayIndication) {
         this.setPendingRequest(getArrayIndication);
     }
 
-    @Override
     public void responseListElements(int n, CombiBAPArrayElement[] combiBAPArrayElementArray) {
         if (this.checkTAID(n)) {
             this.sendStatusRequest(combiBAPArrayElementArray);
@@ -70,9 +66,9 @@ implements ArrayHandler {
     }
 
     private boolean sendChangedArrayRequest(ListDelta listDelta, boolean bl) {
-        this.logChannel.log(-2137614336, "[%1#sendChangedArrayRequest] called - %2", (Object)this.className, (Object)listDelta.toString());
+        this.logChannel.log(10000000, "[%1#sendChangedArrayRequest] called - %2", (Object)this.className, (Object)listDelta.toString());
         if (listDelta.isUnchanged()) {
-            this.logChannel.log(-2137614336, "[%1#sendChangedArrayRequest] list didn't change (%2)", (Object)this.className, (Object)(bl ? "send changedArray request anyway" : "don't send changedArray request"));
+            this.logChannel.log(10000000, "[%1#sendChangedArrayRequest] list didn't change (%2)", (Object)this.className, (Object)(bl ? "send changedArray request anyway" : "don't send changedArray request"));
             if (!bl) {
                 return false;
             }
@@ -124,7 +120,7 @@ implements ArrayHandler {
                 IListAdapter iListAdapter = (IListAdapter)iterator.next();
                 IArrayHeader iArrayHeader = getArrayIndication.getArrayHeader();
                 if (iArrayHeader.getNumberOfElements() != combiBAPArrayElementArray.length) {
-                    this.logChannel.log(-1601830656, "[%1#sendStatusRequest] Number of elements mismatch! Header='%3', Data='%4' (adapter='%2')", (Object)this.className, (Object)super.getClass().getName(), (Object)new Integer(iArrayHeader.getNumberOfElements()), (long)combiBAPArrayElementArray.length);
+                    this.logChannel.log(100000, "[%1#sendStatusRequest] Number of elements mismatch! Header='%3', Data='%4' (adapter='%2')", (Object)this.className, (Object)iListAdapter.getClass().getName(), (Object)new Integer(iArrayHeader.getNumberOfElements()), (long)combiBAPArrayElementArray.length);
                 }
                 iListAdapter.sendStatusRequest(getArrayIndication, combiBAPArrayElementArray);
             }
@@ -133,15 +129,15 @@ implements ArrayHandler {
             while (iterator.hasNext()) {
                 IListAdapter iListAdapter = (IListAdapter)iterator.next();
                 if (iListAdapter.isSpontaneousStatusRequestSupported()) {
-                    this.logChannel.log(-1601830656, "[%1#sendStatusRequest] No pending request. Sending 'spontaneous' status array (adapter='%2')", (Object)this.className, (Object)super.getClass().getName());
+                    this.logChannel.log(100000, "[%1#sendStatusRequest] No pending request. Sending 'spontaneous' status array (adapter='%2')", (Object)this.className, (Object)iListAdapter.getClass().getName());
                     IArrayHeader iArrayHeader = iListAdapter.createArrayHeader();
-                    iArrayHeader.setStart(-65536);
+                    iArrayHeader.setStart(65535);
                     GetArrayIndication getArrayIndication = new GetArrayIndication(0, 0, iArrayHeader);
                     iListAdapter.sendStatusRequest(getArrayIndication, combiBAPArrayElementArray);
                     continue;
                 }
                 if (!this.logChannel.isDebug()) continue;
-                this.logChannel.log(-2137614336, "[%1#sendStatusRequest] No pending request. 'Spontaneous' status array not supported for adapter: '%2'", (Object)this.className, (Object)super.getClass().getName());
+                this.logChannel.log(10000000, "[%1#sendStatusRequest] No pending request. 'Spontaneous' status array not supported for adapter: '%2'", (Object)this.className, (Object)iListAdapter.getClass().getName());
             }
         }
     }
@@ -150,9 +146,8 @@ implements ArrayHandler {
         this.sendStatusRequest(new CombiBAPArrayElement[0]);
     }
 
-    @Override
     public boolean sendFullRangeUpdate() {
-        this.logChannel.log(-2137614336, "[%1#sendFullRangeUpdate] called", (Object)this.className);
+        this.logChannel.log(10000000, "[%1#sendFullRangeUpdate] called", (Object)this.className);
         boolean bl = false;
         Iterator iterator = this.listAdapters.iterator();
         while (iterator.hasNext()) {
@@ -162,17 +157,14 @@ implements ArrayHandler {
         return bl;
     }
 
-    @Override
     public boolean dataMustBeReversed() {
         return false;
     }
 
-    @Override
     public int getIndexSize() {
         return 1;
     }
 
-    @Override
     public boolean is16BitIndexSize() {
         return this.getIndexSize() == 1;
     }

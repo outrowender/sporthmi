@@ -17,7 +17,6 @@ extends CommandList {
         super(commandListManager);
     }
 
-    @Override
     public void addMonitor(Monitor monitor) {
         if (monitor instanceof AbstractArrayJobListMonitor) {
             this.jobListMonitor = (AbstractArrayJobListMonitor)monitor;
@@ -25,7 +24,6 @@ extends CommandList {
         super.addMonitor(monitor);
     }
 
-    @Override
     public void commandFinished() {
         GetArrayJob getArrayJob = (GetArrayJob)this.getActiveCommand();
         int n = getArrayJob.getJobID();
@@ -35,25 +33,21 @@ extends CommandList {
         super.commandFinished();
     }
 
-    @Override
     public void commandAborted(long l) {
         this.commandAborted();
         super.commandAborted(l);
     }
 
-    @Override
     public void commandAborted(Exception exception) {
         this.commandAborted();
         super.commandAborted(exception);
     }
 
-    @Override
     public void commandAborted(String string, String string2) {
         this.commandAborted();
         super.commandAborted(string, string2);
     }
 
-    @Override
     public void commandAborted(String string) {
         this.commandAborted();
         super.commandAborted(string);

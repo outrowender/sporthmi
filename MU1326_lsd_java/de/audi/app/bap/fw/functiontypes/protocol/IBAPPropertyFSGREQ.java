@@ -7,31 +7,22 @@ import de.vw.mib.bap.requests.StatusAckProperty;
 import de.vw.mib.bap.requests.StatusProperty;
 
 public interface IBAPPropertyFSGREQ {
-    default public void sendStatus(StatusProperty statusProperty) {
-    }
+    public void sendStatus(StatusProperty var1);
 
-    default public void sendStatusIfChanged(StatusProperty statusProperty) {
-    }
+    public void sendStatusIfChanged(StatusProperty var1);
 
-    default public void resendLastStatus() {
-    }
+    public void resendLastStatus();
 
-    default public void sendStatusAck(StatusAckProperty statusAckProperty) {
-    }
+    public void sendStatusAck(StatusAckProperty var1);
 
-    default public void resendLastStatusAck() {
-    }
+    public void resendLastStatusAck();
 
-    default public void setInitialStatus(StatusProperty statusProperty) {
-    }
+    public void setInitialStatus(StatusProperty var1);
 
-    default public void setInitialStatusAck(StatusAckProperty statusAckProperty) {
-    }
+    public void setInitialStatusAck(StatusAckProperty var1);
 
-    default public StatusProperty getLastStatus() {
-    }
+    public StatusProperty getLastStatus();
 
-    default public StatusAckProperty getLastStatusAck() {
-    }
+    public StatusAckProperty getLastStatusAck();
 }
 

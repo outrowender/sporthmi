@@ -6,9 +6,9 @@ package de.audi.app.phone.core.dsi.cmd;
 import de.audi.app.phone.core.dsi.ITelDSIMobileEquipmentRequestWrapper;
 import de.audi.app.phone.core.dsi.ITelDSIResponseListener;
 import de.audi.app.phone.core.dsi.cmd.AbstractTelDSIMECommand;
-import de.audi.app.phone.core.dsi.cmd.TelResetMissedCallIndicator$1;
 import de.audi.app.phone.core.epm.ITelEPMHandler;
 import de.audi.atip.log.LogChannel;
+import de.audi.tghu.command.Command;
 import de.audi.tghu.command.CommandListManager;
 import de.audi.tghu.command.Monitor;
 
@@ -19,16 +19,21 @@ extends AbstractTelDSIMECommand {
     }
 
     public void schedule(CommandListManager commandListManager, Monitor monitor) {
-        TelResetMissedCallIndicator.schedule(commandListManager, this, "TelResetMissedCallIndicator", new TelResetMissedCallIndicator$1(this, this.logger, "TelResetMissedCallIndicatorError"), monitor);
+        TelResetMissedCallIndicator.schedule(commandListManager, this, "TelResetMissedCallIndicator", new Command(this.logger, "TelResetMissedCallIndicatorError"){
+
+            public void execute() {
+                this.logger.log(100000, "[TelResetMissedCallIndicator.schedule().new Command() {...}#execute] Error.");
+                this.getCommandList().commandFinished();
+            }
+        }, monitor);
     }
 
-    @Override
     public void execute() {
         if (this.isDSIAvailable()) {
-            this.logger.log(1078071040, "[TelResetMissedCallIndicator#execute]");
+            this.logger.log(1000000, "[TelResetMissedCallIndicator#execute]");
             this.dsi.resetMissedCallIndicator();
         } else {
-            this.logger.log(-1601830656, "[TelResetMissedCallIndicator#execute] dsi is null --> NOP!");
+            this.logger.log(100000, "[TelResetMissedCallIndicator#execute] dsi is null --> NOP!");
         }
         this.getCommandList().commandFinished();
     }

@@ -6,13 +6,10 @@ package de.audi.atip.preset;
 import de.audi.atip.preset.DefinitionRequest;
 
 public interface IAppPresetDefinitionHandler {
-    default public int getType() {
-    }
+    public int getType();
 
-    default public int[] getModelIds() {
-    }
+    public int[] getModelIds();
 
-    default public void requestDefinition(DefinitionRequest definitionRequest) {
-    }
+    public void requestDefinition(DefinitionRequest var1);
 }
 

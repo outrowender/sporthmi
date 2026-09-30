@@ -6,7 +6,6 @@ package de.audi.app.ecall.core.state;
 import de.audi.app.ecall.core.state.IEcallStateStruct;
 
 public interface IGlobalEcallStateListener {
-    default public void updateGlobalEcallStateProperty(int n, IEcallStateStruct iEcallStateStruct) {
-    }
+    public void updateGlobalEcallStateProperty(int var1, IEcallStateStruct var2);
 }
 

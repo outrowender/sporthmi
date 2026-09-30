@@ -5,10 +5,10 @@ package de.audi.app.phone.core.lang;
 
 import de.audi.app.phone.core.ITelApplication;
 import de.audi.app.phone.core.PhoneServiceProvider;
+import de.audi.app.phone.core.event.AbstractTelLangUpdateEvent;
 import de.audi.app.phone.core.event.TelEventQueue;
 import de.audi.app.phone.core.lang.ILanguageUpdateDispatcher;
 import de.audi.app.phone.core.lang.ILanguageUpdateListener;
-import de.audi.app.phone.core.lang.LanguageUpdateDispatcher$1;
 import de.audi.atip.i18n.I18NTarget;
 import de.audi.atip.i18n.Language;
 import de.audi.atip.log.LogChannel;
@@ -32,9 +32,8 @@ I18NTarget {
         this.telEventQueue = telEventQueue;
     }
 
-    @Override
     public void init() {
-        this.logChannel.log(-2137614336, "[LanguageUpdateDispatcher#init] called");
+        this.logChannel.log(10000000, "[LanguageUpdateDispatcher#init] called");
         Hashtable hashtable = new Hashtable();
         hashtable.put("ApplicationName", "AppPhone");
         hashtable.put("LANG_COMPONENT_TYPE", "LANG_COMPONENT_HMI");
@@ -42,9 +41,8 @@ I18NTarget {
         this.i18nServiceProvider.startService();
     }
 
-    @Override
     public void deinit() {
-        this.logChannel.log(-2137614336, "[LanguageUpdateDispatcher#deinit] called");
+        this.logChannel.log(10000000, "[LanguageUpdateDispatcher#deinit] called");
         this.i18nServiceProvider.stopService();
         this.listeners.clear();
     }
@@ -52,13 +50,12 @@ I18NTarget {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void addLanguageUpdateListener(ILanguageUpdateListener iLanguageUpdateListener) {
-        this.logChannel.log(-2137614336, "[LanguageUpdateDispatcher#addLanguageUpdateListener] adding '%1'", (Object)iLanguageUpdateListener);
+        this.logChannel.log(10000000, "[LanguageUpdateDispatcher#addLanguageUpdateListener] adding '%1'", (Object)iLanguageUpdateListener);
         ArrayList arrayList = this.listeners;
         synchronized (arrayList) {
             if (this.listeners.contains(iLanguageUpdateListener)) {
-                this.logChannel.log(-2137614336, "[LanguageUpdateDispatcher#addLanguageUpdateListener] listener already added");
+                this.logChannel.log(10000000, "[LanguageUpdateDispatcher#addLanguageUpdateListener] listener already added");
                 return;
             }
             this.listeners.add(iLanguageUpdateListener);
@@ -68,22 +65,37 @@ I18NTarget {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void removeLanguageUpdateListener(ILanguageUpdateListener iLanguageUpdateListener) {
-        this.logChannel.log(-2137614336, "[LanguageUpdateDispatcher#removeLanguageUpdateListener] removing '%1'", (Object)iLanguageUpdateListener);
+        this.logChannel.log(10000000, "[LanguageUpdateDispatcher#removeLanguageUpdateListener] removing '%1'", (Object)iLanguageUpdateListener);
         ArrayList arrayList = this.listeners;
         synchronized (arrayList) {
             if (!this.listeners.contains(iLanguageUpdateListener)) {
-                this.logChannel.log(-1601830656, "[LanguageUpdateDispatcher#removeLanguageUpdateListener] listener is not in the list");
+                this.logChannel.log(100000, "[LanguageUpdateDispatcher#removeLanguageUpdateListener] listener is not in the list");
                 return;
             }
             this.listeners.remove(iLanguageUpdateListener);
         }
     }
 
-    @Override
-    public void setLanguage(Language language) {
-        this.telEventQueue.enqueue(new LanguageUpdateDispatcher$1(this, language.getLanguageName(), language));
+    public void setLanguage(final Language language) {
+        this.telEventQueue.enqueue(new AbstractTelLangUpdateEvent(language.getLanguageName()){
+
+            /*
+             * WARNING - Removed try catching itself - possible behaviour change.
+             */
+            public void run() {
+                ArrayList arrayList;
+                LanguageUpdateDispatcher.this.logChannel.log(1000000, "[LanguageUpdateDispatcher#setLanguage] language='%1'", (Object)language);
+                Object object = LanguageUpdateDispatcher.this.listeners;
+                synchronized (object) {
+                    arrayList = (ArrayList)LanguageUpdateDispatcher.this.listeners.clone();
+                }
+                object = arrayList.iterator();
+                while (object.hasNext()) {
+                    ((ILanguageUpdateListener)object.next()).setLanguage(language);
+                }
+            }
+        });
     }
 
     static /* synthetic */ Class class$(String string) {
@@ -93,14 +105,6 @@ I18NTarget {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ LogChannel access$000(LanguageUpdateDispatcher languageUpdateDispatcher) {
-        return languageUpdateDispatcher.logChannel;
-    }
-
-    static /* synthetic */ ArrayList access$100(LanguageUpdateDispatcher languageUpdateDispatcher) {
-        return languageUpdateDispatcher.listeners;
     }
 }
 

@@ -35,31 +35,31 @@ public class ADBStartupHandler {
         }
         this.startupState |= n;
         this.processStartupState(n);
-        this.log.log(-2137614336, "ADBStartupHandler#updateStartupState(): stateUpdate: %1 has been processed --> %2", (Object)ADBDbgUtils.dbgStartupState(n), (Object)this);
+        this.log.log(10000000, "ADBStartupHandler#updateStartupState(): stateUpdate: %1 has been processed --> %2", (Object)ADBDbgUtils.dbgStartupState(n), (Object)this);
         if (this.startupComplete) {
-            this.log.log(1078071040, "ADBStartupHandler#updateStartupState(): ********** ADB INSTANCE \"%1\" READY NOW **********", (Object)super.getClass().getName());
+            this.log.log(1000000, "ADBStartupHandler#updateStartupState(): ********** ADB INSTANCE \"%1\" READY NOW **********", (Object)this.appAdr.getClass().getName());
         }
     }
 
     private void processStartupState(int n) {
         if (n == 16 && (this.startupState & 8) == 8 || n == 8 && (this.startupState & 0x10) == 16) {
-            this.log.log(1078071040, "ADBStartupHandler#processStartupState(): configuring auto profile allocation");
+            this.log.log(1000000, "ADBStartupHandler#processStartupState(): configuring auto profile allocation");
             SetAutoProfileAllocationCommand.createSetAutoProfileAllocationCommand(this.appAdr);
             boolean bl = ADBConfigUtils.getDefaultPublicVisibility(this.appAdr.getFramework());
-            this.log.log(1078071040, "ADBStartupHandler#processStartupState(): setting default public profile visibility to %1", bl);
+            this.log.log(1000000, "ADBStartupHandler#processStartupState(): setting default public profile visibility to %1", bl);
             SetDefaultPublicProfileVisibilityCommand.createSetDefaultPublicProfileVisibilityCommand(this.appAdr, bl);
             int n2 = ADBConfigUtils.getSpeedDialType(this.appAdr.getFramework());
-            this.log.log(1078071040, "ADBStartupHandler#processStartupState(): setting speed dial type to %1", (long)n2);
+            this.log.log(1000000, "ADBStartupHandler#processStartupState(): setting speed dial type to %1", (long)n2);
             SetSpeedDialTypeCommand.createSetSpeedDialTypeCommand(this.appAdr, n2);
             int n3 = ADBConfigUtils.getMaxSpeedDialEntries(this.appAdr.getFramework());
-            this.log.log(1078071040, "ADBStartupHandler#processStartupState(): setting the max speed dial entries to %1", (long)n3);
+            this.log.log(1000000, "ADBStartupHandler#processStartupState(): setting the max speed dial entries to %1", (long)n3);
             SetMaxSpeedDialEntriesCommand.createSetMaxSpeedDialEntriesCommand(this.appAdr, n3);
             int n4 = ADBConfigUtils.getDefaultSortOrder(this.appAdr.getFramework());
-            this.log.log(1078071040, "ADBStartupHandler#processStartupState(): configuring the default sort order for new address book profiles to: %1", (Object)ADBDbgUtils.dbgSortOrder(n4));
+            this.log.log(1000000, "ADBStartupHandler#processStartupState(): configuring the default sort order for new address book profiles to: %1", (Object)ADBDbgUtils.dbgSortOrder(n4));
             SetDefaultSortOrderCommand.createSetDefaultSortOrderCommand(this.appAdr, n4);
             SetMaxPhoneEntriesCommand.createSetMaxPhoneEntriesCommand(this.appAdr, ADBConfigUtils.getMaxPhoneEntries(this.appAdr.getFramework()));
             SetMaxLocalEntriesCommand.createSetMaxLocalEntriesCommand(this.appAdr, ADBConfigUtils.getMaxPublicEntries(this.appAdr.getFramework()));
-            this.log.log(1078071040, "ADBStartupHandler#processStartupState(): scheduling FinalizeConfigurationCommand");
+            this.log.log(1000000, "ADBStartupHandler#processStartupState(): scheduling FinalizeConfigurationCommand");
             FinalizeConfigurationCommand.createFinalizeConfigurationCommand(this.appAdr);
         }
         if ((this.startupState & this.appAdr.getInitStartupCompleteMask()) == this.appAdr.getInitStartupCompleteMask()) {

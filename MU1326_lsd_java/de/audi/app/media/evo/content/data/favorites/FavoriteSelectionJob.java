@@ -16,7 +16,7 @@ import de.audi.atip.log.LogChannel;
 
 public class FavoriteSelectionJob
 extends DataSelectionJob {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "FavoriteSelectionJob";
     private final FavoritesController favoritesController;
     private final IFavoritePlayerSelectionListener favoritePlayerSelectionListener;
     private final MediaFavorite mediaFavorite;
@@ -35,26 +35,22 @@ extends DataSelectionJob {
         return dataSelectionContainer;
     }
 
-    @Override
     public String getName() {
-        return "FavoriteSelectionJob";
+        return LOGCLASS;
     }
 
-    @Override
     public void start() {
         this.selectionBrowser.addSelectionListener(this.favoritesController);
         super.start();
     }
 
-    @Override
     public void finishJob() {
         this.selectionBrowser.removeSelectionListener(this.favoritesController);
         super.finishJob();
     }
 
-    @Override
     public void performSelection() {
-        this.logger.log(1078071040, "[%1.performSelection]", (Object)"FavoriteSelectionJob");
+        this.logger.log(1000000, "[%1.performSelection]", (Object)LOGCLASS);
         if (this.mediaFavorite.isFolderstackEmpty()) {
             this.selectionBrowser.addSelection(true, 1, 0L, 0, false);
         } else {
@@ -64,30 +60,26 @@ extends DataSelectionJob {
     }
 
     private void handleError() {
-        this.logger.log(1078071040, "[%1.handleError]", (Object)"FavoriteSelectionJob");
+        this.logger.log(1000000, "[%1.handleError]", (Object)LOGCLASS);
         this.mediaFavorite.setPlayable(false);
         this.favoritePlayerSelectionListener.playFavoriteSelectionDone(false);
         this.finishJob();
     }
 
-    @Override
     protected void browseModeError() {
         this.handleError();
     }
 
-    @Override
     protected void browseFolderError() {
         this.handleError();
     }
 
-    @Override
     public void abort(boolean bl) {
         super.abort(bl);
-        this.logger.log(1078071040, "[%1.abort]", (Object)"FavoriteSelectionJob");
+        this.logger.log(1000000, "[%1.abort]", (Object)LOGCLASS);
         this.favoritePlayerSelectionListener.playFavoriteSelectionDone(false);
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer(40);
         stringBuffer.append(this.getName());

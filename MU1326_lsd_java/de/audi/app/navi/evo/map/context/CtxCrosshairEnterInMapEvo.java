@@ -16,7 +16,6 @@ extends CtxCrosshairEnterInMap {
         super(navigationEnv, abstractMap);
     }
 
-    @Override
     public void enter() {
         IMapRequest iMapRequest = this.naviMap.getMVRequest();
         GUIInterface gUIInterface = this.naviMap.getGuiInterface();
@@ -26,7 +25,7 @@ extends CtxCrosshairEnterInMap {
             iMapRequest.setMode(3);
         }
         super.enter();
-        gUIInterface.setMapScrollSidebarPressed(890963456, false);
+        gUIInterface.setMapScrollSidebarPressed(400181, false);
         if (Util.isHMIScrollHairsEnabled(this.env.getFramework())) {
             gUIInterface.showCrosshairs(this.hotPointX, this.hotPointY);
         }
@@ -35,14 +34,13 @@ extends CtxCrosshairEnterInMap {
         iMapRequest.setViewType(0);
         this.enableDisableOrientation();
         gUIInterface.switchToNormalSidebar();
-        this.setToolTipDelay(0);
+        this.setToolTipDelay(100L);
         if (!Util.isLockFeatureNavMapviewScrollEnabled(this.env) || Util.isHMIScrollHairsEnabled(this.env.getFramework())) {
             gUIInterface.setTopBarVisible(true);
         }
         this.updateCrossHairsBoundingBox();
     }
 
-    @Override
     protected int determineSetup3DCityModelMode() {
         if (!Util.isHURegionAsia()) {
             return 0;
@@ -50,7 +48,6 @@ extends CtxCrosshairEnterInMap {
         return super.determineSetup3DCityModelMode();
     }
 
-    @Override
     public void exit() {
         super.exit();
         this.naviMap.getGuiInterface().hideCrosshairs();

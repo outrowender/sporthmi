@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  de.audi.app.terminalmode.audio.IAudioManager
  */
 package de.audi.app.terminalmode.statemachine.commands;
 
@@ -12,17 +9,16 @@ import de.audi.app.terminalmode.statemachine.commands.AbstractCommand;
 
 public class ReleaseAudioFocus
 extends AbstractCommand {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "ReleaseAudioFocus";
     private final IAudioManager audioManager;
 
     public ReleaseAudioFocus(IContext iContext) {
-        super(iContext.getLogger().main(), "ReleaseAudioFocus", iContext);
+        super(iContext.getLogger().main(), LOGCLASS, iContext);
         this.audioManager = iContext.getAudioManager();
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "[%1.execute]", (Object)"ReleaseAudioFocus");
+        this.logger.log(1000000, "[%1.execute]", (Object)LOGCLASS);
         if (this.audioManager.hasAudioFocus()) {
             this.audioManager.releaseAudioFocus();
         }

@@ -6,16 +6,12 @@ package de.audi.atip.utils.eventbus;
 import de.esolutions.fw.util.commons.job.DispatcherBase;
 
 public interface IEventBus {
-    default public void register(Object object) {
-    }
+    public void register(Object var1);
 
-    default public void register(Object object, DispatcherBase dispatcherBase) {
-    }
+    public void register(Object var1, DispatcherBase var2);
 
-    default public void unregister(Object object) {
-    }
+    public void unregister(Object var1);
 
-    default public void post(Object object) {
-    }
+    public void post(Object var1);
 }
 

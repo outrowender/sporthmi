@@ -5,16 +5,6 @@ package de.audi.atip.error;
 
 import de.audi.atip.base.IFrameworkAccess;
 import de.audi.atip.error.BundleInfoProvider;
-import de.audi.atip.error.ErrorManager$1;
-import de.audi.atip.error.ErrorManager$2;
-import de.audi.atip.error.ErrorManager$BlackBoxProvider;
-import de.audi.atip.error.ErrorManager$CmdInfoProvider;
-import de.audi.atip.error.ErrorManager$EnvInfoProvider;
-import de.audi.atip.error.ErrorManager$J9ThreadInfoProvider;
-import de.audi.atip.error.ErrorManager$SystemInfoProvider;
-import de.audi.atip.error.ErrorManager$ThreadInfoProvider;
-import de.audi.atip.error.ErrorManager$VersionInfoProvider;
-import de.audi.atip.error.ErrorManager$WatchDogAlarm;
 import de.audi.atip.error.IErrorManager;
 import de.audi.atip.error.Incident;
 import de.audi.atip.error.IntegrityChecker;
@@ -23,11 +13,14 @@ import de.audi.atip.log.LogChannel;
 import de.audi.atip.log.LogSink;
 import de.audi.atip.log.SPISink;
 import de.audi.atip.timer.WatchDog;
+import de.audi.atip.util.CommandLineExecuter;
 import de.audi.tghu.log.BlackBox;
+import de.audi.tghu.log.LogServImpl;
 import de.esolutions.fw.util.commons.error.DumpInfoProvider;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -35,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Properties;
 import java.util.Random;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
@@ -42,7 +36,7 @@ import java.util.zip.ZipOutputStream;
 
 public class ErrorManager
 implements IErrorManager {
-    private static final String DUMP_DIR_QNX;
+    private static final String DUMP_DIR_QNX = "/eso/hmi/errlog/";
     private final IFrameworkAccess framework;
     private BlackBox flightRecorder;
     private SPISink spiSink = null;
@@ -62,9 +56,9 @@ implements IErrorManager {
         this.framework = iFrameworkAccess;
         this.maxErrlogDumps = Integer.getInteger("ERROR_DUMP_MAX", 20);
         String string = System.getProperty("ERROR_DUMP_MAX_EXCEEDED");
-        this.dumpdir = System.getProperty("ErrorDumpDir", iFrameworkAccess.isTarget() ? "/eso/hmi/errlog/" : new StringBuffer().append(System.getProperty("java.io.tmpdir")).append("errlog\\").toString());
-        this.getLog().log(1078071040, "Write error dumps to %1", (Object)this.dumpdir);
-        this.getLog().log(1078071040, "Write no more than %1 error dumps", (long)this.maxErrlogDumps);
+        this.dumpdir = System.getProperty("ErrorDumpDir", iFrameworkAccess.isTarget() ? DUMP_DIR_QNX : new StringBuffer().append(System.getProperty("java.io.tmpdir")).append("errlog\\").toString());
+        this.getLog().log(1000000, "Write error dumps to %1", (Object)this.dumpdir);
+        this.getLog().log(1000000, "Write no more than %1 error dumps", (long)this.maxErrlogDumps);
         if (string != null) {
             if ("stdout".equals(string)) {
                 this.discardWhenLimitExceeded = false;
@@ -74,33 +68,32 @@ implements IErrorManager {
             }
         }
         if (this.discardWhenLimitExceeded) {
-            this.getLog().log(1078071040, "Discard additional error dumps");
+            this.getLog().log(1000000, "Discard additional error dumps");
         } else {
-            this.getLog().log(1078071040, "Write additional error dumps to System.out");
+            this.getLog().log(1000000, "Write additional error dumps to System.out");
         }
         if (this.replaceOldErrlogs) {
-            this.getLog().log(1078071040, "New error dumps replace older ones");
+            this.getLog().log(1000000, "New error dumps replace older ones");
         } else {
-            this.getLog().log(1078071040, "Oldest error dumps are kept");
+            this.getLog().log(1000000, "Oldest error dumps are kept");
         }
         if (iFrameworkAccess.isTarget()) {
-            this.registerCommand(new ErrorManager$J9ThreadInfoProvider(this, null));
+            this.registerCommand(new J9ThreadInfoProvider());
         } else {
-            this.registerDumpInfoProvider(new ErrorManager$ThreadInfoProvider(null));
+            this.registerDumpInfoProvider(new ThreadInfoProvider());
         }
-        this.registerDumpInfoProvider(new ErrorManager$SystemInfoProvider(null));
-        this.registerDumpInfoProvider(new ErrorManager$VersionInfoProvider(this, null));
-        this.registerDumpInfoProvider(new ErrorManager$EnvInfoProvider(null));
-        this.registerDumpInfoProvider(new ErrorManager$BlackBoxProvider(this));
+        this.registerDumpInfoProvider(new SystemInfoProvider());
+        this.registerDumpInfoProvider(new VersionInfoProvider());
+        this.registerDumpInfoProvider(new EnvInfoProvider());
+        this.registerDumpInfoProvider(new BlackBoxProvider());
         this.registerDumpInfoProvider(new BundleInfoProvider(iFrameworkAccess));
         if (iFrameworkAccess.isTarget()) {
-            this.registerCommand(new ErrorManager$CmdInfoProvider("Sloginfo", "sloginfo", new String[]{"-t"}, null));
-            this.registerCommand(new ErrorManager$CmdInfoProvider("Pidin", "pidin", new String[]{"arg"}, null));
-            this.registerCommand(new ErrorManager$CmdInfoProvider("3D_out.txt", "cat", new String[]{"/tmp/out.txt"}, null));
+            this.registerCommand(new CmdInfoProvider("Sloginfo", "sloginfo", new String[]{"-t"}));
+            this.registerCommand(new CmdInfoProvider("Pidin", "pidin", new String[]{"arg"}));
+            this.registerCommand(new CmdInfoProvider("3D_out.txt", "cat", new String[]{"/tmp/out.txt"}));
         }
     }
 
-    @Override
     public String[] getTargetIntegrityInfo() {
         return new IntegrityChecker(this.framework).getTargetIntegrityInfo();
     }
@@ -109,12 +102,10 @@ implements IErrorManager {
         return this.framework.getLogChannel("Fw.Error");
     }
 
-    @Override
     public final String getDumpDir() {
         return this.dumpdir;
     }
 
-    @Override
     public final LogSink getFlightRecorder() {
         return this.flightRecorder;
     }
@@ -123,7 +114,7 @@ implements IErrorManager {
         if (this.sessionID != -1) {
             return this.sessionID;
         }
-        int n = 1078071040;
+        int n = 1000000;
         String[] stringArray = new File(this.dumpdir).list();
         if (stringArray == null) {
             this.sessionID = n;
@@ -150,12 +141,10 @@ implements IErrorManager {
         return this.sessionID;
     }
 
-    @Override
     public final synchronized void registerDumpInfoProvider(DumpInfoProvider dumpInfoProvider) {
         this.sources.add(dumpInfoProvider);
     }
 
-    @Override
     public synchronized void unregisterDumpInfoProvider(DumpInfoProvider dumpInfoProvider) {
         this.sources.remove(dumpInfoProvider);
     }
@@ -165,28 +154,28 @@ implements IErrorManager {
     }
 
     private synchronized void registerCommand(DumpInfoProvider dumpInfoProvider) {
-        this.getLog().log(1078071040, "registering command: %1", (Object)dumpInfoProvider.getName());
+        this.getLog().log(1000000, "registering command: %1", (Object)dumpInfoProvider.getName());
         this.commands.add(dumpInfoProvider);
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    private void dumpProvider(DumpInfoProvider dumpInfoProvider, String string, ZipOutputStream zipOutputStream, PrintStream printStream) {
+    private void dumpProvider(DumpInfoProvider dumpInfoProvider, String string, ZipOutputStream zipOutputStream, PrintStream printStream) throws IOException {
         long l = this.framework.getMonotonicTime();
         this.active = dumpInfoProvider;
         boolean bl = false;
         try {
-            this.getLog().log(1078071040, "writing error info: %1", (Object)dumpInfoProvider.getName());
+            this.getLog().log(1000000, "writing error info: %1", (Object)dumpInfoProvider.getName());
             zipOutputStream.putNextEntry(new ZipEntry(new StringBuffer().append(dumpInfoProvider.getName()).append(".txt").toString()));
             bl = true;
             dumpInfoProvider.dump(printStream, string);
         }
         catch (ZipException zipException) {
             try {
-                Thread.sleep(0);
+                Thread.sleep(2L);
                 String string2 = new StringBuffer().append(dumpInfoProvider.getName()).append(new Random(System.currentTimeMillis()).nextInt()).toString();
-                this.getLog().log(1078071040, "writing error info to random file: %1", (Object)string2);
+                this.getLog().log(1000000, "writing error info to random file: %1", (Object)string2);
                 zipOutputStream.putNextEntry(new ZipEntry(new StringBuffer().append(string2).append(".txt").toString()));
                 bl = true;
                 dumpInfoProvider.dump(printStream, string);
@@ -205,7 +194,7 @@ implements IErrorManager {
             if (bl) {
                 zipOutputStream.closeEntry();
             }
-            if ((l2 = this.framework.getMonotonicTime() - l) > 0) {
+            if ((l2 = this.framework.getMonotonicTime() - l) > 1000L) {
                 this.getLog().log(10000, "writing error info: %1 took too long: %2ms!", (Object)dumpInfoProvider.getName(), l2);
             }
         }
@@ -214,7 +203,7 @@ implements IErrorManager {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    private void dumpToFile(String string, boolean bl) {
+    private void dumpToFile(String string, boolean bl) throws IOException {
         if (new File(string).exists()) {
             this.getLog().log(10000, "WTF!? The file %1 already exist! Rename it", (Object)string);
             string = string.concat("_WTF.zip");
@@ -242,7 +231,7 @@ implements IErrorManager {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    private void dumpToStream(OutputStream outputStream, String string, boolean bl) {
+    private void dumpToStream(OutputStream outputStream, String string, boolean bl) throws IOException {
         BufferedOutputStream bufferedOutputStream = null;
         ZipOutputStream zipOutputStream = null;
         PrintStream printStream = null;
@@ -276,7 +265,7 @@ implements IErrorManager {
                     zipOutputStream.close();
                 }
                 catch (IOException iOException) {
-                    this.getLog().log(14808325, "problem during zip.close()", (Throwable)iOException);
+                    this.getLog().log(100000000, "problem during zip.close()", (Throwable)iOException);
                 }
             }
             if (bufferedOutputStream != null) {
@@ -285,7 +274,7 @@ implements IErrorManager {
                     bufferedOutputStream.close();
                 }
                 catch (IOException iOException) {
-                    this.getLog().log(14808325, "problem during zip.close()", (Throwable)iOException);
+                    this.getLog().log(100000000, "problem during zip.close()", (Throwable)iOException);
                 }
             }
         }
@@ -316,7 +305,12 @@ implements IErrorManager {
 
     private void ensureMaxErrDumpCapacity() {
         new File(this.dumpdir).mkdirs();
-        Object[] objectArray = new File(this.dumpdir).list(new ErrorManager$1(this));
+        Object[] objectArray = new File(this.dumpdir).list(new FilenameFilter(){
+
+            public boolean accept(File file, String string) {
+                return ErrorManager.this.isErrorDump(string);
+            }
+        });
         if (objectArray == null) {
             return;
         }
@@ -340,13 +334,26 @@ implements IErrorManager {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    private void dumpAsync(Incident incident) {
-        ArrayList arrayList = new ArrayList(2);
+    private void dumpAsync(final Incident incident) {
+        final ArrayList arrayList = new ArrayList(2);
         Object object = arrayList;
         synchronized (object) {
-            new Thread(new ErrorManager$2(this, incident, arrayList), "DumpAsync").start();
+            new Thread(new Runnable(){
+
+                /*
+                 * WARNING - Removed try catching itself - possible behaviour change.
+                 */
+                public void run() {
+                    ErrorManager.this.dumpSync(incident);
+                    arrayList.add(new Object());
+                    List list = arrayList;
+                    synchronized (list) {
+                        arrayList.notifyAll();
+                    }
+                }
+            }, "DumpAsync").start();
             try {
-                super.wait(0);
+                arrayList.wait(20000L);
             }
             catch (InterruptedException interruptedException) {
                 Thread.interrupted();
@@ -382,7 +389,6 @@ implements IErrorManager {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public synchronized void handleError(Throwable throwable, String string, int n, int n2, int n3, ShutdownGuard shutdownGuard) {
         if (this.recursionCount > 0) {
             this.getLog().log(1000, "Recursive Error Handler call! Recursion count: %1", (long)this.recursionCount);
@@ -400,23 +406,16 @@ implements IErrorManager {
         }
     }
 
-    @Override
     public void handleError(Throwable throwable, String string, int n, int n2, int n3) {
         this.handleError(throwable, string, n, n2, n3, null);
     }
 
-    @Override
     public WatchDog createWatchDog(long l, Runnable runnable, String string, int n, int n2, int n3) {
-        return new WatchDog(string, l, this.getLog(), new ErrorManager$WatchDogAlarm(this, runnable, new Incident(this.framework.getMonotonicTime(), null, string, n, n2, n3, null), null));
+        return new WatchDog(string, l, this.getLog(), new WatchDogAlarm(runnable, new Incident(this.framework.getMonotonicTime(), null, string, n, n2, n3, null)));
     }
 
-    @Override
     public WatchDog createWatchDog(long l, Runnable runnable, String string, int n, int n2, int n3, boolean bl) {
-        return new WatchDog(string, l, this.getLog(), new ErrorManager$WatchDogAlarm(this, runnable, bl ? new Incident(this.framework.getMonotonicTime(), null, string, n, n2, n3, null) : null, null));
-    }
-
-    static /* synthetic */ IFrameworkAccess access$600(ErrorManager errorManager) {
-        return errorManager.framework;
+        return new WatchDog(string, l, this.getLog(), new WatchDogAlarm(runnable, bl ? new Incident(this.framework.getMonotonicTime(), null, string, n, n2, n3, null) : null));
     }
 
     static /* synthetic */ Class class$(String string) {
@@ -428,29 +427,266 @@ implements IErrorManager {
         }
     }
 
-    static /* synthetic */ LogChannel access$700(ErrorManager errorManager) {
-        return errorManager.getLog();
+    private final class WatchDogAlarm
+    implements Runnable {
+        private Runnable payload = null;
+        private Incident incident = null;
+
+        private WatchDogAlarm(Runnable runnable, Incident incident) {
+            this.payload = runnable;
+            this.incident = incident;
+        }
+
+        public void run() {
+            if (this.payload != null) {
+                this.payload.run();
+            }
+            if (this.incident != null) {
+                ErrorManager.this.handleError(this.incident);
+            }
+        }
     }
 
-    static /* synthetic */ BlackBox access$802(ErrorManager errorManager, BlackBox blackBox) {
-        errorManager.flightRecorder = blackBox;
-        return errorManager.flightRecorder;
+    private static class CmdInfoProvider
+    implements DumpInfoProvider {
+        private String name;
+        private String cmd;
+        private PrintStream[] additionalSinks;
+        private String[] args;
+
+        private CmdInfoProvider(String string, String string2, String[] stringArray, PrintStream[] printStreamArray) {
+            this.name = string;
+            this.cmd = string2;
+            this.args = stringArray;
+            this.additionalSinks = printStreamArray;
+        }
+
+        private CmdInfoProvider(String string, String string2, String[] stringArray) {
+            this(string, string2, stringArray, (PrintStream[])null);
+        }
+
+        public void dump(PrintStream printStream, String string) {
+            PrintStream[] printStreamArray;
+            if (this.additionalSinks == null) {
+                printStreamArray = new PrintStream[]{printStream};
+            } else {
+                printStreamArray = new PrintStream[this.additionalSinks.length + 1];
+                System.arraycopy((Object)printStreamArray, 0, (Object)this.additionalSinks, 0, this.additionalSinks.length);
+                printStreamArray[this.additionalSinks.length] = printStream;
+            }
+            CommandLineExecuter.executeCommand(this.cmd, this.args, printStreamArray);
+        }
+
+        public String getName() {
+            return this.name;
+        }
     }
 
-    static /* synthetic */ BlackBox access$800(ErrorManager errorManager) {
-        return errorManager.flightRecorder;
+    private static class EnvInfoProvider
+    implements DumpInfoProvider {
+        private EnvInfoProvider() {
+        }
+
+        public String getName() {
+            return "Env";
+        }
+
+        public void dump(PrintStream printStream, String string) {
+            Properties properties = System.getProperties();
+            properties.list(printStream);
+            printStream.println();
+        }
     }
 
-    static /* synthetic */ boolean access$900(ErrorManager errorManager, String string) {
-        return errorManager.isErrorDump(string);
+    private final class BlackBoxProvider
+    implements DumpInfoProvider {
+        BlackBoxProvider() {
+            int n = 100;
+            try {
+                n = Integer.parseInt(System.getProperty("BLACKBOX_SIZE", "100"));
+            }
+            catch (NumberFormatException numberFormatException) {
+                n = 100;
+            }
+            ErrorManager.this.flightRecorder = new BlackBox(n);
+            ErrorManager.this.framework.getLogChannelAdmin().addLogSink(ErrorManager.this.flightRecorder);
+            ErrorManager.this.flightRecorder.setConfiguration(LogServImpl.decodeLogConfig(System.getProperty("BLACKBOX_LOG")));
+        }
+
+        public String getName() {
+            return "Logs";
+        }
+
+        public void dump(PrintStream printStream, String string) {
+            printStream.println("-- BlackBox --");
+            printStream.println(new StringBuffer().append("Blackbox log : ").append(System.getProperty("BLACKBOX_LOG")).toString());
+            printStream.println(new StringBuffer().append("Blackbox size: ").append(System.getProperty("BLACKBOX_SIZE")).toString());
+            printStream.println();
+            ErrorManager.this.flightRecorder.dumpBuffer(printStream);
+        }
     }
 
-    static /* synthetic */ void access$1000(ErrorManager errorManager, Incident incident) {
-        errorManager.dumpSync(incident);
+    private static class SystemInfoProvider
+    implements DumpInfoProvider {
+        private SystemInfoProvider() {
+        }
+
+        public String getName() {
+            return "SystemState";
+        }
+
+        public void dump(PrintStream printStream, String string) {
+            printStream.println("-- Java Information --");
+            printStream.println(new StringBuffer().append("Java FreeMem:  ").append(Runtime.getRuntime().freeMemory() / 1024L).append("Kb").toString());
+            printStream.println(new StringBuffer().append("Java TotalMem: ").append(Runtime.getRuntime().totalMemory() / 1024L).append("Kb").toString());
+            printStream.println();
+            printStream.println("-- DSI Information --");
+            printStream.println(new StringBuffer().append("Channel:       ").append(System.getProperty("dsi.channel")).toString());
+            printStream.println(new StringBuffer().append("Debuglevel:    ").append(System.getProperty("dsi.debuglevel")).toString());
+            printStream.println();
+        }
     }
 
-    static /* synthetic */ void access$1200(ErrorManager errorManager, Incident incident) {
-        errorManager.handleError(incident);
+    private static class ThreadInfoProvider
+    implements DumpInfoProvider {
+        private ThreadInfoProvider() {
+        }
+
+        public String getName() {
+            return "ThreadState";
+        }
+
+        private ThreadGroup getRoot() {
+            ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
+            while (threadGroup.getParent() != null) {
+                threadGroup = threadGroup.getParent();
+            }
+            return threadGroup;
+        }
+
+        private void dumpThread(PrintStream printStream, Thread thread, String string) {
+            printStream.print(new StringBuffer().append(string).append("Thread: ").append(thread.getName()).append(" Prio: ").append(thread.getPriority()).toString());
+            if (!thread.isAlive()) {
+                printStream.print(" ZOMBIE");
+            }
+            if (thread.isDaemon()) {
+                printStream.print(" DAEMON");
+            }
+            if (thread.isInterrupted()) {
+                printStream.print(" INTERRUPTED");
+            }
+            if (thread == Thread.currentThread()) {
+                printStream.print(" CURRENT");
+            }
+            printStream.println();
+            if (thread == Thread.currentThread()) {
+                try {
+                    throw new Exception();
+                }
+                catch (Exception exception) {
+                    exception.printStackTrace(printStream);
+                }
+            }
+        }
+
+        private void dumpThreadGroup(PrintStream printStream, ThreadGroup threadGroup, String string) {
+            printStream.println(new StringBuffer().append(string).append("ThreadGroup: ").append(threadGroup.getName()).toString());
+            String string2 = new StringBuffer().append(string).append("  ").toString();
+            Thread[] threadArray = new Thread[threadGroup.activeCount()];
+            int n = threadGroup.enumerate(threadArray);
+            for (int i2 = 0; i2 < n; ++i2) {
+                if (threadArray[i2].getThreadGroup() != threadGroup) continue;
+                this.dumpThread(printStream, threadArray[i2], string2);
+            }
+            ThreadGroup[] threadGroupArray = new ThreadGroup[threadGroup.activeGroupCount()];
+            int n2 = threadGroup.enumerate(threadGroupArray);
+            for (int i3 = 0; i3 < n2; ++i3) {
+                if (threadGroupArray[i3].getParent() != threadGroup) continue;
+                this.dumpThreadGroup(printStream, threadGroupArray[i3], string2);
+            }
+        }
+
+        public void dump(PrintStream printStream, String string) {
+            this.dumpThreadGroup(printStream, this.getRoot(), "");
+            printStream.println();
+        }
+    }
+
+    private class VersionInfoProvider
+    implements DumpInfoProvider {
+        private VersionInfoProvider() {
+        }
+
+        public String getName() {
+            return "VersionInfo";
+        }
+
+        public void dump(PrintStream printStream, String string) {
+            printStream.println("-- OS Information --");
+            printStream.println(new StringBuffer().append("CPU:            ").append(System.getProperty("os.arch")).toString());
+            printStream.println(new StringBuffer().append("OS:             ").append(System.getProperty("os.name")).toString());
+            printStream.println(new StringBuffer().append("Version:        ").append(System.getProperty("os.version")).toString());
+            printStream.println();
+            printStream.println("-- Java Information --");
+            printStream.println(new StringBuffer().append("Java Vendor:    ").append(System.getProperty("java.vendor")).toString());
+            printStream.println(new StringBuffer().append("Java Version:   ").append(System.getProperty("java.vm.version")).toString());
+            printStream.println(new StringBuffer().append("Java VM Info:   ").append(System.getProperty("java.vm.info")).toString());
+            printStream.println(new StringBuffer().append("Class Version:  ").append(System.getProperty("java.class.version")).toString());
+            printStream.println(new StringBuffer().append("JXE Romimage:   ").append(System.getProperty("jxe.current.romimage.version")).toString());
+            printStream.println(new StringBuffer().append("Library Version:").append(System.getProperty("com.ibm.oti.vm.library.version")).toString());
+            printStream.println();
+            printStream.println("-- DSI Information --");
+            printStream.println(new StringBuffer().append("DSI_IFC_Version: ").append(ErrorManager.this.framework.getVersionInfo().getDsiIfcVersion()).toString());
+            printStream.println(new StringBuffer().append("Framework:       ").append(ErrorManager.this.framework.getVersionInfo().getFrameworkVersion()).toString());
+            printStream.println();
+            printStream.println("-- HMI Information --");
+            printStream.println(new StringBuffer().append("Variant:         ").append(System.getProperty("variant.label")).toString());
+            printStream.println(new StringBuffer().append("HMI Version:     ").append(ErrorManager.this.framework.getVersionInfo().getHMIVersion()).toString());
+            printStream.println(new StringBuffer().append("Kanzi Version:   ").append(ErrorManager.this.framework.getVersionInfo().getKanziVersion()).toString());
+            printStream.println(new StringBuffer().append("Texttool:        ").append(ErrorManager.this.framework.getVersionInfo().getTextToolVersion()).toString());
+            printStream.println(new StringBuffer().append("Texttool_SDS:    ").append(ErrorManager.this.framework.getVersionInfo().getTextToolSDSVersion()).toString());
+        }
+    }
+
+    private class J9ThreadInfoProvider
+    implements DumpInfoProvider {
+        private J9ThreadInfoProvider() {
+        }
+
+        public String getName() {
+            return "ThreadState";
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void dump(PrintStream printStream, String string) {
+            PrintStream printStream2 = System.out;
+            try {
+                System.setOut(printStream);
+                if (ErrorManager.this.framework.isEvoStd()) {
+                    try {
+                        (class$com$microdoc$j9$Tools == null ? (class$com$microdoc$j9$Tools = ErrorManager.class$("com.microdoc.j9.Tools")) : class$com$microdoc$j9$Tools).getMethod("dumpThreadsInfo", new Class[]{Boolean.TYPE}).invoke(null, new Object[]{Boolean.TRUE});
+                    }
+                    catch (Exception exception) {
+                        ErrorManager.this.getLog().log(10000, "Calling dumpThreadsInfo failed!", (Throwable)exception);
+                    }
+                } else {
+                    try {
+                        (class$com$microdoc$j9$Tools == null ? (class$com$microdoc$j9$Tools = ErrorManager.class$("com.microdoc.j9.Tools")) : class$com$microdoc$j9$Tools).getMethod("dumpThreadsInfo", new Class[0]).invoke(null, new Object[0]);
+                    }
+                    catch (Exception exception) {
+                        ErrorManager.this.getLog().log(10000, "Calling dumpThreadsInfo failed!", (Throwable)exception);
+                    }
+                }
+            }
+            catch (Exception exception) {
+                exception.printStackTrace(printStream);
+            }
+            finally {
+                System.setOut(printStream2);
+            }
+        }
     }
 }
 

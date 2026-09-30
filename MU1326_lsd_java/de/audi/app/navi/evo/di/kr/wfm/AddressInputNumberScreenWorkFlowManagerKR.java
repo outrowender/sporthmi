@@ -15,7 +15,6 @@ extends AbstractAddressInputScreenWorkFlowManagerKR {
         super(navigationEnv, iCommandListFactory, spellerStack);
     }
 
-    @Override
     public CommandList handleWorkFlow(CommandList commandList, int n) {
         switch (n) {
             case 40702: {
@@ -30,7 +29,7 @@ extends AbstractAddressInputScreenWorkFlowManagerKR {
     }
 
     private void createKRNumberScreenListElementSelectedWorkFlow(CommandList commandList) {
-        this.logChannel.log(-2137614336, "%1#createKRNumberScreenListElementSelectedWorkFlow", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#createKRNumberScreenListElementSelectedWorkFlow", (Object)this.CLASS_NAME);
         this.spellerStack.pop();
     }
 }

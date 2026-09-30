@@ -17,7 +17,6 @@ extends OneshotHandler {
         super(hMIService, n, iOneshotPicklistHandling, iOneshotListModeMapper, iOneshotDestinationTypeMapper, iOneshotFilterStrategy, nArray);
     }
 
-    @Override
     protected void setOneshotLabelModel(int n, String string) {
         if (n > this.oneshotLevelToLabelModels.length || n < 0) {
             return;
@@ -29,7 +28,6 @@ extends OneshotHandler {
         labelModelApp.setText(string);
     }
 
-    @Override
     public int determineCorrectOneshotEvent() {
         int n = 20001;
         int n2 = 0;

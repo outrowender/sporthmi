@@ -4,64 +4,53 @@
 package de.audi.atip.interapp.earlyfunc.core.parking.pla;
 
 public interface IPLAStatus {
-    public static final int INVALID_OPTION_FLAG;
-    public static final int PLASTATUS_INVALID_MODE;
-    public static final int PLASTATUS_IDLE_MODE_ACTIVE;
-    public static final int PLASTATUS_SEARCH_MODE_ACTIVE;
-    public static final int PLASTATUS_PARK_IN_MODE_SELECTION_ACTIVE;
-    public static final int PLASTATUS_PARK_OUT_MODE_SELECTION_ACTIVE;
-    public static final int PLASTATUS_PARK_IN_ACTIVE;
-    public static final int PLASTATUS_PARK_OUT_ACTIVE;
-    public static final int PLASTATUS_STANDBY_MODE_ACTIVE;
-    public static final int PLAACTIVESIDE_NO_SELECTION;
-    public static final int PLAACTIVESIDE_LEFT_SIDE;
-    public static final int PLAACTIVESIDE_RIGHT_SIDE;
-    public static final int PLADRIVINGDIRECTION_NO_DIRECTION;
-    public static final int PLADRIVINGDIRECTION_POS_OK;
-    public static final int PLADRIVINGDIRECTION_FORWARD;
-    public static final int PLADRIVINGDIRECTION_BACKWARD;
-    public static final int PLASYMBOLVIEWOPTION_INVISIBLE;
-    public static final int PLASYMBOLVIEWOPTION_INACTIVE;
-    public static final int PLASYMBOLVIEWOPTION_ACTIVE;
-    public static final int PLASELECTION_NO_SELECTION;
-    public static final int PLASELECTION_BACKWARD_PARALLEL_TO_ROAD_RIGHT;
-    public static final int PLASELECTION_FORWARD_PARKBOX_RIGHT;
-    public static final int PLASELECTION_BACKWARD_PARKBOX_RIGHT;
-    public static final int PLASELECTION_BACKWARD_PARALLEL_TO_ROAD_LEFT;
-    public static final int PLASELECTION_FORWARD_PARKBOX_LEFT;
-    public static final int PLASELECTION_BACKWARD_PARKBOX_LEFT;
+    public static final int INVALID_OPTION_FLAG = -1;
+    public static final int PLASTATUS_INVALID_MODE = -1;
+    public static final int PLASTATUS_IDLE_MODE_ACTIVE = 0;
+    public static final int PLASTATUS_SEARCH_MODE_ACTIVE = 1;
+    public static final int PLASTATUS_PARK_IN_MODE_SELECTION_ACTIVE = 2;
+    public static final int PLASTATUS_PARK_OUT_MODE_SELECTION_ACTIVE = 3;
+    public static final int PLASTATUS_PARK_IN_ACTIVE = 4;
+    public static final int PLASTATUS_PARK_OUT_ACTIVE = 5;
+    public static final int PLASTATUS_STANDBY_MODE_ACTIVE = 6;
+    public static final int PLAACTIVESIDE_NO_SELECTION = 0;
+    public static final int PLAACTIVESIDE_LEFT_SIDE = 1;
+    public static final int PLAACTIVESIDE_RIGHT_SIDE = 2;
+    public static final int PLADRIVINGDIRECTION_NO_DIRECTION = 0;
+    public static final int PLADRIVINGDIRECTION_POS_OK = 1;
+    public static final int PLADRIVINGDIRECTION_FORWARD = 2;
+    public static final int PLADRIVINGDIRECTION_BACKWARD = 3;
+    public static final int PLASYMBOLVIEWOPTION_INVISIBLE = 0;
+    public static final int PLASYMBOLVIEWOPTION_INACTIVE = 1;
+    public static final int PLASYMBOLVIEWOPTION_ACTIVE = 2;
+    public static final int PLASELECTION_NO_SELECTION = -1;
+    public static final int PLASELECTION_BACKWARD_PARALLEL_TO_ROAD_RIGHT = 0;
+    public static final int PLASELECTION_FORWARD_PARKBOX_RIGHT = 1;
+    public static final int PLASELECTION_BACKWARD_PARKBOX_RIGHT = 2;
+    public static final int PLASELECTION_BACKWARD_PARALLEL_TO_ROAD_LEFT = 3;
+    public static final int PLASELECTION_FORWARD_PARKBOX_LEFT = 4;
+    public static final int PLASELECTION_BACKWARD_PARKBOX_LEFT = 5;
 
-    default public int getActiveSide() {
-    }
+    public int getActiveSide();
 
-    default public boolean isSystemActiveOPS() {
-    }
+    public boolean isSystemActiveOPS();
 
-    default public int getDrivingDirection() {
-    }
+    public int getDrivingDirection();
 
-    default public boolean isBrakeSymbol() {
-    }
+    public boolean isBrakeSymbol();
 
-    default public boolean isPosOKSymbol() {
-    }
+    public boolean isPosOKSymbol();
 
-    default public int getSteeringInterventionSymbol() {
-    }
+    public int getSteeringInterventionSymbol();
 
-    default public boolean isInteractionProhibited() {
-    }
+    public boolean isInteractionProhibited();
 
-    default public boolean isBackwardParallelToRoadSlotFound() {
-    }
+    public boolean isBackwardParallelToRoadSlotFound();
 
-    default public boolean isForwardParkboxSlotFound() {
-    }
+    public boolean isForwardParkboxSlotFound();
 
-    default public boolean isBackwardParkboxSlotFound() {
-    }
+    public boolean isBackwardParkboxSlotFound();
 
-    default public int getPreSelection() {
-    }
+    public int getPreSelection();
 }
 

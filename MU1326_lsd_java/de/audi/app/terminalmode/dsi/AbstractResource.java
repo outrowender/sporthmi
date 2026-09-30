@@ -4,37 +4,33 @@
 package de.audi.app.terminalmode.dsi;
 
 import de.audi.app.terminalmode.dsi.IResource;
-import de.audi.app.terminalmode.dsi.IResource$OwnershipType;
 import de.esolutions.fw.util.commons.Buffer;
 
 public abstract class AbstractResource
 implements IResource {
     private final int resourceId;
     private final int owner;
-    private final IResource$OwnershipType ownershipType;
+    private final IResource.OwnershipType ownershipType;
 
-    public AbstractResource(int n, int n2, IResource$OwnershipType iResource$OwnershipType) {
+    public AbstractResource(int n, int n2, IResource.OwnershipType ownershipType) {
         this.resourceId = n;
         this.owner = n2;
-        this.ownershipType = iResource$OwnershipType;
+        this.ownershipType = ownershipType;
     }
 
     public AbstractResource(int n, int n2) {
-        this(n, n2, IResource$OwnershipType.UNSPECIFIED);
+        this(n, n2, IResource.OwnershipType.UNSPECIFIED);
     }
 
-    @Override
     public int getResourceId() {
         return this.resourceId;
     }
 
-    @Override
     public int getOwner() {
         return this.owner;
     }
 
-    @Override
-    public IResource$OwnershipType getOwnershipType() {
+    public IResource.OwnershipType getOwnershipType() {
         return this.ownershipType;
     }
 
@@ -44,7 +40,7 @@ implements IResource {
         buffer.append(this.getResourceString(this.resourceId));
         buffer.append(", owner=");
         buffer.append(this.getOwnerString(this.owner));
-        if (this.ownershipType.isNot(IResource$OwnershipType.UNSPECIFIED)) {
+        if (this.ownershipType.isNot(IResource.OwnershipType.UNSPECIFIED)) {
             buffer.append("(").append(this.ownershipType.name()).append(")");
         }
         buffer.append("]");
@@ -108,7 +104,7 @@ implements IResource {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         AbstractResource abstractResource = (AbstractResource)object;

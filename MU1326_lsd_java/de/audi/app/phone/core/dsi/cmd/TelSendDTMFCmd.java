@@ -6,8 +6,8 @@ package de.audi.app.phone.core.dsi.cmd;
 import de.audi.app.phone.core.dsi.ITelDSIMobileEquipmentRequestWrapper;
 import de.audi.app.phone.core.dsi.ITelDSIResponseListener;
 import de.audi.app.phone.core.dsi.cmd.AbstractTelDSIMECommand;
-import de.audi.app.phone.core.dsi.cmd.TelSendDTMFCmd$1;
 import de.audi.atip.log.LogChannel;
+import de.audi.tghu.command.Command;
 import de.audi.tghu.command.CommandListManager;
 import de.audi.tghu.command.Monitor;
 
@@ -21,23 +21,30 @@ extends AbstractTelDSIMECommand {
     }
 
     public void schedule(CommandListManager commandListManager, Monitor monitor) {
-        TelSendDTMFCmd.schedule(commandListManager, this, "TelSendDTMFCmd", new TelSendDTMFCmd$1(this, this.logger, "TelSendDTMFCmdError"), monitor);
+        TelSendDTMFCmd.schedule(commandListManager, this, "TelSendDTMFCmd", new Command(this.logger, "TelSendDTMFCmdError"){
+
+            public void execute() {
+                this.logger.log(100000, "[TelSendDTMFCmd.schedule().new Command() {...}#execute] Error.");
+                if (TelSendDTMFCmd.this.listener != null) {
+                    TelSendDTMFCmd.this.listener.responseSendDTMF(65537, TelSendDTMFCmd.this.terminalID);
+                }
+                this.getCommandList().commandFinished();
+            }
+        }, monitor);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "[TelSendDTMFCmd#execute] telDTMF=%1", (Object)this.telDTMF);
+        this.logger.log(1000000, "[TelSendDTMFCmd#execute] telDTMF=%1", (Object)this.telDTMF);
         if (this.isDSIAvailable()) {
             this.dsi.sendDTMF(this.telDTMF);
         } else {
-            this.logger.log(-1601830656, "[TelSendDTMFCmd#execute] DSITelephone is null!");
+            this.logger.log(100000, "[TelSendDTMFCmd#execute] DSITelephone is null!");
             this.getCommandList().commandFinished();
         }
     }
 
-    @Override
     public void responseSendDTMF(int n) {
-        this.logger.log(1078071040, "[TelSendDTMFCmd#responseSendDTMF] result=%1", (long)n);
+        this.logger.log(1000000, "[TelSendDTMFCmd#responseSendDTMF] result=%1", (long)n);
         if (this.listener != null) {
             this.listener.responseSendDTMF(n, this.terminalID);
         }

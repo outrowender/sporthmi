@@ -7,61 +7,43 @@ import de.audi.atip.hmi.modelaccess.SpellerModelGUI;
 
 public interface MatchspellerModelGUI
 extends SpellerModelGUI {
-    public static final int INPUT_MODE_SPELLER;
-    public static final int INPUT_MODE_HANDWRITTEN;
+    public static final int INPUT_MODE_SPELLER = 0;
+    public static final int INPUT_MODE_HANDWRITTEN = 1;
 
-    default public String getValidChars() {
-    }
+    public String getValidChars();
 
-    default public int getMatchCountVisibility() {
-    }
+    public int getMatchCountVisibility();
 
-    default public boolean isUniqueMatch() {
-    }
+    public boolean isUniqueMatch();
 
-    default public boolean isFullMatch() {
-    }
+    public boolean isFullMatch();
 
-    default public void setFullMatch(boolean bl) {
-    }
+    public void setFullMatch(boolean var1);
 
-    default public int getMatchCount() {
-    }
+    public int getMatchCount();
 
-    default public int getLanguage() {
-    }
+    public int getLanguage();
 
-    default public String getPhonemeText() {
-    }
+    public String getPhonemeText();
 
-    default public String getPhonemeAlphabet() {
-    }
+    public String getPhonemeAlphabet();
 
-    default public String getValidNonAlphaNumTPCharacters(int n) {
-    }
+    public String getValidNonAlphaNumTPCharacters(int var1);
 
-    default public void nonAlphaNumTPCharsChanged(String string, int n) {
-    }
+    public void nonAlphaNumTPCharsChanged(String var1, int var2);
 
-    default public void inputModeTPChanged(int n, int n2) {
-    }
+    public void inputModeTPChanged(int var1, int var2);
 
-    default public int getInitialInputMode(int n) {
-    }
+    public int getInitialInputMode(int var1);
 
-    default public boolean getAllowNonAlphaNumInput(int n) {
-    }
+    public boolean getAllowNonAlphaNumInput(int var1);
 
-    default public void strokesChanged(int n, String string, char c2) {
-    }
+    public void strokesChanged(int var1, String var2, char var3);
 
-    default public void requestValidHanziCharsWindow(int n, int n2, int n3) {
-    }
+    public void requestValidHanziCharsWindow(int var1, int var2, int var3);
 
-    default public String getValidHanziCharsWindowResult() {
-    }
+    public String getValidHanziCharsWindowResult();
 
-    default public int getTotalAmountOfHanziCharacters() {
-    }
+    public int getTotalAmountOfHanziCharacters();
 }
 

@@ -7,22 +7,16 @@ import de.audi.app.terminalmode.dsi.IAppState;
 import de.audi.app.terminalmode.dsi.IResource;
 
 public interface ICarplayDSIControllerListener {
-    default public void updateMode(IAppState[] iAppStateArray, IResource[] iResourceArray) {
-    }
+    public void updateMode(IAppState[] var1, IResource[] var2);
 
-    default public void updateTextInputState(boolean bl) {
-    }
+    public void updateTextInputState(boolean var1);
 
-    default public void duckAudio(int n, double d2) {
-    }
+    public void duckAudio(int var1, double var2);
 
-    default public void unduckAudio(int n) {
-    }
+    public void unduckAudio(int var1);
 
-    default public void updateMainAudioType(int n) {
-    }
+    public void updateMainAudioType(int var1);
 
-    default public void oemAppSelected() {
-    }
+    public void oemAppSelected();
 }
 

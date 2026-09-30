@@ -14,100 +14,71 @@ import de.audi.app.media.source.MediaSourceSlot;
 
 public interface IMediaDSIBrowserController
 extends IDSIController {
-    public static final int BROWSERID_MAIN;
-    public static final int BROWSERID_SELECTION;
-    public static final int BROWSERID_GENERIC1;
-    public static final int BROWSERID_GENERIC2;
-    public static final int BROWSERID_SDIS1;
-    public static final int BROWSERID_SDIS2;
-    public static final int BROWSERID_GENERIC3;
-    public static final int BROWSERID_RECORDER;
+    public static final int BROWSERID_MAIN = 0;
+    public static final int BROWSERID_SELECTION = 1;
+    public static final int BROWSERID_GENERIC1 = 2;
+    public static final int BROWSERID_GENERIC2 = 3;
+    public static final int BROWSERID_SDIS1 = 4;
+    public static final int BROWSERID_SDIS2 = 5;
+    public static final int BROWSERID_GENERIC3 = 6;
+    public static final int BROWSERID_RECORDER = 7;
 
-    default public void setBrowserStateListener(IMediaBrowserStateListener iMediaBrowserStateListener) {
-    }
+    public void setBrowserStateListener(IMediaBrowserStateListener var1);
 
-    default public void setBrowserListener(IMediaBrowserListener iMediaBrowserListener) {
-    }
+    public void setBrowserListener(IMediaBrowserListener var1);
 
-    default public void addBrowserListListener(IMediaBrowserListListener iMediaBrowserListListener) {
-    }
+    public void addBrowserListListener(IMediaBrowserListListener var1);
 
-    default public void removeAllBrowserListListener() {
-    }
+    public void removeAllBrowserListListener();
 
-    default public void setBrowserSearchListener(IMediaBrowserSearchListener iMediaBrowserSearchListener) {
-    }
+    public void setBrowserSearchListener(IMediaBrowserSearchListener var1);
 
-    default public void addBrowserSearchListListener(IMediaBrowserSearchListListener iMediaBrowserSearchListListener) {
-    }
+    public void addBrowserSearchListListener(IMediaBrowserSearchListListener var1);
 
-    default public void removeBrowserSearchListListener(IMediaBrowserSearchListListener iMediaBrowserSearchListListener) {
-    }
+    public void removeBrowserSearchListListener(IMediaBrowserSearchListListener var1);
 
-    default public void activate(MediaSourceSlot mediaSourceSlot) {
-    }
+    public void activate(MediaSourceSlot var1);
 
-    default public void deactivate() {
-    }
+    public void deactivate();
 
-    default public void setBrowseMode(int n) {
-    }
+    public void setBrowseMode(int var1);
 
-    default public void setContentFilter(int n) {
-    }
+    public void setContentFilter(int var1);
 
-    default public void changeFolder(MediaListEntry[] mediaListEntryArray) {
-    }
+    public void changeFolder(MediaListEntry[] var1);
 
-    default public void requestList(long l, int n, int n2, int n3, int n4) {
-    }
+    public void requestList(long var1, int var3, int var4, int var5, int var6);
 
-    default public void requestPickList(long[] lArray, int n) {
-    }
+    public void requestPickList(long[] var1, int var2);
 
-    default public void discardListRequest(int n) {
-    }
+    public void discardListRequest(int var1);
 
-    default public void discardPickListRequest(int n) {
-    }
+    public void discardPickListRequest(int var1);
 
-    default public void enableRecurseSubdirectories(boolean bl) {
-    }
+    public void enableRecurseSubdirectories(boolean var1);
 
-    default public void addSelection(boolean bl, int n, long l, int n2, boolean bl2) {
-    }
+    public void addSelection(boolean var1, int var2, long var3, int var5, boolean var6);
 
-    default public void resetSelection() {
-    }
+    public void resetSelection();
 
-    default public void activateSearchSpeller() {
-    }
+    public void activateSearchSpeller();
 
-    default public void deactivateSearchSpeller() {
-    }
+    public void deactivateSearchSpeller();
 
-    default public void setSearchCriteria(int n) {
-    }
+    public void setSearchCriteria(int var1);
 
-    default public void setSearchString(String string) {
-    }
+    public void setSearchString(String var1);
 
-    default public void resetSearchString() {
-    }
+    public void resetSearchString();
 
-    default public void selectSearchResult(long l) {
-    }
+    public void selectSearchResult(long var1);
 
-    default public void requestSearchList(long l, int n, int n2, int n3) {
-    }
+    public void requestSearchList(long var1, int var3, int var4, int var5);
 
-    default public void requestSearchListExt(long l, int n, int n2, int n3) {
-    }
+    public void requestSearchListExt(long var1, int var3, int var4, int var5);
 
-    default public void discardSearchListRequests(int n) {
-    }
+    public void discardSearchListRequests(int var1);
 
-    default public void discardSearchListExtRequests(int n) {
-    }
+    public void discardSearchListExtRequests(int var1);
 }
 

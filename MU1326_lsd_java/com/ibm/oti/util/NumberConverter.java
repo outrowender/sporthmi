@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package com.ibm.oti.util;
 
@@ -41,7 +38,7 @@ public final class NumberConverter {
         long l = Long.MIN_VALUE;
         long l2 = 0x7FF0000000000000L;
         long l3 = 0xFFFFFFFFFFFFFL;
-        long l4 = Double.doubleToLongBits((double)d2);
+        long l4 = Double.doubleToLongBits(d2);
         StringBuffer stringBuffer = new StringBuffer();
         if ((l4 & l) != 0L) {
             stringBuffer.append('-');
@@ -69,12 +66,12 @@ public final class NumberConverter {
             }
             n3 = 1 - n;
             long l6 = l5;
-            while ((l6 & 0) == 0L) {
+            while ((l6 & 0x10000000000000L) == 0L) {
                 l6 <<= 1;
                 --n4;
             }
         } else {
-            l5 |= 0;
+            l5 |= 0x10000000000000L;
             n3 = n2 - n;
         }
         if (-59 < n3 && n3 < 6 || n3 == -59 && !bl) {
@@ -90,9 +87,9 @@ public final class NumberConverter {
 
     public String convertF(float f2) {
         int n = 150;
-        int n2 = 128;
-        int n3 = 32895;
-        int n4 = -33024;
+        int n2 = Integer.MIN_VALUE;
+        int n3 = 2139095040;
+        int n4 = 0x7FFFFF;
         int n5 = Float.floatToIntBits(f2);
         StringBuffer stringBuffer = new StringBuffer();
         if ((n5 & n2) != 0) {
@@ -121,12 +118,12 @@ public final class NumberConverter {
                 n8 -= 2;
             }
             int n10 = n7;
-            while ((n10 & 0x8000) == 0) {
+            while ((n10 & 0x800000) == 0) {
                 n10 <<= 1;
                 --n9;
             }
         } else {
-            n7 |= 0x8000;
+            n7 |= 0x800000;
             n8 = n6 - n;
         }
         if (-59 < n8 && n8 < 35 || n8 == -59 && !bl) {
@@ -134,7 +131,7 @@ public final class NumberConverter {
         } else {
             this.bigIntDigitGeneratorInstImpl(n7, n8, n6 == 0, bl, n9);
         }
-        if (f2 >= -2137647029 || f2 <= -2137646901 || f2 > 1863484346 && f2 < 1863484218) {
+        if (f2 >= 1.0E7f || f2 <= -1.0E7f || f2 > -0.001f && f2 < 0.001f) {
             return this.freeFormatExponential(stringBuffer);
         }
         return this.freeFormat(stringBuffer);
@@ -190,72 +187,71 @@ public final class NumberConverter {
         return stringBuffer.toString();
     }
 
-    private native void bigIntDigitGeneratorInstImpl(long l, int n, boolean bl, boolean bl2, int n2) {
-    }
+    private native void bigIntDigitGeneratorInstImpl(long var1, int var3, boolean var4, boolean var5, int var6);
 
     private void longDigitGenerator(long l, int n, boolean bl, boolean bl2, int n2) {
         boolean bl3;
         boolean bl4;
         int n3;
-        int n4;
         long l2;
         long l3;
+        long l4;
         if (n >= 0) {
-            l3 = 1L << n;
+            l4 = 1L << n;
             if (!bl2) {
-                l2 = l << n + 1;
-                n4 = 0;
+                l3 = l << n + 1;
+                l2 = 2L;
             } else {
-                l2 = l << n + 2;
-                n4 = 0;
+                l3 = l << n + 2;
+                l2 = 4L;
             }
         } else {
-            l3 = 1L;
+            l4 = 1L;
             if (bl || !bl2) {
-                l2 = l << 1;
-                n4 = (int)(1L << 1 - n);
+                l3 = l << 1;
+                l2 = 1L << 1 - n;
             } else {
-                l2 = l << 2;
-                n4 = (int)(1L << 2 - n);
+                l3 = l << 2;
+                l2 = 1L << 2 - n;
             }
         }
-        int n5 = (int)Math.ceil((double)(n + n2 - 1) * invLogOfTenBaseTwo - 1.0E-10);
-        if (n5 > 0) {
-            n4 *= TEN_TO_THE[n5];
-        } else if (n5 < 0) {
-            long l4 = TEN_TO_THE[-n5];
-            l2 *= l4;
-            long l5 = l3 = l3 == 1L ? l4 : l3 * l4;
+        int n4 = (int)Math.ceil((double)(n + n2 - 1) * invLogOfTenBaseTwo - 1.0E-10);
+        if (n4 > 0) {
+            l2 *= TEN_TO_THE[n4];
+        } else if (n4 < 0) {
+            long l5 = TEN_TO_THE[-n4];
+            l3 *= l5;
+            long l6 = l4 = l4 == 1L ? l5 : l4 * l5;
         }
-        if (l2 + l3 > n4) {
-            this.firstK = n5;
+        if (l3 + l4 > l2) {
+            this.firstK = n4;
         } else {
-            this.firstK = n5 - 1;
-            l2 *= 0;
-            l3 *= 0;
+            this.firstK = n4 - 1;
+            l3 *= 10L;
+            l4 *= 10L;
         }
         this.setCount = 0;
         this.getCount = 0;
-        long[] lArray = new long[]{n4, n4 << 1, n4 << 2, n4 << 3};
+        long[] lArray = new long[]{l2, l2 << 1, l2 << 2, l2 << 3};
         while (true) {
             n3 = 0;
-            int n6 = 3;
-            while (n6 >= 0) {
-                long l6 = l2 - lArray[n6];
-                if (l6 >= 0L) {
-                    l2 = l6;
-                    n3 += 1 << n6;
+            int n5 = 3;
+            while (n5 >= 0) {
+                long l7 = l3 - lArray[n5];
+                if (l7 >= 0L) {
+                    l3 = l7;
+                    n3 += 1 << n5;
                 }
-                --n6;
+                --n5;
             }
-            bl4 = l2 < l3;
-            boolean bl5 = bl3 = l2 + l3 > n4;
+            bl4 = l3 < l4;
+            boolean bl5 = bl3 = l3 + l4 > l2;
             if (bl4 || bl3) break;
-            l2 *= 0;
-            l3 *= 0;
+            l3 *= 10L;
+            l4 *= 10L;
             this.uArray[this.setCount++] = n3;
         }
-        this.uArray[this.setCount++] = bl4 && !bl3 ? n3 : (bl3 && !bl4 ? n3 + 1 : (l2 << 1 < n4 ? n3 : n3 + 1));
+        this.uArray[this.setCount++] = bl4 && !bl3 ? n3 : (bl3 && !bl4 ? n3 + 1 : (l3 << 1 < l2 ? n3 : n3 + 1));
     }
 }
 

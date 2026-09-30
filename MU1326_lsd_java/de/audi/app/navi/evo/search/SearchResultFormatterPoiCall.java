@@ -26,7 +26,6 @@ extends AbstractSearchResultFormatter {
         this.env = navigationEnv;
     }
 
-    @Override
     public SearchResultListRow formatResult(SearchResult searchResult) {
         if (searchResult == null) {
             this.lc.log(10000, "SearchResultFormatterPoiCall#formatResult - search-result parameter is null");
@@ -37,7 +36,7 @@ extends AbstractSearchResultFormatter {
         TextLineList textLineList = locationFormattingResponse.getFirstLineForTruffles();
         TextLineList textLineList2 = locationFormattingResponse.getSecondLineForTruffles();
         NaviCellPropsContainer naviCellPropsContainer = new NaviCellPropsContainer();
-        naviCellPropsContainer.setCategory(819717694);
+        naviCellPropsContainer.setCategory(1055316784);
         PropertyListCell propertyListCell = new PropertyListCell(naviCellPropsContainer.getCategory(), naviCellPropsContainer.getProperties());
         NaviSearchResultListRow naviSearchResultListRow = new NaviSearchResultListRow(searchResult);
         naviSearchResultListRow.setLayout(4);

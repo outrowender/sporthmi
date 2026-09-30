@@ -18,9 +18,8 @@ extends AbstractADBCommand {
         this.speedDialType = n;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "SetSpeedDialTypeCommand#execute()");
+        this.logger.log(1000000, "SetSpeedDialTypeCommand#execute()");
         boolean bl = this.adbDSIAccess.setSpeedDialType(this.speedDialType);
         if (!bl) {
             this.logger.log(10000, "SetSpeedDialTypeCommand#execute(): dsi call was not successful, finishing command.");
@@ -28,9 +27,8 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public void setSpeedDialTypeResult(int n) {
-        this.logger.log(1078071040, "SetSpeedDialTypeCommand#setSpeedDialTypeResult(): %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
+        this.logger.log(1000000, "SetSpeedDialTypeCommand#setSpeedDialTypeResult(): %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
         this.commandList.commandFinished();
     }
 

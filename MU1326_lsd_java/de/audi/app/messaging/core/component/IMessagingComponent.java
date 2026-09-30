@@ -7,19 +7,14 @@ import de.audi.app.messaging.core.application.AbstractMsgApplication;
 import de.audi.app.messaging.core.osgi.IServiceRegistry;
 
 public interface IMessagingComponent {
-    default public void addComponent(IMessagingComponent iMessagingComponent) {
-    }
+    public void addComponent(IMessagingComponent var1);
 
-    default public void init(AbstractMsgApplication abstractMsgApplication) {
-    }
+    public void init(AbstractMsgApplication var1);
 
-    default public void dispose() {
-    }
+    public void dispose();
 
-    default public void connect(IServiceRegistry iServiceRegistry) {
-    }
+    public void connect(IServiceRegistry var1);
 
-    default public void disconnect() {
-    }
+    public void disconnect();
 }
 

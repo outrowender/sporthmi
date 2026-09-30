@@ -6,10 +6,8 @@ package de.audi.mib.jdsi;
 import org.dsi.ifc.base.DSIBase;
 
 public interface IDSIClient {
-    default public void setDSI(DSIBase dSIBase) {
-    }
+    public void setDSI(DSIBase var1);
 
-    default public int[] getAutoNotifications() {
-    }
+    public int[] getAutoNotifications();
 }
 

@@ -6,22 +6,16 @@ package de.audi.atip.interapp.audio;
 import de.audi.atip.interapp.audio.IAudioSdisListener;
 
 public interface ATIPAudioServiceListener {
-    default public void updateActiveConnection(int n, int n2) {
-    }
+    public void updateActiveConnection(int var1, int var2);
 
-    default public void updateActiveEntertainmentConnection(int n, int n2) {
-    }
+    public void updateActiveEntertainmentConnection(int var1, int var2);
 
-    default public void incVolume(int n) {
-    }
+    public void incVolume(int var1);
 
-    default public void decVolume(int n) {
-    }
+    public void decVolume(int var1);
 
-    default public void addAudioSdisListener(IAudioSdisListener iAudioSdisListener) {
-    }
+    public void addAudioSdisListener(IAudioSdisListener var1);
 
-    default public void removeAudioSdisListener(IAudioSdisListener iAudioSdisListener) {
-    }
+    public void removeAudioSdisListener(IAudioSdisListener var1);
 }
 

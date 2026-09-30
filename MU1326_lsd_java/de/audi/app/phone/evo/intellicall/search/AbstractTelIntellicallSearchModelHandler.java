@@ -4,23 +4,27 @@
 package de.audi.app.phone.evo.intellicall.search;
 
 import de.audi.app.phone.core.ITelApplication;
+import de.audi.app.phone.core.adb.ITelADBGetADBEntryListener;
+import de.audi.app.phone.core.model.TelDefaultButtonListener;
 import de.audi.app.phone.core.search.cmd.AbstractTelSearchModelHandler;
 import de.audi.app.phone.core.search.cmd.ITelDSISearchAccess;
 import de.audi.app.phone.evo.intellicall.search.AbstractIntellicallSearchResultRow;
-import de.audi.app.phone.evo.intellicall.search.AbstractTelIntellicallSearchModelHandler$1;
-import de.audi.app.phone.evo.intellicall.search.AbstractTelIntellicallSearchModelHandler$SpellerContentButtonListener;
+import de.audi.app.phone.evo.intellicall.search.IntellicallADBEntryDetailsResultRow;
 import de.audi.app.phone.evo.intellicall.search.IntellicallADBSearchResultRow;
 import de.audi.app.phone.evo.intellicall.search.IntellicallCallStackSearchResultRow;
 import de.audi.app.phone.evo.intellicall.search.IntellicallFavoriteSearchResultRow;
+import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.hmi.model.menu.MenuModelApp;
 import de.audi.atip.hmi.model.menu.focus.FocusAdvice;
 import de.audi.atip.hmi.modelaccess.ButtonModelApp;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.hmi.modelaccess.LabelModelApp;
 import de.audi.atip.interapp.phone.TelIntellicallIGIUtil;
-import de.audi.atip.log.LogChannel;
 import de.audi.atip.search.util.SearchResultListRow;
 import de.audi.atip.util.StringUtilities;
+import java.util.ArrayList;
+import org.dsi.ifc.organizer.AdbEntry;
+import org.dsi.ifc.organizer.PhoneData;
 import org.dsi.ifc.search.SearchResult;
 
 public abstract class AbstractTelIntellicallSearchModelHandler
@@ -31,37 +35,27 @@ extends AbstractTelSearchModelHandler {
         super(iTelApplication, iTelDSISearchAccess, string);
     }
 
-    @Override
     public void init() {
-        this.addSubPhoneComponent(new AbstractTelIntellicallSearchModelHandler$SpellerContentButtonListener(this, this.getApplication(), this.getSpellerContentButton().getID()));
+        this.addSubPhoneComponent(new SpellerContentButtonListener(this.getApplication(), this.getSpellerContentButton().getID()));
         super.init();
     }
 
-    protected abstract void showCombinedCallStacks() {
-    }
+    protected abstract void showCombinedCallStacks();
 
-    protected abstract void showSearchResultList() {
-    }
+    protected abstract void showSearchResultList();
 
-    protected abstract ChoiceModelApp getTelephoneNumberRecognizedChoice() {
-    }
+    protected abstract ChoiceModelApp getTelephoneNumberRecognizedChoice();
 
-    protected abstract LabelModelApp getSpellerContentLabel() {
-    }
+    protected abstract LabelModelApp getSpellerContentLabel();
 
-    protected abstract void spellerContentButtonSelected(int n) {
-    }
+    protected abstract void spellerContentButtonSelected(int var1);
 
-    protected abstract ButtonModelApp getSpellerContentButton() {
-    }
+    protected abstract ButtonModelApp getSpellerContentButton();
 
-    protected abstract MenuModelApp getMenu() {
-    }
+    protected abstract MenuModelApp getMenu();
 
-    protected abstract void spellerSelectedUnique(String string, int n) {
-    }
+    protected abstract void spellerSelectedUnique(String var1, int var2);
 
-    @Override
     protected SearchResultListRow getSearchResultListRow(SearchResult searchResult) {
         AbstractIntellicallSearchResultRow abstractIntellicallSearchResultRow = null;
         if (searchResult != null) {
@@ -79,25 +73,38 @@ extends AbstractTelSearchModelHandler {
                     break;
                 }
                 default: {
-                    this.log.log(-1601830656, "[AbstractTelIntellicallSearchModelHandler#updateSearchResult] no handling for source %1", (long)searchResult.getSource());
+                    this.log.log(100000, "[AbstractTelIntellicallSearchModelHandler#updateSearchResult] no handling for source %1", (long)searchResult.getSource());
                 }
             }
         }
         return abstractIntellicallSearchResultRow;
     }
 
-    @Override
     protected int[] getSources() {
         return this.sources;
     }
 
-    @Override
-    public void requestChildrenNodes(SearchResultListRow searchResultListRow, int n) {
-        this.log.log(1078071040, "[AbstractTelIntellicallSearchModelHandler#requestChildrenNodes] listRow=%1", (Object)searchResultListRow);
-        this.getApplication().getADBHandler().getADBEntry(searchResultListRow.getSearchResult().getDataId(), new AbstractTelIntellicallSearchModelHandler$1(this, searchResultListRow));
+    public void requestChildrenNodes(final SearchResultListRow searchResultListRow, int n) {
+        this.log.log(1000000, "[AbstractTelIntellicallSearchModelHandler#requestChildrenNodes] listRow=%1", (Object)searchResultListRow);
+        this.getApplication().getADBHandler().getADBEntry(searchResultListRow.getSearchResult().getDataId(), new ITelADBGetADBEntryListener(){
+
+            public void resultGetADBEntry(AdbEntry adbEntry) {
+                AbstractTelIntellicallSearchModelHandler.this.log.log(1000000, "[AbstractTelIntellicallSearchModelHandler.requestChildrenNodes(...).new ITelADBGetADBEntryListener() {...}#resultGetADBEntry] entry=%1", (Object)adbEntry);
+                if (adbEntry != null && adbEntry.getPhoneData() != null && adbEntry.getPhoneData().length > 0) {
+                    PhoneData[] phoneDataArray = adbEntry.getPhoneData();
+                    ArrayList arrayList = new ArrayList();
+                    for (int i2 = 0; i2 < phoneDataArray.length; ++i2) {
+                        String string = phoneDataArray[i2].getNumber();
+                        if (StringUtilities.isNullOrEmpty(string)) continue;
+                        arrayList.add(new IntellicallADBEntryDetailsResultRow(adbEntry, i2));
+                    }
+                    EvoListRow[] evoListRowArray = (IntellicallADBEntryDetailsResultRow[])arrayList.toArray(new IntellicallADBEntryDetailsResultRow[arrayList.size()]);
+                    AbstractTelIntellicallSearchModelHandler.this.setChildrenNodes(evoListRowArray, searchResultListRow);
+                }
+            }
+        });
     }
 
-    @Override
     protected void clearSearchSpeller() {
         super.clearSearchSpeller();
         this.showCombinedCallStacks();
@@ -105,16 +112,14 @@ extends AbstractTelSearchModelHandler {
         this.disableTelIconInSpeller();
     }
 
-    @Override
     public void updateSearchResult(int n, SearchResult searchResult) {
-        this.log.log(1078071040, "[AbstractTelIntellicallSearchModelHandler#updateSearchResult] queryID=%2, searchResult=%1", (Object)searchResult, (long)n);
+        this.log.log(1000000, "[AbstractTelIntellicallSearchModelHandler#updateSearchResult] queryID=%2, searchResult=%1", (Object)searchResult, (long)n);
         super.updateSearchResult(n, searchResult);
         this.showSearchResultList();
     }
 
-    @Override
     public void searchEnded(int n) {
-        this.log.log(1078071040, "[AbstractTelIntellicallSearchModelHandler#searchEnded] queryID=%1", (long)n);
+        this.log.log(1000000, "[AbstractTelIntellicallSearchModelHandler#searchEnded] queryID=%1", (long)n);
         this.showSearchResultList();
         int n2 = this.getSearchResultListModel().getLength();
         if (n2 == 1 || this.isValidNumberInSpeller()) {
@@ -138,18 +143,16 @@ extends AbstractTelSearchModelHandler {
         return TelIntellicallIGIUtil.getValidPhoneNumber(string) != null;
     }
 
-    @Override
     public void searchCanceled(int n) {
-        this.log.log(1078071040, "[AbstractTelIntellicallSearchModelHandler#searchCanceled] queryID=%1", (long)n);
+        this.log.log(1000000, "[AbstractTelIntellicallSearchModelHandler#searchCanceled] queryID=%1", (long)n);
         super.searchCanceled(n);
     }
 
-    @Override
     protected void searchSpellerTextChanged(String string, char c2) {
         if (!StringUtilities.isNullOrEmpty(string)) {
             String string2 = TelIntellicallIGIUtil.getValidPhoneNumber(string);
             if (string2 != null) {
-                this.log.log(-2137614336, "[AbstractTelIntellicallSearchModelHandler#textChanged] phone number recognized: %1", (Object)string2);
+                this.log.log(10000000, "[AbstractTelIntellicallSearchModelHandler#textChanged] phone number recognized: %1", (Object)string2);
                 this.enableTelIconInSpeller();
                 this.spellerTextChanged(string2);
             } else {
@@ -172,7 +175,6 @@ extends AbstractTelSearchModelHandler {
         this.getTelephoneNumberRecognizedChoice().setValue(0);
     }
 
-    @Override
     public void spellerSelected(String string, int n) {
         if (this.getSearchResultListModel().getLength() == 1) {
             SearchResultListRow searchResultListRow = (SearchResultListRow)this.getSearchResultListModel().getRow(0);
@@ -187,8 +189,15 @@ extends AbstractTelSearchModelHandler {
         }
     }
 
-    static /* synthetic */ LogChannel access$000(AbstractTelIntellicallSearchModelHandler abstractTelIntellicallSearchModelHandler) {
-        return abstractTelIntellicallSearchModelHandler.log;
+    private class SpellerContentButtonListener
+    extends TelDefaultButtonListener {
+        public SpellerContentButtonListener(ITelApplication iTelApplication, int n) {
+            super(iTelApplication, "App.Phone.Search", n);
+        }
+
+        public void keyTyped(int n, int n2, int n3) {
+            AbstractTelIntellicallSearchModelHandler.this.spellerContentButtonSelected(n3);
+        }
     }
 }
 

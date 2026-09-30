@@ -7,16 +7,12 @@ import de.audi.app.media.source.state.SourceStateUpdate;
 import java.util.Map;
 
 public interface ISourceStateUpdater {
-    default public void updateSourceState(SourceStateUpdate sourceStateUpdate) {
-    }
+    public void updateSourceState(SourceStateUpdate var1);
 
-    default public void updateNumberOfSlots(Map map) {
-    }
+    public void updateNumberOfSlots(Map var1);
 
-    default public void updateSourceSlots(Map map) {
-    }
+    public void updateSourceSlots(Map var1);
 
-    default public void updateSourceAvailability(int n, Map map) {
-    }
+    public void updateSourceAvailability(int var1, Map var2);
 }
 

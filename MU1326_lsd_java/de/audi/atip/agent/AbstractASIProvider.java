@@ -24,15 +24,13 @@ implements IASIProvider {
         this.stubs = new ArrayList();
     }
 
-    @Override
     public synchronized void attachStub(IStub iStub) {
-        this.getLog().log(-2137614336, "attachStub(%1)", (Object)iStub);
+        this.getLog().log(10000000, "attachStub(%1)", (Object)iStub);
         this.stubs.add(iStub);
     }
 
-    @Override
     public synchronized void detachStub(IStub iStub) {
-        this.getLog().log(-2137614336, "detachStub(%1)", (Object)iStub);
+        this.getLog().log(10000000, "detachStub(%1)", (Object)iStub);
         this.stubs.remove(iStub);
     }
 
@@ -41,7 +39,7 @@ implements IASIProvider {
     }
 
     public final String toString() {
-        return new StringBuffer().append(this.name).append("ASIProvider").toString();
+        return this.name + "ASIProvider";
     }
 
     protected final synchronized List getStubs() {
@@ -55,7 +53,7 @@ implements IASIProvider {
                 iASICall.call(((IStub)iterator.next()).getReplyProxyFrontend());
             }
             catch (Exception exception) {
-                this.getLog().log(-1601830656, "%1.broadcast() call %2 failed!", (Object)this, (Object)iASICall, (Object)exception);
+                this.getLog().log(100000, "%1.broadcast() call %2 failed!", (Object)this, (Object)iASICall, (Object)exception);
             }
         }
     }

@@ -8,7 +8,6 @@ import de.audi.atip.hmi.modelaccess.RangeModelApp;
 
 public interface FastScrollingModelApp
 extends RangeModelApp {
-    default public void setFastScrollingListener(FastScrollingListener fastScrollingListener) {
-    }
+    public void setFastScrollingListener(FastScrollingListener var1);
 }
 

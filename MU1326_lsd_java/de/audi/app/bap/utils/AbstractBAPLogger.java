@@ -10,9 +10,9 @@ import de.audi.atip.log.NullLogChannel;
 
 public abstract class AbstractBAPLogger
 implements IBAPLogger {
-    private static final String LOG_CH_MAIN;
-    private static final String LOG_CH_DSI;
-    private static final String LOG_CH_DIAG;
+    private static final String LOG_CH_MAIN = "Main";
+    private static final String LOG_CH_DSI = "DSI";
+    private static final String LOG_CH_DIAG = "Diag";
     private static String channelPrefix;
     protected static LogChannel logMain;
     private static LogChannel logDSI;
@@ -20,9 +20,9 @@ implements IBAPLogger {
 
     public static void init(IFrameworkAccess iFrameworkAccess, String string) {
         channelPrefix = string;
-        logMain = iFrameworkAccess.getLogChannel(AbstractBAPLogger.createLogChannelName("Main"));
-        logDSI = iFrameworkAccess.getLogChannel(AbstractBAPLogger.createLogChannelName("DSI"));
-        logDiag = iFrameworkAccess.getLogChannel(AbstractBAPLogger.createLogChannelName("Diag"));
+        logMain = iFrameworkAccess.getLogChannel(AbstractBAPLogger.createLogChannelName(LOG_CH_MAIN));
+        logDSI = iFrameworkAccess.getLogChannel(AbstractBAPLogger.createLogChannelName(LOG_CH_DSI));
+        logDiag = iFrameworkAccess.getLogChannel(AbstractBAPLogger.createLogChannelName(LOG_CH_DIAG));
     }
 
     protected static String createLogChannelName(String string) {
@@ -31,17 +31,14 @@ implements IBAPLogger {
         return stringBuffer.append('.').append(string).toString();
     }
 
-    @Override
     public LogChannel getMainLog() {
         return logMain != null ? logMain : NullLogChannel.getInstance();
     }
 
-    @Override
     public LogChannel getDSILog() {
         return logDSI != null ? logDSI : NullLogChannel.getInstance();
     }
 
-    @Override
     public LogChannel getDiagLog() {
         return logDiag != null ? logDiag : NullLogChannel.getInstance();
     }

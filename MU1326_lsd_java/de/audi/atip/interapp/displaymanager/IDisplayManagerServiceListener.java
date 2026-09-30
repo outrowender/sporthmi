@@ -4,13 +4,11 @@
 package de.audi.atip.interapp.displaymanager;
 
 public interface IDisplayManagerServiceListener {
-    public static final int RESULTCODE_OK;
-    public static final int RESULTCODE_NOK;
+    public static final int RESULTCODE_OK = 1;
+    public static final int RESULTCODE_NOK = 2;
 
-    default public void setCroppingResult(int n) {
-    }
+    public void setCroppingResult(int var1);
 
-    default public void activeComponentChanged(int n) {
-    }
+    public void activeComponentChanged(int var1);
 }
 

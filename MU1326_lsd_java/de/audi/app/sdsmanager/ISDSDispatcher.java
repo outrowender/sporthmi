@@ -7,28 +7,20 @@ import de.audi.app.sdsmanager.apps.ISDSApplication;
 import de.audi.app.sdsmanager.syscall.ISystemCall;
 
 public interface ISDSDispatcher {
-    default public void registerApplication(ISDSApplication iSDSApplication, byte by) {
-    }
+    public void registerApplication(ISDSApplication var1, byte var2);
 
-    default public ISDSApplication getActiveApplication() {
-    }
+    public ISDSApplication getActiveApplication();
 
-    default public int[] getSDSCallIDs() {
-    }
+    public int[] getSDSCallIDs();
 
-    default public String[] getSDSCallNames() {
-    }
+    public String[] getSDSCallNames();
 
-    default public ISDSApplication[] getRegisteredApplications() {
-    }
+    public ISDSApplication[] getRegisteredApplications();
 
-    default public ISDSApplication[] getRegisteredApplications(int n) {
-    }
+    public ISDSApplication[] getRegisteredApplications(int var1);
 
-    default public ISDSApplication determineSyscallHandler(ISystemCall iSystemCall) {
-    }
+    public ISDSApplication determineSyscallHandler(ISystemCall var1);
 
-    default public void checkAbortCurrentCommand(ISystemCall iSystemCall) {
-    }
+    public void checkAbortCurrentCommand(ISystemCall var1);
 }
 

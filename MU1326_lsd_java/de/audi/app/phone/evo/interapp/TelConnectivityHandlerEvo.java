@@ -4,53 +4,124 @@
 package de.audi.app.phone.evo.interapp;
 
 import de.audi.app.phone.core.ITelApplication;
+import de.audi.app.phone.core.ap.AbstractTelActionProxyListener;
 import de.audi.app.phone.core.interapp.TelConnectivityHandler;
-import de.audi.app.phone.evo.interapp.TelConnectivityHandlerEvo$TelEnteredListener;
-import de.audi.app.phone.evo.interapp.TelConnectivityHandlerEvo$TelLeftListener;
-import de.audi.app.phone.evo.interapp.TelConnectivityHandlerEvo$TelUnlockEnteredListener;
-import de.audi.app.phone.evo.interapp.TelConnectivityHandlerEvo$TelUnlockLeftListener;
-import java.util.ArrayList;
+import de.audi.atip.interapp.IConnectivityPhoneStateListener;
+import java.util.List;
+import java.util.Map;
 
 public class TelConnectivityHandlerEvo
 extends TelConnectivityHandler {
     public TelConnectivityHandlerEvo(ITelApplication iTelApplication) {
         super(iTelApplication, "App.Phone.Main");
-        this.addSubPhoneComponent(new TelConnectivityHandlerEvo$TelEnteredListener(this, iTelApplication));
-        this.addSubPhoneComponent(new TelConnectivityHandlerEvo$TelLeftListener(this, iTelApplication));
-        this.addSubPhoneComponent(new TelConnectivityHandlerEvo$TelUnlockEnteredListener(this, iTelApplication));
-        this.addSubPhoneComponent(new TelConnectivityHandlerEvo$TelUnlockLeftListener(this, iTelApplication));
+        this.addSubPhoneComponent(new TelEnteredListener(iTelApplication));
+        this.addSubPhoneComponent(new TelLeftListener(iTelApplication));
+        this.addSubPhoneComponent(new TelUnlockEnteredListener(iTelApplication));
+        this.addSubPhoneComponent(new TelUnlockLeftListener(iTelApplication));
     }
 
-    static /* synthetic */ ArrayList access$000(TelConnectivityHandlerEvo telConnectivityHandlerEvo) {
-        return telConnectivityHandlerEvo.connectivityListeners;
+    private class TelLeftListener
+    extends AbstractTelActionProxyListener {
+        public TelLeftListener(ITelApplication iTelApplication) {
+            super(iTelApplication, "App.Phone.Main", 8);
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        protected void actionProxyCalled(Map map) {
+            List list = null;
+            Object object = TelConnectivityHandlerEvo.this.connectivityListeners;
+            synchronized (object) {
+                list = (List)TelConnectivityHandlerEvo.this.connectivityListeners.clone();
+            }
+            if (list != null) {
+                object = list.iterator();
+                while (object.hasNext()) {
+                    IConnectivityPhoneStateListener iConnectivityPhoneStateListener = (IConnectivityPhoneStateListener)object.next();
+                    if (iConnectivityPhoneStateListener == null) continue;
+                    iConnectivityPhoneStateListener.telAppLeft();
+                }
+            }
+        }
     }
 
-    static /* synthetic */ ArrayList access$100(TelConnectivityHandlerEvo telConnectivityHandlerEvo) {
-        return telConnectivityHandlerEvo.connectivityListeners;
+    private class TelEnteredListener
+    extends AbstractTelActionProxyListener {
+        public TelEnteredListener(ITelApplication iTelApplication) {
+            super(iTelApplication, "App.Phone.Main", 7);
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        protected void actionProxyCalled(Map map) {
+            List list = null;
+            Object object = TelConnectivityHandlerEvo.this.connectivityListeners;
+            synchronized (object) {
+                list = (List)TelConnectivityHandlerEvo.this.connectivityListeners.clone();
+            }
+            if (list != null) {
+                object = list.iterator();
+                while (object.hasNext()) {
+                    IConnectivityPhoneStateListener iConnectivityPhoneStateListener = (IConnectivityPhoneStateListener)object.next();
+                    if (iConnectivityPhoneStateListener == null) continue;
+                    iConnectivityPhoneStateListener.telAppEntered();
+                }
+            }
+        }
     }
 
-    static /* synthetic */ ArrayList access$200(TelConnectivityHandlerEvo telConnectivityHandlerEvo) {
-        return telConnectivityHandlerEvo.connectivityListeners;
+    private class TelUnlockLeftListener
+    extends AbstractTelActionProxyListener {
+        public TelUnlockLeftListener(ITelApplication iTelApplication) {
+            super(iTelApplication, "App.Phone.Main", 30);
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        protected void actionProxyCalled(Map map) {
+            List list = null;
+            Object object = TelConnectivityHandlerEvo.this.connectivityListeners;
+            synchronized (object) {
+                list = (List)TelConnectivityHandlerEvo.this.connectivityListeners.clone();
+            }
+            if (list != null) {
+                object = list.iterator();
+                while (object.hasNext()) {
+                    IConnectivityPhoneStateListener iConnectivityPhoneStateListener = (IConnectivityPhoneStateListener)object.next();
+                    if (iConnectivityPhoneStateListener == null) continue;
+                    iConnectivityPhoneStateListener.telUnlockLeft();
+                }
+            }
+        }
     }
 
-    static /* synthetic */ ArrayList access$300(TelConnectivityHandlerEvo telConnectivityHandlerEvo) {
-        return telConnectivityHandlerEvo.connectivityListeners;
-    }
+    private class TelUnlockEnteredListener
+    extends AbstractTelActionProxyListener {
+        public TelUnlockEnteredListener(ITelApplication iTelApplication) {
+            super(iTelApplication, "App.Phone.Main", 29);
+        }
 
-    static /* synthetic */ ArrayList access$400(TelConnectivityHandlerEvo telConnectivityHandlerEvo) {
-        return telConnectivityHandlerEvo.connectivityListeners;
-    }
-
-    static /* synthetic */ ArrayList access$500(TelConnectivityHandlerEvo telConnectivityHandlerEvo) {
-        return telConnectivityHandlerEvo.connectivityListeners;
-    }
-
-    static /* synthetic */ ArrayList access$600(TelConnectivityHandlerEvo telConnectivityHandlerEvo) {
-        return telConnectivityHandlerEvo.connectivityListeners;
-    }
-
-    static /* synthetic */ ArrayList access$700(TelConnectivityHandlerEvo telConnectivityHandlerEvo) {
-        return telConnectivityHandlerEvo.connectivityListeners;
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        protected void actionProxyCalled(Map map) {
+            List list = null;
+            Object object = TelConnectivityHandlerEvo.this.connectivityListeners;
+            synchronized (object) {
+                list = (List)TelConnectivityHandlerEvo.this.connectivityListeners.clone();
+            }
+            if (list != null) {
+                object = list.iterator();
+                while (object.hasNext()) {
+                    IConnectivityPhoneStateListener iConnectivityPhoneStateListener = (IConnectivityPhoneStateListener)object.next();
+                    if (iConnectivityPhoneStateListener == null) continue;
+                    iConnectivityPhoneStateListener.telUnlockEntered();
+                }
+            }
+        }
     }
 }
 

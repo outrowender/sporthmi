@@ -12,28 +12,20 @@ public class DMA {
         }
     }
 
-    public native byte readByte(long l) {
-    }
+    public native byte readByte(long var1);
 
-    public native void writeByte(long l, byte by) {
-    }
+    public native void writeByte(long var1, byte var3);
 
-    public native short readShort(long l) {
-    }
+    public native short readShort(long var1);
 
-    public native void writeShort(long l, short s) {
-    }
+    public native void writeShort(long var1, short var3);
 
-    public native int readInt(long l) {
-    }
+    public native int readInt(long var1);
 
-    public native void writeInt(long l, int n) {
-    }
+    public native void writeInt(long var1, int var3);
 
-    public native long readLong(long l) {
-    }
+    public native long readLong(long var1);
 
-    public native void writeLong(long l, long l2) {
-    }
+    public native void writeLong(long var1, long var3);
 }
 

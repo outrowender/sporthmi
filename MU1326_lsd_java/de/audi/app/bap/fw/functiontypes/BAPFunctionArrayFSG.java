@@ -8,10 +8,10 @@ import de.audi.app.bap.fw.arrays.ArrayHandler;
 import de.audi.app.bap.fw.arrays.GetArrayIndication;
 import de.audi.app.bap.fw.functiontypes.AbstractBAPFunctionWithAck;
 import de.audi.app.bap.fw.functiontypes.AcknowledgeWatchdog;
-import de.audi.app.bap.fw.functiontypes.BAPFunctionArrayFSG$ArrayRequestDispatcher;
-import de.audi.app.bap.fw.functiontypes.BAPFunctionArrayFSG$ArrayRequestJob;
+import de.audi.app.bap.fw.functiontypes.AcknowledgeWatchdogWithTimer;
 import de.audi.app.bap.fw.functiontypes.protocol.IBAPArrayFSGIND;
 import de.audi.app.bap.fw.functiontypes.protocol.IBAPArrayFSGREQ;
+import de.audi.app.bap.fw.indication.IAcknowledgeListener;
 import de.audi.app.bap.fw.indication.IBAPIndicationHandlerArrayFSG;
 import de.audi.app.bap.utils.ErrorCodes;
 import de.audi.app.bap.utils.IndicationTypes;
@@ -36,10 +36,10 @@ TimerListener {
     private SetGetArray setGetArraySerializer;
     private final AbstractBAPModuleFSG moduleFsg;
     private final IBAPIndicationHandlerArrayFSG indicationHandler;
-    private final BAPFunctionArrayFSG$ArrayRequestDispatcher arrayRequestDispatcher;
+    private final ArrayRequestDispatcher arrayRequestDispatcher;
     private final List getArrayIndicationsQueue = new ArrayList();
     private volatile boolean requestInFlight = false;
-    private static final int GET_ARRAY_NO_RESPONSE_TIMEOUT_DELAY_MS;
+    private static final int GET_ARRAY_NO_RESPONSE_TIMEOUT_DELAY_MS = 2100;
     private final Timer noResponseTimer;
     private ArrayHandler arrayHandler;
 
@@ -47,8 +47,8 @@ TimerListener {
         super(abstractBAPModuleFSG, n);
         this.moduleFsg = abstractBAPModuleFSG;
         this.indicationHandler = abstractBAPModuleFSG.getIndicationHandler();
-        this.noResponseTimer = new Timer("NoResponseTimer", 0, true, new TimerSyncer(this));
-        this.arrayRequestDispatcher = new BAPFunctionArrayFSG$ArrayRequestDispatcher(this, null);
+        this.noResponseTimer = new Timer("NoResponseTimer", 2100L, true, new TimerSyncer(this));
+        this.arrayRequestDispatcher = new ArrayRequestDispatcher();
         this.addAcknowledgeListener(this.arrayRequestDispatcher);
     }
 
@@ -56,8 +56,8 @@ TimerListener {
         super(abstractBAPModuleFSG, n);
         this.moduleFsg = abstractBAPModuleFSG;
         this.indicationHandler = abstractBAPModuleFSG.getIndicationHandler();
-        this.noResponseTimer = new Timer("NoResponseTimer", 0, true, new TimerSyncer(this));
-        this.arrayRequestDispatcher = new BAPFunctionArrayFSG$ArrayRequestDispatcher(this, acknowledgeWatchdog, null);
+        this.noResponseTimer = new Timer("NoResponseTimer", 2100L, true, new TimerSyncer(this));
+        this.arrayRequestDispatcher = new ArrayRequestDispatcher(acknowledgeWatchdog);
         this.addAcknowledgeListener(this.arrayRequestDispatcher);
     }
 
@@ -66,7 +66,7 @@ TimerListener {
         this.moduleFsg = abstractBAPModuleFSG;
         this.indicationHandler = abstractBAPModuleFSG.getIndicationHandler();
         this.noResponseTimer = timer;
-        this.arrayRequestDispatcher = new BAPFunctionArrayFSG$ArrayRequestDispatcher(this, null);
+        this.arrayRequestDispatcher = new ArrayRequestDispatcher();
         this.addAcknowledgeListener(this.arrayRequestDispatcher);
     }
 
@@ -78,18 +78,17 @@ TimerListener {
         return this.arrayHandler;
     }
 
-    @Override
     public BAPEntity getIndicationSerializer(int n) {
         switch (n) {
             case 7: {
-                this.logChannel.log(-1601830656, "[BAPFunctionArrayFSG#getIndicationSerializer] Ack is not supported");
+                this.logChannel.log(100000, "[BAPFunctionArrayFSG#getIndicationSerializer] Ack is not supported");
                 return null;
             }
             case 2: {
                 return this.getArraySerializer;
             }
             case 1: {
-                this.logChannel.log(-1601830656, "[BAPFunctionArrayFSG#getIndicationSerializer] Set is not supported");
+                this.logChannel.log(100000, "[BAPFunctionArrayFSG#getIndicationSerializer] Set is not supported");
                 return null;
             }
             case 0: {
@@ -123,9 +122,8 @@ TimerListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void reset() {
-        this.logChannel.log(14808325, "[BAPFunctionArrayFSG#reset] called");
+        this.logChannel.log(100000000, "[BAPFunctionArrayFSG#reset] called");
         List list = this.getArrayIndicationsQueue;
         synchronized (list) {
             this.noResponseTimer.cancel();
@@ -135,22 +133,19 @@ TimerListener {
         this.arrayRequestDispatcher.reset();
     }
 
-    @Override
     protected boolean isIndicationTypeSupported(int n) {
         return n == 7 || n == 2 || n == 1 || n == 0;
     }
 
-    @Override
     public void processIndicationError(int n) {
         if (n == 55) {
-            this.logChannel.log(-2137614336, "[BAPFunctionArrayFSG#processIndicationError] received error %1. Assume that max data length is exceeded", (Object)ErrorCodes.getDescription(this.lsgID, n));
+            this.logChannel.log(10000000, "[BAPFunctionArrayFSG#processIndicationError] received error %1. Assume that max data length is exceeded", (Object)ErrorCodes.getDescription(this.lsgID, n));
             this.moduleFsg.getRequestHandler().requestError(this.lsgID, this.fctID, 9);
         } else {
-            this.logChannel.log(-2137614336, "[BAPFunctionArrayFSG#processIndicationError] indication error ignored (lsgID=%1, fctID=%2, errorCode=%3)", (Object)this.lsgIDDesc, (Object)this.fctIDDesc, (Object)ErrorCodes.getDescription(this.lsgID, n));
+            this.logChannel.log(10000000, "[BAPFunctionArrayFSG#processIndicationError] indication error ignored (lsgID=%1, fctID=%2, errorCode=%3)", (Object)this.lsgIDDesc, (Object)this.fctIDDesc, (Object)ErrorCodes.getDescription(this.lsgID, n));
         }
     }
 
-    @Override
     protected synchronized void doProcessIndication(int n, BAPEntity bAPEntity) {
         switch (n) {
             case 7: {
@@ -176,27 +171,23 @@ TimerListener {
         }
     }
 
-    @Override
     protected void doProcessError(int n) {
-        this.logChannel.log(-2137614336, "[BAPFunctionArrayFSG#doProcessError] Received BAP Error: 0x%2, %1", (Object)ErrorCodes.getDescription(n), (long)n);
+        this.logChannel.log(10000000, "[BAPFunctionArrayFSG#doProcessError] Received BAP Error: 0x%2, %1", (Object)ErrorCodes.getDescription(n), (long)n);
     }
 
-    @Override
     public void ackArrayIND() {
-        this.logChannel.log(-2137614336, "[BAPFunctionArrayFSG#ackArrayIND]");
+        this.logChannel.log(10000000, "[BAPFunctionArrayFSG#ackArrayIND]");
         this.ackArrayIND(null);
     }
 
-    @Override
     public void ackArrayIND(BAPArray bAPArray) {
-        this.logChannel.log(-2137614336, "[BAPFunctionArrayFSG#ackArrayIND] lsgID=%1, fctID=%2", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
+        this.logChannel.log(10000000, "[BAPFunctionArrayFSG#ackArrayIND] lsgID=%1, fctID=%2", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
         this.indicationHandler.processIndicationAckArray(this, bAPArray);
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void getArrayIND(GetArray getArray) {
         if (this.arrayHandler == null) {
             this.logChannel.log(10000, "[BAPFunctionArrayFSG#getArrayIND] lsgID=%1, fctID=%2 arrayHandler not available", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
@@ -209,11 +200,11 @@ TimerListener {
             this.requestHandler.requestError(this.lsgID, this.fctID, 4);
             return;
         }
-        this.logChannel.log(-2137614336, "[BAPFunctionArrayFSG#getArrayIND] lsgID=%1, fctID=%2 received getArrayIndication: ASG_ID=%3, TA_ID=%4", (Object)this.lsgIDDesc, (Object)this.fctIDDesc, (Object)Integer.toString(getArrayIndication.getAsgID()), (long)getArrayIndication.getTaID());
+        this.logChannel.log(10000000, "[BAPFunctionArrayFSG#getArrayIND] lsgID=%1, fctID=%2 received getArrayIndication: ASG_ID=%3, TA_ID=%4", (Object)this.lsgIDDesc, (Object)this.fctIDDesc, (Object)Integer.toString(getArrayIndication.getAsgID()), (long)getArrayIndication.getTaID());
         List list = this.getArrayIndicationsQueue;
         synchronized (list) {
             if (this.getArrayIndicationsQueue.contains(getArrayIndication)) {
-                this.logChannel.log(-1601830656, "[BAPFunctionArrayFSG#getArrayIND] lsgID=%1, fctID=%2 ignoring retry for already received GetArray Indication. ASG_ID=%3, TA_ID=%4", (Object)this.lsgIDDesc, (Object)this.fctIDDesc, (Object)Integer.toString(getArrayIndication.getAsgID()), (long)getArrayIndication.getTaID());
+                this.logChannel.log(100000, "[BAPFunctionArrayFSG#getArrayIND] lsgID=%1, fctID=%2 ignoring retry for already received GetArray Indication. ASG_ID=%3, TA_ID=%4", (Object)this.lsgIDDesc, (Object)this.fctIDDesc, (Object)Integer.toString(getArrayIndication.getAsgID()), (long)getArrayIndication.getTaID());
                 return;
             }
             this.getArrayIndicationsQueue.add(getArrayIndication);
@@ -253,33 +244,30 @@ TimerListener {
                 int n = getArrayIndication.getAsgID();
                 int n2 = getArrayIndication.getTaID();
                 if (this.getArrayIndicationsQueue.isEmpty()) {
-                    this.logChannel.log(-2137614336, "[BAPFunctionArrayFSG#finishGetArrayIndication] ASG_ID=%1, TA_ID=%2 queue empty.", (long)n, (long)n2);
+                    this.logChannel.log(10000000, "[BAPFunctionArrayFSG#finishGetArrayIndication] ASG_ID=%1, TA_ID=%2 queue empty.", (long)n, (long)n2);
                 } else {
-                    this.logChannel.log(-2137614336, "[BAPFunctionArrayFSG#finishGetArrayIndication] ASG_ID=%1, TA_ID=%2 elements in queue %3.", (long)n, (long)n2, (long)this.getArrayIndicationsQueue.size());
+                    this.logChannel.log(10000000, "[BAPFunctionArrayFSG#finishGetArrayIndication] ASG_ID=%1, TA_ID=%2 elements in queue %3.", (long)n, (long)n2, (long)this.getArrayIndicationsQueue.size());
                     this.processQueue();
                 }
             } else {
-                this.logChannel.log(-1601830656, "[BAPFunctionArrayFSG#finishGetArrayIndication] indication already finished; queue is empty");
+                this.logChannel.log(100000, "[BAPFunctionArrayFSG#finishGetArrayIndication] indication already finished; queue is empty");
             }
         }
     }
 
-    @Override
     public void setArrayIND(SetGetArray setGetArray) {
-        this.logChannel.log(-2137614336, "[BAPFunctionArrayFSG#setArrayIND] lsgID=%1, fctID=%2", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
+        this.logChannel.log(10000000, "[BAPFunctionArrayFSG#setArrayIND] lsgID=%1, fctID=%2", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
         this.indicationHandler.processIndicationSetArray(this, setGetArray);
     }
 
-    @Override
     public void setGetArrayIND(SetGetArray setGetArray) {
-        this.logChannel.log(-2137614336, "[BAPFunctionProperty#setGetIND] lsgID=%1, fctID=%2", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
+        this.logChannel.log(10000000, "[BAPFunctionProperty#setGetIND] lsgID=%1, fctID=%2", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
         this.indicationHandler.processIndicationSetGetArray(this, setGetArray);
     }
 
-    @Override
     public synchronized void changedArrayREQ(ChangedArray changedArray) {
-        this.logChannel.log(-2137614336, "[BAPFunctionArrayFSG#changedArrayREQ] lsgID=%1, fctID=%2", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
-        BAPFunctionArrayFSG$ArrayRequestDispatcher.access$500(this.arrayRequestDispatcher, new BAPFunctionArrayFSG$ArrayRequestJob(changedArray, null));
+        this.logChannel.log(10000000, "[BAPFunctionArrayFSG#changedArrayREQ] lsgID=%1, fctID=%2", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
+        this.arrayRequestDispatcher.dispatch(new ArrayRequestJob(changedArray));
         this.setDataValid(true);
         this.notifyListenersDataChanged();
     }
@@ -287,18 +275,17 @@ TimerListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void statusArrayREQ(int n, StatusArray statusArray) {
-        this.logChannel.log(-2137614336, "[BAPFunctionArrayFSG#statusArrayREQ] lsgID=%1, fctID=%2,", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
+        this.logChannel.log(10000000, "[BAPFunctionArrayFSG#statusArrayREQ] lsgID=%1, fctID=%2,", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
         List list = this.getArrayIndicationsQueue;
         synchronized (list) {
             if (!this.getArrayIndicationsQueue.isEmpty()) {
                 GetArrayIndication getArrayIndication = (GetArrayIndication)this.getArrayIndicationsQueue.get(0);
                 if (getArrayIndication.getTaID() == n) {
-                    BAPFunctionArrayFSG$ArrayRequestDispatcher.access$500(this.arrayRequestDispatcher, new BAPFunctionArrayFSG$ArrayRequestJob(statusArray, null));
+                    this.arrayRequestDispatcher.dispatch(new ArrayRequestJob(statusArray));
                     this.finishGetArrayIndication();
                 } else if (n == 0) {
-                    BAPFunctionArrayFSG$ArrayRequestDispatcher.access$500(this.arrayRequestDispatcher, new BAPFunctionArrayFSG$ArrayRequestJob(statusArray, null));
+                    this.arrayRequestDispatcher.dispatch(new ArrayRequestJob(statusArray));
                 } else {
                     this.logChannel.log(10000, "[BAPFunctionArrayFSG#statusArrayREQ] invalid taID (%1), statusArray is not evaluated!", (long)n);
                 }
@@ -306,11 +293,9 @@ TimerListener {
         }
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 
-    @Override
     public void fireTimer(Timer timer) {
         if (timer.equals(this.noResponseTimer)) {
             this.logChannel.log(10000, "[BAPFunctionArrayFSG#fireTimer] lsgID=%1, fctID=%2, Timeout - no response received.", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
@@ -337,6 +322,85 @@ TimerListener {
 
     public void setSetGetArraySerializer(SetGetArray setGetArray) {
         this.setGetArraySerializer = setGetArray;
+    }
+
+    private static final class ArrayRequestJob {
+        private final int requestType;
+        private final BAPArray serializer;
+
+        private ArrayRequestJob(ChangedArray changedArray) {
+            this.requestType = 10;
+            this.serializer = changedArray;
+        }
+
+        private ArrayRequestJob(StatusArray statusArray) {
+            this.requestType = 7;
+            this.serializer = statusArray;
+        }
+    }
+
+    private final class ArrayRequestDispatcher
+    implements IAcknowledgeListener,
+    AcknowledgeWatchdog.AcknowledgeWatchdogListener {
+        private static final int NO_ACKNOWLEDGE_TIMEOUT_DELAY_ARRAY = 500;
+        private final AcknowledgeWatchdog acknowledgeWatchdog;
+        private final List arrayRequestQueue = new ArrayList(10);
+        private volatile ArrayRequestJob currentJob;
+
+        private ArrayRequestDispatcher() {
+            this.acknowledgeWatchdog = new AcknowledgeWatchdogWithTimer(500);
+            this.acknowledgeWatchdog.setListener(this);
+        }
+
+        private ArrayRequestDispatcher(AcknowledgeWatchdog acknowledgeWatchdog) {
+            this.acknowledgeWatchdog = acknowledgeWatchdog;
+            this.acknowledgeWatchdog.setListener(this);
+        }
+
+        private synchronized void dispatch(ArrayRequestJob arrayRequestJob) {
+            this.arrayRequestQueue.add(arrayRequestJob);
+            if (this.currentJob == null) {
+                this.dispatchNext();
+            } else {
+                BAPFunctionArrayFSG.this.logChannel.log(10000000, "[BAPFunctionArrayFSG.ArrayRequestDispatcher#dispatch] isIdle=false, %1 queuedRequests", (long)this.arrayRequestQueue.size());
+            }
+        }
+
+        private synchronized void dispatchNext() {
+            if (!this.arrayRequestQueue.isEmpty()) {
+                BAPFunctionArrayFSG.this.logChannel.log(10000000, "[BAPFunctionArrayFSG.ArrayRequestDispatcher#dispatchNext] lsgID=%1, fctID=%2, remaining requests: %3", (Object)BAPFunctionArrayFSG.this.lsgIDDesc, (Object)BAPFunctionArrayFSG.this.fctIDDesc, (long)(this.arrayRequestQueue.size() - 1));
+                this.currentJob = (ArrayRequestJob)this.arrayRequestQueue.remove(0);
+                this.acknowledgeWatchdog.activate();
+                if (!BAPFunctionArrayFSG.this.sendRequest(this.currentJob.requestType, this.currentJob.serializer)) {
+                    this.acknowledgeWatchdog.deactivate();
+                    this.currentJob = null;
+                }
+            }
+        }
+
+        public synchronized void processAcknowledge(int n, int n2) {
+            if (n == BAPFunctionArrayFSG.this.fctID && this.currentJob != null && (this.currentJob.requestType == 10 && n2 == 4 || this.currentJob.requestType == 7 && n2 == 3)) {
+                this.acknowledgeWatchdog.deactivate();
+                this.currentJob = null;
+                this.dispatchNext();
+            }
+        }
+
+        public void acknowledgeMissing() {
+            BAPFunctionArrayFSG.this.logChannel.log(100000, "[BAPFunctionArrayFSG.ArrayRequestDispatcher#acknowledgeMissing] lsgID=%1, fctID=%2, Timeout - no acknowledge received", (Object)BAPFunctionArrayFSG.this.lsgIDDesc, (Object)BAPFunctionArrayFSG.this.fctIDDesc);
+            if (this.currentJob != null && this.currentJob.requestType == 10) {
+                this.processAcknowledge(BAPFunctionArrayFSG.this.fctID, 4);
+            } else if (this.currentJob != null && this.currentJob.requestType == 7) {
+                this.processAcknowledge(BAPFunctionArrayFSG.this.fctID, 3);
+            }
+            BAPFunctionArrayFSG.this.notifyListenersAcknowledgeTimeout();
+        }
+
+        public synchronized void reset() {
+            this.acknowledgeWatchdog.deactivate();
+            this.arrayRequestQueue.clear();
+            this.currentJob = null;
+        }
     }
 }
 

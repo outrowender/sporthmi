@@ -11,7 +11,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map$Entry;
 import java.util.Set;
 
 public final class PorscheOptionEntry
@@ -31,14 +30,14 @@ implements DeepCloneable {
     public String imageUrl;
     public int selectionIndex;
     public int type = 0;
-    public static final int TYPE_NORMAL;
-    public static final int TYPE_CHECKBOX;
-    public static final int TYPE_RADIOBUTTON;
-    public static final List types;
-    public static final int TYPE_IMAGE;
-    public static final int TYPE_IMAGE_RADIOBUTTON;
-    public static final int TYPE_IMAGE_CHECKBOX;
-    public static final int TYPE_SUBELEMENTS;
+    public static final int TYPE_NORMAL = 0;
+    public static final int TYPE_CHECKBOX = 1;
+    public static final int TYPE_RADIOBUTTON = 2;
+    public static final List types = Collections.unmodifiableList(Arrays.asList(new String[]{"normal", "checkbox", "radiobutton"}));
+    public static final int TYPE_IMAGE = 3;
+    public static final int TYPE_IMAGE_RADIOBUTTON = 4;
+    public static final int TYPE_IMAGE_CHECKBOX = 5;
+    public static final int TYPE_SUBELEMENTS = 6;
 
     public PorscheOptionEntry(String string, String string2, boolean bl) {
         this.title = string2;
@@ -58,7 +57,7 @@ implements DeepCloneable {
 
     public String toString() {
         Buffer buffer = new Buffer();
-        buffer.append(super.getClass().getName());
+        buffer.append(this.getClass().getName());
         buffer.append("[ id: ").append(this.id);
         buffer.append(" type: ").append(this.type);
         buffer.append(" ").append(this.title);
@@ -68,8 +67,8 @@ implements DeepCloneable {
             Set set = this.subEntries.entrySet();
             Iterator iterator = set.iterator();
             while (iterator.hasNext()) {
-                Map$Entry map$Entry = (Map$Entry)iterator.next();
-                buffer.append(map$Entry);
+                Map.Entry entry = (Map.Entry)iterator.next();
+                buffer.append(entry);
                 if (!iterator.hasNext()) continue;
                 buffer.append(", ");
             }
@@ -99,7 +98,6 @@ implements DeepCloneable {
         return n;
     }
 
-    @Override
     public Object clone(boolean bl) {
         if (bl) {
             if (this.hasSubEntries) {
@@ -112,10 +110,6 @@ implements DeepCloneable {
             return new PorscheOptionEntry(this.id, this.title, this.enabled, this.secLvlTitle, this.subEntries, this.type);
         }
         return this;
-    }
-
-    static {
-        types = Collections.unmodifiableList(Arrays.asList(new String[]{"normal", "checkbox", "radiobutton"}));
     }
 }
 

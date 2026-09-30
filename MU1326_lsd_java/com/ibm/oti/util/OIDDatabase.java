@@ -3,9 +3,10 @@
  */
 package com.ibm.oti.util;
 
-import com.ibm.oti.util.OIDDatabase$DBEntry;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 public class OIDDatabase {
@@ -14,44 +15,44 @@ public class OIDDatabase {
     private Set algorithms = new HashSet();
 
     private OIDDatabase() {
-        OIDDatabase$DBEntry oIDDatabase$DBEntry = new OIDDatabase$DBEntry("1.2.840.113549.1.1.2");
-        OIDDatabase$DBEntry oIDDatabase$DBEntry2 = new OIDDatabase$DBEntry("MD2withRSA");
-        this.wireTogether(oIDDatabase$DBEntry, oIDDatabase$DBEntry2);
-        oIDDatabase$DBEntry = new OIDDatabase$DBEntry("1.2.840.113549.1.1.4");
-        oIDDatabase$DBEntry2 = new OIDDatabase$DBEntry("MD5withRSA");
-        this.wireTogether(oIDDatabase$DBEntry, oIDDatabase$DBEntry2);
-        oIDDatabase$DBEntry = new OIDDatabase$DBEntry("1.2.840.113549.1.1.5");
-        oIDDatabase$DBEntry2 = new OIDDatabase$DBEntry("SHA1withRSA");
-        this.wireTogether(oIDDatabase$DBEntry, oIDDatabase$DBEntry2);
-        oIDDatabase$DBEntry = new OIDDatabase$DBEntry("1.2.840.10040.4.3");
-        oIDDatabase$DBEntry2 = new OIDDatabase$DBEntry("SHA1withDSA");
-        this.wireTogether(oIDDatabase$DBEntry, oIDDatabase$DBEntry2);
-        oIDDatabase$DBEntry = new OIDDatabase$DBEntry("1.3.14.3.2.26");
-        oIDDatabase$DBEntry2 = new OIDDatabase$DBEntry("SHA");
-        OIDDatabase$DBEntry oIDDatabase$DBEntry3 = new OIDDatabase$DBEntry("SHA-1");
-        this.wireTogether(oIDDatabase$DBEntry, oIDDatabase$DBEntry2);
-        this.wireTogether(oIDDatabase$DBEntry, oIDDatabase$DBEntry3);
-        oIDDatabase$DBEntry = new OIDDatabase$DBEntry("1.2.840.113549.2.5");
-        oIDDatabase$DBEntry2 = new OIDDatabase$DBEntry("MD5");
-        this.wireTogether(oIDDatabase$DBEntry, oIDDatabase$DBEntry2);
-        oIDDatabase$DBEntry = new OIDDatabase$DBEntry("1.2.840.113549.1.1.1");
-        oIDDatabase$DBEntry2 = new OIDDatabase$DBEntry("RSA");
-        this.wireTogether(oIDDatabase$DBEntry, oIDDatabase$DBEntry2);
-        oIDDatabase$DBEntry = new OIDDatabase$DBEntry("1.2.840.10040.4.1");
-        OIDDatabase$DBEntry oIDDatabase$DBEntry4 = new OIDDatabase$DBEntry("1.3.14.3.2.12");
-        oIDDatabase$DBEntry2 = new OIDDatabase$DBEntry("DSA");
-        this.wireTogether(oIDDatabase$DBEntry, oIDDatabase$DBEntry2);
-        this.wireTogether(oIDDatabase$DBEntry4, oIDDatabase$DBEntry2);
-        oIDDatabase$DBEntry = new OIDDatabase$DBEntry("1.2.840.10046.2.1");
-        oIDDatabase$DBEntry2 = new OIDDatabase$DBEntry("DiffieHellman");
-        this.wireTogether(oIDDatabase$DBEntry, oIDDatabase$DBEntry2);
+        DBEntry dBEntry = new DBEntry("1.2.840.113549.1.1.2");
+        DBEntry dBEntry2 = new DBEntry("MD2withRSA");
+        this.wireTogether(dBEntry, dBEntry2);
+        dBEntry = new DBEntry("1.2.840.113549.1.1.4");
+        dBEntry2 = new DBEntry("MD5withRSA");
+        this.wireTogether(dBEntry, dBEntry2);
+        dBEntry = new DBEntry("1.2.840.113549.1.1.5");
+        dBEntry2 = new DBEntry("SHA1withRSA");
+        this.wireTogether(dBEntry, dBEntry2);
+        dBEntry = new DBEntry("1.2.840.10040.4.3");
+        dBEntry2 = new DBEntry("SHA1withDSA");
+        this.wireTogether(dBEntry, dBEntry2);
+        dBEntry = new DBEntry("1.3.14.3.2.26");
+        dBEntry2 = new DBEntry("SHA");
+        DBEntry dBEntry3 = new DBEntry("SHA-1");
+        this.wireTogether(dBEntry, dBEntry2);
+        this.wireTogether(dBEntry, dBEntry3);
+        dBEntry = new DBEntry("1.2.840.113549.2.5");
+        dBEntry2 = new DBEntry("MD5");
+        this.wireTogether(dBEntry, dBEntry2);
+        dBEntry = new DBEntry("1.2.840.113549.1.1.1");
+        dBEntry2 = new DBEntry("RSA");
+        this.wireTogether(dBEntry, dBEntry2);
+        dBEntry = new DBEntry("1.2.840.10040.4.1");
+        DBEntry dBEntry4 = new DBEntry("1.3.14.3.2.12");
+        dBEntry2 = new DBEntry("DSA");
+        this.wireTogether(dBEntry, dBEntry2);
+        this.wireTogether(dBEntry4, dBEntry2);
+        dBEntry = new DBEntry("1.2.840.10046.2.1");
+        dBEntry2 = new DBEntry("DiffieHellman");
+        this.wireTogether(dBEntry, dBEntry2);
     }
 
-    private void wireTogether(OIDDatabase$DBEntry oIDDatabase$DBEntry, OIDDatabase$DBEntry oIDDatabase$DBEntry2) {
-        this.oids.add(oIDDatabase$DBEntry);
-        this.algorithms.add(oIDDatabase$DBEntry2);
-        oIDDatabase$DBEntry.addEquivalent(oIDDatabase$DBEntry2);
-        oIDDatabase$DBEntry2.addEquivalent(oIDDatabase$DBEntry);
+    private void wireTogether(DBEntry dBEntry, DBEntry dBEntry2) {
+        this.oids.add(dBEntry);
+        this.algorithms.add(dBEntry2);
+        dBEntry.addEquivalent(dBEntry2);
+        dBEntry2.addEquivalent(dBEntry);
     }
 
     public static OIDDatabase getInstance() {
@@ -72,7 +73,7 @@ public class OIDDatabase {
         Iterator iterator = this.oids.iterator();
         set = this.getAllEquivalents(string, iterator);
         if (set == null) {
-            throw new IllegalArgumentException(new StringBuffer("Unknown OID : ").append(string).toString());
+            throw new IllegalArgumentException("Unknown OID : " + string);
         }
         return set;
     }
@@ -91,7 +92,7 @@ public class OIDDatabase {
         Iterator iterator = this.algorithms.iterator();
         set = this.getAllEquivalents(string, iterator);
         if (set == null) {
-            throw new IllegalArgumentException(new StringBuffer("Unsupported algorithm : ").append(string).toString());
+            throw new IllegalArgumentException("Unsupported algorithm : " + string);
         }
         return set;
     }
@@ -99,17 +100,38 @@ public class OIDDatabase {
     private Set getAllEquivalents(String string, Iterator iterator) {
         HashSet hashSet = null;
         while (iterator.hasNext()) {
-            OIDDatabase$DBEntry oIDDatabase$DBEntry = (OIDDatabase$DBEntry)iterator.next();
-            if (!oIDDatabase$DBEntry.getValue().equals(string)) continue;
-            Set set = oIDDatabase$DBEntry.getAllEquivalents();
+            DBEntry dBEntry = (DBEntry)iterator.next();
+            if (!dBEntry.getValue().equals(string)) continue;
+            Set set = dBEntry.getAllEquivalents();
             hashSet = new HashSet();
             Iterator iterator2 = set.iterator();
             while (iterator2.hasNext()) {
-                OIDDatabase$DBEntry oIDDatabase$DBEntry2 = (OIDDatabase$DBEntry)iterator2.next();
-                hashSet.add(oIDDatabase$DBEntry2.getValue());
+                DBEntry dBEntry2 = (DBEntry)iterator2.next();
+                hashSet.add(dBEntry2.getValue());
             }
         }
         return hashSet;
+    }
+
+    static class DBEntry {
+        private List equivalents = new LinkedList();
+        private String value;
+
+        DBEntry(String string) {
+            this.value = string;
+        }
+
+        void addEquivalent(DBEntry dBEntry) {
+            this.equivalents.add(dBEntry);
+        }
+
+        String getValue() {
+            return this.value;
+        }
+
+        Set getAllEquivalents() {
+            return new HashSet(this.equivalents);
+        }
     }
 }
 

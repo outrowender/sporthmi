@@ -7,16 +7,12 @@ import de.vw.mib.bap.requests.AckProperty;
 import de.vw.mib.bap.requests.SetGetProperty;
 
 public interface IBAPPropertyASGREQ {
-    default public void getREQ() {
-    }
+    public void getREQ();
 
-    default public void setGetREQ() {
-    }
+    public void setGetREQ();
 
-    default public void setGetREQ(SetGetProperty setGetProperty) {
-    }
+    public void setGetREQ(SetGetProperty var1);
 
-    default public void ackREQ(AckProperty ackProperty) {
-    }
+    public void ackREQ(AckProperty var1);
 }
 

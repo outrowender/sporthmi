@@ -88,7 +88,6 @@ implements IScreenData {
         this.metaInfos = screenData.getMetaInfos();
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer(200);
         if (this.getId() == 0) {
@@ -135,127 +134,102 @@ implements IScreenData {
         return buffer.toString();
     }
 
-    @Override
     public int getId() {
         return this.id;
     }
 
-    @Override
     public int[] getPartialPopups() {
         return this.partialPopups;
     }
 
-    @Override
     public int getPopupId() {
         return this.popupId;
     }
 
-    @Override
     public int getPopupPriority() {
         return this.popupPriority;
     }
 
-    @Override
     public Screen getScreen() {
         return this.screen;
     }
 
-    @Override
     public int[] getStates() {
         return this.states;
     }
 
-    @Override
     public boolean isAnimated() {
         return this.animated;
     }
 
-    @Override
     public boolean isLocked() {
         return this.locked;
     }
 
-    @Override
     public boolean isNotify() {
         return this.notify;
     }
 
-    @Override
     public boolean isReinit() {
         return this.reinit;
     }
 
-    @Override
     public boolean isScreenIDValid() {
         return this.id > -1;
     }
 
-    @Override
     public void setNotify(boolean bl) {
         this.notify = bl;
     }
 
-    @Override
     public void setPartialPopups(int[] nArray) {
         this.partialPopups = nArray;
     }
 
-    @Override
     public boolean isPartialPopupAvailable() {
         return this.partialPopups != null && this.partialPopups.length > 0;
     }
 
-    @Override
     public boolean isPopup() {
         return this.popupId != 0;
     }
 
-    @Override
     public void setScreen(Screen screen) {
         this.screen = screen;
     }
 
-    @Override
     public long[] getContextIDs() {
         return this.contextIDs;
     }
 
-    @Override
     public void setContextIDs(long[] lArray) {
         this.contextIDs = lArray;
     }
 
-    @Override
     public long getSelectionDrawerID() {
         return this.selectionDrawerID;
     }
 
-    @Override
     public long getOptionsDrawerID() {
         return this.optionsDrawerID;
     }
 
-    @Override
     public int getAnimationInfo() {
         return this.animationInfo;
     }
 
-    @Override
     public int getColorScheme() {
         return this.colorScheme;
     }
 
-    @Override
     public void setColorScheme(int n) {
         this.colorScheme = n;
     }
 
-    @Override
     public int getScreenMode() {
         return this.screenMode;
     }
 
-    @Override
     public void setScreenMode(int n) {
         this.screenMode = n;
     }
@@ -276,7 +250,6 @@ implements IScreenData {
         return this.metaInfos;
     }
 
-    @Override
     public int getCursorPosition() {
         if (this.metaInfos != null) {
             try {
@@ -292,7 +265,6 @@ implements IScreenData {
         return -1;
     }
 
-    @Override
     public boolean isStayOnFocusedElement() {
         if (this.metaInfos != null) {
             try {

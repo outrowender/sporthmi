@@ -9,18 +9,17 @@ import de.audi.app.media.content.media.IPlayerListener;
 import de.audi.app.media.content.media.IPlayerSelectionRequest;
 import de.audi.app.media.content.media.IPlayerTrackListener;
 import de.audi.app.media.content.media.IPlayerViewListener;
-import de.audi.app.media.content.media.NullPlayer$1;
 import de.audi.app.media.content.media.PlayingTrack;
 import de.audi.app.media.selection.ISelectionListener;
+import de.audi.app.media.source.IActivationContext;
 import de.audi.app.media.source.ISourceSlot;
+import org.dsi.ifc.media.PlaybackMode;
 
 public class NullPlayer
 implements IPlayer {
-    @Override
     public void init() {
     }
 
-    @Override
     public void deinit() {
     }
 
@@ -28,67 +27,52 @@ implements IPlayer {
         return null;
     }
 
-    @Override
     public void addTrackListener(IPlayerTrackListener iPlayerTrackListener) {
     }
 
-    @Override
     public void removeTrackListener(IPlayerTrackListener iPlayerTrackListener) {
     }
 
-    @Override
     public void addPlayerListener(IPlayerListener iPlayerListener) {
     }
 
-    @Override
     public void removePlayerListener(IPlayerListener iPlayerListener) {
     }
 
-    @Override
     public boolean requestPlayViewListEntryBased(int n, long l, int n2) {
         return false;
     }
 
-    @Override
     public boolean requestPlayViewListIndexBased(int n, int n2, int n3) {
         return false;
     }
 
-    @Override
     public void discardPlayViewRequests(int n) {
     }
 
-    @Override
     public void addViewListener(IPlayerViewListener iPlayerViewListener) {
     }
 
-    @Override
     public void removeViewListener(IPlayerViewListener iPlayerViewListener) {
     }
 
-    @Override
     public void setBrowserPlayerSelection(IPlayerSelectionRequest iPlayerSelectionRequest) {
         iPlayerSelectionRequest.responseSetSelection(false);
     }
 
-    @Override
     public void pause() {
     }
 
-    @Override
     public void resume() {
     }
 
-    @Override
     public void playEntry(long l) {
     }
 
-    @Override
     public PlayingTrack getCurrentPlayingTrack() {
         return null;
     }
 
-    @Override
     public boolean isSeeking() {
         return false;
     }
@@ -105,7 +89,6 @@ implements IPlayer {
         return 0;
     }
 
-    @Override
     public boolean supportsVideoPlayback() {
         return false;
     }
@@ -114,17 +97,14 @@ implements IPlayer {
         return false;
     }
 
-    @Override
     public boolean supportsDetailInfo() {
         return false;
     }
 
-    @Override
     public boolean supportsTimeToSeek() {
         return false;
     }
 
-    @Override
     public boolean supportsPlaytime() {
         return false;
     }
@@ -132,83 +112,140 @@ implements IPlayer {
     public void requestDataFidForPlaylistEntryID(long l) {
     }
 
-    @Override
     public void setPlayPosition(int n) {
     }
 
-    @Override
     public boolean startSeek(boolean bl) {
         return false;
     }
 
-    @Override
     public boolean stopSeek(boolean bl) {
         return false;
     }
 
-    @Override
     public boolean skip(boolean bl, int n) {
         return false;
     }
 
-    @Override
     public boolean isActive() {
         return false;
     }
 
-    @Override
     public boolean supportsPlayListHandling() {
         return false;
     }
 
-    @Override
     public boolean isPlaying() {
         return false;
     }
 
-    @Override
     public boolean isReadyToPlay() {
         return false;
     }
 
-    @Override
     public void touchEvent(int n, int n2, int n3) {
     }
 
-    @Override
     public void executeMenuCommand(int n) {
     }
 
-    @Override
     public void playMoreOf(long l, int n, ISelectionListener iSelectionListener) {
     }
 
-    @Override
     public boolean supportsPlayMoreOf() {
         return false;
     }
 
-    @Override
     public IPlaybackModeHandler getPlaybackModeHandler() {
-        return new NullPlayer$1(this);
+        return new IPlaybackModeHandler(){
+
+            public void updatePlaymodesAvailable(boolean bl) {
+            }
+
+            public void updatePlaybackModeList(PlaybackMode[] playbackModeArray) {
+            }
+
+            public void updateActivePlaybackMode(int n) {
+            }
+
+            public void trackChanged() {
+            }
+
+            public int setRepeatTitle(boolean bl) {
+                return 0;
+            }
+
+            public int setRepeatScope(int n, boolean bl) {
+                return 0;
+            }
+
+            public boolean sendCurrentPlaybackMode() {
+                return false;
+            }
+
+            public void resetPlaybackMode() {
+            }
+
+            public boolean isRepeatTrack() {
+                return false;
+            }
+
+            public boolean isRepeatSelection() {
+                return false;
+            }
+
+            public boolean isRepeatMedium() {
+                return false;
+            }
+
+            public boolean isRepeatDevice() {
+                return false;
+            }
+
+            public boolean isMix() {
+                return false;
+            }
+
+            public int getActiveRepeatScope() {
+                return 0;
+            }
+
+            public void deactivate() {
+            }
+
+            public void activate(IActivationContext iActivationContext) {
+            }
+
+            public boolean isRepeatOff() {
+                return false;
+            }
+
+            public void sendRepeatPlayview() {
+            }
+
+            public void toggleRepeatMode() {
+            }
+
+            public void toggleMixMode() {
+            }
+
+            public void setResetRepeatTitleOnTrackChange(boolean bl) {
+            }
+        };
     }
 
-    @Override
     public boolean isPlayerStartupComplete() {
         return true;
     }
 
-    @Override
     public boolean supportsExtendedPlayView() {
         return false;
     }
 
-    @Override
     public boolean supportsPlaybackModeTakeOver() {
         return false;
     }
 
-    @Override
     public boolean supportsPlaybackModeToggle() {
         return false;
     }

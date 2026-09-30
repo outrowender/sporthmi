@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public final class DumpAudioProvider
 implements DumpInfoProvider {
     public static final DumpAudioProvider INSTANCE = new DumpAudioProvider();
-    private static final int BUFFER_SIZE;
+    private static final int BUFFER_SIZE = 50;
     private final RingBuffer ringBuffer = new RingBuffer(50);
 
     private DumpAudioProvider() {
@@ -43,7 +43,6 @@ implements DumpInfoProvider {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void dump(PrintStream printStream, String string) {
         try {
             int n;
@@ -65,7 +64,6 @@ implements DumpInfoProvider {
         }
     }
 
-    @Override
     public String getName() {
         return "AudioState";
     }

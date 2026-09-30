@@ -11,16 +11,16 @@ import de.audi.tuner.app.memory.EmptyMemoryRow;
 
 public class EmptyFavRowEvo
 extends EmptyMemoryRow {
-    private static final int INDEX_PROPERTIES;
-    private static final int INDEX_DEFAULT_IMAGE_ID;
-    private static final int INDEX_PRESET_POS;
-    public static final int NUM_COLS;
+    private static final int INDEX_PROPERTIES = 14;
+    private static final int INDEX_DEFAULT_IMAGE_ID = 15;
+    private static final int INDEX_PRESET_POS = 16;
+    public static final int NUM_COLS = 23;
     private final RadioRowProperties props;
 
     public EmptyFavRowEvo(int n) {
         super(23);
         this.props = new RadioRowProperties();
-        this.props.setCategory(1688373834);
+        this.props.setCategory(1250599524);
         this.setPropertyCell(14, new PropertyListCell(this.props.getCategory(), this.props.toArray()));
         this.setInteger(15, 2);
         this.setInteger(16, Utilities.adjustPresetPosForNar(n + 1));
@@ -31,7 +31,6 @@ extends EmptyMemoryRow {
         this.props = emptyFavRowEvo.props;
     }
 
-    @Override
     public EvoListRow copy() {
         return new EmptyFavRowEvo(this);
     }

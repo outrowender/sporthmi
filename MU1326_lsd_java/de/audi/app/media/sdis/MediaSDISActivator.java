@@ -13,7 +13,6 @@ public class MediaSDISActivator
 extends AbstractActivator {
     static /* synthetic */ Class class$de$audi$app$media$extension$IMediaTerminalExtension;
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         if (!this.getFramework().isSDISEnabled()) {

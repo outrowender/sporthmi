@@ -6,10 +6,8 @@ package de.audi.app.settings.licensebrowser;
 import de.audi.atip.browser.IBrowserHandler;
 
 public interface ILicenseBrowser {
-    default public void browserEntered() {
-    }
+    public void browserEntered();
 
-    default public void setBrowserHandler(IBrowserHandler iBrowserHandler) {
-    }
+    public void setBrowserHandler(IBrowserHandler var1);
 }
 

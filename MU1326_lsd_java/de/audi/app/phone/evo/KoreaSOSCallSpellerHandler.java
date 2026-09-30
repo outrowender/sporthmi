@@ -1,87 +1,86 @@
 /*
  * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  de.mib.swdiagnosis.phone.IPhoneDiagComponent
  */
 package de.audi.app.phone.evo;
 
+import de.audi.app.phone.core.ITelApplication;
 import de.audi.app.phone.core.NumberSpellerHandlerBase;
+import de.audi.app.phone.core.ap.AbstractTelActionProxyListener;
 import de.audi.app.phone.core.state.IGlobalTelephoneStateListener;
 import de.audi.app.phone.core.state.IGlobalTelephoneStateStruct;
 import de.audi.app.phone.core.state.NullEcallState;
+import de.audi.app.phone.core.util.AbstractTelServiceTracker;
 import de.audi.app.phone.evo.ITelEvoApplication;
-import de.audi.app.phone.evo.KoreaSOSCallSpellerHandler$KoreaClearNumberSpellerListener;
-import de.audi.app.phone.evo.KoreaSOSCallSpellerHandler$KoreaSOSDiag;
-import de.audi.app.phone.evo.KoreaSOSCallSpellerHandler$TelEcallServiceTracker;
 import de.audi.atip.hmi.model.ButtonListener;
 import de.audi.atip.hmi.modelaccess.SpellerModelApp;
 import de.audi.atip.interapp.bap.ecall.data.EmergencyNumber;
 import de.audi.atip.interapp.phone.IEcallState;
 import de.audi.atip.interapp.phone.ITelEcallService;
+import de.audi.atip.interapp.phone.NullTelEcallService;
+import de.mib.swdiagnosis.phone.IPhoneDiagComponent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class KoreaSOSCallSpellerHandler
 extends NumberSpellerHandlerBase
 implements ButtonListener {
     private volatile ITelEcallService telEcallService;
-    private final KoreaSOSCallSpellerHandler$TelEcallServiceTracker telEcallServiceTracker;
+    private final TelEcallServiceTracker telEcallServiceTracker;
     private IEcallState state;
     private List sosNumbersList;
     static /* synthetic */ Class class$de$audi$atip$interapp$phone$ITelEcallService;
 
     public KoreaSOSCallSpellerHandler(ITelEvoApplication iTelEvoApplication) {
         super(iTelEvoApplication);
-        this.addSubPhoneComponent(new KoreaSOSCallSpellerHandler$KoreaClearNumberSpellerListener(this, iTelEvoApplication));
-        this.telEcallServiceTracker = new KoreaSOSCallSpellerHandler$TelEcallServiceTracker(this, iTelEvoApplication);
+        this.addSubPhoneComponent(new KoreaClearNumberSpellerListener(iTelEvoApplication));
+        this.telEcallServiceTracker = new TelEcallServiceTracker(iTelEvoApplication);
         this.sosNumbersList = new ArrayList();
     }
 
-    @Override
     public void init() {
         super.init();
-        this.getApplication().getGlobalTelephoneStateManager().registerListenerForSpecificAttributeUpdate(0xC000400, (IGlobalTelephoneStateListener)this);
-        this.getButtonModel(-1365769216).setButtonListener(this);
-        this.getButtonModel(-1365769216).setStatus(0);
+        this.getApplication().getGlobalTelephoneStateManager().registerListenerForSpecificAttributeUpdate(262156, (IGlobalTelephoneStateListener)this);
+        this.getButtonModel(301230).setButtonListener(this);
+        this.getButtonModel(301230).setStatus(0);
         this.telEcallServiceTracker.init();
-        this.getApplication().addDiagnosisComponent(new KoreaSOSCallSpellerHandler$KoreaSOSDiag(this, null));
+        this.getApplication().addDiagnosisComponent(new KoreaSOSDiag());
     }
 
-    @Override
     public void deinit() {
         super.deinit();
-        this.getApplication().getGlobalTelephoneStateManager().removeListenerForSpecificAttributeUpdate(0xC000400, (IGlobalTelephoneStateListener)this);
-        this.getButtonModel(-1365769216).resetListener();
+        this.getApplication().getGlobalTelephoneStateManager().removeListenerForSpecificAttributeUpdate(262156, (IGlobalTelephoneStateListener)this);
+        this.getButtonModel(301230).resetListener();
         this.telEcallServiceTracker.deinit();
     }
 
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         this.state = iGlobalTelephoneStateStruct != null ? iGlobalTelephoneStateStruct.getConnectedGatewayState() : new NullEcallState();
         this.sosNumbersList = this.convertArrayToList(this.state != null ? this.state.getAllowedEmergencyNumbers() : null);
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        if ((n == this.getSpellerModel().getID() || n == -1365769216) && this.sosNumberValid(this.getSpellerModel().getText())) {
+        if ((n == this.getSpellerModel().getID() || n == 301230) && this.sosNumberValid(this.getSpellerModel().getText())) {
             this.dialSOSNumberInSpeller(n3);
         } else {
-            this.getButtonModel(-1365769216).setStatus(0);
-            this.getButtonModel(-1365769216).fireEvent(n3);
+            this.getButtonModel(301230).setStatus(0);
+            this.getButtonModel(301230).fireEvent(n3);
         }
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void textChanged(int n, String string, char c2, int n2) {
         super.textChanged(n, string, c2, n2);
-        this.getButtonModel(-1365769216).setStatus(string != null && string.length() > 0 && string.length() <= 40 ? 1 : 0);
+        this.getButtonModel(301230).setStatus(string != null && string.length() > 0 && string.length() <= 40 ? 1 : 0);
     }
 
-    @Override
     protected SpellerModelApp getSpellerModel() {
-        return this.getSpellerModel(-1382546432);
+        return this.getSpellerModel(301229);
     }
 
     private List convertArrayToList(EmergencyNumber[] emergencyNumberArray) {
@@ -101,7 +100,7 @@ implements ButtonListener {
         boolean bl = this.isEmergencyCallSupported(this.state);
         boolean bl2 = !this.sosNumbersList.isEmpty();
         boolean bl3 = this.isValidNumber(this.sosNumbersList, string);
-        this.log.log(1078071040, "[KoreaSOSCallSpellerHandler#isEnteredEmergencyNumberValid] enteredSOSNumber=%1, enteredEmergencyNumberValid=%2", (Object)string, (Object)(bl3 ? "true" : "false"));
+        this.log.log(1000000, "[KoreaSOSCallSpellerHandler#isEnteredEmergencyNumberValid] enteredSOSNumber=%1, enteredEmergencyNumberValid=%2", (Object)string, (Object)(bl3 ? "true" : "false"));
         return bl && bl2 && bl3;
     }
 
@@ -117,17 +116,16 @@ implements ButtonListener {
         SpellerModelApp spellerModelApp = this.getSpellerModel();
         String string = spellerModelApp.getText();
         if (string != null && string.length() > 0) {
-            this.log.log(-2137614336, "[KoreaSOSCallSpellerHandler#dialSOSNumberInSpeller] dialing SOS number %1", (Object)string);
+            this.log.log(10000000, "[KoreaSOSCallSpellerHandler#dialSOSNumberInSpeller] dialing SOS number %1", (Object)string);
             this.getTelEcallService().dialLowPrioritySOSCall(string);
         } else {
-            this.log.log(-2137614336, "[KoreaSOSCallSpellerHandler#dialSOSNumberInSpeller] no number entered --> NOP!");
+            this.log.log(10000000, "[KoreaSOSCallSpellerHandler#dialSOSNumberInSpeller] no number entered --> NOP!");
         }
     }
 
-    @Override
     protected void clearSpellerContent() {
         super.clearSpellerContent();
-        this.getButtonModel(-1365769216).setStatus(0);
+        this.getButtonModel(301230).setStatus(0);
     }
 
     protected ITelEcallService getTelEcallService() {
@@ -143,9 +141,42 @@ implements ButtonListener {
         }
     }
 
-    static /* synthetic */ ITelEcallService access$102(KoreaSOSCallSpellerHandler koreaSOSCallSpellerHandler, ITelEcallService iTelEcallService) {
-        koreaSOSCallSpellerHandler.telEcallService = iTelEcallService;
-        return koreaSOSCallSpellerHandler.telEcallService;
+    private class KoreaSOSDiag
+    implements IPhoneDiagComponent {
+        private KoreaSOSDiag() {
+        }
+
+        public void cmdDialKoreaSOSNumber(String string) {
+            KoreaSOSCallSpellerHandler.this.getTelEcallService().dialLowPrioritySOSCall(string);
+        }
+    }
+
+    private class TelEcallServiceTracker
+    extends AbstractTelServiceTracker {
+        public TelEcallServiceTracker(ITelApplication iTelApplication) {
+            super(iTelApplication, "App.Phone.Main", class$de$audi$atip$interapp$phone$ITelEcallService == null ? (class$de$audi$atip$interapp$phone$ITelEcallService = KoreaSOSCallSpellerHandler.class$("de.audi.atip.interapp.phone.ITelEcallService")) : class$de$audi$atip$interapp$phone$ITelEcallService);
+        }
+
+        protected void serviceAvailable(Object object) {
+            this.log.log(1000000, "KoreaSOSCallSpellerHandler.TelServiceListenerTracker#serviceAvailable(): %1", object);
+            KoreaSOSCallSpellerHandler.this.telEcallService = (ITelEcallService)object;
+        }
+
+        protected void serviceRemoved(Object object) {
+            this.log.log(1000000, "KoreaSOSCallSpellerHandler.TelServiceListenerTracker#serviceRemoved(): %1", object);
+            KoreaSOSCallSpellerHandler.this.telEcallService = new NullTelEcallService(this.log);
+        }
+    }
+
+    private class KoreaClearNumberSpellerListener
+    extends AbstractTelActionProxyListener {
+        public KoreaClearNumberSpellerListener(ITelApplication iTelApplication) {
+            super(iTelApplication, "App.Phone.Main", 33);
+        }
+
+        protected void actionProxyCalled(Map map) {
+            KoreaSOSCallSpellerHandler.this.clearSpellerContent();
+        }
     }
 }
 

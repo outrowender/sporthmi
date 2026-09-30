@@ -20,13 +20,13 @@ public class Connection
 extends DataConnection
 implements CreateConnection,
 CommConnection {
-    private static final int DEFAULT_TIMEOUT;
-    private static final int PARITY_NONE;
-    private static final int PARITY_ODD;
-    private static final int PARITY_EVEN;
-    private static final int UNOPENED;
-    private static final int OPEN;
-    private static final int CLOSED;
+    private static final int DEFAULT_TIMEOUT = 3000;
+    private static final int PARITY_NONE = 0;
+    private static final int PARITY_ODD = 1;
+    private static final int PARITY_EVEN = 2;
+    private static final int UNOPENED = 0;
+    private static final int OPEN = 1;
+    private static final int CLOSED = 2;
     private boolean open = false;
     private boolean throwTimeout = false;
     private int access = 3;
@@ -36,14 +36,9 @@ CommConnection {
     private int outputStatus = 0;
     private int finalBaud = -1;
     private String portName = "";
-    private static Hashtable openConnections;
+    private static Hashtable openConnections = new Hashtable();
 
-    static {
-        openConnections = new Hashtable();
-    }
-
-    @Override
-    public javax.microedition.io.Connection setParameters2(String string, int n, boolean bl) {
+    public javax.microedition.io.Connection setParameters2(String string, int n, boolean bl) throws IOException {
         String[][] stringArray = ConnectionUtil.NO_PARAMETERS;
         int n2 = string.indexOf(59);
         if (n2 != -1) {
@@ -58,7 +53,7 @@ CommConnection {
      * Enabled force condition propagation
      * Lifted jumps to return sites
      */
-    private void setParameters(String string, String[][] stringArray, int n, boolean bl) {
+    private void setParameters(String string, String[][] stringArray, int n, boolean bl) throws IOException {
         int n2;
         this.access = n;
         this.throwTimeout = bl;
@@ -182,17 +177,13 @@ CommConnection {
         this.open = true;
     }
 
-    private native int openImpl(int n) {
-    }
+    private native int openImpl(int var1);
 
-    private native int openImpl2(String string) {
-    }
+    private native int openImpl2(String var1);
 
-    private native void configureImpl(int n, int n2, int n3, int n4, int n5, boolean bl, boolean bl2, int n6) {
-    }
+    private native void configureImpl(int var1, int var2, int var3, int var4, int var5, boolean var6, boolean var7, int var8);
 
-    @Override
-    public void close() {
+    public void close() throws IOException {
         if (this.open) {
             if (this.inputStatus != 1 && this.outputStatus != 1) {
                 this.finalBaud = this.getBaud(this.osHandle);
@@ -203,10 +194,9 @@ CommConnection {
         }
     }
 
-    private native void closeImpl(int n) {
-    }
+    private native void closeImpl(int var1);
 
-    void closeStream(boolean bl) {
+    void closeStream(boolean bl) throws IOException {
         boolean bl2 = false;
         if (bl) {
             this.inputStatus = 2;
@@ -222,8 +212,7 @@ CommConnection {
         }
     }
 
-    @Override
-    public InputStream openInputStream() {
+    public InputStream openInputStream() throws IOException {
         if (this.open) {
             if (this.inputStatus != 0) {
                 throw new IOException(Msg.getString("K0192"));
@@ -237,8 +226,7 @@ CommConnection {
         throw new IOException(Msg.getString("K00ac"));
     }
 
-    @Override
-    public OutputStream openOutputStream() {
+    public OutputStream openOutputStream() throws IOException {
         if (this.open) {
             if (this.outputStatus != 0) {
                 throw new IOException(Msg.getString("K0192"));
@@ -252,7 +240,7 @@ CommConnection {
         throw new IOException(Msg.getString("K00ac"));
     }
 
-    int read(byte[] byArray, int n, int n2) {
+    int read(byte[] byArray, int n, int n2) throws IOException {
         if (n2 != 0) {
             int n3;
             long l = System.currentTimeMillis();
@@ -270,10 +258,9 @@ CommConnection {
         return 0;
     }
 
-    private native int readImpl(int n, byte[] byArray, int n2, int n3) {
-    }
+    private native int readImpl(int var1, byte[] var2, int var3, int var4);
 
-    int write(byte[] byArray, int n, int n2) {
+    int write(byte[] byArray, int n, int n2) throws IOException {
         if (n2 != 0) {
             int n3 = this.writeImpl(this.osHandle, byArray, n, n2);
             if (!this.throwTimeout || n3 == n2) {
@@ -286,17 +273,14 @@ CommConnection {
         return 0;
     }
 
-    private native int writeImpl(int n, byte[] byArray, int n2, int n3) {
-    }
+    private native int writeImpl(int var1, byte[] var2, int var3, int var4);
 
-    int available() {
+    int available() throws IOException {
         return this.availableImpl(this.osHandle);
     }
 
-    private native int availableImpl(int n) {
-    }
+    private native int availableImpl(int var1);
 
-    @Override
     public int getBaudRate() {
         if (this.open || this.outputStatus == 1 || this.inputStatus == 1) {
             return this.getBaud(this.osHandle);
@@ -304,7 +288,6 @@ CommConnection {
         return this.finalBaud;
     }
 
-    @Override
     public int setBaudRate(int n) {
         if (this.open || this.inputStatus == 1 || this.outputStatus == 1) {
             switch (n) {
@@ -328,10 +311,8 @@ CommConnection {
         return this.finalBaud;
     }
 
-    private native int setBaud(int n, int n2) {
-    }
+    private native int setBaud(int var1, int var2);
 
-    private native int getBaud(int n) {
-    }
+    private native int getBaud(int var1);
 }
 

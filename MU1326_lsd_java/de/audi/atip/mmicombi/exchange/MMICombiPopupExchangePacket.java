@@ -24,32 +24,26 @@ implements IMMICombiPopupExchangePacket {
         this.focus = n6;
     }
 
-    @Override
     public void setSessionID(int n) {
         this.sessionID = n;
     }
 
-    @Override
     public int getSessionID() {
         return this.sessionID;
     }
 
-    @Override
     public void setExchangeDirection(int n) {
         this.exchangeDirection = n;
     }
 
-    @Override
     public int getExchangeDirection() {
         return this.exchangeDirection;
     }
 
-    @Override
     public void setPopupID(int n) {
         this.popupID = n;
     }
 
-    @Override
     public int getPopupID() {
         return this.popupID;
     }

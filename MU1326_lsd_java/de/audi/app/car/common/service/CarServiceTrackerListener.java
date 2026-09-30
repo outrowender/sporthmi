@@ -4,13 +4,10 @@
 package de.audi.app.car.common.service;
 
 public interface CarServiceTrackerListener {
-    default public void serviceAvailable(Object object) {
-    }
+    public void serviceAvailable(Object var1);
 
-    default public void serviceRemoved() {
-    }
+    public void serviceRemoved();
 
-    default public String[] getTrackedServiceClazzName() {
-    }
+    public String[] getTrackedServiceClazzName();
 }
 

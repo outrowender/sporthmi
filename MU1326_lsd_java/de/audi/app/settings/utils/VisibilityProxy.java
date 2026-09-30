@@ -6,9 +6,9 @@ package de.audi.app.settings.utils;
 import de.audi.atip.hmi.model.ChoiceModel;
 
 public class VisibilityProxy {
-    private static final int VISIBLE;
-    private static final int INVISIBLE;
-    private static final int DISABLED;
+    private static final int VISIBLE = 0;
+    private static final int INVISIBLE = 1;
+    private static final int DISABLED = 2;
     private ChoiceModel model;
 
     public VisibilityProxy(ChoiceModel choiceModel) {

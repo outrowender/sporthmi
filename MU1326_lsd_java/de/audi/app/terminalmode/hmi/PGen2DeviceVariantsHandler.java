@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  de.audi.app.terminalmode.statemachine.TMState
  */
 package de.audi.app.terminalmode.hmi;
 
@@ -10,7 +7,6 @@ import de.audi.app.terminalmode.IContext;
 import de.audi.app.terminalmode.ITerminalModeComponent;
 import de.audi.app.terminalmode.audio.TMAudioConnection;
 import de.audi.app.terminalmode.device.IDeviceVariantsHandling;
-import de.audi.app.terminalmode.hmi.PGen2DeviceVariantsHandler$1;
 import de.audi.app.terminalmode.statemachine.Application;
 import de.audi.app.terminalmode.statemachine.ApplicationOwner;
 import de.audi.app.terminalmode.statemachine.IRequestor;
@@ -18,6 +14,7 @@ import de.audi.app.terminalmode.statemachine.IStateHandler;
 import de.audi.app.terminalmode.statemachine.Resource;
 import de.audi.app.terminalmode.statemachine.ResourceOwner;
 import de.audi.app.terminalmode.statemachine.TMState;
+import de.audi.app.terminalmode.statemachine.commands.AbstractStateHandlerCommand;
 import de.audi.app.terminalmode.statemachine.commands.ReleaseAudioConnection;
 import de.audi.atip.log.LogChannel;
 import de.audi.tghu.command.CommandList;
@@ -32,7 +29,6 @@ ITerminalModeComponent {
         this.context = iContext;
     }
 
-    @Override
     public void init() {
         IDeviceVariantsHandling iDeviceVariantsHandling = (IDeviceVariantsHandling)this.context.get(class$de$audi$app$terminalmode$device$IDeviceVariantsHandling == null ? (class$de$audi$app$terminalmode$device$IDeviceVariantsHandling = PGen2DeviceVariantsHandler.class$("de.audi.app.terminalmode.device.IDeviceVariantsHandling")) : class$de$audi$app$terminalmode$device$IDeviceVariantsHandling);
         if (null != iDeviceVariantsHandling) {
@@ -40,13 +36,11 @@ ITerminalModeComponent {
         }
     }
 
-    @Override
     public void deinit() {
     }
 
-    @Override
     public CommandList cleanupAfterDeviceDisconnected(IContext iContext, IStateHandler iStateHandler, LogChannel logChannel, String string) {
-        TMState tMState = iStateHandler.getCurrentState();
+        final TMState tMState = iStateHandler.getCurrentState();
         tMState.setOwnerForResource(Resource.AUDIO_MEDIA, ResourceOwner.MAINUNIT);
         tMState.setOwnerForResource(Resource.AUDIO_PHONE, ResourceOwner.MAINUNIT);
         tMState.setOwnerForResource(Resource.AUDIO_SPEECH, ResourceOwner.MAINUNIT);
@@ -68,11 +62,16 @@ ITerminalModeComponent {
         commandList.add(new ReleaseAudioConnection(TMAudioConnection.LOWERING, iContext));
         commandList.add(new ReleaseAudioConnection(TMAudioConnection.SPEECH_GUIDANCE, iContext));
         iContext.getChoiceModel(4552).setValue(0);
-        commandList.add(new PGen2DeviceVariantsHandler$1(this, logChannel, string, iContext, iStateHandler, tMState));
+        commandList.add(new AbstractStateHandlerCommand(logChannel, string, iContext, iStateHandler){
+
+            public void execute() {
+                this.stateHandler.updateState(tMState);
+                this.getCommandList().commandFinished();
+            }
+        });
         return commandList;
     }
 
-    @Override
     public void setDeviceVariantsHandler(IDeviceVariantsHandling iDeviceVariantsHandling) {
     }
 

@@ -40,7 +40,6 @@ extends AbstractSearchResultFormatter {
         this.env = navigationEnv;
     }
 
-    @Override
     public SearchResultListRow formatResult(SearchResult searchResult) {
         if (null == searchResult) {
             this.lc.log(10000, "SearchResultFormatterNavDb#formatResult - Search-result parameter is null");
@@ -59,15 +58,15 @@ extends AbstractSearchResultFormatter {
     protected void setPropertyCell(NaviSearchResultListRow naviSearchResultListRow, SearchResult searchResult) {
         NaviCellPropsContainer naviCellPropsContainer = new NaviCellPropsContainer();
         if (searchResult.getSource() == 5) {
-            naviCellPropsContainer.setCategory(160082217);
-            naviCellPropsContainer.addProperty(633713380);
+            naviCellPropsContainer.setCategory(698976777);
+            naviCellPropsContainer.addProperty(-458046171);
         } else if (searchResult.entryType == 2) {
-            naviCellPropsContainer.setCategory(819717694);
+            naviCellPropsContainer.setCategory(1055316784);
         } else {
-            naviCellPropsContainer.setCategory(160082217);
+            naviCellPropsContainer.setCategory(698976777);
         }
         if (searchResult.getSource() == 4) {
-            naviCellPropsContainer.addProperty(-1251985266);
+            naviCellPropsContainer.addProperty(-1908907851);
         }
         PropertyListCell propertyListCell = new PropertyListCell(naviCellPropsContainer.getCategory(), naviCellPropsContainer.getProperties());
         naviSearchResultListRow.setPropertiesColumn(propertyListCell);
@@ -87,7 +86,7 @@ extends AbstractSearchResultFormatter {
         } else if (searchResult.entryType == 2) {
             int n = -1;
             if (this.iconHandler == null) {
-                this.lc.log(-1601830656, "SearchResultFormatterNavDb#configureLayout iconHandler is null");
+                this.lc.log(100000, "SearchResultFormatterNavDb#configureLayout iconHandler is null");
             } else {
                 n = this.iconHandler.resolvePOIIconFromRawData(searchResult.country.countryID, searchResult.poiType);
             }
@@ -122,12 +121,12 @@ extends AbstractSearchResultFormatter {
 
     private void setGeoData(NaviSearchResultListRow naviSearchResultListRow, SearchResult searchResult) {
         if (this.naviInterAppService == null) {
-            this.lc.log(-1601830656, "SearchResultFormatterNavDb#setGeoData naviInterAppService is null");
+            this.lc.log(100000, "SearchResultFormatterNavDb#setGeoData naviInterAppService is null");
             return;
         }
         if (searchResult.getSource() == 5) {
             if (this.naviFavoriteHandler == null) {
-                this.lc.log(-1601830656, "SearchResultFormatterNavDb#formatFavorite naviFavoriteHandler is null");
+                this.lc.log(100000, "SearchResultFormatterNavDb#formatFavorite naviFavoriteHandler is null");
                 return;
             }
             naviSearchResultListRow.setHasGeoCoordinates(true);

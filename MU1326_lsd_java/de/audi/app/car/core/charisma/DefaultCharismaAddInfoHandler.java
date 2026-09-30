@@ -10,16 +10,15 @@ import de.audi.atip.log.LogChannel;
 
 public class DefaultCharismaAddInfoHandler
 extends AbstractCharismaAddInfoHandler {
-    private static final int ADDITIONAL_INFO_DISPLAY_NONE;
-    private static final int ADDITIONAL_INFO_DISPLAY_POSITION;
-    private static final int ADDITIONAL_INFO_DISPLAY_ANGLE;
-    private static int[][] g22Mapping;
+    private static final int ADDITIONAL_INFO_DISPLAY_NONE = 0;
+    private static final int ADDITIONAL_INFO_DISPLAY_POSITION = 1;
+    private static final int ADDITIONAL_INFO_DISPLAY_ANGLE = 2;
+    private static int[][] g22Mapping = new int[][]{new int[0], {0, 1, 2}, {3, 4, 5}};
 
     public DefaultCharismaAddInfoHandler(LogChannel logChannel, ChoiceModelApp choiceModelApp, CharismaAddInfoConfig[] charismaAddInfoConfigArray) {
         super(logChannel, choiceModelApp, charismaAddInfoConfigArray);
     }
 
-    @Override
     protected void handleItemSelected(int n) {
         this.setAllInvisible();
         if (n != 0) {
@@ -27,7 +26,6 @@ extends AbstractCharismaAddInfoHandler {
         }
     }
 
-    @Override
     protected void readPersistentAdditionalInfo() {
         int n = this.getSelection(this.isAddInfoDisplayed(g22Mapping[2]), this.isAddInfoDisplayed(g22Mapping[1]));
         this.setAllInvisible();
@@ -52,10 +50,6 @@ extends AbstractCharismaAddInfoHandler {
             return true;
         }
         return false;
-    }
-
-    static {
-        g22Mapping = new int[][]{new int[0], {0, 1, 2}, {3, 4, 5}};
     }
 }
 

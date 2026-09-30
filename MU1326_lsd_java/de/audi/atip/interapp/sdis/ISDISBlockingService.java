@@ -4,13 +4,10 @@
 package de.audi.atip.interapp.sdis;
 
 public interface ISDISBlockingService {
-    default public void setLockState(int n) {
-    }
+    public void setLockState(int var1);
 
-    default public void setBlockState(int n) {
-    }
+    public void setBlockState(int var1);
 
-    default public void enterAppContext(int n, String string) {
-    }
+    public void enterAppContext(int var1, String var2);
 }
 

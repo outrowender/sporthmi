@@ -12,40 +12,28 @@ import de.audi.app.media.dsi.media.IMediaVersionListener;
 
 public interface IMediaDSIBaseController
 extends IDSIController {
-    default public boolean setPreferredLanguage(String string) {
-    }
+    public boolean setPreferredLanguage(String var1);
 
-    default public boolean setParentalML(int n) {
-    }
+    public boolean setParentalML(int var1);
 
-    default public boolean requestResetFactorySettings(int n) {
-    }
+    public boolean requestResetFactorySettings(int var1);
 
-    default public boolean eject(long l, long l2) {
-    }
+    public boolean eject(long var1, long var3);
 
-    default public boolean launchMediaApp(long l, long l2, String string) {
-    }
+    public boolean launchMediaApp(long var1, long var3, String var5);
 
-    default public void setFactorySettingListener(IMediaFactoryResetListener iMediaFactoryResetListener) {
-    }
+    public void setFactorySettingListener(IMediaFactoryResetListener var1);
 
-    default public void addParentalManagementListener(IMediaParentalManagementListener iMediaParentalManagementListener) {
-    }
+    public void addParentalManagementListener(IMediaParentalManagementListener var1);
 
-    default public void removeParentalManagementListener(IMediaParentalManagementListener iMediaParentalManagementListener) {
-    }
+    public void removeParentalManagementListener(IMediaParentalManagementListener var1);
 
-    default public void addLanguageListener(IMediaLanguageListener iMediaLanguageListener) {
-    }
+    public void addLanguageListener(IMediaLanguageListener var1);
 
-    default public void addMediaDeviceListener(IMediaDeviceListener iMediaDeviceListener) {
-    }
+    public void addMediaDeviceListener(IMediaDeviceListener var1);
 
-    default public void addMediaVersionListener(IMediaVersionListener iMediaVersionListener) {
-    }
+    public void addMediaVersionListener(IMediaVersionListener var1);
 
-    default public void removeMediaVersionListener(IMediaVersionListener iMediaVersionListener) {
-    }
+    public void removeMediaVersionListener(IMediaVersionListener var1);
 }
 

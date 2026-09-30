@@ -7,13 +7,10 @@ import de.audi.atip.interapp.combi.bap.CombiBAPServiceListener;
 
 public interface CombiBAPServiceAddressBookListener
 extends CombiBAPServiceListener {
-    default public void requestPhonebookListElements(int n, int n2, int n3) {
-    }
+    public void requestPhonebookListElements(int var1, int var2, int var3);
 
-    default public void requestPhonebookEntryDetails(long l) {
-    }
+    public void requestPhonebookEntryDetails(long var1);
 
-    default public void pbSpeller(int n, String string) {
-    }
+    public void pbSpeller(int var1, String var2);
 }
 

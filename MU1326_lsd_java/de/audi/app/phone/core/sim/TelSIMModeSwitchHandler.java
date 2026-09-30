@@ -7,24 +7,27 @@ import de.audi.app.phone.core.AbstractPhoneComponent;
 import de.audi.app.phone.core.ITelApplication;
 import de.audi.app.phone.core.PhoneServiceTracker;
 import de.audi.app.phone.core.dsi.ITelDSIMobileEquipmentDeviceState;
+import de.audi.app.phone.core.model.TelDefaultButtonListener;
+import de.audi.app.phone.core.msg.AbstractTelMessageListener;
 import de.audi.app.phone.core.sim.SimUsageUserDecision;
-import de.audi.app.phone.core.sim.TelSIMModeSwitchHandler$DataOnlyButtonListener;
-import de.audi.app.phone.core.sim.TelSIMModeSwitchHandler$FactoryResetHandler;
-import de.audi.app.phone.core.sim.TelSIMModeSwitchHandler$SimModeSwitchStorageHandler;
-import de.audi.app.phone.core.sim.TelSIMModeSwitchHandler$SimUsageHkReturnButtonListener;
-import de.audi.app.phone.core.sim.TelSIMModeSwitchHandler$VoiceAndDataButtonListener;
 import de.audi.app.phone.core.state.IGlobalTelephoneStateStruct;
 import de.audi.atip.interapp.IConnectivityPhoneStateListener;
 import de.audi.atip.interapp.IConnectivitySimUsageListener;
-import de.audi.atip.log.LogChannel;
+import de.audi.atip.storage.AbstractStorageDataContainer;
+import de.audi.atip.storage.IStorageAccess;
 import de.esolutions.fw.util.commons.Converter;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
 public class TelSIMModeSwitchHandler
 extends AbstractPhoneComponent
 implements ServiceTrackerCustomizer {
-    private final TelSIMModeSwitchHandler$SimModeSwitchStorageHandler storageHandler;
+    private final SimModeSwitchStorageHandler storageHandler;
     private final boolean isNadModeSwitch;
     private volatile IGlobalTelephoneStateStruct telState;
     private volatile SimUsageUserDecision[] simUserDecisions;
@@ -47,28 +50,26 @@ implements ServiceTrackerCustomizer {
         this.UNKNOWN = 0;
         this.ACTIVE = 1;
         this.NOT_ACTIVE = 2;
-        this.storageHandler = new TelSIMModeSwitchHandler$SimModeSwitchStorageHandler(this, iTelApplication.getFrameworkAccess().getStorageMgr());
+        this.storageHandler = new SimModeSwitchStorageHandler(iTelApplication.getFrameworkAccess().getStorageMgr());
         this.isNadModeSwitch = iTelApplication.getFrameworkAccess().getSysConstManager().getAdaptationANP().isSimCardModeSwitch();
-        this.addSubPhoneComponent(new TelSIMModeSwitchHandler$FactoryResetHandler(this, iTelApplication));
-        this.addSubPhoneComponent(new TelSIMModeSwitchHandler$VoiceAndDataButtonListener(this, iTelApplication));
-        this.addSubPhoneComponent(new TelSIMModeSwitchHandler$DataOnlyButtonListener(this, iTelApplication));
-        this.addSubPhoneComponent(new TelSIMModeSwitchHandler$SimUsageHkReturnButtonListener(this, iTelApplication));
+        this.addSubPhoneComponent(new FactoryResetHandler(iTelApplication));
+        this.addSubPhoneComponent(new VoiceAndDataButtonListener(iTelApplication));
+        this.addSubPhoneComponent(new DataOnlyButtonListener(iTelApplication));
+        this.addSubPhoneComponent(new SimUsageHkReturnButtonListener(iTelApplication));
     }
 
-    @Override
     public void init() {
         super.init();
-        this.simUserDecisions = TelSIMModeSwitchHandler$SimModeSwitchStorageHandler.access$000(this.storageHandler);
+        this.simUserDecisions = this.storageHandler.loadSimUsageUserDecisionInfo();
         this.getApplication().getGlobalTelephoneStateManager().registerListener(this);
         boolean bl = this.getApplication().getFrameworkAccess().getSysApp().getAdaptationANP().isSimCardModeSwitch();
         boolean bl2 = this.getApplication().getFrameworkAccess().getSysConst(463) == 1;
         boolean bl3 = bl2 && bl;
-        this.getChoiceModel(1670775808).setValue(bl3 ? 1 : 0);
+        this.getChoiceModel(300643).setValue(bl3 ? 1 : 0);
         this.connectivityPhoneStateListenerTracker = new PhoneServiceTracker(this.getApplication().getBundleContext(), (class$de$audi$atip$interapp$IConnectivitySimUsageListener == null ? (class$de$audi$atip$interapp$IConnectivitySimUsageListener = TelSIMModeSwitchHandler.class$("de.audi.atip.interapp.IConnectivitySimUsageListener")) : class$de$audi$atip$interapp$IConnectivitySimUsageListener).getName(), (ServiceTrackerCustomizer)this, this.log);
         this.connectivityPhoneStateListenerTracker.openTracker();
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.getApplication().getGlobalTelephoneStateManager().removeListener(this);
@@ -76,7 +77,6 @@ implements ServiceTrackerCustomizer {
         this.connectivityPhoneStateListenerTracker = null;
     }
 
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         this.telState = iGlobalTelephoneStateStruct;
         if (this.isNadModeSwitch) {
@@ -90,7 +90,7 @@ implements ServiceTrackerCustomizer {
     }
 
     private void setShowingIsAllowed(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
-        if (n == 0x9000400) {
+        if (n == 262153) {
             int n2 = this.eSIMActiveState = iGlobalTelephoneStateStruct.isESIMActive() ? 1 : 2;
         }
         this.showingIsAllowed = iGlobalTelephoneStateStruct.getNadInstanceState() != null && iGlobalTelephoneStateStruct.getNadInstanceState().isPhoneReady() ? this.eSIMActiveState != 0 : false;
@@ -106,7 +106,7 @@ implements ServiceTrackerCustomizer {
             boolean bl;
             boolean bl2 = iTelDSIMobileEquipmentDeviceState.getCallState() != null ? !iTelDSIMobileEquipmentDeviceState.getCallState().isIdle() : (bl = false);
             if (bl && simUsageUserDecision == null && this.isSimModeUsageToBeShown()) {
-                this.log.log(1078071040, "[TelSIMModeSwitchHandler#checkCallViaNadActive] call is active but no user decision was made. Setting user decision to voice & data");
+                this.log.log(1000000, "[TelSIMModeSwitchHandler#checkCallViaNadActive] call is active but no user decision was made. Setting user decision to voice & data");
                 this.resetShowSimModeUsageChoice();
                 this.addSimUsageData(1);
             }
@@ -122,24 +122,24 @@ implements ServiceTrackerCustomizer {
         boolean bl2 = string != null && !string.equals(this.simCardID);
         this.simCardID = string;
         if (this.eSIMActiveState == 1) {
-            this.log.log(1078071040, "[TelSIMModeSwitchHandler#setShowSimModeUsageScreenChoice] ESIM is active. No usage for ESIM");
+            this.log.log(1000000, "[TelSIMModeSwitchHandler#setShowSimModeUsageScreenChoice] ESIM is active. No usage for ESIM");
             this.showSimModeUsageChoice(false);
             return;
         }
         if (TelSIMModeSwitchHandler.simCardIDAvailable(string)) {
             if (simUsageUserDecision == null && bl) {
                 if (bl2) {
-                    this.log.log(1078071040, "[TelSIMModeSwitchHandler#setShowSimModeUsageScreenChoice] no usage data found for sim with id=%1", (Object)string);
+                    this.log.log(1000000, "[TelSIMModeSwitchHandler#setShowSimModeUsageScreenChoice] no usage data found for sim with id=%1", (Object)string);
                 }
                 if (this.isShowingOfSIMSwitchPopupAllowed()) {
-                    this.log.log(1078071040, "[TelSIMModeSwitchHandler#setShowSimModeUsageScreenChoice] show SIM Usage id=%1", (Object)string);
+                    this.log.log(1000000, "[TelSIMModeSwitchHandler#setShowSimModeUsageScreenChoice] show SIM Usage id=%1", (Object)string);
                     this.showSimModeUsageChoice(true);
                 } else {
-                    this.log.log(1078071040, "[TelSIMModeSwitchHandler#setShowSimModeUsageScreenChoice] showing SIM Usage not allowed");
+                    this.log.log(1000000, "[TelSIMModeSwitchHandler#setShowSimModeUsageScreenChoice] showing SIM Usage not allowed");
                 }
             } else {
                 if (bl2) {
-                    this.log.log(1078071040, "[TelSIMModeSwitchHandler#setShowSimModeUsageScreenChoice] usage data found for sim with id=%1: %2", (Object)string, (Object)simUsageUserDecision);
+                    this.log.log(1000000, "[TelSIMModeSwitchHandler#setShowSimModeUsageScreenChoice] usage data found for sim with id=%1: %2", (Object)string, (Object)simUsageUserDecision);
                 }
                 this.showSimModeUsageChoice(false);
             }
@@ -149,21 +149,21 @@ implements ServiceTrackerCustomizer {
     }
 
     private boolean isSimModeUsageToBeShown() {
-        return this.getChoiceModel(1972831232).getValue() == 1;
+        return this.getChoiceModel(300917).getValue() == 1;
     }
 
     protected void showSimModeUsageChoice(boolean bl) {
         if (this.simUsageListener != null) {
             this.simUsageListener.updateSimUsageToBeShown(bl);
         }
-        this.getChoiceModel(1972831232).setValue(bl ? 1 : 0);
+        this.getChoiceModel(300917).setValue(bl ? 1 : 0);
     }
 
     private void resetShowSimModeUsageChoice() {
         if (this.simUsageListener != null) {
             this.simUsageListener.updateSimUsageToBeShown(false);
         }
-        this.getChoiceModel(1972831232).setValue(0);
+        this.getChoiceModel(300917).setValue(0);
     }
 
     protected void addSimUsageData(int n) {
@@ -172,8 +172,8 @@ implements ServiceTrackerCustomizer {
 
     private void addSimUsageData(String string, int n) {
         SimUsageUserDecision[] simUsageUserDecisionArray = new SimUsageUserDecision[]{new SimUsageUserDecision(string, n)};
-        this.log.log(1078071040, "[TelSIMModeSwitchHandler#addSimUsageData] usageInfo=%1", (Object)Converter.array2String(simUsageUserDecisionArray));
-        TelSIMModeSwitchHandler$SimModeSwitchStorageHandler.access$100(this.storageHandler, simUsageUserDecisionArray);
+        this.log.log(1000000, "[TelSIMModeSwitchHandler#addSimUsageData] usageInfo=%1", (Object)Converter.array2String(simUsageUserDecisionArray));
+        this.storageHandler.storeSIMUsageUserDecision(simUsageUserDecisionArray);
         this.simUserDecisions = simUsageUserDecisionArray;
     }
 
@@ -191,14 +191,14 @@ implements ServiceTrackerCustomizer {
         if (this.telState != null) {
             int n3 = this.telState.getNadMode();
             if (n3 == 2) {
-                this.log.log(1078071040, "[TelSIMModeSwitchHandler#checkSwitchToDataOnly] NAD-Mode is already in data only--> no switch necessary.");
+                this.log.log(1000000, "[TelSIMModeSwitchHandler#checkSwitchToDataOnly] NAD-Mode is already in data only--> no switch necessary.");
                 this.getApplication().getFrameworkAccess().getHMIService().getModelApp(n2).fireEvent(n);
             } else {
-                this.log.log(1078071040, "[TelSIMModeSwitchHandler#checkSwitchToDataOnly] current nad mode is %1. Setting NAD-Mode to data only", (long)n3);
+                this.log.log(1000000, "[TelSIMModeSwitchHandler#checkSwitchToDataOnly] current nad mode is %1. Setting NAD-Mode to data only", (long)n3);
                 this.getApplication().getTelephoneDSIAccess().requestSetNadMode(2, n);
             }
         } else {
-            this.log.log(-1601830656, "[TelSIMModeSwitchHandler#checkSwitchToDataOnly] telState is null --> NOP!");
+            this.log.log(100000, "[TelSIMModeSwitchHandler#checkSwitchToDataOnly] telState is null --> NOP!");
         }
     }
 
@@ -206,18 +206,17 @@ implements ServiceTrackerCustomizer {
         if (this.telState != null) {
             int n3 = this.telState.getNadMode();
             if (n3 == 1) {
-                this.log.log(1078071040, "[TelSIMModeSwitchHandler#checkSwitchToVoiceAndData] NAD-Mode is already in Voice & Data --> no switch necessary.");
+                this.log.log(1000000, "[TelSIMModeSwitchHandler#checkSwitchToVoiceAndData] NAD-Mode is already in Voice & Data --> no switch necessary.");
                 this.getApplication().getFrameworkAccess().getHMIService().getModelApp(n2).fireEvent(n);
             } else {
-                this.log.log(1078071040, "[TelSIMModeSwitchHandler#checkSwitchToVoiceAndData] current nad mode is %1. Setting NAD-Mode to Voice & Data", (long)n3);
+                this.log.log(1000000, "[TelSIMModeSwitchHandler#checkSwitchToVoiceAndData] current nad mode is %1. Setting NAD-Mode to Voice & Data", (long)n3);
                 this.getApplication().getTelephoneDSIAccess().requestSetNadMode(1, n);
             }
         } else {
-            this.log.log(-1601830656, "[TelSIMModeSwitchHandler#checkSwitchToVoiceAndData] telState is null --> NOP!");
+            this.log.log(100000, "[TelSIMModeSwitchHandler#checkSwitchToVoiceAndData] telState is null --> NOP!");
         }
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.getApplication().getBundleContext().getService(serviceReference);
         if (object instanceof IConnectivitySimUsageListener) {
@@ -228,11 +227,9 @@ implements ServiceTrackerCustomizer {
         return null;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof IConnectivityPhoneStateListener) {
             this.simUsageListener = null;
@@ -249,85 +246,141 @@ implements ServiceTrackerCustomizer {
         }
     }
 
-    static /* synthetic */ LogChannel access$200(TelSIMModeSwitchHandler telSIMModeSwitchHandler) {
-        return telSIMModeSwitchHandler.log;
-    }
-
-    static /* synthetic */ LogChannel access$300(TelSIMModeSwitchHandler telSIMModeSwitchHandler) {
-        return telSIMModeSwitchHandler.log;
-    }
-
-    static /* synthetic */ LogChannel access$400(TelSIMModeSwitchHandler telSIMModeSwitchHandler) {
-        return telSIMModeSwitchHandler.log;
-    }
-
-    static /* synthetic */ LogChannel access$500(TelSIMModeSwitchHandler telSIMModeSwitchHandler) {
-        return telSIMModeSwitchHandler.log;
-    }
-
-    static /* synthetic */ LogChannel access$600(TelSIMModeSwitchHandler telSIMModeSwitchHandler) {
-        return telSIMModeSwitchHandler.log;
-    }
-
-    static /* synthetic */ LogChannel access$700(TelSIMModeSwitchHandler telSIMModeSwitchHandler) {
-        return telSIMModeSwitchHandler.log;
-    }
-
-    static /* synthetic */ LogChannel access$800(TelSIMModeSwitchHandler telSIMModeSwitchHandler) {
-        return telSIMModeSwitchHandler.log;
-    }
-
-    static /* synthetic */ LogChannel access$900(TelSIMModeSwitchHandler telSIMModeSwitchHandler) {
-        return telSIMModeSwitchHandler.log;
-    }
-
-    static /* synthetic */ LogChannel access$1000(TelSIMModeSwitchHandler telSIMModeSwitchHandler) {
-        return telSIMModeSwitchHandler.log;
-    }
-
-    static /* synthetic */ LogChannel access$1100(TelSIMModeSwitchHandler telSIMModeSwitchHandler) {
-        return telSIMModeSwitchHandler.log;
-    }
-
-    static /* synthetic */ LogChannel access$1200(TelSIMModeSwitchHandler telSIMModeSwitchHandler) {
-        return telSIMModeSwitchHandler.log;
-    }
-
-    static /* synthetic */ LogChannel access$1300(TelSIMModeSwitchHandler telSIMModeSwitchHandler) {
-        return telSIMModeSwitchHandler.log;
-    }
-
-    static /* synthetic */ LogChannel access$1400(TelSIMModeSwitchHandler telSIMModeSwitchHandler) {
-        return telSIMModeSwitchHandler.log;
-    }
-
     static /* synthetic */ SimUsageUserDecision[] access$1502(TelSIMModeSwitchHandler telSIMModeSwitchHandler, SimUsageUserDecision[] simUsageUserDecisionArray) {
         telSIMModeSwitchHandler.simUserDecisions = simUsageUserDecisionArray;
         return simUsageUserDecisionArray;
     }
 
-    static /* synthetic */ SimUsageUserDecision[] access$1500(TelSIMModeSwitchHandler telSIMModeSwitchHandler) {
-        return telSIMModeSwitchHandler.simUserDecisions;
+    private class FactoryResetHandler
+    extends AbstractTelMessageListener {
+        public FactoryResetHandler(ITelApplication iTelApplication) {
+            super(iTelApplication, "App.Phone.Main", 28);
+        }
+
+        protected void messageReceived() {
+            this.log.log(1000000, "[TelSIMModeSwitchHandler.FactoryResetHandler#messageRecieved] deleting all sim usage information.");
+            TelSIMModeSwitchHandler.access$1502(TelSIMModeSwitchHandler.this, new SimUsageUserDecision[0]);
+            TelSIMModeSwitchHandler.this.storageHandler.storeSIMUsageUserDecision(TelSIMModeSwitchHandler.this.simUserDecisions);
+        }
     }
 
-    static /* synthetic */ TelSIMModeSwitchHandler$SimModeSwitchStorageHandler access$1600(TelSIMModeSwitchHandler telSIMModeSwitchHandler) {
-        return telSIMModeSwitchHandler.storageHandler;
+    private class DataOnlyButtonListener
+    extends TelDefaultButtonListener {
+        public DataOnlyButtonListener(ITelApplication iTelApplication) {
+            super(iTelApplication, 300804);
+        }
+
+        public void keyTyped(int n, int n2, int n3) {
+            this.log.log(1000000, "[TelSIMModeSwitchHandler.DataOnlyButtonListener#keyTyped] data only selected.");
+            TelSIMModeSwitchHandler.this.checkSwitchToDataOnly(n3, n);
+            TelSIMModeSwitchHandler.this.resetShowSimModeUsageChoice();
+            TelSIMModeSwitchHandler.this.addSimUsageData(2);
+        }
     }
 
-    static /* synthetic */ void access$1700(TelSIMModeSwitchHandler telSIMModeSwitchHandler, int n, int n2) {
-        telSIMModeSwitchHandler.checkSwitchToVoiceAndData(n, n2);
+    private class VoiceAndDataButtonListener
+    extends TelDefaultButtonListener {
+        public VoiceAndDataButtonListener(ITelApplication iTelApplication) {
+            super(iTelApplication, 300805);
+        }
+
+        public void keyTyped(int n, int n2, int n3) {
+            this.log.log(1000000, "[TelSIMModeSwitchHandler.VoiceAndDataButtonListener#keyTyped] voice and data selected.");
+            TelSIMModeSwitchHandler.this.checkSwitchToVoiceAndData(n3, n);
+            TelSIMModeSwitchHandler.this.resetShowSimModeUsageChoice();
+            TelSIMModeSwitchHandler.this.addSimUsageData(1);
+        }
     }
 
-    static /* synthetic */ void access$1800(TelSIMModeSwitchHandler telSIMModeSwitchHandler) {
-        telSIMModeSwitchHandler.resetShowSimModeUsageChoice();
+    private class SimModeSwitchStorageHandler
+    extends AbstractStorageDataContainer {
+        private static final int PERSISTENCE_CONTAINER_VERSION = 0;
+        private SimUsageUserDecision[] usageInfo;
+
+        public SimModeSwitchStorageHandler(IStorageAccess iStorageAccess) {
+            super(iStorageAccess, 0, 1003, 110);
+        }
+
+        private void storeSIMUsageUserDecision(SimUsageUserDecision[] simUsageUserDecisionArray) {
+            this.usageInfo = simUsageUserDecisionArray != null ? simUsageUserDecisionArray : new SimUsageUserDecision[]{};
+            TelSIMModeSwitchHandler.this.log.log(1000000, "[TelSIMModeSwitchHandler.SimModeSwitchStorageHandler#storeSIMUsageUserDecision] %1", (Object)Converter.array2String(this.usageInfo));
+            this.serializeAndWrite();
+        }
+
+        private SimUsageUserDecision[] loadSimUsageUserDecisionInfo() {
+            this.readAndDeserialize();
+            TelSIMModeSwitchHandler.this.log.log(1000000, "[TelSIMModeSwitchHandler.SimModeSwitchStorageHandler#loadSimUsageUserDecisionInfo] %1", (Object)Converter.array2String(this.usageInfo));
+            return this.usageInfo;
+        }
+
+        protected void handleCRC32Error() {
+            TelSIMModeSwitchHandler.this.log.log(10000, "[TelSIMModeSwitchHandler.SimModeSwitchStorageHandler#handleCRC32Error]");
+        }
+
+        protected void handleStorageReadError(Exception exception) {
+            TelSIMModeSwitchHandler.this.log.log(1000000, "[TelSIMModeSwitchHandler.SimModeSwitchStorageHandler#handleStorageReadError] - no persisted sim usage information!");
+        }
+
+        protected void convertContainer(int n, int n2, DataInputStream dataInputStream) {
+            TelSIMModeSwitchHandler.this.log.log(100000, "[TelSIMModeSwitchHandler.SimModeSwitchStorageHandler#convertContainer] persistedVersion=%1, containerVersion=%2 --> NOP!", (long)n, (long)n2);
+        }
+
+        protected void serialize(DataOutputStream dataOutputStream) throws IOException {
+            int n = this.usageInfo.length;
+            TelSIMModeSwitchHandler.this.log.log(10000000, "[TelSIMModeSwitchHandler.SimModeSwitchStorageHandler#serialize] length=%1", (long)n);
+            dataOutputStream.writeInt(n);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(dataOutputStream);
+            for (int i2 = 0; i2 < this.usageInfo.length; ++i2) {
+                SimUsageUserDecision simUsageUserDecision = this.usageInfo[i2];
+                TelSIMModeSwitchHandler.this.log.log(1000000, "[TelSIMModeSwitchHandler.SimModeSwitchStorageHandler#serialize] SimUsageUserDecision=%1", (Object)simUsageUserDecision);
+                objectOutputStream.writeObject(simUsageUserDecision);
+            }
+        }
+
+        protected void deserialize(DataInputStream dataInputStream) throws IOException {
+            TelSIMModeSwitchHandler.this.log.log(10000000, "[TelSIMModeSwitchHandler.SimModeSwitchStorageHandler#deserialize]");
+            int n = dataInputStream.readInt();
+            TelSIMModeSwitchHandler.this.log.log(10000000, "[TelSIMModeSwitchHandler.SimModeSwitchStorageHandler#deserialize] arrayLength=%1", (long)n);
+            if (n < 0 || n > 50) {
+                TelSIMModeSwitchHandler.this.log.log(10000, "[TelSIMModeSwitchHandler.SimModeSwitchStorageHandler#deserialize] array length not valid: %1", (long)n);
+                return;
+            }
+            this.usageInfo = new SimUsageUserDecision[n];
+            ObjectInputStream objectInputStream = new ObjectInputStream(dataInputStream);
+            for (int i2 = 0; i2 < n; ++i2) {
+                try {
+                    SimUsageUserDecision simUsageUserDecision = (SimUsageUserDecision)objectInputStream.readObject();
+                    TelSIMModeSwitchHandler.this.log.log(10000000, "[TelSIMModeSwitchHandler.SimModeSwitchStorageHandler#deserialize] usageInfo=%1", (Object)this.usageInfo);
+                    this.usageInfo[i2] = simUsageUserDecision;
+                    continue;
+                }
+                catch (ClassNotFoundException classNotFoundException) {
+                    TelSIMModeSwitchHandler.this.log.log(10000, "[TelSIMModeSwitchHandler.SimModeSwitchStorageHandler#deserialize] %1", (Throwable)classNotFoundException);
+                }
+            }
+            TelSIMModeSwitchHandler.this.log.log(10000000, "[TelSIMModeSwitchHandler.SimModeSwitchStorageHandler#deserialize] %1", (Object)Converter.array2String(this.usageInfo));
+        }
     }
 
-    static /* synthetic */ void access$1900(TelSIMModeSwitchHandler telSIMModeSwitchHandler, int n, int n2) {
-        telSIMModeSwitchHandler.checkSwitchToDataOnly(n, n2);
-    }
+    private class SimUsageHkReturnButtonListener
+    extends TelDefaultButtonListener {
+        public SimUsageHkReturnButtonListener(ITelApplication iTelApplication) {
+            super(iTelApplication, 301083);
+        }
 
-    static /* synthetic */ IGlobalTelephoneStateStruct access$2000(TelSIMModeSwitchHandler telSIMModeSwitchHandler) {
-        return telSIMModeSwitchHandler.telState;
+        public void keyTyped(int n, int n2, int n3) {
+            int n4 = TelSIMModeSwitchHandler.this.telState.getNadMode();
+            if (n4 == 1) {
+                this.log.log(1000000, "[TelSIMModeSwitchHandler.SimUsageHkReturnButtonListener#keyTyped] HK_RETURN (saving decision for NADMODE_VOICE_DATA)");
+                TelSIMModeSwitchHandler.this.addSimUsageData(1);
+                TelSIMModeSwitchHandler.this.resetShowSimModeUsageChoice();
+            } else if (n4 == 2) {
+                this.log.log(1000000, "[TelSIMModeSwitchHandler.SimUsageHkReturnButtonListener#keyTyped] HK_RETURN (saving decision for NADMODE_DATA)");
+                TelSIMModeSwitchHandler.this.addSimUsageData(2);
+                TelSIMModeSwitchHandler.this.resetShowSimModeUsageChoice();
+            }
+            this.fireEvent(n3);
+        }
     }
 }
 

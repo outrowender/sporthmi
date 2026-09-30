@@ -7,11 +7,11 @@ import de.audi.atip.hmi.model.list.EvoListRow;
 
 final class AccountListSubMenuListRow
 extends EvoListRow {
-    static final int TYPE_INBOX;
-    static final int TYPE_SENT;
-    static final int TYPE_ROOT;
-    private static final int COLUMN_COUNT;
-    private static final int CELL_IDX_TYPE;
+    static final int TYPE_INBOX = 0;
+    static final int TYPE_SENT = 1;
+    static final int TYPE_ROOT = 2;
+    private static final int COLUMN_COUNT = 1;
+    private static final int CELL_IDX_TYPE = 0;
     private final int type;
 
     AccountListSubMenuListRow(int n) {
@@ -24,7 +24,6 @@ extends EvoListRow {
         return this.type;
     }
 
-    @Override
     public EvoListRow copy() {
         return new AccountListSubMenuListRow(this.type);
     }

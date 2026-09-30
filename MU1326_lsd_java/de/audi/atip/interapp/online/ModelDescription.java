@@ -24,7 +24,7 @@ public class ModelDescription {
                 break;
             }
             default: {
-                string = new StringBuffer().append("id ").append(n).toString();
+                string = "id " + n;
             }
         }
         return string;

@@ -16,8 +16,8 @@ extends EvoListRow
 implements ADBListRow {
     private AdbEntry adbEntry;
     private int dataIndex;
-    private static final String ADDRESS_LINE_SEPARATOR_COMMA;
-    private static final String ADDRESS_LINE_SEPARATOR_SPACE;
+    private static final String ADDRESS_LINE_SEPARATOR_COMMA = ", ";
+    private static final String ADDRESS_LINE_SEPARATOR_SPACE = " ";
 
     public ADBEntryDetailsListRow(int n, AdbEntry adbEntry, int n2, PropertyListCell propertyListCell, PropertyListCell propertyListCell2) {
         super(ADBEntryDetailsListRow.getUniqueIdForDetailsRow(n, n2), 11);
@@ -63,7 +63,7 @@ implements ADBListRow {
             String string5;
             String string6 = ADBUtils.isEmpty(string) ? string2 : string;
             String string7 = string5 = ADBUtils.isEmpty(string) ? "" : string2;
-            String string8 = ADBUtils.isEmpty(string3) ? new StringBuffer().append(string6).append(ADBUtils.isEmpty(string5) ? "" : string4).append(string5).toString() : string3;
+            String string8 = ADBUtils.isEmpty(string3) ? string6 + (ADBUtils.isEmpty(string5) ? "" : string4) + string5 : string3;
             this.setInteger(0, 1);
             this.setInteger(1, 1);
             this.setInteger(2, n);
@@ -80,11 +80,11 @@ implements ADBListRow {
     }
 
     public ADBEntryDetailsListRow(AdbEntry adbEntry, int n, String string, String string2, String string3, PropertyListCell propertyListCell, PropertyListCell propertyListCell2) {
-        this(adbEntry, n, string, string2, string3, ", ", propertyListCell, propertyListCell2);
+        this(adbEntry, n, string, string2, string3, ADDRESS_LINE_SEPARATOR_COMMA, propertyListCell, propertyListCell2);
     }
 
     public ADBEntryDetailsListRow(AdbEntry adbEntry, int n, String string, String string2, String string3, boolean bl) {
-        this(adbEntry, n, string, string2, string3, bl ? " " : ", ", null, null);
+        this(adbEntry, n, string, string2, string3, bl ? ADDRESS_LINE_SEPARATOR_SPACE : ADDRESS_LINE_SEPARATOR_COMMA, null, null);
     }
 
     private ADBEntryDetailsListRow(ADBEntryDetailsListRow aDBEntryDetailsListRow) {
@@ -120,7 +120,6 @@ implements ADBListRow {
         }
     }
 
-    @Override
     public EvoListRow copy() {
         return new ADBEntryDetailsListRow(this);
     }
@@ -129,22 +128,18 @@ implements ADBListRow {
         return this.adbEntry;
     }
 
-    @Override
     public long getEntryId() {
         return this.adbEntry.entryId;
     }
 
-    @Override
     public String getCombinedName() {
         return this.adbEntry.getCombinedName();
     }
 
-    @Override
     public int getEntryType() {
         return this.adbEntry.getEntryType();
     }
 
-    @Override
     public ResourceLocator getContactPicture() {
         return this.adbEntry.getPersonalData().getContactPicture();
     }

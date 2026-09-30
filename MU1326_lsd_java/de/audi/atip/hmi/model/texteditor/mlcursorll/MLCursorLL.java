@@ -42,7 +42,7 @@ implements ICopyTo {
     }
 
     public String getString() {
-        lc.log(-2137614336, "MLCursorLL#getString");
+        lc.log(10000000, "MLCursorLL#getString");
         StringBuffer stringBuffer = new StringBuffer();
         if (this.totalSize > 0) {
             ListNode listNode = this.m_list.head.right;
@@ -57,7 +57,7 @@ implements ICopyTo {
     }
 
     public void replace(String[] stringArray) {
-        lc.log(-2137614336, "MLCursorLL#replace  replaceWith:%1", (Object)stringArray);
+        lc.log(10000000, "MLCursorLL#replace  replaceWith:%1", (Object)stringArray);
         if (this.getCurrentWord() != null) {
             this.remove();
         }
@@ -65,7 +65,7 @@ implements ICopyTo {
     }
 
     public void addChar(char c2) {
-        lc.log(-2137614336, "MLCursorLL#addChar  char:%1", c2);
+        lc.log(10000000, "MLCursorLL#addChar  char:%1", c2);
         MLCursor mLCursor = this.getValidCursor();
         InsertLeftBoundOps insertLeftBoundOps = this.m_insertLeftBoundOps;
         boolean bl = false;
@@ -131,7 +131,7 @@ implements ICopyTo {
     }
 
     public void insertWord(String[] stringArray) {
-        lc.log(-2137614336, "MLCursorLL#insertWord   word:%1", (Object)stringArray);
+        lc.log(10000000, "MLCursorLL#insertWord   word:%1", (Object)stringArray);
         if (stringArray != null && stringArray.length > 0 && stringArray[0] != null && stringArray[0].length() > 0) {
             MLCursor mLCursor = null;
             InsertLeftBoundOps insertLeftBoundOps = this.m_insertLeftBoundOps;
@@ -171,7 +171,7 @@ implements ICopyTo {
     }
 
     public void insertWordsNew(String[][] stringArray) {
-        lc.log(-2137614336, "MLCursorLL#insertWordsNew   words:%1", (Object)stringArray);
+        lc.log(10000000, "MLCursorLL#insertWordsNew   words:%1", (Object)stringArray);
         ListNode listNode = null;
         ListNode listNode2 = null;
         ListNode listNode3 = null;
@@ -221,7 +221,7 @@ implements ICopyTo {
     }
 
     public void addWord(String string) {
-        lc.log(-2137614336, "MLCursorLL#addWord   word:%1", (Object)string);
+        lc.log(10000000, "MLCursorLL#addWord   word:%1", (Object)string);
         if (string != null) {
             this.tmp[0] = string;
             this.insertWord(this.tmp);
@@ -229,12 +229,12 @@ implements ICopyTo {
     }
 
     public int getCursorMode() {
-        lc.log(-2137614336, "MLCursorLL#getCursorMode");
+        lc.log(10000000, "MLCursorLL#getCursorMode");
         return this.m_cursorWordMode;
     }
 
     public void setCursorMode(int n) {
-        lc.log(-2137614336, "MLCursorLL#setCursorMode  mode:%1", (long)n);
+        lc.log(10000000, "MLCursorLL#setCursorMode  mode:%1", (long)n);
         this.m_cursorWordMode = n;
         MLCursor mLCursor = this.getCursor();
         if (mLCursor != null) {
@@ -246,42 +246,42 @@ implements ICopyTo {
     }
 
     public String current() {
-        lc.log(-2137614336, "MLCursorLL#current");
+        lc.log(10000000, "MLCursorLL#current");
         return this.m_cursorWordMode == 1 ? this.getCurrentCharAsString() : this.getCurrentWord();
     }
 
     public boolean nextChar() {
-        lc.log(-2137614336, "MLCursorLL#nextChar");
+        lc.log(10000000, "MLCursorLL#nextChar");
         return this.next(this.nextCharOp);
     }
 
     public boolean nextWord() {
-        lc.log(-2137614336, "MLCursorLL#nextWord");
+        lc.log(10000000, "MLCursorLL#nextWord");
         return this.next(this.nextWordOp);
     }
 
     public boolean next() {
-        lc.log(-2137614336, "MLCursorLL#next");
+        lc.log(10000000, "MLCursorLL#next");
         return this.next(this.m_cursorWordMode == 0 ? this.nextWordOp : this.nextCharOp);
     }
 
     public boolean prevChar() {
-        lc.log(-2137614336, "MLCursorLL#prevChar");
+        lc.log(10000000, "MLCursorLL#prevChar");
         return this.prev(this.prevCharOp);
     }
 
     public boolean prevWord() {
-        lc.log(-2137614336, "MLCursorLL#prevWord");
+        lc.log(10000000, "MLCursorLL#prevWord");
         return this.prev(this.prevWordOp);
     }
 
     public boolean prev() {
-        lc.log(-2137614336, "MLCursorLL#prev");
+        lc.log(10000000, "MLCursorLL#prev");
         return this.prev(this.m_cursorWordMode == 0 ? this.prevWordOp : this.prevCharOp);
     }
 
     public char getCurrentChar() {
-        lc.log(-2137614336, "MLCursorLL#getCurrentChar");
+        lc.log(10000000, "MLCursorLL#getCurrentChar");
         char c2 = '\u0000';
         do {
             MLCursor mLCursor;
@@ -299,7 +299,7 @@ implements ICopyTo {
     }
 
     public String getCurrentWord() {
-        lc.log(-2137614336, "MLCursorLL#getCurrentWord");
+        lc.log(10000000, "MLCursorLL#getCurrentWord");
         String string = null;
         MLCursor mLCursor = this.getValidCursor();
         if (mLCursor != null && mLCursor.getCurrentWord()[0] != -1) {
@@ -310,7 +310,7 @@ implements ICopyTo {
     }
 
     public void remove() {
-        lc.log(-2137614336, "MLCursorLL#remove");
+        lc.log(10000000, "MLCursorLL#remove");
         if (this.m_cursorWordMode == 0) {
             this.removeWord();
         } else {
@@ -319,7 +319,7 @@ implements ICopyTo {
     }
 
     public void removeChar() {
-        lc.log(-2137614336, "MLCursorLL#removeChar");
+        lc.log(10000000, "MLCursorLL#removeChar");
         MLCursor mLCursor = this.getValidCursor();
         if (mLCursor != null && mLCursor.getCurrentChar() != -1) {
             mLCursor.removeChar();
@@ -333,7 +333,7 @@ implements ICopyTo {
     }
 
     public void removeWord() {
-        lc.log(-2137614336, "MLCursorLL#removeWord");
+        lc.log(10000000, "MLCursorLL#removeWord");
         MLCursor mLCursor = this.getValidCursor();
         if (mLCursor != null) {
             int[] nArray = mLCursor.getCurrentWord();
@@ -352,14 +352,14 @@ implements ICopyTo {
     }
 
     private void stripNode(ListNode listNode) {
-        lc.log(-2137614336, "MLCursorLL#stripNode");
+        lc.log(10000000, "MLCursorLL#stripNode");
         if (listNode != null && listNode.data != null && listNode.data.length > 1) {
             listNode.data = new ICopyTo[]{listNode.data[0]};
         }
     }
 
     public void remove(int n, int n2) {
-        lc.log(-2137614336, "MLCursorLL#remove   start:%1   end:%2", (long)n, (long)n2);
+        lc.log(10000000, "MLCursorLL#remove   start:%1   end:%2", (long)n, (long)n2);
         try {
             if (this.totalSize > 0) {
                 n = this.clampCursor(n);
@@ -426,29 +426,29 @@ implements ICopyTo {
     }
 
     protected int clampCursor(int n) {
-        lc.log(-2137614336, "MLCursorLL#clampCursor   value:%1", (long)n);
+        lc.log(10000000, "MLCursorLL#clampCursor   value:%1", (long)n);
         int n2 = n < 0 ? 0 : n;
         n2 = n2 > this.totalSize ? this.totalSize : n2;
         return n2;
     }
 
     public int getSize() {
-        lc.log(-2137614336, "MLCursorLL#getSize");
+        lc.log(10000000, "MLCursorLL#getSize");
         return this.totalSize;
     }
 
     public static int clamp(int n, int n2, int n3) {
-        lc.log(-2137614336, "MLCursorLL#clamp   value1:%1   value2:%2   value3:%3", (long)n, (long)n2, (long)n3);
+        lc.log(10000000, "MLCursorLL#clamp   value1:%1   value2:%2   value3:%3", (long)n, (long)n2, (long)n3);
         return Math.min(Math.max(n, n3), n2);
     }
 
     public int getCursorPos() {
-        lc.log(-2137614336, "MLCursorLL#getCursorPos");
+        lc.log(10000000, "MLCursorLL#getCursorPos");
         return this.m_cursorPos;
     }
 
     public void setCursorPos(int n) {
-        lc.log(-2137614336, "MLCursorLL#setCursorPos   position:%1", (long)n);
+        lc.log(10000000, "MLCursorLL#setCursorPos   position:%1", (long)n);
         int n2 = 0;
         int n3 = 0;
         this.m_cursorPos = MLCursorLL.clamp(0, this.totalSize, n);
@@ -466,7 +466,7 @@ implements ICopyTo {
     }
 
     public void clear() {
-        lc.log(-2137614336, "MLCursorLL#clear");
+        lc.log(10000000, "MLCursorLL#clear");
         this.m_list.clear();
         this.totalSize = 0;
         this.m_cursorPos = 0;
@@ -474,7 +474,7 @@ implements ICopyTo {
 
     public String[] getAlternatives() {
         int n;
-        lc.log(-2137614336, "MLCursorLL#getAlternatives");
+        lc.log(10000000, "MLCursorLL#getAlternatives");
         String[] stringArray = null;
         if (this.m_list.getSize() > 0 && this.m_list.current != this.m_list.head && this.m_list.current != this.m_list.tail && (n = this.m_list.current.data.length) > 0) {
             stringArray = new String[n];
@@ -494,7 +494,7 @@ implements ICopyTo {
     }
 
     public boolean selectAlternative(int n) {
-        lc.log(-2137614336, "MLCursorLL#selectAlternative");
+        lc.log(10000000, "MLCursorLL#selectAlternative");
         boolean bl = false;
         if (n > -1 && n < this.m_list.current.data.length && this.m_list.current.data.length > 1) {
             String string = n == 0 ? ((MLCursor)this.m_list.current.data[0]).getString() : this.m_list.current.data[n].toString();
@@ -513,7 +513,7 @@ implements ICopyTo {
     }
 
     public StringBuffer print2SB(StringBuffer stringBuffer) {
-        lc.log(-2137614336, "MLCursorLL#print2SB   buffer:%1", (Object)stringBuffer);
+        lc.log(10000000, "MLCursorLL#print2SB   buffer:%1", (Object)stringBuffer);
         if (stringBuffer != null) {
             ListNode listNode = this.m_list.head;
             while (listNode != null) {
@@ -542,19 +542,18 @@ implements ICopyTo {
                 }
                 listNode = listNode.right;
             }
-            stringBuffer.append(new StringBuffer().append("\n<size ").append(this.getSize()).append(" , cPos ").append(this.getCursorPos()).append(" ,listSize ").append(this.m_list.getSize()).append(", cursorMode ").append(MLCursor.valueToString(this.m_cursorWordMode, MLCursor.CURSOR_MODE_TO_STRING)).append(">\n").toString());
+            stringBuffer.append("\n<size " + this.getSize() + " , cPos " + this.getCursorPos() + " ,listSize " + this.m_list.getSize() + ", cursorMode " + MLCursor.valueToString(this.m_cursorWordMode, MLCursor.CURSOR_MODE_TO_STRING) + ">\n");
         }
         return stringBuffer;
     }
 
     public String toString() {
-        lc.log(-2137614336, "MLCursorLL#toString");
+        lc.log(10000000, "MLCursorLL#toString");
         return this.print2SB(new StringBuffer()).toString();
     }
 
-    @Override
     public boolean copyTo(ICopyTo iCopyTo) {
-        lc.log(-2137614336, "MLCursorLL#copyTo");
+        lc.log(10000000, "MLCursorLL#copyTo");
         if (!(iCopyTo instanceof MLCursorLL)) {
             return false;
         }
@@ -573,7 +572,7 @@ implements ICopyTo {
 
     public String checkListValidity() {
         String string;
-        lc.log(-2137614336, "MLCursorLL#checkListValidity");
+        lc.log(10000000, "MLCursorLL#checkListValidity");
         String string2 = string = this.m_list != null && this.m_list.current != null && this.m_list.head != this.m_list.tail && this.m_list.head != null && this.m_list.head.right != null && this.m_list.head.right.left == this.m_list.head && this.m_list.tail != null && this.m_list.tail.left != null && this.m_list.tail.left.right == this.m_list.tail ? null : "Entry Check Failed";
         if (string == null) {
             boolean bl;
@@ -584,12 +583,12 @@ implements ICopyTo {
             while (listNode != this.m_list.tail) {
                 ++n2;
                 if (listNode == null || listNode.data == null || listNode.data.length == 0 || listNode.left == listNode.right || listNode.left == null || listNode.left.right != listNode || listNode.right == null || listNode.right.left != listNode) {
-                    string = new StringBuffer().append("L2RCheck:: idx= ").append(n2).append(" node check failed").toString();
+                    string = "L2RCheck:: idx= " + n2 + " node check failed";
                     break;
                 }
                 boolean bl3 = bl = bl || listNode == this.m_list.current;
                 if (n2 > n) {
-                    string = new StringBuffer().append("L2RCheck:: listSize ").append(n).append(" currentListSize>listSize check failed").toString();
+                    string = "L2RCheck:: listSize " + n + " currentListSize>listSize check failed";
                     break;
                 }
                 listNode = listNode.right;
@@ -598,7 +597,7 @@ implements ICopyTo {
                 string = "L2RCheck:: haven't found current node in between list nodes ";
             }
             if (n2 != n && string == null) {
-                string = new StringBuffer().append("L2RCheck:: listSize ").append(n).append(" currentListSize>listSize check failed").toString();
+                string = "L2RCheck:: listSize " + n + " currentListSize>listSize check failed";
             }
             if (string == null) {
                 listNode = this.m_list.tail.left;
@@ -606,17 +605,17 @@ implements ICopyTo {
                 while (listNode != this.m_list.head) {
                     ++n2;
                     if (listNode == null || listNode.data == null || listNode.data.length == 0 || listNode.left == listNode.right || listNode.left == null || listNode.left.right != listNode || listNode.right == null || listNode.right.left != listNode) {
-                        string = new StringBuffer().append("R2LCheck:: idx= ").append(n2).append(" node check failed").toString();
+                        string = "R2LCheck:: idx= " + n2 + " node check failed";
                         break;
                     }
                     if (n2 > n) {
-                        string = new StringBuffer().append("R2LCheck:: listSize ").append(n).append(" currentListSize>listSize check failed").toString();
+                        string = "R2LCheck:: listSize " + n + " currentListSize>listSize check failed";
                         break;
                     }
                     listNode = listNode.left;
                 }
                 if (n2 != n && string == null) {
-                    string = new StringBuffer().append("R2LCheck:: listSize ").append(n).append(" currentListSize>listSize check failed").toString();
+                    string = "R2LCheck:: listSize " + n + " currentListSize>listSize check failed";
                 }
             }
         }
@@ -624,13 +623,13 @@ implements ICopyTo {
     }
 
     public MLCursor getCursor() {
-        lc.log(-2137614336, "MLCursorLL#getCursor");
+        lc.log(10000000, "MLCursorLL#getCursor");
         ICopyTo[] iCopyToArray = this.m_list.getCNode().data;
         return iCopyToArray != null ? (MLCursor)iCopyToArray[0] : null;
     }
 
     private boolean next(Op op) {
-        lc.log(-2137614336, "MLCursorLL#next");
+        lc.log(10000000, "MLCursorLL#next");
         boolean bl = false;
         MLCursor mLCursor = this.getCursor();
         if (mLCursor != null) {
@@ -683,7 +682,7 @@ implements ICopyTo {
 
     private boolean prev(Op op) {
         MLCursor mLCursor;
-        lc.log(-2137614336, "MLCursorLL#prev");
+        lc.log(10000000, "MLCursorLL#prev");
         boolean bl = false;
         MLCursor mLCursor2 = this.getCursor();
         if (mLCursor2 != null) {
@@ -727,7 +726,7 @@ implements ICopyTo {
     }
 
     private boolean split(ListNode listNode, ListNode listNode2) {
-        lc.log(-2137614336, "MLCursorLL#split(ListNode,ListNode)");
+        lc.log(10000000, "MLCursorLL#split(ListNode,ListNode)");
         boolean bl = true;
         if (listNode != null && listNode2 != null && this.m_list != null && this.m_list.current != null) {
             MLCursor mLCursor = this.getValidCursor();
@@ -746,7 +745,7 @@ implements ICopyTo {
                     mLCursor.setCursorPos(mLCursor.getLength());
                 }
             } else {
-                lc.log(-2137614336, "MLCursorLL#split(ListNode,ListNode) cursor not null");
+                lc.log(10000000, "MLCursorLL#split(ListNode,ListNode) cursor not null");
                 bl = false;
             }
         }
@@ -756,7 +755,7 @@ implements ICopyTo {
     private ListNode[] split(ListNode listNode) {
         MLCursor mLCursor;
         boolean bl;
-        lc.log(-2137614336, "MLCursorLL#split(ListNode)");
+        lc.log(10000000, "MLCursorLL#split(ListNode)");
         ListNode[] listNodeArray = null;
         boolean bl2 = listNode != null && listNode != this.m_list.head && listNode != this.m_list.tail;
         boolean bl3 = bl = bl2 && listNode.data != null && listNode.data.length > 0 && listNode.data[0] instanceof MLCursor;
@@ -783,7 +782,7 @@ implements ICopyTo {
     }
 
     private boolean split(String[] stringArray) {
-        lc.log(-2137614336, "MLCursorLL#split(String[])   words:%1", (Object)stringArray);
+        lc.log(10000000, "MLCursorLL#split(String[])   words:%1", (Object)stringArray);
         boolean bl = true;
         MLCursor mLCursor = this.getValidCursor();
         if (mLCursor != null) {
@@ -818,7 +817,7 @@ implements ICopyTo {
 
     private MLCursor getCursor(ListNode listNode) {
         MLCursor mLCursor;
-        lc.log(-2137614336, "MLCursorLL#getCursor");
+        lc.log(10000000, "MLCursorLL#getCursor");
         MLCursor mLCursor2 = mLCursor = listNode != null && listNode.data != null ? (MLCursor)listNode.data[0] : null;
         if (mLCursor != null) {
             mLCursor.setCursorMode(this.m_cursorWordMode);
@@ -828,7 +827,7 @@ implements ICopyTo {
 
     private MLCursor getValidCursor() {
         MLCursor mLCursor;
-        lc.log(-2137614336, "MLCursorLL#getValidCursor");
+        lc.log(10000000, "MLCursorLL#getValidCursor");
         ListNode listNode = this.m_list.current;
         if (listNode == null) {
             return null;
@@ -853,7 +852,7 @@ implements ICopyTo {
     }
 
     public String getCurrentCharAsString() {
-        lc.log(-2137614336, "MLCursorLL#getCurrentCharAsString");
+        lc.log(10000000, "MLCursorLL#getCurrentCharAsString");
         String string = null;
         do {
             MLCursor mLCursor;
@@ -867,13 +866,13 @@ implements ICopyTo {
     }
 
     private boolean canDisposeBasedOnData(ICopyTo[] iCopyToArray) {
-        lc.log(-2137614336, "MLCursorLL#canDisposeBasedOnData");
+        lc.log(10000000, "MLCursorLL#canDisposeBasedOnData");
         return iCopyToArray == null || iCopyToArray.length < 1 || iCopyToArray[0] instanceof MLCursor && ((MLCursor)iCopyToArray[0]).getLength() < 1;
     }
 
     private boolean shouldMergeBasedOnData(ICopyTo[] iCopyToArray, ICopyTo[] iCopyToArray2) {
         boolean bl;
-        lc.log(-2137614336, "MLCursorLL#shouldMergeBasedOnData");
+        lc.log(10000000, "MLCursorLL#shouldMergeBasedOnData");
         boolean bl2 = bl = !this.canDisposeBasedOnData(iCopyToArray) && !this.canDisposeBasedOnData(iCopyToArray2);
         if (bl) {
             boolean bl3 = bl = iCopyToArray.length == 1 && iCopyToArray2.length == 1;
@@ -889,7 +888,7 @@ implements ICopyTo {
     }
 
     private boolean canNodeBeDisposed(ListNode listNode) {
-        lc.log(-2137614336, "MLCursorLL#canNodeBeDisposed");
+        lc.log(10000000, "MLCursorLL#canNodeBeDisposed");
         boolean bl = listNode != null;
         boolean bl2 = bl && listNode != this.m_list.head;
         boolean bl3 = bl2 && listNode != this.m_list.tail;
@@ -899,7 +898,7 @@ implements ICopyTo {
     }
 
     private boolean canNodeBeMerged(ListNode listNode) {
-        lc.log(-2137614336, "MLCursorLL#canNodeBeMerged");
+        lc.log(10000000, "MLCursorLL#canNodeBeMerged");
         boolean bl = listNode != null;
         boolean bl2 = bl && listNode != this.m_list.head;
         boolean bl3 = bl2 && listNode != this.m_list.tail;
@@ -909,12 +908,12 @@ implements ICopyTo {
     }
 
     private MLCursor getMainWord(ICopyTo[] iCopyToArray) {
-        lc.log(-2137614336, "MLCursorLL#getMainWord");
+        lc.log(10000000, "MLCursorLL#getMainWord");
         return iCopyToArray == null || iCopyToArray.length == 0 || !(iCopyToArray[0] instanceof MLCursor) ? new MLCursor() : (MLCursor)iCopyToArray[0];
     }
 
     private MLCursor mergeLeftMLCursors(MLCursor mLCursor, MLCursor mLCursor2) {
-        lc.log(-2137614336, "MLCursorLL#mergeLeftMLCursors");
+        lc.log(10000000, "MLCursorLL#mergeLeftMLCursors");
         int n = MLCursorLL.clamp(0, mLCursor.getLength(), mLCursor.getCursorPos());
         int n2 = mLCursor2.getLength() + n;
         mLCursor2.setCursorPos(mLCursor2.getLength());
@@ -925,7 +924,7 @@ implements ICopyTo {
 
     private boolean mergeWithLeftNode(ListNode listNode) {
         boolean bl;
-        lc.log(-2137614336, "MLCursorLL#mergeWithLeftNode");
+        lc.log(10000000, "MLCursorLL#mergeWithLeftNode");
         boolean bl2 = bl = this.canNodeBeMerged(listNode) && this.canNodeBeMerged(listNode.left) && this.shouldMergeBasedOnData(listNode.left.data, listNode.data);
         if (bl) {
             MLCursor mLCursor = this.getMainWord(listNode.data);
@@ -939,7 +938,7 @@ implements ICopyTo {
 
     private boolean mergeWithLeftNode() {
         boolean bl;
-        lc.log(-2137614336, "MLCursorLL#mergeWithLeftNode");
+        lc.log(10000000, "MLCursorLL#mergeWithLeftNode");
         ListNode listNode = this.m_list.current;
         boolean bl2 = bl = this.canNodeBeMerged(listNode) && this.canNodeBeMerged(listNode.left) && this.shouldMergeBasedOnData(listNode.left.data, listNode.data);
         if (bl) {
@@ -953,7 +952,7 @@ implements ICopyTo {
     }
 
     private MLCursor mergeRightMLCursors(MLCursor mLCursor, MLCursor mLCursor2) {
-        lc.log(-2137614336, "MLCursorLL#mergeRightMLCursors");
+        lc.log(10000000, "MLCursorLL#mergeRightMLCursors");
         int n = MLCursorLL.clamp(0, mLCursor.getLength(), mLCursor.getCursorPos());
         mLCursor.setCursorPos(mLCursor.getLength());
         mLCursor.addWord(mLCursor2.getString());
@@ -963,7 +962,7 @@ implements ICopyTo {
 
     private boolean mergeWithRightNode(ListNode listNode) {
         boolean bl;
-        lc.log(-2137614336, "MLCursorLL#mergeWithRightNode");
+        lc.log(10000000, "MLCursorLL#mergeWithRightNode");
         boolean bl2 = bl = this.canNodeBeMerged(listNode) && this.canNodeBeMerged(listNode.right) && this.shouldMergeBasedOnData(listNode.data, listNode.right.data);
         if (bl) {
             MLCursor mLCursor = this.getMainWord(listNode.data);
@@ -977,7 +976,7 @@ implements ICopyTo {
 
     private boolean mergeWithRightNode() {
         boolean bl;
-        lc.log(-2137614336, "MLCursorLL#mergeWithRightNode");
+        lc.log(10000000, "MLCursorLL#mergeWithRightNode");
         ListNode listNode = this.m_list.current;
         boolean bl2 = bl = this.canNodeBeMerged(listNode) && this.canNodeBeMerged(listNode.right) && this.shouldMergeBasedOnData(listNode.data, listNode.right.data);
         if (bl) {
@@ -991,7 +990,7 @@ implements ICopyTo {
     }
 
     private boolean mergeNodes(ListNode listNode) {
-        lc.log(-2137614336, "MLCursorLL#mergeNodes");
+        lc.log(10000000, "MLCursorLL#mergeNodes");
         boolean bl = this.canNodeBeDisposed(listNode);
         if (bl) {
             this.m_list.removeLeft(listNode);
@@ -1006,7 +1005,7 @@ implements ICopyTo {
     }
 
     private boolean mergeNodes() {
-        lc.log(-2137614336, "MLCursorLL#mergeNodes");
+        lc.log(10000000, "MLCursorLL#mergeNodes");
         boolean bl = this.canNodeBeDisposed(this.m_list.current);
         if (bl) {
             this.m_list.removeCurrLeft();

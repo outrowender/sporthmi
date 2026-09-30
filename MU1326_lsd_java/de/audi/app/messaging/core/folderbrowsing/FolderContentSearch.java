@@ -7,13 +7,14 @@ import de.audi.app.messaging.core.application.AbstractMsgApplication;
 import de.audi.app.messaging.core.component.IMessagingComponent;
 import de.audi.app.messaging.core.component.MessagingComponentCollection;
 import de.audi.app.messaging.core.folderbrowsing.EntryList;
-import de.audi.app.messaging.core.folderbrowsing.FolderContentSearch$CoreActionProxy;
-import de.audi.app.messaging.core.folderbrowsing.FolderContentSearch$FolderNavigatorObserver;
+import de.audi.app.messaging.core.folderbrowsing.Folder;
 import de.audi.app.messaging.core.folderbrowsing.FolderContentSearchListRow;
 import de.audi.app.messaging.core.folderbrowsing.FolderContentSearchResultFormatter;
 import de.audi.app.messaging.core.folderbrowsing.IEntryPropertyFactory;
-import de.audi.app.messaging.core.folderbrowsing.IEntryPropertyFactory$NullFactory;
 import de.audi.app.messaging.core.folderbrowsing.IFolderContentSearchObserver;
+import de.audi.app.messaging.core.folderbrowsing.IFolderNavigatorObserver;
+import de.audi.app.messaging.core.guide.DefaultCoreActionProxy;
+import de.audi.app.messaging.core.guide.IActionProxySubscriber;
 import de.audi.app.messaging.core.osgi.IServiceRegistry;
 import de.audi.app.messaging.core.osgi.MessagingBundleContext;
 import de.audi.app.messaging.core.search.MessagingSearch;
@@ -27,7 +28,6 @@ import de.audi.atip.hmi.model.menu.MenuModelApp;
 import de.audi.atip.hmi.model.menu.focus.FocusAdvice;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.search.AbstractGuiSearchHandler;
-import de.audi.atip.search.AbstractSearch;
 import de.audi.atip.search.util.SearchResultListRow;
 import de.audi.atip.util.Util;
 import java.util.Collection;
@@ -46,23 +46,21 @@ implements IMessagingComponent {
     private static final Map SEARCH_FILTERS = new HashMap(1, 1.0f);
     private final IFrameworkAccess framework;
     protected final LogChannel log;
-    private volatile IEntryPropertyFactory entryPropertyFactory = new IEntryPropertyFactory$NullFactory();
+    private volatile IEntryPropertyFactory entryPropertyFactory = new IEntryPropertyFactory.NullFactory();
     private final MessagingComponentCollection subcomponents = new MessagingComponentCollection();
     private volatile AbstractMsgApplication msgApp;
     private final Collection folderContentSearchObservers = new LinkedList();
 
     public FolderContentSearch(MessagingBundleContext messagingBundleContext, MessagingSearch messagingSearch) {
-        super(new int[]{8}, messagingBundleContext.getFramework().getHmiServiceApp().getBaseListModel(-208527104), messagingBundleContext.getFramework().getHmiServiceApp().getSpellerModel(-1399643904), messagingBundleContext.getFramework().getHmiServiceApp().getChoiceModel(-225304320), messagingBundleContext.getFramework().getLogChannel("App.Messaging.Search"), messagingSearch);
+        super(new int[]{8}, messagingBundleContext.getFramework().getHmiServiceApp().getBaseListModel(2200307), messagingBundleContext.getFramework().getHmiServiceApp().getSpellerModel(2200492), messagingBundleContext.getFramework().getHmiServiceApp().getChoiceModel(2200306), messagingBundleContext.getFramework().getLogChannel("App.Messaging.Search"), messagingSearch);
         this.framework = messagingBundleContext.getFramework();
         this.log = this.framework.getLogChannel("App.Messaging.Main");
     }
 
-    @Override
     public void addComponent(IMessagingComponent iMessagingComponent) {
         throw new UnsupportedOperationException();
     }
 
-    @Override
     public void init(AbstractMsgApplication abstractMsgApplication) {
         this.msgApp = abstractMsgApplication;
         this.subcomponents.initAll(abstractMsgApplication);
@@ -73,32 +71,29 @@ implements IMessagingComponent {
         entryList.registerForModelGroup(this.mdlListSearchResults);
         entryList.registerForModelGroup(this.mdlSpellerSearchText);
         entryList.registerForModelGroup(this.mdlChoiceSearchIsActive);
-        entryList.registerForModelGroup(iHMIServiceApp.getChoiceModel(-191749888));
-        entryList.registerForModelGroup(iHMIServiceApp.getChoiceModel(-174972672));
-        abstractMsgApplication.getFolderNavigator().addObserver(new FolderContentSearch$FolderNavigatorObserver(this, null));
-        abstractMsgApplication.getActionProxyService().addSubscriber(new FolderContentSearch$CoreActionProxy(this, null));
+        entryList.registerForModelGroup(iHMIServiceApp.getChoiceModel(2200308));
+        entryList.registerForModelGroup(iHMIServiceApp.getChoiceModel(2200309));
+        abstractMsgApplication.getFolderNavigator().addObserver(new FolderNavigatorObserver());
+        abstractMsgApplication.getActionProxyService().addSubscriber(new CoreActionProxy());
     }
 
-    @Override
     public void dispose() {
         this.subcomponents.disposeAll();
     }
 
-    @Override
     public void connect(IServiceRegistry iServiceRegistry) {
     }
 
-    @Override
     public void disconnect() {
     }
 
     public void addObserver(IFolderContentSearchObserver iFolderContentSearchObserver) {
-        this.log.log(-2137614336, "[FolderContentSearch#addObserver] observer = %1", (Object)iFolderContentSearchObserver);
+        this.log.log(10000000, "[FolderContentSearch#addObserver] observer = %1", (Object)iFolderContentSearchObserver);
         this.folderContentSearchObservers.add(iFolderContentSearchObserver);
     }
 
     public void setEntryPropertyFactory(IEntryPropertyFactory iEntryPropertyFactory) {
-        this.log.log(-2137614336, "[FolderContentSearch#setEntryPropertyFactory] entryPropertyFactory = %1", (Object)iEntryPropertyFactory);
+        this.log.log(10000000, "[FolderContentSearch#setEntryPropertyFactory] entryPropertyFactory = %1", (Object)iEntryPropertyFactory);
         this.entryPropertyFactory = iEntryPropertyFactory;
         this.configureSearchResultFormatting();
     }
@@ -108,10 +103,10 @@ implements IMessagingComponent {
     }
 
     public void selectListItem(int n, int n2) {
-        this.log.log(-2137614336, "[RecipientSearch#selectListItem] index = %1, terminalId = %2", (long)n, (long)n2);
+        this.log.log(10000000, "[RecipientSearch#selectListItem] index = %1, terminalId = %2", (long)n, (long)n2);
         EvoListRow evoListRow = this.mdlListSearchResults.getRow(n);
         this.itemSelected(evoListRow, this.mdlListSearchResults.getID(), 0, 0, n2);
-        MenuModelApp menuModelApp = this.framework.getHmiServiceApp().getMenuModel(1217536256);
+        MenuModelApp menuModelApp = this.framework.getHmiServiceApp().getMenuModel(2200136);
         menuModelApp.setFocusedItem(this.mdlListSearchResults.getID(), FocusAdvice.KEEP_POSITION, evoListRow.getUniqueID());
     }
 
@@ -123,21 +118,21 @@ implements IMessagingComponent {
 
     private void setFocusedItem(FolderContentSearchListRow folderContentSearchListRow) {
         ListEntry listEntry;
-        this.log.log(-2137614336, "[FolderContentSearch#setFocusedItem] row = %1", (Object)folderContentSearchListRow);
+        this.log.log(10000000, "[FolderContentSearch#setFocusedItem] row = %1", (Object)folderContentSearchListRow);
         if (folderContentSearchListRow != null && ListEntries.isMessage(listEntry = folderContentSearchListRow.getListEntry())) {
             this.msgApp.getMessageOptionsManager().setFocusedMessageListEntry(listEntry.getMessageListEntry());
         }
     }
 
     public void clear() {
-        this.log.log(-2137614336, "[FolderContentSearch#clear]");
+        this.log.log(10000000, "[FolderContentSearch#clear]");
         this.clearModels();
         this.mdlSpellerSearchText.clear();
         this.textChanged(this.mdlSpellerSearchText.getID(), "", '\u0000', 0);
     }
 
     private void emitSearchResultSelected(SearchResultListRow searchResultListRow) {
-        this.log.log(-2137614336, "[FolderContentSearch#emitSearchResultSelected]");
+        this.log.log(10000000, "[FolderContentSearch#emitSearchResultSelected]");
         Iterator iterator = this.folderContentSearchObservers.iterator();
         while (iterator.hasNext()) {
             try {
@@ -149,43 +144,37 @@ implements IMessagingComponent {
         }
     }
 
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.log.log(1078071040, "[FolderContentSearch#itemFocused] row = %1", (Object)evoListRow);
+        this.log.log(1000000, "[FolderContentSearch#itemFocused] row = %1", (Object)evoListRow);
         this.setFocusedItem((FolderContentSearchListRow)evoListRow);
     }
 
-    @Override
     public void searchResultSelected(SearchResultListRow searchResultListRow, int n, int n2) {
         ListEntry listEntry = ((FolderContentSearchListRow)searchResultListRow).getListEntry();
-        this.log.log(1078071040, "[FolderContentSearch#searchResultSelected] listEntry = %1", (Object)listEntry);
+        this.log.log(1000000, "[FolderContentSearch#searchResultSelected] listEntry = %1", (Object)listEntry);
         this.setFocusedItem((FolderContentSearchListRow)searchResultListRow);
         this.msgApp.getSelectedMessage().requestSetMessage(listEntry.getMessageListEntry(), 0, null);
         this.mdlListSearchResults.fireEvent(n);
         this.emitSearchResultSelected(searchResultListRow);
     }
 
-    @Override
     public void childNodeSelected(EvoListRow evoListRow, int n, int n2) {
     }
 
-    @Override
     public void requestChildrenNodes(SearchResultListRow searchResultListRow, int n) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.log.log(1078071040, "[FolderContentSearch#keyTyped]");
+        this.log.log(1000000, "[FolderContentSearch#keyTyped]");
         super.keyTyped(n, n2, n3);
         if (this.getListLength() == 1) {
-            this.log.log(-2137614336, "[FolderContentSearch#keyTyped] Autoselecting the only search result.");
+            this.log.log(10000000, "[FolderContentSearch#keyTyped] Autoselecting the only search result.");
             this.selectListItem(0, n3);
         }
     }
 
-    @Override
     public void textChanged(int n, String string, char c2, int n2) {
-        this.log.log(1078071040, "[FolderContentSearch#textChanged] text = %1", (Object)string);
+        this.log.log(1000000, "[FolderContentSearch#textChanged] text = %1", (Object)string);
         boolean bl = Strings.isNullOrEmpty(string);
         if (!bl) {
             super.textChanged(n, string, c2, n2);
@@ -194,38 +183,51 @@ implements IMessagingComponent {
             this.clearModels();
         }
         int n3 = bl ? 0 : 1;
-        this.framework.getHmiServiceApp().getChoiceModel(-174972672).setValue(n3);
+        this.framework.getHmiServiceApp().getChoiceModel(2200309).setValue(n3);
     }
 
-    @Override
     public SearchResultListRow getFormattedRow(SearchResult searchResult) {
-        this.log.log(1078071040, "[FolderContentSearch#getFormattedRow] resultRow = %1", (Object)searchResult);
+        this.log.log(1000000, "[FolderContentSearch#getFormattedRow] resultRow = %1", (Object)searchResult);
         return super.getFormattedRow(searchResult);
     }
 
-    @Override
     public void refreshQuery() {
         boolean bl = this.mdlSpellerSearchText == null || Strings.isNullOrEmpty(this.mdlSpellerSearchText.getText());
-        this.log.log(1078071040, "[FolderContentSearch#refreshQuery] isEmptyQuery = %1", bl);
+        this.log.log(1000000, "[FolderContentSearch#refreshQuery] isEmptyQuery = %1", bl);
         if (!bl) {
             super.refreshQuery();
         }
     }
 
-    static /* synthetic */ IFrameworkAccess access$200(FolderContentSearch folderContentSearch) {
-        return folderContentSearch.framework;
-    }
-
-    static /* synthetic */ Map access$300() {
-        return SEARCH_FILTERS;
-    }
-
-    static /* synthetic */ AbstractSearch access$400(FolderContentSearch folderContentSearch) {
-        return folderContentSearch.appSearch;
-    }
-
     static {
         SEARCH_FILTERS.put(Util.createInteger(8), FOLDER_CONTENT_SEARCH_FILTER);
+    }
+
+    private final class CoreActionProxy
+    extends DefaultCoreActionProxy
+    implements IActionProxySubscriber {
+        private CoreActionProxy() {
+        }
+
+        public void searchableViewTransition(int n, int n2, int n3) {
+            FolderContentSearch.this.log.log(10000000, "[FolderContentSearch#searchableViewTransition]");
+            if (n3 == 0 && n2 == 0) {
+                ((MessagingSearch)FolderContentSearch.this.appSearch).switchConfiguration(FolderContentSearch.this, SEARCH_FILTERS);
+            }
+        }
+    }
+
+    private final class FolderNavigatorObserver
+    extends IFolderNavigatorObserver.EmptyImplementation {
+        private FolderNavigatorObserver() {
+        }
+
+        public void updateCurrentFolder(Folder folder) {
+            FolderContentSearch.this.log.log(10000000, "[FolderContentSearch#updateCurrentFolder] currentFolder = %1", (Object)folder);
+            int n = folder.getLevel() > 0 ? 1 : 0;
+            FolderContentSearch.this.framework.getHmiServiceApp().getChoiceModel(2200308).setValue(n);
+            FolderContentSearch.this.clear();
+        }
     }
 }
 

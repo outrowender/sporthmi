@@ -47,7 +47,7 @@ implements I18NTarget {
     }
 
     public void updateMenuLanguage(int n) {
-        this.lc.log(1078071040, "updateMenuLanguage: '%1'", (long)n);
+        this.lc.log(1000000, "updateMenuLanguage: '%1'", (long)n);
         if (!this.updateMenuLanguageAlreadyReceived) {
             this.updateMenuLanguageAlreadyReceived = true;
             String string = null;
@@ -55,11 +55,11 @@ implements I18NTarget {
                 string = (String)this.dsiLanguageCodeMapping.getKey(new Integer(n));
             }
             catch (IndexOutOfBoundsException indexOutOfBoundsException) {
-                this.lc.log(1078071040, "updateMenuLanguage: mapping to HMI language (%1) not found", (long)n);
+                this.lc.log(1000000, "updateMenuLanguage: mapping to HMI language (%1) not found", (long)n);
             }
             String string2 = this.env.getFw().getLanguageMgr().getCurrentLanguage("LANG_COMPONENT_HMI").getLanguageCode();
             if (string == null || !string.equals(string2)) {
-                this.lc.log(1078071040, "updateMenuLanguage: Combi language (%2) differs from HMI language (%1)", (Object)string2, (long)n);
+                this.lc.log(1000000, "updateMenuLanguage: Combi language (%2) differs from HMI language (%1)", (Object)string2, (long)n);
                 this.setDSICarTimeUnitsLanguageLanguage(string2);
             }
         }
@@ -73,11 +73,10 @@ implements I18NTarget {
         catch (IndexOutOfBoundsException indexOutOfBoundsException) {
             this.lc.log(10000, "setDSICarTimeUnitsLanguageLanguage(%1): set to default language because of missing mapping.", (Object)string);
         }
-        this.lc.log(1078071040, "dsi.setMenuLanguage(%1)", (long)n);
+        this.lc.log(1000000, "dsi.setMenuLanguage(%1)", (long)n);
         this.env.getDSIManager().getDSI().setMenuLanguage(n);
     }
 
-    @Override
     public void setLanguage(Language language) {
         this.setDSICarTimeUnitsLanguageLanguage(language.getLanguageCode());
     }

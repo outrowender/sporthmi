@@ -15,9 +15,8 @@ extends AbstractEngineeringDeviceInfoManager {
         super(swdlEnv, abstractPopupManager, swdlDSIHandlerDeviceInfo, swdlDSIHandlerSelection);
     }
 
-    @Override
     protected void showSummaryChanged(int n) {
-        this.getHMIService().showPopup(-1309665024, n);
+        this.getHMIService().showPopup(1700017, n);
     }
 }
 

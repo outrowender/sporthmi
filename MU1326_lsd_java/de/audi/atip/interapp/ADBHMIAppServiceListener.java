@@ -6,10 +6,8 @@ package de.audi.atip.interapp;
 import org.dsi.ifc.organizer.AdbEntry;
 
 public interface ADBHMIAppServiceListener {
-    default public void responseParseVCards(int n, AdbEntry[] adbEntryArray) {
-    }
+    public void responseParseVCards(int var1, AdbEntry[] var2);
 
-    default public void responseInsertEntry(int n) {
-    }
+    public void responseInsertEntry(int var1);
 }
 

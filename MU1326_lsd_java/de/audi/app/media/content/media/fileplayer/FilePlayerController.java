@@ -3,17 +3,17 @@
  */
 package de.audi.app.media.content.media.fileplayer;
 
+import de.audi.app.media.AbstractDispatcherRunnable;
 import de.audi.app.media.audio.IAudioManager;
 import de.audi.app.media.content.IContent;
 import de.audi.app.media.content.IContentListener;
 import de.audi.app.media.content.IContentManager;
 import de.audi.app.media.content.media.fileplayer.AbstractFilePlayerControllerJob;
 import de.audi.app.media.content.media.fileplayer.DiagFilePlayerSession;
-import de.audi.app.media.content.media.fileplayer.FilePlayerController$1;
-import de.audi.app.media.content.media.fileplayer.FilePlayerController$2;
-import de.audi.app.media.content.media.fileplayer.FilePlayerController$3;
 import de.audi.app.media.content.media.fileplayer.FilePlayerSession;
 import de.audi.app.media.content.media.fileplayer.IFilePlayerController;
+import de.audi.app.media.content.media.fileplayer.JobSessionClose;
+import de.audi.app.media.content.media.fileplayer.JobSessionOpen;
 import de.audi.app.media.content.media.fileplayer.content.FilePlayerContent;
 import de.audi.app.media.content.media.fileplayer.content.IFilePlayerListener;
 import de.audi.app.media.diagnosis.IDiagnosisCommandProvider;
@@ -42,15 +42,15 @@ IContentListener,
 IFilePlayerController,
 IFilePlayerListener,
 IDiagnosisCommandProvider {
-    private static final String LOGCLASS;
-    private static final String DIAG_CLOSE_SESSION;
-    private static final String DIAG_OPEN_SESSION;
-    private static final String DIAG_PLAY_SESSION;
-    private static final String DIAG_RESUME_SESSION;
-    private static final String DIAG_PAUSE_SESSION;
-    private static final String DIAG_STOP_SESSION;
-    private static final String DIAG_VIDEO_SESSION;
-    private static final String DIAG_SEEK_SESSION;
+    private static final String LOGCLASS = "FilePlayerController";
+    private static final String DIAG_CLOSE_SESSION = "FilePlayer.close";
+    private static final String DIAG_OPEN_SESSION = "FilePlayer.open";
+    private static final String DIAG_PLAY_SESSION = "FilePlayer.playURL";
+    private static final String DIAG_RESUME_SESSION = "FilePlayer.resume";
+    private static final String DIAG_PAUSE_SESSION = "FilePlayer.pause";
+    private static final String DIAG_STOP_SESSION = "FilePlayer.stop";
+    private static final String DIAG_VIDEO_SESSION = "FilePlayer.setScaling";
+    private static final String DIAG_SEEK_SESSION = "FilePlayer.seek";
     private final LogChannel logger;
     private final ISourceController sourceController;
     private final IContentManager contentManager;
@@ -79,11 +79,15 @@ IDiagnosisCommandProvider {
         this.mediaDispatcher = dispatcherBase;
         this.serviceManager = iServiceManager;
         this.diagManager = iDiagnosisManager;
-        this.EMPTY_JOB = new FilePlayerController$1(this, this.logger, "EMPTY");
+        this.EMPTY_JOB = new AbstractFilePlayerControllerJob(this.logger, "EMPTY"){
+
+            public void start() {
+            }
+        };
     }
 
     public void init() {
-        this.logger.log(1078071040, "[%1.init]", (Object)"FilePlayerController");
+        this.logger.log(1000000, "[%1.init]", (Object)LOGCLASS);
         this.filePlayerControllerQueue.reset();
         this.contentManager.addContentListener(this);
         this.serviceRegistration = this.serviceManager.registerService(class$de$audi$atip$interapp$media$IMediaFilePlayerService == null ? (class$de$audi$atip$interapp$media$IMediaFilePlayerService = FilePlayerController.class$("de.audi.atip.interapp.media.IMediaFilePlayerService")) : class$de$audi$atip$interapp$media$IMediaFilePlayerService, this, new Hashtable(0));
@@ -91,45 +95,50 @@ IDiagnosisCommandProvider {
     }
 
     public void deinit() {
-        this.logger.log(1078071040, "[%1.deinit]", (Object)"FilePlayerController");
+        this.logger.log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         this.serviceManager.unregisterService(this.serviceRegistration);
         this.filePlayerControllerQueue.reset();
     }
 
-    @Override
-    public void open(IMediaFilePlayerSession iMediaFilePlayerSession) {
+    public void open(final IMediaFilePlayerSession iMediaFilePlayerSession) {
         if (iMediaFilePlayerSession == null) {
             throw new IllegalArgumentException("Session is null.");
         }
-        this.logger.log(1078071040, "[%1.open] '%2'", (Object)"FilePlayerController", (Object)iMediaFilePlayerSession.getName());
-        FilePlayerController filePlayerController = this;
-        this.mediaDispatcher.execute(new FilePlayerController$2(this, "FilePlayerController.open", filePlayerController, iMediaFilePlayerSession));
+        this.logger.log(1000000, "[%1.open] '%2'", (Object)LOGCLASS, (Object)iMediaFilePlayerSession.getName());
+        final FilePlayerController filePlayerController = this;
+        this.mediaDispatcher.execute(new AbstractDispatcherRunnable("FilePlayerController.open"){
+
+            public void run() {
+                FilePlayerController.this.filePlayerControllerQueue.enqueue(new JobSessionOpen(FilePlayerController.this.logger, filePlayerController, iMediaFilePlayerSession));
+            }
+        });
     }
 
-    @Override
-    public void close(IMediaFilePlayerSession iMediaFilePlayerSession) {
+    public void close(final IMediaFilePlayerSession iMediaFilePlayerSession) {
         if (iMediaFilePlayerSession == null) {
             throw new IllegalArgumentException("Session is null.");
         }
-        this.logger.log(1078071040, "[%1.close] [%2]", (Object)"FilePlayerController", (Object)iMediaFilePlayerSession.getName());
-        FilePlayerController filePlayerController = this;
-        this.mediaDispatcher.execute(new FilePlayerController$3(this, "FilePlayerController.close", filePlayerController, iMediaFilePlayerSession));
+        this.logger.log(1000000, "[%1.close] [%2]", (Object)LOGCLASS, (Object)iMediaFilePlayerSession.getName());
+        final FilePlayerController filePlayerController = this;
+        this.mediaDispatcher.execute(new AbstractDispatcherRunnable("FilePlayerController.close"){
+
+            public void run() {
+                FilePlayerController.this.filePlayerControllerQueue.enqueue(new JobSessionClose(FilePlayerController.this.logger, filePlayerController, iMediaFilePlayerSession));
+            }
+        });
     }
 
-    @Override
     public FilePlayerSession getActiveSession() {
         return this.activeSession;
     }
 
-    @Override
     public boolean isActiveSession(FilePlayerSession filePlayerSession) {
         return this.activeSession != null && this.activeSession.equals(filePlayerSession);
     }
 
-    @Override
     public boolean activateFilePlayer() {
         if (this.isActive()) {
-            this.logger.log(1078071040, "[%1.activateFilePlayer] Already active.", (Object)"FilePlayerController");
+            this.logger.log(1000000, "[%1.activateFilePlayer] Already active.", (Object)LOGCLASS);
             return false;
         }
         this.mutedBeforeFileplayer = this.audioManager.isMuted();
@@ -141,9 +150,8 @@ IDiagnosisCommandProvider {
         return this.filePlayerContent != null;
     }
 
-    @Override
     public void attachSession(FilePlayerSession filePlayerSession) {
-        this.logger.log(1078071040, "[%1.attachSession] '%2'", (Object)"FilePlayerController", (Object)filePlayerSession);
+        this.logger.log(1000000, "[%1.attachSession] '%2'", (Object)LOGCLASS, (Object)filePlayerSession);
         if (!this.isActive()) {
             return;
         }
@@ -151,48 +159,42 @@ IDiagnosisCommandProvider {
         this.activeSession = filePlayerSession;
     }
 
-    @Override
     public void detachActiveSession() {
-        this.logger.log(1078071040, "[%1.detachActiveSession]", (Object)"FilePlayerController");
+        this.logger.log(1000000, "[%1.detachActiveSession]", (Object)LOGCLASS);
         this.activeSession = null;
         this.filePlayerContent.detachSession(this);
     }
 
-    @Override
     public void restoreLastAudioContext() {
-        this.logger.log(1078071040, "[%1.restoreLastAudioContext]", (Object)"FilePlayerController");
+        this.logger.log(1000000, "[%1.restoreLastAudioContext]", (Object)LOGCLASS);
         if (this.mutedBeforeFileplayer) {
             this.audioManager.mute();
         }
         this.sourceController.restorePreviousFilePlayerSource();
     }
 
-    @Override
     public void releaseAudio() {
-        this.logger.log(1078071040, "[%1.releaseAudio]", (Object)"FilePlayerController");
+        this.logger.log(1000000, "[%1.releaseAudio]", (Object)LOGCLASS);
         this.audioManager.releaseAudio();
     }
 
-    @Override
     public void addSessionToPendingList(FilePlayerSession filePlayerSession) {
         if (this.suspendedSessionList.contains(filePlayerSession)) {
-            this.logger.log(1078071040, "[%1.addSessionToPendingList] [%2] Session already pending.", (Object)"FilePlayerController", (Object)filePlayerSession);
+            this.logger.log(1000000, "[%1.addSessionToPendingList] [%2] Session already pending.", (Object)LOGCLASS, (Object)filePlayerSession);
             return;
         }
-        this.logger.log(1078071040, "[%1.addSessionToPendingList] [%2]", (Object)"FilePlayerController", (Object)filePlayerSession);
+        this.logger.log(1000000, "[%1.addSessionToPendingList] [%2]", (Object)LOGCLASS, (Object)filePlayerSession);
         this.suspendedSessionList.add(filePlayerSession);
         filePlayerSession.onSuspend();
     }
 
-    @Override
     public boolean removeSessionFromPendingList(FilePlayerSession filePlayerSession) {
-        this.logger.log(1078071040, "[%1.removeSessionFromPendingList] [%2]", (Object)"FilePlayerController", (Object)filePlayerSession);
+        this.logger.log(1000000, "[%1.removeSessionFromPendingList] [%2]", (Object)LOGCLASS, (Object)filePlayerSession);
         return this.suspendedSessionList.remove(filePlayerSession);
     }
 
-    @Override
     public FilePlayerSession removeHighPrioSessionFromPendingList() {
-        this.logger.log(1078071040, "[%1.removeHighPrioSessionFromPendingList]", (Object)"FilePlayerController");
+        this.logger.log(1000000, "[%1.removeHighPrioSessionFromPendingList]", (Object)LOGCLASS);
         FilePlayerSession filePlayerSession = null;
         Iterator iterator = this.suspendedSessionList.iterator();
         while (iterator.hasNext()) {
@@ -216,54 +218,47 @@ IDiagnosisCommandProvider {
         return abstractFilePlayerControllerJob != null ? abstractFilePlayerControllerJob : this.EMPTY_JOB;
     }
 
-    @Override
     public void contentActivated(IContent iContent, ISourceSlot iSourceSlot) {
         if (iContent.getContentType() != 7) {
             return;
         }
-        this.logger.log(1078071040, "[%1.contentActivated]", (Object)"FilePlayerController");
+        this.logger.log(1000000, "[%1.contentActivated]", (Object)LOGCLASS);
         this.filePlayerContent = (FilePlayerContent)iContent;
         this.getRunningJob().onFilePlayerActive();
     }
 
-    @Override
     public void contentDeactivated(IContent iContent) {
         if (iContent.getContentType() != 7) {
             return;
         }
-        this.logger.log(1078071040, "[%1.contentDeactivated]", (Object)"FilePlayerController");
+        this.logger.log(1000000, "[%1.contentDeactivated]", (Object)LOGCLASS);
         this.filePlayerContent = null;
     }
 
-    @Override
     public void contentActivationFinished(IContent iContent) {
     }
 
-    @Override
     public void sessionAttached() {
     }
 
-    @Override
     public void sessionDettached() {
-        this.logger.log(1078071040, "[%1.sessionDettached]", (Object)"FilePlayerController");
+        this.logger.log(1000000, "[%1.sessionDettached]", (Object)LOGCLASS);
         this.getRunningJob().onActiveSessionDetached();
     }
 
-    @Override
     public String[] getDiagKeys() {
-        return new String[]{"FilePlayer.open", "FilePlayer.close", "FilePlayer.playURL", "FilePlayer.resume", "FilePlayer.pause", "FilePlayer.stop", "FilePlayer.setScaling", "FilePlayer.seek"};
+        return new String[]{DIAG_OPEN_SESSION, DIAG_CLOSE_SESSION, DIAG_PLAY_SESSION, DIAG_RESUME_SESSION, DIAG_PAUSE_SESSION, DIAG_STOP_SESSION, DIAG_VIDEO_SESSION, DIAG_SEEK_SESSION};
     }
 
-    @Override
     public void executeDiagCommand(String string, String[] stringArray) {
-        if ("FilePlayer.open".equals(string)) {
+        if (DIAG_OPEN_SESSION.equals(string)) {
             DiagFilePlayerSession diagFilePlayerSession = new DiagFilePlayerSession(Integer.parseInt(stringArray[1]), Integer.parseInt(stringArray[2]), stringArray[0]);
             if (this.diagSessions.get(diagFilePlayerSession.getName()) != null) {
                 return;
             }
             this.diagSessions.put(diagFilePlayerSession.getName(), diagFilePlayerSession);
             this.open(diagFilePlayerSession);
-        } else if ("FilePlayer.close".equals(string)) {
+        } else if (DIAG_CLOSE_SESSION.equals(string)) {
             DiagFilePlayerSession diagFilePlayerSession = (DiagFilePlayerSession)this.diagSessions.get(stringArray[0]);
             this.close(diagFilePlayerSession);
             this.diagSessions.remove(diagFilePlayerSession.getName());
@@ -272,17 +267,17 @@ IDiagnosisCommandProvider {
             if (diagFilePlayerSession == null) {
                 return;
             }
-            if ("FilePlayer.playURL".equals(string)) {
+            if (DIAG_PLAY_SESSION.equals(string)) {
                 diagFilePlayerSession.playURL(stringArray[1]);
-            } else if ("FilePlayer.resume".equals(string)) {
+            } else if (DIAG_RESUME_SESSION.equals(string)) {
                 diagFilePlayerSession.resume();
-            } else if ("FilePlayer.pause".equals(string)) {
+            } else if (DIAG_PAUSE_SESSION.equals(string)) {
                 diagFilePlayerSession.pause();
-            } else if ("FilePlayer.stop".equals(string)) {
+            } else if (DIAG_STOP_SESSION.equals(string)) {
                 diagFilePlayerSession.stop();
-            } else if ("FilePlayer.setScaling".equals(string)) {
+            } else if (DIAG_VIDEO_SESSION.equals(string)) {
                 diagFilePlayerSession.setVideoScaling();
-            } else if ("FilePlayer.seek".equals(string)) {
+            } else if (DIAG_SEEK_SESSION.equals(string)) {
                 diagFilePlayerSession.seek(Boolean.valueOf(stringArray[1]));
             }
         }
@@ -290,7 +285,7 @@ IDiagnosisCommandProvider {
 
     public String toString() {
         Buffer buffer = new Buffer(20);
-        buffer.append("FilePlayerController").append("@").append(this.hashCode());
+        buffer.append(LOGCLASS).append("@").append(this.hashCode());
         return buffer.toString();
     }
 
@@ -301,14 +296,6 @@ IDiagnosisCommandProvider {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ LogChannel access$000(FilePlayerController filePlayerController) {
-        return filePlayerController.logger;
-    }
-
-    static /* synthetic */ Queue access$100(FilePlayerController filePlayerController) {
-        return filePlayerController.filePlayerControllerQueue;
     }
 }
 

@@ -4,10 +4,10 @@
 package de.audi.atip.interapp.terminalmode;
 
 public class AppConnectDeviceContainer {
-    public static final int UNKNOWN;
-    public static final int CAR_PLAY;
-    public static final int GAL;
-    public static final int NOT_CONNECTED;
+    public static final int UNKNOWN = 0;
+    public static final int CAR_PLAY = 1;
+    public static final int GAL = 2;
+    public static final int NOT_CONNECTED = 3;
     private boolean audioFocus;
     private String deviceName;
     private int type;

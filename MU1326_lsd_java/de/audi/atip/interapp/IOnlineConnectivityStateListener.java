@@ -4,56 +4,46 @@
 package de.audi.atip.interapp;
 
 public interface IOnlineConnectivityStateListener {
-    public static final int USER_ACTION_UNKNOWN;
-    public static final int USER_ACTION_CONFIRMED_CONECTION;
-    public static final int USER_ACTION_DECLINED_CONECTION;
-    public static final int ERROR_UNKNOWN;
-    public static final int ERROR_NONE;
-    public static final int ERROR_SIM_STATE_NAD_OFF;
-    public static final int ERROR_SIM_STATE_NA_DATA_ONLY;
-    public static final int ERROR_SIM_STATE_NA;
-    public static final int ERROR_SIM_STATE_SAP_NA;
-    public static final int ERROR_SIM_STATE_SAP;
-    public static final int ERROR_SIM_STATE_PIN_REQUIRED;
-    public static final int ERROR_SIM_STATE_PUK_REQUIRED;
-    public static final int ERROR_SIM_STATE_PUK_BLOCKED;
-    public static final int ERROR_SIM_STATE_FAILURE;
-    public static final int ERROR_SIM_STATE_GSM_CALL_ACTIVE;
-    public static final int ERROR_PROFILE_INVALID;
-    public static final int ERROR_PROFILE_NA;
-    public static final int ERROR_PROFILE_MULTI;
-    public static final int ERROR_GENERAL_PERMISSION_MANUAL;
-    public static final int ERROR_GENERAL_PERMISSION_NEVER;
-    public static final int ERROR_PERMISSION_CONFIRMED;
-    public static final int ERROR_DATA_DEACTIVATED;
-    public static final int ERROR_ROAMING_DEACTIVATED;
-    public static final int ERROR_ROAMING_ALLOWED;
-    public static final int ERROR_ROAMING_CONFIRMED;
-    public static final int ERROR_SIM_STATE_PENDING_DATA_ONLY;
-    public static final int ERROR_SIM_STATE_PENDING;
-    public static final int MAX_ERROR;
-    public static final String[] errorCode2String;
+    public static final int USER_ACTION_UNKNOWN = 0;
+    public static final int USER_ACTION_CONFIRMED_CONECTION = 1;
+    public static final int USER_ACTION_DECLINED_CONECTION = 2;
+    public static final int ERROR_UNKNOWN = 0;
+    public static final int ERROR_NONE = 1;
+    public static final int ERROR_SIM_STATE_NAD_OFF = 2;
+    public static final int ERROR_SIM_STATE_NA_DATA_ONLY = 3;
+    public static final int ERROR_SIM_STATE_NA = 4;
+    public static final int ERROR_SIM_STATE_SAP_NA = 5;
+    public static final int ERROR_SIM_STATE_SAP = 6;
+    public static final int ERROR_SIM_STATE_PIN_REQUIRED = 7;
+    public static final int ERROR_SIM_STATE_PUK_REQUIRED = 8;
+    public static final int ERROR_SIM_STATE_PUK_BLOCKED = 9;
+    public static final int ERROR_SIM_STATE_FAILURE = 10;
+    public static final int ERROR_SIM_STATE_GSM_CALL_ACTIVE = 11;
+    public static final int ERROR_PROFILE_INVALID = 12;
+    public static final int ERROR_PROFILE_NA = 13;
+    public static final int ERROR_PROFILE_MULTI = 14;
+    public static final int ERROR_GENERAL_PERMISSION_MANUAL = 15;
+    public static final int ERROR_GENERAL_PERMISSION_NEVER = 16;
+    public static final int ERROR_PERMISSION_CONFIRMED = 17;
+    public static final int ERROR_DATA_DEACTIVATED = 18;
+    public static final int ERROR_ROAMING_DEACTIVATED = 19;
+    public static final int ERROR_ROAMING_ALLOWED = 20;
+    public static final int ERROR_ROAMING_CONFIRMED = 21;
+    public static final int ERROR_SIM_STATE_PENDING_DATA_ONLY = 22;
+    public static final int ERROR_SIM_STATE_PENDING = 23;
+    public static final int MAX_ERROR = 24;
+    public static final String[] errorCode2String = new String[]{"ERROR_UNKNOWN", "ERROR_NONE", "ERROR_SIM_STATE_NAD_OFF", "ERROR_SIM_STATE_NA_DATA_ONLY", "ERROR_SIM_STATE_NA", "ERROR_SIM_STATE_SAP_NA", "ERROR_SIM_STATE_SAP", "ERROR_SIM_STATE_PIN_REQUIRED", "ERROR_SIM_STATE_PUK_REQUIRED", "ERROR_SIM_STATE_PUK_BLOCKED", "ERROR_SIM_STATE_FAILURE", "ERROR_SIM_STATE_GSM_CALL_ACTIVE", "ERROR_PROFILE_INVALID", "ERROR_PROFILE_NA", "ERROR_PROFILE_MULTI", "ERROR_GENERAL_PERMISSION_MANUAL", "ERROR_GENERAL_PERMISSION_NEVER", "ERROR_PERMISSION_CONFIRMED", "ERROR_DATA_DEACTIVATED", "ERROR_ROAMING_DEACTIVATED", "ERROR_ROAMING_ALLOWED", "ERROR_ROAMING_CONFIRMED", "ERROR_SIM_STATE_PENDING_DATA_ONLY", "ERROR_SIM_STATE_PENDING"};
 
-    default public void onlineStateChanged() {
-    }
+    public void onlineStateChanged();
 
-    default public void updateErrorState(boolean bl, int n) {
-    }
+    public void updateErrorState(boolean var1, int var2);
 
-    default public void updateConnectionState(boolean bl) {
-    }
+    public void updateConnectionState(boolean var1);
 
-    default public void connectivityCheckEntryAction() {
-    }
+    public void connectivityCheckEntryAction();
 
-    default public void connectivityCheckExitAction(boolean bl) {
-    }
+    public void connectivityCheckExitAction(boolean var1);
 
-    default public void connectivityCheckExitAction(int n, boolean bl) {
-    }
-
-    static {
-        errorCode2String = new String[]{"ERROR_UNKNOWN", "ERROR_NONE", "ERROR_SIM_STATE_NAD_OFF", "ERROR_SIM_STATE_NA_DATA_ONLY", "ERROR_SIM_STATE_NA", "ERROR_SIM_STATE_SAP_NA", "ERROR_SIM_STATE_SAP", "ERROR_SIM_STATE_PIN_REQUIRED", "ERROR_SIM_STATE_PUK_REQUIRED", "ERROR_SIM_STATE_PUK_BLOCKED", "ERROR_SIM_STATE_FAILURE", "ERROR_SIM_STATE_GSM_CALL_ACTIVE", "ERROR_PROFILE_INVALID", "ERROR_PROFILE_NA", "ERROR_PROFILE_MULTI", "ERROR_GENERAL_PERMISSION_MANUAL", "ERROR_GENERAL_PERMISSION_NEVER", "ERROR_PERMISSION_CONFIRMED", "ERROR_DATA_DEACTIVATED", "ERROR_ROAMING_DEACTIVATED", "ERROR_ROAMING_ALLOWED", "ERROR_ROAMING_CONFIRMED", "ERROR_SIM_STATE_PENDING_DATA_ONLY", "ERROR_SIM_STATE_PENDING"};
-    }
+    public void connectivityCheckExitAction(int var1, boolean var2);
 }
 

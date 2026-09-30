@@ -4,8 +4,8 @@
 package de.audi.app.messaging.core.settings;
 
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
+import de.audi.app.messaging.core.commands.AbstractMessagingCommand;
 import de.audi.app.messaging.core.dsi.messagingconfig.AbstractDsiMessagingConfigCommand;
-import de.audi.app.messaging.core.settings.SetSmsIndicationsCommand$1;
 import de.audi.tghu.command.Command;
 
 final class SetSmsIndicationsCommand
@@ -17,9 +17,8 @@ extends AbstractDsiMessagingConfigCommand {
         this.smsIndications = bl;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[SetSmsIndicationsCommand#execute]");
+        this.logger.log(10000000, "[SetSmsIndicationsCommand#execute]");
         try {
             this.dsiMessagingConfigAccess.requestSetSmsIndications(this.smsIndications);
         }
@@ -29,9 +28,8 @@ extends AbstractDsiMessagingConfigCommand {
         }
     }
 
-    @Override
     public void responseSetSmsIndications(int n) {
-        this.logger.log(-2137614336, "[SetSmsIndicationsCommand#responseSetSmsIndications] result = %1", (long)n);
+        this.logger.log(10000000, "[SetSmsIndicationsCommand#responseSetSmsIndications] result = %1", (long)n);
         this.signalResult(n == 0);
     }
 
@@ -40,7 +38,7 @@ extends AbstractDsiMessagingConfigCommand {
      */
     private void signalResult(boolean bl) {
         try {
-            this.logger.log(-2137614336, "[SetSmsIndicationsCommand#signalResult] isResultOk = %1", bl);
+            this.logger.log(10000000, "[SetSmsIndicationsCommand#signalResult] isResultOk = %1", bl);
         }
         catch (Exception exception) {
             this.logException("[SetSmsIndicationsCommand#signalResult]", exception);
@@ -50,13 +48,14 @@ extends AbstractDsiMessagingConfigCommand {
         }
     }
 
-    @Override
     public Command getErrorCommand() {
-        return new SetSmsIndicationsCommand$1(this, this.msgApp);
-    }
+        return new AbstractMessagingCommand(this.msgApp){
 
-    static /* synthetic */ void access$000(SetSmsIndicationsCommand setSmsIndicationsCommand, boolean bl) {
-        setSmsIndicationsCommand.signalResult(bl);
+            public void execute() {
+                this.logger.log(10000000, "[SetSmsIndicationsErrorCommand#execute]");
+                SetSmsIndicationsCommand.this.signalResult(false);
+            }
+        };
     }
 }
 

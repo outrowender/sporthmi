@@ -5,8 +5,6 @@ package de.audi.app.navi.evo.addressinput.poi.listener;
 
 import de.audi.app.navi.evo.addressinput.poi.PoiManager;
 import de.audi.app.navi.evo.addressinput.poi.PoiScreensEvo;
-import de.audi.app.navi.evo.addressinput.poi.listener.AbstractPoiResultScreenEvoListener$1;
-import de.audi.app.navi.evo.addressinput.poi.listener.AbstractPoiResultScreenEvoListener$2;
 import de.audi.app.navi.evo.addressinput.poi.listener.AbstractPoiScreenHmiListener;
 import de.audi.atip.hmi.model.PropertyListCell;
 import de.audi.atip.hmi.model.list.BaseListModelListener;
@@ -15,13 +13,18 @@ import de.audi.atip.hmi.model.list.TiledListModelApp;
 import de.audi.atip.hmi.modelaccess.LabelModelApp;
 import de.audi.atip.interapp.navigation.previewmap.IPreviewMap;
 import de.audi.tghu.command.CommandList;
+import de.audi.tghu.command.ICommandList;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.addressinput.commands.HidePreviewMapCommand;
 import de.audi.tghu.navi.app.addressinput.poi.PoiUtil;
 import de.audi.tghu.navi.app.addressinput.poi.searcharea.PoiSearchArea;
 import de.audi.tghu.navi.app.addressinput.poi.sequences.AbstractPoiScreenInputSequence;
 import de.audi.tghu.navi.app.command.CmdNaviPreviewMapPrepare;
+import de.audi.tghu.navi.app.command.NavCommand;
+import de.audi.tghu.navi.app.li.SpellerStack;
+import de.audi.tghu.navi.app.li.sc.SpellerContextManager;
 import de.audi.tghu.navi.app.navlocationextractor.AsyncNavLocationExtractor;
+import de.audi.tghu.navi.app.navlocationextractor.NavLocationCallback;
 import de.audi.tghu.navi.app.util.LocationFormatter;
 import de.audi.tghu.navi.app.util.Util;
 import org.dsi.ifc.global.NavLocation;
@@ -35,27 +38,31 @@ implements BaseListModelListener {
     private final LabelModelApp telephoneNumberLabel;
     protected long currentlyFocusedListIndex;
     protected boolean previewMapComplete;
-    private static final int ACTIVE_POI_CONTEXT_DESTINATION;
-    private static final int ACTIVE_POI_CONTEXT_MAP;
+    private static final int ACTIVE_POI_CONTEXT_DESTINATION = 0;
+    private static final int ACTIVE_POI_CONTEXT_MAP = 1;
     private boolean running = false;
 
     public AbstractPoiResultScreenEvoListener(NavigationEnv navigationEnv, PoiManager poiManager, IPreviewMap iPreviewMap, PoiSearchArea poiSearchArea, AsyncNavLocationExtractor asyncNavLocationExtractor) {
         super(navigationEnv, poiManager, iPreviewMap, poiSearchArea);
-        this.telephoneNumberLabel = navigationEnv.getLabelModel(-400488960);
+        this.telephoneNumberLabel = navigationEnv.getLabelModel(401896);
         this.extractor = asyncNavLocationExtractor;
     }
 
-    @Override
-    public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#itemFocused - list model - row=%1, model=%2, index=%3").toString(), (Object)evoListRow, (long)n, (long)n2);
+    public void itemFocused(final EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+        this.logChannel.log(10000000, new StringBuffer().append(this.CLASS_NAME).append("#itemFocused - list model - row=%1, model=%2, index=%3").toString(), (Object)evoListRow, (long)n, (long)n2);
         this.previewMapComplete = false;
         this.preparePreviewMap();
-        AbstractPoiResultScreenEvoListener$1 abstractPoiResultScreenEvoListener$1 = new AbstractPoiResultScreenEvoListener$1(this, evoListRow);
-        this.extractor.executeCallbackWithNavLocation(evoListRow, 0, abstractPoiResultScreenEvoListener$1);
+        NavLocationCallback navLocationCallback = new NavLocationCallback(){
+
+            public void callBack(NavLocation navLocation, ICommandList iCommandList) {
+                AbstractPoiResultScreenEvoListener.this.isPoiCallable(navLocation, evoListRow);
+                AbstractPoiResultScreenEvoListener.this.itemFocusedCallBack(navLocation);
+            }
+        };
+        this.extractor.executeCallbackWithNavLocation(evoListRow, 0, navLocationCallback);
     }
 
-    protected abstract void itemFocusedCallBack(NavLocation navLocation) {
-    }
+    protected abstract void itemFocusedCallBack(NavLocation var1);
 
     private void isPoiCallable(NavLocation navLocation, EvoListRow evoListRow) {
         if (PoiUtil.checkIfPoiIsCallable(navLocation, this.env)) {
@@ -64,7 +71,7 @@ implements BaseListModelListener {
             int[] nArray = propertyListCell.getProperties();
             boolean bl = true;
             for (int i2 = 0; i2 < nArray.length; ++i2) {
-                if (nArray[i2] != -168229239) continue;
+                if (nArray[i2] != -1996031499) continue;
                 bl = false;
                 break;
             }
@@ -78,48 +85,61 @@ implements BaseListModelListener {
     }
 
     private int[] createPropertyForPhoneNumber(int[] nArray) {
-        int n = this.env.getChoiceModel(-434043392).getValue();
-        this.logChannel.log(-2137614336, "%1#createPropertyForPhoneNumber - current choice model value=%2", (Object)this.CLASS_NAME, (long)n);
+        int n = this.env.getChoiceModel(401894).getValue();
+        this.logChannel.log(10000000, "%1#createPropertyForPhoneNumber - current choice model value=%2", (Object)this.CLASS_NAME, (long)n);
         int[] nArray2 = new int[nArray.length + 1];
         System.arraycopy((Object)nArray, 0, (Object)nArray2, 0, nArray.length);
         if (n == 0) {
-            nArray2[nArray.length] = -168229239;
+            nArray2[nArray.length] = -1996031499;
         } else if (n == 1) {
-            nArray2[nArray.length] = -69417803;
+            nArray2[nArray.length] = -1245389573;
         } else {
-            this.env.getPOILogChannel().log(-1601830656, "%1#createPropertyForPhoneNumber - choice model has an unknown value! value=%2", (Object)this.CLASS_NAME, (long)n);
+            this.env.getPOILogChannel().log(100000, "%1#createPropertyForPhoneNumber - choice model has an unknown value! value=%2", (Object)this.CLASS_NAME, (long)n);
         }
         return nArray2;
     }
 
     private void setTelephoneNumberForLabel(NavLocation navLocation) {
         String string = LocationFormatter.formatPhonenumber(navLocation);
-        this.logChannel.log(-2137614336, "%1#setTelephoneNumberForLabel - number=%2", (Object)this.CLASS_NAME, (Object)string);
+        this.logChannel.log(10000000, "%1#setTelephoneNumberForLabel - number=%2", (Object)this.CLASS_NAME, (Object)string);
         this.telephoneNumberLabel.setText(string);
     }
 
     protected void setSpellerStatusWaiting(int n) {
-        this.logChannel.log(-2137614336, "%1#setSpellerStatusWaiting for model=%2", (Object)this.CLASS_NAME, (long)n);
+        this.logChannel.log(10000000, "%1#setSpellerStatusWaiting for model=%2", (Object)this.CLASS_NAME, (long)n);
         Util.setModelStatus(this.env.getMatchSpellerModel(n), 0);
     }
 
-    @Override
     public void updateSearchStarted() {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#updateSearchStarted").toString());
+        this.logChannel.log(10000000, new StringBuffer().append(this.CLASS_NAME).append("#updateSearchStarted").toString());
         this.previewMapComplete = false;
         CommandList commandList = this.poiManager.getCommandlist();
         commandList.add(new HidePreviewMapCommand(this.previewMapInterface));
         commandList.execute("AbstractPoiResultScreenEvoListener hidePreviewMap");
     }
 
-    protected void displayPreviewMap(int n, AbstractPoiScreenInputSequence abstractPoiScreenInputSequence, int n2) {
+    protected void displayPreviewMap(final int n, final AbstractPoiScreenInputSequence abstractPoiScreenInputSequence, final int n2) {
         if (this.running || this.previewMapComplete && !this.preparePreviewMapCommand.getHidePreviewMap()) {
-            this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#displayPreviewMap is already running or complete").toString());
+            this.logChannel.log(10000000, new StringBuffer().append(this.CLASS_NAME).append("#displayPreviewMap is already running or complete").toString());
             return;
         }
         this.running = true;
         CommandList commandList = this.poiManager.getCommandlist();
-        commandList.add(new AbstractPoiResultScreenEvoListener$2(this, new StringBuffer().append(this.CLASS_NAME).append("#displayPreviewMap delay computing of POIs to display").toString(), n, abstractPoiScreenInputSequence, n2));
+        commandList.add(new NavCommand(new StringBuffer().append(this.CLASS_NAME).append("#displayPreviewMap delay computing of POIs to display").toString()){
+
+            public void execute() {
+                int n3 = SpellerStack.getInstance().getActiveSC().getContextID();
+                if (n3 == 10 || n3 == 9 || n3 == 11 || n3 == 15) {
+                    if (!AbstractPoiResultScreenEvoListener.this.previewMapComplete || AbstractPoiResultScreenEvoListener.this.preparePreviewMapCommand.getHidePreviewMap()) {
+                        AbstractPoiResultScreenEvoListener.this.createPreparePreviewMapCommand(n, abstractPoiScreenInputSequence, n2);
+                    }
+                } else {
+                    this.logger.log(10000000, "AbstractPoiResultScreenEvoListener#displayPreviewMap call will be ignored for context %1", (Object)SpellerContextManager.contextIDToString(n3));
+                }
+                AbstractPoiResultScreenEvoListener.this.running = false;
+                this.getCommandList().commandFinished();
+            }
+        });
         commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#displayPreviewMap").toString());
     }
 
@@ -128,7 +148,7 @@ implements BaseListModelListener {
         if (n3 > 3) {
             n3 = 3;
         }
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#createPreparePreviewMapCommand itemsDisplay = %1").toString(), (long)n3);
+        this.logChannel.log(10000000, new StringBuffer().append(this.CLASS_NAME).append("#createPreparePreviewMapCommand itemsDisplay = %1").toString(), (long)n3);
         LIValueListElement[] lIValueListElementArray = new LIValueListElement[n3];
         int n4 = 0;
         for (int i2 = 0; i2 < n3; ++i2) {
@@ -145,7 +165,7 @@ implements BaseListModelListener {
             this.previewMapComplete = true;
         }
         if (this.poiManager.isPreviewMapPossible() && lIValueListElementArray2.length == 0) {
-            this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#createPreparePreviewMapCommand no POIs to display listToDisplayInMap.length = 0").toString());
+            this.logChannel.log(10000000, new StringBuffer().append(this.CLASS_NAME).append("#createPreparePreviewMapCommand no POIs to display listToDisplayInMap.length = 0").toString());
             return;
         }
         this.preparePreviewMapCommand = abstractPoiScreenInputSequence.preparePreviewMap(this.previewMapInterface, lIValueListElementArray2);
@@ -158,15 +178,6 @@ implements BaseListModelListener {
             ++n2;
         }
         return n2;
-    }
-
-    static /* synthetic */ void access$000(AbstractPoiResultScreenEvoListener abstractPoiResultScreenEvoListener, NavLocation navLocation, EvoListRow evoListRow) {
-        abstractPoiResultScreenEvoListener.isPoiCallable(navLocation, evoListRow);
-    }
-
-    static /* synthetic */ boolean access$102(AbstractPoiResultScreenEvoListener abstractPoiResultScreenEvoListener, boolean bl) {
-        abstractPoiResultScreenEvoListener.running = bl;
-        return abstractPoiResultScreenEvoListener.running;
     }
 }
 

@@ -9,43 +9,31 @@ import de.audi.atip.hmi.modelaccess.AbstractListModelApp;
 
 public interface SlidingListModelApp
 extends AbstractListModelApp {
-    public static final byte VISIBLE_CONTEXT_START_OF_BUFFER;
-    public static final byte VISIBLE_CONTEXT_END_OF_BUFFER;
+    public static final byte VISIBLE_CONTEXT_START_OF_BUFFER = 0;
+    public static final byte VISIBLE_CONTEXT_END_OF_BUFFER = 1;
 
-    default public void setListListener(SlidingListModelListener slidingListModelListener) {
-    }
+    public void setListListener(SlidingListModelListener var1);
 
-    default public void setBufferSize(int n) {
-    }
+    public void setBufferSize(int var1);
 
-    default public void appendAtEnd(ListRow[] listRowArray, boolean bl) {
-    }
+    public void appendAtEnd(ListRow[] var1, boolean var2);
 
-    default public void appendAtStart(ListRow[] listRowArray, boolean bl) {
-    }
+    public void appendAtStart(ListRow[] var1, boolean var2);
 
-    default public void set(ListRow[] listRowArray, boolean bl, boolean bl2, int n, int n2) {
-    }
+    public void set(ListRow[] var1, boolean var2, boolean var3, int var4, int var5);
 
-    default public void set(ListRow[] listRowArray, boolean bl, boolean bl2, int n, byte by, int n2) {
-    }
+    public void set(ListRow[] var1, boolean var2, boolean var3, int var4, byte var5, int var6);
 
-    default public void set(ListRow[] listRowArray, boolean bl, boolean bl2, int n, byte by, int n2, ListRow listRow, int n3) {
-    }
+    public void set(ListRow[] var1, boolean var2, boolean var3, int var4, byte var5, int var6, ListRow var7, int var8);
 
-    default public void setListEnd(boolean bl, boolean bl2) {
-    }
+    public void setListEnd(boolean var1, boolean var2);
 
-    default public void setListEnd2(boolean bl, boolean bl2) {
-    }
+    public void setListEnd2(boolean var1, boolean var2);
 
-    default public void remove(ListRow listRow) {
-    }
+    public void remove(ListRow var1);
 
-    default public void updateRows(ListRow[] listRowArray) {
-    }
+    public void updateRows(ListRow[] var1);
 
-    default public void resetCursorPosition(boolean bl) {
-    }
+    public void resetCursorPosition(boolean var1);
 }
 

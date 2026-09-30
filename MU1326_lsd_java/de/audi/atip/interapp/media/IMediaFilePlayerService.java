@@ -6,10 +6,8 @@ package de.audi.atip.interapp.media;
 import de.audi.atip.interapp.media.IMediaFilePlayerSession;
 
 public interface IMediaFilePlayerService {
-    default public void open(IMediaFilePlayerSession iMediaFilePlayerSession) {
-    }
+    public void open(IMediaFilePlayerSession var1);
 
-    default public void close(IMediaFilePlayerSession iMediaFilePlayerSession) {
-    }
+    public void close(IMediaFilePlayerSession var1);
 }
 

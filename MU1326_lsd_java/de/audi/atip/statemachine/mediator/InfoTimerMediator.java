@@ -25,7 +25,7 @@ implements TimerListener {
     }
 
     public InfoTimerMediator(long l, MediatorManager mediatorManager, int n) {
-        this(l, mediatorManager, n, (long)0);
+        this(l, mediatorManager, n, 3000L);
     }
 
     public InfoTimerMediator(long l, MediatorManager mediatorManager, int n, long l2) {
@@ -33,10 +33,9 @@ implements TimerListener {
         this.waitTime = l2;
     }
 
-    @Override
     public void start() {
         if (this.manager.getLogChannel().isDebug2()) {
-            this.manager.getLogChannel().log(14808325, "[InfoTimerMediator#start] (MEDID#%1), active='%2', delay='%3'", (Object)Long.toString(this.getID()), (Object)Boolean.toString(this.active), (Object)Long.toString(this.getDelay()));
+            this.manager.getLogChannel().log(100000000, "[InfoTimerMediator#start] (MEDID#%1), active='%2', delay='%3'", (Object)Long.toString(this.getID()), (Object)Boolean.toString(this.active), (Object)Long.toString(this.getDelay()));
         }
         if (this.active) {
             long l = this.getDelay();
@@ -54,10 +53,9 @@ implements TimerListener {
         }
     }
 
-    @Override
     public void stop() {
         if (this.manager.getLogChannel().isDebug2()) {
-            this.manager.getLogChannel().log(14808325, "[InfoTimerMediator#stop] (MEDID#%1)", (Object)Long.toString(this.getID()));
+            this.manager.getLogChannel().log(100000000, "[InfoTimerMediator#stop] (MEDID#%1)", (Object)Long.toString(this.getID()));
         }
         if (this.waitTimer != null) {
             this.waitTimer.cancel();
@@ -65,10 +63,9 @@ implements TimerListener {
         this.started = false;
     }
 
-    @Override
     public void deactivate() {
         if (this.manager.getLogChannel().isDebug2()) {
-            this.manager.getLogChannel().log(14808325, "[InfoTimerMediator#deactivate] (MEDID#%1)", (Object)Long.toString(this.getID()));
+            this.manager.getLogChannel().log(100000000, "[InfoTimerMediator#deactivate] (MEDID#%1)", (Object)Long.toString(this.getID()));
         }
         super.deactivate();
         if (this.started) {
@@ -77,20 +74,17 @@ implements TimerListener {
         }
     }
 
-    @Override
     public void processUpdate(ModelUpdateEvent modelUpdateEvent) {
     }
 
-    @Override
     public void fireTimer(Timer timer) {
         if (this.manager.getLogChannel().isDebug2()) {
-            this.manager.getLogChannel().log(14808325, "[InfoTimerMediator#fireTimer] (MEDID#%1)", (Object)Long.toString(this.getID()));
+            this.manager.getLogChannel().log(100000000, "[InfoTimerMediator#fireTimer] (MEDID#%1)", (Object)Long.toString(this.getID()));
         }
         this.triggerAction(this.action);
         this.stop();
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 
@@ -98,12 +92,10 @@ implements TimerListener {
         return this.waitTime;
     }
 
-    @Override
     public int getType() {
         return 6;
     }
 
-    @Override
     public void kill() {
         if (this.waitTimer != null) {
             this.waitTimer.cancel();

@@ -19,24 +19,20 @@ IApplicationComponent {
         this.bluetooth = iBluetoothApplication;
     }
 
-    @Override
     public void switchOnBluetooth() {
-        this.bluetooth.getLogChannel().log(1078071040, "EcallBluetoothServiceImpl#switchOnBluetooth(): called");
+        this.bluetooth.getLogChannel().log(1000000, "EcallBluetoothServiceImpl#switchOnBluetooth(): called");
         this.bluetooth.getAccessibility().setAccessibleMode(3);
     }
 
-    @Override
     public void switchOffBluetooth() {
-        this.bluetooth.getLogChannel().log(1078071040, "EcallBluetoothServiceImpl#switchOffBluetooth(): called");
+        this.bluetooth.getLogChannel().log(1000000, "EcallBluetoothServiceImpl#switchOffBluetooth(): called");
         this.bluetooth.getAccessibility().setAccessibleMode(2);
     }
 
-    @Override
     public void init() {
         this.registration = this.bluetooth.getBundleContext().registerService((class$de$audi$atip$interapp$ecall$IEcallBluetoothService == null ? (class$de$audi$atip$interapp$ecall$IEcallBluetoothService = EcallBluetoothServiceImpl.class$("de.audi.atip.interapp.ecall.IEcallBluetoothService")) : class$de$audi$atip$interapp$ecall$IEcallBluetoothService).getName(), (Object)this, null);
     }
 
-    @Override
     public void deinit() {
         this.registration.unregister();
         this.registration = null;

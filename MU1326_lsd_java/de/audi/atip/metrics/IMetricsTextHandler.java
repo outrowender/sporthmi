@@ -4,9 +4,8 @@
 package de.audi.atip.metrics;
 
 public interface IMetricsTextHandler {
-    public static final String SPACE;
+    public static final String SPACE = " ";
 
-    default public String getText(int n) {
-    }
+    public String getText(int var1);
 }
 

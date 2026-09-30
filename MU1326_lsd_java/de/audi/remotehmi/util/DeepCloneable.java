@@ -5,7 +5,6 @@ package de.audi.remotehmi.util;
 
 public interface DeepCloneable
 extends Cloneable {
-    default public Object clone(boolean bl) {
-    }
+    public Object clone(boolean var1);
 }
 

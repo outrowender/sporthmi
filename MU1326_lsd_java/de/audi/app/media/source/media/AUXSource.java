@@ -29,7 +29,6 @@ extends AbstractMediaSource {
         }
     }
 
-    @Override
     public int getAudioConnection(ISourceSlot iSourceSlot) {
         switch (iSourceSlot.getContentType()) {
             case 1: {

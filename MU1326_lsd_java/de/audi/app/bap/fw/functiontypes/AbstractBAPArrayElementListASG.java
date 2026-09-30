@@ -3,7 +3,6 @@
  */
 package de.audi.app.bap.fw.functiontypes;
 
-import de.audi.app.bap.fw.functiontypes.AbstractBAPArrayElementListASG$BAPElementConverter;
 import de.audi.atip.log.LogChannel;
 import de.vw.mib.bap.datatypes.BAPArrayElement;
 import de.vw.mib.bap.requests.StatusArray;
@@ -16,7 +15,7 @@ public abstract class AbstractBAPArrayElementListASG {
     private final LogChannel logChannel;
     private boolean upToDate = false;
     protected final List list = new ArrayList();
-    public static final int NOT_FOUND;
+    public static final int NOT_FOUND = -1;
 
     protected AbstractBAPArrayElementListASG(LogChannel logChannel) {
         this.logChannel = logChannel;
@@ -63,8 +62,7 @@ public abstract class AbstractBAPArrayElementListASG {
         }
     }
 
-    public abstract boolean isDeleted(BAPArrayElement bAPArrayElement) {
-    }
+    public abstract boolean isDeleted(BAPArrayElement var1);
 
     private static int indexOfElementWithPosId(List list, int n) {
         for (int i2 = 0; i2 < list.size(); ++i2) {
@@ -101,7 +99,7 @@ public abstract class AbstractBAPArrayElementListASG {
                         this.list.add(bAPArrayElement);
                         continue;
                     }
-                    this.logChannel.log(-1601830656, "[BAPArrayElementList#mergeElementsInList] new element marked as deleted. Ignoring:\n%1", (Object)bAPArrayElement);
+                    this.logChannel.log(100000, "[BAPArrayElementList#mergeElementsInList] new element marked as deleted. Ignoring:\n%1", (Object)bAPArrayElement);
                     continue;
                 }
                 this.handleFoundElement(bAPArrayElement, n);
@@ -115,18 +113,22 @@ public abstract class AbstractBAPArrayElementListASG {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public Object[] toArray(Class clazz, AbstractBAPArrayElementListASG$BAPElementConverter abstractBAPArrayElementListASG$BAPElementConverter) {
+    public Object[] toArray(Class clazz, BAPElementConverter bAPElementConverter) {
         List list = this.list;
         synchronized (list) {
             Object[] objectArray = (Object[])Array.newInstance(clazz, this.list.size());
             Iterator iterator = this.list.iterator();
             int n = 0;
             while (iterator.hasNext()) {
-                objectArray[n] = abstractBAPArrayElementListASG$BAPElementConverter.convert((BAPArrayElement)iterator.next());
+                objectArray[n] = bAPElementConverter.convert((BAPArrayElement)iterator.next());
                 ++n;
             }
             return objectArray;
         }
+    }
+
+    public static interface BAPElementConverter {
+        public Object convert(BAPArrayElement var1);
     }
 }
 

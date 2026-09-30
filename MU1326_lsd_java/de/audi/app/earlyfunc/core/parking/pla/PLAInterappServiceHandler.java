@@ -6,7 +6,6 @@ package de.audi.app.earlyfunc.core.parking.pla;
 import de.audi.app.car.common.app.ICarApplication;
 import de.audi.app.car.common.service.CarServiceProvider;
 import de.audi.app.earlyfunc.core.parking.pla.IPLAInterappServiceHandler;
-import de.audi.app.earlyfunc.core.parking.pla.PLAInterappServiceHandler$1;
 import de.audi.app.earlyfunc.core.parking.pla.PLAInterappStatus;
 import de.audi.atip.interapp.earlyfunc.core.parking.pla.IPLAInterappService;
 import de.audi.atip.interapp.earlyfunc.core.parking.pla.IPLAStatus;
@@ -37,7 +36,6 @@ IPLAInterappServiceHandler {
         this.status = null;
     }
 
-    @Override
     public void init() {
         this.serviceProvider.startService();
     }
@@ -45,7 +43,6 @@ IPLAInterappServiceHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void deinit() {
         this.serviceProvider.stopService();
         Object object = this.mutex;
@@ -73,10 +70,9 @@ IPLAInterappServiceHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updatePLAStatusIdleMode() {
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[PLAInterappServiceHandler#updatePLAStatusIdleMode] Standby...");
+            this.logChannel.log(1000000, "[PLAInterappServiceHandler#updatePLAStatusIdleMode] Standby...");
         }
         Object object = this.mutex;
         synchronized (object) {
@@ -98,10 +94,9 @@ IPLAInterappServiceHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updatePLAStatusStandbyMode(IPLAStatus iPLAStatus) {
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[PLAInterappServiceHandler#updatePLAStatusStandbyMode] Standby...");
+            this.logChannel.log(1000000, "[PLAInterappServiceHandler#updatePLAStatusStandbyMode] Standby...");
         }
         Object object = this.mutex;
         synchronized (object) {
@@ -123,10 +118,9 @@ IPLAInterappServiceHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updatePLAStatusSearchMode(IPLAStatus iPLAStatus) {
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[PLAInterappServiceHandler#updatePLAStatusSearchMode] status='%1'", (Object)iPLAStatus.toString());
+            this.logChannel.log(1000000, "[PLAInterappServiceHandler#updatePLAStatusSearchMode] status='%1'", (Object)iPLAStatus.toString());
         }
         Object object = this.mutex;
         synchronized (object) {
@@ -148,10 +142,9 @@ IPLAInterappServiceHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updatePLAStatusInSelectionMode(IPLAStatus iPLAStatus) {
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[PLAInterappServiceHandler#updatePLAStatusInSelectionMode] status='%1'", (Object)iPLAStatus.toString());
+            this.logChannel.log(1000000, "[PLAInterappServiceHandler#updatePLAStatusInSelectionMode] status='%1'", (Object)iPLAStatus.toString());
         }
         Object object = this.mutex;
         synchronized (object) {
@@ -173,10 +166,9 @@ IPLAInterappServiceHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updatePLAStatusOutSelectionMode(IPLAStatus iPLAStatus) {
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[PLAInterappServiceHandler#updatePLAStatusOutSelectionMode] status='%1'", (Object)iPLAStatus.toString());
+            this.logChannel.log(1000000, "[PLAInterappServiceHandler#updatePLAStatusOutSelectionMode] status='%1'", (Object)iPLAStatus.toString());
         }
         Object object = this.mutex;
         synchronized (object) {
@@ -198,10 +190,9 @@ IPLAInterappServiceHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updatePLAStatusParkInActive(IPLAStatus iPLAStatus) {
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[PLAInterappServiceHandler#updatePLAStatusParkInActive] status='%1'", (Object)iPLAStatus.toString());
+            this.logChannel.log(1000000, "[PLAInterappServiceHandler#updatePLAStatusParkInActive] status='%1'", (Object)iPLAStatus.toString());
         }
         Object object = this.mutex;
         synchronized (object) {
@@ -223,10 +214,9 @@ IPLAInterappServiceHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updatePLAStatusParkOutActive(IPLAStatus iPLAStatus) {
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[PLAInterappServiceHandler#updatePLAStatusParkOutActive] status='%1'", (Object)iPLAStatus.toString());
+            this.logChannel.log(1000000, "[PLAInterappServiceHandler#updatePLAStatusParkOutActive] status='%1'", (Object)iPLAStatus.toString());
         }
         Object object = this.mutex;
         synchronized (object) {
@@ -248,10 +238,9 @@ IPLAInterappServiceHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void registerStatusListener(IPLAStatusListener iPLAStatusListener) {
+    public void registerStatusListener(final IPLAStatusListener iPLAStatusListener) {
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[PLAInterappServiceHandler#registerStatusListener] ...");
+            this.logChannel.log(1000000, "[PLAInterappServiceHandler#registerStatusListener] ...");
         }
         Object object = this.mutex;
         synchronized (object) {
@@ -261,10 +250,47 @@ IPLAInterappServiceHandler {
                 }
                 this.listeners.add(iPLAStatusListener);
                 if (-1 != this.lastUpdateMode) {
-                    this.application.getJobDispatcher().execute(new PLAInterappServiceHandler$1(this, iPLAStatusListener));
+                    this.application.getJobDispatcher().execute(new Runnable(){
+
+                        /*
+                         * WARNING - Removed try catching itself - possible behaviour change.
+                         */
+                        public void run() {
+                            Object object = PLAInterappServiceHandler.this.mutex;
+                            synchronized (object) {
+                                try {
+                                    switch (PLAInterappServiceHandler.this.lastUpdateMode) {
+                                        case 6: {
+                                            iPLAStatusListener.updatePLAStatusStandbyMode(PLAInterappServiceHandler.this.status);
+                                            break;
+                                        }
+                                        case 1: {
+                                            iPLAStatusListener.updatePLAStatusSearchMode(PLAInterappServiceHandler.this.status);
+                                            break;
+                                        }
+                                        case 2: {
+                                            iPLAStatusListener.updatePLAStatusInSelectionMode(PLAInterappServiceHandler.this.status);
+                                            break;
+                                        }
+                                        case 3: {
+                                            iPLAStatusListener.updatePLAStatusOutSelectionMode(PLAInterappServiceHandler.this.status);
+                                            break;
+                                        }
+                                        default: {
+                                            PLAInterappServiceHandler.this.logChannel.log(1000000, "[PLAInterappServiceHandler#registerStatusListener] Invalid mode for asynchronous update detected! Update ignored.");
+                                            break;
+                                        }
+                                    }
+                                }
+                                catch (Exception exception) {
+                                    PLAInterappServiceHandler.this.logChannel.log(1000, "[PLAInterappServiceHandler#registerStatusListener] Exception occured within the listener.", (Throwable)exception);
+                                }
+                            }
+                        }
+                    });
                 }
             } else {
-                this.logChannel.log(-1601830656, "[PLAInterappServiceHandler#registerStatusListener] Listener already registered.");
+                this.logChannel.log(100000, "[PLAInterappServiceHandler#registerStatusListener] Listener already registered.");
             }
         }
     }
@@ -272,10 +298,9 @@ IPLAInterappServiceHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void unregisterStatusListener(IPLAStatusListener iPLAStatusListener) {
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[PLAInterappServiceHandler#unregisterStatusListener] ...");
+            this.logChannel.log(1000000, "[PLAInterappServiceHandler#unregisterStatusListener] ...");
         }
         Object object = this.mutex;
         synchronized (object) {
@@ -286,7 +311,6 @@ IPLAInterappServiceHandler {
         }
     }
 
-    @Override
     public IPLAStatus getDefaultPLAStatus() {
         return new PLAInterappStatus(0, null != this.status ? this.status.isSystemActiveOPS() : false, 0, false, false, 0, false);
     }
@@ -298,22 +322,6 @@ IPLAInterappServiceHandler {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ Object access$000(PLAInterappServiceHandler pLAInterappServiceHandler) {
-        return pLAInterappServiceHandler.mutex;
-    }
-
-    static /* synthetic */ int access$100(PLAInterappServiceHandler pLAInterappServiceHandler) {
-        return pLAInterappServiceHandler.lastUpdateMode;
-    }
-
-    static /* synthetic */ IPLAStatus access$200(PLAInterappServiceHandler pLAInterappServiceHandler) {
-        return pLAInterappServiceHandler.status;
-    }
-
-    static /* synthetic */ LogChannel access$300(PLAInterappServiceHandler pLAInterappServiceHandler) {
-        return pLAInterappServiceHandler.logChannel;
     }
 }
 

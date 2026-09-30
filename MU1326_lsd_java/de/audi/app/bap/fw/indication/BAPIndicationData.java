@@ -4,8 +4,8 @@
 package de.audi.app.bap.fw.indication;
 
 public final class BAPIndicationData {
-    public static final int INDICATION_DATATYPE_INT;
-    public static final int INDICATION_DATATYPE_BYTEARRAY;
+    public static final int INDICATION_DATATYPE_INT = 0;
+    public static final int INDICATION_DATATYPE_BYTEARRAY = 1;
     private final int parameterType;
     private final int dataType;
     private final int dataInt;

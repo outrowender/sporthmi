@@ -7,7 +7,7 @@ import java.util.Hashtable;
 import java.util.Vector;
 
 public class Header {
-    private static final int incCapacity;
+    private static final int incCapacity = 5;
     private Vector props = new Vector(5);
     private Hashtable keyTable = new Hashtable(5);
     private boolean duplicates = false;

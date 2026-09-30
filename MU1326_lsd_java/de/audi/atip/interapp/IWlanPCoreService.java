@@ -6,13 +6,10 @@ package de.audi.atip.interapp;
 import de.audi.atip.interapp.connectivity.wlan.TrustedNetwork;
 
 public interface IWlanPCoreService {
-    default public void setRFActive(boolean bl) {
-    }
+    public void setRFActive(boolean var1);
 
-    default public void setRole(int n) {
-    }
+    public void setRole(int var1);
 
-    default public void deleteTrustedNetwork(TrustedNetwork trustedNetwork) {
-    }
+    public void deleteTrustedNetwork(TrustedNetwork var1);
 }
 

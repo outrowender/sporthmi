@@ -1,11 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  de.audi.atip.utils.Preconditions
- *  de.audi.atip.utils.generics.GList
- *  de.audi.atip.utils.generics.GMap
- *  de.audi.atip.utils.generics.Generics
  */
 package de.audi.atip.utils.eventbus;
 
@@ -21,26 +15,28 @@ import java.lang.reflect.Method;
 
 public class ReflectionInvoker {
     private final Object calee;
-    private final GMap methods;
+    private final GMap<Class, Method> methods;
 
     public ReflectionInvoker(Object object, SubscriberFindingStrategy subscriberFindingStrategy) {
-        Preconditions.checkNotNull((Object)object);
+        Preconditions.checkNotNull(object);
         this.calee = object;
-        GList gList = subscriberFindingStrategy.findAllSubscribers(object);
-        this.methods = Generics.newHashMapWithCapacity((int)gList.size());
-        GIterator gIterator = gList.iterator();
+        GList<GPair<Class, Method>> gList = subscriberFindingStrategy.findAllSubscribers(object);
+        this.methods = Generics.newHashMapWithCapacity(gList.size());
+        GIterator<GPair<Class, Method>> gIterator = gList.iterator();
         while (gIterator.hasNext()) {
-            ((Method)((GPair)gIterator.next()).getSecond()).setAccessible(true);
+            gIterator.next().getSecond().setAccessible(true);
         }
-        for (GPair gPair : gList) {
-            ((Method)gPair.getSecond()).setAccessible(true);
+        gIterator = gList.iterator();
+        while (gIterator.hasNext()) {
+            GPair<Class, Method> gPair = gIterator.next();
+            gPair.getSecond().setAccessible(true);
             this.methods.put(gPair.getFirst(), gPair.getSecond());
         }
     }
 
-    public boolean invoke(Object object) {
+    public boolean invoke(Object object) throws InvocationTargetException {
         try {
-            Method method = (Method)this.methods.get((Object)object.getClass());
+            Method method = this.methods.get(object.getClass());
             if (method != null) {
                 method.invoke(this.calee, new Object[]{object});
                 return true;

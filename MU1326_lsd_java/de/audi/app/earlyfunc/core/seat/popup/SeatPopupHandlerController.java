@@ -28,7 +28,6 @@ implements ISeatPopupHandlerController {
         this.factory = abstractSeatPopupFactory;
     }
 
-    @Override
     public void init(int[] nArray) {
         this.mainController = this.factory.createInstanceMainController();
         this.popupHandler = this.factory.createInstancePopupHandler();
@@ -37,7 +36,6 @@ implements ISeatPopupHandlerController {
         this.popupHandler.init(nArray);
     }
 
-    @Override
     public void deinit() {
         this.popupHandler.deinit();
     }
@@ -45,14 +43,13 @@ implements ISeatPopupHandlerController {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void notifySeatPopupHidden(int n) {
         this.log("notifySeatPopupHidden", n);
         ISeatPopupController iSeatPopupController = this.popupController;
         synchronized (iSeatPopupController) {
             if (this.getVisibleNotificationReceiver() != null) {
                 if (this.mainController.isStandbyPopupVisible()) {
-                    this.logChannel.log(1078071040, "[SeatPopupHandlerController#notifySeatPopupHidden] Seat Popup won't be removed because it should replace the Standby Popup!");
+                    this.logChannel.log(1000000, "[SeatPopupHandlerController#notifySeatPopupHidden] Seat Popup won't be removed because it should replace the Standby Popup!");
                     return;
                 }
                 this.setRemovedNotificationReceiver(this.getVisibleNotificationReceiver());
@@ -65,7 +62,6 @@ implements ISeatPopupHandlerController {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void notifySeatPopupVisible(int n) {
         ISeatPopupController iSeatPopupController = this.popupController;
         synchronized (iSeatPopupController) {
@@ -80,7 +76,6 @@ implements ISeatPopupHandlerController {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void notifySeatPopupRemoved(int n) {
         ISeatPopupController iSeatPopupController = this.popupController;
         synchronized (iSeatPopupController) {
@@ -97,7 +92,6 @@ implements ISeatPopupHandlerController {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void hideSeatPopup(AbstractSeatPopin abstractSeatPopin) {
         ISeatPopupController iSeatPopupController = this.popupController;
         synchronized (iSeatPopupController) {
@@ -112,7 +106,6 @@ implements ISeatPopupHandlerController {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void showSeatPopup(AbstractSeatPopin abstractSeatPopin) {
         ISeatPopupController iSeatPopupController = this.popupController;
         synchronized (iSeatPopupController) {
@@ -123,28 +116,22 @@ implements ISeatPopupHandlerController {
         }
     }
 
-    @Override
     public void setSeatPopinListenerServiceTracked(boolean bl) {
     }
 
-    @Override
     public void removeShownPopup(AbstractSeatPopin abstractSeatPopin) {
     }
 
-    @Override
     public void setShownPopinContent(SeatPopinContent seatPopinContent, AbstractSeatPopin abstractSeatPopin) {
     }
 
-    @Override
     public void setSeatContentShown(boolean bl, boolean bl2) {
     }
 
-    @Override
     public boolean isSeatContentShown(boolean bl) {
         return false;
     }
 
-    @Override
     public void replaceSeatPopin(AbstractSeatPopin abstractSeatPopin) {
     }
 
@@ -170,13 +157,13 @@ implements ISeatPopupHandlerController {
 
     private void log(String string, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[SeatPopupHandlerController#%1] popupID=%2", (Object)string, (long)n);
+            this.getLogChannel().log(1000000, "[SeatPopupHandlerController#%1] popupID=%2", (Object)string, (long)n);
         }
     }
 
     private void log(String string, AbstractSeatPopin abstractSeatPopin) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[SeatPopupHandlerController#%1] popup=%2", (Object)string, (Object)abstractSeatPopin);
+            this.getLogChannel().log(1000000, "[SeatPopupHandlerController#%1] popup=%2", (Object)string, (Object)abstractSeatPopin);
         }
     }
 }

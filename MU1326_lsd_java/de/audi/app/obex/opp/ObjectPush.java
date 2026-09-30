@@ -15,7 +15,6 @@ extends AbstractObjectPush {
         this.application = iEvoObexApplication;
     }
 
-    @Override
     protected boolean isTrustedDevice(String string) {
         return this.application.getEvoConnectivity().getBluetooth().getTrustedDeviceList().get(string) != null;
     }

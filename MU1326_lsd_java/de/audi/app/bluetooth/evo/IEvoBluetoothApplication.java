@@ -12,19 +12,14 @@ import de.audi.app.connectivity.IEvoConnectivity;
 
 public interface IEvoBluetoothApplication
 extends IBluetoothApplication {
-    default public IEvoConnectivity getConnectivity() {
-    }
+    public IEvoConnectivity getConnectivity();
 
-    default public IEvoInquiry getEvoInquiry() {
-    }
+    public IEvoInquiry getEvoInquiry();
 
-    default public IConnectAppSetup getAudiConnectSetup() {
-    }
+    public IConnectAppSetup getAudiConnectSetup();
 
-    default public IEvoTrustedDeviceList getEvoTrustedDeviceList() {
-    }
+    public IEvoTrustedDeviceList getEvoTrustedDeviceList();
 
-    default public IPrioReconnect getPrioReconnect() {
-    }
+    public IPrioReconnect getPrioReconnect();
 }
 

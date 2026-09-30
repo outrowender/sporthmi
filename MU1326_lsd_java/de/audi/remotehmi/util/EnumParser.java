@@ -4,10 +4,8 @@
 package de.audi.remotehmi.util;
 
 public interface EnumParser {
-    default public Object parse(String string) {
-    }
+    public Object parse(String var1);
 
-    default public Object parse(String string, Object object) {
-    }
+    public Object parse(String var1, Object var2);
 }
 

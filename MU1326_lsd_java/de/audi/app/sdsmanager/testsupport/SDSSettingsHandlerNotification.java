@@ -36,7 +36,6 @@ extends DefaultTestSupportHandlerNotification {
         }
     }
 
-    @Override
     public void commandEntrySelected(int n) {
         SDSSettingsEnum sDSSettingsEnum = SDSSettingsEnum.getSDSSettingByIndex(n);
         if (sDSSettingsEnum == null) {
@@ -47,7 +46,6 @@ extends DefaultTestSupportHandlerNotification {
         testSupportHandler.updateCommandList();
     }
 
-    @Override
     public TestSupportDataReceiverEntry[] getCommandEntries() {
         int n = SDSSettingsEnum.getChannelsSize();
         TestSupportDataReceiverEntry[] testSupportDataReceiverEntryArray = new TestSupportDataReceiverEntry[n];

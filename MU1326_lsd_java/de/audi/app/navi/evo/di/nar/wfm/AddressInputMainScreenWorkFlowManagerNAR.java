@@ -4,11 +4,6 @@
 package de.audi.app.navi.evo.di.nar.wfm;
 
 import de.audi.app.navi.evo.di.nar.wfm.AbstractAddressInputScreenWorkFlowManagerNAR;
-import de.audi.app.navi.evo.di.nar.wfm.AddressInputMainScreenWorkFlowManagerNAR$1;
-import de.audi.app.navi.evo.di.nar.wfm.AddressInputMainScreenWorkFlowManagerNAR$2;
-import de.audi.app.navi.evo.di.nar.wfm.AddressInputMainScreenWorkFlowManagerNAR$3;
-import de.audi.app.navi.evo.di.nar.wfm.AddressInputMainScreenWorkFlowManagerNAR$4;
-import de.audi.app.navi.evo.di.nar.wfm.AddressInputMainScreenWorkFlowManagerNAR$5;
 import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.ICommandListFactory;
 import de.audi.tghu.navi.app.NavigationEnv;
@@ -26,9 +21,8 @@ extends AbstractAddressInputScreenWorkFlowManagerNAR {
         super(navigationEnv, iCommandListFactory, spellerStack);
     }
 
-    @Override
     public CommandList handleWorkFlow(CommandList commandList, int n) {
-        this.logChannel.log(-2137614336, "%1#handleWorkFlow - screenEventId=%2", (Object)this.CLASS_NAME, (long)n);
+        this.logChannel.log(10000000, "%1#handleWorkFlow - screenEventId=%2", (Object)this.CLASS_NAME, (long)n);
         switch (n) {
             case 30007: {
                 this.createNarMainScreenStartWorkFlow(commandList);
@@ -106,8 +100,14 @@ extends AbstractAddressInputScreenWorkFlowManagerNAR {
     }
 
     private void createNarMainScreenStartWorkFlow(CommandList commandList) {
-        this.logChannel.log(-2137614336, "%1#createNarMainScreenStartWorkFlow", (Object)this.CLASS_NAME);
-        commandList.add(new AddressInputMainScreenWorkFlowManagerNAR$1(this, "Reset SpellerStack"));
+        this.logChannel.log(10000000, "%1#createNarMainScreenStartWorkFlow", (Object)this.CLASS_NAME);
+        commandList.add(new NavCommand("Reset SpellerStack"){
+
+            public void execute() {
+                AddressInputMainScreenWorkFlowManagerNAR.this.spellerStack.reset();
+                this.getCommandList().commandFinished();
+            }
+        });
         SpellerContext spellerContext = this.getSpellerContext(57);
         commandList.add(new LIGetStateCommand(this.spellerStack, spellerContext));
         Object object = commandList.get("startMainScreenNavLocation");
@@ -121,8 +121,14 @@ extends AbstractAddressInputScreenWorkFlowManagerNAR {
     }
 
     private void createNarMainScreenWithoutStripStartWorkFlow(CommandList commandList) {
-        this.logChannel.log(-2137614336, "%1#createNarMainScreenWithoutStripStartWorkFlow", (Object)this.CLASS_NAME);
-        commandList.add(new AddressInputMainScreenWorkFlowManagerNAR$2(this, "Reset SpellerStack"));
+        this.logChannel.log(10000000, "%1#createNarMainScreenWithoutStripStartWorkFlow", (Object)this.CLASS_NAME);
+        commandList.add(new NavCommand("Reset SpellerStack"){
+
+            public void execute() {
+                AddressInputMainScreenWorkFlowManagerNAR.this.spellerStack.reset();
+                this.getCommandList().commandFinished();
+            }
+        });
         SpellerContext spellerContext = this.getSpellerContext(57);
         commandList.add(new LIGetStateCommand(this.spellerStack, spellerContext));
         Object object = commandList.get("startMainScreenNavLocation");
@@ -134,27 +140,45 @@ extends AbstractAddressInputScreenWorkFlowManagerNAR {
     }
 
     private NavCommand createStartMainScreenWithNavLocationFromStripedLocationCommand() {
-        return new AddressInputMainScreenWorkFlowManagerNAR$3(this, new StringBuffer().append(this.CLASS_NAME).append("createStartMainScreenWithNavLocationFromStripedLocationCommand").toString());
+        return new NavCommand(this.CLASS_NAME + "createStartMainScreenWithNavLocationFromStripedLocationCommand"){
+
+            public void execute() {
+                NavLocation navLocation = (NavLocation)this.getCommandList().get("STRIPPED_LOCATION");
+                this.getCommandList().commandFinishedWithPostSequence(AddressInputMainScreenWorkFlowManagerNAR.this.inputManager.getMainScreenListener().getStartCommandList(navLocation));
+            }
+        };
     }
 
     private void createNarMainScreenStartForOnlineWorkFlow(CommandList commandList) {
-        this.logChannel.log(-2137614336, "%1#createNarMainScreenStartForOnlineWorkFlow", (Object)this.CLASS_NAME);
-        commandList.add(new AddressInputMainScreenWorkFlowManagerNAR$4(this, "Reset SpellerStack"));
+        this.logChannel.log(10000000, "%1#createNarMainScreenStartForOnlineWorkFlow", (Object)this.CLASS_NAME);
+        commandList.add(new NavCommand("Reset SpellerStack"){
+
+            public void execute() {
+                AddressInputMainScreenWorkFlowManagerNAR.this.spellerStack.reset();
+                this.getCommandList().commandFinished();
+            }
+        });
         SpellerContext spellerContext = this.getSpellerContext(76);
         commandList.add(new LIGetStateCommand(this.spellerStack, spellerContext));
         commandList.add(this.inputManager.getMainScreenListener().getStartCommandListForOnline());
     }
 
     private void createNarMainScreenStartForRemoteHmiWorkFlow(CommandList commandList) {
-        this.logChannel.log(-2137614336, "%1#createNarMainScreenStartForRemoteHmiWorkFlow", (Object)this.CLASS_NAME);
-        commandList.add(new AddressInputMainScreenWorkFlowManagerNAR$5(this, "Reset SpellerStack"));
+        this.logChannel.log(10000000, "%1#createNarMainScreenStartForRemoteHmiWorkFlow", (Object)this.CLASS_NAME);
+        commandList.add(new NavCommand("Reset SpellerStack"){
+
+            public void execute() {
+                AddressInputMainScreenWorkFlowManagerNAR.this.spellerStack.reset();
+                this.getCommandList().commandFinished();
+            }
+        });
         SpellerContext spellerContext = this.getSpellerContext(102);
         commandList.add(new LIGetStateCommand(this.spellerStack, spellerContext));
         commandList.add(this.inputManager.getMainScreenListener().getStartCommandList());
     }
 
     private void createNarMainScreenCountryWorkFlow(CommandList commandList, boolean bl) {
-        this.logChannel.log(-2137614336, "%1#createNarMainScreenCountryWorkFlow - startedWithDirectWriting=%2", (Object)this.CLASS_NAME, (Object)Boolean.toString(bl));
+        this.logChannel.log(10000000, "%1#createNarMainScreenCountryWorkFlow - startedWithDirectWriting=%2", (Object)this.CLASS_NAME, (Object)Boolean.toString(bl));
         SpellerContext spellerContext = this.getSpellerContext(58);
         commandList.add(new LIGetStateCommand(this.spellerStack, spellerContext));
         if (bl) {
@@ -166,7 +190,7 @@ extends AbstractAddressInputScreenWorkFlowManagerNAR {
     }
 
     private void createNarMainScreenCityZipWorkFlow(CommandList commandList, boolean bl) {
-        this.logChannel.log(-2137614336, "%1#createNarMainScreenCityZipWorkFlow - startedWithDirectWriting=%2", (Object)this.CLASS_NAME, (Object)Boolean.toString(bl));
+        this.logChannel.log(10000000, "%1#createNarMainScreenCityZipWorkFlow - startedWithDirectWriting=%2", (Object)this.CLASS_NAME, (Object)Boolean.toString(bl));
         SpellerContext spellerContext = this.inputManager.getActiveSpellerContextId() == 76 ? this.getSpellerContext(60) : (this.inputManager.getActiveSpellerContextId() == 102 ? this.getSpellerContext(103) : this.getSpellerContext(63));
         commandList.add(new LIGetStateCommand(this.spellerStack, spellerContext));
         if (bl) {
@@ -178,7 +202,7 @@ extends AbstractAddressInputScreenWorkFlowManagerNAR {
     }
 
     private void createNarMainScreenAddStreetWorkFlow(CommandList commandList, boolean bl) {
-        this.logChannel.log(-2137614336, "%1#createNarMainScreenAddStreetWorkFlow - startedWithDirectWriting=%2", (Object)this.CLASS_NAME, (Object)Boolean.toString(bl));
+        this.logChannel.log(10000000, "%1#createNarMainScreenAddStreetWorkFlow - startedWithDirectWriting=%2", (Object)this.CLASS_NAME, (Object)Boolean.toString(bl));
         SpellerContext spellerContext = this.getSpellerContext(64);
         commandList.add(new LIGetStateCommand(this.spellerStack, spellerContext));
         if (bl) {
@@ -190,7 +214,7 @@ extends AbstractAddressInputScreenWorkFlowManagerNAR {
     }
 
     private void createNarMainScreenStreetWorkFlow(CommandList commandList, boolean bl) {
-        this.logChannel.log(-2137614336, "%1#createNarMainScreenStreetWorkFlow - startedWithDirectWriting=%2", (Object)this.CLASS_NAME, (Object)Boolean.toString(bl));
+        this.logChannel.log(10000000, "%1#createNarMainScreenStreetWorkFlow - startedWithDirectWriting=%2", (Object)this.CLASS_NAME, (Object)Boolean.toString(bl));
         SpellerContext spellerContext = this.getSpellerContext(65);
         commandList.add(new LIGetStateCommand(this.spellerStack, spellerContext));
         if (bl) {
@@ -202,7 +226,7 @@ extends AbstractAddressInputScreenWorkFlowManagerNAR {
     }
 
     private void createNarMainScreenHousenumberWorkFlow(CommandList commandList, boolean bl, boolean bl2) {
-        this.logChannel.log(-2137614336, "%1#createNarMainScreenHousenumberWorkFlow - startedWithDirectWriting=%2", (Object)this.CLASS_NAME, (Object)Boolean.toString(bl));
+        this.logChannel.log(10000000, "%1#createNarMainScreenHousenumberWorkFlow - startedWithDirectWriting=%2", (Object)this.CLASS_NAME, (Object)Boolean.toString(bl));
         SpellerContext spellerContext = bl2 ? this.getSpellerContext(74) : this.getSpellerContext(70);
         commandList.add(new LIGetStateCommand(this.spellerStack, spellerContext));
         if (bl) {
@@ -220,7 +244,7 @@ extends AbstractAddressInputScreenWorkFlowManagerNAR {
     }
 
     private void createNarMainScreenIntersectionWorkFlow(CommandList commandList, boolean bl) {
-        this.logChannel.log(-2137614336, "%1#createNarMainScreenJunctionWorkFlow - startedWithDirectWriting=%2", (Object)this.CLASS_NAME, (Object)Boolean.toString(bl));
+        this.logChannel.log(10000000, "%1#createNarMainScreenJunctionWorkFlow - startedWithDirectWriting=%2", (Object)this.CLASS_NAME, (Object)Boolean.toString(bl));
         SpellerContext spellerContext = this.getSpellerContext(71);
         commandList.add(new LIGetStateCommand(this.spellerStack, spellerContext));
         if (bl) {
@@ -232,7 +256,7 @@ extends AbstractAddressInputScreenWorkFlowManagerNAR {
     }
 
     private void createNarMainScreenStartGuidanceWorkFlow(CommandList commandList) {
-        this.logChannel.log(-2137614336, "%1#createNarMainScreenStartGuidanceWorkFlow", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#createNarMainScreenStartGuidanceWorkFlow", (Object)this.CLASS_NAME);
     }
 }
 

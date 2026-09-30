@@ -17,27 +17,27 @@ import de.audi.app.messaging.core.component.IMessagingComponent;
 import de.audi.app.messaging.core.compose.NewMessage;
 import de.audi.app.messaging.core.concurrent.CopyOnWriteArrayList;
 import de.audi.app.messaging.core.messagingservice.AdbHmiAppServiceDefaultListener;
-import de.audi.app.messaging.core.messagingservice.MessagingService$1;
-import de.audi.app.messaging.core.messagingservice.MessagingService$2;
-import de.audi.app.messaging.core.messagingservice.MessagingService$3;
-import de.audi.app.messaging.core.messagingservice.MessagingService$4;
-import de.audi.app.messaging.core.messagingservice.MessagingService$5;
 import de.audi.app.messaging.core.osgi.IServiceRegistry;
 import de.audi.app.messaging.core.osgi.MessagingBundleContext;
 import de.audi.app.messaging.core.osgi.ServiceProperties;
 import de.audi.app.messaging.core.swdiagnosis.IDiagPlugIn;
 import de.audi.app.messaging.core.swdiagnosis.IDiagProvider;
+import de.audi.app.messaging.core.util.Classes;
 import de.audi.app.messaging.core.util.Logs;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.interapp.ADBHMIAppServiceListener;
 import de.audi.atip.interapp.IMessagingService;
 import de.audi.atip.interapp.messaging.devicerole.DeviceRoleInfo;
 import de.audi.atip.interapp.messaging.devicerole.IDeviceRoleObserver;
+import de.audi.atip.log.LogChannel;
 import de.audi.atip.sysapp.SpeedThresholdListener;
+import de.audi.tghu.command.CommandList;
+import de.audi.tghu.command.CommandListManager;
 import de.audi.tghu.command.CommandResponse;
 import de.audi.tghu.command.ICommandResponseSupplier;
 import de.mib.swdiagnosis.msg.core.messagingservice.MessagingServiceDiagPlugIn;
 import java.util.Iterator;
+import org.dsi.ifc.base.DSIListener;
 import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.messaging.AttachmentInformation;
 import org.dsi.ifc.organizer.AdbEntry;
@@ -62,12 +62,11 @@ IDeviceRoleObserver {
 
     public MessagingService(MessagingBundleContext messagingBundleContext) {
         super(messagingBundleContext, "App.Messaging.Main");
-        this.syncModel = this.framework.getHMIService().getChoiceModel(1603412224);
+        this.syncModel = this.framework.getHMIService().getChoiceModel(2200159);
         this.adbHmiAppServiceDefaultListener = new AdbHmiAppServiceDefaultListener(messagingBundleContext);
         this.addComponent(this.adbHmiAppServiceDefaultListener);
     }
 
-    @Override
     public void init(AbstractMsgApplication abstractMsgApplication) {
         super.init(abstractMsgApplication);
         this.commandResponseSupplier = this.createCommandResponseSupplier();
@@ -75,13 +74,11 @@ IDeviceRoleObserver {
         abstractMsgApplication.getMessagingSwDiagnosis().registerDiagProvider(this);
     }
 
-    @Override
     public void dispose() {
         super.dispose();
         this.framework.getSysApp().unregisterSpeedThresholdListener(this);
     }
 
-    @Override
     public void connect(IServiceRegistry iServiceRegistry) {
         super.connect(iServiceRegistry);
         iServiceRegistry.registerService((class$de$audi$atip$interapp$IMessagingService == null ? (class$de$audi$atip$interapp$IMessagingService = MessagingService.class$("de.audi.atip.interapp.IMessagingService")) : class$de$audi$atip$interapp$IMessagingService).getName(), (Object)this, ServiceProperties.createServiceProperties());
@@ -89,13 +86,13 @@ IDeviceRoleObserver {
     }
 
     public void addSpeedThresholdListener(SpeedThresholdListener speedThresholdListener) {
-        this.log.log(-2137614336, "[MessagingService#addSpeedThresholdListener] speedThresholdListener = %1", (Object)speedThresholdListener);
+        this.log.log(10000000, "[MessagingService#addSpeedThresholdListener] speedThresholdListener = %1", (Object)speedThresholdListener);
         this.speedThresholdListeners.add(speedThresholdListener);
         this.sendLastThresholdStateToListener(speedThresholdListener, this.messagingThresholdExceeded);
     }
 
     private void sendLastThresholdStateToListener(SpeedThresholdListener speedThresholdListener, boolean bl) {
-        this.log.log(1078071040, "[MessagingService#sendLastThresholdStateToListener] speedThresholdExceeded=", bl);
+        this.log.log(1000000, "[MessagingService#sendLastThresholdStateToListener] speedThresholdExceeded=", bl);
         if (bl) {
             speedThresholdListener.exceedsUpperThreshold(11);
         } else {
@@ -109,39 +106,39 @@ IDeviceRoleObserver {
 
     private void selectSuitableAccount(int n) {
         int n2;
-        this.log.log(-2137614336, "[MessagingService#selectSuitableAccount] msgType = %1", (long)n);
+        this.log.log(10000000, "[MessagingService#selectSuitableAccount] msgType = %1", (long)n);
         AccountList accountList = this.msgApp.getAccountManager().getDialogAccountList();
         if (this.lastAddedFilter != null) {
             accountList.removeAccountFilter(this.lastAddedFilter);
-            this.log.log(-2137614336, "[MessagingService#selectSuitableAccount] old filter has been removed for the case the last try failed");
+            this.log.log(10000000, "[MessagingService#selectSuitableAccount] old filter has been removed for the case the last try failed");
         }
         PrimaryPhoneAccountFilter primaryPhoneAccountFilter = new PrimaryPhoneAccountFilter(this.primaryDevice, this.log);
         accountList.addAccountFilter(primaryPhoneAccountFilter);
         this.lastAddedFilter = primaryPhoneAccountFilter;
-        this.log.log(-2137614336, "[MessagingService#selectSuitableAccount] new filter has been added");
+        this.log.log(10000000, "[MessagingService#selectSuitableAccount] new filter has been added");
         boolean bl = n == 0;
         int n3 = n2 = bl ? 1 : 2;
         if (this.isAutoSelectNecessary(n2)) {
             accountList.selectFirstAccount(n2);
         }
         accountList.removeAccountFilter(primaryPhoneAccountFilter);
-        this.log.log(-2137614336, "[MessagingService#selectSuitableAccount] old filter has been removed");
+        this.log.log(10000000, "[MessagingService#selectSuitableAccount] old filter has been removed");
     }
 
     private boolean isAutoSelectNecessary(int n) {
         boolean bl = !this.msgApp.getAccountManager().isAccTypeSelected(n);
         boolean bl2 = false;
-        this.log.log(-2137614336, "[MessagingService#isAutoSelectNecessary] current autoSelectNecessary=%1, accountType=%2", bl, (long)n);
+        this.log.log(10000000, "[MessagingService#isAutoSelectNecessary] current autoSelectNecessary=%1, accountType=%2", bl, (long)n);
         if (this.primaryDevice != null) {
             if (this.primaryDevice.isSimDevice()) {
-                this.log.log(-2137614336, "[MessagingService#isAutoSelectNecessary] PrimaryDevice is SIM Card");
+                this.log.log(10000000, "[MessagingService#isAutoSelectNecessary] PrimaryDevice is SIM Card");
                 bl2 = this.msgApp.getAccountManager().getSelectedAccount() != null && this.msgApp.getAccountManager().getSelectedAccount().getSimCardId() != null && this.msgApp.getAccountManager().getSelectedAccount().getSimCardId().equalsIgnoreCase(this.primaryDevice.getSimCardId());
             } else {
-                this.log.log(-2137614336, "[MessagingService#isAutoSelectNecessary] PrimaryDevice is BT Device");
+                this.log.log(10000000, "[MessagingService#isAutoSelectNecessary] PrimaryDevice is BT Device");
                 bl2 = this.msgApp.getAccountManager().getSelectedAccount() != null && this.msgApp.getAccountManager().getSelectedAccount().getBtDeviceAddress() != null && this.msgApp.getAccountManager().getSelectedAccount().getBtDeviceAddress().equalsIgnoreCase(this.primaryDevice.getBtDeviceAddress());
             }
         }
-        this.log.log(-2137614336, "[MessagingService#isAutoSelectNecessary] is autoSelect necessary? %1", (Object)(bl || !bl2 ? "true" : "false"));
+        this.log.log(10000000, "[MessagingService#isAutoSelectNecessary] is autoSelect necessary? %1", (Object)(bl || !bl2 ? "true" : "false"));
         return bl || !bl2;
     }
 
@@ -152,7 +149,7 @@ IDeviceRoleObserver {
         int n4 = 2;
         try {
             if (n == 0) {
-                this.log.log(-2137614336, "MessagingService#handleCommandResult(): got entry: %1, dataIndex: %2", (Object)ADBDbgUtils.dbg(adbEntry), (long)n2);
+                this.log.log(10000000, "MessagingService#handleCommandResult(): got entry: %1, dataIndex: %2", (Object)ADBDbgUtils.dbg(adbEntry), (long)n2);
                 this.selectSuitableAccount(n3);
                 this.msgApp.getMessagingAdbHandler().setCurrentEntry(adbEntry);
                 this.msgApp.getNewMessage().clear();
@@ -175,7 +172,7 @@ IDeviceRoleObserver {
         int n3 = 2;
         try {
             if (n == 0) {
-                this.log.log(1078071040, "[MessagingService#composeMsgAttachVCard] msgType = %1, vCardPath = %2, contactName = %3", (Object)String.valueOf(n2), (Object)string, (Object)adbEntry.getCombinedName());
+                this.log.log(1000000, "[MessagingService#composeMsgAttachVCard] msgType = %1, vCardPath = %2, contactName = %3", (Object)String.valueOf(n2), (Object)string, (Object)adbEntry.getCombinedName());
                 this.selectSuitableAccount(n2);
                 AttachmentInformation attachmentInformation = new AttachmentInformation(0, adbEntry.getCombinedName(), "text/x-vcard", 0, 0, new ResourceLocator(string));
                 NewMessage newMessage = this.msgApp.getNewMessage();
@@ -192,55 +189,96 @@ IDeviceRoleObserver {
         }
     }
 
-    @Override
     public void composeMsgPresetRecipient(int n, long l, int n2) {
         this.composeMsgPresetRecipient(n, l, n2, 0);
     }
 
-    @Override
-    public void composeMsgPresetRecipient(int n, long l, int n2, int n3) {
-        this.log.log(-2137614336, "[MessagingService#composeMsgPresetRecipient] msgType = %1, recipientEntryId = %2, dataIndex = %3", (long)n, l, (long)n2);
-        MessagingService$1 messagingService$1 = new MessagingService$1(this, n2, n);
+    public void composeMsgPresetRecipient(final int n, long l, final int n2, int n3) {
+        this.log.log(10000000, "[MessagingService#composeMsgPresetRecipient] msgType = %1, recipientEntryId = %2, dataIndex = %3", (long)n, l, (long)n2);
+        GetEntryCommand.ResultHandler resultHandler = new GetEntryCommand.ResultHandler(){
+
+            public void handleResult(int n3, AdbEntry adbEntry) {
+                MessagingService.this.handleCommandResult(n3, adbEntry, n2, n);
+            }
+        };
         this.syncModel.setStatus(0);
-        GetEntryCommand.schedule(this.msgApp.getMessagingAdbHandler(), l, messagingService$1, n3);
+        GetEntryCommand.schedule(this.msgApp.getMessagingAdbHandler(), l, resultHandler, n3);
     }
 
-    @Override
     public void composeMsgPresetRecipient(int n, String string) {
-        this.log.log(-2137614336, "[MessagingService#composeMsgPresetRecipient] msgType = %2, address = %1", (Object)string, (long)n);
+        this.log.log(10000000, "[MessagingService#composeMsgPresetRecipient] msgType = %2, address = %1", (Object)string, (long)n);
         this.selectSuitableAccount(n);
         this.msgApp.getNewMessage().clear();
         this.msgApp.getMessagingAdbHandler().getModelUpdater().updateRecipientSelection(n, string);
     }
 
-    @Override
-    public void composeMsgAttachVCard(int n, String string, long l) {
-        this.log.log(-2137614336, "[MessagingService#composeMsgAttachVCard] msgType = %1", (long)n);
+    public void composeMsgAttachVCard(final int n, final String string, long l) {
+        this.log.log(10000000, "[MessagingService#composeMsgAttachVCard] msgType = %1", (long)n);
         this.msgApp.getNewMessage().clear();
-        MessagingService$2 messagingService$2 = new MessagingService$2(this, n, string);
+        GetEntryCommand.ResultHandler resultHandler = new GetEntryCommand.ResultHandler(){
+
+            public void handleResult(int n2, AdbEntry adbEntry) {
+                MessagingService.this.handleAttachResultVCardCommand(n2, adbEntry, n, string);
+            }
+        };
         this.syncModel.setStatus(0);
-        GetEntryCommand.schedule(this.msgApp.getMessagingAdbHandler(), l, messagingService$2);
+        GetEntryCommand.schedule(this.msgApp.getMessagingAdbHandler(), l, resultHandler);
     }
 
-    @Override
-    public void responseParseVCards(int n, AdbEntry[] adbEntryArray) {
-        this.log.log(1078071040, "[MessagingService#responseParseVCards] success = %2, entries = %1", (Object)ADBDbgUtils.dbg(adbEntryArray), (long)n);
-        MessagingService$3 messagingService$3 = new MessagingService$3(this, n, adbEntryArray);
-        CommandResponse.executeTryCatch(this.commandResponseSupplier, messagingService$3, "responseParseVCards");
+    public void responseParseVCards(final int n, final AdbEntry[] adbEntryArray) {
+        this.log.log(1000000, "[MessagingService#responseParseVCards] success = %2, entries = %1", (Object)ADBDbgUtils.dbg(adbEntryArray), (long)n);
+        CommandResponse commandResponse = new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ADBHMIAppServiceListener aDBHMIAppServiceListener = (ADBHMIAppServiceListener)((Object)dSIListener);
+                aDBHMIAppServiceListener.responseParseVCards(n, adbEntryArray);
+            }
+        };
+        CommandResponse.executeTryCatch(this.commandResponseSupplier, commandResponse, "responseParseVCards");
     }
 
-    @Override
-    public void responseInsertEntry(int n) {
-        MessagingService$4 messagingService$4 = new MessagingService$4(this, n);
-        CommandResponse.executeTryCatch(this.commandResponseSupplier, messagingService$4, "responseInsertEntry");
+    public void responseInsertEntry(final int n) {
+        CommandResponse commandResponse = new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ADBHMIAppServiceListener aDBHMIAppServiceListener = (ADBHMIAppServiceListener)((Object)dSIListener);
+                aDBHMIAppServiceListener.responseInsertEntry(n);
+            }
+        };
+        CommandResponse.executeTryCatch(this.commandResponseSupplier, commandResponse, "responseInsertEntry");
     }
 
     private ICommandResponseSupplier createCommandResponseSupplier() {
-        return new MessagingService$5(this);
+        return new ICommandResponseSupplier(){
+            private final CommandListManager cmdListManager;
+            private final LogChannel logChannel;
+            private final String handlerName;
+            {
+                this.cmdListManager = MessagingService.this.msgApp.getExecutorManager().getCommandListManager();
+                this.logChannel = this.cmdListManager.getLogChannel();
+                this.handlerName = Classes.getShortClassName(MessagingService.this.getClass());
+            }
+
+            public DSIListener getDSIDefaultHandler() {
+                return MessagingService.this.adbHmiAppServiceDefaultListener;
+            }
+
+            public CommandList getActiveCommandList() {
+                return this.cmdListManager.getActiveCommandList();
+            }
+
+            public LogChannel getLogChannel() {
+                return this.logChannel;
+            }
+
+            public String getHandlerName() {
+                return this.handlerName;
+            }
+        };
     }
 
     private void emitExceedsUpperThreshold(int n) {
-        this.log.log(-2137614336, "[MessagingService#emitExceedsUpperThreshold] thresholdId = %1", (long)n);
+        this.log.log(10000000, "[MessagingService#emitExceedsUpperThreshold] thresholdId = %1", (long)n);
         Iterator iterator = this.speedThresholdListeners.iterator();
         while (iterator.hasNext()) {
             try {
@@ -253,7 +291,7 @@ IDeviceRoleObserver {
     }
 
     private void emitBelowLowerThreshold(int n) {
-        this.log.log(-2137614336, "[MessagingService#belowLowerThreshold] thresholdId = %1", (long)n);
+        this.log.log(10000000, "[MessagingService#belowLowerThreshold] thresholdId = %1", (long)n);
         Iterator iterator = this.speedThresholdListeners.iterator();
         while (iterator.hasNext()) {
             try {
@@ -265,34 +303,30 @@ IDeviceRoleObserver {
         }
     }
 
-    @Override
     public void exceedsUpperThreshold(int n) {
         if (n == 11) {
-            this.log.log(1078071040, "[MessagingService#exceedsUpperThreshold]");
+            this.log.log(1000000, "[MessagingService#exceedsUpperThreshold]");
             this.messagingThresholdExceeded = true;
-            this.framework.getHmiServiceApp().getChoiceModel(-1382932224).setValue(1);
+            this.framework.getHmiServiceApp().getChoiceModel(2200237).setValue(1);
             this.emitExceedsUpperThreshold(n);
         }
     }
 
-    @Override
     public void belowLowerThreshold(int n) {
         if (n == 11) {
-            this.log.log(1078071040, "[MessagingService#belowLowerThreshold]");
+            this.log.log(1000000, "[MessagingService#belowLowerThreshold]");
             this.messagingThresholdExceeded = false;
-            this.framework.getHmiServiceApp().getChoiceModel(-1382932224).setValue(0);
+            this.framework.getHmiServiceApp().getChoiceModel(2200237).setValue(0);
             this.emitBelowLowerThreshold(n);
         }
     }
 
-    @Override
     public IDiagPlugIn[] createDiagPlugIns() {
         return new IDiagPlugIn[]{new MessagingServiceDiagPlugIn(this)};
     }
 
-    @Override
     public void updateDeviceRoleInfo(DeviceRoleInfo deviceRoleInfo) {
-        this.log.log(1078071040, "[MessagingService#updateDeviceRoleInfo] primaryDevice = %1", (Object)deviceRoleInfo);
+        this.log.log(1000000, "[MessagingService#updateDeviceRoleInfo] primaryDevice = %1", (Object)deviceRoleInfo);
         this.primaryDevice = deviceRoleInfo;
     }
 
@@ -303,14 +337,6 @@ IDeviceRoleObserver {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ AbstractMsgApplication access$000(MessagingService messagingService) {
-        return messagingService.msgApp;
-    }
-
-    static /* synthetic */ AdbHmiAppServiceDefaultListener access$100(MessagingService messagingService) {
-        return messagingService.adbHmiAppServiceDefaultListener;
     }
 }
 

@@ -31,16 +31,15 @@ extends AbstractBAPModuleServiceManager {
         this.logChannel = abstractCombiModule.getLogChannel();
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof CombiBAPServiceMFLListener) {
-            this.logChannel.log(-2137614336, "[ServiceManagerMFL#addingService] %1 found", (Object)(class$de$audi$atip$interapp$combi$bap$mfl$CombiBAPServiceMFLListener == null ? (class$de$audi$atip$interapp$combi$bap$mfl$CombiBAPServiceMFLListener = ServiceManagerMFL.class$("de.audi.atip.interapp.combi.bap.mfl.CombiBAPServiceMFLListener")) : class$de$audi$atip$interapp$combi$bap$mfl$CombiBAPServiceMFLListener).getName());
+            this.logChannel.log(10000000, "[ServiceManagerMFL#addingService] %1 found", (Object)(class$de$audi$atip$interapp$combi$bap$mfl$CombiBAPServiceMFLListener == null ? (class$de$audi$atip$interapp$combi$bap$mfl$CombiBAPServiceMFLListener = ServiceManagerMFL.class$("de.audi.atip.interapp.combi.bap.mfl.CombiBAPServiceMFLListener")) : class$de$audi$atip$interapp$combi$bap$mfl$CombiBAPServiceMFLListener).getName());
             ((AppConnectorMFL)this.module.getAppConnectors().get("Car")).setAppServiceListener((CombiBAPServiceMFLListener)object);
             return object;
         }
         if (object instanceof PartialPopupBAPServiceListener) {
-            this.logChannel.log(-2137614336, "[ServiceManagerMFL#addingService] %1 found", (Object)(class$de$audi$atip$interapp$combi$bap$PartialPopupBAPServiceListener == null ? (class$de$audi$atip$interapp$combi$bap$PartialPopupBAPServiceListener = ServiceManagerMFL.class$("de.audi.atip.interapp.combi.bap.PartialPopupBAPServiceListener")) : class$de$audi$atip$interapp$combi$bap$PartialPopupBAPServiceListener).getName());
+            this.logChannel.log(10000000, "[ServiceManagerMFL#addingService] %1 found", (Object)(class$de$audi$atip$interapp$combi$bap$PartialPopupBAPServiceListener == null ? (class$de$audi$atip$interapp$combi$bap$PartialPopupBAPServiceListener = ServiceManagerMFL.class$("de.audi.atip.interapp.combi.bap.PartialPopupBAPServiceListener")) : class$de$audi$atip$interapp$combi$bap$PartialPopupBAPServiceListener).getName());
             ((CombiModuleMFL)this.module).getPartialPopupHandler().setPartialPopupBAPServiceListener((PartialPopupBAPServiceListener)object);
             this.module.getInitializationManager().notifyAppServiceChanged(true);
             return object;
@@ -49,31 +48,28 @@ extends AbstractBAPModuleServiceManager {
         return super.addingService(serviceReference);
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof CombiBAPServiceMFLListener) {
-            this.logChannel.log(-2137614336, "[ServiceManagerMFL#removedService] CombiBAPServiceMFLListener removed");
+            this.logChannel.log(10000000, "[ServiceManagerMFL#removedService] CombiBAPServiceMFLListener removed");
             ((AppConnectorMFL)this.module.getAppConnectors().get("Car")).setAppServiceListener(null);
             this.bundleContext.ungetService(serviceReference);
         } else {
-            this.logChannel.log(-1601830656, "[ServiceManagerMFL#removedService] removing unknown service: %1", (Object)serviceReference);
+            this.logChannel.log(100000, "[ServiceManagerMFL#removedService] removing unknown service: %1", (Object)serviceReference);
             super.removedService(serviceReference, object);
         }
     }
 
-    @Override
     public void registerServices(AbstractActivator abstractActivator) {
-        this.logChannel.log(-2137614336, "[ServiceManagerMFL#registerServices] Registering appConnectorMFL as CombiBAPServiceMFL");
+        this.logChannel.log(10000000, "[ServiceManagerMFL#registerServices] Registering appConnectorMFL as CombiBAPServiceMFL");
         abstractActivator.registerService((class$de$audi$atip$interapp$combi$bap$mfl$CombiBAPServiceMFL == null ? (class$de$audi$atip$interapp$combi$bap$mfl$CombiBAPServiceMFL = ServiceManagerMFL.class$("de.audi.atip.interapp.combi.bap.mfl.CombiBAPServiceMFL")) : class$de$audi$atip$interapp$combi$bap$mfl$CombiBAPServiceMFL).getName(), this.module.getAppConnectors().get("Car"), null);
-        this.logChannel.log(-2137614336, "[ServiceManagerMFL#registerServices] Registering MFLKeyHandler as MessageListener");
+        this.logChannel.log(10000000, "[ServiceManagerMFL#registerServices] Registering MFLKeyHandler as MessageListener");
         abstractActivator.registerService((class$de$audi$atip$msg$MsgListener == null ? (class$de$audi$atip$msg$MsgListener = ServiceManagerMFL.class$("de.audi.atip.msg.MsgListener")) : class$de$audi$atip$msg$MsgListener).getName(), (Object)((CombiModuleMFL)this.module).getMFLKeyHandler(), null);
-        this.logChannel.log(-2137614336, "[ServiceManagerMFL#registerServices] Registering InitializationManagerMFL as MessageListener");
+        this.logChannel.log(10000000, "[ServiceManagerMFL#registerServices] Registering InitializationManagerMFL as MessageListener");
         abstractActivator.registerService((class$de$audi$atip$msg$MsgListener == null ? (class$de$audi$atip$msg$MsgListener = ServiceManagerMFL.class$("de.audi.atip.msg.MsgListener")) : class$de$audi$atip$msg$MsgListener).getName(), (Object)this.module.getInitializationManager(), null);
-        this.logChannel.log(-2137614336, "[ServiceManagerMFL#registerServices] Registering PartialPopupHandler as PartialPopupBAPService");
+        this.logChannel.log(10000000, "[ServiceManagerMFL#registerServices] Registering PartialPopupHandler as PartialPopupBAPService");
         abstractActivator.registerService((class$de$audi$atip$interapp$combi$bap$PartialPopupBAPService == null ? (class$de$audi$atip$interapp$combi$bap$PartialPopupBAPService = ServiceManagerMFL.class$("de.audi.atip.interapp.combi.bap.PartialPopupBAPService")) : class$de$audi$atip$interapp$combi$bap$PartialPopupBAPService).getName(), (Object)((CombiModuleMFL)this.module).getPartialPopupHandler(), null);
     }
 
-    @Override
     public void trackServices() {
         String[] stringArray = new String[]{(class$de$audi$atip$interapp$combi$bap$mfl$CombiBAPServiceMFLListener == null ? (class$de$audi$atip$interapp$combi$bap$mfl$CombiBAPServiceMFLListener = ServiceManagerMFL.class$("de.audi.atip.interapp.combi.bap.mfl.CombiBAPServiceMFLListener")) : class$de$audi$atip$interapp$combi$bap$mfl$CombiBAPServiceMFLListener).getName(), (class$de$audi$atip$interapp$combi$bap$PartialPopupBAPServiceListener == null ? (class$de$audi$atip$interapp$combi$bap$PartialPopupBAPServiceListener = ServiceManagerMFL.class$("de.audi.atip.interapp.combi.bap.PartialPopupBAPServiceListener")) : class$de$audi$atip$interapp$combi$bap$PartialPopupBAPServiceListener).getName(), (class$de$audi$atip$diag$sw$SwDiagnosisManager == null ? (class$de$audi$atip$diag$sw$SwDiagnosisManager = ServiceManagerMFL.class$("de.audi.atip.diag.sw.SwDiagnosisManager")) : class$de$audi$atip$diag$sw$SwDiagnosisManager).getName()};
         this.serviceTracker = new ServiceTracker(this.bundleContext, stringArray, (ServiceTrackerCustomizer)this);

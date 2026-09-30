@@ -13,11 +13,11 @@ import org.osgi.framework.ServiceRegistration;
 public class BaseStatusBar
 extends AbstractBluetoothComponent
 implements PowerEventListener {
-    private static final int OFF;
-    private static final int ON;
-    private static final int VISIBLE;
-    private static final int CONNECTED;
-    private static final int[] ATTRIBUTE_NOTIFICATIONS;
+    private static final int OFF = 0;
+    private static final int ON = 1;
+    private static final int VISIBLE = 2;
+    private static final int CONNECTED = 3;
+    private static final int[] ATTRIBUTE_NOTIFICATIONS = new int[]{1, 3, 6};
     private ServiceRegistration serviceRegistration;
     private final ChoiceModelApp icon = this.getChoiceModel(3940);
     private boolean on;
@@ -30,25 +30,21 @@ implements PowerEventListener {
         super(iBluetoothApplication);
     }
 
-    @Override
     public void init() {
         super.init();
         this.serviceRegistration = this.bundleContext.registerService((class$de$audi$atip$power$PowerEventListener == null ? (class$de$audi$atip$power$PowerEventListener = BaseStatusBar.class$("de.audi.atip.power.PowerEventListener")) : class$de$audi$atip$power$PowerEventListener).getName(), (Object)this, null);
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.serviceRegistration.unregister();
         this.serviceRegistration = null;
     }
 
-    @Override
     protected int[] getAttributeNotifications() {
         return ATTRIBUTE_NOTIFICATIONS;
     }
 
-    @Override
     public void updateAccessibleMode(int n, boolean bl, int n2) {
         if ((n2 & 1) == 0) {
             return;
@@ -57,7 +53,6 @@ implements PowerEventListener {
         this.updateModel();
     }
 
-    @Override
     public void updateBTState(int n, int n2) {
         if ((n2 & 1) == 0) {
             return;
@@ -66,7 +61,6 @@ implements PowerEventListener {
         this.updateModel();
     }
 
-    @Override
     public void updateTrustedDevices(TrustedDevice[] trustedDeviceArray, int n) {
         if ((n & 1) == 0 || trustedDeviceArray == null) {
             return;
@@ -81,19 +75,15 @@ implements PowerEventListener {
         this.updateModel();
     }
 
-    @Override
     public void notifyPowerListenerOnEnterState(int n, int n2) {
     }
 
-    @Override
     public void notifyPowerListenerOnExitState(int n, int n2) {
     }
 
-    @Override
     public void notifyPowerTriggerAction(int n, int n2) {
     }
 
-    @Override
     public void updateClampState(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
         this.isClampSOn = bl;
         this.updateModel();
@@ -101,7 +91,7 @@ implements PowerEventListener {
 
     private void updateModel() {
         int n = this.isClampSOn && this.on ? (this.connected ? 3 : (this.visible ? 2 : 1)) : 0;
-        this.log.log(1078071040, "BaseStatusBar#updateModel(): %1", (long)n);
+        this.log.log(1000000, "BaseStatusBar#updateModel(): %1", (long)n);
         this.icon.setValue(n);
     }
 
@@ -112,10 +102,6 @@ implements PowerEventListener {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static {
-        ATTRIBUTE_NOTIFICATIONS = new int[]{1, 3, 6};
     }
 }
 

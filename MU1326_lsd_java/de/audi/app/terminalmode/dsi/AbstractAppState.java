@@ -18,17 +18,14 @@ implements IAppState {
         this.speechMode = n3;
     }
 
-    @Override
     public int getAppStateId() {
         return this.appStateId;
     }
 
-    @Override
     public int getOwner() {
         return this.owner;
     }
 
-    @Override
     public int getSpeechMode() {
         return this.speechMode;
     }
@@ -99,7 +96,7 @@ implements IAppState {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         AbstractAppState abstractAppState = (AbstractAppState)object;

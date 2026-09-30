@@ -4,16 +4,12 @@
 package de.audi.atip.interapp;
 
 public interface IFormattingResponse {
-    default public String getFirstLineAsText() {
-    }
+    public String getFirstLineAsText();
 
-    default public String getSecondLineAsText() {
-    }
+    public String getSecondLineAsText();
 
-    default public String getThirdLineAsText() {
-    }
+    public String getThirdLineAsText();
 
-    default public String getPhoneticsAsText() {
-    }
+    public String getPhoneticsAsText();
 }
 

@@ -4,7 +4,6 @@
 package de.audi.atip.interapp.bap.eni.data;
 
 import de.audi.atip.interapp.bap.eni.data.Address;
-import de.audi.atip.interapp.bap.eni.data.Destination$Builder;
 import de.audi.atip.interapp.bap.eni.data.GeoCoordinates;
 import de.audi.atip.interapp.bap.eni.data.PhoneNumber;
 import de.esolutions.fw.util.commons.Buffer;
@@ -21,8 +20,8 @@ public final class Destination {
     private final Address address;
     private final PhoneNumber phoneNumber;
 
-    public static Destination$Builder builder() {
-        return new Destination$Builder();
+    public static Builder builder() {
+        return new Builder();
     }
 
     private Destination(int n, String string, GeoCoordinates geoCoordinates, int n2, int n3, String string2, int n4, int n5, Address address, PhoneNumber phoneNumber) {
@@ -100,7 +99,7 @@ public final class Destination {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         Destination destination = (Destination)object;
@@ -136,6 +135,73 @@ public final class Destination {
 
     public String toString() {
         return new Buffer("Poi [name=").append(this.name).append(", internalId=").append(this.internalId).append(", geoCoordinates=").append(this.geoCoordinates).append(", destinationKind=").append(this.destinationKind).append(", poiKind=").append(this.poiKind).append(", poiExtension=").append(this.poiExtension).append(", tourId=").append(this.tourId).append(", stopOverSequenceNumber=").append(this.stopOverSequenceNumber).append(", address=").append(this.address).append(", phoneNumber=").append(this.phoneNumber).append("]").toString();
+    }
+
+    public static final class Builder {
+        private int internalId;
+        private String name;
+        private GeoCoordinates geoCoordinates;
+        private int destinationKind;
+        private int poiKind;
+        private String poiExtension;
+        private int tourId;
+        private int stopOverSequenceNumber;
+        private Address address;
+        private PhoneNumber phoneNumber;
+
+        public Builder setInternalId(int n) {
+            this.internalId = n;
+            return this;
+        }
+
+        public Builder setName(String string) {
+            this.name = string;
+            return this;
+        }
+
+        public Builder setGeoCoordinates(GeoCoordinates geoCoordinates) {
+            this.geoCoordinates = geoCoordinates;
+            return this;
+        }
+
+        public Builder setDestinationKind(int n) {
+            this.destinationKind = n;
+            return this;
+        }
+
+        public Builder setPoiKind(int n) {
+            this.poiKind = n;
+            return this;
+        }
+
+        public Builder setPoiExtension(String string) {
+            this.poiExtension = string;
+            return this;
+        }
+
+        public Builder setTourId(int n) {
+            this.tourId = n;
+            return this;
+        }
+
+        public Builder setStopOverSequenceNumber(int n) {
+            this.stopOverSequenceNumber = n;
+            return this;
+        }
+
+        public Builder setAddress(Address address) {
+            this.address = address;
+            return this;
+        }
+
+        public Builder setPhoneNumber(PhoneNumber phoneNumber) {
+            this.phoneNumber = phoneNumber;
+            return this;
+        }
+
+        public Destination build() {
+            return new Destination(this.internalId, this.name, this.geoCoordinates, this.destinationKind, this.poiKind, this.poiExtension, this.tourId, this.stopOverSequenceNumber, this.address, this.phoneNumber);
+        }
     }
 }
 

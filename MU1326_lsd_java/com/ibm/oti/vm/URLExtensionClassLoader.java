@@ -32,8 +32,8 @@ extends URLSystemClassLoader {
             String string2 = System.getProperty("java.home", "");
             File file = new File(string2, "lib/ext");
             String string3 = System.getProperty("com.ibm.oti.configuration.dir");
-            uRLArray = new File(string2, new StringBuffer("lib/").append(string3).append("/opt-ext").toString());
-            string = new StringBuffer(String.valueOf(file.getPath())).append(File.pathSeparatorChar).append(uRLArray.getPath()).toString();
+            uRLArray = new File(string2, "lib/" + string3 + "/opt-ext");
+            string = String.valueOf(file.getPath()) + File.pathSeparatorChar + uRLArray.getPath();
             System.setProperty("java.ext.dirs", string);
         }
         int n2 = 0;
@@ -64,7 +64,7 @@ extends URLSystemClassLoader {
                 stringArray[n3] = file.list();
                 if (stringArray[n3] != null) {
                     n += stringArray[n3].length;
-                    stringArray2[n3++] = new StringBuffer(String.valueOf(file.getPath())).append(File.separatorChar).toString();
+                    stringArray2[n3++] = String.valueOf(file.getPath()) + File.separatorChar;
                 }
             }
             n2 = n6 + 1;
@@ -87,7 +87,7 @@ extends URLSystemClassLoader {
                                 bl = false;
                                 if (string6.length() > 4 && string6.substring(string6.length() - 4).equalsIgnoreCase(".jxe")) {
                                     try {
-                                        Jxe jxe = Jxe.fromFile(new File(new StringBuffer(String.valueOf(stringArray2[n8])).append(string6).toString()));
+                                        Jxe jxe = Jxe.fromFile(new File(String.valueOf(stringArray2[n8]) + string6));
                                         if (jxe == null) break block21;
                                         uRLArray[n7] = new URL("jxe", jxe.getUuid(), -1, "/", new Handler(jxe));
                                         ++n7;
@@ -101,7 +101,7 @@ extends URLSystemClassLoader {
                                 }
                             }
                             if (!bl) {
-                                string5 = new StringBuffer("file:").append(stringArray2[n8]).append(string6).toString();
+                                string5 = "file:" + stringArray2[n8] + string6;
                             }
                             try {
                                 uRLArray[n7] = new URL(string5);
@@ -123,7 +123,6 @@ extends URLSystemClassLoader {
         return uRLArray;
     }
 
-    @Override
     boolean addExitPermission() {
         return false;
     }

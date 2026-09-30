@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package de.audi.app.tuner.truffles.frequency;
 
@@ -25,16 +22,16 @@ class AmFmFrequencySearch {
         RadioSearchListRow radioSearchListRow = null;
         long l = 0L;
         try {
-            l = n == 1 ? (long)(Double.parseDouble((String)string2) * 1000.0) : (long)Double.parseDouble((String)string2);
+            l = n == 1 ? (long)(Double.parseDouble(string2) * 1000.0) : (long)Double.parseDouble(string2);
         }
         catch (NumberFormatException numberFormatException) {
-            this.log.log(-2137614336, "[AmFmFrequencySearch.getRowForFrequency] unable to parse frequency string to double.");
+            this.log.log(10000000, "[AmFmFrequencySearch.getRowForFrequency] unable to parse frequency string to double.");
             return null;
         }
         if (this.frequencyIsCorrect(l)) {
             radioSearchListRow = new RadioSearchListRow(string2, n, l);
         }
-        this.log.log(-2137614336, "[AmFmFrequencySearch.getRowForFrequency] result for band %2 is row: %1", (Object)radioSearchListRow, (long)n);
+        this.log.log(10000000, "[AmFmFrequencySearch.getRowForFrequency] result for band %2 is row: %1", (Object)radioSearchListRow, (long)n);
         return radioSearchListRow;
     }
 

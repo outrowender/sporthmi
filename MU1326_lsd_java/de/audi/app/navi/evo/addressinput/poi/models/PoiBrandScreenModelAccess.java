@@ -25,30 +25,27 @@ implements IPoiBrandScreenModelAccess {
         this.previewListModel = navigationEnv.getBaseListModel(n);
     }
 
-    @Override
     public void onStart() {
         this.previewListModel.removeAll();
     }
 
-    @Override
     public void onElementSelected(LIValueListElement lIValueListElement) {
-        this.logChannel.log(-2137614336, "PoiBrandScreenModelAccess#onElementSelected - selectedElement.data=%1", (Object)lIValueListElement.data);
-        this.env.getLabelModel(958268928).setText(lIValueListElement.data);
+        this.logChannel.log(10000000, "PoiBrandScreenModelAccess#onElementSelected - selectedElement.data=%1", (Object)lIValueListElement.data);
+        this.env.getLabelModel(400953).setText(lIValueListElement.data);
     }
 
-    @Override
     public void onUpdateResultList(LIValueList lIValueList, long l, String string, boolean bl) {
-        this.logChannel.log(-2137614336, "PoiBrandScreenModelAccess#onUpdateResultList( %1, %2)", (Object)string, l);
-        this.env.getChoiceModel(-1541732864).setValue((int)l);
+        this.logChannel.log(10000000, "PoiBrandScreenModelAccess#onUpdateResultList( %1, %2)", (Object)string, l);
+        this.env.getChoiceModel(400292).setValue((int)l);
         if (!Util.isListValid(lIValueList) || lIValueList.getList().length == 0) {
-            this.logChannel.log(-2137614336, "PoiBrandScreenModelAccess#onUpdateResultList() - invalid value list: %1", (Object)lIValueList);
+            this.logChannel.log(10000000, "PoiBrandScreenModelAccess#onUpdateResultList() - invalid value list: %1", (Object)lIValueList);
             this.previewListModel.removeAll();
             return;
         }
         LIValueListElement[] lIValueListElementArray = lIValueList.getList();
         int n = lIValueListElementArray.length;
         int n2 = this.previewListModel.getLength();
-        this.logChannel.log(-2137614336, "PoiBrandScreenModelAccess#onUpdateResultList - previewlistlength: %1, currentListModelLength: %2", (long)n, (long)n2);
+        this.logChannel.log(10000000, "PoiBrandScreenModelAccess#onUpdateResultList - previewlistlength: %1, currentListModelLength: %2", (long)n, (long)n2);
         try {
             for (int i2 = 0; i2 < n; ++i2) {
                 LIValueListElement lIValueListElement = lIValueListElementArray[i2];

@@ -14,7 +14,7 @@ import java.util.List;
 
 public class JobNotifyContentActivationFinished
 implements Runnable {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "JobNotifyContentActivationFinished";
     final List listeners;
     private final IMediaLogger logger;
     final IContent content;
@@ -27,7 +27,6 @@ implements Runnable {
         this.activeSlot = iContent.getActiveSlot();
     }
 
-    @Override
     public void run() {
         Iterator iterator = this.listeners.iterator();
         while (iterator.hasNext()) {
@@ -35,14 +34,14 @@ implements Runnable {
                 ((IContentListener)iterator.next()).contentActivationFinished(this.content);
             }
             catch (Exception exception) {
-                this.logger.main().log(-1601830656, "[%1.run]", (Object)"JobNotifyContentActivationFinished", (Throwable)exception);
+                this.logger.main().log(100000, "[%1.run]", (Object)LOGCLASS, (Throwable)exception);
             }
         }
     }
 
     public String toString() {
         Buffer buffer = new Buffer();
-        buffer.append("JobNotifyContentActivationFinished").append(": '").append(LogUtil.getContentTypeStr(this.content.getContentType())).append("','").append(this.activeSlot).append("'");
+        buffer.append(LOGCLASS).append(": '").append(LogUtil.getContentTypeStr(this.content.getContentType())).append("','").append(this.activeSlot).append("'");
         return buffer.toString();
     }
 }

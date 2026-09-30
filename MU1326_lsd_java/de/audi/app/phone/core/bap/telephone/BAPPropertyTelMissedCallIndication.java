@@ -17,12 +17,10 @@ extends AbstractTel1EnqueuedBAPPropertyHandler {
         super(iTelApplication, dispatcherBase);
     }
 
-    @Override
     protected boolean doProcessGlobalTelephoneStateUpdate(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
-        return iGlobalTelephoneStateStruct != null && (n == 704643328 || n == 654311680);
+        return iGlobalTelephoneStateStruct != null && (n == 65578 || n == 65575);
     }
 
-    @Override
     protected void updateAsync() {
         CombiBAPServicePhone combiBAPServicePhone = this.getCombiService();
         IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct = this.getTelephoneState();
@@ -32,13 +30,13 @@ extends AbstractTel1EnqueuedBAPPropertyHandler {
                 MissedCallIndicator missedCallIndicator = iGlobalTelephoneStateStruct.getMissedCallIndicator();
                 int n = callStackEntryArray != null ? callStackEntryArray.length : 0;
                 int n2 = missedCallIndicator != null ? missedCallIndicator.getMissedCallCount() : 0;
-                this.log.log(1078071040, "[BAPPropertyTelMissedCallIndication#update] missedCalls=%1, missedNumbers=%2", (long)n2, (long)n);
+                this.log.log(1000000, "[BAPPropertyTelMissedCallIndication#update] missedCalls=%1, missedNumbers=%2", (long)n2, (long)n);
                 combiBAPServicePhone.updateMissedCallIndication(n2, n);
             } else {
-                this.log.log(-1601830656, "[BAPPropertyTelMissedCallIndication#update] state is null --> NOP!");
+                this.log.log(100000, "[BAPPropertyTelMissedCallIndication#update] state is null --> NOP!");
             }
         } else {
-            this.log.log(-1601830656, "[BAPPropertyTelMissedCallIndication#update] CombiBAPServicePhone is null --> NOP!");
+            this.log.log(100000, "[BAPPropertyTelMissedCallIndication#update] CombiBAPServicePhone is null --> NOP!");
         }
     }
 }

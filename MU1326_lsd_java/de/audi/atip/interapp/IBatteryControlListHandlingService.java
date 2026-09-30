@@ -9,70 +9,48 @@ import org.dsi.ifc.carhybrid.BatteryControlProfileOperation;
 
 public interface IBatteryControlListHandlingService
 extends IBatteryControlListHandlingConstants {
-    default public int getProfile1Pos() {
-    }
+    public int getProfile1Pos();
 
-    default public int getProfile2Pos() {
-    }
+    public int getProfile2Pos();
 
-    default public int getProfile3Pos() {
-    }
+    public int getProfile3Pos();
 
-    default public int getProfileListLength() {
-    }
+    public int getProfileListLength();
 
-    default public BatteryControlProfileOperation getBatteryControlProfileOperation(int n) {
-    }
+    public BatteryControlProfileOperation getBatteryControlProfileOperation(int var1);
 
-    default public void setBatteryControlProfileOperation(int n, boolean bl, boolean bl2, boolean bl3) {
-    }
+    public void setBatteryControlProfileOperation(int var1, boolean var2, boolean var3, boolean var4);
 
-    default public boolean isProfileXOperationCharge(int n) {
-    }
+    public boolean isProfileXOperationCharge(int var1);
 
-    default public void setProfileXOperationCharge(int n, boolean bl) {
-    }
+    public void setProfileXOperationCharge(int var1, boolean var2);
 
-    default public boolean isProfileXOperationClimate(int n) {
-    }
+    public boolean isProfileXOperationClimate(int var1);
 
-    default public void setProfileXOperationClimate(int n, boolean bl) {
-    }
+    public void setProfileXOperationClimate(int var1, boolean var2);
 
-    default public boolean isProfileXOperation2Heater(int n) {
-    }
+    public boolean isProfileXOperation2Heater(int var1);
 
-    default public void setProfileXOperation2Heater(int n, boolean bl) {
-    }
+    public void setProfileXOperation2Heater(int var1, boolean var2);
 
-    default public boolean isProfileXOperation2HeaterAutomatic(int n) {
-    }
+    public boolean isProfileXOperation2HeaterAutomatic(int var1);
 
-    default public void setProfileXOperation2HeaterAutomatic(int n, boolean bl) {
-    }
+    public void setProfileXOperation2HeaterAutomatic(int var1, boolean var2);
 
-    default public int getProfileXProviderDataId(int n) {
-    }
+    public int getProfileXProviderDataId(int var1);
 
-    default public void setProfile1ProviderDataId(int n) {
-    }
+    public void setProfile1ProviderDataId(int var1);
 
-    default public void setProfile2ProviderDataId(int n) {
-    }
+    public void setProfile2ProviderDataId(int var1);
 
-    default public void setProfile3ProviderDataId(int n) {
-    }
+    public void setProfile3ProviderDataId(int var1);
 
-    default public void setAuxAcClimateSystem(int n, int n2) {
-    }
+    public void setAuxAcClimateSystem(int var1, int var2);
 
-    default public void registerCalledBackComponent(IBatteryControlListHandlingCallback iBatteryControlListHandlingCallback) {
-    }
+    public void registerCalledBackComponent(IBatteryControlListHandlingCallback var1);
 
-    default public void setPreferredLoadingTimer1() {
-    }
+    public void setPreferredLoadingTimer1();
 
-    default public void setPreferredLoadingTimer2() {
-    }
+    public void setPreferredLoadingTimer2();
 }
 

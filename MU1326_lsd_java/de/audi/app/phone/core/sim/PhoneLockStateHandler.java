@@ -11,12 +11,9 @@ import de.audi.app.phone.core.bap.telephone.IBAPPropertyTelLockStateService;
 import de.audi.app.phone.core.bap.telephone2.IBAPPropertyTel2LockStateService;
 import de.audi.app.phone.core.dsi.ITelDSIMobileEquipmentDeviceState;
 import de.audi.app.phone.core.dsi.ITelDSIResponseListener;
+import de.audi.app.phone.core.dsi.TelDefaultDSIResponseListener;
+import de.audi.app.phone.core.model.TelDefaultButtonListener;
 import de.audi.app.phone.core.sim.ITelLockStateHandler;
-import de.audi.app.phone.core.sim.PhoneLockStateHandler$PinBlockedHKReturnListener;
-import de.audi.app.phone.core.sim.PhoneLockStateHandler$PinBlockedOkButtonListener;
-import de.audi.app.phone.core.sim.PhoneLockStateHandler$PukWrongHkReturnButtonListener;
-import de.audi.app.phone.core.sim.PhoneLockStateHandler$PukWrongOkButtonListener;
-import de.audi.app.phone.core.sim.PhoneLockStateHandler$SIMUnlockDSIResponseListener;
 import de.audi.app.phone.core.state.GlobalTelephoneState;
 import de.audi.app.phone.core.state.IGlobalTelephoneStateStruct;
 import de.audi.app.phone.core.util.PhoneUtils;
@@ -36,35 +33,35 @@ implements SpellerListener,
 ChoiceListener,
 ServiceTrackerCustomizer,
 ITelLockStateHandler {
-    private static final int NEW_PIN_COMPARE_NOK;
-    private static final int NEW_PIN_COMPARE_OK;
-    private static final int LOCKCODE_UNKNOWN;
-    public static final int PIN_MIN_LENGTH;
-    public static final int PIN_MAX_LENGTH;
-    static final int PUK_MIN_LENGTH;
-    static final int PUK_MAX_LENGTH;
-    public static final int LOCKSTATE_NOLOCK;
-    public static final int LOCKSTATE_ENTER_PIN;
-    public static final int LOCKSTATE_ENTER_PIN_2_ON_MOBILE;
-    public static final int LOCKSTATE_ENTER_PUK;
-    public static final int LOCKSTATE_ENTER_PUK_2_ON_MOBILE;
-    public static final int LOCKSTATE_PUK_BLOCKED;
-    public static final int LOCKSTATE_PUK2_BLOCKED;
-    public static final int LOCKSTATE_SIMNOTAVAILABLE;
-    public static final int LOCKSTATE_SIMNOTFUNCTIONAL;
-    public static final int LOCKSTATE_ENTER_NEW_PIN;
-    public static final int LOCKSTATE_CONFIRM_NEW_PIN;
-    public static final int LOCKSTATE_SECCO_REQUIRED;
-    public static final int LOCKSTATE_SECCO_BLOCKED;
-    public static final int LOCKSTATE_UNKNOWN;
-    public static final int AUTO_PIN_ON;
-    public static final int AUTO_PIN_OFF;
-    public static final int AUTO_PIN_DEFAULT;
-    public static final int PIN_SAVE_DIALOG_CHOICE_OFF;
-    public static final int PIN_SAVE_DIALOG_CHOICE_ON;
-    public static final int ENTER_PUK_CONDITION_PIN_BLOCKED;
-    public static final int ENTER_PUK_CONDITION_PUK_WRONG;
-    public static final int ENTER_PUK_EDIT;
+    private static final int NEW_PIN_COMPARE_NOK = 0;
+    private static final int NEW_PIN_COMPARE_OK = 1;
+    private static final int LOCKCODE_UNKNOWN = -1;
+    public static final int PIN_MIN_LENGTH = 4;
+    public static final int PIN_MAX_LENGTH = 8;
+    static final int PUK_MIN_LENGTH = 8;
+    static final int PUK_MAX_LENGTH = 8;
+    public static final int LOCKSTATE_NOLOCK = 0;
+    public static final int LOCKSTATE_ENTER_PIN = 1;
+    public static final int LOCKSTATE_ENTER_PIN_2_ON_MOBILE = 2;
+    public static final int LOCKSTATE_ENTER_PUK = 4;
+    public static final int LOCKSTATE_ENTER_PUK_2_ON_MOBILE = 11;
+    public static final int LOCKSTATE_PUK_BLOCKED = 6;
+    public static final int LOCKSTATE_PUK2_BLOCKED = 3;
+    public static final int LOCKSTATE_SIMNOTAVAILABLE = 51;
+    public static final int LOCKSTATE_SIMNOTFUNCTIONAL = 53;
+    public static final int LOCKSTATE_ENTER_NEW_PIN = 7;
+    public static final int LOCKSTATE_CONFIRM_NEW_PIN = 8;
+    public static final int LOCKSTATE_SECCO_REQUIRED = 9;
+    public static final int LOCKSTATE_SECCO_BLOCKED = 10;
+    public static final int LOCKSTATE_UNKNOWN = -1;
+    public static final int AUTO_PIN_ON = 1;
+    public static final int AUTO_PIN_OFF = 0;
+    public static final int AUTO_PIN_DEFAULT = 1;
+    public static final int PIN_SAVE_DIALOG_CHOICE_OFF = 0;
+    public static final int PIN_SAVE_DIALOG_CHOICE_ON = 1;
+    public static final int ENTER_PUK_CONDITION_PIN_BLOCKED = 0;
+    public static final int ENTER_PUK_CONDITION_PUK_WRONG = 1;
+    public static final int ENTER_PUK_EDIT = 2;
     private int lockCode = -1;
     private String currentPIN;
     private String changedPIN;
@@ -149,13 +146,12 @@ ITelLockStateHandler {
 
     public PhoneLockStateHandler(ITelApplication iTelApplication, String string) {
         super(iTelApplication, string);
-        this.addSubPhoneComponent(new PhoneLockStateHandler$PinBlockedHKReturnListener(this, iTelApplication));
-        this.addSubPhoneComponent(new PhoneLockStateHandler$PinBlockedOkButtonListener(this, iTelApplication));
-        this.addSubPhoneComponent(new PhoneLockStateHandler$PukWrongOkButtonListener(this, iTelApplication));
-        this.addSubPhoneComponent(new PhoneLockStateHandler$PukWrongHkReturnButtonListener(this, iTelApplication));
+        this.addSubPhoneComponent(new PinBlockedHKReturnListener(iTelApplication));
+        this.addSubPhoneComponent(new PinBlockedOkButtonListener(iTelApplication));
+        this.addSubPhoneComponent(new PukWrongOkButtonListener(iTelApplication));
+        this.addSubPhoneComponent(new PukWrongHkReturnButtonListener(iTelApplication));
     }
 
-    @Override
     public void init() {
         super.init();
         this.getApplication().getGlobalTelephoneStateManager().registerListener(this);
@@ -168,7 +164,6 @@ ITelLockStateHandler {
         this.lockStateHandlerServiceProvider.startService();
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.deinitModels();
@@ -187,45 +182,43 @@ ITelLockStateHandler {
         }
     }
 
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         super.updateGlobalTelephoneStateProperty(n, iGlobalTelephoneStateStruct);
         this.telephoneState = iGlobalTelephoneStateStruct;
         this.updateAutomaticPinEntryActive(iGlobalTelephoneStateStruct.getNadInstanceState());
-        if (n == 0xF000100) {
+        if (n == 65551) {
             LockStateStruct lockStateStruct = iGlobalTelephoneStateStruct.getLockState();
-            this.log.log(1078071040, "[PhoneLockStateHandler#updateGlobalTelephoneStateProperty] update=%1, lockState=%2", (Object)GlobalTelephoneState.getAttributeName(n), (Object)lockStateStruct);
-            this.updateLockState(this.getChoiceModel(2023097344), lockStateStruct);
-        } else if (n == 0xF000300 && iGlobalTelephoneStateStruct.getNadMode() == 2) {
+            this.log.log(1000000, "[PhoneLockStateHandler#updateGlobalTelephoneStateProperty] update=%1, lockState=%2", (Object)GlobalTelephoneState.getAttributeName(n), (Object)lockStateStruct);
+            this.updateLockState(this.getChoiceModel(300664), lockStateStruct);
+        } else if (n == 196623 && iGlobalTelephoneStateStruct.getNadMode() == 2) {
             LockStateStruct lockStateStruct = iGlobalTelephoneStateStruct.getLockStateDSINAD();
-            this.log.log(1078071040, "[PhoneLockStateHandler#updateGlobalTelephoneStateProperty] update=%1, lockState=%2, nadMode=%3", (Object)GlobalTelephoneState.getAttributeName(n), (Object)lockStateStruct, (Object)String.valueOf(iGlobalTelephoneStateStruct.getNadMode()));
-            this.updateLockState(this.getChoiceModel(1150682112), lockStateStruct);
-        } else if (n == 0x3000400 && iGlobalTelephoneStateStruct.getNadMode() == 2) {
+            this.log.log(1000000, "[PhoneLockStateHandler#updateGlobalTelephoneStateProperty] update=%1, lockState=%2, nadMode=%3", (Object)GlobalTelephoneState.getAttributeName(n), (Object)lockStateStruct, (Object)String.valueOf(iGlobalTelephoneStateStruct.getNadMode()));
+            this.updateLockState(this.getChoiceModel(300612), lockStateStruct);
+        } else if (n == 262147 && iGlobalTelephoneStateStruct.getNadMode() == 2) {
             LockStateStruct lockStateStruct = iGlobalTelephoneStateStruct.getLockStateDSINAD();
-            this.log.log(1078071040, "[PhoneLockStateHandler#updateGlobalTelephoneStateProperty] update=%1, lockState=%2, nadMode=%3", (Object)GlobalTelephoneState.getAttributeName(n), (Object)lockStateStruct, (Object)String.valueOf(iGlobalTelephoneStateStruct.getNadMode()));
-            this.updateLockState(this.getChoiceModel(1150682112), iGlobalTelephoneStateStruct.getLockStateDSINAD());
+            this.log.log(1000000, "[PhoneLockStateHandler#updateGlobalTelephoneStateProperty] update=%1, lockState=%2, nadMode=%3", (Object)GlobalTelephoneState.getAttributeName(n), (Object)lockStateStruct, (Object)String.valueOf(iGlobalTelephoneStateStruct.getNadMode()));
+            this.updateLockState(this.getChoiceModel(300612), iGlobalTelephoneStateStruct.getLockStateDSINAD());
         }
     }
 
     protected void trackExternalServices() {
-        this.log.log(-2137614336, "[PhoneLockStateHandler#trackExternalServices] called.");
+        this.log.log(10000000, "[PhoneLockStateHandler#trackExternalServices] called.");
         this.serviceTracker = new PhoneServiceTracker(this.getApplication().getBundleContext(), (class$de$audi$atip$interapp$SDSService == null ? (class$de$audi$atip$interapp$SDSService = PhoneLockStateHandler.class$("de.audi.atip.interapp.SDSService")) : class$de$audi$atip$interapp$SDSService).getName(), (ServiceTrackerCustomizer)this, this.log);
         this.serviceTracker.openTracker();
     }
 
     protected void untrackExternalServices() {
-        this.log.log(-2137614336, "[PhoneLockStateHandler#untrackExternalServices] called.");
+        this.log.log(10000000, "[PhoneLockStateHandler#untrackExternalServices] called.");
         if (this.serviceTracker != null) {
             this.serviceTracker.closeTracker();
             this.serviceTracker = null;
         }
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.getApplication().getBundleContext().getService(serviceReference);
         if (object instanceof SDSService) {
-            this.log.log(-2137614336, "[PhoneLockStateHandler#addingService] adding SDSService");
+            this.log.log(10000000, "[PhoneLockStateHandler#addingService] adding SDSService");
             this.sdsService = (SDSService)object;
             return object;
         }
@@ -241,10 +234,9 @@ ITelLockStateHandler {
         return null;
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof SDSService) {
-            this.log.log(-2137614336, "[PhoneLockStateHandler#removedService] removing SDSService.");
+            this.log.log(10000000, "[PhoneLockStateHandler#removedService] removing SDSService.");
             this.sdsService = null;
         } else if (object instanceof IBAPPropertyTelLockStateService) {
             this.combiLockStateService = null;
@@ -253,77 +245,76 @@ ITelLockStateHandler {
         }
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
     protected void initModels() {
         this.getCodeSpeller().setSpellerListener(this);
-        this.getChoiceModel(563545088).setValue(1);
-        this.getChoiceModel(-778763264).setValue(1);
-        this.getButtonModel(-1080818688).setButtonListener(this);
-        this.getButtonModel(-1047264256).setButtonListener(this);
-        this.getButtonModel(-812252160).setButtonListener(this);
-        this.getButtonModel(-795606016).setButtonListener(this);
-        this.getChoiceModel(-778763264).setChoiceListener(this);
-        this.getButtonModel(-1584004096).setButtonListener(this);
-        this.getButtonModel(446104576).setButtonListener(this);
-        this.getButtonModel(580322304).setButtonListener(this);
-        this.getButtonModel(597099520).setButtonListener(this);
-        this.getButtonModel(915866624).setButtonListener(this);
+        this.getChoiceModel(300833).setValue(1);
+        this.getChoiceModel(300497).setValue(1);
+        this.getButtonModel(300223).setButtonListener(this);
+        this.getButtonModel(300225).setButtonListener(this);
+        this.getButtonModel(300751).setButtonListener(this);
+        this.getButtonModel(300240).setButtonListener(this);
+        this.getChoiceModel(300497).setChoiceListener(this);
+        this.getButtonModel(300705).setButtonListener(this);
+        this.getButtonModel(300826).setButtonListener(this);
+        this.getButtonModel(300834).setButtonListener(this);
+        this.getButtonModel(300835).setButtonListener(this);
+        this.getButtonModel(300854).setButtonListener(this);
     }
 
     protected void deinitModels() {
         this.getCodeSpeller().resetListener();
-        this.getButtonModel(-1080818688).resetListener();
-        this.getButtonModel(-1047264256).resetListener();
-        this.getButtonModel(-812252160).resetListener();
-        this.getButtonModel(-795606016).resetListener();
-        this.getButtonModel(-1584004096).resetListener();
-        this.getChoiceModel(-778763264).resetListener();
-        this.getButtonModel(446104576).resetListener();
-        this.getButtonModel(580322304).resetListener();
-        this.getButtonModel(597099520).resetListener();
-        this.getButtonModel(915866624).resetListener();
+        this.getButtonModel(300223).resetListener();
+        this.getButtonModel(300225).resetListener();
+        this.getButtonModel(300751).resetListener();
+        this.getButtonModel(300240).resetListener();
+        this.getButtonModel(300705).resetListener();
+        this.getChoiceModel(300497).resetListener();
+        this.getButtonModel(300826).resetListener();
+        this.getButtonModel(300834).resetListener();
+        this.getButtonModel(300835).resetListener();
+        this.getButtonModel(300854).resetListener();
     }
 
     public void updateLockState(ChoiceModelApp choiceModelApp, LockStateStruct lockStateStruct) {
         int n;
-        this.log.log(1078071040, "[PhoneLockStateHandler#updateLockState] lockstate=%1", (Object)lockStateStruct);
+        this.log.log(1000000, "[PhoneLockStateHandler#updateLockState] lockstate=%1", (Object)lockStateStruct);
         int n2 = lockStateStruct != null ? lockStateStruct.getTelLockState() : 0;
         int n3 = n = lockStateStruct != null ? lockStateStruct.getTelRetryCounter() : 0;
         if (n2 == 1 && this.enteringManualPinPuk) {
-            this.getChoiceModel(295109632).setValue(1);
+            this.getChoiceModel(300817).setValue(1);
         }
         switch (n2) {
             case 0: {
                 this.setLockStateChoice(choiceModelApp, -1);
-                this.log.log(-2137614336, "PhoneLockStateHandler#updateLockState: Lockstate unknown! ");
+                this.log.log(10000000, "PhoneLockStateHandler#updateLockState: Lockstate unknown! ");
                 break;
             }
             case 4: {
                 this.setLockStateChoice(choiceModelApp, 2);
-                this.log.log(-2137614336, "PhoneLockStateHandler#updateLockState: PIN2 required on mobile! ");
+                this.log.log(10000000, "PhoneLockStateHandler#updateLockState: PIN2 required on mobile! ");
                 break;
             }
             case 6: {
                 this.setLockStateChoice(choiceModelApp, 11);
-                this.log.log(-2137614336, "PhoneLockStateHandler#updateLockState: PUK2 required on mobile! ");
+                this.log.log(10000000, "PhoneLockStateHandler#updateLockState: PUK2 required on mobile! ");
                 break;
             }
             case 7: {
                 this.setLockStateChoice(choiceModelApp, 6);
-                this.log.log(-2137614336, "PhoneLockStateHandler#updateLockState: PUK blocked, SIM card out of order now! ");
+                this.log.log(10000000, "PhoneLockStateHandler#updateLockState: PUK blocked, SIM card out of order now! ");
                 break;
             }
             case 8: {
                 this.setLockStateChoice(choiceModelApp, 3);
-                this.log.log(-2137614336, "PhoneLockStateHandler#updateLockState: PUK2 blocked, SIM card out of order now! ");
+                this.log.log(10000000, "PhoneLockStateHandler#updateLockState: PUK2 blocked, SIM card out of order now! ");
                 break;
             }
             case 10: {
                 this.setLockStateChoice(choiceModelApp, 10);
-                this.log.log(-2137614336, "PhoneLockStateHandler#updateLockState: Mobile phone out of order now! ");
+                this.log.log(10000000, "PhoneLockStateHandler#updateLockState: Mobile phone out of order now! ");
                 break;
             }
             case 9: {
@@ -359,59 +350,59 @@ ITelLockStateHandler {
 
     protected ChoiceModelApp getLockStateChoice() {
         int n = this.telephoneState.getNadMode();
-        return n == 1 ? this.getChoiceModel(2023097344) : this.getChoiceModel(1150682112);
+        return n == 1 ? this.getChoiceModel(300664) : this.getChoiceModel(300612);
     }
 
     private void setLockStateChoice(ChoiceModelApp choiceModelApp, int n) {
         if (choiceModelApp != null) {
-            if (choiceModelApp.getID() == 2023097344 || choiceModelApp.getID() == 1150682112 || choiceModelApp.getID() == -1734933504) {
-                this.log.log(1078071040, "[PhoneLockStateHandler#setLockStateChoice] lockStateChoice=%1, modelValue=%2", (Object)PhoneLockStateHandler.getLockStateChoiceName(choiceModelApp.getID()), (Object)PhoneLockStateHandler.getLockStateModelValueName(n));
+            if (choiceModelApp.getID() == 300664 || choiceModelApp.getID() == 300612 || choiceModelApp.getID() == 300952) {
+                this.log.log(1000000, "[PhoneLockStateHandler#setLockStateChoice] lockStateChoice=%1, modelValue=%2", (Object)PhoneLockStateHandler.getLockStateChoiceName(choiceModelApp.getID()), (Object)PhoneLockStateHandler.getLockStateModelValueName(n));
                 choiceModelApp.setValue(n);
             } else {
-                this.log.log(-1601830656, "[PhoneLockStateHandler#setLockStateChoice] model %1 is not a lock state choice model!", (long)choiceModelApp.getID());
+                this.log.log(100000, "[PhoneLockStateHandler#setLockStateChoice] model %1 is not a lock state choice model!", (long)choiceModelApp.getID());
             }
         } else {
-            this.log.log(-1601830656, "[PhoneLockStateHandler#setLockStateChoice] lockStateChoice is null --> NOP!");
+            this.log.log(100000, "[PhoneLockStateHandler#setLockStateChoice] lockStateChoice is null --> NOP!");
         }
     }
 
     private void processLockStateRequiredPUK(ChoiceModelApp choiceModelApp, int n) {
-        this.log.log(-2137614336, "PhoneLockStateHandler#processLockStateRequiredPUK: called ");
-        this.getLabelModel(-963378176).setText(String.valueOf(n));
+        this.log.log(10000000, "PhoneLockStateHandler#processLockStateRequiredPUK: called ");
+        this.getLabelModel(300230).setText(String.valueOf(n));
         switch (this.getLockCode()) {
             case -1: {
-                this.getChoiceModel(1486160896).setValue(2);
-                this.log.log(-2137614336, "PhoneLockStateHandler#processLockStateRequiredPUK: Displaying TEL_PUK_EDIT immediately! ");
+                this.getChoiceModel(300376).setValue(2);
+                this.log.log(10000000, "PhoneLockStateHandler#processLockStateRequiredPUK: Displaying TEL_PUK_EDIT immediately! ");
                 break;
             }
             case 0: {
-                this.getChoiceModel(1486160896).setValue(0);
-                this.log.log(-2137614336, "PhoneLockStateHandler#processLockStateRequiredPUK: Displaying TEL_PUK_PIN_BLOCKED! ");
+                this.getChoiceModel(300376).setValue(0);
+                this.log.log(10000000, "PhoneLockStateHandler#processLockStateRequiredPUK: Displaying TEL_PUK_PIN_BLOCKED! ");
                 break;
             }
             case 2: {
-                this.getChoiceModel(1486160896).setValue(1);
-                this.log.log(-2137614336, "PhoneLockStateHandler#processLockStateRequiredPUK: Displaying TEL_PUK_WRONG! ");
+                this.getChoiceModel(300376).setValue(1);
+                this.log.log(10000000, "PhoneLockStateHandler#processLockStateRequiredPUK: Displaying TEL_PUK_WRONG! ");
                 break;
             }
             default: {
                 this.log.log(10000, "PhoneLockStateHandler#processLockStateRequiredPUK: Unhandled codeType %1! ", (long)this.getLockCode());
             }
         }
-        this.initSpellerModel(848692224, 8, 8);
+        this.initSpellerModel(300594, 8, 8);
         this.setLockStateChoice(choiceModelApp, 4);
     }
 
     private void processLockStateRequirePIN(ChoiceModelApp choiceModelApp, int n) {
-        this.log.log(-1601830656, "PhoneLockStateHandler#processLockStateRequirePIN: [Startup] Phase 4: LockState RequirePIN reached! ");
-        this.log.log(-2137614336, "PhoneLockStateHandler#processLockStateRequirePIN: counter=%1 ", (long)n);
-        this.getLabelModel(-1064041472).setText(String.valueOf(n));
+        this.log.log(100000, "PhoneLockStateHandler#processLockStateRequirePIN: [Startup] Phase 4: LockState RequirePIN reached! ");
+        this.log.log(10000000, "PhoneLockStateHandler#processLockStateRequirePIN: counter=%1 ", (long)n);
+        this.getLabelModel(300224).setText(String.valueOf(n));
         this.setLockStateChoice(choiceModelApp, 1);
         if (this.getLockCode() == 0) {
             this.resetLockCode();
-            this.log.log(-2137614336, "PhoneLockStateHandler#processLockStateRequirePIN(int): Displaying TEL_PIN_WRONG! ");
+            this.log.log(10000000, "PhoneLockStateHandler#processLockStateRequirePIN(int): Displaying TEL_PIN_WRONG! ");
             this.getCodeSpeller().fireEvent(0);
-            this.getChoiceModel(1435829248).setStatus(1);
+            this.getChoiceModel(300373).setStatus(1);
         }
         this.initCodeSpeller();
     }
@@ -425,17 +416,17 @@ ITelLockStateHandler {
     private void triggerPINSaveDialog(ChoiceModelApp choiceModelApp) {
         IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct = this.telephoneState;
         int n = choiceModelApp.getValue();
-        int n2 = this.getChoiceModel(-778763264).getValue();
+        int n2 = this.getChoiceModel(300497).getValue();
         int n3 = iGlobalTelephoneStateStruct.getNadMode() == 1 ? iGlobalTelephoneStateStruct.getTelMode() : iGlobalTelephoneStateStruct.getTelModeDSINAD();
-        this.log.log(1078071040, "[PhoneLockStateHandler#triggerPINSaveDialog] telMode=%1, lsModelValue=%2, enteringManualPIN=%3, autoPINValue=%4 ", (Object)new Integer(n3), (Object)new Integer(n), (Object)this.enteringManualPinPuk, (Object)new Integer(n2));
+        this.log.log(1000000, "[PhoneLockStateHandler#triggerPINSaveDialog] telMode=%1, lsModelValue=%2, enteringManualPIN=%3, autoPINValue=%4 ", (Object)new Integer(n3), (Object)new Integer(n), (Object)this.enteringManualPinPuk, (Object)new Integer(n2));
         if (this.checkPINSaveScreenConditions(n3, n, this.enteringManualPinPuk, n2)) {
             this.showPinSaveDialog = true;
-            this.getChoiceModel(-1030487040).setValue(1);
-            this.log.log(1078071040, "[PhoneLockStateHandler#triggerPINSaveDialog] PIN entered manually, displaying TEL_PIN_SAVE_MAIN!");
+            this.getChoiceModel(300226).setValue(1);
+            this.log.log(1000000, "[PhoneLockStateHandler#triggerPINSaveDialog] PIN entered manually, displaying TEL_PIN_SAVE_MAIN!");
         } else {
             this.showPinSaveDialog = false;
-            this.getChoiceModel(-1030487040).setValue(0);
-            this.log.log(1078071040, "[PhoneLockStateHandler#triggerPINSaveDialog] Do not show TEL_PIN_SAVE_MAIN!");
+            this.getChoiceModel(300226).setValue(0);
+            this.log.log(1000000, "[PhoneLockStateHandler#triggerPINSaveDialog] Do not show TEL_PIN_SAVE_MAIN!");
         }
     }
 
@@ -444,51 +435,51 @@ ITelLockStateHandler {
     }
 
     private void processLockStateUnlockInProgress() {
-        this.getChoiceModel(1435829248).setStatus(0);
+        this.getChoiceModel(300373).setStatus(0);
         this.getCodeSpeller().setStatus(0);
-        this.log.log(-2137614336, "PhoneLockStateHandler#processLockStateUnlockInProgress: Unlock in progress! ");
+        this.log.log(10000000, "PhoneLockStateHandler#processLockStateUnlockInProgress: Unlock in progress! ");
     }
 
     public void initCodeSpeller() {
-        this.log.log(-2137614336, "PhoneLockStateHandler#initCodeSpeller: called ");
-        this.initSpellerModel(848692224, 4, 8);
+        this.log.log(10000000, "PhoneLockStateHandler#initCodeSpeller: called ");
+        this.initSpellerModel(300594, 4, 8);
         this.setNumberSpellerContentModel("");
         if (this.sdsService != null) {
-            this.log.log(1078071040, "[PhoneLockStateHandler#initCodeSpeller] calling clearPINSequence to SDS.");
+            this.log.log(1000000, "[PhoneLockStateHandler#initCodeSpeller] calling clearPINSequence to SDS.");
             this.sdsService.textChanged(this.getCodeSpeller().getID(), "", '\u0000');
         } else {
-            this.log.log(-1601830656, "PhoneLockStateHandler#initCodeSpeller: phoneServiceListener is null");
+            this.log.log(100000, "PhoneLockStateHandler#initCodeSpeller: phoneServiceListener is null");
         }
     }
 
     public void initCodeSpeller(int n) {
-        this.log.log(-2137614336, "PhoneLockStateHandler#initCodeSpeller: called ");
+        this.log.log(10000000, "PhoneLockStateHandler#initCodeSpeller: called ");
         switch (n) {
             case 3: {
-                this.initSpellerModel(848692224, 4, 8);
+                this.initSpellerModel(300594, 4, 8);
                 break;
             }
             case 5: {
-                this.initSpellerModel(848692224, 8, 8);
+                this.initSpellerModel(300594, 8, 8);
                 break;
             }
             default: {
-                this.initSpellerModelWithoutClearIt(848692224, 4, 8);
+                this.initSpellerModelWithoutClearIt(300594, 4, 8);
             }
         }
         this.setNumberSpellerContentModel("");
         if (this.sdsService != null) {
-            this.log.log(1078071040, "[PhoneLockStateHandler#initCodeSpeller] calling clearPINSequence to SDS.");
+            this.log.log(1000000, "[PhoneLockStateHandler#initCodeSpeller] calling clearPINSequence to SDS.");
             this.sdsService.textChanged(this.getCodeSpeller().getID(), "", '\u0000');
         } else {
-            this.log.log(-1601830656, "PhoneLockStateHandler#initCodeSpeller: phoneServiceListener is null");
+            this.log.log(100000, "PhoneLockStateHandler#initCodeSpeller: phoneServiceListener is null");
         }
     }
 
     public void setNumberSpellerContentModel(String string) {
         String string2 = PhoneUtils.privatize(string, false);
-        this.getLabelModel(-1366031360).setText(string2);
-        this.log.log(-2137614336, "PhoneLockStateHandler#setNumberSpellerContentModel: numberSpellerContentLabel.text=%1 ", (Object)string2);
+        this.getLabelModel(300206).setText(string2);
+        this.log.log(10000000, "PhoneLockStateHandler#setNumberSpellerContentModel: numberSpellerContentLabel.text=%1 ", (Object)string2);
     }
 
     public void initSpellerModelWithoutClearIt(int n, int n2, int n3) {
@@ -496,8 +487,8 @@ ITelLockStateHandler {
         spellerModelApp.setMinLength(n2);
         spellerModelApp.setMaxLength(n3);
         spellerModelApp.setStatus(1);
-        this.getButtonModel(-1584004096).setStatus(0);
-        this.log.log(-2137614336, "PhoneLockStateHandler#initSpellerModelWithoutClearIt: Speller with ID %1 initialized with min=%2, max=%3 ", (long)n, (long)n2, (long)n3);
+        this.getButtonModel(300705).setStatus(0);
+        this.log.log(10000000, "PhoneLockStateHandler#initSpellerModelWithoutClearIt: Speller with ID %1 initialized with min=%2, max=%3 ", (long)n, (long)n2, (long)n3);
     }
 
     public void initSpellerModel(int n, int n2, int n3) {
@@ -506,8 +497,8 @@ ITelLockStateHandler {
         spellerModelApp.setMinLength(n2);
         spellerModelApp.setMaxLength(n3);
         spellerModelApp.setStatus(1);
-        this.getButtonModel(-1584004096).setStatus(0);
-        this.log.log(-2137614336, "PhoneLockStateHandler#initSpellerModel: Speller with ID %1 initialized with min=%2, max=%3 ", (long)n, (long)n2, (long)n3);
+        this.getButtonModel(300705).setStatus(0);
+        this.log.log(10000000, "PhoneLockStateHandler#initSpellerModel: Speller with ID %1 initialized with min=%2, max=%3 ", (long)n, (long)n2, (long)n3);
     }
 
     int getLockCode() {
@@ -516,7 +507,7 @@ ITelLockStateHandler {
 
     void setLockCode(int n) {
         this.lockCode = n;
-        this.log.log(-2137614336, "PhoneLockStateHandler#setLockCode: codeType=%1 ", (long)this.lockCode);
+        this.log.log(10000000, "PhoneLockStateHandler#setLockCode: codeType=%1 ", (long)this.lockCode);
     }
 
     private void resetLockCode() {
@@ -524,9 +515,9 @@ ITelLockStateHandler {
     }
 
     private void keyTypedCodeSpeller(int n) {
-        this.log.log(-2137614336, "PhoneLockStateHandler#keyTypedCodeSpeller: called ");
+        this.log.log(10000000, "PhoneLockStateHandler#keyTypedCodeSpeller: called ");
         int n2 = this.getLockStateChoice().getValue();
-        this.log.log(-2137614336, "PhoneLockStateHandler#keyTypedCodeSpeller: lockState=%1 ", (long)n2);
+        this.log.log(10000000, "PhoneLockStateHandler#keyTypedCodeSpeller: lockState=%1 ", (long)n2);
         String string = this.getCodeSpeller().getText();
         switch (n2) {
             case 1: {
@@ -553,25 +544,24 @@ ITelLockStateHandler {
 
     private void keyTypedRequirePIN(String string, int n) {
         this.currentPIN = string;
-        this.log.log(-2137614336, "PhoneLockStateHandler#keyTypedRequirePIN: pinCode=%1, currentPIN=%2 ", (Object)string, (Object)this.currentPIN);
+        this.log.log(10000000, "PhoneLockStateHandler#keyTypedRequirePIN: pinCode=%1, currentPIN=%2 ", (Object)string, (Object)this.currentPIN);
         this.unlockSIMwithPIN(string, n, null);
         if (this.sdsService != null) {
             this.sdsService.abortSDSSession(true, (byte)7);
         }
     }
 
-    @Override
     public void unlockSIMwithPIN(String string, int n, ITelDSIResponseListener iTelDSIResponseListener) {
-        this.log.log(1078071040, "[PhoneLockStateHandler#unlockSIMwithPIN] pinCode=%1", (Object)string);
+        this.log.log(1000000, "[PhoneLockStateHandler#unlockSIMwithPIN] pinCode=%1", (Object)string);
         this.setLockCode(0);
-        this.getChoiceModel(1435829248).setStatus(0);
+        this.getChoiceModel(300373).setStatus(0);
         this.enteringManualPinPuk = true;
-        this.getApplication().getTelephoneDSIAccess().unlockSIMWithPIN(string, n, true, new PhoneLockStateHandler$SIMUnlockDSIResponseListener(this, iTelDSIResponseListener));
+        this.getApplication().getTelephoneDSIAccess().unlockSIMWithPIN(string, n, true, new SIMUnlockDSIResponseListener(iTelDSIResponseListener));
     }
 
     private void unlockResponse(int n, int n2, LockStateStruct lockStateStruct) {
-        this.log.log(1078071040, "[PhoneLockStateHandler.TelLockStateResponseListener#responseUnlockSIM] result=%1", (long)n);
-        this.getChoiceModel(295109632).setValue(0);
+        this.log.log(1000000, "[PhoneLockStateHandler.TelLockStateResponseListener#responseUnlockSIM] result=%1", (long)n);
+        this.getChoiceModel(300817).setValue(0);
         this.enteringManualPinPuk = false;
         if (lockStateStruct != null) {
             this.initCodeSpeller(lockStateStruct.getTelLockState());
@@ -582,16 +572,16 @@ ITelLockStateHandler {
 
     private void unlockSIMWithPUK(int n, ITelDSIResponseListener iTelDSIResponseListener) {
         this.setLockCode(2);
-        this.getChoiceModel(1435829248).setStatus(0);
+        this.getChoiceModel(300373).setStatus(0);
         this.enteringManualPinPuk = true;
-        this.getApplication().getTelephoneDSIAccess().unlockSIMWithPUK(this.currentPUK, this.changedPIN, n, true, new PhoneLockStateHandler$SIMUnlockDSIResponseListener(this, iTelDSIResponseListener));
+        this.getApplication().getTelephoneDSIAccess().unlockSIMWithPUK(this.currentPUK, this.changedPIN, n, true, new SIMUnlockDSIResponseListener(iTelDSIResponseListener));
     }
 
     private void keyTypedPUKEntered(String string) {
         IBAPPropertyTelLockStateService iBAPPropertyTelLockStateService;
-        this.log.log(-2137614336, "PhoneLockStateHandler#keyTypedPUKEntered: PUK entered, PIN invalid, pukCode=%1 ", (Object)string);
+        this.log.log(10000000, "PhoneLockStateHandler#keyTypedPUKEntered: PUK entered, PIN invalid, pukCode=%1 ", (Object)string);
         this.currentPUK = string;
-        this.log.log(-2137614336, "PhoneLockStateHandler#keyTypedPUKEntered: currentPUK=%1 ", (Object)this.currentPUK);
+        this.log.log(10000000, "PhoneLockStateHandler#keyTypedPUKEntered: currentPUK=%1 ", (Object)this.currentPUK);
         this.initCodeSpeller();
         int n = this.telephoneState.getNadMode();
         if (n == 2) {
@@ -606,22 +596,22 @@ ITelLockStateHandler {
     }
 
     private void keyTypedNewPinEntered(String string) {
-        this.log.log(-2137614336, "PhoneLockStateHandler#keyTypedNewPinEntered: Called, new pinCode=%1 ", (Object)string);
+        this.log.log(10000000, "PhoneLockStateHandler#keyTypedNewPinEntered: Called, new pinCode=%1 ", (Object)string);
         this.changedPIN = string;
         this.initCodeSpeller();
         this.setLockStateChoice(this.getLockStateChoice(), 8);
     }
 
     private void keyTypedNewPINConfirmed(String string, int n) {
-        this.log.log(-2137614336, "PhoneLockStateHandler#keyTypedNewPINConfirmed: changedPIN %1 has to be confirmed! ", (Object)this.changedPIN);
+        this.log.log(10000000, "PhoneLockStateHandler#keyTypedNewPINConfirmed: changedPIN %1 has to be confirmed! ", (Object)this.changedPIN);
         if (string.equals(this.changedPIN)) {
             this.currentPIN = this.changedPIN;
-            this.log.log(-2137614336, "PhoneLockStateHandler#keyTypedNewPINConfirmed: changedPIN %1 was confirmed, currentPIN=%2 ", (Object)this.changedPIN, (Object)this.currentPIN);
-            this.getChoiceModel(563545088).setValue(1);
+            this.log.log(10000000, "PhoneLockStateHandler#keyTypedNewPINConfirmed: changedPIN %1 was confirmed, currentPIN=%2 ", (Object)this.changedPIN, (Object)this.currentPIN);
+            this.getChoiceModel(300833).setValue(1);
             this.unlockSIMWithPUK(n, null);
         } else {
-            this.log.log(-2137614336, "PhoneLockStateHandler#keyTypedNewPINConfirmed: Entered PIN %1 NOT confirmed, entering TEL_PUK_PIN_WRONG! ", (Object)string);
-            this.getChoiceModel(563545088).setValue(0);
+            this.log.log(10000000, "PhoneLockStateHandler#keyTypedNewPINConfirmed: Entered PIN %1 NOT confirmed, entering TEL_PUK_PIN_WRONG! ", (Object)string);
+            this.getChoiceModel(300833).setValue(0);
             this.enterTelPinPukWrong();
         }
     }
@@ -632,20 +622,17 @@ ITelLockStateHandler {
     }
 
     protected SpellerModelApp getCodeSpeller() {
-        return this.getSpellerModel(848692224);
+        return this.getSpellerModel(300594);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.log.log(1078071040, "PhoneLockStateHandler#keyTyped: model=%1 ", (long)n);
+        this.log.log(1000000, "PhoneLockStateHandler#keyTyped: model=%1 ", (long)n);
         switch (n) {
             case 300594: 
             case 300705: {
@@ -691,82 +678,79 @@ ITelLockStateHandler {
     }
 
     private void keyTypedPUKEnteredHKReturnButton(int n) {
-        this.log.log(-2137614336, "[PhoneLockStateHandler#keyTypedPUKEnteredHKReturnButton]");
-        this.getChoiceModel(1486160896).setValue(2);
-        this.initSpellerModel(848692224, 8, 8);
-        this.getButtonModel(915866624).fireEvent(n);
+        this.log.log(10000000, "[PhoneLockStateHandler#keyTypedPUKEnteredHKReturnButton]");
+        this.getChoiceModel(300376).setValue(2);
+        this.initSpellerModel(300594, 8, 8);
+        this.getButtonModel(300854).fireEvent(n);
         this.setLockStateChoice(this.getLockStateChoice(), 4);
     }
 
     private void keyTypedEnterNewPinEnteredHKReturnButton(int n) {
-        this.log.log(-2137614336, "[PhoneLockStateHandler#keyTypedEnterNewPinEnteredHKReturnButton]");
+        this.log.log(10000000, "[PhoneLockStateHandler#keyTypedEnterNewPinEnteredHKReturnButton]");
         this.setLockStateChoice(this.getLockStateChoice(), 7);
     }
 
     protected void keyTypedNewPinWrongConfirmedButton(int n) {
-        this.log.log(-2137614336, "[PhoneLockStateHandler#keyTypedNewPinWrongConfirmedButton]");
-        this.getButtonModel(580322304).fireEvent(n);
+        this.log.log(10000000, "[PhoneLockStateHandler#keyTypedNewPinWrongConfirmedButton]");
+        this.getButtonModel(300834).fireEvent(n);
         this.setLockStateChoice(this.getLockStateChoice(), 7);
     }
 
     protected void keyTypedPINSaveConfirmedButton(int n) {
-        this.log.log(-2137614336, "[PhoneLockStateHandler#keyTypedPINSaveConfirmedButton]");
-        this.getButtonModel(-812252160).fireEvent(n);
+        this.log.log(10000000, "[PhoneLockStateHandler#keyTypedPINSaveConfirmedButton]");
+        this.getButtonModel(300751).fireEvent(n);
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
     protected void keyTypedPINSaveButton(int n) {
-        this.log.log(-2137614336, "PhoneLockStateHandler#keyTypedPINSaveButton: called ");
+        this.log.log(10000000, "PhoneLockStateHandler#keyTypedPINSaveButton: called ");
         this.getApplication().getTelephoneDSIAccess().setAutomaticPINEntryActive(true, n);
-        this.getChoiceModel(-1030487040).setValue(0);
-        this.getButtonModel(-1047264256).fireEvent(n);
+        this.getChoiceModel(300226).setValue(0);
+        this.getButtonModel(300225).fireEvent(n);
     }
 
     protected void keyTypedPINDontSaveButton(int n) {
-        this.log.log(-2137614336, "PhoneLockStateHandler#keyTypedPINDontSaveButton: called ");
+        this.log.log(10000000, "PhoneLockStateHandler#keyTypedPINDontSaveButton: called ");
         this.getApplication().getTelephoneDSIAccess().setAutomaticPINEntryActive(false, n);
-        this.getChoiceModel(-1030487040).setValue(0);
-        this.getButtonModel(-1080818688).fireEvent(n);
+        this.getChoiceModel(300226).setValue(0);
+        this.getButtonModel(300223).fireEvent(n);
     }
 
     protected void keyTypedPINLeftHkBackButton(int n) {
-        this.log.log(-2137614336, "PhoneLockStateHandler#keyTypedPINLeftHkBackButton: called ");
-        this.getChoiceModel(-1030487040).setValue(0);
-        this.getButtonModel(446104576).fireEvent(n);
+        this.log.log(10000000, "PhoneLockStateHandler#keyTypedPINLeftHkBackButton: called ");
+        this.getChoiceModel(300226).setValue(0);
+        this.getButtonModel(300826).fireEvent(n);
     }
 
     private void keyTypedPINAutoButton(int n) {
-        this.log.log(-2137614336, "PhoneLockStateHandler#keyTypedPINAutoButton: called ");
-        this.getButtonModel(-795606016).fireEvent(n);
+        this.log.log(10000000, "PhoneLockStateHandler#keyTypedPINAutoButton: called ");
+        this.getButtonModel(300240).fireEvent(n);
     }
 
-    @Override
     public void setPINSpeller(String string) {
-        this.log.log(1078071040, "[PhoneLockStateHandler#setPINSpeller] pinCode=%1", (Object)string);
+        this.log.log(1000000, "[PhoneLockStateHandler#setPINSpeller] pinCode=%1", (Object)string);
         this.getCodeSpeller().setText(string);
         this.setOKButtonEnabled(string);
     }
 
-    @Override
     public void textChanged(int n, String string, char c2, int n2) {
         if (this.log.isInfo()) {
-            this.log.log(1078071040, "[PhoneLockStateHandler#textChanged] %1", (Object)TelLoggingUtils.textChanged(n, string, c2, n2));
+            this.log.log(1000000, "[PhoneLockStateHandler#textChanged] %1", (Object)TelLoggingUtils.textChanged(n, string, c2, n2));
         }
         if (n == this.getCodeSpeller().getID()) {
             this.setOKButtonEnabled(string);
             if (this.sdsService != null) {
                 if (string != null && string.length() > 0) {
-                    this.log.log(1078071040, "[PhoneLockStateHandler#textChanged] notifying SDS with matchTextWithPINSequence: text=%1", (Object)string);
+                    this.log.log(1000000, "[PhoneLockStateHandler#textChanged] notifying SDS with matchTextWithPINSequence: text=%1", (Object)string);
                     this.sdsService.textChanged(this.getCodeSpeller().getID(), string, c2);
                 } else {
-                    this.log.log(1078071040, "[PhoneLockStateHandler#textChanged] notifying SDS with clearPINSequence: text=%1", (Object)string);
+                    this.log.log(1000000, "[PhoneLockStateHandler#textChanged] notifying SDS with clearPINSequence: text=%1", (Object)string);
                     this.sdsService.textChanged(this.getCodeSpeller().getID(), "", '\u0000');
                 }
             } else {
-                this.log.log(-2137614336, "[PhoneLockStateHandler#textChangedCodeSpeller] sdsService is null!");
+                this.log.log(10000000, "[PhoneLockStateHandler#textChangedCodeSpeller] sdsService is null!");
             }
         }
     }
@@ -776,22 +760,20 @@ ITelLockStateHandler {
         int n2 = this.getCodeSpeller().getMaxLength();
         if (string != null) {
             if (string.length() >= n && string.length() <= n2) {
-                this.getButtonModel(-1584004096).setStatus(1);
+                this.getButtonModel(300705).setStatus(1);
             } else {
-                this.getButtonModel(-1584004096).setStatus(0);
+                this.getButtonModel(300705).setStatus(0);
             }
         } else {
-            this.getButtonModel(-1584004096).setStatus(0);
+            this.getButtonModel(300705).setStatus(0);
         }
     }
 
-    @Override
     public void commandPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
-        this.log.log(1078071040, "PhoneLockStateHandler#itemSelected: id=%1, itemID=%2", (long)n, (long)n2);
+        this.log.log(1000000, "PhoneLockStateHandler#itemSelected: id=%1, itemID=%2", (long)n, (long)n2);
         switch (n) {
             case 300497: {
                 this.itemSelectedAutoPINChoice(n2, n4);
@@ -803,12 +785,11 @@ ITelLockStateHandler {
         }
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 
     private void itemSelectedAutoPINChoice(int n, int n2) {
-        this.log.log(-2137614336, "PhoneLockStateHandler#itemSelectedAutoPINChoice: index=%1 ", (long)n);
+        this.log.log(10000000, "PhoneLockStateHandler#itemSelectedAutoPINChoice: index=%1 ", (long)n);
         switch (n) {
             case 0: {
                 this.getApplication().getTelephoneDSIAccess().setAutomaticPINEntryActive(false, n2);
@@ -828,21 +809,20 @@ ITelLockStateHandler {
         if (iTelDSIMobileEquipmentDeviceState != null) {
             boolean bl = iTelDSIMobileEquipmentDeviceState.isAutomaticPinEntryActive();
             if (bl) {
-                this.log.log(-2137614336, "[PhoneLockStateHandler#updateAutomaticPinEntryActive] Called with value '%1', set auto PIN to ON.", bl);
-                this.getChoiceModel(-778763264).setValue(1);
+                this.log.log(10000000, "[PhoneLockStateHandler#updateAutomaticPinEntryActive] Called with value '%1', set auto PIN to ON.", bl);
+                this.getChoiceModel(300497).setValue(1);
             } else {
-                this.log.log(-2137614336, "[PhoneLockStateHandler#updateAutomaticPinEntryActive] Called with value '%1', set auto PIN to OFF.", bl);
-                this.getChoiceModel(-778763264).setValue(0);
+                this.log.log(10000000, "[PhoneLockStateHandler#updateAutomaticPinEntryActive] Called with value '%1', set auto PIN to OFF.", bl);
+                this.getChoiceModel(300497).setValue(0);
             }
         }
     }
 
-    @Override
     public void focusedCharacter(int n, char c2, int n2) {
     }
 
     protected void resetPukConditionChoice() {
-        this.getChoiceModel(1486160896).setValue(2);
+        this.getChoiceModel(300376).setValue(2);
     }
 
     static /* synthetic */ Class class$(String string) {
@@ -854,12 +834,76 @@ ITelLockStateHandler {
         }
     }
 
-    static /* synthetic */ void access$000(PhoneLockStateHandler phoneLockStateHandler, int n, int n2, LockStateStruct lockStateStruct) {
-        phoneLockStateHandler.unlockResponse(n, n2, lockStateStruct);
+    private class PukWrongOkButtonListener
+    extends TelDefaultButtonListener {
+        public PukWrongOkButtonListener(ITelApplication iTelApplication) {
+            super(iTelApplication, 300991);
+        }
+
+        public void keyTyped(int n, int n2, int n3) {
+            this.log.log(1000000, "[PhoneLockStateHandler.PukWrongOkButtonListener#keyTyped]");
+            PhoneLockStateHandler.this.resetPukConditionChoice();
+            PhoneLockStateHandler.this.resetLockCode();
+            this.fireEvent(n3);
+        }
     }
 
-    static /* synthetic */ void access$100(PhoneLockStateHandler phoneLockStateHandler) {
-        phoneLockStateHandler.resetLockCode();
+    private class PinBlockedHKReturnListener
+    extends TelDefaultButtonListener {
+        public PinBlockedHKReturnListener(ITelApplication iTelApplication) {
+            super(iTelApplication, 300986);
+        }
+
+        public void keyTyped(int n, int n2, int n3) {
+            this.log.log(1000000, "[PhoneLockStateHandler.PinBlockedHKReturnListener#keyTyped]");
+            PhoneLockStateHandler.this.resetPukConditionChoice();
+            PhoneLockStateHandler.this.resetLockCode();
+            this.fireEvent(n3);
+        }
+    }
+
+    private class PinBlockedOkButtonListener
+    extends TelDefaultButtonListener {
+        public PinBlockedOkButtonListener(ITelApplication iTelApplication) {
+            super(iTelApplication, 300985);
+        }
+
+        public void keyTyped(int n, int n2, int n3) {
+            this.log.log(1000000, "[PhoneLockStateHandler.PinBlockedOkButtonListener#keyTyped]");
+            PhoneLockStateHandler.this.resetPukConditionChoice();
+            PhoneLockStateHandler.this.resetLockCode();
+            this.fireEvent(n3);
+        }
+    }
+
+    private class SIMUnlockDSIResponseListener
+    extends TelDefaultDSIResponseListener {
+        private final ITelDSIResponseListener responseListener;
+
+        public SIMUnlockDSIResponseListener(ITelDSIResponseListener iTelDSIResponseListener) {
+            this.responseListener = iTelDSIResponseListener;
+        }
+
+        public void responseUnlockSIM(int n, int n2, LockStateStruct lockStateStruct) {
+            PhoneLockStateHandler.this.unlockResponse(n, n2, lockStateStruct);
+            if (this.responseListener != null) {
+                this.responseListener.responseUnlockSIM(n, n2, lockStateStruct);
+            }
+        }
+    }
+
+    private class PukWrongHkReturnButtonListener
+    extends TelDefaultButtonListener {
+        public PukWrongHkReturnButtonListener(ITelApplication iTelApplication) {
+            super(iTelApplication, 300992);
+        }
+
+        public void keyTyped(int n, int n2, int n3) {
+            this.log.log(1000000, "[PhoneLockStateHandler.PukWrongHkReturnButtonListener#keyTyped]");
+            PhoneLockStateHandler.this.resetPukConditionChoice();
+            PhoneLockStateHandler.this.resetLockCode();
+            this.fireEvent(n3);
+        }
     }
 }
 

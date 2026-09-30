@@ -4,22 +4,16 @@
 package de.audi.atip.sysapp.carcoding;
 
 public interface SperrFlags {
-    default public boolean getTunerSperrFlag(int n) {
-    }
+    public boolean getTunerSperrFlag(int var1);
 
-    default public boolean getMediaSperrFlag(int n) {
-    }
+    public boolean getMediaSperrFlag(int var1);
 
-    default public boolean getPhoneSperrFlag(int n) {
-    }
+    public boolean getPhoneSperrFlag(int var1);
 
-    default public boolean getNavSperrFlag(int n) {
-    }
+    public boolean getNavSperrFlag(int var1);
 
-    default public boolean getCarSperrFlag(int n) {
-    }
+    public boolean getCarSperrFlag(int var1);
 
-    default public boolean getMiscSperrFlag(int n) {
-    }
+    public boolean getMiscSperrFlag(int var1);
 }
 

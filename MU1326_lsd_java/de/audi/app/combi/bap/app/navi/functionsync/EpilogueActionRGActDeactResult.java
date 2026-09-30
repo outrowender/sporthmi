@@ -15,14 +15,13 @@ extends AbstractFunctionSyncEpilogueAction {
         super(abstractBAPModuleFSG, logChannel);
     }
 
-    @Override
     protected void execute() {
         BAPFunctionMethodFSG bAPFunctionMethodFSG = this.module.getBAPFunctionMethodFSG(34);
         if (bAPFunctionMethodFSG.isResultWaiting()) {
-            this.logChannel.log(-2137614336, "[EpilogueActionRGActDeactResult#execute] RGActDeactResult result waiting -> try to send now");
+            this.logChannel.log(10000000, "[EpilogueActionRGActDeactResult#execute] RGActDeactResult result waiting -> try to send now");
             ((CombiModuleNavi)this.module).rgActDeactSyncFinished();
         } else {
-            this.logChannel.log(-2137614336, "[EpilogueActionRGActDeactResult#execute] RGActDeactResult result not waiting");
+            this.logChannel.log(10000000, "[EpilogueActionRGActDeactResult#execute] RGActDeactResult result not waiting");
         }
     }
 }

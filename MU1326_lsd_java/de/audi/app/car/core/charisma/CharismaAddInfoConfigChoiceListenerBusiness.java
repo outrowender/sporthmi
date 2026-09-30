@@ -13,7 +13,6 @@ extends ChoiceModelEventBusinessAdapter {
         super(null, logChannel);
     }
 
-    @Override
     public boolean processItemSelected(int n, ChoiceModelHandler choiceModelHandler) {
         if (choiceModelHandler != null) {
             choiceModelHandler.updateChoiceModelValue(n);

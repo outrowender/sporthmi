@@ -20,19 +20,18 @@ extends AbstractTelAudioCmd {
         this.mediaSession = iMediaFilePlayerSession;
     }
 
-    @Override
     public void execute() {
         if (this.mediaService != null) {
             if (this.mediaSession != null) {
-                this.logger.log(1078071040, "[TelRequestMediaRingtonePlaybackCmd#execute] opening session.");
+                this.logger.log(1000000, "[TelRequestMediaRingtonePlaybackCmd#execute] opening session.");
                 this.mediaService.open(this.mediaSession);
                 this.getCommandList().commandFinished();
             } else {
-                this.logger.log(-1601830656, "[TelRequestMediaRingtonePlaybackCmd#execute] session is null --> NOP!");
+                this.logger.log(100000, "[TelRequestMediaRingtonePlaybackCmd#execute] session is null --> NOP!");
                 this.getCommandList().commandFinished();
             }
         } else {
-            this.logger.log(-1601830656, "[TelRequestMediaRingtonePlaybackCmd#execute] media service is null --> NOP!");
+            this.logger.log(100000, "[TelRequestMediaRingtonePlaybackCmd#execute] media service is null --> NOP!");
             this.getCommandList().commandFinished();
         }
     }

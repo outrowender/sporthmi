@@ -15,21 +15,18 @@ extends AbstractPhoneComponent {
         super(iTelApplication, "App.Phone.Audio");
     }
 
-    @Override
     public void init() {
         super.init();
         this.getApplication().getGlobalTelephoneStateManager().registerListener(this);
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.getApplication().getGlobalTelephoneStateManager().removeListener(this);
     }
 
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
-        if (n == 0x8000200 || n == 0x8000100 || n == 0xE000100 || n == 0xE000200) {
+        if (n == 131080 || n == 65544 || n == 65550 || n == 131086) {
             this.checkChangeHFModeToPrivate(iGlobalTelephoneStateStruct);
         }
     }
@@ -51,7 +48,7 @@ extends AbstractPhoneComponent {
             boolean bl4 = !callStateStruct2.isIdle() && !callStateStruct.isIdle();
             boolean bl5 = bl = !bl2 && !bl3;
             if (bl4 && bl && iTelDSIMobileEquipmentDeviceState.getTelMode() == 3 && iTelDSIMobileEquipmentDeviceState.getHandsFreeMode() == 0 && !iGlobalTelephoneStateStruct.isAcceptIncomingCallOnNonCallLeadingDevicePending()) {
-                this.log.log(1078071040, "[TelAutomaticAudioTransferHandler#checkChangeHFModeToPrivate] switching handsfree mode for non call leading device to private");
+                this.log.log(1000000, "[TelAutomaticAudioTransferHandler#checkChangeHFModeToPrivate] switching handsfree mode for non call leading device to private");
                 this.getApplication().getTelephoneDSIAccess().requestSetHandsFreeModeNonCallLeadingDevice(4, 0);
             }
         }

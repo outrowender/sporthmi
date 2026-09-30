@@ -4,44 +4,43 @@
 package de.audi.app.earlyfunc.core.seat;
 
 import de.audi.app.earlyfunc.core.seat.MasterSeatPopinContent;
-import de.audi.app.earlyfunc.core.seat.MasterSeatPopinContent$SeatMemoryDetail;
 import org.dsi.ifc.carseat.SeatContent;
 import org.dsi.ifc.carseat.SeatPneumaticContent;
 
 public class SeatPopinContent {
     private MasterSeatPopinContent masterContentFrontLeft;
     private MasterSeatPopinContent masterContentFrontRight;
-    private MasterSeatPopinContent$SeatMemoryDetail memoryDetailFrontLeft;
-    private MasterSeatPopinContent$SeatMemoryDetail memoryDetailFrontRight;
+    private MasterSeatPopinContent.SeatMemoryDetail memoryDetailFrontLeft;
+    private MasterSeatPopinContent.SeatMemoryDetail memoryDetailFrontRight;
     private int cancelReason = 1;
     private boolean pneumaticSeatContent = false;
 
     public SeatPopinContent() {
         this.masterContentFrontLeft = MasterSeatPopinContent.NONE;
         this.masterContentFrontRight = MasterSeatPopinContent.NONE;
-        this.memoryDetailFrontLeft = MasterSeatPopinContent$SeatMemoryDetail.MEMORYDETAIL_MEMORY_NONE;
-        this.memoryDetailFrontRight = MasterSeatPopinContent$SeatMemoryDetail.MEMORYDETAIL_MEMORY_NONE;
+        this.memoryDetailFrontLeft = MasterSeatPopinContent.SeatMemoryDetail.MEMORYDETAIL_MEMORY_NONE;
+        this.memoryDetailFrontRight = MasterSeatPopinContent.SeatMemoryDetail.MEMORYDETAIL_MEMORY_NONE;
     }
 
     public SeatPopinContent(SeatContent seatContent) {
         this.masterContentFrontLeft = MasterSeatPopinContent.getContentForID(seatContent.getContent1RL());
         this.masterContentFrontRight = MasterSeatPopinContent.getContentForID(seatContent.getContent1RR());
-        this.memoryDetailFrontLeft = MasterSeatPopinContent$SeatMemoryDetail.getMemoryDetailForID(seatContent.getMemoryDetail1RL());
-        this.memoryDetailFrontRight = MasterSeatPopinContent$SeatMemoryDetail.getMemoryDetailForID(seatContent.getMemoryDetail1RR());
+        this.memoryDetailFrontLeft = MasterSeatPopinContent.SeatMemoryDetail.getMemoryDetailForID(seatContent.getMemoryDetail1RL());
+        this.memoryDetailFrontRight = MasterSeatPopinContent.SeatMemoryDetail.getMemoryDetailForID(seatContent.getMemoryDetail1RR());
         this.pneumaticSeatContent = false;
     }
 
     public SeatPopinContent(SeatPneumaticContent seatPneumaticContent) {
         this.masterContentFrontLeft = MasterSeatPopinContent.getContentForID(seatPneumaticContent.getContent1RL());
         this.masterContentFrontRight = MasterSeatPopinContent.getContentForID(seatPneumaticContent.getContent1RR());
-        this.memoryDetailFrontLeft = MasterSeatPopinContent$SeatMemoryDetail.MEMORYDETAIL_MEMORY_NONE;
-        this.memoryDetailFrontRight = MasterSeatPopinContent$SeatMemoryDetail.MEMORYDETAIL_MEMORY_NONE;
+        this.memoryDetailFrontLeft = MasterSeatPopinContent.SeatMemoryDetail.MEMORYDETAIL_MEMORY_NONE;
+        this.memoryDetailFrontRight = MasterSeatPopinContent.SeatMemoryDetail.MEMORYDETAIL_MEMORY_NONE;
         this.pneumaticSeatContent = true;
     }
 
-    public void setContent(boolean bl, MasterSeatPopinContent masterSeatPopinContent, MasterSeatPopinContent$SeatMemoryDetail masterSeatPopinContent$SeatMemoryDetail) {
+    public void setContent(boolean bl, MasterSeatPopinContent masterSeatPopinContent, MasterSeatPopinContent.SeatMemoryDetail seatMemoryDetail) {
         this.setMasterContent(bl, masterSeatPopinContent);
-        this.setMemoryDetail(bl, masterSeatPopinContent$SeatMemoryDetail);
+        this.setMemoryDetail(bl, seatMemoryDetail);
     }
 
     public void setMasterContent(boolean bl, MasterSeatPopinContent masterSeatPopinContent) {
@@ -52,11 +51,11 @@ public class SeatPopinContent {
         }
     }
 
-    public void setMemoryDetail(boolean bl, MasterSeatPopinContent$SeatMemoryDetail masterSeatPopinContent$SeatMemoryDetail) {
+    public void setMemoryDetail(boolean bl, MasterSeatPopinContent.SeatMemoryDetail seatMemoryDetail) {
         if (bl) {
-            this.setMemoryDetailFrontLeft(masterSeatPopinContent$SeatMemoryDetail);
+            this.setMemoryDetailFrontLeft(seatMemoryDetail);
         } else {
-            this.setMemoryDetailFrontRight(masterSeatPopinContent$SeatMemoryDetail);
+            this.setMemoryDetailFrontRight(seatMemoryDetail);
         }
     }
 
@@ -108,24 +107,24 @@ public class SeatPopinContent {
         return bl ? this.getMasterContentFrontLeft() : this.getMasterContentFrontRight();
     }
 
-    public MasterSeatPopinContent$SeatMemoryDetail getMemoryDetail(boolean bl) {
+    public MasterSeatPopinContent.SeatMemoryDetail getMemoryDetail(boolean bl) {
         return bl ? this.getMemoryDetailFrontLeft() : this.getMemoryDetailFrontRight();
     }
 
-    public MasterSeatPopinContent$SeatMemoryDetail getMemoryDetailFrontLeft() {
+    public MasterSeatPopinContent.SeatMemoryDetail getMemoryDetailFrontLeft() {
         return this.memoryDetailFrontLeft;
     }
 
-    public void setMemoryDetailFrontLeft(MasterSeatPopinContent$SeatMemoryDetail masterSeatPopinContent$SeatMemoryDetail) {
-        this.memoryDetailFrontLeft = masterSeatPopinContent$SeatMemoryDetail;
+    public void setMemoryDetailFrontLeft(MasterSeatPopinContent.SeatMemoryDetail seatMemoryDetail) {
+        this.memoryDetailFrontLeft = seatMemoryDetail;
     }
 
-    public MasterSeatPopinContent$SeatMemoryDetail getMemoryDetailFrontRight() {
+    public MasterSeatPopinContent.SeatMemoryDetail getMemoryDetailFrontRight() {
         return this.memoryDetailFrontRight;
     }
 
-    public void setMemoryDetailFrontRight(MasterSeatPopinContent$SeatMemoryDetail masterSeatPopinContent$SeatMemoryDetail) {
-        this.memoryDetailFrontRight = masterSeatPopinContent$SeatMemoryDetail;
+    public void setMemoryDetailFrontRight(MasterSeatPopinContent.SeatMemoryDetail seatMemoryDetail) {
+        this.memoryDetailFrontRight = seatMemoryDetail;
     }
 
     public int getMemoryDetailIDFrontLeft() {
@@ -133,7 +132,7 @@ public class SeatPopinContent {
     }
 
     public void setMemoryDetailFrontLeft(int n) {
-        this.memoryDetailFrontLeft = MasterSeatPopinContent$SeatMemoryDetail.getMemoryDetailForID(n);
+        this.memoryDetailFrontLeft = MasterSeatPopinContent.SeatMemoryDetail.getMemoryDetailForID(n);
     }
 
     public int getMemoryDetailIDFrontRight() {
@@ -141,7 +140,7 @@ public class SeatPopinContent {
     }
 
     public void setMemoryDetailFrontRight(int n) {
-        this.memoryDetailFrontRight = MasterSeatPopinContent$SeatMemoryDetail.getMemoryDetailForID(n);
+        this.memoryDetailFrontRight = MasterSeatPopinContent.SeatMemoryDetail.getMemoryDetailForID(n);
     }
 
     public int getCancelReason() {

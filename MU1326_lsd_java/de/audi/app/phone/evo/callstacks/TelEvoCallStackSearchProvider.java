@@ -41,21 +41,18 @@ extends AbstractTelSearchDataProvider {
         super(iTelApplication, 7);
     }
 
-    @Override
     public void init() {
         super.init();
         this.getApplication().getGlobalTelephoneStateManager().registerListener(this);
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.getApplication().getGlobalTelephoneStateManager().removeListener(this);
     }
 
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
-        if (n == 671088896 && iGlobalTelephoneStateStruct != null) {
+        if (n == 65576 && iGlobalTelephoneStateStruct != null) {
             this.combinedCallStack = iGlobalTelephoneStateStruct.getCombinedCallStackEntries();
             this.invalidateData();
         }
@@ -80,7 +77,6 @@ extends AbstractTelSearchDataProvider {
         return new DataSet[0];
     }
 
-    @Override
     protected DataSet[] getDataSet() {
         return this.getCombinedCallStackDataSets(this.combinedCallStack);
     }

@@ -6,13 +6,10 @@ package de.audi.atip.interapp.media;
 import de.audi.atip.interapp.media.AbstractEntertainmentToggleItem;
 
 public interface IEntertainmentToggleService {
-    default public void setItem(AbstractEntertainmentToggleItem abstractEntertainmentToggleItem) {
-    }
+    public void setItem(AbstractEntertainmentToggleItem var1);
 
-    default public void removeItem(int n) {
-    }
+    public void removeItem(int var1);
 
-    default public void setActiveType(int n) {
-    }
+    public void setActiveType(int var1);
 }
 

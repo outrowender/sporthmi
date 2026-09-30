@@ -30,10 +30,10 @@ extends AbstractParkingSystemComponent
 implements ChoiceListener {
     protected PDCConfiguration pdcConfiguration = new PDCConfiguration();
     protected IOPSDistanceControl distanceControl = this.initDistanceControl();
-    protected OPSTrackHoseControl trackHoseControl = new OPSTrackHoseControl(this.getBaseListModel(1410080768), this.getChoiceModel(42).getValue(), this.getLogChannel());
-    public static final int OPSTYPE_NOTAVAILABLE;
-    public static final int OPSTYPE_NORMAL;
-    public static final int OPSTYPE_360;
+    protected OPSTrackHoseControl trackHoseControl = new OPSTrackHoseControl(this.getBaseListModel(2100308), this.getChoiceModel(42).getValue(), this.getLogChannel());
+    public static final int OPSTYPE_NOTAVAILABLE = 0;
+    public static final int OPSTYPE_NORMAL = 1;
+    public static final int OPSTYPE_360 = 2;
     private int opsType = 0;
 
     public AbstractParkingSystemOPSComponent(ICarApplication iCarApplication, IParkingSystemController iParkingSystemController) {
@@ -44,26 +44,22 @@ implements ChoiceListener {
         return this.trackHoseControl;
     }
 
-    @Override
     public String getName() {
         return "Parking System OPS";
     }
 
-    @Override
     public CarDSIAttributesSet[] getDSIAttributesSets() {
         return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{1}, new int[]{40, 32, 41, 9, 10, 11, 33, 34, 51, 52, 35, 36, 37, 38, 49, 50, 7})};
     }
 
-    @Override
     public void init() {
         this.distanceControl.init();
         super.init();
     }
 
-    @Override
     protected void initModels() {
-        this.getChoiceModel(1510744064).setChoiceListener(this);
-        this.getChoiceModel(890052608).setChoiceListener(this);
+        this.getChoiceModel(2100314).setChoiceListener(this);
+        this.getChoiceModel(2100533).setChoiceListener(this);
         this.loadFromPersistence();
     }
 
@@ -74,15 +70,13 @@ implements ChoiceListener {
         this.trackHoseControl.initializeTrackHoseList();
     }
 
-    @Override
     protected void deinitModels() {
-        this.getChoiceModel(1510744064).resetListener();
-        this.getChoiceModel(890052608).resetListener();
+        this.getChoiceModel(2100314).resetListener();
+        this.getChoiceModel(2100533).resetListener();
     }
 
-    @Override
     public void setActive(boolean bl, DisplayContent displayContent) {
-        this.getLogChannel().log(-2137614336, "[AbstractParkingSystemOPSComponent#setActive] active=%1, displayContent=%2", bl, (Object)displayContent);
+        this.getLogChannel().log(10000000, "[AbstractParkingSystemOPSComponent#setActive] active=%1, displayContent=%2", bl, (Object)displayContent);
         if (bl) {
             this.controller.notifyParkingSystemActive(this, true);
             ParkingPopupIdentifier parkingPopupIdentifier = this.getHMIPopupID(displayContent.popup);
@@ -98,13 +92,11 @@ implements ChoiceListener {
         }
     }
 
-    @Override
     public int[] getSupportedDSIPopupIDs() {
         int[] nArray = this.opsType == 2 ? new int[]{1, 3, 4, 7, 8, 10, 11, 13, 14, 15, 16, 17, 18} : new int[]{1, 3, 4, 10, 13};
         return nArray;
     }
 
-    @Override
     public int getParkingSystemID() {
         return 2;
     }
@@ -117,7 +109,6 @@ implements ChoiceListener {
         return this.distanceControl;
     }
 
-    @Override
     public void updateParkingSystemViewOptions(ParkingSystemViewOptions parkingSystemViewOptions, int n) {
         super.updateParkingSystemViewOptions(parkingSystemViewOptions, n);
         if (n != 1) {
@@ -132,7 +123,7 @@ implements ChoiceListener {
             this.handleAvailabilityOfTrackHose();
         }
         this.handleAvailability(bl ^ bl2, bl2);
-        this.getChoiceModel(1712070656).setValue(bl ? 0 : 1);
+        this.getChoiceModel(2100326).setValue(bl ? 0 : 1);
         this.primaryAttributeFirstSetReceived();
     }
 
@@ -143,7 +134,7 @@ implements ChoiceListener {
     }
 
     private void handleAvailability(boolean bl, boolean bl2) {
-        this.getLogChannel().log(-2137614336, "[AbstractParkingSystemOPSComponent#handleAvailability] opsAvailable=%1, ops360Available=%2", bl, bl2);
+        this.getLogChannel().log(10000000, "[AbstractParkingSystemOPSComponent#handleAvailability] opsAvailable=%1, ops360Available=%2", bl, bl2);
         if (bl) {
             this.opsType = 1;
             this.controller.registerParkingSystemComponent(this);
@@ -158,172 +149,147 @@ implements ChoiceListener {
         }
     }
 
-    @Override
     public void updatePDCTrailerHitched(boolean bl, int n) {
-        this.getLogChannel().log(1078071040, "updatePDCTrailerHitched: pdcTrailerHitched=%1, valid=%2", bl, (long)n);
+        this.getLogChannel().log(1000000, "updatePDCTrailerHitched: pdcTrailerHitched=%1, valid=%2", bl, (long)n);
         if (n == 1) {
             this.distanceControl.setTrailerHitched(bl);
         }
     }
 
-    @Override
     public void updatePDCDistanceValuesFront(PDCDistanceValuesFrontRear pDCDistanceValuesFrontRear, int n) {
-        this.getLogChannel().log(1078071040, "updatePDCDistanceValuesFront: distanceValues=%1, valid=%2", (Object)pDCDistanceValuesFrontRear, (long)n);
+        this.getLogChannel().log(1000000, "updatePDCDistanceValuesFront: distanceValues=%1, valid=%2", (Object)pDCDistanceValuesFrontRear, (long)n);
         if (n == 1) {
             this.distanceControl.updateDistancesFront(pDCDistanceValuesFrontRear);
         }
     }
 
-    @Override
     public void updatePDCDistanceValuesRear(PDCDistanceValuesFrontRear pDCDistanceValuesFrontRear, int n) {
-        this.getLogChannel().log(1078071040, "updatePDCDistanceValuesRear: distanceValues=%1, valid=%2", (Object)pDCDistanceValuesFrontRear, (long)n);
+        this.getLogChannel().log(1000000, "updatePDCDistanceValuesRear: distanceValues=%1, valid=%2", (Object)pDCDistanceValuesFrontRear, (long)n);
         if (n == 1) {
             this.distanceControl.updateDistancesRear(pDCDistanceValuesFrontRear);
         }
     }
 
-    @Override
     public void updatePDCDistanceValuesRight(PDCDistanceValuesRightLeft pDCDistanceValuesRightLeft, int n) {
-        this.getLogChannel().log(1078071040, "updatePDCDistanceValuesRight: distanceValues=%1, valid=%2", (Object)pDCDistanceValuesRightLeft, (long)n);
+        this.getLogChannel().log(1000000, "updatePDCDistanceValuesRight: distanceValues=%1, valid=%2", (Object)pDCDistanceValuesRightLeft, (long)n);
         if (n == 1) {
             this.distanceControl.updateDistancesRight(pDCDistanceValuesRightLeft);
         }
     }
 
-    @Override
     public void updatePDCDistanceValuesLeft(PDCDistanceValuesRightLeft pDCDistanceValuesRightLeft, int n) {
-        this.getLogChannel().log(1078071040, "updatePDCDistanceValuesLeft: distanceValues=%1, valid=%2", (Object)pDCDistanceValuesRightLeft, (long)n);
+        this.getLogChannel().log(1000000, "updatePDCDistanceValuesLeft: distanceValues=%1, valid=%2", (Object)pDCDistanceValuesRightLeft, (long)n);
         if (n == 1) {
             this.distanceControl.updateDistancesLeft(pDCDistanceValuesRightLeft);
         }
     }
 
-    @Override
     public void updatePDCStatusLevelFront(PDCStatusLevelFrontRear pDCStatusLevelFrontRear, int n) {
-        this.getLogChannel().log(1078071040, "updatePDCStatusLevelFront: statusLevel=%1, valid=%2", (Object)pDCStatusLevelFrontRear, (long)n);
+        this.getLogChannel().log(1000000, "updatePDCStatusLevelFront: statusLevel=%1, valid=%2", (Object)pDCStatusLevelFrontRear, (long)n);
         if (n == 1) {
             this.distanceControl.applyFrontToStatusLvls(pDCStatusLevelFrontRear);
         }
     }
 
-    @Override
     public void updatePDCStatusLevelRear(PDCStatusLevelFrontRear pDCStatusLevelFrontRear, int n) {
-        this.getLogChannel().log(1078071040, "updatePDCStatusLevelRear: statusLevel=%1, valid=%2", (Object)pDCStatusLevelFrontRear, (long)n);
+        this.getLogChannel().log(1000000, "updatePDCStatusLevelRear: statusLevel=%1, valid=%2", (Object)pDCStatusLevelFrontRear, (long)n);
         if (n == 1) {
             this.distanceControl.applyRearToStatusLvls(pDCStatusLevelFrontRear);
         }
     }
 
-    @Override
     public void updatePDCStatusLevelRight(PDCStatusLevelRightLeft pDCStatusLevelRightLeft, int n) {
-        this.getLogChannel().log(1078071040, "updatePDCStatusLevelRight: statusLevel=%1, valid=%2", (Object)pDCStatusLevelRightLeft, (long)n);
+        this.getLogChannel().log(1000000, "updatePDCStatusLevelRight: statusLevel=%1, valid=%2", (Object)pDCStatusLevelRightLeft, (long)n);
         if (n == 1) {
             this.distanceControl.applyRightToStatusLvls(pDCStatusLevelRightLeft);
         }
     }
 
-    @Override
     public void updatePDCStatusLevelLeft(PDCStatusLevelRightLeft pDCStatusLevelRightLeft, int n) {
-        this.getLogChannel().log(1078071040, "updatePDCStatusLevelLeft: statusLevel=%1, valid=%2", (Object)pDCStatusLevelRightLeft, (long)n);
+        this.getLogChannel().log(1000000, "updatePDCStatusLevelLeft: statusLevel=%1, valid=%2", (Object)pDCStatusLevelRightLeft, (long)n);
         if (n == 1) {
             this.distanceControl.applyLeftToStatusLvls(pDCStatusLevelRightLeft);
         }
     }
 
-    @Override
     public void updatePDCDistanceValuesFrontExt(PDCDistanceValuesFrontRearExt pDCDistanceValuesFrontRearExt, int n) {
-        this.getLogChannel().log(1078071040, "[AbstractParkingSystemOPSComponent#updatePDCDistanceValuesFrontExt] distanceValues=%1, valid=%2", (Object)pDCDistanceValuesFrontRearExt, (long)n);
+        this.getLogChannel().log(1000000, "[AbstractParkingSystemOPSComponent#updatePDCDistanceValuesFrontExt] distanceValues=%1, valid=%2", (Object)pDCDistanceValuesFrontRearExt, (long)n);
         if (n == 1) {
             this.distanceControl.updateDistancesFrontExt(pDCDistanceValuesFrontRearExt);
         }
     }
 
-    @Override
     public void updatePDCDistanceValuesRearExt(PDCDistanceValuesFrontRearExt pDCDistanceValuesFrontRearExt, int n) {
-        this.getLogChannel().log(1078071040, "[AbstractParkingSystemOPSComponent#updatePDCDistanceValuesRearExt] distanceValues=%1, valid=%2", (Object)pDCDistanceValuesFrontRearExt, (long)n);
+        this.getLogChannel().log(1000000, "[AbstractParkingSystemOPSComponent#updatePDCDistanceValuesRearExt] distanceValues=%1, valid=%2", (Object)pDCDistanceValuesFrontRearExt, (long)n);
         if (n == 1) {
             this.distanceControl.updateDistancesRearExt(pDCDistanceValuesFrontRearExt);
         }
     }
 
-    @Override
     public void updatePDCStatusLevelFrontExt(PDCStatusLevelFrontRearExt pDCStatusLevelFrontRearExt, int n) {
-        this.getLogChannel().log(1078071040, "[AbstractParkingSystemOPSComponent#updatePDCStatusLevelFrontExt] statusLevel=%1, valid=%2", (Object)pDCStatusLevelFrontRearExt, (long)n);
+        this.getLogChannel().log(1000000, "[AbstractParkingSystemOPSComponent#updatePDCStatusLevelFrontExt] statusLevel=%1, valid=%2", (Object)pDCStatusLevelFrontRearExt, (long)n);
         if (n == 1) {
             this.distanceControl.applyFrontExtToStatusLvls(pDCStatusLevelFrontRearExt);
         }
     }
 
-    @Override
     public void updatePDCStatusLevelRearExt(PDCStatusLevelFrontRearExt pDCStatusLevelFrontRearExt, int n) {
-        this.getLogChannel().log(1078071040, "[AbstractParkingSystemOPSComponent#updatePDCStatusLevelRearExt] statusLevel=%1, valid=%2", (Object)pDCStatusLevelFrontRearExt, (long)n);
+        this.getLogChannel().log(1000000, "[AbstractParkingSystemOPSComponent#updatePDCStatusLevelRearExt] statusLevel=%1, valid=%2", (Object)pDCStatusLevelFrontRearExt, (long)n);
         if (n == 1) {
             this.distanceControl.applyRearExtToStatusLvls(pDCStatusLevelFrontRearExt);
         }
     }
 
-    @Override
     public void updatePDCSteeringInformation(PDCSteeringInformation pDCSteeringInformation, int n) {
-        this.getLogChannel().log(1078071040, "updatePDCSteeringInformation: statusLevel=%1, valid=%2", (Object)pDCSteeringInformation, (long)n);
+        this.getLogChannel().log(1000000, "updatePDCSteeringInformation: statusLevel=%1, valid=%2", (Object)pDCSteeringInformation, (long)n);
         if (n == 1) {
             this.trackHoseControl.updateSteeringInformation(pDCSteeringInformation);
         }
     }
 
-    @Override
     public void updatePDCWallDetection(PDCWallDetection pDCWallDetection, int n) {
-        this.getLogChannel().log(1078071040, "[ParkingSystemOPSComponentPorsche#updatePDCWallDetection] wallDetection=%1, valid=%2", (Object)pDCWallDetection, (long)n);
+        this.getLogChannel().log(1000000, "[ParkingSystemOPSComponentPorsche#updatePDCWallDetection] wallDetection=%1, valid=%2", (Object)pDCWallDetection, (long)n);
         if (n == 1 && pDCWallDetection != null) {
             this.distanceControl.updateWallFlags(pDCWallDetection);
         }
     }
 
-    @Override
     public void updatePDCInfo(PDCInfo pDCInfo, int n) {
-        this.getLogChannel().log(1078071040, "[ParkingSystemOPSComponentPorsche#updatePDCInfo] information=%1, valid=%2", (Object)pDCInfo, (long)n);
+        this.getLogChannel().log(1000000, "[ParkingSystemOPSComponentPorsche#updatePDCInfo] information=%1, valid=%2", (Object)pDCInfo, (long)n);
         if (n == 1) {
             this.distanceControl.updatePDCInfo(pDCInfo);
         }
     }
 
-    @Override
     public void updatePDCMute(boolean bl, int n) {
-        this.getLogChannel().log(1078071040, "updatePDCMute: pdcMute=%1, valid=%2", bl, (long)n);
+        this.getLogChannel().log(1000000, "updatePDCMute: pdcMute=%1, valid=%2", bl, (long)n);
         if (1 == n) {
-            this.getChoiceModel(890052608).setValue(bl ? 1 : 0);
+            this.getChoiceModel(2100533).setValue(bl ? 1 : 0);
         }
     }
 
-    @Override
     public ParkingPopupIdentifier getHMIPopupID(int n) {
         return null;
     }
 
-    @Override
     public int getHMIPopupPrio(int n) {
         return 0;
     }
 
-    protected abstract IOPSDistanceControl initDistanceControl() {
-    }
+    protected abstract IOPSDistanceControl initDistanceControl();
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
         switch (n) {
             case 2100314: {
@@ -333,14 +299,13 @@ implements ChoiceListener {
             }
             case 2100533: {
                 boolean bl = 1 == n2;
-                this.getLogChannel().log(1078071040, "AbstractParkingSystemOPSComponent: DSI().setPDCMute(%1)", (Object)(bl ? "true" : "false"));
+                this.getLogChannel().log(1000000, "AbstractParkingSystemOPSComponent: DSI().setPDCMute(%1)", (Object)(bl ? "true" : "false"));
                 this.getDSI().setPDCMute(bl);
                 break;
             }
         }
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 }

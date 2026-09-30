@@ -21,7 +21,6 @@ implements ATIPMediaRouterService {
         this.dsiMediaRouter = new NullDSIMediaRouter(audioEnv.lcDSI);
     }
 
-    @Override
     public void setAudioRoutes(ATIPAudioRoute[] aTIPAudioRouteArray) {
         AudioRoute[] audioRouteArray = new AudioRoute[aTIPAudioRouteArray.length];
         for (int i2 = 0; i2 < audioRouteArray.length; ++i2) {
@@ -33,15 +32,14 @@ implements ATIPMediaRouterService {
             int n2 = aTIPAudioRoute.getRoutingOutput();
             int n3 = aTIPAudioRoute.getRouteStatus();
             audioRouteArray[i2] = new AudioRoute(n, n2, n3);
-            this.env.lcMain.log(-2137614336, "[ATIPMediaRouterServiceImpl.setAudioRoutes] input %1 output: %2, status: %3", (long)n, (long)n2, (long)n3);
+            this.env.lcMain.log(10000000, "[ATIPMediaRouterServiceImpl.setAudioRoutes] input %1 output: %2, status: %3", (long)n, (long)n2, (long)n3);
         }
         this.dsiMediaRouter.setAudioRoutes(audioRouteArray);
     }
 
-    @Override
     public void setDSIMediaRouter(DSIMediaRouter dSIMediaRouter) {
         if (dSIMediaRouter instanceof DSIMediaRouter) {
-            this.env.lcMain.log(-2137614336, "[ATIPMediaRouterServiceImpl.setService] DSIMediaRouter registered");
+            this.env.lcMain.log(10000000, "[ATIPMediaRouterServiceImpl.setService] DSIMediaRouter registered");
             this.dsiMediaRouter = dSIMediaRouter;
         }
     }

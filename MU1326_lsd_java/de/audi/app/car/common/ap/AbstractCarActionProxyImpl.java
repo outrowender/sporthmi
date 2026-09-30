@@ -24,7 +24,7 @@ public abstract class AbstractCarActionProxyImpl {
     }
 
     public void init() {
-        this.getLogChannel().log(1078071040, "[AbstractCARActionProxyImpl#init] called");
+        this.getLogChannel().log(1000000, "[AbstractCARActionProxyImpl#init] called");
         Hashtable hashtable = new Hashtable(1);
         hashtable.put("moduleID", new Integer(this.getActionProxyInterfaceID()));
         this.apServiceProvider.setProperties(hashtable);
@@ -32,12 +32,11 @@ public abstract class AbstractCarActionProxyImpl {
     }
 
     public void deinit() {
-        this.getLogChannel().log(1078071040, "[AbstractCARActionProxyImpl#deinit] called");
+        this.getLogChannel().log(1000000, "[AbstractCARActionProxyImpl#deinit] called");
         this.apServiceProvider.stopService();
     }
 
-    public abstract int getActionProxyInterfaceID() {
-    }
+    public abstract int getActionProxyInterfaceID();
 
     public LogChannel getLogChannel() {
         return this.logChannel;

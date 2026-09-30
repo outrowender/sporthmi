@@ -32,7 +32,6 @@ extends AbstractInfoActivator {
     static /* synthetic */ Class class$org$dsi$ifc$tmc$DSITmcOnRoute;
     static /* synthetic */ Class class$de$audi$atip$statemachine$ActionProxy;
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         InfoEnv infoEnv = new InfoEnv(this.framework, this.textConstantsMapper, this.smEventConstants);
@@ -51,10 +50,9 @@ extends AbstractInfoActivator {
         this.framework.startDSIService((class$org$dsi$ifc$tmc$DSITmc == null ? (class$org$dsi$ifc$tmc$DSITmc = InfoActivator.class$("org.dsi.ifc.tmc.DSITmc")) : class$org$dsi$ifc$tmc$DSITmc).getName(), 0);
         this.framework.startDSIService((class$org$dsi$ifc$tmc$DSITmcOnRoute == null ? (class$org$dsi$ifc$tmc$DSITmcOnRoute = InfoActivator.class$("org.dsi.ifc.tmc.DSITmcOnRoute")) : class$org$dsi$ifc$tmc$DSITmcOnRoute).getName(), 0);
         this.tmcApp.setStorageManager(this.storageManager);
-        this.infoHMIApplication.setXUrgentPopupId(547424000);
+        this.infoHMIApplication.setXUrgentPopupId(500000);
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         super.stop(bundleContext);
         this.tmcApp = null;
@@ -63,22 +61,18 @@ extends AbstractInfoActivator {
         this.infoAp = null;
     }
 
-    @Override
     public IIDMapper getTextConstantsMapper() {
         return this.textConstantsMapper;
     }
 
-    @Override
     public IIDMapper getSMEventConstantsMapper() {
         return this.smEventConstants;
     }
 
-    @Override
     protected InfoAPImpl createActionProxy(InfoEnv infoEnv, AppTMC appTMC, LogChannel logChannel) {
         return new InfoActionProxyImplEvo(infoEnv, appTMC, this.framework.getLogChannel("App.Info.AP"));
     }
 
-    @Override
     protected void registerActionProxy(Hashtable hashtable, InfoAPImpl infoAPImpl) {
         hashtable.put("moduleID", new Integer(5));
         this.registerService((class$de$audi$atip$statemachine$ActionProxy == null ? (class$de$audi$atip$statemachine$ActionProxy = InfoActivator.class$("de.audi.atip.statemachine.ActionProxy")) : class$de$audi$atip$statemachine$ActionProxy).getName(), (Object)infoAPImpl, (Dictionary)hashtable);

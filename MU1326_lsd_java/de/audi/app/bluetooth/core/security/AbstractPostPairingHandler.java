@@ -20,12 +20,10 @@ extends AbstractBluetoothComponent {
         super(iBluetoothApplication);
     }
 
-    @Override
     protected int[] getAttributeNotifications() {
         return ATTRIBUTE_NOTIFICATIONS;
     }
 
-    @Override
     public void updatePasskeyState(PasskeyStateStruct passkeyStateStruct, int n) {
         if (n != 1 || passkeyStateStruct == null) {
             return;
@@ -53,7 +51,7 @@ extends AbstractBluetoothComponent {
                 this.pairing = false;
             }
         }
-        this.log.log(1078071040, "AbstractPostPairingHandler#updatePasskeyState(): Pairing active=%1", this.pairing);
+        this.log.log(1000000, "AbstractPostPairingHandler#updatePasskeyState(): Pairing active=%1", this.pairing);
         if (bl) {
             this.checkNewDevices();
         } else {
@@ -62,11 +60,11 @@ extends AbstractBluetoothComponent {
     }
 
     private void checkNewDevices() {
-        this.log.log(1078071040, "AbstractPostPairingHandler#checkNewDevices()");
+        this.log.log(1000000, "AbstractPostPairingHandler#checkNewDevices()");
         for (int i2 = 0; i2 < this.newTrustedDevices.length; ++i2) {
             TrustedDevice trustedDevice = this.newTrustedDevices[i2];
             if (!trustedDevice.getDeviceAddress().equals(this.device)) continue;
-            this.log.log(-2137614336, "AbstractPostPairingHandler#checkNewDevices(): New Bluetooth device connected: %1", (Object)this.device);
+            this.log.log(10000000, "AbstractPostPairingHandler#checkNewDevices(): New Bluetooth device connected: %1", (Object)this.device);
             this.handleNewDevice(trustedDevice);
             break;
         }
@@ -75,13 +73,10 @@ extends AbstractBluetoothComponent {
         this.trustedDevices = this.newTrustedDevices;
     }
 
-    protected abstract void handleNewDevice(TrustedDevice trustedDevice) {
-    }
+    protected abstract void handleNewDevice(TrustedDevice var1);
 
-    protected abstract void cleanupAfterPairing() {
-    }
+    protected abstract void cleanupAfterPairing();
 
-    @Override
     public void updateTrustedDevices(TrustedDevice[] trustedDeviceArray, int n) {
         if (n != 1) {
             return;

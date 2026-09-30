@@ -26,10 +26,9 @@ extends TMCAbstractListRowBuilder {
         this.env = infoEnv;
     }
 
-    @Override
     public TMCAbstractListRow buildSimpleListRow(TmcListElement tmcListElement) {
         if (tmcListElement == null || tmcListElement.getMessage() == null) {
-            this.lc.log(-1601830656, "%1#buildListRow - message is null", (Object)LOGCLASS);
+            this.lc.log(100000, "%1#buildListRow - message is null", (Object)LOGCLASS);
             return null;
         }
         TmcMessage tmcMessage = tmcListElement.getMessage();
@@ -42,10 +41,9 @@ extends TMCAbstractListRowBuilder {
         return infoListRow;
     }
 
-    @Override
     public TMCAbstractListRow buildParentNodeListRow(TmcListElement tmcListElement, long l) {
         if (tmcListElement == null) {
-            this.lc.log(-1601830656, "%1#buildParentNodeListRow - message is null", (Object)LOGCLASS);
+            this.lc.log(100000, "%1#buildParentNodeListRow - message is null", (Object)LOGCLASS);
             return null;
         }
         IconCell iconCell = this.getRoadIcon(tmcListElement);
@@ -53,7 +51,6 @@ extends TMCAbstractListRowBuilder {
         return infoListRow;
     }
 
-    @Override
     public TMCAbstractListRow[] buildDetailsList(TmcListElement tmcListElement) {
         InfoDetailsRow infoDetailsRow;
         if (tmcListElement == null || tmcListElement.getMessage() == null) {
@@ -98,7 +95,6 @@ extends TMCAbstractListRowBuilder {
         return (TMCAbstractListRow[])arrayList.toArray(new InfoDetailsRow[arrayList.size()]);
     }
 
-    @Override
     public TMCAbstractListRow[] buildDetailsListMsg(TmcMessage tmcMessage) {
         if (tmcMessage == null) {
             this.lc.log(10000, "%1#buildDetailsRowMsg - message is null", (Object)LOGCLASS);
@@ -109,7 +105,6 @@ extends TMCAbstractListRowBuilder {
         return this.buildDetailsList(tmcListElement);
     }
 
-    @Override
     public TMCAbstractListRow buildSimpleListRow(TmcMessage tmcMessage) {
         TmcListElement tmcListElement = new TmcListElement();
         tmcListElement.setMessage(tmcMessage);

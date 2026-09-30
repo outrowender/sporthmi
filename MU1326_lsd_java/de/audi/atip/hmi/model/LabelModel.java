@@ -18,7 +18,6 @@ LabelModelApp {
         super(n, 0);
     }
 
-    @Override
     public String dumpContent() {
         Buffer buffer = new Buffer(100);
         buffer.append(super.dumpContent());
@@ -32,7 +31,6 @@ LabelModelApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean isEmpty() {
         Object object = this.mutex;
         synchronized (object) {
@@ -40,7 +38,6 @@ LabelModelApp {
         }
     }
 
-    @Override
     public int getModelType() {
         return 3;
     }
@@ -48,7 +45,6 @@ LabelModelApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     protected void copy(AbstractModel abstractModel) {
         try {
             Object object = this.mutex;
@@ -64,7 +60,6 @@ LabelModelApp {
         }
     }
 
-    @Override
     public String getText() {
         return this.text;
     }
@@ -72,7 +67,6 @@ LabelModelApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int getLength() {
         Object object = this.mutex;
         synchronized (object) {
@@ -83,7 +77,6 @@ LabelModelApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public synchronized void setText(String string) {
         Object object = this.mutex;
         synchronized (object) {
@@ -93,7 +86,6 @@ LabelModelApp {
         this.fireModelUpdateEvent(1);
     }
 
-    @Override
     public void resetListener() {
     }
 }

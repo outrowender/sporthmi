@@ -74,9 +74,9 @@ public class ClientHello {
 
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
-        stringBuffer.append(new StringBuffer("=====Client Hello=====").append(lineTerminator).toString());
-        stringBuffer.append(new StringBuffer("Version: ").append(this.getHighestVersion()).append(lineTerminator).toString());
-        stringBuffer.append(new StringBuffer("Random (").append(this.random.length).append("): ").append(Util.getStringForByteArray(this.random)).append(lineTerminator).toString());
+        stringBuffer.append("=====Client Hello=====" + lineTerminator);
+        stringBuffer.append("Version: " + this.getHighestVersion() + lineTerminator);
+        stringBuffer.append("Random (" + this.random.length + "): " + Util.getStringForByteArray(this.random) + lineTerminator);
         stringBuffer.append("Session ID: ");
         if (this.sessionID == null) {
             stringBuffer.append("null");
@@ -87,7 +87,7 @@ public class ClientHello {
         stringBuffer.append("Cipher Suites: ");
         int n = 0;
         while (n < this.socket.getEnabledCipherSpecs().length) {
-            stringBuffer.append(new StringBuffer().append(this.socket.getEnabledCipherSpecs()[n]).append(";").toString());
+            stringBuffer.append(this.socket.getEnabledCipherSpecs()[n] + ";");
             ++n;
         }
         stringBuffer.append(lineTerminator);
@@ -98,12 +98,12 @@ public class ClientHello {
             stringBuffer.append(this.compressionMethods[0]);
             n = 1;
             while (n < this.compressionMethods.length) {
-                stringBuffer.append(new StringBuffer(";").append(this.compressionMethods[n]).toString());
+                stringBuffer.append(";" + this.compressionMethods[n]);
                 ++n;
             }
             stringBuffer.append(lineTerminator);
         }
-        stringBuffer.append(new StringBuffer("======================").append(lineTerminator).toString());
+        stringBuffer.append("======================" + lineTerminator);
         return stringBuffer.toString();
     }
 }

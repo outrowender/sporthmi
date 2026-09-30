@@ -5,8 +5,8 @@ package de.audi.app.phone.core.sim;
 
 import de.audi.app.phone.core.AbstractPhoneComponent;
 import de.audi.app.phone.core.ITelApplication;
-import de.audi.app.phone.core.sim.AbstractTelUnlockSpellerHandler$TelUnlockOkButtonListener;
-import de.audi.app.phone.core.sim.AbstractTelUnlockSpellerHandler$TelUnlockSpellerHandler;
+import de.audi.app.phone.core.model.TelDefaultButtonListener;
+import de.audi.app.phone.core.model.TelDefaultSpellerListener;
 import de.audi.atip.hmi.modelaccess.ButtonModelApp;
 import de.audi.atip.hmi.modelaccess.SpellerModelApp;
 
@@ -21,12 +21,11 @@ extends AbstractPhoneComponent {
         this.name = string;
         this.spellerModel = this.getSpellerModel(n);
         this.okButton = this.getButtonModel(n2);
-        this.addSubPhoneComponent(new AbstractTelUnlockSpellerHandler$TelUnlockSpellerHandler(this, iTelApplication, "App.Phone.LockState", n, n3, n4));
-        this.addSubPhoneComponent(new AbstractTelUnlockSpellerHandler$TelUnlockOkButtonListener(this, iTelApplication, "App.Phone.LockState", n2));
+        this.addSubPhoneComponent(new TelUnlockSpellerHandler(iTelApplication, "App.Phone.LockState", n, n3, n4));
+        this.addSubPhoneComponent(new TelUnlockOkButtonListener(iTelApplication, "App.Phone.LockState", n2));
     }
 
-    protected abstract void codeEntered(String string, int n) {
-    }
+    protected abstract void codeEntered(String var1, int var2);
 
     protected void fireEvent(int n) {
         this.spellerModel.fireEvent(n);
@@ -37,16 +36,60 @@ extends AbstractPhoneComponent {
         this.okButton.setStatus(0);
     }
 
-    static /* synthetic */ String access$000(AbstractTelUnlockSpellerHandler abstractTelUnlockSpellerHandler) {
-        return abstractTelUnlockSpellerHandler.name;
+    private class TelUnlockSpellerHandler
+    extends TelDefaultSpellerListener {
+        private final int minSpellerLength;
+        private final int maxSpellerLength;
+
+        public TelUnlockSpellerHandler(ITelApplication iTelApplication, String string, int n, int n2, int n3) {
+            super(iTelApplication, string, n);
+            this.minSpellerLength = n2;
+            this.maxSpellerLength = n3;
+        }
+
+        public void init() {
+            super.init();
+            this.setMinMaxLength(this.minSpellerLength, this.maxSpellerLength);
+        }
+
+        public void textChanged(int n, String string, char c2, int n2) {
+            this.log.log(1000000, "[%1.UnlockSpellerHandler#textChanged] text=%1, latestChar=%2", (Object)AbstractTelUnlockSpellerHandler.this.name, (Object)string, (long)c2);
+            this.setOKButtonEnabled(string);
+        }
+
+        private void setOKButtonEnabled(String string) {
+            int n = this.getSpellerModel().getMinLength();
+            int n2 = this.getSpellerModel().getMaxLength();
+            if (string != null) {
+                if (string.length() >= n && string.length() <= n2) {
+                    AbstractTelUnlockSpellerHandler.this.okButton.setStatus(1);
+                } else {
+                    AbstractTelUnlockSpellerHandler.this.okButton.setStatus(0);
+                }
+            } else {
+                AbstractTelUnlockSpellerHandler.this.okButton.setStatus(0);
+            }
+        }
+
+        public void keyTyped(int n, int n2, int n3) {
+            AbstractTelUnlockSpellerHandler.this.codeEntered(AbstractTelUnlockSpellerHandler.this.spellerModel.getText(), n3);
+        }
     }
 
-    static /* synthetic */ ButtonModelApp access$100(AbstractTelUnlockSpellerHandler abstractTelUnlockSpellerHandler) {
-        return abstractTelUnlockSpellerHandler.okButton;
-    }
+    private class TelUnlockOkButtonListener
+    extends TelDefaultButtonListener {
+        public TelUnlockOkButtonListener(ITelApplication iTelApplication, String string, int n) {
+            super(iTelApplication, string, n);
+        }
 
-    static /* synthetic */ SpellerModelApp access$200(AbstractTelUnlockSpellerHandler abstractTelUnlockSpellerHandler) {
-        return abstractTelUnlockSpellerHandler.spellerModel;
+        public void init() {
+            super.init();
+            this.getButtonModel().setStatus(0);
+        }
+
+        public void keyTyped(int n, int n2, int n3) {
+            AbstractTelUnlockSpellerHandler.this.codeEntered(AbstractTelUnlockSpellerHandler.this.spellerModel.getText(), n3);
+        }
     }
 }
 

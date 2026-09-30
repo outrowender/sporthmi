@@ -4,7 +4,6 @@
 package com.ibm.oti.security.provider;
 
 import com.ibm.oti.util.ASN1Decoder;
-import com.ibm.oti.util.ASN1Decoder$Node;
 import com.ibm.oti.util.ASN1Encoder;
 import com.ibm.oti.util.Msg;
 import java.io.ByteArrayInputStream;
@@ -22,8 +21,7 @@ extends AlgorithmParametersSpi {
     private boolean initialized = false;
     static /* synthetic */ Class class$0;
 
-    @Override
-    protected byte[] engineGetEncoded(String string) {
+    protected byte[] engineGetEncoded(String string) throws IOException {
         if (!this.initialized) {
             throw new IOException();
         }
@@ -42,8 +40,7 @@ extends AlgorithmParametersSpi {
         throw new IOException(Msg.getString("JCP000"));
     }
 
-    @Override
-    protected AlgorithmParameterSpec engineGetParameterSpec(Class clazz) {
+    protected AlgorithmParameterSpec engineGetParameterSpec(Class clazz) throws InvalidParameterSpecException {
         if (clazz == null) {
             throw new NullPointerException();
         }
@@ -62,8 +59,7 @@ extends AlgorithmParametersSpi {
         return this.paramSpec;
     }
 
-    @Override
-    protected void engineInit(AlgorithmParameterSpec algorithmParameterSpec) {
+    protected void engineInit(AlgorithmParameterSpec algorithmParameterSpec) throws InvalidParameterSpecException {
         if (!(algorithmParameterSpec instanceof DSAParameterSpec)) {
             throw new InvalidParameterSpecException();
         }
@@ -71,16 +67,15 @@ extends AlgorithmParametersSpi {
         this.initialized = true;
     }
 
-    @Override
-    protected void engineInit(byte[] byArray, String string) {
+    protected void engineInit(byte[] byArray, String string) throws IOException {
         if (string == null || string.equals("ASN.1")) {
             ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(byArray);
             ASN1Decoder aSN1Decoder = new ASN1Decoder(byteArrayInputStream);
             try {
-                ASN1Decoder$Node[] aSN1Decoder$NodeArray = (ASN1Decoder$Node[])aSN1Decoder.readContents().data;
-                BigInteger bigInteger = (BigInteger)aSN1Decoder$NodeArray[0].data;
-                BigInteger bigInteger2 = (BigInteger)aSN1Decoder$NodeArray[1].data;
-                BigInteger bigInteger3 = (BigInteger)aSN1Decoder$NodeArray[2].data;
+                ASN1Decoder.Node[] nodeArray = (ASN1Decoder.Node[])aSN1Decoder.readContents().data;
+                BigInteger bigInteger = (BigInteger)nodeArray[0].data;
+                BigInteger bigInteger2 = (BigInteger)nodeArray[1].data;
+                BigInteger bigInteger3 = (BigInteger)nodeArray[2].data;
                 this.paramSpec = new DSAParameterSpec(bigInteger, bigInteger2, bigInteger3);
             }
             catch (ClassCastException classCastException) {
@@ -95,18 +90,15 @@ extends AlgorithmParametersSpi {
         throw new IOException(Msg.getString("JCP000"));
     }
 
-    @Override
     protected String engineToString() {
         return this.toString();
     }
 
-    @Override
-    protected byte[] engineGetEncoded() {
+    protected byte[] engineGetEncoded() throws IOException {
         return this.engineGetEncoded("ASN.1");
     }
 
-    @Override
-    protected void engineInit(byte[] byArray) {
+    protected void engineInit(byte[] byArray) throws IOException {
         this.engineInit(byArray, "ASN.1");
     }
 }

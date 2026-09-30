@@ -21,8 +21,8 @@ import java.io.IOException;
 public class LastmodeStorage
 extends AbstractStorageDataContainer
 implements ILastmodeStorage {
-    private static final int VERSION;
-    private static final boolean USE_GEM_SKIN_OVERRIDE;
+    private static final int VERSION = 3;
+    private static final boolean USE_GEM_SKIN_OVERRIDE = Boolean.getBoolean("UseGEMSkinOverride");
     private final boolean rebootToDownload;
     private int lastmodeApp;
     private int lastmodeAudio;
@@ -52,19 +52,16 @@ implements ILastmodeStorage {
         return this.framework;
     }
 
-    @Override
     protected void handleCRC32Error() {
         this.lc.log(10000, "LastmodeStorage.handleCRC32Error(): restore default values");
         this.restoreDefaultValues();
     }
 
-    @Override
     protected void handleStorageReadError(Exception exception) {
         this.lc.log(10000, "LastmodeStorage.handleStorageReadError(): restore default values", (Object)exception.getMessage());
         this.restoreDefaultValues();
     }
 
-    @Override
     protected void convertContainer(int n, int n2, DataInputStream dataInputStream) {
         this.lc.log(10000, "LastmodeStorage.convertContainere(%1, %2, ...): restore default values", (long)n, (long)n2);
         if (n == 1 && n2 == 3) {
@@ -88,9 +85,8 @@ implements ILastmodeStorage {
         }
     }
 
-    @Override
-    protected void serialize(DataOutputStream dataOutputStream) {
-        this.lc.log(1078071040, "LastmodeStorage.serialize() %1", (Object)this);
+    protected void serialize(DataOutputStream dataOutputStream) throws IOException {
+        this.lc.log(1000000, "LastmodeStorage.serialize() %1", (Object)this);
         try {
             dataOutputStream.writeInt(this.getLastmode());
             dataOutputStream.writeInt(this.getLastmodeAudio());
@@ -112,25 +108,24 @@ implements ILastmodeStorage {
         }
     }
 
-    @Override
-    protected void deserialize(DataInputStream dataInputStream) {
-        this.lc.log(-2137614336, "LastmodeStorage.deserialize()");
+    protected void deserialize(DataInputStream dataInputStream) throws IOException {
+        this.lc.log(10000000, "LastmodeStorage.deserialize()");
         this.deserializeV2(dataInputStream);
         this.setConsumptionElectro(dataInputStream.readInt(), false);
-        this.lc.log(1078071040, "LastmodeStorage.deserialize(): %1", (Object)this);
+        this.lc.log(1000000, "LastmodeStorage.deserialize(): %1", (Object)this);
     }
 
-    private void deserializeV2(DataInputStream dataInputStream) {
-        this.lc.log(-2137614336, "LastmodeStorage.deserialize()");
+    private void deserializeV2(DataInputStream dataInputStream) throws IOException {
+        this.lc.log(10000000, "LastmodeStorage.deserialize()");
         this.deserializeV1(dataInputStream);
         this.setKombiBrightness(dataInputStream.readInt(), false);
-        this.lc.log(1078071040, "LastmodeStorage.deserialize(): %1", (Object)this);
+        this.lc.log(1000000, "LastmodeStorage.deserialize(): %1", (Object)this);
     }
 
-    private void deserializeV1(DataInputStream dataInputStream) {
+    private void deserializeV1(DataInputStream dataInputStream) throws IOException {
         this.lastmodeApp = dataInputStream.readInt();
         this.lastmodeAudio = dataInputStream.readInt();
-        this.lc.log(-2137614336, "LastmodeStorage.deserializeV1(): LM = %1, LMA=%2", (long)this.lastmodeApp, (long)this.lastmodeAudio);
+        this.lc.log(10000000, "LastmodeStorage.deserializeV1(): LM = %1, LMA=%2", (long)this.lastmodeApp, (long)this.lastmodeAudio);
         this.setBrightness(dataInputStream.readInt(), false);
         this.setDistance(dataInputStream.readInt(), false);
         this.setSpeed(dataInputStream.readInt(), false);
@@ -143,11 +138,11 @@ implements ILastmodeStorage {
         if (USE_GEM_SKIN_OVERRIDE) {
             this.skin = this.getStorageAccess().getInt(256, 1, this.skin);
         }
-        this.lc.log(1078071040, "LastmodeStorage.deserializeV1(): %1", (Object)this);
+        this.lc.log(1000000, "LastmodeStorage.deserializeV1(): %1", (Object)this);
     }
 
     private void restoreDefaultValues() {
-        this.lc.log(1078071040, "LastmodeStorage.restoreDefaultValues()");
+        this.lc.log(1000000, "LastmodeStorage.restoreDefaultValues()");
         this.lastmodeApp = 1;
         this.lastmodeAudio = 1;
         this.lastmodeBrightness = 50;
@@ -187,57 +182,46 @@ implements ILastmodeStorage {
         this.navEnabled = bl;
     }
 
-    @Override
     public int getBrightness() {
         return this.lastmodeBrightness;
     }
 
-    @Override
     public int getKombiBrightness() {
         return this.lastmodeKombiBrightness;
     }
 
-    @Override
     public int getDistance() {
         return this.lastmodeDistance;
     }
 
-    @Override
     public int getSpeed() {
         return this.lastmodeSpeed;
     }
 
-    @Override
     public int getPressure() {
         return this.lastmodePressure;
     }
 
-    @Override
     public int getTemperature() {
         return this.lastmodeTemperature;
     }
 
-    @Override
     public int getVolume() {
         return this.lastmodeVolume;
     }
 
-    @Override
     public int getConsumption() {
         return this.lastmodeConsumption;
     }
 
-    @Override
     public int getConsumptionElectro() {
         return this.lastmodeConsumptionElectro;
     }
 
-    @Override
     public int getSkin() {
         return this.skin;
     }
 
-    @Override
     public void setBrightness(int n, boolean bl) {
         if (n >= 0 && n <= 100) {
             this.lastmodeBrightness = n;
@@ -247,7 +231,6 @@ implements ILastmodeStorage {
         }
     }
 
-    @Override
     public void setKombiBrightness(int n, boolean bl) {
         if (n >= 0 && n <= 100) {
             this.lastmodeKombiBrightness = n;
@@ -257,7 +240,6 @@ implements ILastmodeStorage {
         }
     }
 
-    @Override
     public void setDistance(int n, boolean bl) {
         if (Distance.unitIsValid(n)) {
             this.lastmodeDistance = n;
@@ -267,7 +249,6 @@ implements ILastmodeStorage {
         }
     }
 
-    @Override
     public void setSpeed(int n, boolean bl) {
         if (Speed.unitIsValid(n)) {
             this.lastmodeSpeed = n;
@@ -277,7 +258,6 @@ implements ILastmodeStorage {
         }
     }
 
-    @Override
     public void setPressure(int n, boolean bl) {
         if (Pressure.unitIsValid(n)) {
             this.lastmodePressure = n;
@@ -287,7 +267,6 @@ implements ILastmodeStorage {
         }
     }
 
-    @Override
     public void setTemperature(int n, boolean bl) {
         if (Temperature.unitIsValid(n)) {
             this.lastmodeTemperature = n;
@@ -297,7 +276,6 @@ implements ILastmodeStorage {
         }
     }
 
-    @Override
     public void setVolume(int n, boolean bl) {
         if (Volume.unitIsValid(n)) {
             this.lastmodeVolume = n;
@@ -307,7 +285,6 @@ implements ILastmodeStorage {
         }
     }
 
-    @Override
     public void setConsumption(int n, boolean bl) {
         if (Consumption.unitIsValid(n)) {
             this.lastmodeConsumption = n;
@@ -317,7 +294,6 @@ implements ILastmodeStorage {
         }
     }
 
-    @Override
     public void setConsumptionElectro(int n, boolean bl) {
         if (Consumption.unitIsValid(n)) {
             this.lastmodeConsumptionElectro = n;
@@ -327,14 +303,13 @@ implements ILastmodeStorage {
         }
     }
 
-    @Override
     public void setSkin(int n) {
         this.skin = n;
         this.serializeAndWrite();
     }
 
     void initPersistentData() {
-        this.lc.log(1078071040, "LastmodeStorage.initPersistentData() start DSIPersistence");
+        this.lc.log(1000000, "LastmodeStorage.initPersistentData() start DSIPersistence");
         this.readAndDeserialize();
         Distance.setSystemUnit(this.lastmodeDistance);
         Speed.setSystemUnit(this.lastmodeSpeed);
@@ -360,10 +335,6 @@ implements ILastmodeStorage {
         buffer.append("\nkombiBrightness: ").append(this.getKombiBrightness());
         buffer.append("\nconsumptionElectro: ").append(this.getConsumptionElectro());
         return buffer.toString();
-    }
-
-    static {
-        USE_GEM_SKIN_OVERRIDE = Boolean.getBoolean("UseGEMSkinOverride");
     }
 }
 

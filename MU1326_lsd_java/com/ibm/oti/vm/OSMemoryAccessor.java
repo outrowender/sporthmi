@@ -4,10 +4,8 @@
 package com.ibm.oti.vm;
 
 public interface OSMemoryAccessor {
-    default public long getPointer() {
-    }
+    public long getPointer();
 
-    default public int getSize() {
-    }
+    public int getSize();
 }
 

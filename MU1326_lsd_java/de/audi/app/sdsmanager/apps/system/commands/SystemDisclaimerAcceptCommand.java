@@ -21,9 +21,8 @@ extends AbstractSystemCallCommand {
         this.connectivity = iSdsConnectivityService;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: acceptDisclaimer=%2", (Object)this.getName(), (Object)this.acceptDisclaimer);
+        this.logger.log(10000000, "%1#execute: acceptDisclaimer=%2", (Object)this.getName(), (Object)this.acceptDisclaimer);
         if (this.acceptDisclaimer) {
             this.connectivity.disclaimerAccept();
         } else {

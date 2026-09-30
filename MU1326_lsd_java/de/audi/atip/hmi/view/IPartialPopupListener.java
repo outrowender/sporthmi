@@ -4,22 +4,16 @@
 package de.audi.atip.hmi.view;
 
 public interface IPartialPopupListener {
-    default public void partialPopupVisible(int n, int n2) {
-    }
+    public void partialPopupVisible(int var1, int var2);
 
-    default public void partialPopupHidden(int n, int n2) {
-    }
+    public void partialPopupHidden(int var1, int var2);
 
-    default public void partialPopupRemoved(int n, int n2) {
-    }
+    public void partialPopupRemoved(int var1, int var2);
 
-    default public int[] getPPIDsForCallbacks() {
-    }
+    public int[] getPPIDsForCallbacks();
 
-    default public void partialPopupListenerRegistered(int n, int n2, boolean bl) {
-    }
+    public void partialPopupListenerRegistered(int var1, int var2, boolean var3);
 
-    default public void informAboutPPCoordinates(int n, int n2, int n3, int n4, int n5, int n6) {
-    }
+    public void informAboutPPCoordinates(int var1, int var2, int var3, int var4, int var5, int var6);
 }
 

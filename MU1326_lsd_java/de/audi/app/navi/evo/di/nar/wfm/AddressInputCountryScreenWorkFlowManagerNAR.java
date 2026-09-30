@@ -15,23 +15,22 @@ extends AbstractAddressInputScreenWorkFlowManagerNAR {
         super(navigationEnv, iCommandListFactory, spellerStack);
     }
 
-    @Override
     public CommandList handleWorkFlow(CommandList commandList, int n) {
-        this.logChannel.log(-2137614336, "%1#handleWorkFlow - screenEventId=%2", (Object)this.CLASS_NAME, (long)n);
+        this.logChannel.log(10000000, "%1#handleWorkFlow - screenEventId=%2", (Object)this.CLASS_NAME, (long)n);
         switch (n) {
             case 30102: {
                 this.createNarCountryScreenListElementSelectedWorkFlow(commandList);
                 break;
             }
             default: {
-                this.logChannel.log(-2137614336, "%1#handleWorkFlow - screenEventId %2 is in range of country screen but not known as valid id.", (Object)this.CLASS_NAME, (long)n);
+                this.logChannel.log(10000000, "%1#handleWorkFlow - screenEventId %2 is in range of country screen but not known as valid id.", (Object)this.CLASS_NAME, (long)n);
             }
         }
         return commandList;
     }
 
     private void createNarCountryScreenListElementSelectedWorkFlow(CommandList commandList) {
-        this.logChannel.log(-2137614336, "%1#createNarCountryScreenListElementSelectedWorkFlow", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#createNarCountryScreenListElementSelectedWorkFlow", (Object)this.CLASS_NAME);
         this.spellerStack.pop();
     }
 }

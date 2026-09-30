@@ -13,7 +13,7 @@ import de.audi.atip.log.LogChannel;
 import de.audi.tghu.browser.app.BrowserHMIListener;
 
 public class BrowserModelHandler {
-    public static int NULL_VALUE = 128;
+    public static int NULL_VALUE = Integer.MIN_VALUE;
     BrowserHMIListener listener;
     private ChoiceModelApp choiceNext;
     private ChoiceModelApp choicePrev;
@@ -60,10 +60,10 @@ public class BrowserModelHandler {
 
     public void setDisplayContextSwitchChoiceValue(int n) {
         if (this.displayContextSwitchChoice != null) {
-            this.logger.log(-2137614336, "BrowserModelHandler#setDisplayContextSwitchChoiceValue: id=%1 set to value=%2", (long)this.displayContextSwitchChoice.getID(), (long)n);
+            this.logger.log(10000000, "BrowserModelHandler#setDisplayContextSwitchChoiceValue: id=%1 set to value=%2", (long)this.displayContextSwitchChoice.getID(), (long)n);
             this.displayContextSwitchChoice.setValue(n);
         } else {
-            this.logger.log(-2137614336, "BrowserModelHandler#setDisplayContextSwitchChoiceValue: choice was null");
+            this.logger.log(10000000, "BrowserModelHandler#setDisplayContextSwitchChoiceValue: choice was null");
         }
     }
 

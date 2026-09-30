@@ -13,25 +13,20 @@ extends AbstractDataBrowseListJob {
         super(logChannel, dataBrowserList);
     }
 
-    @Override
     public int getType() {
         return 0;
     }
 
-    @Override
     public String getName() {
         return "EMPTY";
     }
 
-    @Override
     public void abort(boolean bl) {
     }
 
-    @Override
     public void start() {
     }
 
-    @Override
     public String toString() {
         return "";
     }

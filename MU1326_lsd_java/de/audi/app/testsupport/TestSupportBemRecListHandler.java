@@ -23,16 +23,16 @@ implements BaseListModelListener {
     private LabelModelApp receiverNameModel;
     private TestSupportReceiverSessionHandler sessionHandler;
     private final Object mutex = new Object();
-    private static final int RECEIVERS_LIST_COLUMNS;
-    private static final int RECEIVERS_LIST_COL_NAME;
-    private static final int RECEIVERS_LIST_COL_ID;
-    private static final int RECEIVER_DETAILS_LIST_COLUMNS;
-    private static final int RECEIVER_DETAILS_LIST_COL_TEXT;
-    private static final int RECEIVER_DETAILS_LIST_COL_CHECKBOX;
-    private static final int RECEIVER_DETAILS_LIST_COL_ENTRYID;
-    private static final int RECEIVER_DETAILS_LIST_COL_LLD;
-    private static final int RECEIVER_DETAILS_LIST_LLD_ACTION;
-    private static final int RECEIVER_DETAILS_LIST_LLD_CHECKBOX;
+    private static final int RECEIVERS_LIST_COLUMNS = 2;
+    private static final int RECEIVERS_LIST_COL_NAME = 0;
+    private static final int RECEIVERS_LIST_COL_ID = 1;
+    private static final int RECEIVER_DETAILS_LIST_COLUMNS = 4;
+    private static final int RECEIVER_DETAILS_LIST_COL_TEXT = 0;
+    private static final int RECEIVER_DETAILS_LIST_COL_CHECKBOX = 1;
+    private static final int RECEIVER_DETAILS_LIST_COL_ENTRYID = 2;
+    private static final int RECEIVER_DETAILS_LIST_COL_LLD = 3;
+    private static final int RECEIVER_DETAILS_LIST_LLD_ACTION = 0;
+    private static final int RECEIVER_DETAILS_LIST_LLD_CHECKBOX = 1;
     private volatile int currentSelectedReceiverID;
 
     public TestSupportBemRecListHandler(IFrameworkAccess iFrameworkAccess, LogChannel logChannel) {
@@ -41,9 +41,9 @@ implements BaseListModelListener {
     }
 
     protected void init() {
-        this.receiversListModel = this.frameworkAccess.getHmiServiceApp().getBaseListModel(144647168);
-        this.receiversDataModel = this.frameworkAccess.getHmiServiceApp().getBaseListModel(127869952);
-        this.receiverNameModel = this.frameworkAccess.getHmiServiceApp().getLabelModel(161424384);
+        this.receiversListModel = this.frameworkAccess.getHmiServiceApp().getBaseListModel(2400008);
+        this.receiversDataModel = this.frameworkAccess.getHmiServiceApp().getBaseListModel(2400007);
+        this.receiverNameModel = this.frameworkAccess.getHmiServiceApp().getLabelModel(2400009);
         this.receiversListModel.setListener(this);
         this.receiversDataModel.setListener(this);
     }
@@ -100,7 +100,7 @@ implements BaseListModelListener {
         synchronized (object) {
             this.currentSelectedReceiverID = n;
             String string = this.sessionHandler.getSession(n).getReceiver().getName();
-            this.receiverNameModel.setText(string != null && string.length() > 0 ? string : new StringBuffer().append("UNKNOWN RECEIVER, ID: ").append(n).toString());
+            this.receiverNameModel.setText(string != null && string.length() > 0 ? string : "UNKNOWN RECEIVER, ID: " + n);
             this.updateReceiverDetails(n);
             this.receiversListModel.fireEvent(0);
         }
@@ -117,7 +117,7 @@ implements BaseListModelListener {
                 iTestSupportDataReceiver.entrySelected(n);
             }
             catch (Exception exception) {
-                this.logChannel.log(-1601830656, "[TestSupportBemRdcHandler#entrySelected] exception occured", (Throwable)exception);
+                this.logChannel.log(100000, "[TestSupportBemRdcHandler#entrySelected] exception occured", (Throwable)exception);
             }
         }
     }
@@ -139,9 +139,8 @@ implements BaseListModelListener {
         }
     }
 
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.logChannel.log(1078071040, "[TestSupportBemRdcHandler#itemSelected] modelID='%1', row='%2'", (Object)Integer.toString(n), (Object)evoListRow.toString());
+        this.logChannel.log(1000000, "[TestSupportBemRdcHandler#itemSelected] modelID='%1', row='%2'", (Object)Integer.toString(n), (Object)evoListRow.toString());
         switch (n) {
             case 2400008: {
                 this.receiverSelected(this.getSessionIDofRow(evoListRow));
@@ -154,15 +153,12 @@ implements BaseListModelListener {
         }
     }
 
-    @Override
     public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 

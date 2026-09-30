@@ -15,7 +15,6 @@ import de.audi.atip.sysapp.carcoding.ISysConstManager;
 import de.audi.atip.sysapp.carcoding.IVariantInfo;
 import de.audi.atip.sysapp.carcoding.LoadSpeedThreshold;
 import de.audi.atip.sysapp.carcoding.SperrFlags;
-import de.audi.mib.config.AbstractSysConstManager$1;
 import de.audi.mib.config.PopupPrioMapper;
 import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.fw.util.commons.SimpleIntIntMap;
@@ -34,12 +33,11 @@ implements ISysConstManager {
         this.lc = iFrameworkAccess.getLogChannel("Fw.Config.Mngr");
     }
 
-    @Override
     public final int getSysConst(int n) {
         HMIModelApp hMIModelApp = this.fw.getHmiServiceApp().getModelApp(n);
         if (hMIModelApp instanceof SysConstModel) {
             int n2 = ((SysConstModel)hMIModelApp).getValue();
-            this.lc.log(-2137614336, "SysConstManager#getSysConst(%1) = %2", (long)n, (long)n2);
+            this.lc.log(10000000, "SysConstManager#getSysConst(%1) = %2", (long)n, (long)n2);
             return n2;
         }
         this.lc.log(10000, "SysConstManager#getSysConst(%1) model not found", (long)n);
@@ -51,7 +49,7 @@ implements ISysConstManager {
     }
 
     protected final void setSysConst(int n, int n2) {
-        this.lc.log(-2137614336, "SysConstManager#setSysConst(%1, %2)", (long)n, (long)n2);
+        this.lc.log(10000000, "SysConstManager#setSysConst(%1, %2)", (long)n, (long)n2);
         HMIModelApp hMIModelApp = this.fw.getHmiServiceApp().getModelApp(n);
         if (hMIModelApp instanceof SysConstModel) {
             ((SysConstModel)hMIModelApp).setValue(n2);
@@ -69,36 +67,30 @@ implements ISysConstManager {
         if (n4 >= n2 && n4 <= n3) {
             return;
         }
-        this.lc.log(-1601830656, "%1 ( = %2 ) out of range, set to %3", (Object)string, (long)n4, (long)n2);
+        this.lc.log(100000, "%1 ( = %2 ) out of range, set to %3", (Object)string, (long)n4, (long)n2);
         this.setSysConst(n, n2);
     }
 
-    @Override
     public CarFuncAdap getCarFuncAdaptation() {
         return this.codingData.getCarFuncAdaptation();
     }
 
-    @Override
     public Coding getCarCoding() {
         return this.codingData.getCarCoding();
     }
 
-    @Override
     public IVariantInfo getVariantInfo() {
         return this.codingData.getVariantInfo();
     }
 
-    @Override
     public Adaptation getAdaptationANP() {
         return this.codingData.getAdaptationANP();
     }
 
-    @Override
     public LoadSpeedThreshold getSpeedThresholdUPDL() {
         return this.codingData.getSpeedThresholdUPDL();
     }
 
-    @Override
     public SperrFlags getSperrFlags() {
         return this.codingData.getSperrFlags();
     }
@@ -112,7 +104,7 @@ implements ISysConstManager {
         if (this.fw.isPBuild() || !Boolean.getBoolean("enableGEM")) {
             n = this.getAdaptationANP().isDeveloperTestModeActivated() ? 0 : 1;
         }
-        this.lc.log(-2137614336, "set GEM: state=%1", (long)n);
+        this.lc.log(10000000, "set GEM: state=%1", (long)n);
         this.fw.getHmiServiceApp().getChoiceModel(112).setValue(n);
     }
 
@@ -283,7 +275,6 @@ implements ISysConstManager {
         }
     }
 
-    @Override
     public final void initSysConstants(SimpleIntIntMap simpleIntIntMap, ICodingReader iCodingReader) {
         this.codingData = iCodingReader;
         this.initVariant();
@@ -297,7 +288,6 @@ implements ISysConstManager {
         this.rangeCheckVariant();
     }
 
-    @Override
     public int getHMIInternalPopupPrio(int n, int n2) {
         if (this.prioMapper == null) {
             this.prioMapper = this.createPopupPrioMapper();
@@ -459,7 +449,6 @@ implements ISysConstManager {
         return new PopupPrioMapper();
     }
 
-    @Override
     public String dumpCarData() {
         Buffer buffer = new Buffer().append("SysConstModels:\n");
         try {
@@ -480,12 +469,10 @@ implements ISysConstManager {
         return buffer.toString();
     }
 
-    @Override
     public void storeSwdlCopy() {
         this.codingData.storeSwdlCopy();
     }
 
-    @Override
     public void clearSwdlCopy() {
         this.codingData.clearSwdlCopy();
     }
@@ -494,11 +481,9 @@ implements ISysConstManager {
         return this.getAdaptationANP().isMyAudiAvailable() || this.getAdaptationANP().isWiFiHotspotAvailable() || this.getAdaptationANP().isOnlineStreetViewAvailable() || this.getAdaptationANP().isOnlineNaviGoogleEarthAvailable() || this.getAdaptationANP().isOnlinePortalBrowserServicesAvailable() || this.getAdaptationANP().isOnlinePoiVoiceAvailable() || this.getAdaptationANP().isOnlinePoiAvailable() || this.getAdaptationANP().isVzaProOnAvailable() || this.getAdaptationANP().isRemoteHmiAvailable() || this.getAdaptationANP().isOnlineDictationAvailable() || this.getAdaptationANP().isUotAAvailable() || this.getAdaptationANP().isOnlineMediaAvailable();
     }
 
-    abstract void initVariant() {
-    }
+    abstract void initVariant();
 
-    abstract void rangeCheckVariant() {
-    }
+    abstract void rangeCheckVariant();
 
     void initVariantDefault() {
         this.setSysConstBool(503, true);
@@ -508,7 +493,22 @@ implements ISysConstManager {
     }
 
     private void applyInvariantSettings() {
-        this.fw.getUtilThreadPool().execute(new AbstractSysConstManager$1(this));
+        this.fw.getUtilThreadPool().execute(new Runnable(){
+
+            public void run() {
+                try {
+                    Thread.sleep(4500L);
+                    SperrFlags sperrFlags = AbstractSysConstManager.this.getSperrFlags();
+                    AbstractSysConstManager.this.setSysConstBool(5559, sperrFlags.getNavSperrFlag(0));
+                    AbstractSysConstManager.this.setSysConstBool(5560, sperrFlags.getMediaSperrFlag(0));
+                    AbstractSysConstManager.this.fw.getStartupMgr().logStartupEvent("SperrFlags loading done");
+                }
+                catch (InterruptedException interruptedException) {
+                    interruptedException.printStackTrace();
+                    AbstractSysConstManager.this.lc.log(10000, "Speer flags were not loaded because a InterruptedException");
+                }
+            }
+        });
     }
 
     void rangeCheckVariantDefault() {

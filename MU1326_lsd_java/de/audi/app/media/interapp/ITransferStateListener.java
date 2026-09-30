@@ -6,13 +6,10 @@ package de.audi.app.media.interapp;
 import de.audi.app.media.source.ISourceSlot;
 
 public interface ITransferStateListener {
-    default public void importStarted(ISourceSlot iSourceSlot) {
-    }
+    public void importStarted(ISourceSlot var1);
 
-    default public void importProgressChanged(int n) {
-    }
+    public void importProgressChanged(int var1);
 
-    default public void importStopped() {
-    }
+    public void importStopped();
 }
 

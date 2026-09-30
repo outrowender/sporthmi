@@ -35,7 +35,7 @@ final class X509Extension {
     }
 
     public String toString() {
-        return new StringBuffer(String.valueOf(this.id.toString())).append("->").append(this.value).toString();
+        return String.valueOf(this.id.toString()) + "->" + this.value;
     }
 
     public boolean isCritical() {

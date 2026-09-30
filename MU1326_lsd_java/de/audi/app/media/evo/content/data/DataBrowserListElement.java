@@ -6,10 +6,10 @@ package de.audi.app.media.evo.content.data;
 import de.esolutions.fw.util.commons.Buffer;
 
 public final class DataBrowserListElement {
-    public static final int TYPE_DIRECTORY;
-    public static final int TYPE_FOCUS_LIST_ELEMENT;
-    public static final int INVALID_ENTRYID;
-    public static final int INVALID_CONTENTYPE;
+    public static final int TYPE_DIRECTORY = 1;
+    public static final int TYPE_FOCUS_LIST_ELEMENT = 2;
+    public static final int INVALID_ENTRYID = -1;
+    public static final int INVALID_CONTENTYPE = -1;
     private final int type;
     private final long entryID;
     private final String filename;

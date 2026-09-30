@@ -13,7 +13,6 @@ extends AbstractParkingSettings {
         super(iCarApplication);
     }
 
-    @Override
     protected void initVisibility() {
         this.getApplication().getMenuEntryRegistry().registerMenuEntry(1001, (short)2);
         this.getApplication().getMenuEntryRegistry().registerMenuEntry(1002, (short)2);
@@ -23,7 +22,6 @@ extends AbstractParkingSettings {
         this.getApplication().getMenuEntryRegistry().registerMenuEntry(1008, (short)2);
     }
 
-    @Override
     protected void deinitVisibility() {
         this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(1001);
         this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(1002);
@@ -33,12 +31,10 @@ extends AbstractParkingSettings {
         this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(1008);
     }
 
-    @Override
     public int getID() {
         return 7;
     }
 
-    @Override
     protected void updateMenuEntryVisibility(ParkingSystemViewOptions parkingSystemViewOptions) {
         this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(1001, this.getMenuEntryVisibilityState(parkingSystemViewOptions.getVpsDefaultView()));
         this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(1002, this.getMenuEntryVisibilityState(parkingSystemViewOptions.getPdcSoundFront()));

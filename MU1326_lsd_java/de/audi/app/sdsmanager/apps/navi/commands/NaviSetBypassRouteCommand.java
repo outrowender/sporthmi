@@ -21,11 +21,10 @@ extends AbstractSystemCallCommand {
         this.useBetterRoute = SDSUtils.retrieveBoolean(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: useBetterRoute=%2, leaving selection screen!", (Object)this.getName(), (Object)this.useBetterRoute);
+        this.logger.log(10000000, "%1#execute: useBetterRoute=%2, leaving selection screen!", (Object)this.getName(), (Object)this.useBetterRoute);
         this.service.selectRoute(this.useBetterRoute ? (byte)1 : 0, true);
-        this.sendResult(1083965440);
+        this.sendResult(40000);
     }
 }
 

@@ -7,18 +7,15 @@ import de.audi.atip.interapp.AbstractSDSApplicationService;
 
 public interface AppInfoKrService
 extends AbstractSDSApplicationService {
-    public static final byte RESULT_OK;
-    public static final byte RESULT_ERROR;
-    public static final byte RESULT_AMBIGUOUS;
-    public static final byte RESULT_INVALID;
+    public static final byte RESULT_OK = 0;
+    public static final byte RESULT_ERROR = 1;
+    public static final byte RESULT_AMBIGUOUS = 2;
+    public static final byte RESULT_INVALID = 3;
 
-    default public void showSimpleMaps(String[] stringArray, int[] nArray) {
-    }
+    public void showSimpleMaps(String[] var1, int[] var2);
 
-    default public void startSimpleMapFreeSelection() {
-    }
+    public void startSimpleMapFreeSelection();
 
-    default public void refreshSpeakableSimpleMaps() {
-    }
+    public void refreshSpeakableSimpleMaps();
 }
 

@@ -8,42 +8,31 @@ import de.audi.app.terminalmode.dsi.IDSIResource;
 import de.audi.app.terminalmode.dsi.carplay.SiriAction;
 
 public interface ICarplayDSIController {
-    public static final int UI_LAST;
-    public static final int UI_HOME;
-    public static final int BUTTONSTATE_PRESSED;
-    public static final int BUTTONSTATE_RELEASED;
+    public static final int UI_LAST = 0;
+    public static final int UI_HOME = 1;
+    public static final int BUTTONSTATE_PRESSED = 1;
+    public static final int BUTTONSTATE_RELEASED = 2;
 
-    default public void startService(IDSIAppState[] iDSIAppStateArray, IDSIResource[] iDSIResourceArray) {
-    }
+    public void startService(IDSIAppState[] var1, IDSIResource[] var2);
 
-    default public void stopService() {
-    }
+    public void stopService();
 
-    default public void postButtonEvent(int n, int n2) {
-    }
+    public void postButtonEvent(int var1, int var2);
 
-    default public void postDSICarplayButtonEvent(int n, int n2) {
-    }
+    public void postDSICarplayButtonEvent(int var1, int var2);
 
-    default public void responseUpdateMode(IDSIResource[] iDSIResourceArray, IDSIAppState[] iDSIAppStateArray) {
-    }
+    public void responseUpdateMode(IDSIResource[] var1, IDSIAppState[] var2);
 
-    default public void requestModeChange(IDSIAppState[] iDSIAppStateArray, IDSIResource[] iDSIResourceArray, String string) {
-    }
+    public void requestModeChange(IDSIAppState[] var1, IDSIResource[] var2, String var3);
 
-    default public void responseBTDeactivation() {
-    }
+    public void responseBTDeactivation();
 
-    default public void requestUI(int n) {
-    }
+    public void requestUI(int var1);
 
-    default public void responseUpdateMainAudioType(int n) {
-    }
+    public void responseUpdateMainAudioType(int var1);
 
-    default public void requestSIRIAction(SiriAction siriAction) {
-    }
+    public void requestSIRIAction(SiriAction var1);
 
-    default public void requestNightMode(boolean bl) {
-    }
+    public void requestNightMode(boolean var1);
 }
 

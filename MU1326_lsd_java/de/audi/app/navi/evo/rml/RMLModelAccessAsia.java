@@ -22,12 +22,10 @@ extends RMLModelAccess {
         this.vehicle = iVehicle;
     }
 
-    @Override
     protected int countFirstLinesWithoutDistance() {
         return 0;
     }
 
-    @Override
     protected String getCCPText() {
         if (null == this.vehicle) {
             return null;

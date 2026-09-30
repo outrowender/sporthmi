@@ -6,10 +6,8 @@ package de.audi.atip.timer;
 import de.audi.atip.timer.Timer;
 
 public interface TimerListener {
-    default public void fireTimer(Timer timer) {
-    }
+    public void fireTimer(Timer var1);
 
-    default public void cancelTimer(Timer timer) {
-    }
+    public void cancelTimer(Timer var1);
 }
 

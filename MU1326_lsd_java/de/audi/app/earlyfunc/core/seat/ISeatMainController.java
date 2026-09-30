@@ -11,66 +11,46 @@ import org.dsi.ifc.carseat.SeatPneumaticViewOptions;
 import org.dsi.ifc.carseat.SeatViewOptions;
 
 public interface ISeatMainController {
-    public static final int PARTIAL_POPUP_ID_INVALID;
+    public static final int PARTIAL_POPUP_ID_INVALID = -1;
 
-    default public void init() {
-    }
+    public void init();
 
-    default public void deinit() {
-    }
+    public void deinit();
 
-    default public void callDSIcancelPopup(SeatPneumaticContent seatPneumaticContent, int n) {
-    }
+    public void callDSIcancelPopup(SeatPneumaticContent var1, int var2);
 
-    default public void callDSIcancelPopup(SeatContent seatContent, int n) {
-    }
+    public void callDSIcancelPopup(SeatContent var1, int var2);
 
-    default public void callDSIshowPopup(SeatContent seatContent) {
-    }
+    public void callDSIshowPopup(SeatContent var1);
 
-    default public void callDSIshowPopup(SeatPneumaticContent seatPneumaticContent) {
-    }
+    public void callDSIshowPopup(SeatPneumaticContent var1);
 
-    default public void updateConfigurationHandler(SeatViewOptions seatViewOptions) {
-    }
+    public void updateConfigurationHandler(SeatViewOptions var1);
 
-    default public void updateConfigurationHandler(SeatPneumaticViewOptions seatPneumaticViewOptions) {
-    }
+    public void updateConfigurationHandler(SeatPneumaticViewOptions var1);
 
-    default public void updateSeatContent(SeatContent seatContent) {
-    }
+    public void updateSeatContent(SeatContent var1);
 
-    default public void updateSeatContent(SeatPneumaticContent seatPneumaticContent) {
-    }
+    public void updateSeatContent(SeatPneumaticContent var1);
 
-    default public void requestSeatPopin(SeatContent seatContent) {
-    }
+    public void requestSeatPopin(SeatContent var1);
 
-    default public void requestSeatPopin(SeatPneumaticContent seatPneumaticContent) {
-    }
+    public void requestSeatPopin(SeatPneumaticContent var1);
 
-    default public void acknowledgeSeatPopup(SeatContent seatContent) {
-    }
+    public void acknowledgeSeatPopup(SeatContent var1);
 
-    default public void acknowledgeSeatPopup(SeatPneumaticContent seatPneumaticContent) {
-    }
+    public void acknowledgeSeatPopup(SeatPneumaticContent var1);
 
-    default public LogChannel getLogChannel() {
-    }
+    public LogChannel getLogChannel();
 
-    default public void setSeatPopinListenerServiceTracked(boolean bl) {
-    }
+    public void setSeatPopinListenerServiceTracked(boolean var1);
 
-    default public void setSeatControlPowerManagementActive(boolean bl) {
-    }
+    public void setSeatControlPowerManagementActive(boolean var1);
 
-    default public SeatPopinConfigurationHandler getConfigurationHandler() {
-    }
+    public SeatPopinConfigurationHandler getConfigurationHandler();
 
-    default public void processDeferredRequest() {
-    }
+    public void processDeferredRequest();
 
-    default public boolean isStandbyPopupVisible() {
-    }
+    public boolean isStandbyPopupVisible();
 }
 

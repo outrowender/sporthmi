@@ -19,12 +19,11 @@ extends Command {
         this.audioFocusManager = iAudioFocusManager;
         this.context = n;
         this.contextLabel = SdisLabels.getContext(n);
-        this.setName(new StringBuffer().append("SdisCmdChangeAudioFocus: ").append(this.contextLabel).toString());
+        this.setName("SdisCmdChangeAudioFocus: " + this.contextLabel);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[SdisCmdChangeAudioFocus.execute] %1", (Object)this.contextLabel);
+        this.logger.log(10000000, "[SdisCmdChangeAudioFocus.execute] %1", (Object)this.contextLabel);
         try {
             switch (this.context) {
                 case 2: {
@@ -44,7 +43,7 @@ extends Command {
                     break;
                 }
                 default: {
-                    throw new IllegalArgumentException(new StringBuffer().append("Unexpected audio context: ").append(this.context).toString());
+                    throw new IllegalArgumentException("Unexpected audio context: " + this.context);
                 }
             }
             this.commandList.commandFinished();

@@ -24,13 +24,11 @@ extends OutputStream {
         this.byteStream = new ByteArrayOutputStream();
     }
 
-    @Override
     public void write(byte[] byArray, int n, int n2) {
         this.byteStream.write(byArray, n, n2);
     }
 
-    @Override
-    public void write(int n) {
+    public void write(int n) throws IOException {
         this.byteStream.write(n);
     }
 

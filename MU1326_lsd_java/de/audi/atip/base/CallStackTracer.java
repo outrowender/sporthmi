@@ -4,7 +4,6 @@
 package de.audi.atip.base;
 
 import de.audi.atip.activator.FrameworkException;
-import de.audi.atip.base.CallStackTracer$InstanceHolder;
 import de.esolutions.fw.util.commons.Buffer;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -15,8 +14,8 @@ import java.util.Date;
 
 public class CallStackTracer {
     private static final String DEFAULT_TRACE_PATH = new StringBuffer().append("c:").append(File.separator).append("Temp").append(File.separator).append("CallTraces").append(File.separator).toString();
-    private static final String DEFAULT_FILE_NAME_PREFIX;
-    private static final String DEFAULT_FILE_SUFFIX;
+    private static final String DEFAULT_FILE_NAME_PREFIX = "callStack_";
+    private static final String DEFAULT_FILE_SUFFIX = ".txt";
     private static SimpleDateFormat dateFormat;
     private String traceFilePath;
     private String traceFilePrefix;
@@ -27,7 +26,7 @@ public class CallStackTracer {
     }
 
     public static CallStackTracer getInstance() {
-        return CallStackTracer$InstanceHolder.access$100();
+        return InstanceHolder.instance;
     }
 
     private String getTraceFilePath() {
@@ -39,14 +38,14 @@ public class CallStackTracer {
 
     private String getTraceFilePrefix() {
         if (this.traceFilePrefix == null) {
-            return "callStack_";
+            return DEFAULT_FILE_NAME_PREFIX;
         }
         return this.traceFilePrefix;
     }
 
     private String getTraceFileSuffix() {
         if (this.traceFileSuffix == null) {
-            return ".txt";
+            return DEFAULT_FILE_SUFFIX;
         }
         return this.traceFileSuffix;
     }
@@ -106,6 +105,13 @@ public class CallStackTracer {
             catch (Exception exception) {
                 exception.printStackTrace();
             }
+        }
+    }
+
+    private static class InstanceHolder {
+        private static CallStackTracer instance = new CallStackTracer();
+
+        private InstanceHolder() {
         }
     }
 }

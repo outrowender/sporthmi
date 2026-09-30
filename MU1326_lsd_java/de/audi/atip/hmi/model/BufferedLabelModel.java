@@ -18,22 +18,18 @@ LabelModelApp {
         super(new LabelModel(n), new LabelModel(n));
     }
 
-    @Override
     public void setText(String string) {
         this.getCurrent().setText(string);
     }
 
-    @Override
     public String getText() {
         return this.labelModel.getText();
     }
 
-    @Override
     public int getLength() {
         return this.labelModel.getLength();
     }
 
-    @Override
     public void endTransaction() {
         super.endTransaction();
         this.labelModel.fireModelUpdateEvent(1);

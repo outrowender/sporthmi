@@ -14,26 +14,24 @@ public class TrufflesRangeSelectEvo
 extends TrufflesRangeSelect {
     private final ChoiceModelApp countryIconVisible;
     private final ChoiceModelApp countryIconID;
-    private static final int COUNTRY_ICON_INVISIBLE;
-    private static final int COUNTRY_ICON_VISIBLE;
-    private static final int COUNTRY_NO_ICON_INDEX;
+    private static final int COUNTRY_ICON_INVISIBLE = 0;
+    private static final int COUNTRY_ICON_VISIBLE = 1;
+    private static final int COUNTRY_NO_ICON_INDEX = -1;
     private final IconHandler iconHandler;
 
     public TrufflesRangeSelectEvo(BaseListModelApp baseListModelApp, NavigationEnv navigationEnv, LogChannel logChannel, IconHandler iconHandler) {
         super(baseListModelApp, navigationEnv, logChannel);
         this.iconHandler = iconHandler;
-        this.countryIconVisible = navigationEnv.getChoiceModel(-568261120);
-        this.countryIconID = navigationEnv.getChoiceModel(-585038336);
+        this.countryIconVisible = navigationEnv.getChoiceModel(401886);
+        this.countryIconID = navigationEnv.getChoiceModel(401885);
         this.countryIconID.setValue(-1);
     }
 
-    @Override
     public void savePersistentState() {
         super.savePersistentState();
         this.updateCountryIcon();
     }
 
-    @Override
     public void loadPersistentState() {
         super.loadPersistentState();
         this.updateCountryIcon();

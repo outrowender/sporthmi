@@ -6,58 +6,40 @@ package de.audi.atip.hmi.view;
 import de.audi.atip.hmi.view.IPopupKeyConsumptionListener;
 
 public interface IPopupKeyConsuptionStrategy {
-    default public int getPopupID() {
-    }
+    public int getPopupID();
 
-    default public void setConsumeHKReturn(int n) {
-    }
+    public void setConsumeHKReturn(int var1);
 
-    default public void setConsumeDDSPress(int n) {
-    }
+    public void setConsumeDDSPress(int var1);
 
-    default public void setConsumeKeyTurned(int n) {
-    }
+    public void setConsumeKeyTurned(int var1);
 
-    default public void setConsumeSKPress(int n) {
-    }
+    public void setConsumeSKPress(int var1);
 
-    default public void setConsumeTouchPad(int n) {
-    }
+    public void setConsumeTouchPad(int var1);
 
-    default public void setConsumeGenericKeys(int n, int[] nArray) {
-    }
+    public void setConsumeGenericKeys(int var1, int[] var2);
 
-    default public void setHKPressFilter(int[] nArray) {
-    }
+    public void setHKPressFilter(int[] var1);
 
-    default public int[] getHKPressFilter() {
-    }
+    public int[] getHKPressFilter();
 
-    default public void registerPopupKeyConsumptionListener(IPopupKeyConsumptionListener iPopupKeyConsumptionListener) {
-    }
+    public void registerPopupKeyConsumptionListener(IPopupKeyConsumptionListener var1);
 
-    default public boolean doesHKFilterContainsKey(int n) {
-    }
+    public boolean doesHKFilterContainsKey(int var1);
 
-    default public int getConsumeHKReturn() {
-    }
+    public int getConsumeHKReturn();
 
-    default public int getConsumeDDSPress() {
-    }
+    public int getConsumeDDSPress();
 
-    default public int getConsumeKeyTurned() {
-    }
+    public int getConsumeKeyTurned();
 
-    default public int getConsumeSKPress() {
-    }
+    public int getConsumeSKPress();
 
-    default public int getConsumeTouchPad() {
-    }
+    public int getConsumeTouchPad();
 
-    default public int getConsumeGenericStrategy() {
-    }
+    public int getConsumeGenericStrategy();
 
-    default public int[] getConsumeGenericKeys() {
-    }
+    public int[] getConsumeGenericKeys();
 }
 

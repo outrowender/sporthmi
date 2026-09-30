@@ -51,17 +51,14 @@ extends AbstractDataApplication {
         this.addComponent(new OnlineConnectivityStateProvider(this));
     }
 
-    @Override
     public IDataProfile getDataProfile() {
         return this.profile;
     }
 
-    @Override
     public IDataSetup getDataSetup() {
         return this.setup;
     }
 
-    @Override
     public IOnline getOnline() {
         return this.online;
     }

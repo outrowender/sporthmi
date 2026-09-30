@@ -7,7 +7,6 @@ import de.audi.atip.interapp.combi.bap.CombiBAPService;
 
 public interface CombiBAPServiceSystem
 extends CombiBAPService {
-    default public void updateCustomerDownloadState(int n, int n2) {
-    }
+    public void updateCustomerDownloadState(int var1, int var2);
 }
 

@@ -15,32 +15,26 @@ implements DSIMediaRouter {
         super(logChannel, "DSIMediaRouter");
     }
 
-    @Override
     public void registerClient(int n, String string, String string2) {
         this.log("registerClient");
     }
 
-    @Override
     public void unregisterClient(int n) {
         this.log("unregisterClient");
     }
 
-    @Override
     public void startStreaming(int n) {
         this.log("startStreaming");
     }
 
-    @Override
     public void stopStreaming(int n) {
         this.log("stopStreaming");
     }
 
-    @Override
     public void requestConfiguration(int n, int n2, int n3, int n4) {
         this.log("requestConfiguration");
     }
 
-    @Override
     public void setAudioRoutes(AudioRoute[] audioRouteArray) {
         this.log("setAudioRoutes");
     }

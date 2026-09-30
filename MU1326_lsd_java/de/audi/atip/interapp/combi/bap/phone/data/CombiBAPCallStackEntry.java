@@ -41,7 +41,6 @@ implements CombiBAPArrayElement {
         this.telAdbEntry = telAdbEntryStruct;
     }
 
-    @Override
     public int getPosID() {
         return this.posID;
     }
@@ -118,7 +117,6 @@ implements CombiBAPArrayElement {
         return buffer.toString();
     }
 
-    @Override
     public boolean hasSameContent(CombiBAPArrayElement combiBAPArrayElement) {
         if (combiBAPArrayElement == this) {
             return true;
@@ -130,7 +128,6 @@ implements CombiBAPArrayElement {
         return false;
     }
 
-    @Override
     public int getDiffRecordAddress(CombiBAPArrayElement combiBAPArrayElement) {
         int n = 0;
         if (this.hasSameContent(combiBAPArrayElement)) {

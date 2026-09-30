@@ -24,9 +24,8 @@ extends AbstractAddressInputScreenWorkFlowManagerJP {
         this.chomeAvailabelChoiceModel = navigationEnv.getChoiceModel(DIScreensEvo.getDiJpNeedsChome());
     }
 
-    @Override
     public CommandList handleWorkFlow(CommandList commandList, int n) {
-        this.logChannel.log(-2137614336, "%1#handleWorkFlow - screenEventId=%2", (Object)this.CLASS_NAME, (long)n);
+        this.logChannel.log(10000000, "%1#handleWorkFlow - screenEventId=%2", (Object)this.CLASS_NAME, (long)n);
         switch (n) {
             case 20802: {
                 this.createJPHouseNumberSelectListElementWorkFlow(commandList);
@@ -44,14 +43,14 @@ extends AbstractAddressInputScreenWorkFlowManagerJP {
     }
 
     private void createJPHouseNumberScreenEnteredWorkFlow(CommandList commandList) {
-        this.logChannel.log(-2137614336, "%1#createJPHouseNumberScreenEnteredWorkFlow", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#createJPHouseNumberScreenEnteredWorkFlow", (Object)this.CLASS_NAME);
         SpellerContext spellerContext = this.getSpellerContext(38);
         commandList.add(new LIGetStateCommand(this.spellerStack, spellerContext));
         commandList.add(this.inputManager.gethouseNumberScreenListenerJP().getStartCommandList());
     }
 
     private void createJPHouseNumberSelectListElementWorkFlow(CommandList commandList) {
-        this.logChannel.log(-2137614336, "%1#createJPHouseNumberSelectListElementWorkFlow", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#createJPHouseNumberSelectListElementWorkFlow", (Object)this.CLASS_NAME);
         if (AddressInputUtilEvo.isOnlineOrNormalPOIContext(this.env)) {
             AddressInputUtil.setNewSearchAreaContextChoiceStatus(this.env, 1);
         }

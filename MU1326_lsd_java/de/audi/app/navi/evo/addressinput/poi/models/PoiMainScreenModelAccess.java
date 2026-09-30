@@ -16,7 +16,7 @@ import org.dsi.ifc.navigation.LIValueListElement;
 public class PoiMainScreenModelAccess
 extends AbstractPoiScreenModelAccess
 implements IPoiMainScreenModelAccess {
-    private static final int SUBTITLE_DYNAMIC_OFFSET;
+    private static final int SUBTITLE_DYNAMIC_OFFSET = 6;
     protected final BaseListModelApp previewListModel;
     protected final POIIconedListRowBuilder listRowBuilder;
 
@@ -26,24 +26,22 @@ implements IPoiMainScreenModelAccess {
         this.previewListModel = navigationEnv.getBaseListModel(n);
     }
 
-    @Override
     public void onStart() {
         this.previewListModel.removeAll();
     }
 
-    @Override
     public void onUpdateResultList(LIValueList lIValueList, long l, String string, boolean bl) {
         super.onUpdateResultList(lIValueList, l, string, bl);
-        this.logChannel.log(-2137614336, "PoiMainScreenModelAccess#onUpdateResultList( %1, %2)", (Object)string, l);
+        this.logChannel.log(10000000, "PoiMainScreenModelAccess#onUpdateResultList( %1, %2)", (Object)string, l);
         if (!Util.isListValid(lIValueList) || lIValueList.getList().length == 0) {
-            this.logChannel.log(-2137614336, "PoiMainScreenModelAccess#onUpdateResultList() - invalid value list: %1", (Object)lIValueList);
+            this.logChannel.log(10000000, "PoiMainScreenModelAccess#onUpdateResultList() - invalid value list: %1", (Object)lIValueList);
             this.previewListModel.removeAll();
             return;
         }
         LIValueListElement[] lIValueListElementArray = lIValueList.getList();
         int n = lIValueListElementArray.length;
         int n2 = this.previewListModel.getLength();
-        this.logChannel.log(-2137614336, "PoiMainScreenModelAccess#onUpdateResultList - previewlistlength: %1, currentListModelLength: %2", (long)n, (long)n2);
+        this.logChannel.log(10000000, "PoiMainScreenModelAccess#onUpdateResultList - previewlistlength: %1, currentListModelLength: %2", (long)n, (long)n2);
         try {
             for (int i2 = 0; i2 < n; ++i2) {
                 LIValueListElement lIValueListElement = lIValueListElementArray[i2];
@@ -57,14 +55,13 @@ implements IPoiMainScreenModelAccess {
         }
     }
 
-    @Override
     public void onElementSelected(LIValueListElement lIValueListElement) {
-        this.logChannel.log(-2137614336, "PoiMainScreenModelAccess#onElementSelectedselectedElement.data=%1", (Object)lIValueListElement.data);
-        this.env.getChoiceModel(1058932224).setValue(0);
-        this.env.getChoiceModel(1075709440).setValue(1);
-        int n = this.env.getChoiceModel(-1859910144).getValue();
-        this.env.getChoiceModel(606406144).setValue(n + 6);
-        this.env.getLabelModel(-1776024064).setText(lIValueListElement.data);
+        this.logChannel.log(10000000, "PoiMainScreenModelAccess#onElementSelectedselectedElement.data=%1", (Object)lIValueListElement.data);
+        this.env.getChoiceModel(400959).setValue(0);
+        this.env.getChoiceModel(400960).setValue(1);
+        int n = this.env.getChoiceModel(402577).getValue();
+        this.env.getChoiceModel(402724).setValue(n + 6);
+        this.env.getLabelModel(402582).setText(lIValueListElement.data);
     }
 }
 

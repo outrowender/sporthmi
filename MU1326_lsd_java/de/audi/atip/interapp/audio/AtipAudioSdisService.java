@@ -4,10 +4,8 @@
 package de.audi.atip.interapp.audio;
 
 public interface AtipAudioSdisService {
-    default public void mediaTunerAreaEntered() {
-    }
+    public void mediaTunerAreaEntered();
 
-    default public void mediaTunerAreaLeft() {
-    }
+    public void mediaTunerAreaLeft();
 }
 

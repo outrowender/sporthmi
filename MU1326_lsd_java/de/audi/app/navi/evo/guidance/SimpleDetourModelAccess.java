@@ -16,27 +16,23 @@ implements ISimpleDetourModelAccess {
         this.env = navigationEnv;
     }
 
-    @Override
     public void reset(int n) {
-        this.env.getRangeModel(1562183168).setLimits(0, n, 1);
-        this.env.getRangeModel(1562183168).setValue(0);
+        this.env.getRangeModel(400733).setLimits(0, n, 1);
+        this.env.getRangeModel(400733).setValue(0);
     }
 
-    @Override
     public void detourAdded(boolean bl) {
-        this.env.getChoiceModel(1830618624).setValue(bl ? 1 : 0);
+        this.env.getChoiceModel(400749).setValue(bl ? 1 : 0);
     }
 
-    @Override
     public void refreshDistanceTextfield(int n) {
         Buffer buffer = new Buffer();
         buffer.append(Util.formatDistance(n, 3));
-        this.env.getTextfieldModel(1578960384).setText1(buffer.toString());
+        this.env.getTextfieldModel(400734).setText1(buffer.toString());
     }
 
-    @Override
     public void updateBlockingAvailable(boolean bl) {
-        this.env.getChoiceModel(-1558247936).setValue(bl ? 1 : 0);
+        this.env.getChoiceModel(401315).setValue(bl ? 1 : 0);
     }
 }
 

@@ -13,25 +13,21 @@ extends AbstractLDWComponent {
         super(iCarApplication);
     }
 
-    @Override
     protected void updateMenuEntryVisibility(LDWHCAViewOptions lDWHCAViewOptions) {
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1406662400, this.getMenuEntryVisibilityState(lDWHCAViewOptions.getHCAInterventionStyle()));
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1423439616, this.getMenuEntryVisibilityState(lDWHCAViewOptions.getHCAToleranceLevel()));
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600236, this.getMenuEntryVisibilityState(lDWHCAViewOptions.getHCAInterventionStyle()));
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600235, this.getMenuEntryVisibilityState(lDWHCAViewOptions.getHCAToleranceLevel()));
     }
 
-    @Override
     protected void initVisibility() {
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-1406662400, (short)4);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-1423439616, (short)4);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600236, (short)4);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600235, (short)4);
     }
 
-    @Override
     protected void deinitVisibility() {
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-1406662400);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-1423439616);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600236);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600235);
     }
 
-    @Override
     public int getID() {
         return 16;
     }

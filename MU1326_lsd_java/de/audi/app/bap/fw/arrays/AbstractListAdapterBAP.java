@@ -34,12 +34,10 @@ extends AbstractListAdapter {
         this.bapFunction = abstractBAPModuleFSG.getBAPFunctionArrayFSG(n);
     }
 
-    @Override
     public IArrayHeader createArrayHeader() {
         return new ArrayHeaderBAP();
     }
 
-    @Override
     public boolean sendFullRangeUpdate() {
         if (this.bapFunction != null) {
             ChangedArray changedArray = this.createChangedArraySerializer();
@@ -51,17 +49,15 @@ extends AbstractListAdapter {
         return false;
     }
 
-    @Override
     public boolean isSpontaneousStatusRequestSupported() {
         return true;
     }
 
-    @Override
     public void sendStatusRequest(GetArrayIndication getArrayIndication, CombiBAPArrayElement[] combiBAPArrayElementArray) {
         if (getArrayIndication.getArrayHeader() instanceof ArrayHeaderBAP) {
             this.sendStatusRequest(getArrayIndication, combiBAPArrayElementArray, this.createStatusArraySerializer());
         } else {
-            this.logChannel.log(14808325, "[AbstractListAdapterBAP#sendStatusRequest] ignore status request because of wrong ArrayHeader type");
+            this.logChannel.log(100000000, "[AbstractListAdapterBAP#sendStatusRequest] ignore status request because of wrong ArrayHeader type");
         }
     }
 
@@ -97,11 +93,10 @@ extends AbstractListAdapter {
                 }
             }
         }
-        this.logChannel.log(-2137614336, "[AbstractListAdapterBAP#sendStatusRequest]\n%1", (Object)buffer);
+        this.logChannel.log(10000000, "[AbstractListAdapterBAP#sendStatusRequest]\n%1", (Object)buffer);
         this.bapFunction.statusArrayREQ(getArrayIndication.getTaID(), statusArray);
     }
 
-    @Override
     public void sendChangedArrayRequest(ListDelta listDelta) {
         this.sendChangedArrayRequestRemovedElements(listDelta);
         this.sendChangedArrayRequestAddedElements(listDelta);
@@ -142,7 +137,7 @@ extends AbstractListAdapter {
                     bAPArrayData.add(bAPArrayElement);
                 }
             }
-            this.logChannel.log(-2137614336, "[AbstractListAdapterBAP#sendChangedArrayRequestChangedElements] changed %2 elements (IDs: %1)", (Object)buffer, (long)n2);
+            this.logChannel.log(10000000, "[AbstractListAdapterBAP#sendChangedArrayRequestChangedElements] changed %2 elements (IDs: %1)", (Object)buffer, (long)n2);
             this.bapFunction.changedArrayREQ(changedArray);
         }
     }
@@ -174,7 +169,7 @@ extends AbstractListAdapter {
                 BAPArrayElement bAPArrayElement = this.createArrayElement(arrayHeader, this.listHandler.getSuccessorID(n4));
                 bAPArrayData.add(bAPArrayElement);
             }
-            this.logChannel.log(-2137614336, "[AbstractListAdapterBAP#sendChangedArrayRequestAddedElements] added %2 elements (IDs: %1)", (Object)buffer, (long)n3);
+            this.logChannel.log(10000000, "[AbstractListAdapterBAP#sendChangedArrayRequestAddedElements] added %2 elements (IDs: %1)", (Object)buffer, (long)n3);
             this.bapFunction.changedArrayREQ(changedArray);
         }
     }
@@ -198,7 +193,7 @@ extends AbstractListAdapter {
                 if (!iterator.hasNext()) continue;
                 buffer.append(", ");
             }
-            this.logChannel.log(-2137614336, "[AbstractListAdapterBAP#sendChangedArrayRequestRemovedElements] removed %2 elements (IDs: %1)", (Object)buffer, (long)n);
+            this.logChannel.log(10000000, "[AbstractListAdapterBAP#sendChangedArrayRequestRemovedElements] removed %2 elements (IDs: %1)", (Object)buffer, (long)n);
             this.bapFunction.changedArrayREQ(changedArray);
         }
     }
@@ -213,19 +208,14 @@ extends AbstractListAdapter {
         return n;
     }
 
-    protected abstract int getCommonRecordAddress(boolean[] blArray) {
-    }
+    protected abstract int getCommonRecordAddress(boolean[] var1);
 
-    protected abstract BAPArrayElement convertArrayElement(CombiBAPArrayElement combiBAPArrayElement, ArrayHeader arrayHeader) {
-    }
+    protected abstract BAPArrayElement convertArrayElement(CombiBAPArrayElement var1, ArrayHeader var2);
 
-    protected abstract BAPArrayElement createArrayElement(ArrayHeader arrayHeader, int n) {
-    }
+    protected abstract BAPArrayElement createArrayElement(ArrayHeader var1, int var2);
 
-    protected abstract ChangedArray createChangedArraySerializer() {
-    }
+    protected abstract ChangedArray createChangedArraySerializer();
 
-    protected abstract StatusArray createStatusArraySerializer() {
-    }
+    protected abstract StatusArray createStatusArraySerializer();
 }
 

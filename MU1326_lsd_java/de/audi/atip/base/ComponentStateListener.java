@@ -4,7 +4,6 @@
 package de.audi.atip.base;
 
 public interface ComponentStateListener {
-    default public void appStateChanged(String string, int n) {
-    }
+    public void appStateChanged(String var1, int var2);
 }
 

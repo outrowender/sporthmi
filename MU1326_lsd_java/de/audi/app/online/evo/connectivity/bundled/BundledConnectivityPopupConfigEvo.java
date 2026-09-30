@@ -8,7 +8,7 @@ import de.audi.tghu.online.app.remotehmi.connectivity.bundled.BundledConnectivit
 
 public class BundledConnectivityPopupConfigEvo
 extends BundledConnectivityPopupConfig {
-    private static final int TYPE_ID_DEFAULT;
+    private static final int TYPE_ID_DEFAULT = 0;
     private int popupTypeChoiceModelId = -1;
     private int serviceAvailableChoiceModelId = -1;
 

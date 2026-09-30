@@ -6,8 +6,8 @@ package de.audi.app.phone.core.dsi.cmd;
 import de.audi.app.phone.core.dsi.ITelDSIMobileEquipmentRequestWrapper;
 import de.audi.app.phone.core.dsi.ITelDSIResponseListener;
 import de.audi.app.phone.core.dsi.cmd.AbstractTelDSIMECommand;
-import de.audi.app.phone.core.dsi.cmd.TelSetHandsFreeModeCmd$1;
 import de.audi.atip.log.LogChannel;
+import de.audi.tghu.command.Command;
 import de.audi.tghu.command.CommandListManager;
 import de.audi.tghu.command.Monitor;
 
@@ -21,23 +21,30 @@ extends AbstractTelDSIMECommand {
     }
 
     public void schedule(CommandListManager commandListManager, Monitor monitor) {
-        TelSetHandsFreeModeCmd.schedule(commandListManager, this, "TelSetHandsFreeModeCmd", new TelSetHandsFreeModeCmd$1(this, this.logger, "TelSetHandsFreeModeCmdError"), monitor);
+        TelSetHandsFreeModeCmd.schedule(commandListManager, this, "TelSetHandsFreeModeCmd", new Command(this.logger, "TelSetHandsFreeModeCmdError"){
+
+            public void execute() {
+                this.logger.log(100000, "[TelSetHandsFreeModeCmd.schedule().new Command() {...}#execute] Error.");
+                if (TelSetHandsFreeModeCmd.this.listener != null) {
+                    TelSetHandsFreeModeCmd.this.listener.responseSetHandsFreeMode(65537, TelSetHandsFreeModeCmd.this.terminalID);
+                }
+                this.getCommandList().commandFinished();
+            }
+        }, monitor);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "[TelSetHandsFreeModeCmd#execute] telHFMode=%1", (long)this.telHFMode);
+        this.logger.log(1000000, "[TelSetHandsFreeModeCmd#execute] telHFMode=%1", (long)this.telHFMode);
         if (this.isDSIAvailable()) {
             this.dsi.requestSetHandsFreeMode(this.telHFMode);
         } else {
-            this.logger.log(-1601830656, "[TelSetHandsFreeModeCmd#execute] dsi is null!");
+            this.logger.log(100000, "[TelSetHandsFreeModeCmd#execute] dsi is null!");
             this.getCommandList().commandFinished();
         }
     }
 
-    @Override
     public void responseSetHandsFreeMode(int n) {
-        this.logger.log(1078071040, "[TelSetHandsFreeModeCmd#responseSetHandsFreeMode] result=%1", (long)n);
+        this.logger.log(1000000, "[TelSetHandsFreeModeCmd#responseSetHandsFreeMode] result=%1", (long)n);
         if (this.listener != null) {
             this.listener.responseSetHandsFreeMode(n, this.terminalID);
         }

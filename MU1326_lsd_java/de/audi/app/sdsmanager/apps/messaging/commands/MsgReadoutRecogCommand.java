@@ -16,10 +16,10 @@ import de.audi.atip.log.LogChannel;
 public class MsgReadoutRecogCommand
 extends AbstractSystemCallCommand
 implements MsgReadoutRecogInterface {
-    private static final int SELECT_LEVEL_CURRENT_MSG;
-    private static final int SELECT_LEVEL_MESSAGE_LIST;
-    private static final int SELECT_LEVEL_ACCOUNT_LIST;
-    private static final int[][] internalToExternalSelectLevel;
+    private static final int SELECT_LEVEL_CURRENT_MSG = 0;
+    private static final int SELECT_LEVEL_MESSAGE_LIST = 1;
+    private static final int SELECT_LEVEL_ACCOUNT_LIST = 2;
+    private static final int[][] internalToExternalSelectLevel = new int[][]{{2, 0}, {1, 1}, {0, 2}};
     private final IMessagingReadoutService messagingService;
     private final boolean newMsgMode;
     private final int msgType;
@@ -33,35 +33,29 @@ implements MsgReadoutRecogInterface {
         this.selectLevel = SDSUtils.retrieveInteger(iSystemCallParameterArray, 2);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: newMsgMode=%2, msgType=%3", (Object)this.getName(), (Object)this.newMsgMode, (long)this.msgType);
+        this.logger.log(10000000, "%1#execute: newMsgMode=%2, msgType=%3", (Object)this.getName(), (Object)this.newMsgMode, (long)this.msgType);
         int n = this.newMsgMode ? 2 : (this.selectLevel == 1 ? 3 : 1);
-        this.logger.log(-2137614336, "%1#execute: selectLevel=%2, readOutModelValue=%3", (Object)this.getName(), (long)this.selectLevel, (long)n);
+        this.logger.log(10000000, "%1#execute: selectLevel=%2, readOutModelValue=%3", (Object)this.getName(), (long)this.selectLevel, (long)n);
         SDSModelAccess.setMsgReadoutActiveModel(n);
         int n2 = SDSUtils.translate(this.msgType, MessagingSDSUtils.internalToExternalMsgType);
-        if (n2 == 128) {
-            this.logger.log(-1601830656, "%1#execute: Unhandled msgType %2, sending ERROR!", (Object)this.getName(), (long)this.msgType);
-            this.sendResult(-115080960);
+        if (n2 == Integer.MIN_VALUE) {
+            this.logger.log(100000, "%1#execute: Unhandled msgType %2, sending ERROR!", (Object)this.getName(), (long)this.msgType);
+            this.sendResult(75001);
             return;
         }
         int n3 = SDSUtils.translate(this.selectLevel, internalToExternalSelectLevel);
-        if (n3 == 128) {
-            this.logger.log(-1601830656, "%1#execute: Unhandled selectLevel %2, sending ERROR!", (Object)this.getName(), (long)this.selectLevel);
-            this.sendResult(-115080960);
+        if (n3 == Integer.MIN_VALUE) {
+            this.logger.log(100000, "%1#execute: Unhandled selectLevel %2, sending ERROR!", (Object)this.getName(), (long)this.selectLevel);
+            this.sendResult(75001);
             return;
         }
         this.messagingService.requestBeginDialog(this.newMsgMode, n2, n3);
     }
 
-    @Override
     public void responseBeginDialog(int n) {
-        this.logger.log(-2137614336, "%1#responseBeginDialog: result=%2", (Object)this.getName(), (long)n);
-        this.sendResult(n == 0 ? -131858176 : -115080960);
-    }
-
-    static {
-        internalToExternalSelectLevel = new int[][]{{2, 0}, {1, 1}, {0, 2}};
+        this.logger.log(10000000, "%1#responseBeginDialog: result=%2", (Object)this.getName(), (long)n);
+        this.sendResult(n == 0 ? 75000 : 75001);
     }
 }
 

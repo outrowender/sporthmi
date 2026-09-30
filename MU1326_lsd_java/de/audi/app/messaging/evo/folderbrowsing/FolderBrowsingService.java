@@ -3,26 +3,23 @@
  */
 package de.audi.app.messaging.evo.folderbrowsing;
 
+import de.audi.app.messaging.core.accounts.IAccountManagerListener;
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
 import de.audi.app.messaging.core.component.AbstractMessagingComponent;
+import de.audi.app.messaging.core.osgi.AbstractMessagingTrackerCustomizer;
 import de.audi.app.messaging.core.osgi.IServiceRegistry;
 import de.audi.app.messaging.core.osgi.MessagingBundleContext;
 import de.audi.app.messaging.core.osgi.ServiceFilterBuilder;
 import de.audi.app.messaging.core.osgi.ServiceProperties;
 import de.audi.app.messaging.core.swdiagnosis.IDiagPlugIn;
 import de.audi.app.messaging.core.swdiagnosis.IDiagProvider;
-import de.audi.app.messaging.evo.folderbrowsing.FolderBrowsingService$1;
-import de.audi.app.messaging.evo.folderbrowsing.FolderBrowsingService$2;
-import de.audi.app.messaging.evo.folderbrowsing.FolderBrowsingService$3;
-import de.audi.app.messaging.evo.folderbrowsing.FolderBrowsingService$4;
-import de.audi.app.messaging.evo.folderbrowsing.FolderBrowsingService$AccountManagerListener;
-import de.audi.app.messaging.evo.folderbrowsing.FolderBrowsingService$DiagPlugIn;
+import de.audi.app.messaging.core.util.Logs;
 import de.audi.atip.interapp.messaging.folderbrowsing.IFolderBrowsingService;
-import de.audi.atip.interapp.messaging.folderbrowsing.IFolderBrowsingService$MessageType;
-import de.audi.atip.interapp.messaging.folderbrowsing.IFolderBrowsingService$ResultCode;
 import de.audi.atip.interapp.messaging.folderbrowsing.IFolderBrowsingServiceListener;
-import de.audi.atip.log.LogChannel;
+import org.dsi.ifc.messaging.MessagingAccount;
 import org.osgi.framework.Filter;
+import org.osgi.framework.InvalidSyntaxException;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
@@ -40,14 +37,12 @@ IDiagProvider {
         super(messagingBundleContext, "App.Messaging.Main");
     }
 
-    @Override
     public void init(AbstractMsgApplication abstractMsgApplication) {
         super.init(abstractMsgApplication);
-        abstractMsgApplication.getAccountManager().addListener(new FolderBrowsingService$AccountManagerListener(this, null));
+        abstractMsgApplication.getAccountManager().addListener(new AccountManagerListener());
         abstractMsgApplication.getMessagingSwDiagnosis().registerDiagProvider(this);
     }
 
-    @Override
     public void connect(IServiceRegistry iServiceRegistry) {
         try {
             super.connect(iServiceRegistry);
@@ -59,29 +54,117 @@ IDiagProvider {
         }
     }
 
-    private ServiceTracker createServiceTracker() {
+    private ServiceTracker createServiceTracker() throws InvalidSyntaxException {
         String string = ServiceFilterBuilder.createFilterString("objectClass", (class$de$audi$atip$interapp$messaging$folderbrowsing$IFolderBrowsingServiceListener == null ? (class$de$audi$atip$interapp$messaging$folderbrowsing$IFolderBrowsingServiceListener = FolderBrowsingService.class$("de.audi.atip.interapp.messaging.folderbrowsing.IFolderBrowsingServiceListener")) : class$de$audi$atip$interapp$messaging$folderbrowsing$IFolderBrowsingServiceListener).getName());
         Filter filter = this.bundleContext.createFilter(string);
-        FolderBrowsingService$1 folderBrowsingService$1 = new FolderBrowsingService$1(this, this.log, this.bundleContext);
-        return new ServiceTracker(this.bundleContext, filter, (ServiceTrackerCustomizer)folderBrowsingService$1);
+        AbstractMessagingTrackerCustomizer abstractMessagingTrackerCustomizer = new AbstractMessagingTrackerCustomizer(this.log, this.bundleContext){
+
+            public void addService(ServiceReference serviceReference, Object object) {
+                FolderBrowsingService.this.folderBrowsingServiceListener = (IFolderBrowsingServiceListener)object;
+                FolderBrowsingService.this.emitUpdateAvailableAccounts();
+            }
+
+            public void removeService(ServiceReference serviceReference, Object object) {
+                FolderBrowsingService.this.folderBrowsingServiceListener = null;
+            }
+        };
+        return new ServiceTracker(this.bundleContext, filter, (ServiceTrackerCustomizer)abstractMessagingTrackerCustomizer);
     }
 
     private void emitUpdateAvailableAccounts() {
-        this.msgApp.getExecutorManager().getExternalTaskDispatcher().execute(new FolderBrowsingService$2(this));
+        this.msgApp.getExecutorManager().getExternalTaskDispatcher().execute(new Runnable(){
+
+            /*
+             * WARNING - Removed try catching itself - possible behaviour change.
+             */
+            public void run() {
+                try {
+                    int n;
+                    int n2;
+                    Object object = FolderBrowsingService.this;
+                    synchronized (object) {
+                        n2 = FolderBrowsingService.this.numSmsAccounts;
+                        n = FolderBrowsingService.this.numEmailAccounts;
+                    }
+                    FolderBrowsingService.this.log.log(1000000, "[FolderBrowsingService#emitUpdateAvailableAccounts] numSmsAccounts = %1, numEmailAccounts = %2", (long)n2, (long)n);
+                    object = FolderBrowsingService.this.folderBrowsingServiceListener;
+                    if (object == null) {
+                        FolderBrowsingService.this.log.log(10000000, "[FolderBrowsingService#emitUpdateAvailableAccounts] Client listener unavailable.");
+                    } else {
+                        object.updateAccounts(n2, n);
+                    }
+                }
+                catch (Exception exception) {
+                    Logs.logException(FolderBrowsingService.this.log, exception, "[FolderBrowsingService#emitUpdateAvailableAccounts]");
+                }
+            }
+        });
     }
 
-    private void emitResponseEnterAccount(IFolderBrowsingService.ResultCode resultCode) {
-        this.msgApp.getExecutorManager().getExternalTaskDispatcher().execute(new FolderBrowsingService$3(this, resultCode));
+    private void emitResponseEnterAccount(final IFolderBrowsingService.ResultCode resultCode) {
+        this.msgApp.getExecutorManager().getExternalTaskDispatcher().execute(new Runnable(){
+
+            public void run() {
+                try {
+                    FolderBrowsingService.this.log.log(1000000, "[FolderBrowsingService#emitResponseEnterAccount] resultCode = %1", (Object)resultCode);
+                    IFolderBrowsingServiceListener iFolderBrowsingServiceListener = FolderBrowsingService.this.folderBrowsingServiceListener;
+                    if (iFolderBrowsingServiceListener == null) {
+                        FolderBrowsingService.this.log.log(10000, "[FolderBrowsingService#emitResponseEnterAccount] Client listener unavailable.");
+                    } else {
+                        iFolderBrowsingServiceListener.responseEnterAccount(resultCode);
+                    }
+                }
+                catch (Exception exception) {
+                    Logs.logException(FolderBrowsingService.this.log, exception, "[FolderBrowsingService#emitResponseBeginDialog]");
+                }
+            }
+        });
     }
 
-    @Override
-    public void requestEnterAccount(IFolderBrowsingService.MessageType messageType) {
-        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new FolderBrowsingService$4(this, messageType));
+    public void requestEnterAccount(final IFolderBrowsingService.MessageType messageType) {
+        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new Runnable(){
+
+            /*
+             * WARNING - Removed try catching itself - possible behaviour change.
+             */
+            public void run() {
+                IFolderBrowsingService.ResultCode resultCode = IFolderBrowsingService.ResultCode.ERROR_GENERAL;
+                try {
+                    FolderBrowsingService.this.log.log(1000000, "[FolderBrowsingService#requestEnterAccount] messageType = %1", (Object)messageType);
+                    MessagingAccount messagingAccount = null;
+                    MessagingAccount[] messagingAccountArray = FolderBrowsingService.this.msgApp.getAccountManager().getAccounts();
+                    if (messagingAccountArray != null) {
+                        for (int i2 = 0; i2 < messagingAccountArray.length; ++i2) {
+                            IFolderBrowsingService.MessageType messageType3;
+                            MessagingAccount messagingAccount2 = messagingAccountArray[i2];
+                            IFolderBrowsingService.MessageType messageType2 = messageType3 = messagingAccount2.isSupportsEMail() ? IFolderBrowsingService.MessageType.EMAIL : IFolderBrowsingService.MessageType.SMS;
+                            if (!messageType3.equals(messageType)) continue;
+                            messagingAccount = messagingAccount2;
+                            break;
+                        }
+                    }
+                    if (messagingAccount == null) {
+                        FolderBrowsingService.this.log.log(10000, "[FolderBrowsingService#requestEnterAccount] Illegal state: No account of the requested type available.");
+                        resultCode = IFolderBrowsingService.ResultCode.ERROR_ILLEGAL_STATE;
+                    } else {
+                        FolderBrowsingService.this.msgApp.getAccountManager().selectAccount(messagingAccount.getAccountID());
+                        FolderBrowsingService.this.msgApp.getFolderNavigator().changeFolderDirect(-1, false);
+                        resultCode = IFolderBrowsingService.ResultCode.OK;
+                    }
+                }
+                catch (Exception exception) {
+                    Logs.logException(FolderBrowsingService.this.log, exception, "[FolderBrowsingService#requestEnterAccount]");
+                    resultCode = IFolderBrowsingService.ResultCode.ERROR_GENERAL;
+                }
+                finally {
+                    FolderBrowsingService.this.emitResponseEnterAccount(resultCode);
+                }
+            }
+        });
     }
 
-    @Override
     public IDiagPlugIn[] createDiagPlugIns() {
-        return new IDiagPlugIn[]{new FolderBrowsingService$DiagPlugIn(this)};
+        return new IDiagPlugIn[]{new DiagPlugIn()};
     }
 
     static /* synthetic */ Class class$(String string) {
@@ -93,91 +176,35 @@ IDiagProvider {
         }
     }
 
-    static /* synthetic */ IFolderBrowsingServiceListener access$102(FolderBrowsingService folderBrowsingService, IFolderBrowsingServiceListener iFolderBrowsingServiceListener) {
-        folderBrowsingService.folderBrowsingServiceListener = iFolderBrowsingServiceListener;
-        return folderBrowsingService.folderBrowsingServiceListener;
+    final class DiagPlugIn
+    implements IDiagPlugIn {
+        private static final int MESSAGE_TYPE_EMAIL = 1;
+
+        DiagPlugIn() {
+        }
+
+        public void cmdRequestEnterAccount(int n) {
+            FolderBrowsingService.this.requestEnterAccount(n == 1 ? IFolderBrowsingService.MessageType.EMAIL : IFolderBrowsingService.MessageType.SMS);
+        }
     }
 
-    static /* synthetic */ void access$200(FolderBrowsingService folderBrowsingService) {
-        folderBrowsingService.emitUpdateAvailableAccounts();
-    }
+    private final class AccountManagerListener
+    extends IAccountManagerListener.DefaultAccountManagerListener {
+        private AccountManagerListener() {
+        }
 
-    static /* synthetic */ int access$300(FolderBrowsingService folderBrowsingService) {
-        return folderBrowsingService.numSmsAccounts;
-    }
-
-    static /* synthetic */ int access$400(FolderBrowsingService folderBrowsingService) {
-        return folderBrowsingService.numEmailAccounts;
-    }
-
-    static /* synthetic */ LogChannel access$500(FolderBrowsingService folderBrowsingService) {
-        return folderBrowsingService.log;
-    }
-
-    static /* synthetic */ IFolderBrowsingServiceListener access$100(FolderBrowsingService folderBrowsingService) {
-        return folderBrowsingService.folderBrowsingServiceListener;
-    }
-
-    static /* synthetic */ LogChannel access$600(FolderBrowsingService folderBrowsingService) {
-        return folderBrowsingService.log;
-    }
-
-    static /* synthetic */ LogChannel access$700(FolderBrowsingService folderBrowsingService) {
-        return folderBrowsingService.log;
-    }
-
-    static /* synthetic */ LogChannel access$800(FolderBrowsingService folderBrowsingService) {
-        return folderBrowsingService.log;
-    }
-
-    static /* synthetic */ LogChannel access$900(FolderBrowsingService folderBrowsingService) {
-        return folderBrowsingService.log;
-    }
-
-    static /* synthetic */ LogChannel access$1000(FolderBrowsingService folderBrowsingService) {
-        return folderBrowsingService.log;
-    }
-
-    static /* synthetic */ LogChannel access$1100(FolderBrowsingService folderBrowsingService) {
-        return folderBrowsingService.log;
-    }
-
-    static /* synthetic */ AbstractMsgApplication access$1200(FolderBrowsingService folderBrowsingService) {
-        return folderBrowsingService.msgApp;
-    }
-
-    static /* synthetic */ LogChannel access$1300(FolderBrowsingService folderBrowsingService) {
-        return folderBrowsingService.log;
-    }
-
-    static /* synthetic */ AbstractMsgApplication access$1400(FolderBrowsingService folderBrowsingService) {
-        return folderBrowsingService.msgApp;
-    }
-
-    static /* synthetic */ AbstractMsgApplication access$1500(FolderBrowsingService folderBrowsingService) {
-        return folderBrowsingService.msgApp;
-    }
-
-    static /* synthetic */ LogChannel access$1600(FolderBrowsingService folderBrowsingService) {
-        return folderBrowsingService.log;
-    }
-
-    static /* synthetic */ void access$1700(FolderBrowsingService folderBrowsingService, IFolderBrowsingService.ResultCode resultCode) {
-        folderBrowsingService.emitResponseEnterAccount(resultCode);
-    }
-
-    static /* synthetic */ LogChannel access$1800(FolderBrowsingService folderBrowsingService) {
-        return folderBrowsingService.log;
-    }
-
-    static /* synthetic */ int access$302(FolderBrowsingService folderBrowsingService, int n) {
-        folderBrowsingService.numSmsAccounts = n;
-        return folderBrowsingService.numSmsAccounts;
-    }
-
-    static /* synthetic */ int access$402(FolderBrowsingService folderBrowsingService, int n) {
-        folderBrowsingService.numEmailAccounts = n;
-        return folderBrowsingService.numEmailAccounts;
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void updateAvailableAccounts(int n, int n2, int n3, int n4) {
+            FolderBrowsingService.this.log.log(10000000, "[FolderBrowsingService#updateAvailableAccounts]");
+            FolderBrowsingService folderBrowsingService = FolderBrowsingService.this;
+            synchronized (folderBrowsingService) {
+                FolderBrowsingService.this.numSmsAccounts = n;
+                FolderBrowsingService.this.numEmailAccounts = n2;
+            }
+            FolderBrowsingService.this.emitUpdateAvailableAccounts();
+        }
     }
 }
 

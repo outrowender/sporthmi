@@ -6,40 +6,28 @@ package de.audi.atip.odp;
 import de.audi.atip.odp.NBestListResult;
 
 public interface SDSODPServiceListener {
-    default public void dialogSessionAborted() {
-    }
+    public void dialogSessionAborted();
 
-    default public void responseEndDialogSession() {
-    }
+    public void responseEndDialogSession();
 
-    default public void responseStartDialogSession() {
-    }
+    public void responseStartDialogSession();
 
-    default public void dialogSessionPaused() {
-    }
+    public void dialogSessionPaused();
 
-    default public void languageChanged(String string) {
-    }
+    public void languageChanged(String var1);
 
-    default public void eventSent(int n) {
-    }
+    public void eventSent(int var1);
 
-    default public void screenChanged(int n) {
-    }
+    public void screenChanged(int var1);
 
-    default public void lineSelected(int n) {
-    }
+    public void lineSelected(int var1);
 
-    default public void responseLoadGrammar(byte by) {
-    }
+    public void responseLoadGrammar(byte var1);
 
-    default public void responseUnloadGrammar(byte by) {
-    }
+    public void responseUnloadGrammar(byte var1);
 
-    default public void responseStartRecognition(byte by, NBestListResult[] nBestListResultArray) {
-    }
+    public void responseStartRecognition(byte var1, NBestListResult[] var2);
 
-    default public void responsePlayPrompt(byte by) {
-    }
+    public void responsePlayPrompt(byte var1);
 }
 

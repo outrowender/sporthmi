@@ -7,10 +7,8 @@ import org.dsi.ifc.media.DeviceInfo;
 import org.dsi.ifc.media.MediaInfo;
 
 public interface IMediaDeviceListener {
-    default public void updateDeviceList(DeviceInfo[] deviceInfoArray) {
-    }
+    public void updateDeviceList(DeviceInfo[] var1);
 
-    default public void updateMediaList(MediaInfo[] mediaInfoArray) {
-    }
+    public void updateMediaList(MediaInfo[] var1);
 }
 

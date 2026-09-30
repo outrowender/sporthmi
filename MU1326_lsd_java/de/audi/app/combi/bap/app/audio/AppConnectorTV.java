@@ -27,22 +27,18 @@ implements CombiBAPServiceTV {
         super(combiModuleAudio);
     }
 
-    @Override
     protected int getAudioApplication() {
         return 2;
     }
 
-    @Override
     protected String getAudioApplicationName() {
         return "TV";
     }
 
-    @Override
     protected boolean isAudioApplicationInFocus() {
         return ((CombiModuleAudio)this.moduleFsg).getAudioApplicationFocusHandler().isTVInFocus();
     }
 
-    @Override
     protected void sendSourceChangeRelatedProperties() {
         super.sendSourceChangeRelatedProperties();
         BAPFunctionPropertyFSG bAPFunctionPropertyFSG = this.moduleFsg.getBAPFunctionPropertyFSG(31);
@@ -51,7 +47,6 @@ implements CombiBAPServiceTV {
         this.doUpdatePresetList(this.currentTVPresetList);
     }
 
-    @Override
     public void updateActiveSource(int n, int n2, int n3, boolean bl, boolean bl2, int n4) {
         CombiBAPAudioSource combiBAPAudioSource = new CombiBAPAudioSource();
         combiBAPAudioSource.setSourceType(n);
@@ -64,22 +59,19 @@ implements CombiBAPServiceTV {
         this.updateActiveSource(combiBAPAudioSource, combiBAPAudioListStates);
     }
 
-    @Override
     public void updateCurrentStation(CombiBAPCurrentStationInfo combiBAPCurrentStationInfo) {
         super.updateCurrentStation(combiBAPCurrentStationInfo);
         super.updateStationArt(combiBAPCurrentStationInfo);
     }
 
-    @Override
     public void updateSourceListTv(CombiBAPAudioSource[] combiBAPAudioSourceArray) {
-        this.logChannel.log(1078071040, "[AppConnectorTV#updateSourceListTv] called (complete list)");
+        this.logChannel.log(1000000, "[AppConnectorTV#updateSourceListTv] called (complete list)");
         BAPFunctionArrayFSG bAPFunctionArrayFSG = this.moduleFsg.getBAPFunctionArrayFSG(32);
         ((SourceListHandler)bAPFunctionArrayFSG.getArrayHandler()).updateSources(2, combiBAPAudioSourceArray);
     }
 
-    @Override
     public void updateStationListAutoUpdateInformation(boolean bl) {
-        this.logChannel.log(1078071040, "[AppConnectorTV#updateReceptionListAutoUpdateInformation] autoUpdateTVDVBLis=%1", bl);
+        this.logChannel.log(1000000, "[AppConnectorTV#updateReceptionListAutoUpdateInformation] autoUpdateTVDVBLis=%1", bl);
         BAPFunctionPropertyFSG bAPFunctionPropertyFSG = this.moduleFsg.getBAPFunctionPropertyFSG(14);
         FSG_Setup_Status fSG_Setup_Status = (FSG_Setup_Status)bAPFunctionPropertyFSG.getLastStatus();
         FSG_Setup_Status fSG_Setup_Status2 = new FSG_Setup_Status();
@@ -104,27 +96,24 @@ implements CombiBAPServiceTV {
         bAPFunctionPropertyFSG.sendStatusIfChanged(fSG_Setup_Status2);
     }
 
-    @Override
     public void updateTVStationList(CombiBAPReceptionListEntry[] combiBAPReceptionListEntryArray) {
-        this.logChannel.log(1078071040, "[AppConnectorTV#updateTVStationList] called (listSize=%1)", (long)combiBAPReceptionListEntryArray.length);
+        this.logChannel.log(1000000, "[AppConnectorTV#updateTVStationList] called (listSize=%1)", (long)combiBAPReceptionListEntryArray.length);
         this.currentTVStationList = combiBAPReceptionListEntryArray;
         if (this.isAudioApplicationInFocus()) {
             this.doUpdateReceptionList(6, combiBAPReceptionListEntryArray);
         }
     }
 
-    @Override
     public void updateTVPresetList(CombiBAPPresetListEntry[] combiBAPPresetListEntryArray) {
-        this.logChannel.log(1078071040, "[AppConnectorTV#updatePresetList] called (listSize=%1)", (long)combiBAPPresetListEntryArray.length);
+        this.logChannel.log(1000000, "[AppConnectorTV#updatePresetList] called (listSize=%1)", (long)combiBAPPresetListEntryArray.length);
         this.currentTVPresetList = combiBAPPresetListEntryArray;
         if (this.isAudioApplicationInFocus()) {
             this.doUpdatePresetList(combiBAPPresetListEntryArray);
         }
     }
 
-    @Override
     public void updateMuteState(boolean bl) {
-        this.logChannel.log(1078071040, "[AppConnectorTV#updateMuteState] called (dvbMuting=%1)", bl);
+        this.logChannel.log(1000000, "[AppConnectorTV#updateMuteState] called (dvbMuting=%1)", bl);
         BAPFunctionPropertyFSG bAPFunctionPropertyFSG = this.moduleFsg.getBAPFunctionPropertyFSG(19);
         Mute_Status mute_Status = (Mute_Status)bAPFunctionPropertyFSG.getLastStatus();
         Mute_Status mute_Status2 = new Mute_Status();

@@ -7,7 +7,6 @@ import de.audi.app.messaging.core.accounts.AbstractAccountListRow;
 import org.dsi.ifc.messaging.MessagingAccount;
 
 public interface IAccountListRowFactory {
-    default public AbstractAccountListRow create(MessagingAccount messagingAccount, int n, boolean bl, String string, boolean bl2, int n2) {
-    }
+    public AbstractAccountListRow create(MessagingAccount var1, int var2, boolean var3, String var4, boolean var5, int var6);
 }
 

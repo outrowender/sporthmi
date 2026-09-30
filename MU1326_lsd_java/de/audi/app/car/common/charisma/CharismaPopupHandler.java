@@ -59,9 +59,8 @@ implements IPopupStateListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void notifyPopupVisible(int n) {
-        this.logChannel.log(1078071040, "[CharismaPopupHandler#notifyPopupVisible] id='%1'", (long)n);
+        this.logChannel.log(1000000, "[CharismaPopupHandler#notifyPopupVisible] id='%1'", (long)n);
         Object object = this.mutex;
         synchronized (object) {
             if (!this.isVisible) {
@@ -80,13 +79,12 @@ implements IPopupStateListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void notifyPopupHidden(int n) {
-        this.logChannel.log(1078071040, "[CharismaPopupHandler#notifyPopupHidden] id='%1'", (long)n);
+        this.logChannel.log(1000000, "[CharismaPopupHandler#notifyPopupHidden] id='%1'", (long)n);
         Object object = this.mutex;
         synchronized (object) {
             if (!this.isVisible && this.component.hasToWakeMUFromStandby() && this.isStandbyPopupVisible()) {
-                this.logChannel.log(1078071040, "[CharismaPopupHandler#notifyPopupHidden] Charisma Popup won't be removed because it should replace the Standby Popup: standbyPopupID='%1'", (long)this.getStandbyPopupID());
+                this.logChannel.log(1000000, "[CharismaPopupHandler#notifyPopupHidden] Charisma Popup won't be removed because it should replace the Standby Popup: standbyPopupID='%1'", (long)this.getStandbyPopupID());
                 return;
             }
             this.removePopup();
@@ -96,9 +94,8 @@ implements IPopupStateListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void notifyPopupRemoved(int n) {
-        this.logChannel.log(1078071040, "[CharismaPopupHandler#notifyPopupRemoved] id='%1'", (long)n);
+        this.logChannel.log(1000000, "[CharismaPopupHandler#notifyPopupRemoved] id='%1'", (long)n);
         Object object = this.mutex;
         synchronized (object) {
             if (this.currentProfile != 5) {
@@ -112,7 +109,7 @@ implements IPopupStateListener {
                     this.component.showCharismaPopup(0, 1);
                 }
             } else {
-                this.logChannel.log(1078071040, "[CharismaPopupHandler#notifyPopupRemoved] Resetting Handler settings after content change!");
+                this.logChannel.log(1000000, "[CharismaPopupHandler#notifyPopupRemoved] Resetting Handler settings after content change!");
                 if (this.isVisible) {
                     this.setFsgActivation(false);
                     this.setCurrentCancelReason(0);
@@ -127,7 +124,7 @@ implements IPopupStateListener {
      */
     public void requestCharismaPopup(int n, boolean bl) {
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[CharismaPopupHandler#requestCharismaPopup] called with content = %1, fsgActivation=%2", (Object)new Integer(n), (Object)bl);
+            this.logChannel.log(1000000, "[CharismaPopupHandler#requestCharismaPopup] called with content = %1, fsgActivation=%2", (Object)new Integer(n), (Object)bl);
         }
         this.setCurrentProfile(n);
         Object object = this.mutex;
@@ -136,7 +133,7 @@ implements IPopupStateListener {
                 if (this.isVisible) {
                     this.setCurrentCancelReason(0);
                     if (this.logChannel.isInfo()) {
-                        this.logChannel.log(1078071040, "[CharismaPopupHandler#requestCharismaPopup] removePopup(%1) called", (long)this.component.getPopUpID());
+                        this.logChannel.log(1000000, "[CharismaPopupHandler#requestCharismaPopup] removePopup(%1) called", (long)this.component.getPopUpID());
                     }
                     this.app.getFrameworkAccess().getHmiServiceApp().removePopup(this.component.getPopUpID());
                 }
@@ -144,7 +141,7 @@ implements IPopupStateListener {
                 this.setFsgActivation(bl);
                 this.component.setDriveSelectPowerManagementActive(true);
                 if (this.logChannel.isInfo()) {
-                    this.logChannel.log(1078071040, "[CharismaPopupHandler#requestCharismaPopup] showPopup(%1)", (long)this.component.getPopUpID());
+                    this.logChannel.log(1000000, "[CharismaPopupHandler#requestCharismaPopup] showPopup(%1)", (long)this.component.getPopUpID());
                 }
                 this.app.getFrameworkAccess().getHmiServiceApp().showPopup(this.component.getPopUpID());
             }
@@ -156,16 +153,16 @@ implements IPopupStateListener {
      */
     public void acknowledgePopup(int n) {
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[CharismaPopupHandler#acknowledgePopup] called with content = %1", (long)n);
+            this.logChannel.log(1000000, "[CharismaPopupHandler#acknowledgePopup] called with content = %1", (long)n);
         }
         Object object = this.mutex;
         synchronized (object) {
             if (this.component.isDriveSelectScreenVisible() && !this.isVisible && this.currentProfile == 5 && n == 0) {
                 this.component.showCharismaPopup(1, 1);
-                this.logChannel.log(1078071040, "acknowledgeCharismaPopup: Resetting show after acknowledge none");
+                this.logChannel.log(1000000, "acknowledgeCharismaPopup: Resetting show after acknowledge none");
             } else if (n == 0) {
                 if (this.logChannel.isInfo()) {
-                    this.logChannel.log(1078071040, "[CharismaPopupHandler#acknowledgePopup] NOT calling DSI.cancelCharismaPopup(%1, %2 ) ", (long)this.currentProfile, 0L);
+                    this.logChannel.log(1000000, "[CharismaPopupHandler#acknowledgePopup] NOT calling DSI.cancelCharismaPopup(%1, %2 ) ", (long)this.currentProfile, 0L);
                 }
                 this.component.setDriveSelectPowerManagementActive(false);
             }
@@ -180,7 +177,7 @@ implements IPopupStateListener {
         synchronized (object) {
             if (n != 0) {
                 if (this.logChannel.isInfo()) {
-                    this.logChannel.log(1078071040, "[CharismaPopupHandler#setCurrentProfile] current profile set to %1", (long)n);
+                    this.logChannel.log(1000000, "[CharismaPopupHandler#setCurrentProfile] current profile set to %1", (long)n);
                 }
                 this.currentProfile = n;
             }
@@ -197,19 +194,19 @@ implements IPopupStateListener {
         Object object = this.mutex;
         synchronized (object) {
             if (this.logChannel.isInfo()) {
-                this.logChannel.log(1078071040, "[CharismaPopupHandler#removePopup] Popup is to be removed");
+                this.logChannel.log(1000000, "[CharismaPopupHandler#removePopup] Popup is to be removed");
             }
             this.setCurrentCancelReason(1);
         }
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[CharismaPopupHandler#removePopup] removePopup(%1)", (long)this.component.getPopUpID());
+            this.logChannel.log(1000000, "[CharismaPopupHandler#removePopup] removePopup(%1)", (long)this.component.getPopUpID());
         }
         this.app.getFrameworkAccess().getHmiServiceApp().removePopup(this.component.getPopUpID());
     }
 
     public boolean buttonPopupRequest() {
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[CharismaPopupHandler#buttonPopupRequest] Popup opened via DDS");
+            this.logChannel.log(1000000, "[CharismaPopupHandler#buttonPopupRequest] Popup opened via DDS");
         }
         this.requestCharismaPopup(1, false);
         return true;
@@ -220,7 +217,7 @@ implements IPopupStateListener {
      */
     public void setTimer(CharismaPopupHKTimerController charismaPopupHKTimerController) {
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[CharismaPopupHandler#setTimer] Timer Controller has been set");
+            this.logChannel.log(1000000, "[CharismaPopupHandler#setTimer] Timer Controller has been set");
         }
         Object object = this.mutex;
         synchronized (object) {
@@ -277,11 +274,11 @@ implements IPopupStateListener {
             Object object = this.mutex;
             synchronized (object) {
                 if (this.isVisible) {
-                    this.logChannel.log(1078071040, "[CharismaPopupHandler#updateCharismaContent] -> removePopup)(%1)", (long)this.component.getPopUpID());
+                    this.logChannel.log(1000000, "[CharismaPopupHandler#updateCharismaContent] -> removePopup)(%1)", (long)this.component.getPopUpID());
                     bl = true;
                     this.app.getFrameworkAccess().getHmiServiceApp().removePopup(this.component.getPopUpID());
                 } else {
-                    this.logChannel.log(1078071040, "[CharismaPopupHandler#updateCharismaContent] Nothing to do");
+                    this.logChannel.log(1000000, "[CharismaPopupHandler#updateCharismaContent] Nothing to do");
                 }
             }
         }
@@ -289,11 +286,11 @@ implements IPopupStateListener {
             Object object = this.mutex;
             synchronized (object) {
                 if (!this.component.isDriveSelectScreenVisible() && this.currentProfile != -1) {
-                    this.logChannel.log(1078071040, "[CharismaPopupHandler#updateCharismaContent] -> showPopup)(%1)", (long)this.component.getPopUpID());
+                    this.logChannel.log(1000000, "[CharismaPopupHandler#updateCharismaContent] -> showPopup)(%1)", (long)this.component.getPopUpID());
                     bl = true;
                     this.requestCharismaPopup(n, true);
                 } else {
-                    this.logChannel.log(1078071040, "[CharismaPopupHandler#updateCharismaContent] Charisma already visible - nothing to do!");
+                    this.logChannel.log(1000000, "[CharismaPopupHandler#updateCharismaContent] Charisma already visible - nothing to do!");
                 }
             }
         }

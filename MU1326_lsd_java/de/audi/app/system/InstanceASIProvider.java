@@ -8,8 +8,7 @@ import de.audi.app.system.instances.InstanceDataContainer;
 import de.audi.atip.agent.IASIProvider;
 import de.audi.atip.base.IFrameworkAccess;
 import de.audi.atip.log.LogChannel;
-import de.esolutions.fw.comm.asi.hmisync.instance.ASIHMISyncInstance$ReplyIDs;
-import de.esolutions.fw.comm.asi.hmisync.instance.ASIHMISyncInstance$RequestIDs;
+import de.esolutions.fw.comm.asi.hmisync.instance.ASIHMISyncInstance;
 import de.esolutions.fw.comm.asi.hmisync.instance.ASIHMISyncInstanceReply;
 import de.esolutions.fw.comm.asi.hmisync.instance.impl.ASIHMISyncInstanceAbstractBaseService;
 import de.esolutions.fw.comm.asi.hmisync.instance.impl.ASIHMISyncInstanceService;
@@ -32,12 +31,12 @@ implements IASIProvider {
     }
 
     public void start() {
-        this.getLog().log(-2137614336, "[InstanceASIProvider.start]");
+        this.getLog().log(10000000, "[InstanceASIProvider.start]");
         this.instancesManager.start();
     }
 
     public void stop() {
-        this.getLog().log(-2137614336, "[InstanceASIProvider.stop]");
+        this.getLog().log(10000000, "[InstanceASIProvider.stop]");
         this.instancesManager.destroy();
     }
 
@@ -60,15 +59,14 @@ implements IASIProvider {
     private final void initAttributes() {
         try {
             this.updateASIVersion("1.1.00");
-            this.updateReplyIDs(ASIHMISyncInstance$ReplyIDs.getIDs());
-            this.updateRequestIDs(ASIHMISyncInstance$RequestIDs.getIDs());
+            this.updateReplyIDs(ASIHMISyncInstance.ReplyIDs.getIDs());
+            this.updateRequestIDs(ASIHMISyncInstance.RequestIDs.getIDs());
         }
         catch (MethodException methodException) {
-            this.getLog().log(1078071040, "[InstanceASIProvider.iniAttributes] unexpected MethodException", (Throwable)methodException);
+            this.getLog().log(1000000, "[InstanceASIProvider.iniAttributes] unexpected MethodException", (Throwable)methodException);
         }
     }
 
-    @Override
     public final IService getService() {
         return this.instanceService;
     }
@@ -77,19 +75,16 @@ implements IASIProvider {
         return this.instancesManager;
     }
 
-    @Override
     public final synchronized void attachStub(IStub iStub) {
-        this.getLog().log(1078071040, "[InstanceASIProvider.attachStub] '%1'", (Object)iStub);
+        this.getLog().log(1000000, "[InstanceASIProvider.attachStub] '%1'", (Object)iStub);
     }
 
-    @Override
     public final synchronized void detachStub(IStub iStub) {
-        this.getLog().log(1078071040, "[InstanceASIProvider.detachStub] '%1'", (Object)iStub);
+        this.getLog().log(1000000, "[InstanceASIProvider.detachStub] '%1'", (Object)iStub);
     }
 
-    @Override
-    public void requestInstanceId(String string, String string2, ASIHMISyncInstanceReply aSIHMISyncInstanceReply) {
-        this.getLog().log(1078071040, "[InstanceASIProvider.requestInstanceId] got request for ASI '%1' from device '%2'", (Object)string, (Object)string2);
+    public void requestInstanceId(String string, String string2, ASIHMISyncInstanceReply aSIHMISyncInstanceReply) throws MethodException {
+        this.getLog().log(1000000, "[InstanceASIProvider.requestInstanceId] got request for ASI '%1' from device '%2'", (Object)string, (Object)string2);
         this.instancesManager.enqueueRequest(string, string2, aSIHMISyncInstanceReply);
     }
 }

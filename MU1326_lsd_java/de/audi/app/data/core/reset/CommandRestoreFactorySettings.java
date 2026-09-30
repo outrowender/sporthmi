@@ -21,19 +21,17 @@ extends AbstractDataCommand {
         super(logChannel, dSIDataConfiguration, (class$de$audi$app$data$core$reset$CommandRestoreFactorySettings == null ? (class$de$audi$app$data$core$reset$CommandRestoreFactorySettings = CommandRestoreFactorySettings.class$("de.audi.app.data.core.reset.CommandRestoreFactorySettings")) : class$de$audi$app$data$core$reset$CommandRestoreFactorySettings).getName());
     }
 
-    @Override
     public void execute() {
         if (this.dsi != null) {
             this.dsi.restoreFactorySettings();
         } else {
-            this.logger.log(-1601830656, "CommandRestoreFactorySettings#execute(): dsi is NULL");
+            this.logger.log(100000, "CommandRestoreFactorySettings#execute(): dsi is NULL");
             this.commandList.commandFinished();
         }
     }
 
-    @Override
     public void restoreFactorySettingsResponse(int n) {
-        this.logger.log(-2137614336, "CommandRestoreFactorySettings#restoreFactorySettingsResponse(): result=%1", (long)n);
+        this.logger.log(10000000, "CommandRestoreFactorySettings#restoreFactorySettingsResponse(): result=%1", (long)n);
         this.commandList.commandFinished();
     }
 

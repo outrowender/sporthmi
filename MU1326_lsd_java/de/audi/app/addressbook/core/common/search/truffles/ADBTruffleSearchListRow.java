@@ -26,34 +26,28 @@ implements ADBSearchListRow {
         this.setHighlightTextCell(3, ADBTruffleSearchUtils.getCombinedNameListCell(searchResult));
     }
 
-    @Override
     public EvoListRow copy() {
         return new ADBTruffleSearchListRow(this.getSearchResult(), this.adbMode);
     }
 
-    @Override
     public long getEntryId() {
         return this.getSearchResult().getDataId();
     }
 
-    @Override
     public String getCombinedName() {
         Token[] tokenArray = this.getSearchResult().getTokens();
         Token token = AbstractSearchResultFormatter.getTokenForType(tokenArray, 5);
         return token == null ? null : token.getToken();
     }
 
-    @Override
     public int getEntryType() {
         return ADBTruffleSearchUtils.getDsiEntryType(this.getSearchResult());
     }
 
-    @Override
     public ResourceLocator getContactPicture() {
         return ADBTruffleSearchUtils.getContactPicture(this.getSearchResult());
     }
 
-    @Override
     public int getPhoneCount() {
         return ADBTruffleSearchUtils.getPhoneCount(this.getSearchResult());
     }

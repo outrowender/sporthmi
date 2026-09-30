@@ -6,37 +6,29 @@ package de.audi.atip.interapp.media;
 import de.audi.atip.interapp.media.IMediaSessionPlayer;
 
 public interface IMediaPlayerSession {
-    public static final int STATE_NOT_READY;
-    public static final int STATE_READY;
-    public static final int STATE_PLAYING;
-    public static final int STATE_PAUSED;
-    public static final int STATE_SEEKING;
-    public static final int STATE_STOPPED_END_OF_FILE_REACHED;
-    public static final int STATE_STOPPED_WITH_ERROR;
-    public static final int STATE_STOPPED;
+    public static final int STATE_NOT_READY = 0;
+    public static final int STATE_READY = 1;
+    public static final int STATE_PLAYING = 2;
+    public static final int STATE_PAUSED = 3;
+    public static final int STATE_SEEKING = 4;
+    public static final int STATE_STOPPED_END_OF_FILE_REACHED = 5;
+    public static final int STATE_STOPPED_WITH_ERROR = 6;
+    public static final int STATE_STOPPED = 7;
 
-    default public int getAudioConnection() {
-    }
+    public int getAudioConnection();
 
-    default public int getType() {
-    }
+    public int getType();
 
-    default public String getName() {
-    }
+    public String getName();
 
-    default public void onActive(IMediaSessionPlayer iMediaSessionPlayer) {
-    }
+    public void onActive(IMediaSessionPlayer var1);
 
-    default public void onSuspend() {
-    }
+    public void onSuspend();
 
-    default public void onClose() {
-    }
+    public void onClose();
 
-    default public void updateState(int n) {
-    }
+    public void updateState(int var1);
 
-    default public void updatePlayPosition(int n, int n2) {
-    }
+    public void updatePlayPosition(int var1, int var2);
 }
 

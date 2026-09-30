@@ -4,9 +4,9 @@
 package de.audi.app.combi.bap.dsi.pictureserver;
 
 import de.audi.app.combi.bap.app.kombipictures.IPictureManager;
-import de.audi.app.combi.bap.dsi.pictureserver.DSIKombiPictureServerListenerImpl$1;
 import de.audi.app.combi.bap.utils.CombiLogger;
 import de.audi.atip.log.LogChannel;
+import edu.emory.mathcs.backport.java.util.concurrent.Callable;
 import edu.emory.mathcs.backport.java.util.concurrent.Executors;
 import edu.emory.mathcs.backport.java.util.concurrent.ScheduledExecutorService;
 import edu.emory.mathcs.backport.java.util.concurrent.TimeUnit;
@@ -14,7 +14,7 @@ import org.dsi.ifc.kombipictureserver.DSIKombiPictureServerListener;
 
 public class DSIKombiPictureServerListenerImpl
 implements DSIKombiPictureServerListener {
-    private static final int INCOMING_CALL_WAIT_FOR_PICTURE_DELAY_MS;
+    private static final int INCOMING_CALL_WAIT_FOR_PICTURE_DELAY_MS = 500;
     private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
     private final IPictureManager pictureManager;
     private final LogChannel logChannel;
@@ -117,20 +117,18 @@ implements DSIKombiPictureServerListener {
                 return 255;
             }
         }
-        this.logChannel.log(-1601830656, "[DSIKombiPictureServerListenerImpl#convertToBAPSourceType] sourceType not available for BAP: %1", (long)n);
+        this.logChannel.log(100000, "[DSIKombiPictureServerListenerImpl#convertToBAPSourceType] sourceType not available for BAP: %1", (long)n);
         return n;
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
-        this.logChannel.log(1078071040, "[DSIKombiPictureServerListenerImpl#asyncException] errorCode=%1, errorMsg=%2, requestType=%3", (Object)string, (long)n, (long)n2);
+        this.logChannel.log(1000000, "[DSIKombiPictureServerListenerImpl#asyncException] errorCode=%1, errorMsg=%2, requestType=%3", (Object)string, (long)n, (long)n2);
     }
 
-    @Override
     public void indicationCoverArt(long l, int n, int n2) {
-        this.logChannel.log(1078071040, "[DSIKombiPictureServerListenerImpl#indicationCoverArt] address=%1, addressType=%2, sourceType=%3", l, (long)n, (long)n2);
+        this.logChannel.log(1000000, "[DSIKombiPictureServerListenerImpl#indicationCoverArt] address=%1, addressType=%2, sourceType=%3", l, (long)n, (long)n2);
         if (l == 0L && n == 0 && n2 == 255) {
-            this.logChannel.log(1078071040, "[DSIKombiPictureServerListenerImpl#indicationCoverArt] notification on CoverArt received");
+            this.logChannel.log(1000000, "[DSIKombiPictureServerListenerImpl#indicationCoverArt] notification on CoverArt received");
             this.pictureManager.setNotification(0);
         } else if (n == 0) {
             this.pictureManager.requestCoverArt(l, this.convertToBAPSourceType(n2));
@@ -139,11 +137,10 @@ implements DSIKombiPictureServerListener {
         }
     }
 
-    @Override
     public void indicationStationArt(long l, int n, int n2) {
-        this.logChannel.log(1078071040, "[DSIKombiPictureServerListenerImpl#indicationStationArt] address=%1, addressType=%2, sourceType=%3", l, (long)n, (long)n2);
+        this.logChannel.log(1000000, "[DSIKombiPictureServerListenerImpl#indicationStationArt] address=%1, addressType=%2, sourceType=%3", l, (long)n, (long)n2);
         if (l == 0L && n == 0 && n2 == 255) {
-            this.logChannel.log(1078071040, "[DSIKombiPictureServerListenerImpl#indicationStationArt] notification on StationArt received");
+            this.logChannel.log(1000000, "[DSIKombiPictureServerListenerImpl#indicationStationArt] notification on StationArt received");
             this.pictureManager.setNotification(1);
         }
         if (n == 0) {
@@ -153,25 +150,29 @@ implements DSIKombiPictureServerListener {
         }
     }
 
-    @Override
-    public void indicationActiveCallPicture(int n) {
-        this.logChannel.log(1078071040, "[DSIKombiPictureServerListenerImpl#indicationActiveCallPicture] callID=%1", (long)n);
+    public void indicationActiveCallPicture(final int n) {
+        this.logChannel.log(1000000, "[DSIKombiPictureServerListenerImpl#indicationActiveCallPicture] callID=%1", (long)n);
         if (n == 255) {
-            this.logChannel.log(1078071040, "[DSIKombiPictureServerListenerImpl#indicationActiveCallPicture] notification on ActiveCallPicture received");
+            this.logChannel.log(1000000, "[DSIKombiPictureServerListenerImpl#indicationActiveCallPicture] notification on ActiveCallPicture received");
             this.pictureManager.setNotification(2);
         } else {
-            this.executor.schedule(new DSIKombiPictureServerListenerImpl$1(this, n), (long)0, TimeUnit.MILLISECONDS);
+            this.executor.schedule(new Callable(){
+
+                public Object call() {
+                    DSIKombiPictureServerListenerImpl.this.logChannel.log(10000000, "[DSIKombiPictureServerListenerImpl#indicationActiveCallPicture] calling requestActiveCallPicture callID: %1", (long)n);
+                    DSIKombiPictureServerListenerImpl.this.pictureManager.requestActiveCallPicture(n);
+                    return null;
+                }
+            }, 500L, TimeUnit.MILLISECONDS);
         }
     }
 
-    @Override
     public void indicationInternalAddressID(long l, int n) {
-        this.logChannel.log(1078071040, "[DSIKombiPictureServerListenerImpl#indicationInternalAddressID] address=%1, idType=%2", l, (long)n);
+        this.logChannel.log(1000000, "[DSIKombiPictureServerListenerImpl#indicationInternalAddressID] address=%1, idType=%2", l, (long)n);
     }
 
-    @Override
     public void indicationAdbContactPicture(long l, int n) {
-        this.logChannel.log(1078071040, "[DSIKombiPictureServerListenerImpl#indicationAdbContactPicture] address=%1, addressType=%2", l, (long)n);
+        this.logChannel.log(1000000, "[DSIKombiPictureServerListenerImpl#indicationAdbContactPicture] address=%1, addressType=%2", l, (long)n);
         if (n == 0) {
             this.pictureManager.requestAdbContactPicture(l);
         } else {
@@ -179,28 +180,16 @@ implements DSIKombiPictureServerListener {
         }
     }
 
-    @Override
     public void indicationPictureStreamAbilities() {
     }
 
-    @Override
     public void indicationPictureStream(int n, short s, short s2, int n2, int n3, int n4, int n5, byte[] byArray) {
     }
 
-    @Override
     public void indicationActiveCallPictureInstance(int n, int n2) {
     }
 
-    @Override
     public void indicationDynamicIcon(int n, int n2) {
-    }
-
-    static /* synthetic */ LogChannel access$000(DSIKombiPictureServerListenerImpl dSIKombiPictureServerListenerImpl) {
-        return dSIKombiPictureServerListenerImpl.logChannel;
-    }
-
-    static /* synthetic */ IPictureManager access$100(DSIKombiPictureServerListenerImpl dSIKombiPictureServerListenerImpl) {
-        return dSIKombiPictureServerListenerImpl.pictureManager;
     }
 }
 

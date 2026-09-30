@@ -13,11 +13,11 @@ import de.audi.atip.log.LogChannel;
 
 class NaviSDSPicklistListener
 extends DefaultBaseListModelListener {
-    private static final int MAX_COLS_VDE;
-    private static final int MAX_COLS_SUI;
-    private static final int MAX_COLS_POI_PICKLIST;
-    private static final int MAX_COLS_POI_RESULT_LIST;
-    private static final int MAX_COLS_MY_AUDI_RESULT_LIST;
+    private static final int MAX_COLS_VDE = 3;
+    private static final int MAX_COLS_SUI = 3;
+    private static final int MAX_COLS_POI_PICKLIST = 3;
+    private static final int MAX_COLS_POI_RESULT_LIST = 3;
+    private static final int MAX_COLS_MY_AUDI_RESULT_LIST = 3;
     private final LogChannel lc = Logger.getAppNaviLog();
     private final NaviSDSHandler sdsHandler;
     private final HMIService hmi;
@@ -29,21 +29,19 @@ extends DefaultBaseListModelListener {
         SDSUtils.initPickList(hMIService.getBaseListModel(3870), 3, this);
         SDSUtils.initPickList(hMIService.getBaseListModel(3871), 3, this);
         SDSUtils.initPickList(hMIService.getBaseListModel(3901), 3, this);
-        this.lc.log(-2137614336, "NaviSDSPicklistListener started.");
+        this.lc.log(10000000, "NaviSDSPicklistListener started.");
     }
 
     public void initOnlineLists() {
-        SDSUtils.initPickList(this.hmi.getBaseListModel(-1776220672), 3, this);
+        SDSUtils.initPickList(this.hmi.getBaseListModel(401814), 3, this);
     }
 
-    @Override
     public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.lc.log(-2137614336, "NaviSDSPicklistListener#itemReleased: id=%1, row=%2", (long)n, (long)n2);
+        this.lc.log(10000000, "NaviSDSPicklistListener#itemReleased: id=%1, row=%2", (long)n, (long)n2);
     }
 
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.lc.log(-2137614336, "NaviSDSPicklistListener#itemSelected: id=%1, index=%2 (0-indexed)", (long)n, (long)n2);
+        this.lc.log(10000000, "NaviSDSPicklistListener#itemSelected: id=%1, index=%2 (0-indexed)", (long)n, (long)n2);
         SDSUtils.handleItemSelected(n, n2, this.hmi, this.sdsHandler, this.lc);
     }
 }

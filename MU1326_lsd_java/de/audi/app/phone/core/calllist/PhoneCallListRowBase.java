@@ -17,42 +17,42 @@ import org.dsi.ifc.global.ResourceLocator;
 
 public class PhoneCallListRowBase
 extends ListRow {
-    protected static final int DISCREASON_INVALID;
-    protected static final int DISCREASON_NORMAL;
-    protected static final int DISCREASON_NOLINE;
-    protected static final int DISCREASON_SYSTEM_BUSY;
-    protected static final int DISCREASON_NUMBER_BUSY;
-    protected static final int DISCREASON_NUMBER_NOT_ASSIGNED;
-    protected static final int DISCREASON_NUMBER_NOT_REACHABLE;
-    protected static final int DISCREASON_NETWORK_FAILURE;
-    protected static final int DISCREASON_CALL_BARRING_ACTIVE;
-    protected static final int DISCREASON_USER_NOT_RESPONDING;
-    protected static final int DISCREASON_CALL_REJECTED;
-    protected static final int DISCREASON_NUMBER_CHANGED;
-    protected static final int DISCREASON_NUMBER_INVALID_INCOMPLETE;
-    protected static final int DISCREASON_SERVICE_NOT_AVAILABLE;
-    protected static final int DISCREASON_NO_INFO_AVAILABLE;
-    protected static final int DISCREASON_NUMBER_TEMP_FORBIDDEN;
-    protected static final int COL_CALLID;
-    protected static final int COL_NAME;
-    protected static final int COL_PHONETYPEICON;
-    protected static final int COL_NUMBER;
-    protected static final int COL_ACTION;
-    protected static final int COL_CALLDURATION;
-    protected static final int COL_DISCONNECTREASON;
-    protected static final int COL_PROPERTIES;
-    protected static final int COL_RECORDSET_NAME_NUMBER;
-    protected static final int COL_CALLTYPE;
-    protected static final int COL_CALLSTATE;
-    protected static final int COL_RESOURCELOCATOR;
-    protected static final int COL_RECORDSET_ACTIVE_NONACTIVE_LAYOUT;
-    protected static final int COL_MICMUTESTATE;
-    public static final int MAX_COLUMNS;
-    private static final int CALLSTATE_INVALID;
-    private static final int CALLSTATE_DIALING;
-    private static final int CALLSTATE_ACTIVE;
-    private static final int CALLSTATE_HOLD;
-    private static final int CALLSTATE_DISCONNECTING;
+    protected static final int DISCREASON_INVALID = -1;
+    protected static final int DISCREASON_NORMAL = 0;
+    protected static final int DISCREASON_NOLINE = 1;
+    protected static final int DISCREASON_SYSTEM_BUSY = 2;
+    protected static final int DISCREASON_NUMBER_BUSY = 3;
+    protected static final int DISCREASON_NUMBER_NOT_ASSIGNED = 4;
+    protected static final int DISCREASON_NUMBER_NOT_REACHABLE = 5;
+    protected static final int DISCREASON_NETWORK_FAILURE = 6;
+    protected static final int DISCREASON_CALL_BARRING_ACTIVE = 7;
+    protected static final int DISCREASON_USER_NOT_RESPONDING = 8;
+    protected static final int DISCREASON_CALL_REJECTED = 9;
+    protected static final int DISCREASON_NUMBER_CHANGED = 10;
+    protected static final int DISCREASON_NUMBER_INVALID_INCOMPLETE = 11;
+    protected static final int DISCREASON_SERVICE_NOT_AVAILABLE = 12;
+    protected static final int DISCREASON_NO_INFO_AVAILABLE = 13;
+    protected static final int DISCREASON_NUMBER_TEMP_FORBIDDEN = 14;
+    protected static final int COL_CALLID = 0;
+    protected static final int COL_NAME = 1;
+    protected static final int COL_PHONETYPEICON = 2;
+    protected static final int COL_NUMBER = 3;
+    protected static final int COL_ACTION = 4;
+    protected static final int COL_CALLDURATION = 5;
+    protected static final int COL_DISCONNECTREASON = 6;
+    protected static final int COL_PROPERTIES = 7;
+    protected static final int COL_RECORDSET_NAME_NUMBER = 8;
+    protected static final int COL_CALLTYPE = 9;
+    protected static final int COL_CALLSTATE = 10;
+    protected static final int COL_RESOURCELOCATOR = 11;
+    protected static final int COL_RECORDSET_ACTIVE_NONACTIVE_LAYOUT = 12;
+    protected static final int COL_MICMUTESTATE = 13;
+    public static final int MAX_COLUMNS = 14;
+    private static final int CALLSTATE_INVALID = -1;
+    private static final int CALLSTATE_DIALING = 0;
+    private static final int CALLSTATE_ACTIVE = 1;
+    private static final int CALLSTATE_HOLD = 2;
+    private static final int CALLSTATE_DISCONNECTING = 3;
     protected final LogChannel log;
     protected final AbstractPhoneCall call;
 
@@ -157,7 +157,6 @@ extends ListRow {
         }
     }
 
-    @Override
     public boolean equals(Object object) {
         if (object instanceof PhoneCallListRowBase) {
             return ((PhoneCallListRowBase)object).getCell(0) == this.getCell(0);
@@ -165,7 +164,6 @@ extends ListRow {
         return false;
     }
 
-    @Override
     public int hashCode() {
         int n = 17;
         n = 31 * n + this.getCell(0).hashCode();

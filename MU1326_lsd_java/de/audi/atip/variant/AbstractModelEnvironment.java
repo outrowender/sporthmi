@@ -43,8 +43,7 @@ public abstract class AbstractModelEnvironment {
         this.smEventConstantsMapper = iIDMapper2;
     }
 
-    public abstract LogChannel getLogChannel() {
-    }
+    public abstract LogChannel getLogChannel();
 
     public final IFrameworkAccess getFramework() {
         return this.framework;
@@ -183,7 +182,7 @@ public abstract class AbstractModelEnvironment {
     }
 
     public final void fireModelEvent(int n, int n2) {
-        this.getLogChannel().log(-2137614336, "AbstractModelEnvironment#fireModelEvent( %1 ) ", (long)n);
+        this.getLogChannel().log(10000000, "AbstractModelEnvironment#fireModelEvent( %1 ) ", (long)n);
         HMIModelApp hMIModelApp = this.getHMIService().getModelApp(n);
         if (hMIModelApp != null) {
             hMIModelApp.fireEvent(n2);
@@ -193,16 +192,16 @@ public abstract class AbstractModelEnvironment {
     }
 
     public void fireTranslatedSMEvent(int n, int n2) {
-        this.getLogChannel().log(-2137614336, "AbstractModelEnvironment#fireTranslatedSMEvent() - smID %1, eventID %2 ", (long)n, (long)n2);
+        this.getLogChannel().log(10000000, "AbstractModelEnvironment#fireTranslatedSMEvent() - smID %1, eventID %2 ", (long)n, (long)n2);
         IHMIServiceApp iHMIServiceApp = this.getHMIService();
         if (iHMIServiceApp == null) {
             this.getLogChannel().log(10000, "AbstractModelEnvironment#fireTranslatedSMEvent() - failed to resolve HMIService!");
             return;
         }
         int n3 = this.smEventConstantsMapper.mapToVariant(n2);
-        this.getLogChannel().log(-2137614336, "AbstractModelEnvironment#fireTranslatedSMEvent() - mapped id %1 to %2", (long)n2, (long)n3);
+        this.getLogChannel().log(10000000, "AbstractModelEnvironment#fireTranslatedSMEvent() - mapped id %1 to %2", (long)n2, (long)n3);
         if (n3 == -1) {
-            this.getLogChannel().log(-1601830656, "AbstractModelEnvironment#fireTranslatedSMEvent() - eventID %1 is not variant-specific, use it directly!", (long)n2);
+            this.getLogChannel().log(100000, "AbstractModelEnvironment#fireTranslatedSMEvent() - eventID %1 is not variant-specific, use it directly!", (long)n2);
             n3 = n2;
         }
         iHMIServiceApp.fireSMEvent(n, n3);
@@ -221,7 +220,7 @@ public abstract class AbstractModelEnvironment {
         }
         int n2 = this.textConstantsMapper.mapToVariant(n);
         if (n2 == -1) {
-            this.getLogChannel().log(-1601830656, "AbstractModelEnvironment#getTranslatedText() - textID %1 is not variant-specific, use it directly!", (long)n);
+            this.getLogChannel().log(100000, "AbstractModelEnvironment#getTranslatedText() - textID %1 is not variant-specific, use it directly!", (long)n);
             n2 = n;
         }
         if ((string2 = iHMIServiceApp.getText(n2)) == null) {

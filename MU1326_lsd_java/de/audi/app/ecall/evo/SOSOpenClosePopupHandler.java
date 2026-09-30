@@ -16,25 +16,22 @@ implements ISOSOpenClosePopupHandler {
     static /* synthetic */ Class class$de$audi$app$ecall$core$bap$EcallScreenNames;
 
     public SOSOpenClosePopupHandler(IEcallApplication iEcallApplication, ILicenseScreenState iLicenseScreenState) {
-        super(iEcallApplication, "App.Ecall.SOS", -1604701696);
+        super(iEcallApplication, "App.Ecall.SOS", 3300000);
         this.licenseScreenState = iLicenseScreenState;
     }
 
-    @Override
     public void showLicencePopup() {
         this.forceSOSScreenShowing(15);
     }
 
-    @Override
     public void forceSOSScreenShowing(int n) {
-        this.log.log(-2137614336, "SOSOpenClosePopupHandler#forceSOSScreenShowing(): show ScreenId: %1 ", (long)n);
+        this.log.log(10000000, "SOSOpenClosePopupHandler#forceSOSScreenShowing(): show ScreenId: %1 ", (long)n);
         EcallUtil.logStructFieldForDbg(this.log, class$de$audi$app$ecall$core$bap$EcallScreenNames == null ? (class$de$audi$app$ecall$core$bap$EcallScreenNames = SOSOpenClosePopupHandler.class$("de.audi.app.ecall.core.bap.EcallScreenNames")) : class$de$audi$app$ecall$core$bap$EcallScreenNames, n);
         this.setValueForEcallPopupChoiceModel(n);
         this.getHmiServiceApp().showPopup(this.SCREENS_POPUP_ID);
         this.setPopupConsumptionStrategy(this.getStrategyTypeForScreen(n));
     }
 
-    @Override
     public void onContextEntered() {
         super.onContextEntered();
         int n = this.licenseScreenState.getLincenseScreenId();

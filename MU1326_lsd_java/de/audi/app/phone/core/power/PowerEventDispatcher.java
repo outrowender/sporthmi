@@ -4,17 +4,16 @@
 package de.audi.app.phone.core.power;
 
 import de.audi.app.phone.core.PhoneServiceProvider;
+import de.audi.app.phone.core.event.AbstractTelPowerEvent;
 import de.audi.app.phone.core.event.TelEventQueue;
 import de.audi.app.phone.core.power.IPowerEventDispatcher;
 import de.audi.app.phone.core.power.IPowerEventListener;
-import de.audi.app.phone.core.power.PowerEventDispatcher$1;
-import de.audi.app.phone.core.power.PowerEventDispatcher$2;
-import de.audi.app.phone.core.power.PowerEventDispatcher$3;
-import de.audi.app.phone.core.power.PowerEventDispatcher$4;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.power.PowerEventListener;
+import de.esolutions.fw.util.commons.Buffer;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 import org.osgi.framework.BundleContext;
 
@@ -39,18 +38,16 @@ PowerEventListener {
         this.eventQueue = telEventQueue;
     }
 
-    @Override
     public void init() {
-        this.logChannel.log(-2137614336, "[PowerEventDispatcher#init] called");
+        this.logChannel.log(10000000, "[PowerEventDispatcher#init] called");
         this.powerEventServiceProvider.startService();
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void deinit() {
-        this.logChannel.log(-2137614336, "[PowerEventDispatcher#deinit] called");
+        this.logChannel.log(10000000, "[PowerEventDispatcher#deinit] called");
         this.powerEventServiceProvider.stopService();
         ArrayList arrayList = this.listeners;
         synchronized (arrayList) {
@@ -61,13 +58,12 @@ PowerEventListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void addPowerEventListener(IPowerEventListener iPowerEventListener) {
-        this.logChannel.log(-2137614336, "[PowerEventDispatcher#addPowerEventListener] listener='%1'", (Object)iPowerEventListener);
+        this.logChannel.log(10000000, "[PowerEventDispatcher#addPowerEventListener] listener='%1'", (Object)iPowerEventListener);
         ArrayList arrayList = this.listeners;
         synchronized (arrayList) {
             if (this.listeners.contains(iPowerEventListener)) {
-                this.logChannel.log(-1601830656, "[PowerEventDispatcher#addPowerEventListener] listener already registered");
+                this.logChannel.log(100000, "[PowerEventDispatcher#addPowerEventListener] listener already registered");
                 return;
             }
             this.listeners.add(iPowerEventListener);
@@ -89,37 +85,83 @@ PowerEventListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void removePowerEventListener(IPowerEventListener iPowerEventListener) {
-        this.logChannel.log(-2137614336, "[PowerEventDispatcher#removePowerEventListener] listener='%1'", (Object)iPowerEventListener);
+        this.logChannel.log(10000000, "[PowerEventDispatcher#removePowerEventListener] listener='%1'", (Object)iPowerEventListener);
         ArrayList arrayList = this.listeners;
         synchronized (arrayList) {
             if (this.listeners.contains(iPowerEventListener)) {
                 this.listeners.remove(iPowerEventListener);
             } else {
-                this.logChannel.log(-1601830656, "[PowerEventDispatcher#removePowerEventListener] listener not registered, cannot be removed");
+                this.logChannel.log(100000, "[PowerEventDispatcher#removePowerEventListener] listener not registered, cannot be removed");
             }
         }
     }
 
-    @Override
-    public void notifyPowerListenerOnEnterState(int n, int n2) {
-        this.eventQueue.enqueue(new PowerEventDispatcher$1(this, "notifyPowerListenerOnEnterState", n, n2));
+    public void notifyPowerListenerOnEnterState(final int n, final int n2) {
+        this.eventQueue.enqueue(new AbstractTelPowerEvent("notifyPowerListenerOnEnterState"){
+
+            public void run() {
+                PowerEventDispatcher.this.logChannel.log(1000000, "[PowerEventDispatcher#notifyPowerListenerOnEnterState] pwrevt='%1', terminalID='%2'", (long)n, (long)n2);
+                Iterator iterator = PowerEventDispatcher.this.getListeners().iterator();
+                while (iterator.hasNext()) {
+                    ((IPowerEventListener)iterator.next()).notifyPowerListenerOnEnterState(n);
+                }
+            }
+        });
     }
 
-    @Override
-    public void notifyPowerListenerOnExitState(int n, int n2) {
-        this.eventQueue.enqueue(new PowerEventDispatcher$2(this, "notifyPowerListenerOnExitState", n, n2));
+    public void notifyPowerListenerOnExitState(final int n, final int n2) {
+        this.eventQueue.enqueue(new AbstractTelPowerEvent("notifyPowerListenerOnExitState"){
+
+            public void run() {
+                PowerEventDispatcher.this.logChannel.log(1000000, "[PowerEventDispatcher#notifyPowerListenerOnExitState] pwrevt='%1', terminalID='%2'", (long)n, (long)n2);
+                Iterator iterator = PowerEventDispatcher.this.getListeners().iterator();
+                while (iterator.hasNext()) {
+                    ((IPowerEventListener)iterator.next()).notifyPowerListenerOnExitState(n);
+                }
+            }
+        });
     }
 
-    @Override
-    public void notifyPowerTriggerAction(int n, int n2) {
-        this.eventQueue.enqueue(new PowerEventDispatcher$3(this, "notifyPowerTriggerAction", n, n2));
+    public void notifyPowerTriggerAction(final int n, final int n2) {
+        this.eventQueue.enqueue(new AbstractTelPowerEvent("notifyPowerTriggerAction"){
+
+            public void run() {
+                PowerEventDispatcher.this.logChannel.log(1000000, "[PowerEventDispatcher#notifyPowerTriggerAction] trigger='%1', terminalID='%2'", (long)n, (long)n2);
+                Iterator iterator = PowerEventDispatcher.this.getListeners().iterator();
+                while (iterator.hasNext()) {
+                    ((IPowerEventListener)iterator.next()).notifyPowerTriggerAction(n);
+                }
+            }
+        });
     }
 
-    @Override
-    public void updateClampState(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
-        this.eventQueue.enqueue(new PowerEventDispatcher$4(this, "updateClampState", bl, bl2, bl3, bl4));
+    public void updateClampState(final boolean bl, final boolean bl2, final boolean bl3, final boolean bl4) {
+        this.eventQueue.enqueue(new AbstractTelPowerEvent("updateClampState"){
+
+            /*
+             * WARNING - Removed try catching itself - possible behaviour change.
+             */
+            public void run() {
+                Object object;
+                if (PowerEventDispatcher.this.logChannel.isInfo()) {
+                    object = new Buffer(30);
+                    ((Buffer)object).append("clampS=").append(PowerEventDispatcher.this.clampS).append(", clamp15=").append(PowerEventDispatcher.this.clamp15).append(", clampX=").append(PowerEventDispatcher.this.clampX).append(", clamp50=").append(PowerEventDispatcher.this.clamp50);
+                    PowerEventDispatcher.this.logChannel.log(1000000, "[PowerEventDispatcher#updateClampState] %1", (Object)((Buffer)object).toString());
+                }
+                object = PowerEventDispatcher.this.clampLock;
+                synchronized (object) {
+                    PowerEventDispatcher.this.clampS = bl;
+                    PowerEventDispatcher.this.clamp15 = bl2;
+                    PowerEventDispatcher.this.clampX = bl3;
+                    PowerEventDispatcher.this.clamp50 = bl4;
+                }
+                object = PowerEventDispatcher.this.getListeners().iterator();
+                while (object.hasNext()) {
+                    ((IPowerEventListener)object.next()).updateClampState(PowerEventDispatcher.this.clampS, PowerEventDispatcher.this.clamp15, PowerEventDispatcher.this.clampX, PowerEventDispatcher.this.clamp50);
+                }
+            }
+        });
     }
 
     /*
@@ -141,54 +183,6 @@ PowerEventListener {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ LogChannel access$000(PowerEventDispatcher powerEventDispatcher) {
-        return powerEventDispatcher.logChannel;
-    }
-
-    static /* synthetic */ List access$100(PowerEventDispatcher powerEventDispatcher) {
-        return powerEventDispatcher.getListeners();
-    }
-
-    static /* synthetic */ boolean access$200(PowerEventDispatcher powerEventDispatcher) {
-        return powerEventDispatcher.clamp50;
-    }
-
-    static /* synthetic */ boolean access$300(PowerEventDispatcher powerEventDispatcher) {
-        return powerEventDispatcher.clampX;
-    }
-
-    static /* synthetic */ boolean access$400(PowerEventDispatcher powerEventDispatcher) {
-        return powerEventDispatcher.clamp15;
-    }
-
-    static /* synthetic */ boolean access$500(PowerEventDispatcher powerEventDispatcher) {
-        return powerEventDispatcher.clampS;
-    }
-
-    static /* synthetic */ Object access$600(PowerEventDispatcher powerEventDispatcher) {
-        return powerEventDispatcher.clampLock;
-    }
-
-    static /* synthetic */ boolean access$502(PowerEventDispatcher powerEventDispatcher, boolean bl) {
-        powerEventDispatcher.clampS = bl;
-        return powerEventDispatcher.clampS;
-    }
-
-    static /* synthetic */ boolean access$402(PowerEventDispatcher powerEventDispatcher, boolean bl) {
-        powerEventDispatcher.clamp15 = bl;
-        return powerEventDispatcher.clamp15;
-    }
-
-    static /* synthetic */ boolean access$302(PowerEventDispatcher powerEventDispatcher, boolean bl) {
-        powerEventDispatcher.clampX = bl;
-        return powerEventDispatcher.clampX;
-    }
-
-    static /* synthetic */ boolean access$202(PowerEventDispatcher powerEventDispatcher, boolean bl) {
-        powerEventDispatcher.clamp50 = bl;
-        return powerEventDispatcher.clamp50;
     }
 }
 

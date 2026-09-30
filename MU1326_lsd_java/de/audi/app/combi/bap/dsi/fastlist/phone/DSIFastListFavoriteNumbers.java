@@ -12,29 +12,26 @@ import org.dsi.ifc.kombifastlist.DataFavoriteList;
 public final class DSIFastListFavoriteNumbers
 extends DSIFastListPhone
 implements IDSIFastListFavoriteNumbers {
-    @Override
     public void pushupdateFavoriteNumbers(DataFavoriteList[] dataFavoriteListArray) {
-        this.dsiLogChannel.log(1078071040, "[DSIFastListFavoriteNumbers#pushupdateFavoriteList] data.length=%1", (long)dataFavoriteListArray.length);
+        this.dsiLogChannel.log(1000000, "[DSIFastListFavoriteNumbers#pushupdateFavoriteList] data.length=%1", (long)dataFavoriteListArray.length);
         if (this.dsiLogChannel.isDebug2()) {
             Buffer buffer = new Buffer();
             for (int i2 = 0; i2 < dataFavoriteListArray.length; ++i2) {
                 buffer.append(dataFavoriteListArray[i2]);
                 buffer.append('\n');
             }
-            this.dsiLogChannel.log(14808325, "[DSIFastListFavoriteNumbers#pushupdateFavoriteList] DataFavoriteList[] {\n%1}", (Object)buffer);
+            this.dsiLogChannel.log(100000000, "[DSIFastListFavoriteNumbers#pushupdateFavoriteList] DataFavoriteList[] {\n%1}", (Object)buffer);
         }
         this.dsi.pushupdateFavoriteList(0, 0, dataFavoriteListArray);
     }
 
-    @Override
     public void pushCurrentListSizeFavoriteNumbers(int n) {
-        this.dsiLogChannel.log(1078071040, "[DSIFastListFavoriteNumbersDSIFastListFavoriteNumbers#pushCurrentListSizePhonebook] listSize=%1", (long)n);
+        this.dsiLogChannel.log(1000000, "[DSIFastListFavoriteNumbersDSIFastListFavoriteNumbers#pushCurrentListSizePhonebook] listSize=%1", (long)n);
         FastListPhoneSizes.pushListSizeFavoriteNumbers(this.dsi, n);
     }
 
-    @Override
     public void responseNotifyFavoriteNumbersPush(boolean bl) {
-        this.dsiLogChannel.log(1078071040, "[DSIFastListFavoriteNumbers#responseNotifyFavoriteListPush] successful=%1", bl);
+        this.dsiLogChannel.log(1000000, "[DSIFastListFavoriteNumbers#responseNotifyFavoriteListPush] successful=%1", bl);
         this.dsi.responseNotifyFavoriteListPush(bl);
     }
 }

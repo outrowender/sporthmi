@@ -18,36 +18,29 @@ extends AbstractSeatPopin {
         this.pneumatic = bl;
     }
 
-    @Override
     public String getClassName() {
         return this.pneumatic ? "SeatPopup'pneumatic'" : "SeatPopup";
     }
 
-    @Override
     protected boolean isResponsibleForContent(SeatPopinContent seatPopinContent) {
         return seatPopinContent.isPneumaticSeatContent() == this.pneumatic && !MasterSeatPopinContent.MEMORY.equals(seatPopinContent.getMasterContent(this.isLeft()));
     }
 
-    @Override
     protected void fillContentModel(SeatPopinContent seatPopinContent) {
         this.getConfig().getSeatPopinModel(this.isLeft()).selectContent(seatPopinContent.getMasterContent(this.isLeft()));
     }
 
-    @Override
     protected void showPartialPopinAfterSupportedContentUpdate(SeatPopinContent seatPopinContent) {
     }
 
-    @Override
     protected boolean discardCurrentContentAfterUnsupportedContentRequest(SeatPopinContent seatPopinContent) {
         return false;
     }
 
-    @Override
     public void updateAvailabilityModels() {
         this.getConfig().setAvailabilityModels(this.isLeft(), this.pneumatic);
     }
 
-    @Override
     public boolean isLeft() {
         return this.getConfig().isDriverSideLeft(this.pneumatic);
     }

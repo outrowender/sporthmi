@@ -120,17 +120,17 @@ implements IFunctionRegistrationASG {
     }
 
     private void initialize(AbstractBAPModuleASG abstractBAPModuleASG) {
-        this.logChannel.log(-2137614336, "[FunctionRegistrationENI#initialize] start initialization");
+        this.logChannel.log(10000000, "[FunctionRegistrationENI#initialize] start initialization");
         this.getAll = abstractBAPModuleASG.createBAPFunctionGetAll(1);
         this.initializeProperties(abstractBAPModuleASG);
         this.initializeMethods(abstractBAPModuleASG);
         this.initializeArrays(abstractBAPModuleASG);
         this.initialized = true;
-        this.logChannel.log(-2137614336, "[FunctionRegistrationENI#initialize] initialization completed");
+        this.logChannel.log(10000000, "[FunctionRegistrationENI#initialize] initialization completed");
     }
 
     private void initializeProperties(AbstractBAPModuleASG abstractBAPModuleASG) {
-        this.logChannel.log(-2137614336, "[FunctionRegistrationENI#initializeProperties] initialize properties");
+        this.logChannel.log(10000000, "[FunctionRegistrationENI#initializeProperties] initialize properties");
         this.bapConfig = abstractBAPModuleASG.createBAPFunctionPropertyASG(2);
         this.bapConfig.setResetSerializer(new BAP_Config_Reset());
         this.bapConfig.setStatusSerializer(new BAP_Config_Status());
@@ -191,14 +191,14 @@ implements IFunctionRegistrationASG {
     }
 
     private void initializeMethods(AbstractBAPModuleASG abstractBAPModuleASG) {
-        this.logChannel.log(-2137614336, "[FunctionRegistrationENI#initializeMethods] initialize methods");
+        this.logChannel.log(10000000, "[FunctionRegistrationENI#initializeMethods] initialize methods");
         this.triggerRemoteProcess = abstractBAPModuleASG.createBAPFunctionMethodASG(18);
         this.triggerRemoteProcess.setResultSerializer(new TriggerRemoteProcess_Result());
         this.allMethods.add(this.triggerRemoteProcess);
     }
 
     private void initializeArrays(AbstractBAPModuleASG abstractBAPModuleASG) {
-        this.logChannel.log(-2137614336, "[FunctionRegistrationENI#initializeArrays] initialize arrays");
+        this.logChannel.log(10000000, "[FunctionRegistrationENI#initializeArrays] initialize arrays");
         this.destinationsList = abstractBAPModuleASG.createBAPFunctionArrayASG(16, new RetryConfig(4, 1200));
         this.destinationsList.setChangedArraySerializer(new DestinationsList_ChangedArray());
         this.destinationsList.setStatusArraySerializer(new DestinationsList_StatusArray());
@@ -233,7 +233,6 @@ implements IFunctionRegistrationASG {
         this.allArrays.add(this.onlineUpdateList);
     }
 
-    @Override
     public BAPFunctionMethodASG getBAPFunctionMethodASG(int n) {
         try {
             return (BAPFunctionMethodASG)this.getBAPFunction(n);
@@ -244,7 +243,6 @@ implements IFunctionRegistrationASG {
         }
     }
 
-    @Override
     public BAPFunctionPropertyASG getBAPFunctionPropertyASG(int n) {
         try {
             return (BAPFunctionPropertyASG)this.getBAPFunction(n);
@@ -255,7 +253,6 @@ implements IFunctionRegistrationASG {
         }
     }
 
-    @Override
     public BAPFunctionArrayASG getBAPFunctionArrayASG(int n) {
         try {
             return (BAPFunctionArrayASG)this.getBAPFunction(n);
@@ -266,7 +263,6 @@ implements IFunctionRegistrationASG {
         }
     }
 
-    @Override
     public IBAPFunction getBAPFunction(int n) {
         if (!this.initialized) {
             this.logChannel.log(10000, "[FunctionRegistrationENI#getBAPFunction] function registration not initialized yet for lsgID=%1", (Object)LSGIDs.getDescription(55), (long)n);
@@ -361,24 +357,20 @@ implements IFunctionRegistrationASG {
         return null;
     }
 
-    @Override
     public List getAllProperties() {
         return this.allProperties;
     }
 
-    @Override
     public List getAllMethods() {
         return this.allMethods;
     }
 
-    @Override
     public List getAllArrays() {
         return this.allArrays;
     }
 
-    @Override
     public void resetBAPFunctions() {
-        this.logChannel.log(-2137614336, "[FunctionRegistrationENI#resetBAPFunctions]");
+        this.logChannel.log(10000000, "[FunctionRegistrationENI#resetBAPFunctions]");
         Iterator iterator = this.allArrays.iterator();
         while (iterator.hasNext()) {
             ((IBAPFunction)iterator.next()).reset();
@@ -393,7 +385,6 @@ implements IFunctionRegistrationASG {
         }
     }
 
-    @Override
     public StartResultMethod createStartResulForMethodASG(int n) {
         switch (n) {
             case 18: {
@@ -404,7 +395,6 @@ implements IFunctionRegistrationASG {
         return null;
     }
 
-    @Override
     public AbortResultMethod createAbortResulForMethodASG(int n) {
         switch (n) {
             default: 
@@ -413,7 +403,6 @@ implements IFunctionRegistrationASG {
         return null;
     }
 
-    @Override
     public SetGetProperty createSetGetForPropertyASG(int n) {
         switch (n) {
             case 13: {
@@ -436,7 +425,6 @@ implements IFunctionRegistrationASG {
         return null;
     }
 
-    @Override
     public AckProperty createAckForPropertyASG(int n) {
         switch (n) {
             default: 
@@ -445,7 +433,6 @@ implements IFunctionRegistrationASG {
         return null;
     }
 
-    @Override
     public GetArray createGetArrayForArrayASG(int n) {
         switch (n) {
             case 16: {
@@ -477,7 +464,6 @@ implements IFunctionRegistrationASG {
         return null;
     }
 
-    @Override
     public SetGetArray createSetGetArrayForArrayASG(int n) {
         switch (n) {
             case 16: {
@@ -497,7 +483,6 @@ implements IFunctionRegistrationASG {
         return null;
     }
 
-    @Override
     public SetGetArray createSetArrayForArrayASG(int n) {
         switch (n) {
             default: 

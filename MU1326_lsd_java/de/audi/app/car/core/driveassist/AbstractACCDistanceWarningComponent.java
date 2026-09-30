@@ -16,61 +16,53 @@ import org.dsi.ifc.cardriverassistance.ACCViewOptions;
 public abstract class AbstractACCDistanceWarningComponent
 extends AbstractDSICarDriverAssistanceAdapter
 implements RangeListener {
-    public static final short CODING_ID;
-    private static final String LOGCHANNEL_NAME;
+    public static final short CODING_ID = 0;
+    private static final String LOGCHANNEL_NAME = "App.Car.DistanceWarning";
     private volatile ACCViewOptions currentViewOptions;
-    public static final int STEP_TIME_GAP;
-    public static final int OFF_TIME_GAP;
-    public static final int MIN_TIME_GAP;
-    public static final int MAX_TIME_GAP;
-    private static final int SPEEDO_NONE;
-    private static final int SPEEDO_HALF;
-    private static final int SPEEDO_QUARTER;
-    private static final int TIMEGAP_SPEEDO_HALF;
-    private static final int TIMEGAP_SPEEDO_QUARTER;
+    public static final int STEP_TIME_GAP = 2;
+    public static final int OFF_TIME_GAP = 0;
+    public static final int MIN_TIME_GAP = 4;
+    public static final int MAX_TIME_GAP = 30;
+    private static final int SPEEDO_NONE = 0;
+    private static final int SPEEDO_HALF = 1;
+    private static final int SPEEDO_QUARTER = 2;
+    private static final int TIMEGAP_SPEEDO_HALF = 18;
+    private static final int TIMEGAP_SPEEDO_QUARTER = 10;
     private RangeModelWatcherTimer distanceModelTimer;
 
     public AbstractACCDistanceWarningComponent(ICarApplication iCarApplication) {
-        super(iCarApplication, "App.Car.DistanceWarning");
+        super(iCarApplication, LOGCHANNEL_NAME);
     }
 
-    @Override
     protected void initModels() {
-        this.distanceModelTimer = new RangeModelWatcherTimer("Car DistanceWarning", this.getRangeModel(-1221981952), 0, this.getLogChannel());
-        this.getRangeModel(-1221981952).setRangeListener(this);
-        this.getRangeModel(-1221981952).setLimits(4, 30, 2);
+        this.distanceModelTimer = new RangeModelWatcherTimer("Car DistanceWarning", this.getRangeModel(600759), 1000L, this.getLogChannel());
+        this.getRangeModel(600759).setRangeListener(this);
+        this.getRangeModel(600759).setLimits(4, 30, 2);
     }
 
-    @Override
     protected void deinitModels() {
-        this.getRangeModel(-1221981952).resetListener();
+        this.getRangeModel(600759).resetListener();
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
         this.logModelData("[AbstractACCDistanceWarningComponent#keyPressed]", n, n2, true);
         this.getRangeModel(n).fireEvent(n3);
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void decrement(int n, int n2, int n3) {
         this.logModelData("[AbstractACCDistanceWarningComponent#decrement]", n, n2, true);
         this.setDistanceWarning(-n2);
     }
 
-    @Override
     public void increment(int n, int n2, int n3) {
         this.logModelData("[AbstractACCDistanceWarningComponent#increment]", n, n2, true);
         this.setDistanceWarning(n2);
@@ -78,13 +70,13 @@ implements RangeListener {
 
     private void setDistanceWarning(int n) {
         ACCDistanceWarning aCCDistanceWarning = new ACCDistanceWarning();
-        int n2 = this.getRangeModel(-1221981952).getValue() + n;
+        int n2 = this.getRangeModel(600759).getValue() + n;
         aCCDistanceWarning.systemState = n2 > 4;
         n2 = aCCDistanceWarning.systemState ? AbstractACCDistanceWarningComponent.clip(n2, 6, 30) : 0;
         this.distanceModelTimer.setTempValue(n2);
         aCCDistanceWarning.timeGap = (short)n2;
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractACCDistanceWarningComponent#setDistanceWarning] dsi.setACCDistanceWarning : warning='%1'", (Object)aCCDistanceWarning);
+            this.getLogChannel().log(1000000, "[AbstractACCDistanceWarningComponent#setDistanceWarning] dsi.setACCDistanceWarning : warning='%1'", (Object)aCCDistanceWarning);
         }
         this.getDSI().setACCDistanceWarning(aCCDistanceWarning);
     }
@@ -96,15 +88,14 @@ implements RangeListener {
         } else if (n == 10) {
             n2 = 2;
         }
-        if (this.getChoiceModel(1898711296).getValue() != n2) {
-            this.getChoiceModel(1898711296).setValue(n2);
+        if (this.getChoiceModel(601201).getValue() != n2) {
+            this.getChoiceModel(601201).setValue(n2);
         }
     }
 
-    @Override
     public void updateACCViewOptions(ACCViewOptions aCCViewOptions, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractACCDistanceWarningComponent#updateACCViewOptions] viewOptions='%1', valid='%2'", (Object)(aCCViewOptions != null ? this.formatViewOptionsLog(aCCViewOptions.toString()) : "null"), (long)n);
+            this.getLogChannel().log(1000000, "[AbstractACCDistanceWarningComponent#updateACCViewOptions] viewOptions='%1', valid='%2'", (Object)(aCCViewOptions != null ? this.formatViewOptionsLog(aCCViewOptions.toString()) : "null"), (long)n);
         }
         if (n == 1 && aCCViewOptions != null) {
             this.currentViewOptions = aCCViewOptions;
@@ -113,10 +104,9 @@ implements RangeListener {
         }
     }
 
-    @Override
     public void updateACCDistanceWarning(ACCDistanceWarning aCCDistanceWarning, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractACCDistanceWarningComponent#updateACCDistanceWarning] warning='%1', valid='%2'", (Object)aCCDistanceWarning, (long)n);
+            this.getLogChannel().log(1000000, "[AbstractACCDistanceWarningComponent#updateACCDistanceWarning] warning='%1', valid='%2'", (Object)aCCDistanceWarning, (long)n);
         }
         if (n == 1) {
             int n2 = 4;
@@ -125,26 +115,23 @@ implements RangeListener {
             }
             this.distanceModelTimer.setValidValue(n2);
             if (n2 == 4) {
-                this.getMetricsModel(-1741944576).setStatus(2);
+                this.getMetricsModel(601240).setStatus(2);
             }
             this.updateSpeedoLabel(n2);
             DateMetric dateMetric = new DateMetric(new Date(n2 * 100), 10);
-            this.getMetricsModel(-1741944576).setMetric(dateMetric);
+            this.getMetricsModel(601240).setMetric(dateMetric);
             if (n2 != 4) {
-                this.getMetricsModel(-1741944576).setStatus(1);
+                this.getMetricsModel(601240).setStatus(1);
             }
         }
     }
 
-    @Override
     public CarDSIAttributesSet[] getDSIAttributesSets() {
         return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{24}, new int[]{51})};
     }
 
-    protected abstract void updateMenuEntryVisibility(ACCViewOptions aCCViewOptions) {
-    }
+    protected abstract void updateMenuEntryVisibility(ACCViewOptions var1);
 
-    @Override
     public String getCurrentViewOptions() {
         if (this.currentViewOptions == null) {
             return "no view options received yet";
@@ -152,7 +139,6 @@ implements RangeListener {
         return this.currentViewOptions.toString();
     }
 
-    @Override
     public String getName() {
         return "Car ACC Distance Warning";
     }

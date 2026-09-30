@@ -9,13 +9,12 @@ import de.audi.atip.log.LogChannel;
 
 public class JobResume
 extends AbstractOnlinePlayerJob {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "JobResume";
 
     public JobResume(LogChannel logChannel, IOnlinePlayer iOnlinePlayer) {
         super(logChannel, "RESUME", iOnlinePlayer);
     }
 
-    @Override
     public void start() {
         switch (this.getPlayer().getState().getPlaybackState()) {
             case 5: 
@@ -23,31 +22,28 @@ extends AbstractOnlinePlayerJob {
             case 7: 
             case 8: 
             case 9: {
-                this.logger.log(1078071040, "[%1.start] Player paused. Resume it.", (Object)"JobResume");
+                this.logger.log(1000000, "[%1.start] Player paused. Resume it.", (Object)LOGCLASS);
                 this.getPlayer().resume();
                 break;
             }
             default: {
-                this.logger.log(1078071040, "[%1.start] Wrong state. Ingore.", (Object)"JobResume");
+                this.logger.log(1000000, "[%1.start] Wrong state. Ingore.", (Object)LOGCLASS);
                 this.getExecutionContext().jobFinished();
             }
         }
     }
 
-    @Override
     public void onPlaybackStateChanged() {
-        this.logger.log(14808325, "[%1.onPlaybackStateChanged]", (Object)"JobResume");
+        this.logger.log(100000000, "[%1.onPlaybackStateChanged]", (Object)LOGCLASS);
         this.setSessionPlaybackState();
         this.getExecutionContext().jobFinished();
     }
 
-    @Override
     public void onPlayerError(int n) {
-        this.logger.log(14808325, "[%1.onPlayerError]", (Object)"JobResume");
+        this.logger.log(100000000, "[%1.onPlayerError]", (Object)LOGCLASS);
         this.getExecutionContext().jobFinished();
     }
 
-    @Override
     public void onAudioSettingsChanged() {
         this.getPlayer().notifyAudioSettings();
     }

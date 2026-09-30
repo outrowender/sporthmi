@@ -4,7 +4,6 @@
 package de.audi.atip.interapp.audio;
 
 public interface TIJPVolumeServiceListener {
-    default public void abortReadOut() {
-    }
+    public void abortReadOut();
 }
 

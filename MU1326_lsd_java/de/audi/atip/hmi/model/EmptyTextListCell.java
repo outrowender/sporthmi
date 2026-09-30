@@ -13,7 +13,6 @@ extends TextListCell {
         super("");
     }
 
-    @Override
     public void setText(String string) {
         throw new IllegalArgumentException("Changing text of EmptyTextListCell not allowed!");
     }

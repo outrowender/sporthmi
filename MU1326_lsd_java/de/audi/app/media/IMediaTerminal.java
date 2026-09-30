@@ -22,82 +22,56 @@ import de.audi.atip.base.IFrameworkAccess;
 import de.esolutions.fw.util.commons.job.DispatcherBase;
 
 public interface IMediaTerminal {
-    default public int getTerminalID() {
-    }
+    public int getTerminalID();
 
-    default public DispatcherBase getDispatcher() {
-    }
+    public DispatcherBase getDispatcher();
 
-    default public IDiagnosisManager getDiagnosisManager() {
-    }
+    public IDiagnosisManager getDiagnosisManager();
 
-    default public IServiceManager getServiceManager() {
-    }
+    public IServiceManager getServiceManager();
 
-    default public IFrameworkAccess getFramework() {
-    }
+    public IFrameworkAccess getFramework();
 
-    default public ITitlelineHMIHandler getTitlelineHMIHandler() {
-    }
+    public ITitlelineHMIHandler getTitlelineHMIHandler();
 
-    default public IAudioManager getAudioManager() {
-    }
+    public IAudioManager getAudioManager();
 
-    default public IContentManager getContentManager() {
-    }
+    public IContentManager getContentManager();
 
-    default public ISourceController getSourceController() {
-    }
+    public ISourceController getSourceController();
 
-    default public ISDSCommandDistpacher getSDSDispatcher() {
-    }
+    public ISDSCommandDistpacher getSDSDispatcher();
 
-    default public IMediaConfiguration getConfiguration() {
-    }
+    public IMediaConfiguration getConfiguration();
 
-    default public IMediaPersistence getMediaPersistence() {
-    }
+    public IMediaPersistence getMediaPersistence();
 
-    default public IMediaDSIBaseController getDSIBaseController() {
-    }
+    public IMediaDSIBaseController getDSIBaseController();
 
-    default public void addActionProxyListener(int n, IActionProxyListener iActionProxyListener) {
-    }
+    public void addActionProxyListener(int var1, IActionProxyListener var2);
 
-    default public void addActionProxyListener(int[] nArray, IActionProxyListener iActionProxyListener) {
-    }
+    public void addActionProxyListener(int[] var1, IActionProxyListener var2);
 
-    default public void removeActionProxyListener(IActionProxyListener iActionProxyListener) {
-    }
+    public void removeActionProxyListener(IActionProxyListener var1);
 
-    default public boolean isRearSeatTerminal() {
-    }
+    public boolean isRearSeatTerminal();
 
-    default public boolean isFrontTerminal() {
-    }
+    public boolean isFrontTerminal();
 
-    default public boolean supportsCombiDisplay() {
-    }
+    public boolean supportsCombiDisplay();
 
-    default public boolean isVisible() {
-    }
+    public boolean isVisible();
 
-    default public IMediaLogger getLogger() {
-    }
+    public IMediaLogger getLogger();
 
-    default public ISourceResolver getSourceResolver() {
-    }
+    public ISourceResolver getSourceResolver();
 
-    default public void resetSettings(int n) {
-    }
+    public void resetSettings(int var1);
 
-    default public void addResetSettingsListener(IResetSettingsListener iResetSettingsListener) {
-    }
+    public void addResetSettingsListener(IResetSettingsListener var1);
 
-    default public SelectionBrowser getSelectionBrowser() {
-    }
+    public SelectionBrowser getSelectionBrowser();
 
-    default public boolean isStartup() {
-    }
+    public boolean isStartup();
 }
 

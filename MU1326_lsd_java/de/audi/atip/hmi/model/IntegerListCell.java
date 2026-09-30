@@ -27,7 +27,7 @@ implements ListCell {
     }
 
     public IntegerListCell(int n) {
-        this(n, -129);
+        this(n, Integer.MAX_VALUE);
     }
 
     public int getMaxValue() {

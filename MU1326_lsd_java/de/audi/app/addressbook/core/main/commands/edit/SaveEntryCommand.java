@@ -15,13 +15,12 @@ extends AbstractSaveEntryCommand {
     static /* synthetic */ Class class$de$audi$app$addressbook$core$main$commands$edit$SaveEntryCommand;
 
     public SaveEntryCommand(AbstractAddressBookApplication abstractAddressBookApplication, AdbEntry adbEntry, int n) {
-        super(abstractAddressBookApplication, adbEntry, n, abstractAddressBookApplication.getHMIService().getModelApp(1370491392));
+        super(abstractAddressBookApplication, adbEntry, n, abstractAddressBookApplication.getHMIService().getModelApp(700497));
         this.appAdr = abstractAddressBookApplication;
     }
 
-    @Override
     public void handleInsertEntryResult(int n, AdbEntry adbEntry) {
-        this.logger.log(1078071040, "SaveEntryCommand#handleInsertEntryResult(): adbEntry: %1, success: %2", (Object)adbEntry, (Object)ADBDbgUtils.dbgSuccessFlag(n));
+        this.logger.log(1000000, "SaveEntryCommand#handleInsertEntryResult(): adbEntry: %1, success: %2", (Object)adbEntry, (Object)ADBDbgUtils.dbgSuccessFlag(n));
         if (n == 0) {
             this.appAdr.setFocusedEntryId(adbEntry.entryId);
             this.appAdr.setFocusedEntryType(adbEntry.entryType);
@@ -31,9 +30,8 @@ extends AbstractSaveEntryCommand {
         }
     }
 
-    @Override
     public void handleChangeEntryResult(int n, AdbEntry adbEntry) {
-        this.logger.log(1078071040, "SaveEntryCommand#handleChangeEntryResult(): adbEntry: %1, success: %2", (Object)adbEntry, (Object)ADBDbgUtils.dbgSuccessFlag(n));
+        this.logger.log(1000000, "SaveEntryCommand#handleChangeEntryResult(): adbEntry: %1, success: %2", (Object)adbEntry, (Object)ADBDbgUtils.dbgSuccessFlag(n));
         if (n == 0) {
             this.appAdr.setCurrentEntry(adbEntry);
             this.appAdr.getSelectedEntryDetails().updateEntryDetails(adbEntry);

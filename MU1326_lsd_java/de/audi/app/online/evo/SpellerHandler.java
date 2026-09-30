@@ -25,14 +25,13 @@ extends AbstractSpellerHandler {
     public SpellerHandler(LogChannel logChannel, OnlineModelBankAccess onlineModelBankAccess, RemoteHMIService remoteHMIService, HMIViewGridListener hMIViewGridListener, ModelGroup modelGroup) {
         super(logChannel, remoteHMIService);
         this.gridListener = hMIViewGridListener;
-        this.spellerModel = onlineModelBankAccess.getSpellerModel(1578836736);
+        this.spellerModel = onlineModelBankAccess.getSpellerModel(2300766);
         this.spellerModel.setSpellerListener(this);
         modelGroup.add(this.spellerModel);
-        this.spellerBarVisibilityChoice = onlineModelBankAccess.getChoiceModel(1595613952);
+        this.spellerBarVisibilityChoice = onlineModelBankAccess.getChoiceModel(2300767);
         modelGroup.add(this.spellerBarVisibilityChoice);
     }
 
-    @Override
     public void setTruffleComponent(ITruffleSearchHandler iTruffleSearchHandler) {
         this.truffleSearchHandler = iTruffleSearchHandler;
     }
@@ -54,7 +53,6 @@ extends AbstractSpellerHandler {
         }
     }
 
-    @Override
     protected void triggerSpellerAction(RemoteHMIAction remoteHMIAction, int n, String string) {
         String string2;
         int n2;
@@ -73,7 +71,6 @@ extends AbstractSpellerHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     protected void applySearchFilter(int n, Token[] tokenArray) {
         IGridList iGridList = this.gridListener.getCurrentGridList();
         ArrayList arrayList = this.createHighlightList(tokenArray);
@@ -85,7 +82,6 @@ extends AbstractSpellerHandler {
         this.gridListener.renderGridList(5, false, 3);
     }
 
-    @Override
     protected void processTextChanged(int n, String string, char c2, int n2) {
         this.spellerValues.put(new Integer(n), string);
         if (this.type == 0) {
@@ -94,14 +90,13 @@ extends AbstractSpellerHandler {
                 this.truffleSearchHandler.performQuery(string, this.gridListener.getCurrentGridList(), this);
                 this.gridListener.renderGridList(5, false, 3);
             } else {
-                this.logChannel.log(-1601830656, "AbstractSpellerHandler#textChanged: truffleSearchHandler is null, no search will be executed!");
+                this.logChannel.log(100000, "AbstractSpellerHandler#textChanged: truffleSearchHandler is null, no search will be executed!");
             }
         } else {
-            this.triggerSpellerAction(this.service.getAction(-985329920), n, string);
+            this.triggerSpellerAction(this.service.getAction(1000901), n, string);
         }
     }
 
-    @Override
     protected void spellerBandVisibilityCallback(boolean bl) {
         this.gridListener.spellerBandVisibilityCallback(bl);
     }

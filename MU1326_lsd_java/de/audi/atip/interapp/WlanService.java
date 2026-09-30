@@ -4,10 +4,8 @@
 package de.audi.atip.interapp;
 
 public interface WlanService {
-    default public void switchWlanState(boolean bl) {
-    }
+    public void switchWlanState(boolean var1);
 
-    default public void setRole(int n) {
-    }
+    public void setRole(int var1);
 }
 

@@ -6,8 +6,8 @@ package de.audi.app.phone.core.dsi.cmd;
 import de.audi.app.phone.core.dsi.ITelDSIMobileEquipmentRequestWrapper;
 import de.audi.app.phone.core.dsi.ITelDSIResponseListener;
 import de.audi.app.phone.core.dsi.cmd.AbstractTelDSIMECommand;
-import de.audi.app.phone.core.dsi.cmd.TelHangupCmd$1;
 import de.audi.atip.log.LogChannel;
+import de.audi.tghu.command.Command;
 import de.audi.tghu.command.CommandListManager;
 import de.audi.tghu.command.Monitor;
 
@@ -21,23 +21,30 @@ extends AbstractTelDSIMECommand {
     }
 
     public void schedule(CommandListManager commandListManager, Monitor monitor) {
-        TelHangupCmd.schedule(commandListManager, this, "TelHangupCmd", new TelHangupCmd$1(this, this.logger, "TelHangupCmdError"), monitor);
+        TelHangupCmd.schedule(commandListManager, this, "TelHangupCmd", new Command(this.logger, "TelHangupCmdError"){
+
+            public void execute() {
+                this.logger.log(100000, "[TelHangupCmd.schedule().new Command() {...}#execute] Error.");
+                if (TelHangupCmd.this.listener != null) {
+                    TelHangupCmd.this.listener.responseHangupCall(65537, TelHangupCmd.this.terminalID);
+                }
+                this.getCommandList().commandFinished();
+            }
+        }, monitor);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "[TelHangupCmd#execute] hanging up call with id %1", (long)this.callID);
+        this.logger.log(1000000, "[TelHangupCmd#execute] hanging up call with id %1", (long)this.callID);
         if (this.isDSIAvailable()) {
             this.dsi.hangupCall(this.callID);
         } else {
-            this.logger.log(-1601830656, "[TelHangupCmd#execute] dsi is null!");
+            this.logger.log(100000, "[TelHangupCmd#execute] dsi is null!");
             this.getCommandList().commandFinished();
         }
     }
 
-    @Override
     public void responseHangupCall(int n) {
-        this.logger.log(1078071040, "[TelHangupCmd#responseHangupCall] result=%1", (long)n);
+        this.logger.log(1000000, "[TelHangupCmd#responseHangupCall] result=%1", (long)n);
         if (this.listener != null) {
             this.listener.responseHangupCall(n, this.terminalID);
         }

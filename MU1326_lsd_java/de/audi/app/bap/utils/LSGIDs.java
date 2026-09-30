@@ -7,14 +7,14 @@ import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.fw.util.commons.SimpleIntObjectMap;
 
 public final class LSGIDs {
-    private static final String LSG_ID_UNKNOWN;
-    private static final SimpleIntObjectMap LSG_DESCRIPTIONS;
+    private static final String LSG_ID_UNKNOWN = " (UNKNOWN)";
+    private static final SimpleIntObjectMap LSG_DESCRIPTIONS = new SimpleIntObjectMap();
 
     public static String getDescription(int n) {
         String string = (String)LSG_DESCRIPTIONS.get(n);
         if (string == null) {
             Buffer buffer = new Buffer();
-            buffer.append(n).append(" (UNKNOWN)");
+            buffer.append(n).append(LSG_ID_UNKNOWN);
             return buffer.toString();
         }
         return string;
@@ -22,10 +22,6 @@ public final class LSGIDs {
 
     public static void registerLSGID(int n, String string) {
         LSG_DESCRIPTIONS.add(n, string);
-    }
-
-    static {
-        LSG_DESCRIPTIONS = new SimpleIntObjectMap();
     }
 }
 

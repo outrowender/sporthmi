@@ -14,10 +14,9 @@ extends AbstractSystemCallCommand {
         super(logChannel, string, sDSHandlerService);
     }
 
-    @Override
     public void execute() {
         int n = SDSModelAccess.getEnumerationNumberValue();
-        this.logger.log(-2137614336, "%1#execute: lineNumber=%2 (1-indexed)!", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "%1#execute: lineNumber=%2 (1-indexed)!", (Object)this.getName(), (long)n);
         SDSModelAccess.setSlotModel(1, Integer.toString(n));
         this.sendResult(3000);
     }

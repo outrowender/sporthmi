@@ -26,7 +26,7 @@ implements IPartialPopupListener {
     private volatile int etronContent = 5;
     private ButtonModelHandler buttonHandler;
     private int currentProfile = -1;
-    private static final int terminalID;
+    private static final int terminalID = 0;
     static /* synthetic */ Class class$de$audi$atip$hmi$view$IPartialPopupListener;
 
     public EtronPopupHandler(ICarApplication iCarApplication, EtronComponentEvo etronComponentEvo, LogChannel logChannel) {
@@ -38,9 +38,8 @@ implements IPartialPopupListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void partialPopupVisible(int n, int n2) {
-        this.logChannel.log(1078071040, "[EtronPopupHandler#partialPopupVisible] id='%1'", (long)n);
+        this.logChannel.log(1000000, "[EtronPopupHandler#partialPopupVisible] id='%1'", (long)n);
         Object object = this.mutex;
         synchronized (object) {
             if (!this.isVisible) {
@@ -59,14 +58,13 @@ implements IPartialPopupListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void partialPopupHidden(int n, int n2) {
-        this.logChannel.log(1078071040, "[EtronPopupHandler#partialPopupHidden] id='%1'", (long)n);
+        this.logChannel.log(1000000, "[EtronPopupHandler#partialPopupHidden] id='%1'", (long)n);
         Object object = this.mutex;
         synchronized (object) {
             if (this.isVisible && this.currentProfile == this.etronContent) {
                 if (this.logChannel.isInfo()) {
-                    this.logChannel.log(1078071040, "[EtronPopupHandler#partialPopupHidden]  NOT CALLING DSI.showCharismaPopup(%1, %2) called", 0L, 1L);
+                    this.logChannel.log(1000000, "[EtronPopupHandler#partialPopupHidden]  NOT CALLING DSI.showCharismaPopup(%1, %2) called", 0L, 1L);
                 }
                 this.removeEtronPopup();
                 this.setFsgActivation(false);
@@ -81,7 +79,6 @@ implements IPartialPopupListener {
         }
     }
 
-    @Override
     public int[] getPPIDsForCallbacks() {
         return new int[]{this.component.getPopUpID()};
     }
@@ -89,9 +86,8 @@ implements IPartialPopupListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void partialPopupRemoved(int n, int n2) {
-        this.logChannel.log(1078071040, "[EtronPopupHandler#partialPopupRemoved] id='%1'", (long)n);
+        this.logChannel.log(1000000, "[EtronPopupHandler#partialPopupRemoved] id='%1'", (long)n);
         Object object = this.mutex;
         synchronized (object) {
             if (this.isVisible && this.currentProfile == this.etronContent) {
@@ -109,7 +105,7 @@ implements IPartialPopupListener {
      */
     public void requestCharismaPopup(int n, boolean bl) {
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[EtronPopupHandler#requestCharismaPopup] called with content = %1, fsgActivation=%2", (Object)new Integer(n), (Object)bl);
+            this.logChannel.log(1000000, "[EtronPopupHandler#requestCharismaPopup] called with content = %1, fsgActivation=%2", (Object)new Integer(n), (Object)bl);
         }
         Object object = this.mutex;
         synchronized (object) {
@@ -117,16 +113,16 @@ implements IPartialPopupListener {
                 if (this.isVisible) {
                     this.setCurrentCancelReason(0);
                     if (this.logChannel.isInfo()) {
-                        this.logChannel.log(1078071040, "[EtronPopupHandler#requestCharismaPopup] removePopup(%1) called", (long)this.component.getPopUpID());
+                        this.logChannel.log(1000000, "[EtronPopupHandler#requestCharismaPopup] removePopup(%1) called", (long)this.component.getPopUpID());
                     }
-                    this.app.getFrameworkAccess().getHmiServiceApp().getChoiceModel(-1525932032).setValue(0);
+                    this.app.getFrameworkAccess().getHmiServiceApp().getChoiceModel(2100389).setValue(0);
                 }
             } else {
                 this.setFsgActivation(bl);
                 if (this.logChannel.isInfo()) {
-                    this.logChannel.log(1078071040, "[EtronPopupHandler#requestCharismaPopup] showPopup(%1)", (long)this.component.getPopUpID());
+                    this.logChannel.log(1000000, "[EtronPopupHandler#requestCharismaPopup] showPopup(%1)", (long)this.component.getPopUpID());
                 }
-                this.app.getFrameworkAccess().getHmiServiceApp().getChoiceModel(-1525932032).setValue(1);
+                this.app.getFrameworkAccess().getHmiServiceApp().getChoiceModel(2100389).setValue(1);
             }
             this.currentProfile = n;
         }
@@ -136,7 +132,7 @@ implements IPartialPopupListener {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void updateCharismaPopup(int n) {
-        this.logChannel.log(1078071040, "[EtronPopupHandler]#updateCharismaContent(%1)", (long)n);
+        this.logChannel.log(1000000, "[EtronPopupHandler]#updateCharismaContent(%1)", (long)n);
         if (5 == n) {
             this.requestCharismaPopup(n, true);
         } else {
@@ -153,7 +149,7 @@ implements IPartialPopupListener {
      */
     public void acknowledgePopup(int n) {
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[EtronPopupHandler#acknowledgePopup] called with content = %1", (long)n);
+            this.logChannel.log(1000000, "[EtronPopupHandler#acknowledgePopup] called with content = %1", (long)n);
         }
         Object object = this.mutex;
         synchronized (object) {
@@ -170,14 +166,14 @@ implements IPartialPopupListener {
         Object object = this.mutex;
         synchronized (object) {
             if (this.logChannel.isInfo()) {
-                this.logChannel.log(1078071040, "[EtronPopupHandler#removeEtronPopup] Popup is to be removed");
+                this.logChannel.log(1000000, "[EtronPopupHandler#removeEtronPopup] Popup is to be removed");
             }
             this.setCurrentCancelReason(1);
         }
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[EtronPopupHandler#removeEtronPopup] removeEtronPopup(%1)", (long)this.component.getPopUpID());
+            this.logChannel.log(1000000, "[EtronPopupHandler#removeEtronPopup] removeEtronPopup(%1)", (long)this.component.getPopUpID());
         }
-        this.app.getFrameworkAccess().getHmiServiceApp().getChoiceModel(-1525932032).setValue(0);
+        this.app.getFrameworkAccess().getHmiServiceApp().getChoiceModel(2100389).setValue(0);
     }
 
     public void replacePartialPopin(int n, int n2) {
@@ -194,7 +190,7 @@ implements IPartialPopupListener {
      */
     public void setTimer(EtronPopupHKTimerController etronPopupHKTimerController) {
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[EtronPopupHandler#setTimer] Timer Controller has been set");
+            this.logChannel.log(1000000, "[EtronPopupHandler#setTimer] Timer Controller has been set");
         }
         Object object = this.mutex;
         synchronized (object) {
@@ -236,17 +232,15 @@ implements IPartialPopupListener {
 
     public boolean buttonPopupRequest() {
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[EtronPopupHandler#buttonPopupRequest] Popup opened via DDS");
+            this.logChannel.log(1000000, "[EtronPopupHandler#buttonPopupRequest] Popup opened via DDS");
         }
         this.requestCharismaPopup(5, false);
         return true;
     }
 
-    @Override
     public void partialPopupListenerRegistered(int n, int n2, boolean bl) {
     }
 
-    @Override
     public void informAboutPPCoordinates(int n, int n2, int n3, int n4, int n5, int n6) {
     }
 

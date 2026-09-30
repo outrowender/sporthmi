@@ -15,41 +15,37 @@ import org.dsi.ifc.global.CarViewOption;
 public abstract class AbstractKeyDataComponent
 extends AbstractDSICarVehicleStatesAdapter
 implements MobileKeyStatusDisplayService {
-    public static final short CODING_ID;
-    private static final String LOGCHANNEL_NAME;
+    public static final short CODING_ID = 32;
+    private static final String LOGCHANNEL_NAME = "App.Car.KeyData";
     private volatile CarViewOption currentViewOptions;
-    private static final int KEYDATA_TRANSMITTED;
-    private static final int KEYDATA_NOT_TRANSMITTED;
-    private static final int MOBILE_KEY_STATUS_SERVICE_DEACTIVATED;
-    private static final int MOBILE_KEY_STATUS_NUMBER_AVAILABLE;
-    private static final int MOBILE_KEY_STATUS_INFORMATION_NOT_AVAILABLE;
-    private static final int MOBILE_KEY_STATUS_DELETION_IN_PROGRESS;
+    private static final int KEYDATA_TRANSMITTED = 1;
+    private static final int KEYDATA_NOT_TRANSMITTED = 0;
+    private static final int MOBILE_KEY_STATUS_SERVICE_DEACTIVATED = 0;
+    private static final int MOBILE_KEY_STATUS_NUMBER_AVAILABLE = 1;
+    private static final int MOBILE_KEY_STATUS_INFORMATION_NOT_AVAILABLE = 2;
+    private static final int MOBILE_KEY_STATUS_DELETION_IN_PROGRESS = 3;
     private CarServiceProvider mobileKeyStatusDisplayServiceProvider;
     static /* synthetic */ Class class$de$audi$atip$interapp$online$MobileKeyStatusDisplayService;
 
     public AbstractKeyDataComponent(ICarApplication iCarApplication) {
-        super(iCarApplication, "App.Car.KeyData");
+        super(iCarApplication, LOGCHANNEL_NAME);
     }
 
-    @Override
     public void init() {
         super.init();
         this.mobileKeyStatusDisplayServiceProvider = new CarServiceProvider((class$de$audi$atip$interapp$online$MobileKeyStatusDisplayService == null ? (class$de$audi$atip$interapp$online$MobileKeyStatusDisplayService = AbstractKeyDataComponent.class$("de.audi.atip.interapp.online.MobileKeyStatusDisplayService")) : class$de$audi$atip$interapp$online$MobileKeyStatusDisplayService).getName(), this, new Hashtable(0), this.getApplication().getBundleContext(), this.getLogChannel());
         this.mobileKeyStatusDisplayServiceProvider.startService();
     }
 
-    @Override
     protected void initModels() {
-        this.getChoiceModel(1865550080).setValue(0);
+        this.getChoiceModel(602735).setValue(0);
     }
 
-    @Override
     protected void deinitModels() {
     }
 
-    @Override
     public void updateKeyViewOption(CarViewOption carViewOption, int n) {
-        this.getLogChannel().log(1078071040, "updateKeyViewOption(%1), valid:%2", (Object)carViewOption, (long)n);
+        this.getLogChannel().log(1000000, "updateKeyViewOption(%1), valid:%2", (Object)carViewOption, (long)n);
         if (n == 1) {
             this.currentViewOptions = carViewOption;
             this.updateMenuEntryVisibility(carViewOption);
@@ -58,26 +54,23 @@ implements MobileKeyStatusDisplayService {
         }
     }
 
-    @Override
     public void updateKeyData(KeyData keyData, int n) {
-        this.getLogChannel().log(-2137614336, "updateKeyData(%1), valid:%2", (Object)keyData, (long)n);
+        this.getLogChannel().log(10000000, "updateKeyData(%1), valid:%2", (Object)keyData, (long)n);
         if (n == 1) {
             if (keyData.getTargetValue() == 0 && keyData.getActualValue() == 0 && keyData.getActiveKey() == 0) {
-                this.getChoiceModel(-1574237952).setValue(0);
+                this.getChoiceModel(600994).setValue(0);
             } else {
-                this.getChoiceModel(-1574237952).setValue(1);
-                this.getLabelModel(-1591015168).setText(Integer.toString(keyData.getActualValue()));
+                this.getChoiceModel(600994).setValue(1);
+                this.getLabelModel(600993).setText(Integer.toString(keyData.getActualValue()));
                 this.sendContentToSDIS(4004, keyData);
             }
         }
     }
 
-    @Override
     public CarDSIAttributesSet[] getDSIAttributesSets() {
         return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{5}, new int[]{6})};
     }
 
-    @Override
     public String getCurrentViewOptions() {
         if (this.currentViewOptions == null) {
             return "no view options received yet";
@@ -85,15 +78,12 @@ implements MobileKeyStatusDisplayService {
         return this.currentViewOptions.toString();
     }
 
-    protected abstract void updateMenuEntryVisibility(CarViewOption carViewOption) {
-    }
+    protected abstract void updateMenuEntryVisibility(CarViewOption var1);
 
-    @Override
     public String getName() {
         return "KeyData";
     }
 
-    @Override
     public void updateBackendState(int n) {
         int n2 = 0;
         switch (n) {
@@ -113,14 +103,13 @@ implements MobileKeyStatusDisplayService {
                 n2 = 0;
             }
         }
-        this.getLogChannel().log(1078071040, "AbstractKeyDataComponent#updateBackendState(%1): hmi value: %2", (long)n, (long)n2);
-        this.getChoiceModel(1865550080).setValue(n2);
+        this.getLogChannel().log(1000000, "AbstractKeyDataComponent#updateBackendState(%1): hmi value: %2", (long)n, (long)n2);
+        this.getChoiceModel(602735).setValue(n2);
     }
 
-    @Override
     public void updateKeyCount(int n) {
-        this.getLogChannel().log(1078071040, "AbstractKeyDataComponent#updateKeyCount(%1)", (long)n);
-        this.getLabelModel(1899104512).setText(String.valueOf(n));
+        this.getLogChannel().log(1000000, "AbstractKeyDataComponent#updateKeyCount(%1)", (long)n);
+        this.getLabelModel(602737).setText(String.valueOf(n));
     }
 
     static /* synthetic */ Class class$(String string) {

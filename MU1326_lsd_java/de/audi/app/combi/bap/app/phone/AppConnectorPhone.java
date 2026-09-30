@@ -3,14 +3,13 @@
  */
 package de.audi.app.combi.bap.app.phone;
 
-import de.audi.app.bap.fw.AbstractBAPModuleFSG;
 import de.audi.app.bap.fw.AbstractFunctionList;
 import de.audi.app.bap.fw.arrays.ArrayHandler;
 import de.audi.app.bap.fw.functiontypes.BAPFunctionMethodFSG;
 import de.audi.app.bap.fw.functiontypes.BAPFunctionPropertyFSG;
 import de.audi.app.bap.utils.ArrayPrinter;
+import de.audi.app.combi.bap.app.kombipictures.IPictureProvider;
 import de.audi.app.combi.bap.app.phone.AbstractAppConnectorPhone;
-import de.audi.app.combi.bap.app.phone.AppConnectorPhone$CallPictureProvider;
 import de.audi.app.combi.bap.app.phone.CombiModulePhone;
 import de.audi.app.combi.bap.app.phone.list.CombinedNumbersListHandler;
 import de.audi.app.combi.bap.app.phone.list.FavoriteNumbersListHandler;
@@ -23,9 +22,7 @@ import de.audi.atip.interapp.combi.bap.phone.data.CombiBAPCallStackEntry;
 import de.audi.atip.interapp.combi.bap.phone.data.CombiBAPCallState;
 import de.audi.atip.interapp.combi.bap.phone.data.CombiBAPFavoriteNumberEntry;
 import de.audi.atip.interapp.combi.bap.phone.data.CombiBAPhoneMobileBatteryLevel;
-import de.audi.atip.interapp.combi.bap.phone.data.CombiBAPhoneMobileBatteryLevel$ChargeLevel;
 import de.audi.atip.interapp.combi.bap.phone.data.FsgSetup;
-import de.audi.atip.log.LogChannel;
 import de.vw.mib.bap.generated.telephone.serializer.AcceptCall_Result;
 import de.vw.mib.bap.generated.telephone.serializer.AutomaticRedialExtendedInfo_Status;
 import de.vw.mib.bap.generated.telephone.serializer.AutomaticRedial_Status;
@@ -63,8 +60,8 @@ import org.dsi.ifc.global.ResourceLocator;
 public class AppConnectorPhone
 extends AbstractAppConnectorPhone
 implements CombiBAPServicePhone {
-    private static final int NO_OF_CALL_SLOTS;
-    private static final String EMPTY_STRING;
+    private static final int NO_OF_CALL_SLOTS = 7;
+    private static final String EMPTY_STRING = "";
     private static final CombiBAPCallState[] EMPTY_CALL_STATES;
     private static final CombiBAPCallInfo[] EMPTY_CALL_INFOS;
     private volatile CombiBAPCallState[] combiCallStates;
@@ -72,20 +69,18 @@ implements CombiBAPServicePhone {
 
     protected AppConnectorPhone(CombiModulePhone combiModulePhone) {
         super(combiModulePhone);
-        combiModulePhone.getPictureManager().registerPictureProvider(2, new AppConnectorPhone$CallPictureProvider(this, null));
+        combiModulePhone.getPictureManager().registerPictureProvider(2, new CallPictureProvider());
         this.combiCallStates = EMPTY_CALL_STATES;
         this.combiCallInfos = EMPTY_CALL_INFOS;
     }
 
-    @Override
     public void setAppServiceListener(BAPServiceListener bAPServiceListener) {
         super.setAppServiceListener(bAPServiceListener);
         this.moduleFsg.getInitializationManager().notifyAppServiceChanged(bAPServiceListener != null);
     }
 
-    @Override
     public void updateFsgSetup(FsgSetup fsgSetup) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone#updateFsgSetup] called (fsgSetup=%1)", (Object)fsgSetup);
+        this.logChannel.log(1000000, "[AppConnectorPhone#updateFsgSetup] called (fsgSetup=%1)", (Object)fsgSetup);
         FSG_Setup_Status fSG_Setup_Status = new FSG_Setup_Status();
         fSG_Setup_Status.phoneCharacteristics.internalSimcardReader = fsgSetup.isInternalSimCardReaderPresent();
         fSG_Setup_Status.phoneCharacteristics.cableConnectionToMobilePossible = fsgSetup.isCableConnectionPossible();
@@ -97,9 +92,8 @@ implements CombiBAPServicePhone {
         this.sendPropertyStatus(14, fSG_Setup_Status);
     }
 
-    @Override
     public void updateFSGOperationState(int n, boolean bl, boolean bl2) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone#updateFSGOperationState] called (telState=%1)", (long)n);
+        this.logChannel.log(1000000, "[AppConnectorPhone#updateFSGOperationState] called (telState=%1)", (long)n);
         BAPFunctionPropertyFSG bAPFunctionPropertyFSG = this.moduleFsg.getBAPFunctionPropertyFSG(15);
         FSG_OperationState_Status fSG_OperationState_Status = (FSG_OperationState_Status)bAPFunctionPropertyFSG.getLastStatus();
         if (fSG_OperationState_Status.tel_State != n || fSG_OperationState_Status.privacyMode.privacyModeActive != bl || fSG_OperationState_Status.privacyMode.enhancedPrivacyModeActive != bl2) {
@@ -112,9 +106,8 @@ implements CombiBAPServicePhone {
         }
     }
 
-    @Override
     public void updateMobileServiceSupport(boolean[] blArray) {
-        this.logChannel.log(-2137614336, "[AppConnectorPhone#updateMobileServiceSupport] called");
+        this.logChannel.log(10000000, "[AppConnectorPhone#updateMobileServiceSupport] called");
         MobileServiceSupport_Status mobileServiceSupport_Status = this.getMobileServiceSupportStatusCopy();
         if (blArray.length < 44) {
             this.logChannel.log(10000, "[AppConnectorPhone#updateMobileServiceSupport] fctList array too short (length=%1)", (long)blArray.length);
@@ -160,13 +153,12 @@ implements CombiBAPServicePhone {
         mobileServiceSupport_Status.fctList.fctAutomaticRedialExtendedInfoSupported = blArray[41] && abstractFunctionList.isFunctionSupported(58);
         mobileServiceSupport_Status.fctList.fctSupportedServiceNumbersSupported = blArray[42] && abstractFunctionList.isFunctionSupported(59);
         mobileServiceSupport_Status.fctList.fctFavoriteListSupported = blArray[43] && abstractFunctionList.isFunctionSupported(60);
-        this.logChannel.log(1078071040, "[AppConnectorPhone#updateMobileServiceSupport] %1", (Object)mobileServiceSupport_Status);
+        this.logChannel.log(1000000, "[AppConnectorPhone#updateMobileServiceSupport] %1", (Object)mobileServiceSupport_Status);
         this.sendPropertyStatus(16, mobileServiceSupport_Status);
     }
 
-    @Override
     public void updateRegisterState(int n, int n2, int n3) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone#updateRegisterState] called (registerState=%1, networkType=%2, packetDataNetworkType=%3", (long)n, (long)n2, (long)n3);
+        this.logChannel.log(1000000, "[AppConnectorPhone#updateRegisterState] called (registerState=%1, networkType=%2, packetDataNetworkType=%3", (long)n, (long)n2, (long)n3);
         RegisterState_Status registerState_Status = new RegisterState_Status();
         registerState_Status.registerState = n;
         registerState_Status.networkType = n2;
@@ -174,18 +166,16 @@ implements CombiBAPServicePhone {
         this.sendPropertyStatus(18, registerState_Status);
     }
 
-    @Override
     public void updateLockState(int n) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone#updateLockState] called (lockState=%1)", (long)n);
+        this.logChannel.log(1000000, "[AppConnectorPhone#updateLockState] called (lockState=%1)", (long)n);
         LockState_Status lockState_Status = new LockState_Status();
         lockState_Status.lockState = n;
         this.sendPropertyStatus(19, lockState_Status);
     }
 
-    @Override
     public void updateNetworkProvider(int n, String string, int n2, String string2) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone#updateNetworkProvider] called (networkProviderState=%2, networkProviderName=%1 ...", (Object)string, (long)n);
-        this.logChannel.log(1078071040, "[AppConnectorPhone#updateNetworkProvider] ... serviceProviderState=%2, serviceProviderName=%1", (Object)string2, (long)n2);
+        this.logChannel.log(1000000, "[AppConnectorPhone#updateNetworkProvider] called (networkProviderState=%2, networkProviderName=%1 ...", (Object)string, (long)n);
+        this.logChannel.log(1000000, "[AppConnectorPhone#updateNetworkProvider] ... serviceProviderState=%2, serviceProviderName=%1", (Object)string2, (long)n2);
         NetworkProvider_Status networkProvider_Status = new NetworkProvider_Status();
         networkProvider_Status.networkProviderState = n;
         networkProvider_Status.networkProviderName.setContent(string);
@@ -194,21 +184,19 @@ implements CombiBAPServicePhone {
         this.sendPropertyStatus(20, networkProvider_Status);
     }
 
-    @Override
     public void updateSignalQuality(int n) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone#updateSignalQuality] called (signalQuality=%1)", (long)n);
+        this.logChannel.log(1000000, "[AppConnectorPhone#updateSignalQuality] called (signalQuality=%1)", (long)n);
         SignalQuality_Status signalQuality_Status = new SignalQuality_Status();
         signalQuality_Status.quality = n;
         this.sendPropertyStatus(21, signalQuality_Status);
     }
 
-    @Override
     public void updateCallStates(CombiBAPCallState[] combiBAPCallStateArray, boolean bl) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone#updateCallStates] called");
+        this.logChannel.log(1000000, "[AppConnectorPhone#updateCallStates] called");
         CallState_Status callState_Status = new CallState_Status();
         callState_Status.callOutgoingDiverted_eCallConfirmationPending.eCallConfirmationPending = bl;
         if (combiBAPCallStateArray == null) {
-            this.logChannel.log(-1601830656, "[AppConnectorPhone#updateCallStates] callStates==null, use EMPTY_CALL_STATES");
+            this.logChannel.log(100000, "[AppConnectorPhone#updateCallStates] callStates==null, use EMPTY_CALL_STATES");
             combiBAPCallStateArray = EMPTY_CALL_STATES;
         }
         this.fillCallStateStatus(combiBAPCallStateArray, callState_Status);
@@ -219,7 +207,7 @@ implements CombiBAPServicePhone {
     private void fillCallStateStatus(CombiBAPCallState[] combiBAPCallStateArray, CallState_Status callState_Status) {
         int n = combiBAPCallStateArray.length;
         if (n != 7) {
-            this.logChannel.log(-1601830656, "[AppConnectorPhone#fillCallStateStatus] callStates array has wrong size: %1 (expected %2)", (long)n, (long)0);
+            this.logChannel.log(100000, "[AppConnectorPhone#fillCallStateStatus] callStates array has wrong size: %1 (expected %2)", (long)n, 7L);
         }
         block9: for (int i2 = 0; i2 < n; ++i2) {
             if (combiBAPCallStateArray[i2] == null) {
@@ -396,12 +384,11 @@ implements CombiBAPServicePhone {
         }
     }
 
-    @Override
     public void updateCallInfo(CombiBAPCallInfo[] combiBAPCallInfoArray) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone#updateCallInfo] called");
+        this.logChannel.log(1000000, "[AppConnectorPhone#updateCallInfo] called");
         CallInfo_Status callInfo_Status = new CallInfo_Status();
         if (combiBAPCallInfoArray == null) {
-            this.logChannel.log(-1601830656, "[AppConnectorPhone#updateCallInfo] callInfo==null, use EMPTY_CALL_INFOS");
+            this.logChannel.log(100000, "[AppConnectorPhone#updateCallInfo] callInfo==null, use EMPTY_CALL_INFOS");
             combiBAPCallInfoArray = EMPTY_CALL_INFOS;
         }
         this.fillCallInfoStatus(combiBAPCallInfoArray, callInfo_Status);
@@ -410,9 +397,8 @@ implements CombiBAPServicePhone {
         this.sendPropertyStatus(23, callInfo_Status);
     }
 
-    @Override
     public void updateCallDurations(CallStartTime[] callStartTimeArray) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone#updateCallDurations] callStartTimes: %1", (Object)ArrayPrinter.forArray(callStartTimeArray));
+        this.logChannel.log(1000000, "[AppConnectorPhone#updateCallDurations] callStartTimes: %1", (Object)ArrayPrinter.forArray(callStartTimeArray));
         CallDurationSync_Status callDurationSync_Status = new CallDurationSync_Status();
         callDurationSync_Status.timeStampCall0 = callStartTimeArray[0].getTimeStamp();
         callDurationSync_Status.timeStampCall1 = callStartTimeArray[1].getTimeStamp();
@@ -428,7 +414,7 @@ implements CombiBAPServicePhone {
         StringBuffer stringBuffer = new StringBuffer();
         int n = combiBAPCallInfoArray.length;
         if (n != 7) {
-            this.logChannel.log(-1601830656, "[AppConnectorPhone#fillCallInfoStatus] callInfo array has wrong size: %1 (expected %2)", (long)n, (long)0);
+            this.logChannel.log(100000, "[AppConnectorPhone#fillCallInfoStatus] callInfo array has wrong size: %1 (expected %2)", (long)n, 7L);
         }
         block9: for (int i2 = 0; i2 < n; ++i2) {
             if (this.logChannel.isDebug()) {
@@ -493,50 +479,50 @@ implements CombiBAPServicePhone {
                 }
             }
         }
-        this.logChannel.log(-2137614336, "[AppConnectorPhone#fillCallInfoStatus] callInfo:\n%1", (Object)stringBuffer);
+        this.logChannel.log(10000000, "[AppConnectorPhone#fillCallInfoStatus] callInfo:\n%1", (Object)stringBuffer);
     }
 
     private void setCallInfoNotUsed(CallInfo_Status callInfo_Status, int n) {
         switch (n) {
             case 0: {
-                callInfo_Status.pbName0.setContent("");
-                callInfo_Status.telNumber0.setContent("");
+                callInfo_Status.pbName0.setContent(EMPTY_STRING);
+                callInfo_Status.telNumber0.setContent(EMPTY_STRING);
                 callInfo_Status.category0 = 0;
                 break;
             }
             case 1: {
-                callInfo_Status.pbName1.setContent("");
-                callInfo_Status.telNumber1.setContent("");
+                callInfo_Status.pbName1.setContent(EMPTY_STRING);
+                callInfo_Status.telNumber1.setContent(EMPTY_STRING);
                 callInfo_Status.category1 = 0;
                 break;
             }
             case 2: {
-                callInfo_Status.pbName2.setContent("");
-                callInfo_Status.telNumber2.setContent("");
+                callInfo_Status.pbName2.setContent(EMPTY_STRING);
+                callInfo_Status.telNumber2.setContent(EMPTY_STRING);
                 callInfo_Status.category2 = 0;
                 break;
             }
             case 3: {
-                callInfo_Status.pbName3.setContent("");
-                callInfo_Status.telNumber3.setContent("");
+                callInfo_Status.pbName3.setContent(EMPTY_STRING);
+                callInfo_Status.telNumber3.setContent(EMPTY_STRING);
                 callInfo_Status.category3 = 0;
                 break;
             }
             case 4: {
-                callInfo_Status.pbName4.setContent("");
-                callInfo_Status.telNumber4.setContent("");
+                callInfo_Status.pbName4.setContent(EMPTY_STRING);
+                callInfo_Status.telNumber4.setContent(EMPTY_STRING);
                 callInfo_Status.category4 = 0;
                 break;
             }
             case 5: {
-                callInfo_Status.pbName5.setContent("");
-                callInfo_Status.telNumber5.setContent("");
+                callInfo_Status.pbName5.setContent(EMPTY_STRING);
+                callInfo_Status.telNumber5.setContent(EMPTY_STRING);
                 callInfo_Status.category5 = 0;
                 break;
             }
             case 6: {
-                callInfo_Status.pbName6.setContent("");
-                callInfo_Status.telNumber6.setContent("");
+                callInfo_Status.pbName6.setContent(EMPTY_STRING);
+                callInfo_Status.telNumber6.setContent(EMPTY_STRING);
                 callInfo_Status.category6 = 0;
                 break;
             }
@@ -555,31 +541,29 @@ implements CombiBAPServicePhone {
                     return;
                 }
                 resourceLocator = new ResourceLocator();
-                this.logChannel.log(-2137614336, "[AppConnectorPhone#updateCallPictures] callInfo at index=%1 is null", (long)i2);
+                this.logChannel.log(10000000, "[AppConnectorPhone#updateCallPictures] callInfo at index=%1 is null", (long)i2);
                 n = 0;
             } else {
                 resourceLocator = new ResourceLocator(combiBAPCallInfoArray[i2].getPictureID(), combiBAPCallInfoArray[i2].getPictureURL());
                 n = combiBAPCallInfoArray[i2].getTelCallType();
             }
             if (this.combiCallInfos[i2] != null && this.combiCallInfos[i2].getPictureID() == resourceLocator.getId() && this.combiCallInfos[i2].getPictureURL().equals(resourceLocator.getUrl()) && this.combiCallInfos[i2].getTelCallType() == n) {
-                this.logChannel.log(-2137614336, "[AppConnectorPhone#updateCallPictures] call picture for index=%1 didn't change", (long)i2);
+                this.logChannel.log(10000000, "[AppConnectorPhone#updateCallPictures] call picture for index=%1 didn't change", (long)i2);
                 continue;
             }
             ((AbstractCombiModule)this.moduleFsg).getPictureManager().responseActiveCallPicture(i2, n, resourceLocator, true);
         }
     }
 
-    @Override
     public void updateDisconnectReason(int n) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone#updateDisconnectReason] called (disconnectReason=%1)", (long)n);
+        this.logChannel.log(1000000, "[AppConnectorPhone#updateDisconnectReason] called (disconnectReason=%1)", (long)n);
         DisconnectReason_Status disconnectReason_Status = new DisconnectReason_Status();
         disconnectReason_Status.disconnectReason = n;
         this.sendPropertyStatus(25, disconnectReason_Status);
     }
 
-    @Override
     public void dialNumberResult(int n) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone#dialNumberResult] called (result=%1)", (long)n);
+        this.logChannel.log(1000000, "[AppConnectorPhone#dialNumberResult] called (result=%1)", (long)n);
         BAPFunctionMethodFSG bAPFunctionMethodFSG = this.moduleFsg.getBAPFunctionMethodFSG(26);
         if (n == 144) {
             this.moduleFsg.getRequestHandler().requestErrorCode(this.moduleFsg.getLSGID(), 26, n);
@@ -591,9 +575,8 @@ implements CombiBAPServicePhone {
         }
     }
 
-    @Override
     public void dialNumberFromAdbEntryResult(int n) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone#dialNumbeFromAdbEntry] called (result=%1)", (long)n);
+        this.logChannel.log(1000000, "[AppConnectorPhone#dialNumbeFromAdbEntry] called (result=%1)", (long)n);
         BAPFunctionMethodFSG bAPFunctionMethodFSG = this.moduleFsg.getBAPFunctionMethodFSG(26);
         if (n == 144) {
             this.moduleFsg.getRequestHandler().requestErrorCode(this.moduleFsg.getLSGID(), 26, n);
@@ -605,125 +588,111 @@ implements CombiBAPServicePhone {
         }
     }
 
-    @Override
     public void dialServiceResult(int n) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone#dialServiceResult] called (result=%1)", (long)n);
+        this.logChannel.log(1000000, "[AppConnectorPhone#dialServiceResult] called (result=%1)", (long)n);
         BAPFunctionMethodFSG bAPFunctionMethodFSG = this.moduleFsg.getBAPFunctionMethodFSG(27);
         DialService_Result dialService_Result = (DialService_Result)this.moduleFsg.createResultSerializer(27);
         dialService_Result.dialService_Result = n;
         bAPFunctionMethodFSG.resultREQ(dialService_Result);
     }
 
-    @Override
     public void confirmEmergencyCallResult(int n) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone#confirmEmergencyCallResult] called (confirmEmergencyCallResult=%1)", (long)n);
+        this.logChannel.log(1000000, "[AppConnectorPhone#confirmEmergencyCallResult] called (confirmEmergencyCallResult=%1)", (long)n);
         BAPFunctionMethodFSG bAPFunctionMethodFSG = this.moduleFsg.getBAPFunctionMethodFSG(28);
         ConfirmEmergencyCall_Result confirmEmergencyCall_Result = (ConfirmEmergencyCall_Result)this.moduleFsg.createResultSerializer(28);
         confirmEmergencyCall_Result.confirmErmergencyCall_Result = n;
         bAPFunctionMethodFSG.resultREQ(confirmEmergencyCall_Result);
     }
 
-    @Override
     public void hangupCallResult(int n) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone#hangupCallResult] called (hangupCallResult=%1)", (long)n);
+        this.logChannel.log(1000000, "[AppConnectorPhone#hangupCallResult] called (hangupCallResult=%1)", (long)n);
         BAPFunctionMethodFSG bAPFunctionMethodFSG = this.moduleFsg.getBAPFunctionMethodFSG(29);
         HangupCall_Result hangupCall_Result = (HangupCall_Result)this.moduleFsg.createResultSerializer(29);
         hangupCall_Result.hangupCall_Result = n;
         bAPFunctionMethodFSG.resultREQ(hangupCall_Result);
     }
 
-    @Override
     public void acceptCallResult(int n) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone#acceptCallResult] called (acceptCallResult=%1)", (long)n);
+        this.logChannel.log(1000000, "[AppConnectorPhone#acceptCallResult] called (acceptCallResult=%1)", (long)n);
         BAPFunctionMethodFSG bAPFunctionMethodFSG = this.moduleFsg.getBAPFunctionMethodFSG(30);
         AcceptCall_Result acceptCall_Result = (AcceptCall_Result)this.moduleFsg.createResultSerializer(30);
         acceptCall_Result.acceptCall_Result = n;
         bAPFunctionMethodFSG.resultREQ(acceptCall_Result);
     }
 
-    @Override
     public void callHoldResult(int n) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone#callHoldResult] called (callHoldResult=%1)", (long)n);
+        this.logChannel.log(1000000, "[AppConnectorPhone#callHoldResult] called (callHoldResult=%1)", (long)n);
         BAPFunctionMethodFSG bAPFunctionMethodFSG = this.moduleFsg.getBAPFunctionMethodFSG(31);
         CallHold_Result callHold_Result = (CallHold_Result)this.moduleFsg.createResultSerializer(31);
         callHold_Result.callHold_Result = n;
         bAPFunctionMethodFSG.resultREQ(callHold_Result);
     }
 
-    @Override
     public void resumeCallResult(int n) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone#resumeCallResult] called (resumeCallResult=%1)", (long)n);
+        this.logChannel.log(1000000, "[AppConnectorPhone#resumeCallResult] called (resumeCallResult=%1)", (long)n);
         BAPFunctionMethodFSG bAPFunctionMethodFSG = this.moduleFsg.getBAPFunctionMethodFSG(32);
         ResumeCall_Result resumeCall_Result = (ResumeCall_Result)this.moduleFsg.createResultSerializer(32);
         resumeCall_Result.resumeCall_Result = n;
         bAPFunctionMethodFSG.resultREQ(resumeCall_Result);
     }
 
-    @Override
     public void updateMicMuteState(boolean bl) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone#updateMicMuteState] called (micMuteState=%1)", bl);
+        this.logChannel.log(1000000, "[AppConnectorPhone#updateMicMuteState] called (micMuteState=%1)", bl);
         MicroMuteOnOff_Status microMuteOnOff_Status = new MicroMuteOnOff_Status();
         microMuteOnOff_Status.microMuteOnOff.on = bl;
         this.sendPropertyStatus(34, microMuteOnOff_Status);
     }
 
-    @Override
     public void releaseActiveCallAcceptWaitingCallResult(int n) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone#releaseActiveCallAcceptWaitingCallResult] called (result=%1)", (long)n);
+        this.logChannel.log(1000000, "[AppConnectorPhone#releaseActiveCallAcceptWaitingCallResult] called (result=%1)", (long)n);
         BAPFunctionMethodFSG bAPFunctionMethodFSG = this.moduleFsg.getBAPFunctionMethodFSG(35);
         MPRelActiveCallAcceptWC_Result mPRelActiveCallAcceptWC_Result = (MPRelActiveCallAcceptWC_Result)this.moduleFsg.createResultSerializer(35);
         mPRelActiveCallAcceptWC_Result.mpracawc_Result = n;
         bAPFunctionMethodFSG.resultREQ(mPRelActiveCallAcceptWC_Result);
     }
 
-    @Override
     public void swapCallsResult(int n) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone#swapCallsResult] called (swapCallsResult=%1)", (long)n);
+        this.logChannel.log(1000000, "[AppConnectorPhone#swapCallsResult] called (swapCallsResult=%1)", (long)n);
         BAPFunctionMethodFSG bAPFunctionMethodFSG = this.moduleFsg.getBAPFunctionMethodFSG(36);
         MPSwap_Result mPSwap_Result = (MPSwap_Result)this.moduleFsg.createResultSerializer(36);
         mPSwap_Result.mpswap_Result = n;
         bAPFunctionMethodFSG.resultREQ(mPSwap_Result);
     }
 
-    @Override
     public void callHoldAcceptWaitingCallResult(int n) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone#callHoldAcceptWaitingCallResult] called (result=%1)", (long)n);
+        this.logChannel.log(1000000, "[AppConnectorPhone#callHoldAcceptWaitingCallResult] called (result=%1)", (long)n);
         BAPFunctionMethodFSG bAPFunctionMethodFSG = this.moduleFsg.getBAPFunctionMethodFSG(37);
         MPCallHoldAcceptWC_Result mPCallHoldAcceptWC_Result = (MPCallHoldAcceptWC_Result)this.moduleFsg.createResultSerializer(37);
         mPCallHoldAcceptWC_Result.mpchawc_Result = n;
         bAPFunctionMethodFSG.resultREQ(mPCallHoldAcceptWC_Result);
     }
 
-    @Override
     public void releaseAllCallsAcceptWaitingCallResult(int n) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone#releaseAllCallsAcceptWaitingCallResult] called (result=$1)", (long)n);
+        this.logChannel.log(1000000, "[AppConnectorPhone#releaseAllCallsAcceptWaitingCallResult] called (result=$1)", (long)n);
         BAPFunctionMethodFSG bAPFunctionMethodFSG = this.moduleFsg.getBAPFunctionMethodFSG(38);
         MPRelAllCallsAcceptWC_Result mPRelAllCallsAcceptWC_Result = (MPRelAllCallsAcceptWC_Result)this.moduleFsg.createResultSerializer(38);
         mPRelAllCallsAcceptWC_Result.mpracawc_Result = n;
         bAPFunctionMethodFSG.resultREQ(mPRelAllCallsAcceptWC_Result);
     }
 
-    @Override
     public void setWaitingCallOnHoldResult(int n) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone#setWaitingCallOnHoldResult] called (result=%1)", (long)n);
+        this.logChannel.log(1000000, "[AppConnectorPhone#setWaitingCallOnHoldResult] called (result=%1)", (long)n);
         BAPFunctionMethodFSG bAPFunctionMethodFSG = this.moduleFsg.getBAPFunctionMethodFSG(39);
         MPSetWaitingCallOnHold_Result mPSetWaitingCallOnHold_Result = (MPSetWaitingCallOnHold_Result)this.moduleFsg.createResultSerializer(39);
         mPSetWaitingCallOnHold_Result.mpswcoh_Result = n;
         bAPFunctionMethodFSG.resultREQ(mPSetWaitingCallOnHold_Result);
     }
 
-    @Override
     public void joinCallsResult(int n) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone#joinCallsResult] called (result=%1)", (long)n);
+        this.logChannel.log(1000000, "[AppConnectorPhone#joinCallsResult] called (result=%1)", (long)n);
         BAPFunctionMethodFSG bAPFunctionMethodFSG = this.moduleFsg.getBAPFunctionMethodFSG(40);
         CCJoin_Result cCJoin_Result = (CCJoin_Result)this.moduleFsg.createResultSerializer(40);
         cCJoin_Result.ccjoin_Result = n;
         bAPFunctionMethodFSG.resultREQ(cCJoin_Result);
     }
 
-    @Override
     public void splitCallResult(int n) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone#splitCallResult] called (result=%1)", (long)n);
+        this.logChannel.log(1000000, "[AppConnectorPhone#splitCallResult] called (result=%1)", (long)n);
         BAPFunctionMethodFSG bAPFunctionMethodFSG = this.moduleFsg.getBAPFunctionMethodFSG(41);
         CCSplit_Result cCSplit_Result = (CCSplit_Result)this.moduleFsg.createResultSerializer(41);
         cCSplit_Result.ccsplit_Result = n;
@@ -731,19 +700,18 @@ implements CombiBAPServicePhone {
     }
 
     public void updateMobileBatteryLevel(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone#updateMobileBatteryLevel] called (mobile1ChargeLevelCritical=%1, mobile2ChargeLevelCritical=%2", bl, bl2);
-        this.logChannel.log(1078071040, "[AppConnectorPhone#updateMobileBatteryLevel] called (handset1ChargeLevelCritical=%1, handset2ChargeLevelCritical=%2", bl3, bl4);
-        CombiBAPhoneMobileBatteryLevel$ChargeLevel combiBAPhoneMobileBatteryLevel$ChargeLevel = new CombiBAPhoneMobileBatteryLevel$ChargeLevel(254, bl);
-        CombiBAPhoneMobileBatteryLevel$ChargeLevel combiBAPhoneMobileBatteryLevel$ChargeLevel2 = new CombiBAPhoneMobileBatteryLevel$ChargeLevel(254, bl2);
-        CombiBAPhoneMobileBatteryLevel$ChargeLevel combiBAPhoneMobileBatteryLevel$ChargeLevel3 = new CombiBAPhoneMobileBatteryLevel$ChargeLevel(254, bl3);
-        CombiBAPhoneMobileBatteryLevel$ChargeLevel combiBAPhoneMobileBatteryLevel$ChargeLevel4 = new CombiBAPhoneMobileBatteryLevel$ChargeLevel(254, bl4);
-        CombiBAPhoneMobileBatteryLevel combiBAPhoneMobileBatteryLevel = new CombiBAPhoneMobileBatteryLevel(combiBAPhoneMobileBatteryLevel$ChargeLevel, combiBAPhoneMobileBatteryLevel$ChargeLevel2, combiBAPhoneMobileBatteryLevel$ChargeLevel3, combiBAPhoneMobileBatteryLevel$ChargeLevel4);
+        this.logChannel.log(1000000, "[AppConnectorPhone#updateMobileBatteryLevel] called (mobile1ChargeLevelCritical=%1, mobile2ChargeLevelCritical=%2", bl, bl2);
+        this.logChannel.log(1000000, "[AppConnectorPhone#updateMobileBatteryLevel] called (handset1ChargeLevelCritical=%1, handset2ChargeLevelCritical=%2", bl3, bl4);
+        CombiBAPhoneMobileBatteryLevel.ChargeLevel chargeLevel = new CombiBAPhoneMobileBatteryLevel.ChargeLevel(254, bl);
+        CombiBAPhoneMobileBatteryLevel.ChargeLevel chargeLevel2 = new CombiBAPhoneMobileBatteryLevel.ChargeLevel(254, bl2);
+        CombiBAPhoneMobileBatteryLevel.ChargeLevel chargeLevel3 = new CombiBAPhoneMobileBatteryLevel.ChargeLevel(254, bl3);
+        CombiBAPhoneMobileBatteryLevel.ChargeLevel chargeLevel4 = new CombiBAPhoneMobileBatteryLevel.ChargeLevel(254, bl4);
+        CombiBAPhoneMobileBatteryLevel combiBAPhoneMobileBatteryLevel = new CombiBAPhoneMobileBatteryLevel(chargeLevel, chargeLevel2, chargeLevel3, chargeLevel4);
         this.updateMobileBatteryLevel(combiBAPhoneMobileBatteryLevel);
     }
 
-    @Override
     public void updateMobileBatteryLevel(CombiBAPhoneMobileBatteryLevel combiBAPhoneMobileBatteryLevel) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone#updateMobileBatteryLevel] batteryLevel: %1", (Object)combiBAPhoneMobileBatteryLevel);
+        this.logChannel.log(1000000, "[AppConnectorPhone#updateMobileBatteryLevel] batteryLevel: %1", (Object)combiBAPhoneMobileBatteryLevel);
         MobileBatteryLevel_Status mobileBatteryLevel_Status = new MobileBatteryLevel_Status();
         mobileBatteryLevel_Status.chargeLevel_Mobile1 = combiBAPhoneMobileBatteryLevel.getMobileChargeLevel1().getChargeLevelPercent();
         mobileBatteryLevel_Status.chargeLevel_Mobile2 = combiBAPhoneMobileBatteryLevel.getMobileChargeLevel2().getChargeLevelPercent();
@@ -756,33 +724,28 @@ implements CombiBAPServicePhone {
         this.sendPropertyStatus(43, mobileBatteryLevel_Status);
     }
 
-    @Override
     public void updateMissedCallIndication(int n, int n2) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone#updateMissedCallIndication] missedCalls=%1, missedNumbers=%2", (long)n, (long)n2);
+        this.logChannel.log(1000000, "[AppConnectorPhone#updateMissedCallIndication] missedCalls=%1, missedNumbers=%2", (long)n, (long)n2);
         MissedCallIndication_Status missedCallIndication_Status = new MissedCallIndication_Status();
         missedCallIndication_Status.missedCalls = n;
         missedCallIndication_Status.missedNumbers = n2;
         this.moduleFsg.getBAPFunctionPropertyFSG(45).sendStatus(missedCallIndication_Status);
     }
 
-    @Override
     public void updateMissedCalls(CombiBAPCallStackEntry[] combiBAPCallStackEntryArray) {
-        this.logChannel.log(-1601830656, "[AppConnectorPhone#updateMissedCalls] function not supported -> only CombinedNumbers is supported");
+        this.logChannel.log(100000, "[AppConnectorPhone#updateMissedCalls] function not supported -> only CombinedNumbers is supported");
     }
 
-    @Override
     public void updateReceivedCalls(CombiBAPCallStackEntry[] combiBAPCallStackEntryArray) {
-        this.logChannel.log(-1601830656, "[AppConnectorPhone#updateReceivedCalls] function not supported -> only CombinedNumbers is supported");
+        this.logChannel.log(100000, "[AppConnectorPhone#updateReceivedCalls] function not supported -> only CombinedNumbers is supported");
     }
 
-    @Override
     public void updateDialedNumbers(CombiBAPCallStackEntry[] combiBAPCallStackEntryArray) {
-        this.logChannel.log(-1601830656, "[AppConnectorPhone#updateDialedNumbers] function not supported -> only CombinedNumbers is supported");
+        this.logChannel.log(100000, "[AppConnectorPhone#updateDialedNumbers] function not supported -> only CombinedNumbers is supported");
     }
 
-    @Override
     public void updateCombinedNumbers(CombiBAPCallStackEntry[] combiBAPCallStackEntryArray) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone#updateCombinedNumbers] called (listSize=%1)", (long)combiBAPCallStackEntryArray.length);
+        this.logChannel.log(1000000, "[AppConnectorPhone#updateCombinedNumbers] called (listSize=%1)", (long)combiBAPCallStackEntryArray.length);
         ArrayHandler arrayHandler = this.moduleFsg.getBAPFunctionArrayFSG(49).getArrayHandler();
         if (arrayHandler != null) {
             ((CombinedNumbersListHandler)arrayHandler).updateList(combiBAPCallStackEntryArray);
@@ -791,26 +754,23 @@ implements CombiBAPServicePhone {
         }
     }
 
-    @Override
     public void updateRingToneMuteState(boolean bl) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone#updateRingToneMuteState] ringToneMuted=%1", bl);
+        this.logChannel.log(1000000, "[AppConnectorPhone#updateRingToneMuteState] ringToneMuted=%1", bl);
         RingToneMuteOnOff_Status ringToneMuteOnOff_Status = new RingToneMuteOnOff_Status();
         ringToneMuteOnOff_Status.ringToneMuteOnOff.on = bl;
         this.sendPropertyStatus(56, ringToneMuteOnOff_Status);
     }
 
-    @Override
     public void updateAutomaticRedialActive(boolean bl) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone#updateAutomaticRedialActive] called (automaticRedialActive=%1)", bl);
+        this.logChannel.log(1000000, "[AppConnectorPhone#updateAutomaticRedialActive] called (automaticRedialActive=%1)", bl);
         AutomaticRedial_Status automaticRedial_Status = new AutomaticRedial_Status();
         automaticRedial_Status.automaticRedialState.automaticRedialActive = bl;
         this.sendPropertyStatus(57, automaticRedial_Status);
     }
 
-    @Override
     public void updateAutomaticRedialExtendedInfo(int n, String string, String string2, int n2) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone#updateAutomaticRedialExtendedInfo] redialTimeStamp=%1, category=%2, ...", (long)n, (long)n2);
-        this.logChannel.log(1078071040, "[AppConnectorPhone#updateAutomaticRedialExtendedInfo] ..., pbName=%1, telNumber=%2", (Object)string, (Object)string2);
+        this.logChannel.log(1000000, "[AppConnectorPhone#updateAutomaticRedialExtendedInfo] redialTimeStamp=%1, category=%2, ...", (long)n, (long)n2);
+        this.logChannel.log(1000000, "[AppConnectorPhone#updateAutomaticRedialExtendedInfo] ..., pbName=%1, telNumber=%2", (Object)string, (Object)string2);
         AutomaticRedialExtendedInfo_Status automaticRedialExtendedInfo_Status = new AutomaticRedialExtendedInfo_Status();
         automaticRedialExtendedInfo_Status.redial_TimeStamp = n;
         automaticRedialExtendedInfo_Status.pbName.setContent(string);
@@ -819,10 +779,9 @@ implements CombiBAPServicePhone {
         this.sendPropertyStatus(58, automaticRedialExtendedInfo_Status);
     }
 
-    @Override
     public void updateSupportedServiceNumbers(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone#updateSupportedServiceNumbers] voiceMailboxSupported=%1, infoCallSupported=%2, ...", bl, bl2);
-        this.logChannel.log(1078071040, "[AppConnectorPhone#updateSupportedServiceNumbers] ..., serviceCallSupported=%1, emergencyCallSupported=%2", bl3, bl4);
+        this.logChannel.log(1000000, "[AppConnectorPhone#updateSupportedServiceNumbers] voiceMailboxSupported=%1, infoCallSupported=%2, ...", bl, bl2);
+        this.logChannel.log(1000000, "[AppConnectorPhone#updateSupportedServiceNumbers] ..., serviceCallSupported=%1, emergencyCallSupported=%2", bl3, bl4);
         SupportedServiceNumbers_Status supportedServiceNumbers_Status = new SupportedServiceNumbers_Status();
         supportedServiceNumbers_Status.serviceNumbers.voiceMailboxSupported = bl;
         supportedServiceNumbers_Status.serviceNumbers.infoCallSupported = bl2;
@@ -831,9 +790,8 @@ implements CombiBAPServicePhone {
         this.sendPropertyStatus(59, supportedServiceNumbers_Status);
     }
 
-    @Override
     public void updateFavoriteList(CombiBAPFavoriteNumberEntry[] combiBAPFavoriteNumberEntryArray) {
-        this.logChannel.log(1078071040, "[AppConnectorPhone#updateFavoriteList] called (listSize=%1)", (long)combiBAPFavoriteNumberEntryArray.length);
+        this.logChannel.log(1000000, "[AppConnectorPhone#updateFavoriteList] called (listSize=%1)", (long)combiBAPFavoriteNumberEntryArray.length);
         ArrayHandler arrayHandler = this.moduleFsg.getBAPFunctionArrayFSG(60).getArrayHandler();
         if (arrayHandler != null) {
             ((FavoriteNumbersListHandler)arrayHandler).updateList(combiBAPFavoriteNumberEntryArray);
@@ -842,28 +800,33 @@ implements CombiBAPServicePhone {
         }
     }
 
-    static /* synthetic */ CombiBAPCallState[] access$000(AppConnectorPhone appConnectorPhone) {
-        return appConnectorPhone.combiCallStates;
-    }
-
-    static /* synthetic */ CombiBAPCallInfo[] access$100(AppConnectorPhone appConnectorPhone) {
-        return appConnectorPhone.combiCallInfos;
-    }
-
-    static /* synthetic */ AbstractBAPModuleFSG access$200(AppConnectorPhone appConnectorPhone) {
-        return appConnectorPhone.moduleFsg;
-    }
-
-    static /* synthetic */ LogChannel access$300(AppConnectorPhone appConnectorPhone) {
-        return appConnectorPhone.logChannel;
-    }
-
     static {
         EMPTY_CALL_INFOS = new CombiBAPCallInfo[7];
         EMPTY_CALL_STATES = new CombiBAPCallState[7];
         for (int i2 = 0; i2 < 7; ++i2) {
             AppConnectorPhone.EMPTY_CALL_INFOS[i2] = new CombiBAPCallInfo();
             AppConnectorPhone.EMPTY_CALL_STATES[i2] = new CombiBAPCallState();
+        }
+    }
+
+    private class CallPictureProvider
+    implements IPictureProvider {
+        private CallPictureProvider() {
+        }
+
+        public void requestPicture(long l) {
+            int n = (int)l;
+            if (n >= 0 && n < 7) {
+                int n2 = AppConnectorPhone.this.combiCallStates != null && AppConnectorPhone.this.combiCallStates[n] != null ? AppConnectorPhone.this.combiCallStates[n].getCallType() : 0;
+                ResourceLocator resourceLocator = AppConnectorPhone.this.combiCallInfos != null && AppConnectorPhone.this.combiCallInfos[n] != null ? new ResourceLocator(AppConnectorPhone.this.combiCallInfos[n].getPictureID(), AppConnectorPhone.this.combiCallInfos[n].getPictureURL()) : new ResourceLocator();
+                ((AbstractCombiModule)AppConnectorPhone.this.moduleFsg).getPictureManager().responseActiveCallPicture(n, n2, resourceLocator, false);
+            } else {
+                AppConnectorPhone.this.logChannel.log(100000, "[AppConnectorPhone.CallPictureProvider#requestPicture] invalid callID: %1", (long)n);
+            }
+        }
+
+        public void requestPicture(long l, int n) {
+            this.requestPicture(l);
         }
     }
 }

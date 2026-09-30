@@ -4,7 +4,6 @@
 package de.audi.atip.interapp.online;
 
 public interface OnlinePOICall {
-    default public void updatePOICall(boolean bl) {
-    }
+    public void updatePOICall(boolean var1);
 }
 

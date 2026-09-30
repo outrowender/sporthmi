@@ -45,7 +45,6 @@ implements IMenuEntry {
         this.logChannel = logChannel;
     }
 
-    @Override
     public void setChildren(IMenuEntry[] iMenuEntryArray) {
         if (iMenuEntryArray != null) {
             if (this.logChannel.isInfo()) {
@@ -54,7 +53,7 @@ implements IMenuEntry {
                     stringBuffer.append('\n');
                     stringBuffer.append(iMenuEntryArray[i2]);
                 }
-                this.logChannel.log(1078071040, "[%1('%2')#setChildren] children=%3", (Object)this.getType(), (Object)this, (Object)stringBuffer);
+                this.logChannel.log(1000000, "[%1('%2')#setChildren] children=%3", (Object)this.getType(), (Object)this, (Object)stringBuffer);
             }
             for (int i3 = 0; i3 < iMenuEntryArray.length; ++i3) {
                 iMenuEntryArray[i3].setParent(this);
@@ -63,48 +62,40 @@ implements IMenuEntry {
         this.children = iMenuEntryArray;
     }
 
-    @Override
     public void setParent(IMenuEntry iMenuEntry) {
         this.parent = iMenuEntry;
     }
 
-    @Override
     public void init(IMenuEntryRegistry iMenuEntryRegistry) {
-        this.logChannel.log(1078071040, "[%1('%2')#init] called", (Object)this.getType(), (Object)this);
+        this.logChannel.log(1000000, "[%1('%2')#init] called", (Object)this.getType(), (Object)this);
         this.menuEntryRegistry = iMenuEntryRegistry;
         this.setState(this.getInitialState());
     }
 
-    @Override
     public void deinit() {
-        this.logChannel.log(1078071040, "[%1('%2')#deinit] called", (Object)this.getType(), (Object)this);
+        this.logChannel.log(1000000, "[%1('%2')#deinit] called", (Object)this.getType(), (Object)this);
     }
 
-    @Override
     public void notifyComponentsInitialized() {
     }
 
-    @Override
     public void register() {
-        this.logChannel.log(1078071040, "[%1('%2')#register] called", (Object)this.getType(), (Object)this);
+        this.logChannel.log(1000000, "[%1('%2')#register] called", (Object)this.getType(), (Object)this);
         this.registered = true;
     }
 
-    @Override
     public void deregister() {
-        this.logChannel.log(1078071040, "[%1('%2')#deregister] called", (Object)this.getType(), (Object)this);
+        this.logChannel.log(1000000, "[%1('%2')#deregister] called", (Object)this.getType(), (Object)this);
         this.registered = false;
         this.resetStates();
     }
 
-    @Override
     public boolean isRegistered() {
         return this.registered;
     }
 
-    @Override
     public void updateState(int n) {
-        this.logChannel.log(1078071040, "[%1('%2')#updateState] state='%3'", (Object)this.getType(), (Object)this, (long)n);
+        this.logChannel.log(1000000, "[%1('%2')#updateState] state='%3'", (Object)this.getType(), (Object)this, (long)n);
         boolean bl = false;
         if (n != this.state) {
             if (this.children == null) {
@@ -147,7 +138,7 @@ implements IMenuEntry {
     }
 
     protected void setState(int n) {
-        this.logChannel.log(1078071040, "[%1('%2')#setState] state='%3'", (Object)this.getType(), (Object)this, (long)n);
+        this.logChannel.log(1000000, "[%1('%2')#setState] state='%3'", (Object)this.getType(), (Object)this, (long)n);
         this.state = n;
         this.setVisibilityModelStatus(n);
         this.setModelValue(n);
@@ -167,22 +158,19 @@ implements IMenuEntry {
                     break;
                 }
             }
-            this.logChannel.log(1078071040, "[%1('%2')#setVisibilityModelStatus] MenuEntry is %3: VisibilityChoiceModel.setStatus('%4')", (Object)this.getType(), (Object)this, (Object)(n2 == 1 ? "functional" : "not functional"), (long)n2);
+            this.logChannel.log(1000000, "[%1('%2')#setVisibilityModelStatus] MenuEntry is %3: VisibilityChoiceModel.setStatus('%4')", (Object)this.getType(), (Object)this, (Object)(n2 == 1 ? "functional" : "not functional"), (long)n2);
             this.setModelSatus(n2);
         }
     }
 
-    @Override
     public int getState() {
         return this.state;
     }
 
-    @Override
     public boolean isTop() {
         return this.parent == null;
     }
 
-    @Override
     public boolean isLeaf() {
         return this.children == null;
     }
@@ -191,12 +179,10 @@ implements IMenuEntry {
         return this.name;
     }
 
-    @Override
     public IMenuEntry getParent() {
         return this.parent;
     }
 
-    @Override
     public IMenuEntry[] getChildren() {
         return this.children;
     }
@@ -205,17 +191,14 @@ implements IMenuEntry {
         return this.modelId;
     }
 
-    @Override
     public int getID() {
         return this.menuEntryID;
     }
 
-    @Override
     public boolean isRegistrable() {
         return this.isLeaf();
     }
 
-    @Override
     public void addChildrenToListRecursively(List list) {
         if (this.getChildren() != null) {
             IMenuEntry[] iMenuEntryArray = this.getChildren();
@@ -227,12 +210,10 @@ implements IMenuEntry {
         }
     }
 
-    @Override
     public boolean isType(MenuEntryType menuEntryType) {
         return this.getType().equalsMenuEntryType(menuEntryType);
     }
 
-    @Override
     public MenuEntryType getType() {
         return MenuEntryType.MENU_ENTRY;
     }
@@ -241,7 +222,6 @@ implements IMenuEntry {
         return 1;
     }
 
-    @Override
     public void setFunctionalStateValues(int[] nArray) {
         this.functionalStateValues = nArray;
     }
@@ -260,18 +240,16 @@ implements IMenuEntry {
         }
     }
 
-    @Override
     public void updateStateViewOptions(int n) {
-        this.logChannel.log(1078071040, "[%1('%2')#updateStateViewOptions] state='%3'", (Object)this.getType(), (Object)this, (long)this.state);
+        this.logChannel.log(1000000, "[%1('%2')#updateStateViewOptions] state='%3'", (Object)this.getType(), (Object)this, (long)this.state);
         if (this.getStateViewOptions() != n) {
             this.setStateViewOptions(n);
             this.combineStates();
         }
     }
 
-    @Override
     public void updateStateMenuOperation(int n) {
-        this.logChannel.log(1078071040, "[%1('%2')#updateStateMenuOpteration] state='%3'", (Object)this.getType(), (Object)this, (long)this.state);
+        this.logChannel.log(1000000, "[%1('%2')#updateStateMenuOpteration] state='%3'", (Object)this.getType(), (Object)this, (long)this.state);
         if (this.isValidStateMenuOperation(n)) {
             if (this.getStateMenuOperation() != n) {
                 this.setStateMenuOperation(n);
@@ -315,7 +293,6 @@ implements IMenuEntry {
         this.stateMenuOperation = n;
     }
 
-    @Override
     public int getStateViewOptionsForRegistration() {
         return 2;
     }

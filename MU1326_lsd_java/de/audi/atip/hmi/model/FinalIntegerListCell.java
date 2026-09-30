@@ -14,7 +14,6 @@ extends IntegerListCell {
         super(n);
     }
 
-    @Override
     public void setValue(int n) {
         throw new IllegalArgumentException("Changing value of FinalIntegerListCell not allowed!");
     }

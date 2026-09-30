@@ -14,7 +14,7 @@ extends AbstractTel1BAPMethodHandler {
     }
 
     void setRingToneMuteState(boolean bl) {
-        this.log.log(1078071040, "[TelBAPMethodRingtoneMuteHandler#setRingToneMuteState] ringToneMuted=%1", bl);
+        this.log.log(1000000, "[TelBAPMethodRingtoneMuteHandler#setRingToneMuteState] ringToneMuted=%1", bl);
         this.getApplication().getAudio().muteRingtone(bl);
     }
 }

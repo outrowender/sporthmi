@@ -12,10 +12,9 @@ import de.audi.app.bap.utils.FunctionIDs;
 import de.audi.app.bap.utils.LSGIDs;
 import de.audi.app.combi.bap.functionsync.AbstractFunctionSynchronization;
 import de.audi.app.combi.bap.functionsync.AbstractFunctionSynchronizationCommand;
-import de.audi.app.combi.bap.functionsync.CommandUpdateFunctions$1;
 import de.audi.atip.hmi.event.TimerSyncer;
-import de.audi.atip.log.LogChannel;
 import de.audi.atip.timer.Timer;
+import de.audi.atip.timer.TimerListener;
 import de.esolutions.fw.util.commons.Buffer;
 import de.vw.mib.bap.requests.StatusProperty;
 import edu.emory.mathcs.backport.java.util.concurrent.ConcurrentHashMap;
@@ -30,7 +29,7 @@ implements BAPFunctionDataListener,
 IAcknowledgeListener {
     private static final Integer WAITING_FOR_UPDATE = new Integer(0);
     private static final Integer WAITING_FOR_ACKNOWLEDGE = new Integer(1);
-    private static final int INCOMPLETE_SYNC_TIMEOUT_DELAY;
+    private static final int INCOMPLETE_SYNC_TIMEOUT_DELAY = 20000;
     private final Timer incompleteSyncTimeoutTimer;
     private final Map bapPropertiesToBeSynced = new HashMap(10);
     private final ConcurrentMap queuedPropertiesUpdates = new ConcurrentHashMap();
@@ -40,7 +39,18 @@ IAcknowledgeListener {
     public CommandUpdateFunctions(AbstractBAPModuleFSG abstractBAPModuleFSG, AbstractFunctionSynchronization abstractFunctionSynchronization) {
         super(abstractBAPModuleFSG, abstractFunctionSynchronization, "CommandUpdateFunctions");
         this.init();
-        this.incompleteSyncTimeoutTimer = new Timer("IncompleteSynchronizationTimeoutTimer", 0, true, new TimerSyncer(new CommandUpdateFunctions$1(this)));
+        this.incompleteSyncTimeoutTimer = new Timer("IncompleteSynchronizationTimeoutTimer", 20000L, true, new TimerSyncer(new TimerListener(){
+
+            public void fireTimer(Timer timer) {
+                if (timer.equals(CommandUpdateFunctions.this.incompleteSyncTimeoutTimer) && !CommandUpdateFunctions.this.commandFinished) {
+                    CommandUpdateFunctions.this.logger.log(10000, "[CommandUpdateFunctions#fireTimer] [%1] TIMEOUT -> complete sync to avoid lock (pending functions: %1)", (Object)CommandUpdateFunctions.this.logPendingFunctions());
+                    CommandUpdateFunctions.this.finishCommand();
+                }
+            }
+
+            public void cancelTimer(Timer timer) {
+            }
+        }));
     }
 
     /*
@@ -58,26 +68,24 @@ IAcknowledgeListener {
                     bAPFunctionPropertyFSG.addDataListener(this);
                     continue;
                 }
-                this.logger.log(-2137614336, "[CommandUpdateFunctions#init] [%1] fctID=%2 not supported -> don't add to function sync", (Object)this.functionSync.getSyncTypeDescription(), (long)nArray[i2]);
+                this.logger.log(10000000, "[CommandUpdateFunctions#init] [%1] fctID=%2 not supported -> don't add to function sync", (Object)this.functionSync.getSyncTypeDescription(), (long)nArray[i2]);
             }
         }
     }
 
-    @Override
     public void execute() {
         if (this.functionSync.isCanceled()) {
-            this.logger.log(-2137614336, "[CommandUpdateFunctions#execute] [%1], functionSync was canceled -> finish command immediately", (Object)this.functionSync.getSyncTypeDescription());
+            this.logger.log(10000000, "[CommandUpdateFunctions#execute] [%1], functionSync was canceled -> finish command immediately", (Object)this.functionSync.getSyncTypeDescription());
             this.commandList.commandFinished();
         } else {
-            this.logger.log(-2137614336, "[CommandUpdateFunctions#execute] [%1] called", (Object)this.functionSync.getSyncTypeDescription());
+            this.logger.log(10000000, "[CommandUpdateFunctions#execute] [%1] called", (Object)this.functionSync.getSyncTypeDescription());
             this.sendQueuedRequests();
             this.incompleteSyncTimeoutTimer.restart();
         }
     }
 
-    @Override
     public void abort() {
-        this.logger.log(-2137614336, "[CommandUpdateFunctions#abort] [%1] called", (Object)this.functionSync.getSyncTypeDescription());
+        this.logger.log(10000000, "[CommandUpdateFunctions#abort] [%1] called", (Object)this.functionSync.getSyncTypeDescription());
         this.reset();
         this.sendQueuedRequests();
         super.abort();
@@ -90,7 +98,7 @@ IAcknowledgeListener {
         this.incompleteSyncTimeoutTimer.cancel();
         Map map = this.bapPropertiesToBeSynced;
         synchronized (map) {
-            this.logger.log(-2137614336, "[CommandUpdateFunctions#reset] [%1] called", (Object)this.functionSync.getSyncTypeDescription());
+            this.logger.log(10000000, "[CommandUpdateFunctions#reset] [%1] called", (Object)this.functionSync.getSyncTypeDescription());
             if (!this.bapPropertiesToBeSynced.isEmpty()) {
                 this.removeAllListeners();
                 this.bapPropertiesToBeSynced.clear();
@@ -104,7 +112,7 @@ IAcknowledgeListener {
     private void removeAllListeners() {
         Map map = this.bapPropertiesToBeSynced;
         synchronized (map) {
-            this.logger.log(-2137614336, "[CommandUpdateFunctions#removeAllListeners] [%1] called", (Object)this.functionSync.getSyncTypeDescription());
+            this.logger.log(10000000, "[CommandUpdateFunctions#removeAllListeners] [%1] called", (Object)this.functionSync.getSyncTypeDescription());
             Iterator iterator = this.bapPropertiesToBeSynced.keySet().iterator();
             while (iterator.hasNext()) {
                 BAPFunctionPropertyFSG bAPFunctionPropertyFSG = (BAPFunctionPropertyFSG)iterator.next();
@@ -119,30 +127,27 @@ IAcknowledgeListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void notifyDataChanged(int n) {
         BAPFunctionPropertyFSG bAPFunctionPropertyFSG = this.moduleFsg.getBAPFunctionPropertyFSG(n);
         Map map = this.bapPropertiesToBeSynced;
         synchronized (map) {
             if (this.bapPropertiesToBeSynced.containsKey(bAPFunctionPropertyFSG) && this.bapPropertiesToBeSynced.get(bAPFunctionPropertyFSG).equals(WAITING_FOR_UPDATE)) {
-                this.logger.log(-2137614336, "[CommandUpdateFunctions#notifyDataChanged] [%1] received update of property (lsgID=%2, fctID=%3) -> wait for acknowledge", (Object)this.functionSync.getSyncTypeDescription(), (Object)LSGIDs.getDescription(this.moduleFsg.getLSGID()), (Object)FunctionIDs.getDescription(this.moduleFsg.getLSGID(), n));
+                this.logger.log(10000000, "[CommandUpdateFunctions#notifyDataChanged] [%1] received update of property (lsgID=%2, fctID=%3) -> wait for acknowledge", (Object)this.functionSync.getSyncTypeDescription(), (Object)LSGIDs.getDescription(this.moduleFsg.getLSGID()), (Object)FunctionIDs.getDescription(this.moduleFsg.getLSGID(), n));
                 this.bapPropertiesToBeSynced.put(bAPFunctionPropertyFSG, WAITING_FOR_ACKNOWLEDGE);
                 bAPFunctionPropertyFSG.addAcknowledgeListener(this);
             }
         }
     }
 
-    @Override
     public void notifyDataValidChanged(int n, boolean bl) {
     }
 
-    @Override
     public void notifyDataUpdatedNoChange(int n) {
-        this.logger.log(-2137614336, "[CommandUpdateFunctions#notifyDataUpdatedNoChange] [%1] update received for fctID=%2", (Object)this.functionSync.getSyncTypeDescription(), (Object)FunctionIDs.getDescription(this.moduleFsg.getLSGID(), n));
+        this.logger.log(10000000, "[CommandUpdateFunctions#notifyDataUpdatedNoChange] [%1] update received for fctID=%2", (Object)this.functionSync.getSyncTypeDescription(), (Object)FunctionIDs.getDescription(this.moduleFsg.getLSGID(), n));
         if (this.functionSync.getSyncState() == 2) {
             this.removeFunction(n);
         } else {
-            this.logger.log(-2137614336, "[CommandUpdateFunctions#notifyDataUpdatedNoChange] [%1] function sync state is %2 -> enqueue update", (Object)this.functionSync.getSyncTypeDescription(), (long)this.functionSync.getSyncState());
+            this.logger.log(10000000, "[CommandUpdateFunctions#notifyDataUpdatedNoChange] [%1] function sync state is %2 -> enqueue update", (Object)this.functionSync.getSyncTypeDescription(), (long)this.functionSync.getSyncState());
             this.markPropertyUpdated(this.moduleFsg.getBAPFunctionPropertyFSG(n), OptionalSerializer.withoutValue());
         }
     }
@@ -150,7 +155,6 @@ IAcknowledgeListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void processAcknowledge(int n, int n2) {
         BAPFunctionPropertyFSG bAPFunctionPropertyFSG = this.moduleFsg.getBAPFunctionPropertyFSG(n);
         if (n2 == 0) {
@@ -158,10 +162,10 @@ IAcknowledgeListener {
             Map map = this.bapPropertiesToBeSynced;
             synchronized (map) {
                 if (this.bapPropertiesToBeSynced.containsKey(bAPFunctionPropertyFSG) && this.bapPropertiesToBeSynced.get(bAPFunctionPropertyFSG).equals(WAITING_FOR_ACKNOWLEDGE)) {
-                    this.logger.log(-2137614336, "[CommandUpdateFunctions#processAcknowledge] [%1] received acknowledge of property (lsgID=%2, fctID=%3) -> update of property finished", (Object)this.functionSync.getSyncTypeDescription(), (Object)LSGIDs.getDescription(this.moduleFsg.getLSGID()), (Object)FunctionIDs.getDescription(this.moduleFsg.getLSGID(), n));
+                    this.logger.log(10000000, "[CommandUpdateFunctions#processAcknowledge] [%1] received acknowledge of property (lsgID=%2, fctID=%3) -> update of property finished", (Object)this.functionSync.getSyncTypeDescription(), (Object)LSGIDs.getDescription(this.moduleFsg.getLSGID()), (Object)FunctionIDs.getDescription(this.moduleFsg.getLSGID(), n));
                     bl = true;
                 } else {
-                    this.logger.log(-1601830656, "[CommandUpdateFunctions#processAcknowledge] [%1] received acknowledge of property (lsgID=%2, fctID=%3) -> prior update not received", (Object)this.functionSync.getSyncTypeDescription(), (Object)LSGIDs.getDescription(this.moduleFsg.getLSGID()), (Object)FunctionIDs.getDescription(this.moduleFsg.getLSGID(), n));
+                    this.logger.log(100000, "[CommandUpdateFunctions#processAcknowledge] [%1] received acknowledge of property (lsgID=%2, fctID=%3) -> prior update not received", (Object)this.functionSync.getSyncTypeDescription(), (Object)LSGIDs.getDescription(this.moduleFsg.getLSGID()), (Object)FunctionIDs.getDescription(this.moduleFsg.getLSGID(), n));
                     bl = false;
                 }
             }
@@ -184,7 +188,7 @@ IAcknowledgeListener {
             if (this.queuedPropertiesSent) {
                 return false;
             }
-            this.logger.log(-2137614336, "[CommandUpdateFunctions#enqueuePropertyUpdate] [%1] fctID=%2", (Object)this.functionSync.getSyncTypeDescription(), (Object)bAPFunctionPropertyFSG.getFctIDDescription());
+            this.logger.log(10000000, "[CommandUpdateFunctions#enqueuePropertyUpdate] [%1] fctID=%2", (Object)this.functionSync.getSyncTypeDescription(), (Object)bAPFunctionPropertyFSG.getFctIDDescription());
             this.queuedPropertiesUpdates.put(bAPFunctionPropertyFSG, optionalSerializer);
             return true;
         }
@@ -212,7 +216,7 @@ IAcknowledgeListener {
                     ((Buffer)object2).append(" -> update=");
                     ((Buffer)object2).append(this.queuedPropertiesUpdates.get(bAPFunctionPropertyFSG) != null);
                 }
-                this.logger.log(-2137614336, "[CommandUpdateFunctions#sendQueuedRequests] [%1] %2", (Object)this.functionSync.getSyncTypeDescription(), object2);
+                this.logger.log(10000000, "[CommandUpdateFunctions#sendQueuedRequests] [%1] %2", (Object)this.functionSync.getSyncTypeDescription(), object2);
             }
             object2 = this.queuedPropertiesUpdates.keySet().iterator();
             while (object2.hasNext()) {
@@ -245,12 +249,12 @@ IAcknowledgeListener {
                 bAPFunctionPropertyFSG.removeAcknowledgeListener(this);
                 this.bapPropertiesToBeSynced.remove(bAPFunctionPropertyFSG);
                 bAPFunctionPropertyFSG.setControlledByFunctionSync(false);
-                this.logger.log(-2137614336, "[CommandUpdateFunctions#removeFunction] [%1] fctID=%2, still pending: %3", (Object)this.functionSync.getSyncTypeDescription(), (Object)bAPFunctionPropertyFSG.getFctIDDescription(), (Object)this.logPendingFunctions());
+                this.logger.log(10000000, "[CommandUpdateFunctions#removeFunction] [%1] fctID=%2, still pending: %3", (Object)this.functionSync.getSyncTypeDescription(), (Object)bAPFunctionPropertyFSG.getFctIDDescription(), (Object)this.logPendingFunctions());
                 bl = this.bapPropertiesToBeSynced.isEmpty();
             }
         }
         if (bl) {
-            this.logger.log(-2137614336, "[CommandUpdateFunctions#removeFunction] [%1] all relevant data updated -> perform auto complete of synchronization (lsgID=%2)", (Object)this.functionSync.getSyncTypeDescription(), (Object)LSGIDs.getDescription(this.moduleFsg.getLSGID()));
+            this.logger.log(10000000, "[CommandUpdateFunctions#removeFunction] [%1] all relevant data updated -> perform auto complete of synchronization (lsgID=%2)", (Object)this.functionSync.getSyncTypeDescription(), (Object)LSGIDs.getDescription(this.moduleFsg.getLSGID()));
             this.finishCommand();
         }
     }
@@ -273,26 +277,10 @@ IAcknowledgeListener {
     }
 
     private void finishCommand() {
-        this.logger.log(-2137614336, "[CommandUpdateFunctions#finishCommand] [%1] lsgID=%2", (Object)this.functionSync.getSyncTypeDescription(), (Object)LSGIDs.getDescription(this.moduleFsg.getLSGID()));
+        this.logger.log(10000000, "[CommandUpdateFunctions#finishCommand] [%1] lsgID=%2", (Object)this.functionSync.getSyncTypeDescription(), (Object)LSGIDs.getDescription(this.moduleFsg.getLSGID()));
         this.commandFinished = true;
         this.reset();
         this.commandList.commandFinished();
-    }
-
-    static /* synthetic */ Timer access$000(CommandUpdateFunctions commandUpdateFunctions) {
-        return commandUpdateFunctions.incompleteSyncTimeoutTimer;
-    }
-
-    static /* synthetic */ boolean access$100(CommandUpdateFunctions commandUpdateFunctions) {
-        return commandUpdateFunctions.commandFinished;
-    }
-
-    static /* synthetic */ LogChannel access$200(CommandUpdateFunctions commandUpdateFunctions) {
-        return commandUpdateFunctions.logger;
-    }
-
-    static /* synthetic */ void access$300(CommandUpdateFunctions commandUpdateFunctions) {
-        commandUpdateFunctions.finishCommand();
     }
 }
 

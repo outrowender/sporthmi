@@ -33,14 +33,12 @@ extends AbstractWlanCommand {
         choiceModelApp.setValue(-1);
     }
 
-    @Override
     public void execute() {
         this.dsiWlan.requestDisconnectNetwork(this.networkName, this.bssidAddress);
     }
 
-    @Override
     public void responseDisconnectNetwork(String string, String string2, int n) {
-        this.logger.log(-2137614336, "CommandDisconnectNetwork#responseDisconnectNetwork(): %1 %2, result=%3", (Object)string, (Object)string2, (long)n);
+        this.logger.log(10000000, "CommandDisconnectNetwork#responseDisconnectNetwork(): %1 %2, result=%3", (Object)string, (Object)string2, (long)n);
         this.commandMonitor.setValue(n);
         if (n == 0) {
             this.commandMonitor.setStatus(1);

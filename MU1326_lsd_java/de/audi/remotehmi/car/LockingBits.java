@@ -4,10 +4,8 @@
 package de.audi.remotehmi.car;
 
 public interface LockingBits {
-    default public boolean getLockingBit(String string) {
-    }
+    public boolean getLockingBit(String var1);
 
-    default public String[] availableKeys() {
-    }
+    public String[] availableKeys();
 }
 

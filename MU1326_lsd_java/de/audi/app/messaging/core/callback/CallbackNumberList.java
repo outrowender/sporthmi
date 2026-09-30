@@ -4,15 +4,14 @@
 package de.audi.app.messaging.core.callback;
 
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
-import de.audi.app.messaging.core.callback.CallbackNumberList$MyButtonListener;
-import de.audi.app.messaging.core.callback.CallbackNumberList$MyListListener;
 import de.audi.app.messaging.core.callback.CallbackNumberListRow;
 import de.audi.app.messaging.core.component.AbstractMessagingComponent;
 import de.audi.app.messaging.core.osgi.MessagingBundleContext;
 import de.audi.app.messaging.core.util.PhoneServices;
 import de.audi.app.messaging.core.util.Strings;
+import de.audi.atip.hmi.model.DefaultButtonListener;
+import de.audi.atip.hmi.model.DefaultListListener;
 import de.audi.atip.hmi.modelaccess.ListModelApp;
-import de.audi.atip.log.LogChannel;
 import org.dsi.ifc.organizer.AdbEntry;
 import org.dsi.ifc.organizer.PhoneData;
 
@@ -20,26 +19,25 @@ public final class CallbackNumberList
 extends AbstractMessagingComponent {
     private final ListModelApp listModel;
     private AdbEntry adbEntry;
-    private static final int ACTION_DIAL;
-    private static final int ACTION_PREPARE;
-    private static final int ACTION_DIAL_PORSCHE;
-    private static final int ACTION_PREPARE_PORSCHE;
+    private static final int ACTION_DIAL = 0;
+    private static final int ACTION_PREPARE = 1;
+    private static final int ACTION_DIAL_PORSCHE = 1;
+    private static final int ACTION_PREPARE_PORSCHE = 0;
 
     public CallbackNumberList(MessagingBundleContext messagingBundleContext) {
         super(messagingBundleContext, "App.Messaging.Main");
-        this.listModel = this.framework.getHmiServiceApp().getListModel(1368531200);
+        this.listModel = this.framework.getHmiServiceApp().getListModel(2200145);
     }
 
-    @Override
     public void init(AbstractMsgApplication abstractMsgApplication) {
         super.init(abstractMsgApplication);
         this.listModel.setMaxColumns(2);
         this.listModel.setMaxRows(5);
-        this.listModel.setListListener(new CallbackNumberList$MyListListener(this, null));
-        CallbackNumberList$MyButtonListener callbackNumberList$MyButtonListener = new CallbackNumberList$MyButtonListener(this, null);
-        this.framework.getHmiServiceApp().getButtonModel(1804738816).setButtonListener(callbackNumberList$MyButtonListener);
-        this.framework.getHmiServiceApp().getButtonModel(1049829632).setButtonListener(callbackNumberList$MyButtonListener);
-        this.framework.getHmiServiceApp().getButtonModel(1653809408).setButtonListener(callbackNumberList$MyButtonListener);
+        this.listModel.setListListener(new MyListListener());
+        MyButtonListener myButtonListener = new MyButtonListener();
+        this.framework.getHmiServiceApp().getButtonModel(2200171).setButtonListener(myButtonListener);
+        this.framework.getHmiServiceApp().getButtonModel(2200382).setButtonListener(myButtonListener);
+        this.framework.getHmiServiceApp().getButtonModel(2200418).setButtonListener(myButtonListener);
     }
 
     public void clear() {
@@ -51,20 +49,20 @@ extends AbstractMessagingComponent {
     }
 
     public void setContent(String string) {
-        this.log.log(-2137614336, "[CallbackNumberList#setContent] phoneNumber = %1", (Object)string);
+        this.log.log(10000000, "[CallbackNumberList#setContent] phoneNumber = %1", (Object)string);
         this.adbEntry = null;
         PhoneData phoneData = new PhoneData(string, 0, -1);
         this.setPhoneData(new PhoneData[]{phoneData});
     }
 
     public void setContent(AdbEntry adbEntry) {
-        this.log.log(-2137614336, "[CallbackNumberList#setContent] adbEntry = %1", (Object)adbEntry);
+        this.log.log(10000000, "[CallbackNumberList#setContent] adbEntry = %1", (Object)adbEntry);
         this.adbEntry = adbEntry;
         this.setPhoneData(adbEntry.getPhoneData());
     }
 
     private void setPhoneData(PhoneData[] phoneDataArray) {
-        this.log.log(-2137614336, "[CallbackNumberList#setPhoneData]");
+        this.log.log(10000000, "[CallbackNumberList#setPhoneData]");
         this.listModel.clear();
         for (int i2 = 0; i2 < phoneDataArray.length; ++i2) {
             if (Strings.isNullOrEmpty(phoneDataArray[i2].getNumber()) || !Strings.isValidNumber(phoneDataArray[i2].getNumber())) continue;
@@ -98,7 +96,7 @@ extends AbstractMessagingComponent {
     }
 
     private void callNumber(int n) {
-        this.log.log(-2137614336, "[CallbackNumberList#callNumber] rowIndex = %1", (long)n);
+        this.log.log(10000000, "[CallbackNumberList#callNumber] rowIndex = %1", (long)n);
         CallbackNumberListRow callbackNumberListRow = (CallbackNumberListRow)this.listModel.getRow(n);
         String string = callbackNumberListRow.getNumber();
         if (this.adbEntry == null) {
@@ -109,7 +107,7 @@ extends AbstractMessagingComponent {
     }
 
     private void prepareNumber(int n) {
-        this.log.log(-2137614336, "[CallbackNumberList#prepareNumber] rowIndex = %1", (long)n);
+        this.log.log(10000000, "[CallbackNumberList#prepareNumber] rowIndex = %1", (long)n);
         CallbackNumberListRow callbackNumberListRow = (CallbackNumberListRow)this.listModel.getRow(n);
         String string = callbackNumberListRow.getNumber();
         if (this.adbEntry == null) {
@@ -120,7 +118,7 @@ extends AbstractMessagingComponent {
     }
 
     private void callbackButton(int n, int n2, boolean bl) {
-        this.log.log(1078071040, "[CallbackNumberList#callbackButton] modelID = %1", (long)n);
+        this.log.log(1000000, "[CallbackNumberList#callbackButton] modelID = %1", (long)n);
         int n3 = this.listModel.getLength();
         if (n3 > 1) {
             this.framework.getHmiServiceApp().getModelApp(n).fireEvent(n2);
@@ -131,24 +129,33 @@ extends AbstractMessagingComponent {
                 this.prepareNumber(0);
             }
         } else {
-            this.log.log(-1601830656, "[CallbackNumberList#callbackButton] No callback number available.");
+            this.log.log(100000, "[CallbackNumberList#callbackButton] No callback number available.");
         }
     }
 
-    static /* synthetic */ LogChannel access$200(CallbackNumberList callbackNumberList) {
-        return callbackNumberList.log;
+    private class MyListListener
+    extends DefaultListListener {
+        private MyListListener() {
+        }
+
+        public void itemSelected(int n, int n2, int n3, int n4) {
+            CallbackNumberList.this.log.log(1000000, "[CallbackNumberList#itemSelected] row = %1, col = %2", (long)n2, (long)n3);
+            CallbackNumberList.this.callNumber(n2, n3);
+        }
     }
 
-    static /* synthetic */ void access$300(CallbackNumberList callbackNumberList, int n, int n2) {
-        callbackNumberList.callNumber(n, n2);
-    }
+    private class MyButtonListener
+    extends DefaultButtonListener {
+        private MyButtonListener() {
+        }
 
-    static /* synthetic */ void access$400(CallbackNumberList callbackNumberList, int n, int n2, boolean bl) {
-        callbackNumberList.callbackButton(n, n2, bl);
-    }
-
-    static /* synthetic */ LogChannel access$500(CallbackNumberList callbackNumberList) {
-        return callbackNumberList.log;
+        public void keyTyped(int n, int n2, int n3) {
+            if (n == 2200171 || n == 2200382 || n == 2200418) {
+                CallbackNumberList.this.callbackButton(n, n3, n != 2200418);
+            } else {
+                CallbackNumberList.this.log.log(10000, "[CallbackNumberList#keyTyped] Unexpected modelID = %1", (long)n);
+            }
+        }
     }
 }
 

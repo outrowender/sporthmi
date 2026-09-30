@@ -23,43 +23,35 @@ ButtonModelApp {
         super(new ButtonModel(n, n2), new ButtonModel(n, n2));
     }
 
-    @Override
     public void setButtonListener(ButtonListener buttonListener) {
         this.buttonModel.setButtonListener(buttonListener);
     }
 
-    @Override
     public void setPressed(boolean bl) {
         this.getCurrent().setPressed(bl);
     }
 
-    @Override
     public boolean getPressed() {
         return this.buttonModel.getPressed();
     }
 
-    @Override
     public void endTransaction() {
         super.endTransaction();
         this.buttonModel.fireModelUpdateEvent(1);
     }
 
-    @Override
     public void keyPressed(int n, int n2) {
         this.buttonModel.keyPressed(n, n2);
     }
 
-    @Override
     public void keyReleased(int n, int n2) {
         this.buttonModel.keyReleased(n, n2);
     }
 
-    @Override
     public void keyTyped(int n, int n2) {
         this.buttonModel.keyTyped(n, n2);
     }
 
-    @Override
     public void keyLongTyped(int n, int n2) {
     }
 

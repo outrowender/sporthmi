@@ -28,10 +28,10 @@ implements IMatchspellerModelAccess {
     public PoiAreaCityZipInputModelAccess(NavigationEnv navigationEnv, MatchSpellerListener matchSpellerListener, TiledListModelListener tiledListModelListener) {
         this.env = navigationEnv;
         this.logChannel = navigationEnv.getLogChannel();
-        this.matchSpellerModelApp = navigationEnv.getMatchSpellerModel(-1843722752);
+        this.matchSpellerModelApp = navigationEnv.getMatchSpellerModel(400274);
         this.matchSpellerModelApp.setSpellerListener(matchSpellerListener);
         this.matchSpellerModelApp.setMaxLength(128);
-        this.previewListModelApp = navigationEnv.getTiledListModel(1847526912);
+        this.previewListModelApp = navigationEnv.getTiledListModel(401262);
         this.previewListModelApp.setListener(tiledListModelListener);
     }
 
@@ -39,12 +39,10 @@ implements IMatchspellerModelAccess {
         return this.matchSpellerModelApp;
     }
 
-    @Override
     public void onInputChanged() {
         this.previewListModelApp.removeAll();
     }
 
-    @Override
     public void onStart(NavLocation navLocation) {
         Util.setModelStatus(this.matchSpellerModelApp, 0);
         this.matchSpellerModelApp.clear();
@@ -53,10 +51,9 @@ implements IMatchspellerModelAccess {
         this.previewListModelApp.removeAll();
     }
 
-    @Override
     public void onUpdateSpeller(String string, String string2, boolean bl, boolean bl2) {
         if (this.env.getPOILogChannel().isDebug2()) {
-            this.env.getPOILogChannel().log(14808325, "PoiAreaCityZipInputModelAccess#onUpdateSpeller");
+            this.env.getPOILogChannel().log(100000000, "PoiAreaCityZipInputModelAccess#onUpdateSpeller");
         }
         int n = bl2 ? 1 : 0;
         this.matchSpellerModelApp.setFullMatch(bl);
@@ -65,10 +62,9 @@ implements IMatchspellerModelAccess {
         Util.setModelStatus(this.matchSpellerModelApp, 1);
     }
 
-    @Override
     public void onUpdateResultList(LIValueList lIValueList, long l, String string, boolean bl) {
         if (!Util.isListValid(lIValueList) || lIValueList.getList().length == 0) {
-            this.logChannel.log(-2137614336, "[PoiSearchArea] PoiAreaCityZipInputModelAccess#onUpdateResultList() - invalid value list: %1", (Object)lIValueList);
+            this.logChannel.log(10000000, "[PoiSearchArea] PoiAreaCityZipInputModelAccess#onUpdateResultList() - invalid value list: %1", (Object)lIValueList);
             this.previewListModelApp.removeAll();
             this.previewListModelApp.clearAll();
             return;
@@ -81,12 +77,11 @@ implements IMatchspellerModelAccess {
         EvoListRow[] evoListRowArray = new EvoListRow[n2];
         this.previewListModelApp.setLength((int)l);
         for (int i2 = 0; i2 < n2; ++i2) {
-            evoListRowArray[i2] = new AddressInputLIValueListElementListRow(lIValueListElementArray[i2], 160082217, new int[0]);
+            evoListRowArray[i2] = new AddressInputLIValueListElementListRow(lIValueListElementArray[i2], 698976777, new int[0]);
         }
         this.previewListModelApp.setRows(-1, 0, evoListRowArray);
     }
 
-    @Override
     public void onElementSelected(NavLocation navLocation) {
         if (navLocation == null) {
             this.env.getLogChannel().log(10000, "AbstractModelAccess#onElementSelected the given navLocation is null");
@@ -94,16 +89,14 @@ implements IMatchspellerModelAccess {
         }
     }
 
-    @Override
     public void onAmbiguousElementSelected() {
     }
 
-    @Override
     public void onUpdateResultList(LIValueList lIValueList, long l, String string, boolean bl, int n, int n2) {
-        this.logChannel.log(-2137614336, "PoiAreaCityZipInputModelAccess#onUpdateResultList( %1, %2, %3 )", (Object)lIValueList, (Object)string, l);
-        this.logChannel.log(-2137614336, "PoiAreaCityZipInputModelAccess#onUpdateResultList( %1, %2 )", (long)n, (long)n2);
+        this.logChannel.log(10000000, "PoiAreaCityZipInputModelAccess#onUpdateResultList( %1, %2, %3 )", (Object)lIValueList, (Object)string, l);
+        this.logChannel.log(10000000, "PoiAreaCityZipInputModelAccess#onUpdateResultList( %1, %2 )", (long)n, (long)n2);
         if (!Util.isListValid(lIValueList) || lIValueList.getList().length == 0) {
-            this.logChannel.log(-2137614336, "[PoiInputModel] AbstractPoiBaseListModelAccess#onUpdateResultList() - invalid value list: %1", (Object)lIValueList);
+            this.logChannel.log(10000000, "[PoiInputModel] AbstractPoiBaseListModelAccess#onUpdateResultList() - invalid value list: %1", (Object)lIValueList);
             this.previewListModelApp.removeAll();
             this.previewListModelApp.clearAll();
             return;
@@ -116,25 +109,21 @@ implements IMatchspellerModelAccess {
         EvoListRow[] evoListRowArray = new EvoListRow[n4];
         this.previewListModelApp.setLength((int)l);
         for (int i2 = 0; i2 < n4; ++i2) {
-            evoListRowArray[i2] = new AddressInputLIValueListElementListRow(lIValueListElementArray[i2], 160082217, new int[0]);
+            evoListRowArray[i2] = new AddressInputLIValueListElementListRow(lIValueListElementArray[i2], 698976777, new int[0]);
         }
         this.previewListModelApp.setRows(n, n2, evoListRowArray);
     }
 
-    @Override
     public void onRestore() {
     }
 
-    @Override
     public void onUpdateLocation(NavLocation navLocation, Map map) {
     }
 
-    @Override
     public void unrequestItems(int n, int n2) {
         this.previewListModelApp.clearRows(n, n2);
     }
 
-    @Override
     public void onSpellerStatusChanged(int n) {
     }
 }

@@ -4,10 +4,8 @@
 package de.audi.app.terminalmode;
 
 public interface ITMDeviceSubsystem {
-    default public void activate() {
-    }
+    public void activate();
 
-    default public void deactivate() {
-    }
+    public void deactivate();
 }
 

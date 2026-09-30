@@ -12,7 +12,7 @@ import de.esolutions.fw.util.commons.job.Job;
 
 public class Timer
 implements Runnable {
-    public static final int DEFAULT_PRIORITY;
+    public static final int DEFAULT_PRIORITY = 5;
     private String name;
     private LogChannel log;
     private long due;
@@ -41,11 +41,11 @@ implements Runnable {
         this.parent = null;
     }
 
-    public void start() {
+    public void start() throws UnsupportedOperationException {
         this.doStart();
     }
 
-    public synchronized void restart() {
+    public synchronized void restart() throws UnsupportedOperationException {
         this.doCancel();
         this.doStart();
     }
@@ -54,7 +54,7 @@ implements Runnable {
         if (this.doCancel()) {
             this.receiver.cancelTimer(this);
             if (this.log != null) {
-                this.log.log(-2137614336, "canceled %1", (Object)this);
+                this.log.log(10000000, "canceled %1", (Object)this);
             }
             return true;
         }
@@ -113,11 +113,10 @@ implements Runnable {
         return this.prio;
     }
 
-    @Override
     public void run() {
         block5: {
             if (null != this.log) {
-                this.log.log(-2137614336, "%1 trigger event", (Object)this);
+                this.log.log(10000000, "%1 trigger event", (Object)this);
             }
             try {
                 if (this.receiver != null) {
@@ -130,7 +129,7 @@ implements Runnable {
             }
         }
         if (null != this.log) {
-            this.log.log(-2137614336, "%1 finished", (Object)this);
+            this.log.log(10000000, "%1 finished", (Object)this);
         }
     }
 
@@ -180,7 +179,7 @@ implements Runnable {
         }
         catch (NullPointerException nullPointerException) {
             if (this.log != null) {
-                this.log.log(-2137614336, "cancelTimer %1 failed, canceled by other thread in parallel", (Object)this);
+                this.log.log(10000000, "cancelTimer %1 failed, canceled by other thread in parallel", (Object)this);
             }
             return false;
         }

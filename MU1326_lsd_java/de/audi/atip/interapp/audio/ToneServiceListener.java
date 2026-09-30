@@ -4,10 +4,9 @@
 package de.audi.atip.interapp.audio;
 
 public interface ToneServiceListener {
-    public static final int APS_ENTERTAINMENT_LOWERING_COMBOBOX_OPEN;
-    public static final int APS_ENTERTAINMENT_LOWERING_COMBOBOX_CLOSED;
+    public static final int APS_ENTERTAINMENT_LOWERING_COMBOBOX_OPEN = 1;
+    public static final int APS_ENTERTAINMENT_LOWERING_COMBOBOX_CLOSED = 0;
 
-    default public void updateApsEntertainmentLoweringComboboxState(int n) {
-    }
+    public void updateApsEntertainmentLoweringComboboxState(int var1);
 }
 

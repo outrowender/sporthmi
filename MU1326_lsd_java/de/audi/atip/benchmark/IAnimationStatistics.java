@@ -7,9 +7,8 @@ import de.audi.atip.benchmark.IStatisticsInfoProvider;
 
 public interface IAnimationStatistics
 extends IStatisticsInfoProvider {
-    public static final String FILE_NAME;
+    public static final String FILE_NAME = "AnimationStatistics.csv";
 
-    default public void registerAnimation(int n, int n2, long l, long l2, long l3, int n3, Exception exception) {
-    }
+    public void registerAnimation(int var1, int var2, long var3, long var5, long var7, int var9, Exception var10);
 }
 

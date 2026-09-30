@@ -6,7 +6,6 @@ package de.audi.app.bap.fw.functiontypes;
 import de.audi.app.bap.fw.AbstractBAPModuleASG;
 import de.audi.app.bap.fw.functiontypes.AbstractBAPFunctionWithAck;
 import de.audi.app.bap.fw.functiontypes.AcknowledgeWatchdog;
-import de.audi.app.bap.fw.functiontypes.AcknowledgeWatchdog$AcknowledgeWatchdogListener;
 import de.audi.app.bap.fw.functiontypes.AcknowledgeWatchdogWithTimer;
 import de.audi.app.bap.fw.functiontypes.protocol.IBAPPropertyASGIND;
 import de.audi.app.bap.fw.functiontypes.protocol.IBAPPropertyASGREQ;
@@ -30,9 +29,9 @@ public class BAPFunctionPropertyASG
 extends AbstractBAPFunctionWithAck
 implements IBAPPropertyASGIND,
 IBAPPropertyASGREQ,
-AcknowledgeWatchdog$AcknowledgeWatchdogListener {
-    private static final int NO_ACKNOWLEDGE_TIMEOUT_DELAY_MS;
-    private static final int NO_ACKNOWLEDGE;
+AcknowledgeWatchdog.AcknowledgeWatchdogListener {
+    private static final int NO_ACKNOWLEDGE_TIMEOUT_DELAY_MS = 1000;
+    private static final int NO_ACKNOWLEDGE = -1;
     private final List requestsQueue = new ArrayList();
     private volatile boolean requestInFlight = false;
     private final AcknowledgeWatchdog acknowledgeWatchdog;
@@ -60,9 +59,8 @@ AcknowledgeWatchdog$AcknowledgeWatchdogListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void reset() {
-        this.logChannel.log(14808325, "[BAPFunctionPropertyASG#reset]");
+        this.logChannel.log(100000000, "[BAPFunctionPropertyASG#reset]");
         this.setGetSerializer = null;
         List list = this.requestsQueue;
         synchronized (list) {
@@ -72,7 +70,6 @@ AcknowledgeWatchdog$AcknowledgeWatchdogListener {
         }
     }
 
-    @Override
     public BAPEntity getIndicationSerializer(int n) {
         switch (n) {
             case 13: {
@@ -89,12 +86,10 @@ AcknowledgeWatchdog$AcknowledgeWatchdogListener {
         return null;
     }
 
-    @Override
     protected boolean isIndicationTypeSupported(int n) {
         return n == 9 || n == 8;
     }
 
-    @Override
     protected void doProcessIndication(int n, BAPEntity bAPEntity) {
         switch (n) {
             case 9: {
@@ -112,21 +107,18 @@ AcknowledgeWatchdog$AcknowledgeWatchdogListener {
         }
     }
 
-    @Override
     protected void doProcessError(int n) {
-        this.logChannel.log(-2137614336, "[BAPFunctionPropertyASG#doProcessError] Received BAP Error: 0x%2, %1", (Object)ErrorCodes.getDescription(n), (long)n);
+        this.logChannel.log(10000000, "[BAPFunctionPropertyASG#doProcessError] Received BAP Error: 0x%2, %1", (Object)ErrorCodes.getDescription(n), (long)n);
     }
 
-    @Override
     public void statusIND(StatusProperty statusProperty) {
-        this.logChannel.log(-2137614336, "[BAPFunctionPropertyASG#statusIND] lsgID=%1, fctID=%2", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
+        this.logChannel.log(10000000, "[BAPFunctionPropertyASG#statusIND] lsgID=%1, fctID=%2", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
         this.indicationHandler.processIndicationStatus(this, statusProperty);
         this.notifyListenersStatusIndicationReceived();
     }
 
-    @Override
     public void statusAckIND(StatusAckProperty statusAckProperty) {
-        this.logChannel.log(-2137614336, "[BAPFunctionPropertyASG#statusAckIND] lsgID=%1, fctID=%2", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
+        this.logChannel.log(10000000, "[BAPFunctionPropertyASG#statusAckIND] lsgID=%1, fctID=%2", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
         this.indicationHandler.processIndicationStatusAck(this, statusAckProperty);
         this.notifyListenersStatusIndicationReceived();
     }
@@ -134,7 +126,6 @@ AcknowledgeWatchdog$AcknowledgeWatchdogListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void getREQ() {
         List list = this.requestsQueue;
         synchronized (list) {
@@ -146,7 +137,6 @@ AcknowledgeWatchdog$AcknowledgeWatchdogListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setGetREQ() {
         if (this.setGetSerializer != null) {
             List list = this.requestsQueue;
@@ -160,7 +150,6 @@ AcknowledgeWatchdog$AcknowledgeWatchdogListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setGetREQ(SetGetProperty setGetProperty) {
         this.setGetSerializer = setGetProperty;
         List list = this.requestsQueue;
@@ -173,7 +162,6 @@ AcknowledgeWatchdog$AcknowledgeWatchdogListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void ackREQ(AckProperty ackProperty) {
         List list = this.requestsQueue;
         synchronized (list) {
@@ -183,25 +171,24 @@ AcknowledgeWatchdog$AcknowledgeWatchdogListener {
     }
 
     private void processQueue() {
-        this.logChannel.log(14808325, "[BAPFunctionPropertyASG#processQueue]");
+        this.logChannel.log(100000000, "[BAPFunctionPropertyASG#processQueue]");
         if (this.requestInFlight) {
             return;
         }
         Request request = (Request)this.requestsQueue.get(0);
         boolean bl = request.send();
         if (!bl) {
-            this.logChannel.log(-1601830656, "[BAPFunctionPropertyASG#processQueue] could not send request");
+            this.logChannel.log(100000, "[BAPFunctionPropertyASG#processQueue] could not send request");
             this.requestsQueue.remove(0);
             return;
         }
         this.acknowledgeWatchdog.activate();
         this.requestInFlight = true;
-        this.logChannel.log(14808325, "[BAPFunctionPropertyASG#processQueue] request sent");
+        this.logChannel.log(100000000, "[BAPFunctionPropertyASG#processQueue] request sent");
     }
 
-    @Override
     public void processAcknowledge(int n) {
-        this.logChannel.log(14808325, "[BAPFunctionPropertyASG#processAcknowledge]");
+        this.logChannel.log(100000000, "[BAPFunctionPropertyASG#processAcknowledge]");
         this.acknowledgeWatchdog.deactivate();
         this.handleNextRequestInQueue(n);
         super.processAcknowledge(n);
@@ -222,12 +209,12 @@ AcknowledgeWatchdog$AcknowledgeWatchdogListener {
             while (!bl && !this.requestsQueue.isEmpty()) {
                 bl = ((Request)this.requestsQueue.get(0)).send();
                 if (!bl) {
-                    this.logChannel.log(-1601830656, "[BAPFunctionPropertyASG#processQueue] could not send request");
+                    this.logChannel.log(100000, "[BAPFunctionPropertyASG#processQueue] could not send request");
                     this.requestsQueue.remove(0);
                     continue;
                 }
                 this.acknowledgeWatchdog.activate();
-                this.logChannel.log(14808325, "[BAPFunctionPropertyASG#handleNextRequestInQueue] request sent");
+                this.logChannel.log(100000000, "[BAPFunctionPropertyASG#handleNextRequestInQueue] request sent");
             }
             if (this.requestsQueue.isEmpty()) {
                 this.requestInFlight = false;
@@ -235,9 +222,8 @@ AcknowledgeWatchdog$AcknowledgeWatchdogListener {
         }
     }
 
-    @Override
     public void acknowledgeMissing() {
-        this.logChannel.log(-1601830656, "[BAPFunctionPropertyASG#acknowledgeMissing]");
+        this.logChannel.log(100000, "[BAPFunctionPropertyASG#acknowledgeMissing]");
         this.handleNextRequestInQueue(-1);
         this.notifyListenersAcknowledgeTimeout();
     }
@@ -246,7 +232,7 @@ AcknowledgeWatchdog$AcknowledgeWatchdogListener {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void addStatusListener(IBAPFunctionStatusListener iBAPFunctionStatusListener) {
-        this.logChannel.log(14808325, "[BAPFunctionPropertyASG#addStatusListener] listener: %1", (Object)iBAPFunctionStatusListener);
+        this.logChannel.log(100000000, "[BAPFunctionPropertyASG#addStatusListener] listener: %1", (Object)iBAPFunctionStatusListener);
         List list = this.statusListeners;
         synchronized (list) {
             if (!this.statusListeners.contains(iBAPFunctionStatusListener)) {
@@ -259,7 +245,7 @@ AcknowledgeWatchdog$AcknowledgeWatchdogListener {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void removeStatusListener(IBAPFunctionStatusListener iBAPFunctionStatusListener) {
-        this.logChannel.log(14808325, "[BAPFunctionPropertyASG#removeStatusListener] listener: %1", (Object)iBAPFunctionStatusListener);
+        this.logChannel.log(100000000, "[BAPFunctionPropertyASG#removeStatusListener] listener: %1", (Object)iBAPFunctionStatusListener);
         List list = this.statusListeners;
         synchronized (list) {
             this.statusListeners.remove(iBAPFunctionStatusListener);
@@ -278,7 +264,7 @@ AcknowledgeWatchdog$AcknowledgeWatchdogListener {
             }
             arrayList = new ArrayList(this.statusListeners);
         }
-        this.logChannel.log(14808325, "[BAPFunctionPropertyASG#notifyListenersDataChanged] status indication received -> inform listeners (lsgID=%1, fctID=%2)", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
+        this.logChannel.log(100000000, "[BAPFunctionPropertyASG#notifyListenersDataChanged] status indication received -> inform listeners (lsgID=%1, fctID=%2)", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
         object = arrayList.iterator();
         while (object.hasNext()) {
             IBAPFunctionStatusListener iBAPFunctionStatusListener = (IBAPFunctionStatusListener)object.next();

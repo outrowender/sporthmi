@@ -9,16 +9,12 @@ import de.audi.atip.metrics.AbstractMetrics;
 
 public interface MetricsModelApp
 extends HMIModelApp {
-    default public void setMetricsListener(MetricsListener metricsListener) {
-    }
+    public void setMetricsListener(MetricsListener var1);
 
-    default public void setMetric(AbstractMetrics abstractMetrics) {
-    }
+    public void setMetric(AbstractMetrics var1);
 
-    default public AbstractMetrics getMetric() {
-    }
+    public AbstractMetrics getMetric();
 
-    default public void formatChanged() {
-    }
+    public void formatChanged();
 }
 

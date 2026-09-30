@@ -20,7 +20,6 @@ implements IFavoriteLocationFormat {
         this.env = navigationEnv;
     }
 
-    @Override
     public String getDefaultName(NavLocation navLocation) {
         if (navLocation == null) {
             return "";

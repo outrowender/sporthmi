@@ -14,7 +14,6 @@ import de.audi.atip.search.AbstractSearch;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map$Entry;
 import org.dsi.ifc.search.SearchFilter;
 
 public final class MessagingSearch
@@ -29,20 +28,16 @@ implements IMessagingComponent {
         this.log = this.framework.getLogChannel("App.Messaging.Main");
     }
 
-    @Override
     public void addComponent(IMessagingComponent iMessagingComponent) {
         this.subcomponents.add(iMessagingComponent);
     }
 
-    @Override
     public void init(AbstractMsgApplication abstractMsgApplication) {
     }
 
-    @Override
     public void dispose() {
     }
 
-    @Override
     public void connect(IServiceRegistry iServiceRegistry) {
         try {
             this.subcomponents.connectAll(iServiceRegistry);
@@ -53,7 +48,6 @@ implements IMessagingComponent {
         }
     }
 
-    @Override
     public void disconnect() {
         try {
             this.subcomponents.disconnectAll();
@@ -70,7 +64,7 @@ implements IMessagingComponent {
         boolean bl2 = abstractGuiSearchHandler != this.getActiveGuiSearchHandler();
         boolean bl3 = bl = this.searchFilters != map2;
         if (this.log.isDebug()) {
-            this.log.log(-2137614336, "[MessagingSearch#switchConfiguration] guiSearchHandler = %1, hasHandlerChanged = %2, haveSearchFiltersChanged = %3", (Object)String.valueOf(abstractGuiSearchHandler), (Object)String.valueOf(bl2), (Object)String.valueOf(bl));
+            this.log.log(10000000, "[MessagingSearch#switchConfiguration] guiSearchHandler = %1, hasHandlerChanged = %2, haveSearchFiltersChanged = %3", (Object)String.valueOf(abstractGuiSearchHandler), (Object)String.valueOf(bl2), (Object)String.valueOf(bl));
         }
         if (bl2 || bl) {
             this.cancelQuery();
@@ -79,9 +73,9 @@ implements IMessagingComponent {
             this.searchFilters = map2;
             Iterator iterator = map2.entrySet().iterator();
             while (iterator.hasNext()) {
-                Map$Entry map$Entry = (Map$Entry)iterator.next();
-                int n = (Integer)map$Entry.getKey();
-                SearchFilter searchFilter = (SearchFilter)map$Entry.getValue();
+                Map.Entry entry = (Map.Entry)iterator.next();
+                int n = (Integer)entry.getKey();
+                SearchFilter searchFilter = (SearchFilter)entry.getValue();
                 this.setSearchFilter(n, searchFilter);
             }
         }

@@ -16,55 +16,38 @@ import java.util.List;
 
 public interface IGridFactory
 extends DumpInfoProvider {
-    default public IGridList createGridList(int n) {
-    }
+    public IGridList createGridList(int var1);
 
-    default public IGridList synchronizedGridList(IGridList iGridList) {
-    }
+    public IGridList synchronizedGridList(IGridList var1);
 
-    default public IGridList partiallySynchronizedGridList(IGridList iGridList) {
-    }
+    public IGridList partiallySynchronizedGridList(IGridList var1);
 
-    default public IGrid createGrid(int n) {
-    }
+    public IGrid createGrid(int var1);
 
-    default public IGridRow createGridRow() {
-    }
+    public IGridRow createGridRow();
 
-    default public IGridRow createGridRow(int n, int n2) {
-    }
+    public IGridRow createGridRow(int var1, int var2);
 
-    default public IGridColumn createGridColumn() {
-    }
+    public IGridColumn createGridColumn();
 
-    default public IGridColumn createGridColumn(String string, int n, int n2, int n3, int n4) {
-    }
+    public IGridColumn createGridColumn(String var1, int var2, int var3, int var4, int var5);
 
-    default public IGridCell createGridCell(int n, int n2, int n3) {
-    }
+    public IGridCell createGridCell(int var1, int var2, int var3);
 
-    default public ICursor createCursor() {
-    }
+    public ICursor createCursor();
 
-    default public ICursor createCursor(ICursorComponent iCursorComponent, ICursorComponent iCursorComponent2) {
-    }
+    public ICursor createCursor(ICursorComponent var1, ICursorComponent var2);
 
-    default public ICursor createCursor(ICursorComponent iCursorComponent, ICursorComponent iCursorComponent2, boolean bl) {
-    }
+    public ICursor createCursor(ICursorComponent var1, ICursorComponent var2, boolean var3);
 
-    default public ICursorComponent createCursorComponent() {
-    }
+    public ICursorComponent createCursorComponent();
 
-    default public ICursorComponent createCursorComponent(int n, int n2, String string, String string2) {
-    }
+    public ICursorComponent createCursorComponent(int var1, int var2, String var3, String var4);
 
-    default public ISpeller createSpeller(int n) {
-    }
+    public ISpeller createSpeller(int var1);
 
-    default public void notifyGridListCreated(IGridList iGridList) {
-    }
+    public void notifyGridListCreated(IGridList var1);
 
-    default public List createSubmenuPreviewCells(int n, int n2, IGridCell iGridCell, IGridCell iGridCell2) {
-    }
+    public List createSubmenuPreviewCells(int var1, int var2, IGridCell var3, IGridCell var4);
 }
 

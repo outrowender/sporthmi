@@ -10,7 +10,7 @@ import de.audi.atip.timer.TimerListener;
 
 public class PopupHandler
 implements TimerListener {
-    public static final int MIN_POPUP_SHOW_DURATION;
+    public static final int MIN_POPUP_SHOW_DURATION = 3000;
     private HMIService hmiService;
     private LogChannel log;
     private Timer timer;
@@ -45,13 +45,11 @@ implements TimerListener {
         }
     }
 
-    @Override
     public void fireTimer(Timer timer) {
-        this.log.log(1078071040, "PopupHandler#fireTimer minimum popup show duration expired");
+        this.log.log(1000000, "PopupHandler#fireTimer minimum popup show duration expired");
         this.handlePopups();
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 
@@ -63,7 +61,7 @@ implements TimerListener {
 
     private void handlePopups() {
         if (this.removePopupDelayed) {
-            this.log.log(1078071040, "PopupHandler#fireTimer minimum popup show duration expired, removing delayed popup id=%1", (long)this.popupId);
+            this.log.log(1000000, "PopupHandler#fireTimer minimum popup show duration expired, removing delayed popup id=%1", (long)this.popupId);
             this.removePopupDelayed = false;
             this.hmiService.removePopup(this.popupId);
         }

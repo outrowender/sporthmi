@@ -4,7 +4,6 @@
 package de.audi.app.car.core.charisma.proxy;
 
 public interface ICharismaIndividualSettingsClient {
-    default public void notifySaveIndividualSettingsRequest() {
-    }
+    public void notifySaveIndividualSettingsRequest();
 }
 

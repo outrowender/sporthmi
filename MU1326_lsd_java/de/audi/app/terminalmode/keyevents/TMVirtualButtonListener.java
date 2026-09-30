@@ -17,7 +17,7 @@ import de.audi.atip.log.LogChannel;
 public class TMVirtualButtonListener
 implements VirtualButtonListener,
 ITerminalModeComponent {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "TMVirtualButtonListener";
     protected final LogChannel logger;
     private final IHMIServiceApp hmiService;
     private final NullTerminalModeDSIKeyEventsController nullKeyEventListener;
@@ -36,229 +36,202 @@ ITerminalModeComponent {
         this.incrementMultiplier = this.configuration.isKnobDirectionInverted() ? 1 : -1;
     }
 
-    @Override
     public void init() {
-        this.logger.log(14808325, "[%1.init]", (Object)"TMVirtualButtonListener");
+        this.logger.log(100000000, "[%1.init]", (Object)LOGCLASS);
         if (this.configuration.hasTwoVirtualButtonModels()) {
-            this.hmiService.getVirtualButtonModel(651440128).setVirtualButtonListener(this);
+            this.hmiService.getVirtualButtonModel(3200038).setVirtualButtonListener(this);
         }
-        this.hmiService.getVirtualButtonModel(634662912).setVirtualButtonListener(this);
+        this.hmiService.getVirtualButtonModel(3200037).setVirtualButtonListener(this);
     }
 
-    @Override
     public void deinit() {
-        this.logger.log(1078071040, "[%1.deinit]", (Object)"TMVirtualButtonListener");
+        this.logger.log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         if (this.configuration.hasTwoVirtualButtonModels()) {
-            this.hmiService.getVirtualButtonModel(651440128).setVirtualButtonListener(null);
+            this.hmiService.getVirtualButtonModel(3200038).setVirtualButtonListener(null);
         }
-        this.hmiService.getVirtualButtonModel(634662912).setVirtualButtonListener(null);
+        this.hmiService.getVirtualButtonModel(3200037).setVirtualButtonListener(null);
     }
 
-    @Override
     public void decrement(int n, int n2, int n3) {
         if (this.logger.isDebug2()) {
-            this.logger.log(14808325, "[%1.decrement] %3 %2", (Object)"TMVirtualButtonListener", (Object)String.valueOf(n2), (Object)String.valueOf(n));
+            this.logger.log(100000000, "[%1.decrement] %3 %2", (Object)LOGCLASS, (Object)String.valueOf(n2), (Object)String.valueOf(n));
         }
         this.keyEventListener.updateRotary(n2 * this.decrementMultiplier);
     }
 
-    @Override
     public void increment(int n, int n2, int n3) {
         if (this.logger.isDebug2()) {
-            this.logger.log(14808325, "[%1.increment] %3 %2", (Object)"TMVirtualButtonListener", (Object)String.valueOf(n2), (Object)String.valueOf(n));
+            this.logger.log(100000000, "[%1.increment] %3 %2", (Object)LOGCLASS, (Object)String.valueOf(n2), (Object)String.valueOf(n));
         }
         this.keyEventListener.updateRotary(n2 * this.incrementMultiplier);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
         Key key;
-        if (634662912 == n && this.configuration.hasTwoVirtualButtonModels()) {
+        if (3200037 == n && this.configuration.hasTwoVirtualButtonModels()) {
             return;
         }
         if (this.logger.isDebug2()) {
-            this.logger.log(14808325, "[%1.keyPressed] %3 %2", (Object)"TMVirtualButtonListener", (Object)String.valueOf(n2), (Object)String.valueOf(n));
+            this.logger.log(100000000, "[%1.keyPressed] %3 %2", (Object)LOGCLASS, (Object)String.valueOf(n2), (Object)String.valueOf(n));
         }
         if (null != (key = this.getKey(n2))) {
             this.keyEventListener.updateKey(key, KeyState.PRESSED);
         }
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
         Key key;
-        if (634662912 == n && this.configuration.hasTwoVirtualButtonModels()) {
+        if (3200037 == n && this.configuration.hasTwoVirtualButtonModels()) {
             return;
         }
         if (this.logger.isDebug2()) {
-            this.logger.log(14808325, "[%1.keyReleased] %3 %2", (Object)"TMVirtualButtonListener", (Object)String.valueOf(n2), (Object)String.valueOf(n));
+            this.logger.log(100000000, "[%1.keyReleased] %3 %2", (Object)LOGCLASS, (Object)String.valueOf(n2), (Object)String.valueOf(n));
         }
         if (null != (key = this.getKey(n2))) {
             this.keyEventListener.updateKey(key, KeyState.RELEASED);
         }
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        if (634662912 == n && this.configuration.hasTwoVirtualButtonModels()) {
+        if (3200037 == n && this.configuration.hasTwoVirtualButtonModels()) {
             return;
         }
         if (this.logger.isDebug2()) {
-            this.logger.log(14808325, "[%1.keyTyped] %3 %2", (Object)"TMVirtualButtonListener", (Object)String.valueOf(n2), (Object)String.valueOf(n));
+            this.logger.log(100000000, "[%1.keyTyped] %3 %2", (Object)LOGCLASS, (Object)String.valueOf(n2), (Object)String.valueOf(n));
         }
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
         if (this.logger.isDebug2()) {
-            this.logger.log(14808325, "[%1.keyLongTyped] %3 %2", (Object)"TMVirtualButtonListener", (Object)String.valueOf(n2), (Object)String.valueOf(n));
+            this.logger.log(100000000, "[%1.keyLongTyped] %3 %2", (Object)LOGCLASS, (Object)String.valueOf(n2), (Object)String.valueOf(n));
         }
     }
 
-    @Override
     public void stickN(int n, int n2) {
-        if (634662912 == n && this.configuration.hasTwoVirtualButtonModels()) {
+        if (3200037 == n && this.configuration.hasTwoVirtualButtonModels()) {
             return;
         }
         if (this.logger.isDebug2()) {
-            this.logger.log(14808325, "[%1.stickN]", (Object)"TMVirtualButtonListener");
+            this.logger.log(100000000, "[%1.stickN]", (Object)LOGCLASS);
         }
         this.keyEventListener.updateKey(Key.JS_NORTH, KeyState.PRESSED);
     }
 
-    @Override
     public void stickNW(int n, int n2) {
         if (this.logger.isDebug2()) {
-            this.logger.log(14808325, "[%1.stickNW]", (Object)"TMVirtualButtonListener");
+            this.logger.log(100000000, "[%1.stickNW]", (Object)LOGCLASS);
         }
     }
 
-    @Override
     public void stickW(int n, int n2) {
-        if (634662912 == n && this.configuration.hasTwoVirtualButtonModels()) {
+        if (3200037 == n && this.configuration.hasTwoVirtualButtonModels()) {
             return;
         }
         if (this.logger.isDebug2()) {
-            this.logger.log(14808325, "[%1.stickW]", (Object)"TMVirtualButtonListener");
+            this.logger.log(100000000, "[%1.stickW]", (Object)LOGCLASS);
         }
         this.keyEventListener.updateKey(Key.JS_WEST, KeyState.PRESSED);
     }
 
-    @Override
     public void stickSW(int n, int n2) {
         if (this.logger.isDebug2()) {
-            this.logger.log(14808325, "[%1.stickSW]", (Object)"TMVirtualButtonListener");
+            this.logger.log(100000000, "[%1.stickSW]", (Object)LOGCLASS);
         }
     }
 
-    @Override
     public void stickS(int n, int n2) {
-        if (634662912 == n && this.configuration.hasTwoVirtualButtonModels()) {
+        if (3200037 == n && this.configuration.hasTwoVirtualButtonModels()) {
             return;
         }
         if (this.logger.isDebug2()) {
-            this.logger.log(14808325, "[%1.stickS]", (Object)"TMVirtualButtonListener");
+            this.logger.log(100000000, "[%1.stickS]", (Object)LOGCLASS);
         }
         this.keyEventListener.updateKey(Key.JS_SOUTH, KeyState.PRESSED);
     }
 
-    @Override
     public void stickSE(int n, int n2) {
         if (this.logger.isDebug2()) {
-            this.logger.log(14808325, "[%1.stickSE]", (Object)"TMVirtualButtonListener");
+            this.logger.log(100000000, "[%1.stickSE]", (Object)LOGCLASS);
         }
     }
 
-    @Override
     public void stickE(int n, int n2) {
-        if (634662912 == n && this.configuration.hasTwoVirtualButtonModels()) {
+        if (3200037 == n && this.configuration.hasTwoVirtualButtonModels()) {
             return;
         }
         if (this.logger.isDebug2()) {
-            this.logger.log(14808325, "[%1.stickE]", (Object)"TMVirtualButtonListener");
+            this.logger.log(100000000, "[%1.stickE]", (Object)LOGCLASS);
         }
         this.keyEventListener.updateKey(Key.JS_EAST, KeyState.PRESSED);
     }
 
-    @Override
     public void stickNE(int n, int n2) {
         if (this.logger.isDebug2()) {
-            this.logger.log(14808325, "[%1.stickNE]", (Object)"TMVirtualButtonListener");
+            this.logger.log(100000000, "[%1.stickNE]", (Object)LOGCLASS);
         }
     }
 
-    @Override
     public void stickIdle(int n, int n2) {
-        if (634662912 == n && this.configuration.hasTwoVirtualButtonModels()) {
+        if (3200037 == n && this.configuration.hasTwoVirtualButtonModels()) {
             return;
         }
         if (this.logger.isDebug2()) {
-            this.logger.log(14808325, "[%1.stickIdle]", (Object)"TMVirtualButtonListener");
+            this.logger.log(100000000, "[%1.stickIdle]", (Object)LOGCLASS);
         }
         this.keyEventListener.updateKey(Key.JS_MIDDLE, KeyState.PRESSED);
     }
 
-    @Override
     public void touchPadPositionMoved(int n, int n2, int n3, int n4, int n5, int n6) {
         if (this.logger.isDebug2()) {
-            this.logger.log(14808325, "[%1.touchPadPositionMoved]", (Object)"TMVirtualButtonListener");
+            this.logger.log(100000000, "[%1.touchPadPositionMoved]", (Object)LOGCLASS);
         }
     }
 
-    @Override
     public void touchPadReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void touchPadPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void touchScreenMoved(int n, int n2, int n3, int n4, int n5, int n6) {
         if (this.logger.isDebug2()) {
-            this.logger.log(14808325, "[%1.touchScreenMoved]", (Object)"TMVirtualButtonListener");
+            this.logger.log(100000000, "[%1.touchScreenMoved]", (Object)LOGCLASS);
         }
     }
 
-    @Override
     public void touchScreenPressed(int n, int n2, int n3, int n4) {
         if (this.logger.isDebug2()) {
-            this.logger.log(14808325, "[%1.touchScreenPressed]", (Object)"TMVirtualButtonListener");
+            this.logger.log(100000000, "[%1.touchScreenPressed]", (Object)LOGCLASS);
         }
     }
 
-    @Override
     public void touchScreenLongPressed(int n, int n2, int n3, int n4) {
         if (this.logger.isDebug2()) {
-            this.logger.log(14808325, "[%1.touchScreenLongPressed]", (Object)"TMVirtualButtonListener");
+            this.logger.log(100000000, "[%1.touchScreenLongPressed]", (Object)LOGCLASS);
         }
     }
 
-    @Override
     public void touchScreenReleased(int n, int n2, int n3, int n4) {
         if (this.logger.isDebug2()) {
-            this.logger.log(14808325, "[%1.touchScreenReleased]", (Object)"TMVirtualButtonListener");
+            this.logger.log(100000000, "[%1.touchScreenReleased]", (Object)LOGCLASS);
         }
     }
 
-    @Override
     public void touchScreenDoubleClick(int n, int n2, int n3, int n4) {
         if (this.logger.isDebug2()) {
-            this.logger.log(14808325, "[%1.touchScreenDoubleClick]", (Object)"TMVirtualButtonListener");
+            this.logger.log(100000000, "[%1.touchScreenDoubleClick]", (Object)LOGCLASS);
         }
     }
 
-    @Override
     public void touchScreenPinch(int n, float f2, int n2, int n3, int n4) {
         if (this.logger.isDebug2()) {
-            this.logger.log(14808325, "[%1.touchScreenPinch]", (Object)"TMVirtualButtonListener");
+            this.logger.log(100000000, "[%1.touchScreenPinch]", (Object)LOGCLASS);
         }
     }
 
-    @Override
     public void touchScreenRotate(int n, short s, int n2) {
         if (this.logger.isDebug2()) {
-            this.logger.log(14808325, "[%1.touchScreenRotate]", (Object)"TMVirtualButtonListener");
+            this.logger.log(100000000, "[%1.touchScreenRotate]", (Object)LOGCLASS);
         }
     }
 

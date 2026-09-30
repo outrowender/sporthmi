@@ -13,20 +13,16 @@ implements IDragAndDropHandler {
     private FallbackDragAndDropHandler() {
     }
 
-    @Override
     public void stopDrag(int n, long l, int n2, long l2) {
     }
 
-    @Override
     public int startDrag(int n, long l, int n2) {
         return 1;
     }
 
-    @Override
     public void drop(int n, long l, int n2, long l2, int n3, int n4) {
     }
 
-    @Override
     public void addListener(DragAndDropListener dragAndDropListener) {
     }
 }

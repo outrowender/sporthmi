@@ -25,25 +25,21 @@ implements ServiceTrackerCustomizer {
         this.bapServiceEcallTracker = new EcallServiceTracker(this.getApplication().getBundleContext(), (class$de$audi$atip$interapp$bap$ecall$BAPServiceEcall == null ? (class$de$audi$atip$interapp$bap$ecall$BAPServiceEcall = EcallBapServiceAdapterCustomizer.class$("de.audi.atip.interapp.bap.ecall.BAPServiceEcall")) : class$de$audi$atip$interapp$bap$ecall$BAPServiceEcall).getName(), (ServiceTrackerCustomizer)this, this.log);
     }
 
-    @Override
     public void init() {
         this.bapServiceEcallTracker.openTracker();
     }
 
-    @Override
     public void deinit() {
         this.bapServiceEcallTracker.closeTracker();
     }
 
-    @Override
     public IEcallBapServiceAdapter getEcallBapServiceAdapter() {
         return this.ecallBapServiceAdapter;
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.getApplication().getBundleContext().getService(serviceReference);
-        this.log.log(-2137614336, "EcallBapServiceAdapterCustomizer#addingService(): service: %1", object);
+        this.log.log(10000000, "EcallBapServiceAdapterCustomizer#addingService(): service: %1", object);
         if (object instanceof BAPServiceEcall) {
             this.ecallBapServiceAdapter = new EcallBapServiceAdapter((BAPServiceEcall)object, this.log);
             return object;
@@ -52,14 +48,12 @@ implements ServiceTrackerCustomizer {
         return null;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof BAPServiceEcall) {
-            this.log.log(-2137614336, "EcallBapServiceAdapterCustomizer#removedService(): removing ecall bap service");
+            this.log.log(10000000, "EcallBapServiceAdapterCustomizer#removedService(): removing ecall bap service");
             this.getApplication().getBundleContext().ungetService(serviceReference);
             this.ecallBapServiceAdapter = new EcallBapServiceAdapter(new NullBAPServiceEcall(this.log), this.log);
         }

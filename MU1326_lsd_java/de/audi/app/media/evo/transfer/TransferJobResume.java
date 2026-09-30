@@ -12,48 +12,42 @@ import de.audi.atip.log.LogChannel;
 
 public class TransferJobResume
 extends TransferJobRunning {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "TransferJobResume";
     private boolean jobWasResumed = false;
 
     public TransferJobResume(LogChannel logChannel, ITransferController iTransferController, EvoTransferController evoTransferController, EvoTransferState evoTransferState) {
         super(logChannel, new TransferItemNone(), iTransferController, evoTransferController, evoTransferState);
     }
 
-    @Override
     public int getType() {
         return 4;
     }
 
-    @Override
     public String getName() {
-        return "TransferJobResume";
+        return LOGCLASS;
     }
 
-    @Override
     public void start() {
-        this.logger.log(1078071040, "[%1.start]", (Object)"TransferJobResume");
+        this.logger.log(1000000, "[%1.start]", (Object)LOGCLASS);
     }
 
-    @Override
     public void readyForTransfer() {
-        this.logger.log(1078071040, "[%1.readyForTransfer]", (Object)"TransferJobResume");
+        this.logger.log(1000000, "[%1.readyForTransfer]", (Object)LOGCLASS);
         if (this.jobWasResumed) {
-            this.evoTransferController.updateModelsAndShowTransferPopup(1074594560);
+            this.evoTransferController.updateModelsAndShowTransferPopup(200000);
         }
         this.evoTransferController.enableTransfer();
         this.getExecutionContext().jobFinished();
     }
 
-    @Override
     public void importIsSuspended() {
-        this.logger.log(1078071040, "[%1.importIsSuspended]", (Object)"TransferJobResume");
+        this.logger.log(1000000, "[%1.importIsSuspended]", (Object)LOGCLASS);
         this.jobWasResumed = true;
         this.evoTransferController.disableTransfer();
     }
 
-    @Override
     public void importWillBeResumed() {
-        this.logger.log(1078071040, "[%1.importWillBeResumed]", (Object)"TransferJobResume");
+        this.logger.log(1000000, "[%1.importWillBeResumed]", (Object)LOGCLASS);
         this.jobWasResumed = true;
         this.evoTransferController.disableTransfer();
     }

@@ -13,71 +13,53 @@ import org.dsi.ifc.speechrec.NBestList;
 
 public interface SystemSDSHandler
 extends ISDSApplication {
-    public static final int DIALOG_CONTEXT_MAIN;
-    public static final int DIALOG_CONTEXT_ADB;
-    public static final int DIALOG_CONTEXT_MEDIA;
-    public static final int DIALOG_CONTEXT_MESSAGING;
-    public static final int DIALOG_CONTEXT_NAVI;
-    public static final int DIALOG_CONTEXT_NAVI_ASIA_CNTW;
-    public static final int DIALOG_CONTEXT_NAVI_POI_ONLINE;
-    public static final int DIALOG_CONTEXT_PHONE;
-    public static final int DIALOG_CONTEXT_RHMI;
-    public static final int DIALOG_CONTEXT_TUNER;
-    public static final int DIALOG_CONTEXT_NAVI_ASIA_JP;
-    public static final int DIALOG_CONTEXT_NAVI_ASIA_KR;
+    public static final int DIALOG_CONTEXT_MAIN = 0;
+    public static final int DIALOG_CONTEXT_ADB = 1;
+    public static final int DIALOG_CONTEXT_MEDIA = 2;
+    public static final int DIALOG_CONTEXT_MESSAGING = 3;
+    public static final int DIALOG_CONTEXT_NAVI = 4;
+    public static final int DIALOG_CONTEXT_NAVI_ASIA_CNTW = 5;
+    public static final int DIALOG_CONTEXT_NAVI_POI_ONLINE = 6;
+    public static final int DIALOG_CONTEXT_PHONE = 7;
+    public static final int DIALOG_CONTEXT_RHMI = 8;
+    public static final int DIALOG_CONTEXT_TUNER = 9;
+    public static final int DIALOG_CONTEXT_NAVI_ASIA_JP = 10;
+    public static final int DIALOG_CONTEXT_NAVI_ASIA_KR = 11;
 
-    default public void abortedCurrentRecognition() {
-    }
+    public void abortedCurrentRecognition();
 
-    default public void abortedCurrentPrompt() {
-    }
+    public void abortedCurrentPrompt();
 
-    default public boolean abortCurrentRecognition(byte by, boolean bl, int n) {
-    }
+    public boolean abortCurrentRecognition(byte var1, boolean var2, int var3);
 
-    default public boolean abortCurrentPrompt(byte by, boolean bl, int n) {
-    }
+    public boolean abortCurrentPrompt(byte var1, boolean var2, int var3);
 
-    default public void setCommandListManager(CommandListManager commandListManager) {
-    }
+    public void setCommandListManager(CommandListManager var1);
 
-    default public void setSystemVBIHandler(ISystemVBIHandler iSystemVBIHandler) {
-    }
+    public void setSystemVBIHandler(ISystemVBIHandler var1);
 
-    default public void handleIllegalCommand(String string) {
-    }
+    public void handleIllegalCommand(String var1);
 
-    default public void responseHandleIllegalCommand() {
-    }
+    public void responseHandleIllegalCommand();
 
-    default public void responseRequestAudioConnections(boolean bl) {
-    }
+    public void responseRequestAudioConnections(boolean var1);
 
-    default public void responseReleaseAudioConnections(boolean bl) {
-    }
+    public void responseReleaseAudioConnections(boolean var1);
 
-    default public void responseRequestGGAsNBestList(int n, NBestList nBestList) {
-    }
+    public void responseRequestGGAsNBestList(int var1, NBestList var2);
 
-    default public void setConnectivityService(ISdsConnectivityService iSdsConnectivityService) {
-    }
+    public void setConnectivityService(ISdsConnectivityService var1);
 
-    default public void unsetConnectivityService() {
-    }
+    public void unsetConnectivityService();
 
-    default public void systemScreenConnected(int n) {
-    }
+    public void systemScreenConnected(int var1);
 
-    default public void systemScreenFadedOut(int n) {
-    }
+    public void systemScreenFadedOut(int var1);
 
-    default public SpeechTTSHandler getTTSHandler() {
-    }
+    public SpeechTTSHandler getTTSHandler();
 
-    default public byte getAbortingType() {
-    }
+    public byte getAbortingType();
 
-    default public void setPlayPrioPromptCallback(PlayPrioPromptCallback playPrioPromptCallback) {
-    }
+    public void setPlayPrioPromptCallback(PlayPrioPromptCallback var1);
 }
 

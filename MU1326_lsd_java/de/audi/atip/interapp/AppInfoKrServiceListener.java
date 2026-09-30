@@ -6,16 +6,12 @@ package de.audi.atip.interapp;
 import de.audi.atip.interapp.SDSListEntry;
 
 public interface AppInfoKrServiceListener {
-    default public void responseShowSimpleMap(int n) {
-    }
+    public void responseShowSimpleMap(int var1);
 
-    default public void responseStartSimpleMapFreeSelection(int n) {
-    }
+    public void responseStartSimpleMapFreeSelection(int var1);
 
-    default public void updateSpeakableSimpleMaps(SDSListEntry[] sDSListEntryArray) {
-    }
+    public void updateSpeakableSimpleMaps(SDSListEntry[] var1);
 
-    default public void responseRefreshSpeakableSimpleMaps(int n) {
-    }
+    public void responseRefreshSpeakableSimpleMaps(int var1);
 }
 

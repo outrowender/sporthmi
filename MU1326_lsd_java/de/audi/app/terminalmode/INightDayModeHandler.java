@@ -4,7 +4,6 @@
 package de.audi.app.terminalmode;
 
 public interface INightDayModeHandler {
-    default public boolean getRequestedNightMode() {
-    }
+    public boolean getRequestedNightMode();
 }
 

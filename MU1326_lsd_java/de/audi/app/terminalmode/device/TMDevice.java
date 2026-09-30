@@ -3,15 +3,14 @@
  */
 package de.audi.app.terminalmode.device;
 
-import de.audi.app.terminalmode.SmartphoneManager$SmartphoneType;
-import de.audi.app.terminalmode.device.TMDevice$1;
-import de.audi.app.terminalmode.device.TMDevice$ConnectionState;
-import de.audi.app.terminalmode.device.TMDevice$UserAcceptState;
+import de.audi.app.terminalmode.SmartphoneManager;
 import de.audi.app.terminalmode.device.TMDeviceID;
+import de.audi.app.terminalmode.util.Enum;
 import de.audi.app.terminalmode.util.Streamable;
-import de.audi.app.terminalmode.util.Streamable$Creator;
 import de.esolutions.fw.util.commons.Buffer;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 
 public class TMDevice
 implements Streamable {
@@ -19,21 +18,32 @@ implements Streamable {
     private final String shortUniqueId;
     private volatile int id = -1;
     private volatile String name = "";
-    private volatile TMDevice$ConnectionState connectionState;
-    private volatile TMDevice$UserAcceptState userAcceptState;
+    private volatile ConnectionState connectionState;
+    private volatile UserAcceptState userAcceptState;
     private volatile boolean isSelected;
     private volatile boolean wasDisclaimerPreviouslyAccepted;
     private volatile boolean storeUserAcceptState;
     private volatile long attachedTime;
-    public static final Streamable$Creator CREATOR = new TMDevice$1();
+    public static final Streamable.Creator CREATOR = new Streamable.Creator(){
+
+        public Object readFromStream(DataInputStream dataInputStream) throws IOException, IllegalArgumentException, SecurityException, IllegalAccessException, NoSuchFieldException {
+            String string = dataInputStream.readUTF();
+            String string2 = dataInputStream.readUTF();
+            String string3 = dataInputStream.readBoolean() ? dataInputStream.readUTF() : null;
+            String string4 = dataInputStream.readUTF();
+            boolean bl = dataInputStream.readBoolean();
+            boolean bl2 = dataInputStream.readBoolean();
+            return new TMDevice(new TMDeviceID(string, SmartphoneManager.SmartphoneType.valueOf(string2))).setName(string3).setUserAcceptState(UserAcceptState.valueOf(string4)).setWasDisclaimerPreviouslyAccepted(bl).setStoreUserAcceptState(bl2);
+        }
+    };
     public static final TMDevice INVALID = new TMDevice(TMDeviceID.INVALID);
     static /* synthetic */ Class class$de$audi$app$terminalmode$device$TMDevice$UserAcceptState;
 
     public TMDevice(TMDeviceID tMDeviceID) {
         this.uniqueId = tMDeviceID;
         this.shortUniqueId = tMDeviceID.address == null ? "null" : tMDeviceID.address.substring(0, Math.min(tMDeviceID.address.length(), 7));
-        this.userAcceptState = TMDevice$UserAcceptState.INITIAL;
-        this.connectionState = TMDevice$ConnectionState.INVALID;
+        this.userAcceptState = UserAcceptState.INITIAL;
+        this.connectionState = ConnectionState.INVALID;
     }
 
     public TMDeviceID getUniqueID() {
@@ -49,30 +59,30 @@ implements Streamable {
     }
 
     public boolean isCarplayDevice() {
-        return this.uniqueId.smartphoneType.is(SmartphoneManager$SmartphoneType.CARPLAY);
+        return this.uniqueId.smartphoneType.is(SmartphoneManager.SmartphoneType.CARPLAY);
     }
 
     public boolean isAndroidAutoDevice() {
-        return this.uniqueId.smartphoneType.is(SmartphoneManager$SmartphoneType.ANDROIDAUTO2);
+        return this.uniqueId.smartphoneType.is(SmartphoneManager.SmartphoneType.ANDROIDAUTO2);
     }
 
     public boolean isCarlifeDevice() {
-        return this.uniqueId.smartphoneType.is(SmartphoneManager$SmartphoneType.CARLIFE);
+        return this.uniqueId.smartphoneType.is(SmartphoneManager.SmartphoneType.CARLIFE);
     }
 
     public boolean isActive() {
-        return this.connectionState().equals(TMDevice$ConnectionState.ACTIVE);
+        return this.connectionState().equals(ConnectionState.ACTIVE);
     }
 
-    public TMDevice$ConnectionState connectionState() {
+    public ConnectionState connectionState() {
         return this.connectionState;
     }
 
-    public TMDevice$UserAcceptState userAcceptState() {
+    public UserAcceptState userAcceptState() {
         return this.userAcceptState;
     }
 
-    public SmartphoneManager$SmartphoneType smartphoneType() {
+    public SmartphoneManager.SmartphoneType smartphoneType() {
         return this.uniqueId.smartphoneType;
     }
 
@@ -102,13 +112,13 @@ implements Streamable {
         return this;
     }
 
-    TMDevice setConnectionState(TMDevice$ConnectionState tMDevice$ConnectionState) {
-        this.connectionState = tMDevice$ConnectionState;
+    TMDevice setConnectionState(ConnectionState connectionState) {
+        this.connectionState = connectionState;
         return this;
     }
 
-    public TMDevice setUserAcceptState(TMDevice$UserAcceptState tMDevice$UserAcceptState) {
-        this.userAcceptState = tMDevice$UserAcceptState;
+    public TMDevice setUserAcceptState(UserAcceptState userAcceptState) {
+        this.userAcceptState = userAcceptState;
         return this;
     }
 
@@ -143,8 +153,7 @@ implements Streamable {
         return this.connectionState().toString();
     }
 
-    @Override
-    public void writeToStream(DataOutputStream dataOutputStream) {
+    public void writeToStream(DataOutputStream dataOutputStream) throws IOException {
         dataOutputStream.writeUTF(this.uniqueId.address);
         dataOutputStream.writeUTF(this.uniqueId.smartphoneType.name());
         dataOutputStream.writeBoolean(this.name != null);
@@ -162,6 +171,44 @@ implements Streamable {
         }
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
+        }
+    }
+
+    /*
+     * This class specifies class file version 49.0 but uses Java 6 signatures.  Assumed Java 6.
+     */
+    public static class ConnectionState
+    extends Enum<ConnectionState> {
+        public static final ConnectionState INVALID = new ConnectionState("INVALID");
+        public static final ConnectionState NOT_ATTACHED = new ConnectionState("NOT_ATTACHED");
+        public static final ConnectionState ATTACHED = new ConnectionState("ATTACHED");
+        public static final ConnectionState ACTIVATING = new ConnectionState("ACTIVATING");
+        public static final ConnectionState ACTIVE = new ConnectionState("ACTIVE");
+        public static final ConnectionState CONNECTED = new ConnectionState("CONNECTED");
+        public static final ConnectionState CONNECTING = new ConnectionState("CONNECTING");
+
+        private ConnectionState(String string) {
+            super(string);
+        }
+    }
+
+    /*
+     * This class specifies class file version 49.0 but uses Java 6 signatures.  Assumed Java 6.
+     */
+    public static class UserAcceptState
+    extends Enum<UserAcceptState> {
+        public static final UserAcceptState INITIAL = new UserAcceptState("INITIAL");
+        public static final UserAcceptState TM_SELECTED = new UserAcceptState("TM_SELECTED");
+        public static final UserAcceptState NATIVE_SELECTED = new UserAcceptState("NATIVE_SELECTED");
+        public static final UserAcceptState DISCLAIMER_ACCEPTED = new UserAcceptState("DISCLAIMER_ACCEPTED");
+        public static final UserAcceptState NATIVE = new UserAcceptState("NATIVE");
+
+        private UserAcceptState(String string) {
+            super(string);
+        }
+
+        public static UserAcceptState valueOf(String string) throws IllegalArgumentException, SecurityException, IllegalAccessException, NoSuchFieldException {
+            return (UserAcceptState)(class$de$audi$app$terminalmode$device$TMDevice$UserAcceptState == null ? (class$de$audi$app$terminalmode$device$TMDevice$UserAcceptState = TMDevice.class$("de.audi.app.terminalmode.device.TMDevice$UserAcceptState")) : class$de$audi$app$terminalmode$device$TMDevice$UserAcceptState).getField(string).get(null);
         }
     }
 }

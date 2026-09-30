@@ -4,7 +4,6 @@
 package de.audi.app.connectivity.core.common;
 
 public interface IClampStateProvider {
-    default public boolean isClampSOn() {
-    }
+    public boolean isClampSOn();
 }
 

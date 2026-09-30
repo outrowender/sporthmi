@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  de.audi.app.terminalmode.statemachine.TMState
  */
 package de.audi.app.terminalmode.commands;
 
@@ -17,17 +14,16 @@ import de.audi.tghu.command.CommandList;
 
 public class AudioFocusChanged
 extends AbstractStateHandlerCommand {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "AudioFocusChanged";
     private final boolean hasAudioFocus;
 
     public AudioFocusChanged(IContext iContext, boolean bl, IStateHandler iStateHandler) {
-        super(iContext.getLogger().main(), "AudioFocusChanged", iContext, iStateHandler);
+        super(iContext.getLogger().main(), LOGCLASS, iContext, iStateHandler);
         this.hasAudioFocus = bl;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "[%1.execute]", (Object)"AudioFocusChanged");
+        this.logger.log(1000000, "[%1.execute]", (Object)LOGCLASS);
         TMState tMState = this.stateHandler.getCurrentState();
         tMState.setOwnerForResource(Resource.AUDIO_MEDIA, this.hasAudioFocus ? ResourceOwner.DEVICE : ResourceOwner.MAINUNIT);
         CommandList commandList = this.stateHandler.changeState(tMState, IRequestor.MAINUNIT, -1L);

@@ -15,9 +15,8 @@ implements OptionModelListener {
         super(iTelApplication);
     }
 
-    @Override
     protected BaseListModelApp getCallListList() {
-        return this.getBaseListModel(462881792);
+        return this.getBaseListModel(300827);
     }
 }
 

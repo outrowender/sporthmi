@@ -21,9 +21,8 @@ extends AbstractADBCommand {
         this.dsiSortOrder = n;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "SetSortOrderCommand#execute()");
+        this.logger.log(10000000, "SetSortOrderCommand#execute()");
         boolean bl = this.adbDSIAccess.setSortOrder(this.dsiSortOrder);
         if (!bl) {
             this.logger.log(10000, "SetSortOrderCommand#execute(): dsi call was not successful, finishing command.");
@@ -31,9 +30,8 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public void setSortOrderResult(int n) {
-        this.logger.log(-2137614336, "SetSortOrderCommand#setSortOrderResult(): success: %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
+        this.logger.log(10000000, "SetSortOrderCommand#setSortOrderResult(): success: %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
         GetCombiViewSizeCommand.createGetCombiViewSizeCommand(this.appAdr.getCombiAdbHandler(), true, true);
         this.commandList.commandFinished();
     }

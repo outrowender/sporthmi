@@ -20,8 +20,8 @@ implements MsgListener,
 TimerListener {
     private final LogChannel logChannel;
     private final CombiModuleMFL moduleFsg;
-    private static final int KEY_ACTION_IDLE_TIME;
-    private static final int KEY_NOT_FUNCTIONAL_IDLE_TIME;
+    private static final int KEY_ACTION_IDLE_TIME = 1000;
+    private static final int KEY_NOT_FUNCTIONAL_IDLE_TIME = 1000;
     private int keyAction1JokerKeyID = -1;
     private final Timer keyAction1IdleTimer;
     private final Timer keyAction2IdleTimer;
@@ -30,12 +30,11 @@ TimerListener {
     protected MFLKeyHandler(CombiModuleMFL combiModuleMFL) {
         this.moduleFsg = combiModuleMFL;
         this.logChannel = combiModuleMFL.getLogChannel();
-        this.keyAction1IdleTimer = new Timer("KeyAction1IdleTimer", 0, true, this);
-        this.keyAction2IdleTimer = new Timer("KeyAction2IdleTimer", 0, true, this);
-        this.keyNotFunctionalIdleTimer = new Timer("KeyNotFunctionalIdleTimer", 0, true, this);
+        this.keyAction1IdleTimer = new Timer("KeyAction1IdleTimer", 1000L, true, this);
+        this.keyAction2IdleTimer = new Timer("KeyAction2IdleTimer", 1000L, true, this);
+        this.keyNotFunctionalIdleTimer = new Timer("KeyNotFunctionalIdleTimer", 1000L, true, this);
     }
 
-    @Override
     public void processMsg(int n) {
         switch (n) {
             case 60: {
@@ -120,31 +119,31 @@ TimerListener {
             }
             case 59: {
                 if (!CombiCodingAccess.isNaviPresent()) {
-                    this.logChannel.log(-2137614336, "[MFLKeyHandler#processMessage] iNav pressed, navi not present");
+                    this.logChannel.log(10000000, "[MFLKeyHandler#processMessage] iNav pressed, navi not present");
                     this.sendKeyNotFunctional(1);
                     break;
                 }
-                this.logChannel.log(-2137614336, "[MFLKeyHandler#processMessage] iNav pressed, navi is operable");
+                this.logChannel.log(10000000, "[MFLKeyHandler#processMessage] iNav pressed, navi is operable");
                 break;
             }
             case 58: {
                 if (!CombiCodingAccess.isSDSPresent()) {
-                    this.logChannel.log(-2137614336, "[MFLKeyHandler#processMessage] PTT pressed, sds not present");
+                    this.logChannel.log(10000000, "[MFLKeyHandler#processMessage] PTT pressed, sds not present");
                     this.sendKeyNotFunctional(2);
                     break;
                 }
                 if (CombiModelAccess.isSDSDisabledForCurrentLanguage()) {
-                    this.logChannel.log(-2137614336, "[MFLKeyHandler#processMessage] PTT pressed, sds not available in this language");
+                    this.logChannel.log(10000000, "[MFLKeyHandler#processMessage] PTT pressed, sds not available in this language");
                     break;
                 }
-                this.logChannel.log(-2137614336, "[MFLKeyHandler#processMessage] PTT pressed, sds is operable");
+                this.logChannel.log(10000000, "[MFLKeyHandler#processMessage] PTT pressed, sds is operable");
                 break;
             }
             default: {
                 return;
             }
         }
-        this.logChannel.log(-2137614336, "[MFLKeyHandler#processMessage] message with id %1 processed", (long)n);
+        this.logChannel.log(10000000, "[MFLKeyHandler#processMessage] message with id %1 processed", (long)n);
     }
 
     private void sendJokerKeyAction(int n, int n2) {
@@ -172,7 +171,7 @@ TimerListener {
 
     public void updateKeyConfiguration(int n, int n2) {
         boolean bl;
-        this.logChannel.log(-2137614336, "[MFLKeyHandler#updateKeyConfiguration] jokerKeyID=%1, jokerKeyFunction=%2", (long)n, (long)n2);
+        this.logChannel.log(10000000, "[MFLKeyHandler#updateKeyConfiguration] jokerKeyID=%1, jokerKeyFunction=%2", (long)n, (long)n2);
         BAPFunctionPropertyFSG bAPFunctionPropertyFSG = this.moduleFsg.getBAPFunctionPropertyFSG(17);
         KeyConfiguration_StatusAck keyConfiguration_StatusAck = (KeyConfiguration_StatusAck)bAPFunctionPropertyFSG.getLastStatusAck();
         switch (n) {
@@ -209,12 +208,12 @@ TimerListener {
         if (bl || !bAPFunctionPropertyFSG.isDataValid()) {
             bAPFunctionPropertyFSG.sendStatusAck(keyConfiguration_StatusAck);
         } else {
-            this.logChannel.log(-2137614336, "[AppConnectorMFL#updateKeyConfiguration] configuration didn't change ->no update sent");
+            this.logChannel.log(10000000, "[AppConnectorMFL#updateKeyConfiguration] configuration didn't change ->no update sent");
         }
     }
 
     public void updateInstrumentClusterFunctions(int n) {
-        this.logChannel.log(-2137614336, "[MFLKeyHandler#updateInstrumentClusterFunctions] availableFunctions=%1", (long)n);
+        this.logChannel.log(10000000, "[MFLKeyHandler#updateInstrumentClusterFunctions] availableFunctions=%1", (long)n);
         InstrumentClusterFunctions_Status instrumentClusterFunctions_Status = new InstrumentClusterFunctions_Status();
         instrumentClusterFunctions_Status.configurationOptions.screensaverOnOffAvailable = MFLKeyHandler.isInstrumentClusterFunctionAvailable(n, 1);
         instrumentClusterFunctions_Status.configurationOptions.trafficSignsOnOffAvailable = MFLKeyHandler.isInstrumentClusterFunctionAvailable(n, 2);
@@ -229,7 +228,6 @@ TimerListener {
         return (n & n2) == n2;
     }
 
-    @Override
     public void fireTimer(Timer timer) {
         BAPFunctionPropertyFSG bAPFunctionPropertyFSG = this.moduleFsg.getBAPFunctionPropertyFSG(18);
         KeyAction_Status keyAction_Status = (KeyAction_Status)this.moduleFsg.createStatusSerializer(18);
@@ -247,7 +245,6 @@ TimerListener {
         bAPFunctionPropertyFSG.sendStatus(keyAction_Status);
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 }

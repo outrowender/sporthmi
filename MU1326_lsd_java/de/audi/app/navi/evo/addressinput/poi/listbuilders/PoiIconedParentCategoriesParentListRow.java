@@ -36,17 +36,14 @@ implements DistanceDifferentiationRow {
         super(poiIconedParentCategoriesListRow);
     }
 
-    @Override
     public EvoListRow copy() {
         return new PoiIconedParentCategoriesParentListRow(this);
     }
 
-    @Override
     public int getDistance() {
         return this.distance;
     }
 
-    @Override
     public synchronized void setRRDDistance(int n) {
         this.distance = n;
         this.reformatDistance();
@@ -57,7 +54,6 @@ implements DistanceDifferentiationRow {
         }
     }
 
-    @Override
     public synchronized void setAirDistance(int n) {
         this.doSetAirDistance(n);
     }
@@ -72,12 +68,10 @@ implements DistanceDifferentiationRow {
         }
     }
 
-    @Override
     public void reformatDistance() {
         this.setText(7, Util.formatDistance(this.distance, 1));
     }
 
-    @Override
     public int getDirection() {
         int n = this.getInteger(6);
         if (this.flagRRD) {
@@ -86,7 +80,6 @@ implements DistanceDifferentiationRow {
         return n;
     }
 
-    @Override
     public void setDirection(int n) {
         this.doSetDirection(n);
     }
@@ -95,12 +88,10 @@ implements DistanceDifferentiationRow {
         this.setInteger(6, this.flagRRD ? n + 8 : n);
     }
 
-    @Override
     public final boolean isMarkedAsRRD() {
         return this.flagRRD;
     }
 
-    @Override
     public int getLatitude() {
         return this.doGetLatitude();
     }
@@ -112,7 +103,6 @@ implements DistanceDifferentiationRow {
         return this.getElement().getLatitude();
     }
 
-    @Override
     public int getLongitude() {
         return this.doGetLongitude();
     }
@@ -124,7 +114,6 @@ implements DistanceDifferentiationRow {
         return this.getElement().getLongitude();
     }
 
-    @Override
     public synchronized void updateDirection(PosPosition posPosition) {
         this.doUpdateDirection(posPosition);
     }
@@ -135,7 +124,6 @@ implements DistanceDifferentiationRow {
         this.doSetDirection(n2);
     }
 
-    @Override
     public synchronized void updateAirDistance(PosPosition posPosition) {
         this.doUpdateAirDistance(posPosition);
     }

@@ -7,166 +7,112 @@ import de.audi.atip.statemachine.ActionProxy;
 
 public interface OnlineActionProxy
 extends ActionProxy {
-    default public void remoteHmiEnterInMap(int n) {
-    }
+    public void remoteHmiEnterInMap(int var1);
 
-    default public void exitConnectivityCheck(int n) {
-    }
+    public void exitConnectivityCheck(int var1);
 
-    default public void remoteHmiHkReturn(int n) {
-    }
+    public void remoteHmiHkReturn(int var1);
 
-    default public void remoteHmiEnter(int n, int n2) {
-    }
+    public void remoteHmiEnter(int var1, int var2);
 
-    default public void remoteHmiExit(int n) {
-    }
+    public void remoteHmiExit(int var1);
 
-    default public void remoteHmiBrowserEntered(int n) {
-    }
+    public void remoteHmiBrowserEntered(int var1);
 
-    default public void remoteHmiBrowserLeft(int n) {
-    }
+    public void remoteHmiBrowserLeft(int var1);
 
-    default public void destOnlineStartDestinationImport(int n) {
-    }
+    public void destOnlineStartDestinationImport(int var1);
 
-    default public void remoteHmiSetEntryPoint(int n, int n2) {
-    }
+    public void remoteHmiSetEntryPoint(int var1, int var2);
 
-    default public void remoteHmiClosedViaOptionDrawer(int n) {
-    }
+    public void remoteHmiClosedViaOptionDrawer(int var1);
 
-    default public void remoteHmiLogOff(int n) {
-    }
+    public void remoteHmiLogOff(int var1);
 
-    default public void remoteHMIAuthenticationInit(int n) {
-    }
+    public void remoteHMIAuthenticationInit(int var1);
 
-    default public void remoteHMIStartKnownLogin(int n) {
-    }
+    public void remoteHMIStartKnownLogin(int var1);
 
-    default public void enterRemoteHMIResultMap(int n) {
-    }
+    public void enterRemoteHMIResultMap(int var1);
 
-    default public void remoteHMINavDestFormExit(int n) {
-    }
+    public void remoteHMINavDestFormExit(int var1);
 
-    default public void remoteHmiMapExit(int n) {
-    }
+    public void remoteHmiMapExit(int var1);
 
-    default public void licenseCheckEntered(int n, String string, String string2) {
-    }
+    public void licenseCheckEntered(int var1, String var2, String var3);
 
-    default public void remoteHmiLayoutConstants(int n, int n2, int n3, int n4) {
-    }
+    public void remoteHmiLayoutConstants(int var1, int var2, int var3, int var4);
 
-    default public void myAudiAuthContext(int n, int n2) {
-    }
+    public void myAudiAuthContext(int var1, int var2);
 
-    default public void remoteHmiMiniAppErrorExit(int n) {
-    }
+    public void remoteHmiMiniAppErrorExit(int var1);
 
-    default public void rhmiAuthenticationFinished(int n) {
-    }
+    public void rhmiAuthenticationFinished(int var1);
 
-    default public void startOperatorCall(int n, int n2) {
-    }
+    public void startOperatorCall(int var1, int var2);
 
-    default public void remoteHmiHkReturnFromInclude(int n, int n2) {
-    }
+    public void remoteHmiHkReturnFromInclude(int var1, int var2);
 
-    default public void remoteHmiEnterInclude(int n, int n2) {
-    }
+    public void remoteHmiEnterInclude(int var1, int var2);
 
-    default public void remoteHmiHkReturnFromSelectionDrawer(int n) {
-    }
+    public void remoteHmiHkReturnFromSelectionDrawer(int var1);
 
-    default public void remoteHmiMarkForTopLevel(int n, int n2) {
-    }
+    public void remoteHmiMarkForTopLevel(int var1, int var2);
 
-    default public void leaveCallcenterCall(int n, int n2) {
-    }
+    public void leaveCallcenterCall(int var1, int var2);
 
-    default public void remoteHmiListEnter(int n) {
-    }
+    public void remoteHmiListEnter(int var1);
 
-    default public void remoteHmiListExit(int n) {
-    }
+    public void remoteHmiListExit(int var1);
 
-    default public void authenticationLogoutFinished(int n) {
-    }
+    public void authenticationLogoutFinished(int var1);
 
-    default public void remoteHmiOverrideNextAnimation(int n, int n2) {
-    }
+    public void remoteHmiOverrideNextAnimation(int var1, int var2);
 
-    default public void operatorCallChecksSuccessful(int n, int n2) {
-    }
+    public void operatorCallChecksSuccessful(int var1, int var2);
 
-    default public void operatorCallCenterLeft(int n) {
-    }
+    public void operatorCallCenterLeft(int var1);
 
-    default public void operatorEndMsgLeft(int n) {
-    }
+    public void operatorEndMsgLeft(int var1);
 
-    default public void operatorUpdateDetailInfo(int n) {
-    }
+    public void operatorUpdateDetailInfo(int var1);
 
-    default public void connGatewayLeft(int n) {
-    }
+    public void connGatewayLeft(int var1);
 
-    default public void remoteHmiToggleInclude(int n) {
-    }
+    public void remoteHmiToggleInclude(int var1);
 
-    default public void remoteHMICallWifiPlayer(int n) {
-    }
+    public void remoteHMICallWifiPlayer(int var1);
 
-    default public void remotehmiOnlineTrafficEntered(int n) {
-    }
+    public void remotehmiOnlineTrafficEntered(int var1);
 
-    default public void remotehmiEmailEntered(int n) {
-    }
+    public void remotehmiEmailEntered(int var1);
 
-    default public void remotehmiSmsEntered(int n) {
-    }
+    public void remotehmiSmsEntered(int var1);
 
-    default public void operatorCallCallActiveShown(int n, int n2) {
-    }
+    public void operatorCallCallActiveShown(int var1, int var2);
 
-    default public void remoteHmiPrepare(int n) {
-    }
+    public void remoteHmiPrepare(int var1);
 
-    default public void operatorCallResultListEntered(int n, int n2) {
-    }
+    public void operatorCallResultListEntered(int var1, int var2);
 
-    default public void operatorCallResultListLeft(int n, int n2) {
-    }
+    public void operatorCallResultListLeft(int var1, int var2);
 
-    default public void licenseOverviewEntered(int n) {
-    }
+    public void licenseOverviewEntered(int var1);
 
-    default public void licenseOverviewExited(int n) {
-    }
+    public void licenseOverviewExited(int var1);
 
-    default public void remotehmiGoogleEarthEntered(int n) {
-    }
+    public void remotehmiGoogleEarthEntered(int var1);
 
-    default public void trafficLightEntered(int n) {
-    }
+    public void trafficLightEntered(int var1);
 
-    default public void gpsPopupAcknowledged(int n) {
-    }
+    public void gpsPopupAcknowledged(int var1);
 
-    default public void changePrivacySettingsScreenMode(int n, int n2) {
-    }
+    public void changePrivacySettingsScreenMode(int var1, int var2);
 
-    default public void myAudiAuthScreenType(int n, int n2) {
-    }
+    public void myAudiAuthScreenType(int var1, int var2);
 
-    default public void requestMobileDeviceKeyCount(int n) {
-    }
+    public void requestMobileDeviceKeyCount(int var1);
 
-    default public void remoteHMICallMediaApp(int n) {
-    }
+    public void remoteHMICallMediaApp(int var1);
 }
 

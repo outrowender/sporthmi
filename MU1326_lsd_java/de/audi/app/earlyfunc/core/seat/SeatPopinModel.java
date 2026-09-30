@@ -5,7 +5,6 @@ package de.audi.app.earlyfunc.core.seat;
 
 import de.audi.app.earlyfunc.core.seat.ISeatPopinModelRow;
 import de.audi.app.earlyfunc.core.seat.MasterSeatPopinContent;
-import de.audi.app.earlyfunc.core.seat.MasterSeatPopinContent$MassageProgram;
 import de.audi.app.earlyfunc.core.seat.SeatDisplayContent;
 import de.audi.atip.hmi.model.list.BaseListModelApp;
 import de.audi.atip.hmi.model.list.EvoListRow;
@@ -19,14 +18,14 @@ public class SeatPopinModel {
     private boolean arePneumaticAvailabilitySettingsActive;
     private final BaseListModelApp seatPopinModel;
     private int intensityRange = 1;
-    private MasterSeatPopinContent$MassageProgram tmpProgramSelection = MasterSeatPopinContent$MassageProgram.MASSAGE_PROGRAM_NONE;
-    private static final int NOTAVAILABLE;
-    private static final int AVAILABLE;
-    public static final int ARROW_UP;
-    public static final int ARROW_DOWN;
-    public static final int ARROW_FORWARD;
-    public static final int ARROW_BACKWARD;
-    private static final int INVALID;
+    private MasterSeatPopinContent.MassageProgram tmpProgramSelection = MasterSeatPopinContent.MassageProgram.MASSAGE_PROGRAM_NONE;
+    private static final int NOTAVAILABLE = 0;
+    private static final int AVAILABLE = 1;
+    public static final int ARROW_UP = 0;
+    public static final int ARROW_DOWN = 1;
+    public static final int ARROW_FORWARD = 2;
+    public static final int ARROW_BACKWARD = 3;
+    private static final int INVALID = -1;
 
     public SeatPopinModel(LogChannel logChannel, BaseListModelApp baseListModelApp) {
         this.logChannel = logChannel;
@@ -36,14 +35,14 @@ public class SeatPopinModel {
     public void init() {
         this.initiallyAddRowsToSeatPopupModel();
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[SeatPopinModel('%1')#init] BaseListModel was initialised with all values set to %2", (long)this.seatPopinModel.getID(), 0L);
+            this.logChannel.log(1000000, "[SeatPopinModel('%1')#init] BaseListModel was initialised with all values set to %2", (long)this.seatPopinModel.getID(), 0L);
         }
     }
 
     public void deinit() {
         this.seatPopinModel.clearAll();
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[SeatPopinModel('%1')#deinit] BaseListModel was cleared", (long)this.seatPopinModel.getID());
+            this.logChannel.log(1000000, "[SeatPopinModel('%1')#deinit] BaseListModel was cleared", (long)this.seatPopinModel.getID());
         }
     }
 
@@ -59,7 +58,7 @@ public class SeatPopinModel {
         boolean bl;
         boolean bl2 = bl = n > 0 && n <= this.getIntensityRange();
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[SeatPopinModel('%1')#isIntensityValid] received intensity value is %2: intensityRange='%3' , intensity='%4'", (Object)new Integer(this.seatPopinModel.getID()), (Object)(bl ? "valid" : "invalid"), (Object)new Integer(this.getIntensityRange()), (Object)new Integer(n));
+            this.logChannel.log(1000000, "[SeatPopinModel('%1')#isIntensityValid] received intensity value is %2: intensityRange='%3' , intensity='%4'", (Object)new Integer(this.seatPopinModel.getID()), (Object)(bl ? "valid" : "invalid"), (Object)new Integer(this.getIntensityRange()), (Object)new Integer(n));
         }
         return bl;
     }
@@ -68,12 +67,12 @@ public class SeatPopinModel {
         this.intensityRange = n;
     }
 
-    private MasterSeatPopinContent$MassageProgram getTmpProgramSelection() {
+    private MasterSeatPopinContent.MassageProgram getTmpProgramSelection() {
         return this.tmpProgramSelection;
     }
 
-    private void setTmpProgramSelection(MasterSeatPopinContent$MassageProgram masterSeatPopinContent$MassageProgram) {
-        this.tmpProgramSelection = masterSeatPopinContent$MassageProgram;
+    private void setTmpProgramSelection(MasterSeatPopinContent.MassageProgram massageProgram) {
+        this.tmpProgramSelection = massageProgram;
     }
 
     private void initiallyAddRowsToSeatPopupModel() {
@@ -85,11 +84,11 @@ public class SeatPopinModel {
     }
 
     private void addMassageProgramRows(BaseListModelApp baseListModelApp) {
-        MasterSeatPopinContent$MassageProgram[] masterSeatPopinContent$MassageProgramArray = MasterSeatPopinContent$MassageProgram.getAllMassagePrograms();
-        for (int i2 = 0; i2 < masterSeatPopinContent$MassageProgramArray.length; ++i2) {
-            MasterSeatPopinContent$MassageProgram masterSeatPopinContent$MassageProgram = masterSeatPopinContent$MassageProgramArray[i2];
-            if (masterSeatPopinContent$MassageProgram.getRowID() == -1L) continue;
-            EvoListRow evoListRow = new EvoListRow(masterSeatPopinContent$MassageProgram.getRowID(), 7);
+        MasterSeatPopinContent.MassageProgram[] massageProgramArray = MasterSeatPopinContent.MassageProgram.getAllMassagePrograms();
+        for (int i2 = 0; i2 < massageProgramArray.length; ++i2) {
+            MasterSeatPopinContent.MassageProgram massageProgram = massageProgramArray[i2];
+            if (massageProgram.getRowID() == -1L) continue;
+            EvoListRow evoListRow = new EvoListRow(massageProgram.getRowID(), 7);
             this.initiallyFillAllColumns(baseListModelApp, evoListRow);
         }
     }
@@ -120,7 +119,7 @@ public class SeatPopinModel {
                     EvoListRow evoListRow = this.getRowFromModel(baseListModelApp, seatDisplayContent.getSeatPopinContent(), "updateContentAvailability");
                     if (evoListRow == null) continue;
                     this.updateAllAvailabilityStates(seatDisplayContent, evoListRow);
-                    if (seatDisplayContent.getSeatPopinContent().getRowID() > MasterSeatPopinContent$MassageProgram.MASSAGE_PROGRAM_NONE.getRowID()) {
+                    if (seatDisplayContent.getSeatPopinContent().getRowID() > MasterSeatPopinContent.MassageProgram.MASSAGE_PROGRAM_NONE.getRowID()) {
                         evoListRow.setInteger(6, n);
                     }
                     baseListModelApp.setRow(baseListModelApp.getIndexForUniqueID(evoListRow.getUniqueID()), evoListRow);
@@ -147,31 +146,31 @@ public class SeatPopinModel {
         long l = MasterSeatPopinContent.MASSAGE.equalsMasterSeatPopinContent(masterSeatPopinContent) ? this.getTmpProgramSelection().getRowID() : masterSeatPopinContent.getRowID();
         boolean bl = this.seatPopinModel.setSelectedUniqueID(l);
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[SeatPopinModel('%1')#selectContent] BaseListModel.setSelectedUniqueID(%2) %3 : content='%4'", (Object)new Integer(this.seatPopinModel.getID()), (Object)new Long(l), (Object)(bl ? "succeeded" : "failed"), (Object)masterSeatPopinContent);
+            this.logChannel.log(1000000, "[SeatPopinModel('%1')#selectContent] BaseListModel.setSelectedUniqueID(%2) %3 : content='%4'", (Object)new Integer(this.seatPopinModel.getID()), (Object)new Long(l), (Object)(bl ? "succeeded" : "failed"), (Object)masterSeatPopinContent);
         }
     }
 
-    public void selectMassageProgram(MasterSeatPopinContent$MassageProgram masterSeatPopinContent$MassageProgram, int n) {
+    public void selectMassageProgram(MasterSeatPopinContent.MassageProgram massageProgram, int n) {
         SelectedItem selectedItem;
-        if (!MasterSeatPopinContent$MassageProgram.MASSAGE_PROGRAM_NONE.equalsMassageProgram(masterSeatPopinContent$MassageProgram)) {
-            this.writeIntensityIntoModel(masterSeatPopinContent$MassageProgram, n);
+        if (!MasterSeatPopinContent.MassageProgram.MASSAGE_PROGRAM_NONE.equalsMassageProgram(massageProgram)) {
+            this.writeIntensityIntoModel(massageProgram, n);
         }
-        if ((selectedItem = this.seatPopinModel.getSelected()) != null && selectedItem.getUniqueID() >= MasterSeatPopinContent$MassageProgram.MASSAGE_PROGRAM_NONE.getRowID()) {
-            boolean bl = this.seatPopinModel.setSelectedUniqueID(masterSeatPopinContent$MassageProgram.getRowID());
+        if ((selectedItem = this.seatPopinModel.getSelected()) != null && selectedItem.getUniqueID() >= MasterSeatPopinContent.MassageProgram.MASSAGE_PROGRAM_NONE.getRowID()) {
+            boolean bl = this.seatPopinModel.setSelectedUniqueID(massageProgram.getRowID());
             if (this.logChannel.isInfo()) {
-                this.logChannel.log(1078071040, "[SeatPopinModel('%1')#selectMassageProgram] BaseListModel.setSelectedUniqueID(%2) %3: selected program='%4'", (Object)new Integer(this.seatPopinModel.getID()), (Object)new Long(masterSeatPopinContent$MassageProgram.getRowID()), (Object)(bl ? "succeeded" : "failed"), (Object)masterSeatPopinContent$MassageProgram);
+                this.logChannel.log(1000000, "[SeatPopinModel('%1')#selectMassageProgram] BaseListModel.setSelectedUniqueID(%2) %3: selected program='%4'", (Object)new Integer(this.seatPopinModel.getID()), (Object)new Long(massageProgram.getRowID()), (Object)(bl ? "succeeded" : "failed"), (Object)massageProgram);
             }
         }
-        this.setTmpProgramSelection(masterSeatPopinContent$MassageProgram);
+        this.setTmpProgramSelection(massageProgram);
     }
 
-    private void writeIntensityIntoModel(MasterSeatPopinContent$MassageProgram masterSeatPopinContent$MassageProgram, int n) {
+    private void writeIntensityIntoModel(MasterSeatPopinContent.MassageProgram massageProgram, int n) {
         EvoListRow evoListRow;
-        if (this.isIntensityValid(n) && (evoListRow = this.getRowFromModel(this.seatPopinModel, masterSeatPopinContent$MassageProgram, "selectMassageProgram")) != null) {
+        if (this.isIntensityValid(n) && (evoListRow = this.getRowFromModel(this.seatPopinModel, massageProgram, "selectMassageProgram")) != null) {
             evoListRow.setInteger(1, n);
             this.seatPopinModel.setRow(this.seatPopinModel.getIndexForUniqueID(evoListRow.getUniqueID()), evoListRow);
             if (this.logChannel.isInfo()) {
-                this.logChannel.log(1078071040, "[SeatPopinModel('%1')#writeIntensityIntoModel] intensity='%2', massageProgram='%3' columnIndex='%4'", (Object)new Integer(this.seatPopinModel.getID()), (Object)new Integer(n), (Object)masterSeatPopinContent$MassageProgram, (Object)new Integer(1));
+                this.logChannel.log(1000000, "[SeatPopinModel('%1')#writeIntensityIntoModel] intensity='%2', massageProgram='%3' columnIndex='%4'", (Object)new Integer(this.seatPopinModel.getID()), (Object)new Integer(n), (Object)massageProgram, (Object)new Integer(1));
             }
         }
     }
@@ -184,7 +183,7 @@ public class SeatPopinModel {
             evoListRow.setInteger(this.getColumnIndexOppositeDirection(n2), 1);
             this.seatPopinModel.setRow(this.seatPopinModel.getIndexForUniqueID(evoListRow.getUniqueID()), evoListRow);
             if (this.logChannel.isInfo()) {
-                this.logChannel.log(1078071040, "[SeatPopinModel('%1')#setArrowHighlighting] write state ARROW_ICON_HIGHLIGHTED into column '%2' and state ARROW_ICON_AVAILABLE into column '%3': content='%4'", (Object)new Integer(this.seatPopinModel.getID()), (Object)new Integer(n2), (Object)new Integer(this.getColumnIndexOppositeDirection(n2)), (Object)masterSeatPopinContent);
+                this.logChannel.log(1000000, "[SeatPopinModel('%1')#setArrowHighlighting] write state ARROW_ICON_HIGHLIGHTED into column '%2' and state ARROW_ICON_AVAILABLE into column '%3': content='%4'", (Object)new Integer(this.seatPopinModel.getID()), (Object)new Integer(n2), (Object)new Integer(this.getColumnIndexOppositeDirection(n2)), (Object)masterSeatPopinContent);
             }
         }
     }
@@ -196,7 +195,7 @@ public class SeatPopinModel {
             evoListRow.setInteger(n2, 1);
             this.seatPopinModel.setRow(this.seatPopinModel.getIndexForUniqueID(evoListRow.getUniqueID()), evoListRow);
             if (this.logChannel.isInfo()) {
-                this.logChannel.log(1078071040, "[SeatPopinModel('%1')#removeArrowHighlighting] change state ARROW_ICON_HIGHLIGHTED to ARROW_ICON_AVAILABLE: content='%2', column='%3'", (Object)new Integer(this.seatPopinModel.getID()), (Object)masterSeatPopinContent, (Object)new Integer(n2));
+                this.logChannel.log(1000000, "[SeatPopinModel('%1')#removeArrowHighlighting] change state ARROW_ICON_HIGHLIGHTED to ARROW_ICON_AVAILABLE: content='%2', column='%3'", (Object)new Integer(this.seatPopinModel.getID()), (Object)masterSeatPopinContent, (Object)new Integer(n2));
             }
         }
     }
@@ -208,7 +207,7 @@ public class SeatPopinModel {
     private EvoListRow getRowFromModel(BaseListModelApp baseListModelApp, ISeatPopinModelRow iSeatPopinModelRow, String string) {
         EvoListRow evoListRow = baseListModelApp.getRow(baseListModelApp.getIndexForUniqueID(iSeatPopinModelRow.getRowID()));
         if (evoListRow == null) {
-            this.logChannel.log(-1601830656, "[SeatPopinModel('%1')#%2] BaseListModel contains no row with ID '%3': searched row for content='%4'", (Object)new Integer(this.seatPopinModel.getID()), (Object)string, (Object)new Long(iSeatPopinModelRow.getRowID()), (Object)iSeatPopinModelRow);
+            this.logChannel.log(100000, "[SeatPopinModel('%1')#%2] BaseListModel contains no row with ID '%3': searched row for content='%4'", (Object)new Integer(this.seatPopinModel.getID()), (Object)string, (Object)new Long(iSeatPopinModelRow.getRowID()), (Object)iSeatPopinModelRow);
         }
         return evoListRow;
     }

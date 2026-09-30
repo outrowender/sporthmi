@@ -13,22 +13,18 @@ extends AbstractNVComponent {
         super(iCarApplication);
     }
 
-    @Override
     protected void updateMenuEntryVisibility(NVViewOptions nVViewOptions) {
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(824707328, this.getMenuEntryVisibilityState(nVViewOptions.getContrast()));
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600113, this.getMenuEntryVisibilityState(nVViewOptions.getContrast()));
     }
 
-    @Override
     protected void initVisibility() {
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(824707328, (short)26);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600113, (short)26);
     }
 
-    @Override
     protected void deinitVisibility() {
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(824707328);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600113);
     }
 
-    @Override
     public int getID() {
         return 13;
     }

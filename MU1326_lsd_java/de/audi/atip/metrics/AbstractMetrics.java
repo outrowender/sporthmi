@@ -11,18 +11,18 @@ import de.esolutions.fw.util.commons.Buffer;
 public abstract class AbstractMetrics
 implements IMetricsTextConstants {
     static final boolean LOGGING_ENABLED = Boolean.getBoolean("logMetricsToConsole");
-    public static final int CODING_DEFAULT;
-    public static final int CODING_CLUSTER;
-    public static final int CODING_CLUSTER_MIB2;
-    public static final String TEXT_SEPARATOR_COMMA;
-    public static final String TEXT_SEPARATOR_DOT;
-    public static final String TEXT_SEPARATOR_COLON;
-    public static final String TEXT_SEPARATOR_EMPTY_SPACE;
-    public static final String TEXT_SEPARATOR_PIPE;
-    public static final String TEXT_PLUS;
-    public static final String TEXT_MINUS;
-    public static final String EMPTY_STRING;
-    protected static boolean isPorsche;
+    public static final int CODING_DEFAULT = 0;
+    public static final int CODING_CLUSTER = 1;
+    public static final int CODING_CLUSTER_MIB2 = 2;
+    public static final String TEXT_SEPARATOR_COMMA = ",";
+    public static final String TEXT_SEPARATOR_DOT = ".";
+    public static final String TEXT_SEPARATOR_COLON = ":";
+    public static final String TEXT_SEPARATOR_EMPTY_SPACE = " ";
+    public static final String TEXT_SEPARATOR_PIPE = "|";
+    public static final String TEXT_PLUS = "+";
+    public static final String TEXT_MINUS = "-";
+    public static final String EMPTY_STRING = "";
+    protected static boolean isPorsche = false;
     protected float value;
     protected final int unit;
     protected String lastFormat;
@@ -44,24 +44,19 @@ implements IMetricsTextConstants {
         this.unit = n;
     }
 
-    public abstract void setValue(float f2) {
-    }
+    public abstract void setValue(float var1);
 
-    public abstract float getValue() {
-    }
+    public abstract float getValue();
 
     public int getUnit() {
         return this.unit;
     }
 
-    public abstract float getValue(int n) {
-    }
+    public abstract float getValue(int var1);
 
-    public abstract String format() {
-    }
+    public abstract String format();
 
-    public abstract String format(int n) {
-    }
+    public abstract String format(int var1);
 
     protected static boolean contentEquals(String string, Buffer buffer) {
         if (string == null || buffer == null) {
@@ -90,8 +85,7 @@ implements IMetricsTextConstants {
         return this.isMetricValid;
     }
 
-    public abstract String getInvalidText() {
-    }
+    public abstract String getInvalidText();
 
     protected static String getText(int n) {
         String string = null;
@@ -102,24 +96,20 @@ implements IMetricsTextConstants {
     }
 
     public String[] getStringValueAndUnit() {
-        return new String[]{"", ""};
+        return new String[]{EMPTY_STRING, EMPTY_STRING};
     }
 
     public String[] getStringValueAndUnit(int n) {
         return this.getStringValueAndUnit();
     }
 
-    public abstract String getFormattedMetricUnit() {
-    }
+    public abstract String getFormattedMetricUnit();
 
-    public abstract String getFormattedUnit(int n) {
-    }
+    public abstract String getFormattedUnit(int var1);
 
-    public abstract String getFormattedValue() {
-    }
+    public abstract String getFormattedValue();
 
-    public abstract String getFormattedValue(int n) {
-    }
+    public abstract String getFormattedValue(int var1);
 
     public static void setPorsche(boolean bl) {
         isPorsche = bl;
@@ -127,12 +117,8 @@ implements IMetricsTextConstants {
 
     static void println(Buffer buffer) {
         if (LOGGING_ENABLED) {
-            System.out.println(new StringBuffer().append("[METRICS] ").append(buffer).toString());
+            System.out.println("[METRICS] " + buffer);
         }
-    }
-
-    static {
-        isPorsche = false;
     }
 }
 

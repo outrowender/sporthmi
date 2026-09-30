@@ -14,7 +14,7 @@ import de.audi.atip.log.LogChannel;
 import org.osgi.framework.BundleContext;
 
 public class TestSupportApplication {
-    private static final String LOGCHANNEL_NAME;
+    private static final String LOGCHANNEL_NAME = "App.TestSupport";
     private final LogChannel logChannel;
     private final TestSupportService service;
     private final TestSupportSessionHandler sessionHandler;
@@ -24,7 +24,7 @@ public class TestSupportApplication {
     private final TestSupportOSOHandler osoHandler;
 
     protected TestSupportApplication(IFrameworkAccess iFrameworkAccess, BundleContext bundleContext) {
-        this.logChannel = iFrameworkAccess.getLogChannel("App.TestSupport");
+        this.logChannel = iFrameworkAccess.getLogChannel(LOGCHANNEL_NAME);
         this.bemHandler = new TestSupportBemProvListHandler(iFrameworkAccess, this.logChannel);
         this.bemReceiverHandler = new TestSupportBemRecListHandler(iFrameworkAccess, this.logChannel);
         this.osoHandler = new TestSupportOSOHandler(iFrameworkAccess, this.logChannel);

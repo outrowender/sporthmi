@@ -11,10 +11,9 @@ public class NullHMISyncAudioReplies
 extends NullService
 implements IHMISyncAudioReplies {
     protected NullHMISyncAudioReplies(LogChannel logChannel) {
-        super(logChannel, -2137614336, "IHMISyncAudioReplies");
+        super(logChannel, 10000000, "IHMISyncAudioReplies");
     }
 
-    @Override
     public void updateCurrentVolume(int n) {
         this.log("updateCurrentVolume");
     }

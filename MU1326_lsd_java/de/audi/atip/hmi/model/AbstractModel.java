@@ -26,11 +26,11 @@ import java.io.PrintStream;
 public abstract class AbstractModel
 implements HMIModel,
 ModelInternals {
-    public static final byte NO_EVENT_ID;
-    private static final LogChannel[] LOG_CHANNELS;
-    public static ModelStatistics statistics;
+    public static final byte NO_EVENT_ID = 0;
+    private static final LogChannel[] LOG_CHANNELS = new LogChannel[]{AbstractModelBank.getLogChannel("Fw.Models.System"), AbstractModelBank.getLogChannel("Fw.Models.Radio"), AbstractModelBank.getLogChannel("Fw.Models.Media"), AbstractModelBank.getLogChannel("Fw.Models.Phone"), AbstractModelBank.getLogChannel("Fw.Models.Navi"), AbstractModelBank.getLogChannel("Fw.Models.Info"), AbstractModelBank.getLogChannel("Fw.Models.Car"), AbstractModelBank.getLogChannel("Fw.Models.Addressbook"), AbstractModelBank.getLogChannel("Fw.Models.NavAsia"), AbstractModelBank.getLogChannel("Fw.Models.Misc"), AbstractModelBank.getLogChannel("Fw.Models.Tone"), AbstractModelBank.getLogChannel("Fw.Models.Settings"), AbstractModelBank.getLogChannel("Fw.Models.PicNav"), AbstractModelBank.getLogChannel("Fw.Models.Eng"), AbstractModelBank.getLogChannel("Fw.Models.Misc"), AbstractModelBank.getLogChannel("Fw.Models.Misc"), AbstractModelBank.getLogChannel("Fw.Models.Misc"), AbstractModelBank.getLogChannel("Fw.Models.Swdl"), AbstractModelBank.getLogChannel("Fw.Models.Bluetooth"), AbstractModelBank.getLogChannel("Fw.Models.Misc"), AbstractModelBank.getLogChannel("Fw.Models.Misc"), AbstractModelBank.getLogChannel("Fw.Models.EarlyApps"), AbstractModelBank.getLogChannel("Fw.Models.Messaging"), AbstractModelBank.getLogChannel("Fw.Models.Online"), AbstractModelBank.getLogChannel("Fw.Models.TestSupport"), AbstractModelBank.getLogChannel("Fw.Models.Misc"), AbstractModelBank.getLogChannel("Fw.Models.Misc"), AbstractModelBank.getLogChannel("Fw.Models.Misc"), AbstractModelBank.getLogChannel("Fw.Models.Misc"), AbstractModelBank.getLogChannel("Fw.Models.Misc"), AbstractModelBank.getLogChannel("Fw.Models.Home"), AbstractModelBank.getLogChannel("Fw.Models.Misc"), AbstractModelBank.getLogChannel("Fw.Models.Terminalmode"), AbstractModelBank.getLogChannel("Fw.Models.Ecall"), AbstractModelBank.getLogChannel("Fw.Models.WirelessCharging"), AbstractModelBank.getLogChannel("Fw.Models.Climate")};
+    public static ModelStatistics statistics = null;
     protected final LogChannel lc;
-    protected static final FallbackListener DUMMY_LISTENER;
+    protected static final FallbackListener DUMMY_LISTENER = new FallbackListener();
     protected final int id;
     protected final Object mutex = this;
     protected final int eventID;
@@ -49,7 +49,7 @@ ModelInternals {
     protected AbstractModel(int n, int n2) {
         this.eventID = n2;
         this.id = n;
-        int n3 = n / -1601830656;
+        int n3 = n / 100000;
         this.lc = LOG_CHANNELS[n3];
     }
 
@@ -57,15 +57,12 @@ ModelInternals {
         this(n, 0);
     }
 
-    @Override
-    public abstract void resetListener() {
-    }
+    public abstract void resetListener();
 
     public String toString() {
         return new Buffer(100).append(super.toString()).append("_ID:").append(this.id).append("_HT:").append(this.terminalID).toString();
     }
 
-    @Override
     public String dumpContent() {
         Buffer buffer = new Buffer(100);
         buffer.append("\n");
@@ -149,7 +146,7 @@ ModelInternals {
     }
 
     private void updateConditionsObserver() {
-        this.lc.log(14808325, "(%3) [AbstractModel.updateConditionsObserver] connected:%1 conditionsObserver:%2", (Object)this.connected(), (Object)this.conditionsObserver, (long)this.id);
+        this.lc.log(100000000, "(%3) [AbstractModel.updateConditionsObserver] connected:%1 conditionsObserver:%2", (Object)this.connected(), (Object)this.conditionsObserver, (long)this.id);
         if (this.conditionsObserver != null) {
             if (-1 == this.terminalID) {
                 this.conditionsObserver.modelStateChanged(this.id, 0);
@@ -173,7 +170,7 @@ ModelInternals {
         }
         this.updateConditionsObserver();
         if (this.modelGroup == null) {
-            AbstractModelBank.getEventLogChannel().log(-2137614336, "model (m%1) posts update event (u%2) ", (long)this.id, (long)n);
+            AbstractModelBank.getEventLogChannel().log(10000000, "model (m%1) posts update event (u%2) ", (long)this.id, (long)n);
             hMIService.postModelUpdateEvent(modelUpdateEvent);
         } else {
             try {
@@ -186,12 +183,10 @@ ModelInternals {
         }
     }
 
-    @Override
     public boolean connected() {
         return this.references > 0;
     }
 
-    @Override
     public void setModelGroup(ModelGroup modelGroup) {
         this.modelGroup = modelGroup;
     }
@@ -199,9 +194,8 @@ ModelInternals {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void addCondition(int n, ComponentConditionManager componentConditionManager) {
-        this.lc.log(14808325, "(%1) [AbstractModel.addCondition] ccID:%2", (long)this.id, (long)n);
+        this.lc.log(100000000, "(%1) [AbstractModel.addCondition] ccID:%2", (long)this.id, (long)n);
         Object object = this.mutex;
         synchronized (object) {
             this.conditionsObserver = componentConditionManager;
@@ -215,9 +209,8 @@ ModelInternals {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void removeCondition(int n) {
-        this.lc.log(14808325, "(%1) [AbstractModel.removeCondition] %2", (long)this.id, (long)n);
+        this.lc.log(100000000, "(%1) [AbstractModel.removeCondition] %2", (long)this.id, (long)n);
         Object object = this.mutex;
         synchronized (object) {
             --this.linkedConditionsCount;
@@ -226,7 +219,7 @@ ModelInternals {
             }
         }
         if (this.conditionsObserver == null) {
-            this.lc.log(14808325, "(%1) [AbstractModel.removeCondition] set observer to null", (long)this.id);
+            this.lc.log(100000000, "(%1) [AbstractModel.removeCondition] set observer to null", (long)this.id);
         }
     }
 
@@ -234,38 +227,31 @@ ModelInternals {
         return this.conditionsObserver != null;
     }
 
-    @Override
     public void deferredConnected() {
         this.fireModelUpdateEvent(14);
     }
 
-    @Override
     public int getStatus() {
         return this.status;
     }
 
-    @Override
     public int getHints() {
         return this.hints;
     }
 
-    @Override
     public int getID() {
         return this.id;
     }
 
-    @Override
     public String getName() {
-        String string = super.getClass().getName();
+        String string = this.getClass().getName();
         return string.substring(string.lastIndexOf(46) + 1);
     }
 
-    @Override
     public void addReference() {
         ++this.references;
     }
 
-    @Override
     public void removeReference() {
         --this.references;
         if (this.references < 0) {
@@ -273,67 +259,55 @@ ModelInternals {
         }
     }
 
-    @Override
     public int getChangeState() {
         return this.changeState;
     }
 
-    @Override
     public void setStatus(int n) {
         this.status = n;
         this.fireModelUpdateEvent(2, n);
     }
 
-    @Override
     public void addHint(int n) {
         this.hints |= n;
     }
 
-    @Override
     public void removeHint(int n) {
         this.hints &= ~n;
     }
 
-    @Override
     public void resetHints() {
         this.hints = 0;
     }
 
-    @Override
     public void publishHints() {
         this.fireModelUpdateEvent(18, this.hints);
     }
 
-    @Override
-    public void beginTransaction() {
+    public void beginTransaction() throws IllegalStateException {
         throw new IllegalStateException();
     }
 
-    @Override
-    public void abortTransaction() {
+    public void abortTransaction() throws IllegalStateException {
         throw new IllegalStateException();
     }
 
-    @Override
-    public void endTransaction() {
+    public void endTransaction() throws IllegalStateException {
         throw new IllegalStateException();
     }
 
-    @Override
     public boolean isTransactionRunning() {
         return false;
     }
 
-    @Override
     public boolean fireEvent(int n) {
         return this.fireEvent(n, null);
     }
 
-    @Override
     public boolean fireEvent(int n, AdditionalScreenData additionalScreenData) {
         HMIService hMIService = AbstractModelBank.getHMIservice();
         if (hMIService != null) {
-            AbstractModelBank.getEventLogChannel().log(-2137614336, "[%1] [AbstractModel.fireEvent] main:%2", (long)this.id, (long)n);
+            AbstractModelBank.getEventLogChannel().log(10000000, "[%1] [AbstractModel.fireEvent] main:%2", (long)this.id, (long)n);
             hMIService.fireSMEventFromModelId(n, this.id, additionalScreenData);
             return true;
         }
@@ -360,7 +334,6 @@ ModelInternals {
         }
     }
 
-    @Override
     public int getTerminalID() {
         return this.terminalID;
     }
@@ -373,45 +346,33 @@ ModelInternals {
         return false;
     }
 
-    @Override
     public void setDragAndDropHandler(IDragAndDropHandler iDragAndDropHandler) {
         this.handler = iDragAndDropHandler != null ? iDragAndDropHandler : FallbackDragAndDropHandler.INSTANCE;
         this.handler.addListener(this.dndListener);
     }
 
-    @Override
     public void setDragAndDropListener(DragAndDropListener dragAndDropListener) {
         this.dndListener = dragAndDropListener;
         this.handler.addListener(dragAndDropListener);
     }
 
-    @Override
     public void trigger(ModelTrigger modelTrigger, int n) {
-        this.lc.log(-2137614336, "%1.trigger] ModelTrigger: %2  ClientData: %3", (Object)new Buffer().append('{').append(this.id).append("} [").append(this.getName()).toString(), (Object)modelTrigger, (long)n);
+        this.lc.log(10000000, "%1.trigger] ModelTrigger: %2  ClientData: %3", (Object)new Buffer().append('{').append(this.id).append("} [").append(this.getName()).toString(), (Object)modelTrigger, (long)n);
         if (this.connected()) {
             this.fireModelUpdateEvent(modelTrigger, n);
         }
     }
 
-    @Override
     public int startDrag(int n, long l, int n2) {
         return this.handler.startDrag(n, l, n2);
     }
 
-    @Override
     public void stopDrag(int n, long l, long l2) {
         this.handler.stopDrag(n, l, this.id, l2);
     }
 
-    @Override
     public void drop(int n, long l, long l2, int n2, int n3) {
         this.handler.drop(n, l, this.id, l2, n2, n3);
-    }
-
-    static {
-        LOG_CHANNELS = new LogChannel[]{AbstractModelBank.getLogChannel("Fw.Models.System"), AbstractModelBank.getLogChannel("Fw.Models.Radio"), AbstractModelBank.getLogChannel("Fw.Models.Media"), AbstractModelBank.getLogChannel("Fw.Models.Phone"), AbstractModelBank.getLogChannel("Fw.Models.Navi"), AbstractModelBank.getLogChannel("Fw.Models.Info"), AbstractModelBank.getLogChannel("Fw.Models.Car"), AbstractModelBank.getLogChannel("Fw.Models.Addressbook"), AbstractModelBank.getLogChannel("Fw.Models.NavAsia"), AbstractModelBank.getLogChannel("Fw.Models.Misc"), AbstractModelBank.getLogChannel("Fw.Models.Tone"), AbstractModelBank.getLogChannel("Fw.Models.Settings"), AbstractModelBank.getLogChannel("Fw.Models.PicNav"), AbstractModelBank.getLogChannel("Fw.Models.Eng"), AbstractModelBank.getLogChannel("Fw.Models.Misc"), AbstractModelBank.getLogChannel("Fw.Models.Misc"), AbstractModelBank.getLogChannel("Fw.Models.Misc"), AbstractModelBank.getLogChannel("Fw.Models.Swdl"), AbstractModelBank.getLogChannel("Fw.Models.Bluetooth"), AbstractModelBank.getLogChannel("Fw.Models.Misc"), AbstractModelBank.getLogChannel("Fw.Models.Misc"), AbstractModelBank.getLogChannel("Fw.Models.EarlyApps"), AbstractModelBank.getLogChannel("Fw.Models.Messaging"), AbstractModelBank.getLogChannel("Fw.Models.Online"), AbstractModelBank.getLogChannel("Fw.Models.TestSupport"), AbstractModelBank.getLogChannel("Fw.Models.Misc"), AbstractModelBank.getLogChannel("Fw.Models.Misc"), AbstractModelBank.getLogChannel("Fw.Models.Misc"), AbstractModelBank.getLogChannel("Fw.Models.Misc"), AbstractModelBank.getLogChannel("Fw.Models.Misc"), AbstractModelBank.getLogChannel("Fw.Models.Home"), AbstractModelBank.getLogChannel("Fw.Models.Misc"), AbstractModelBank.getLogChannel("Fw.Models.Terminalmode"), AbstractModelBank.getLogChannel("Fw.Models.Ecall"), AbstractModelBank.getLogChannel("Fw.Models.WirelessCharging"), AbstractModelBank.getLogChannel("Fw.Models.Climate")};
-        statistics = null;
-        DUMMY_LISTENER = new FallbackListener();
     }
 }
 

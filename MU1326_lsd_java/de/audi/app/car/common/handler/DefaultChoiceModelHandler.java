@@ -16,35 +16,30 @@ extends ChoiceModelHandlerAdapter {
         choiceModelApp.setChoiceListener(this);
     }
 
-    @Override
     public void updateOnKeyPressed(int n) {
         if (this.getBusiness() != null) {
             this.getChoiceModelBusiness().processKeyPressed(n, (ButtonModelHandler)this);
         }
     }
 
-    @Override
     public void updateOnKeyReleased(int n) {
         if (this.getBusiness() != null) {
             this.getChoiceModelBusiness().processKeyReleased(n, (ButtonModelHandler)this);
         }
     }
 
-    @Override
     public void updateOnKeyTyped(int n) {
         if (this.getBusiness() != null) {
             this.getChoiceModelBusiness().processKeyTyped(n, (ButtonModelHandler)this);
         }
     }
 
-    @Override
     public void updateOnItemSelected(int n) {
         if (this.getBusiness() != null) {
             this.getChoiceModelBusiness().processItemSelected(n, (ChoiceModelHandler)this);
         }
     }
 
-    @Override
     public void updateOnItemFocused(int n) {
         if (this.getBusiness() != null) {
             this.getChoiceModelBusiness().processItemFocused(n, (ChoiceModelHandler)this);

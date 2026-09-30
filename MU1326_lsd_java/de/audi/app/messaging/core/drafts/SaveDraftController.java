@@ -8,70 +8,76 @@ import de.audi.app.messaging.core.application.AbstractMsgApplication;
 import de.audi.app.messaging.core.component.AbstractMessagingComponent;
 import de.audi.app.messaging.core.compose.Message;
 import de.audi.app.messaging.core.drafts.SaveAsDraftCommand;
-import de.audi.app.messaging.core.drafts.SaveAsDraftCommand$LastSavedMessageGetter;
-import de.audi.app.messaging.core.drafts.SaveAsDraftCommand$ResultHandler;
-import de.audi.app.messaging.core.drafts.SaveDraftController$1;
-import de.audi.app.messaging.core.drafts.SaveDraftController$2;
-import de.audi.app.messaging.core.drafts.SaveDraftController$CoreActionProxy;
-import de.audi.app.messaging.core.drafts.SaveDraftController$MyButtonListener;
-import de.audi.app.messaging.core.drafts.SaveDraftController$MyDsiMessagingListener;
+import de.audi.app.messaging.core.dsi.messaging.DsiMessagingEmptyListener;
+import de.audi.app.messaging.core.guide.DefaultCoreActionProxy;
+import de.audi.app.messaging.core.guide.IActionProxySubscriber;
 import de.audi.app.messaging.core.osgi.MessagingBundleContext;
 import de.audi.app.messaging.core.util.Logs;
 import de.audi.app.messaging.core.util.Messages;
 import de.audi.app.messaging.core.util.Strings;
-import de.audi.atip.log.LogChannel;
+import de.audi.atip.hmi.model.DefaultButtonListener;
 import de.esolutions.fw.util.commons.Buffer;
 import org.dsi.ifc.messaging.AttachmentInformation;
 import org.dsi.ifc.messaging.MessageDetails;
 import org.dsi.ifc.messaging.MessagingAccount;
+import org.dsi.ifc.messaging.StatusInformation;
 
 public final class SaveDraftController
 extends AbstractMessagingComponent {
-    private static final int SAVE_DRAFT_RESULT_OK;
-    private static final int SAVE_DRAFT_RESULT_ERROR_GENERAL;
-    private static final int SAVE_DRAFT_RESULT_ERROR_MEMORY_DEPLETED;
+    private static final int SAVE_DRAFT_RESULT_OK = 0;
+    private static final int SAVE_DRAFT_RESULT_ERROR_GENERAL = 1;
+    private static final int SAVE_DRAFT_RESULT_ERROR_MEMORY_DEPLETED = 2;
     private volatile boolean autoSaveOnCompositionExit = false;
     private volatile Message lastSavedMessage;
-    private final SaveAsDraftCommand$LastSavedMessageGetter lastSavedMessageGetter = new SaveDraftController$1(this);
-    private final SaveAsDraftCommand$ResultHandler commandResultHandler = new SaveDraftController$2(this);
+    private final SaveAsDraftCommand.LastSavedMessageGetter lastSavedMessageGetter = new SaveAsDraftCommand.LastSavedMessageGetter(){
+
+        public Message get() {
+            return SaveDraftController.this.lastSavedMessage;
+        }
+    };
+    private final SaveAsDraftCommand.ResultHandler commandResultHandler = new SaveAsDraftCommand.ResultHandler(){
+
+        public void handleResult(int n, String string, Message message) {
+            SaveDraftController.this.handleCommandResult(n, string, message);
+        }
+    };
 
     public SaveDraftController(MessagingBundleContext messagingBundleContext) {
         super(messagingBundleContext, "App.Messaging.Main");
     }
 
-    @Override
     public void init(AbstractMsgApplication abstractMsgApplication) {
         super.init(abstractMsgApplication);
-        SaveDraftController$MyButtonListener saveDraftController$MyButtonListener = new SaveDraftController$MyButtonListener(this, null);
-        this.framework.getHmiServiceApp().getButtonModel(-1366089472).setButtonListener(saveDraftController$MyButtonListener);
-        this.framework.getHmiServiceApp().getButtonModel(1100161280).setButtonListener(saveDraftController$MyButtonListener);
-        this.framework.getHmiServiceApp().getButtonModel(-309190400).setButtonListener(saveDraftController$MyButtonListener);
-        abstractMsgApplication.getActionProxyService().addSubscriber(new SaveDraftController$CoreActionProxy(this, null));
-        abstractMsgApplication.getDsiMessagingPrimaryListener().addSubscriber(new SaveDraftController$MyDsiMessagingListener(this, null));
+        MyButtonListener myButtonListener = new MyButtonListener();
+        this.framework.getHmiServiceApp().getButtonModel(2200494).setButtonListener(myButtonListener);
+        this.framework.getHmiServiceApp().getButtonModel(2200385).setButtonListener(myButtonListener);
+        this.framework.getHmiServiceApp().getButtonModel(2200301).setButtonListener(myButtonListener);
+        abstractMsgApplication.getActionProxyService().addSubscriber(new CoreActionProxy());
+        abstractMsgApplication.getDsiMessagingPrimaryListener().addSubscriber(new MyDsiMessagingListener());
     }
 
     public void setAutoSavePolicy(boolean bl) {
-        this.log.log(-2137614336, "[SaveDraftController#setAutoSavePolicy] autoSaveOnCompositionExit = %1", bl);
+        this.log.log(10000000, "[SaveDraftController#setAutoSavePolicy] autoSaveOnCompositionExit = %1", bl);
         this.autoSaveOnCompositionExit = bl;
     }
 
     private void setSaveDraftState(int n, int n2) {
-        this.framework.getHmiServiceApp().getChoiceModel(-325967616).setValue(n2);
-        this.msgApp.getModelAccess().setOperationStateChoice(127082752, n);
+        this.framework.getHmiServiceApp().getChoiceModel(2200300).setValue(n2);
+        this.msgApp.getModelAccess().setOperationStateChoice(2200327, n);
     }
 
     public void saveDraftIfJustified(boolean bl) {
         if (this.framework.getSysConst(4062) == 1) {
-            this.log.log(1078071040, "[SaveDraftController#saveDraftIfJustified] Template-only system, skipping save procedure.");
+            this.log.log(1000000, "[SaveDraftController#saveDraftIfJustified] Template-only system, skipping save procedure.");
         } else if (this.msgApp.getAccountManager().getSelectedAccount() == null) {
-            this.log.log(1078071040, "[SaveDraftController#saveDraftIfJustified] No account selected, skipping save procedure.");
+            this.log.log(1000000, "[SaveDraftController#saveDraftIfJustified] No account selected, skipping save procedure.");
         } else {
             Message message = this.msgApp.getNewMessage().getTruncatedMessage();
             MessageDetails messageDetails = message.getMessageDetails();
             int n = messageDetails.getMessagingAccountID();
             MessagingAccount messagingAccount = this.msgApp.getAccountManager().getAccount(n);
             if (!Accounts.supportsDrafts(messagingAccount) && this.log.isInfo()) {
-                this.log.log(1078071040, "[SaveDraftController#saveDraftIfJustified] Account does not support drafts, skipping save procedure.");
+                this.log.log(1000000, "[SaveDraftController#saveDraftIfJustified] Account does not support drafts, skipping save procedure.");
             } else {
                 boolean bl2;
                 boolean bl3 = this.lastSavedMessage == null || message.getChangeId() > this.lastSavedMessage.getChangeId();
@@ -88,7 +94,7 @@ extends AbstractMessagingComponent {
                     buffer.append("lastSavedMessage = ").append(this.lastSavedMessage).append(", ");
                     buffer.append("currentMessage = ").append(message).append(", ");
                     buffer.append("isBlankDraftCandidate = ").append(bl4).append(", ");
-                    this.log.log(1078071040, buffer.toString());
+                    this.log.log(1000000, buffer.toString());
                 }
                 if (bl2) {
                     this.saveAsDraft(bl);
@@ -99,7 +105,7 @@ extends AbstractMessagingComponent {
 
     public void saveAsDraft(boolean bl) {
         try {
-            this.log.log(-2137614336, "[SaveDraftController#saveAsDraft] discardAttachments = %1", bl);
+            this.log.log(10000000, "[SaveDraftController#saveAsDraft] discardAttachments = %1", bl);
             this.setSaveDraftState(0, 1);
             Message message = this.msgApp.getNewMessage().getTruncatedMessage();
             MessageDetails messageDetails = message.getMessageDetails();
@@ -108,7 +114,7 @@ extends AbstractMessagingComponent {
             String string = messageDetails.getBody();
             String string2 = this.msgApp.getTextLookup().getAttachmentsDiscardedHint();
             if (!Strings.isNullOrEmpty(string2) && bl2 && bl) {
-                this.log.log(1078071040, "[SaveDraftController#saveAsDraft] discardAttachments = true && attachments available -> add text");
+                this.log.log(1000000, "[SaveDraftController#saveAsDraft] discardAttachments = true && attachments available -> add text");
                 StringBuffer stringBuffer = new StringBuffer();
                 stringBuffer.append(string2);
                 stringBuffer.append(string);
@@ -153,7 +159,7 @@ extends AbstractMessagingComponent {
     }
 
     private void saveAsDraftButton(int n, int n2) {
-        this.log.log(1078071040, "[SaveDraftController#saveAsDraftButton] modelID = %1", (long)n);
+        this.log.log(1000000, "[SaveDraftController#saveAsDraftButton] modelID = %1", (long)n);
         if (!this.msgApp.getNewMessage().exceedsMaxBodyLength()) {
             this.saveAsDraft(false);
         }
@@ -161,50 +167,56 @@ extends AbstractMessagingComponent {
     }
 
     private void forceSaveAsDraftButton(int n, int n2) {
-        this.log.log(1078071040, "[SaveDraftController#forceSaveAsDraftButton]");
+        this.log.log(1000000, "[SaveDraftController#forceSaveAsDraftButton]");
         this.saveAsDraft(false);
         this.framework.getHmiServiceApp().getModelApp(n).fireEvent(n2);
     }
 
-    static /* synthetic */ Message access$000(SaveDraftController saveDraftController) {
-        return saveDraftController.lastSavedMessage;
+    private final class CoreActionProxy
+    extends DefaultCoreActionProxy
+    implements IActionProxySubscriber {
+        private CoreActionProxy() {
+        }
+
+        public void messageCompositionTransition(int n, int n2) {
+            SaveDraftController.this.log.log(10000000, "[SaveDraftController#messageCompositionTransition]");
+            if (SaveDraftController.this.autoSaveOnCompositionExit && n2 == 1) {
+                SaveDraftController.this.saveDraftIfJustified(true);
+            }
+        }
     }
 
-    static /* synthetic */ void access$100(SaveDraftController saveDraftController, int n, String string, Message message) {
-        saveDraftController.handleCommandResult(n, string, message);
+    private class MyButtonListener
+    extends DefaultButtonListener {
+        private MyButtonListener() {
+        }
+
+        public void keyTyped(int n, int n2, int n3) {
+            if (n == 2200494 || n == 2200385) {
+                SaveDraftController.this.saveAsDraftButton(n, n3);
+            } else if (n == 2200301) {
+                SaveDraftController.this.forceSaveAsDraftButton(n, n3);
+            } else {
+                SaveDraftController.this.log.log(10000, "[SaveDraftController#keyTyped] Unexpected modelID = %1", (long)n);
+            }
+        }
     }
 
-    static /* synthetic */ void access$500(SaveDraftController saveDraftController, int n, int n2) {
-        saveDraftController.saveAsDraftButton(n, n2);
-    }
+    private final class MyDsiMessagingListener
+    extends DsiMessagingEmptyListener {
+        private MyDsiMessagingListener() {
+        }
 
-    static /* synthetic */ void access$600(SaveDraftController saveDraftController, int n, int n2) {
-        saveDraftController.forceSaveAsDraftButton(n, n2);
-    }
-
-    static /* synthetic */ LogChannel access$700(SaveDraftController saveDraftController) {
-        return saveDraftController.log;
-    }
-
-    static /* synthetic */ LogChannel access$800(SaveDraftController saveDraftController) {
-        return saveDraftController.log;
-    }
-
-    static /* synthetic */ boolean access$900(SaveDraftController saveDraftController) {
-        return saveDraftController.autoSaveOnCompositionExit;
-    }
-
-    static /* synthetic */ LogChannel access$1000(SaveDraftController saveDraftController) {
-        return saveDraftController.log;
-    }
-
-    static /* synthetic */ LogChannel access$1100(SaveDraftController saveDraftController) {
-        return saveDraftController.log;
-    }
-
-    static /* synthetic */ Message access$002(SaveDraftController saveDraftController, Message message) {
-        saveDraftController.lastSavedMessage = message;
-        return saveDraftController.lastSavedMessage;
+        public void indicateMessageStatus(StatusInformation statusInformation) {
+            String string;
+            String string2;
+            Message message;
+            SaveDraftController.this.log.log(10000000, "[SaveDraftController#indicateMessageStatus]");
+            if (statusInformation.getStatus() == 1 && (message = SaveDraftController.this.lastSavedMessage) != null && (string2 = statusInformation.getMessageId()).equals(string = message.getMessageDetails().getMessageID())) {
+                SaveDraftController.this.log.log(1000000, "[SaveDraftController#indicateMessageStatus] Most recently saved draft has been deleted, clearing cached information on that draft.");
+                SaveDraftController.this.lastSavedMessage = null;
+            }
+        }
     }
 }
 

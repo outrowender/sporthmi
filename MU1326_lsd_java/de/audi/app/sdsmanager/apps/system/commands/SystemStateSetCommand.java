@@ -17,9 +17,9 @@ import de.audi.atip.log.LogChannel;
 
 public class SystemStateSetCommand
 extends AbstractSystemCallCommand {
-    private static final int SYSTEM_STATE_PAUSE;
-    private static final int SYSTEM_STATE_POSTTRAINING;
-    private static final int SYSTEM_STATE_WAIT;
+    private static final int SYSTEM_STATE_PAUSE = 0;
+    private static final int SYSTEM_STATE_POSTTRAINING = 1;
+    private static final int SYSTEM_STATE_WAIT = 2;
     private final AppSDSManager sdsManager;
     private final SDSAppFactory factory;
     private final SpeechRecognitionHandler srHandler;
@@ -39,7 +39,6 @@ extends AbstractSystemCallCommand {
         this.sdsHmiListener = sDSHMIListener;
     }
 
-    @Override
     public void execute() {
         int n;
         boolean bl = true;
@@ -48,7 +47,7 @@ extends AbstractSystemCallCommand {
         String string = this.actionStarted ? "started" : "stopped";
         switch (this.state) {
             case 0: {
-                this.logger.log(-2137614336, "%1#execute: Dialog pause is %2!", (Object)this.getName(), (Object)string);
+                this.logger.log(10000000, "%1#execute: Dialog pause is %2!", (Object)this.getName(), (Object)string);
                 this.sdsManager.triggerSDSPauseState(this.actionStarted, false);
                 this.sdsHandlerService.triggerPauseStateAbortTimer(this.actionStarted);
                 this.handlePauseStateModelsAndTimers();
@@ -56,13 +55,13 @@ extends AbstractSystemCallCommand {
                 break;
             }
             case 1: {
-                this.logger.log(-2137614336, "%1#execute: Posttraining is %2!", (Object)this.getName(), (Object)string);
+                this.logger.log(10000000, "%1#execute: Posttraining is %2!", (Object)this.getName(), (Object)string);
                 this.setPostTrainingActive(this.actionStarted);
                 this.srHandler.triggerPosttraining(this.actionStarted, this.factory.getSDSHandlerADB().getProfileID());
                 break;
             }
             case 2: {
-                this.logger.log(-2137614336, "%1#execute: Waiting state is %2!", (Object)this.getName(), (Object)string);
+                this.logger.log(10000000, "%1#execute: Waiting state is %2!", (Object)this.getName(), (Object)string);
                 this.sdsManager.triggerSDSWaitState(this.actionStarted, false);
                 if (this.actionStarted) {
                     SDSModelAccess.setSDSSystemStatus(this.state);
@@ -78,7 +77,7 @@ extends AbstractSystemCallCommand {
                 break;
             }
             default: {
-                this.logger.log(-1601830656, "%1#execute: Unhandled state %2!", (Object)this.getName(), (long)this.state);
+                this.logger.log(100000, "%1#execute: Unhandled state %2!", (Object)this.getName(), (long)this.state);
                 bl = false;
             }
         }
@@ -89,7 +88,7 @@ extends AbstractSystemCallCommand {
         if (bl3) {
             n = bl ? 3010 : 3011;
         }
-        this.logger.log(-2137614336, "%1#execute: sdsResult=%2!", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "%1#execute: sdsResult=%2!", (Object)this.getName(), (long)n);
         this.sendResult(n);
     }
 
@@ -114,13 +113,12 @@ extends AbstractSystemCallCommand {
         if (!bl) {
             return;
         }
-        this.logger.log(-2137614336, "AppSDSManager#setPostTrainingActive: Posttraining is started, resetting increment models!");
+        this.logger.log(10000000, "AppSDSManager#setPostTrainingActive: Posttraining is started, resetting increment models!");
         this.sdsHmiListener.updateSDSRecogStatus(false, false);
         SDSModelAccess.setPosttrainingRecordCountValue(0);
         SDSModelAccess.setPosttrainingShowTextValue(0);
     }
 
-    @Override
     public byte getActionOnNewSystemCall(ISystemCall iSystemCall) {
         int n = iSystemCall.getId();
         if (n == 1000) {

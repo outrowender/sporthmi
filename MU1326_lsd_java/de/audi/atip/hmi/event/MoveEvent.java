@@ -8,9 +8,9 @@ import de.audi.atip.hmi.event.ATIPEventListener;
 
 public class MoveEvent
 extends ATIPEvent {
-    public static final int TOUCH_SCREEN_EVENT_FIRST;
-    public static final int TOUCH_SCREEN_MOVED;
-    public static final int TOUCH_SCREEN_LAST;
+    public static final int TOUCH_SCREEN_EVENT_FIRST = 10461;
+    public static final int TOUCH_SCREEN_MOVED = 10464;
+    public static final int TOUCH_SCREEN_LAST = 10464;
     private long when;
     private int moveCode;
     private int x1;
@@ -41,7 +41,7 @@ extends ATIPEvent {
     }
 
     public String toString() {
-        return new StringBuffer().append("MoveEvent: [").append(this.getPosted()).append("] type = ").append(this.type2Text()).append(" (").append(this.getID()).append("), motionCode = ").append(this.motionCode2Text()).append(" (").append(this.moveCode).append(")").toString();
+        return "MoveEvent: [" + this.getPosted() + "] type = " + this.type2Text() + " (" + this.getID() + "), motionCode = " + this.motionCode2Text() + " (" + this.moveCode + ")";
     }
 
     String motionCode2Text() {
@@ -86,7 +86,6 @@ extends ATIPEvent {
         return this.repaintNeeded;
     }
 
-    @Override
     public void consume() {
         super.consume();
         this.repaintNeeded = true;

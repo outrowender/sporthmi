@@ -23,8 +23,8 @@ import org.dsi.ifc.speechrec.GrammarInfo;
 
 public class CommandSpeechDSIReinit
 extends AbstractSpeechCommand {
-    private static final String LOGCLASS;
-    private static final int COMMAND_TIMEOUT_SPEECH_DSI_REINIT;
+    private static final String LOGCLASS = "CommandSpeechDSIReinit";
+    private static final int COMMAND_TIMEOUT_SPEECH_DSI_REINIT = -1;
     private final SpeechRecognitionHandler srHandler;
     private final IFrameworkAccess framework;
     private final SDSAdapter sdsAdapter;
@@ -45,48 +45,45 @@ extends AbstractSpeechCommand {
     }
 
     private void processingFinished() {
-        this.logger.log(1078071040, "[%1#processingFinished]", (Object)"CommandSpeechDSIReinit");
+        this.logger.log(1000000, "[%1#processingFinished]", (Object)LOGCLASS);
         this.commandList.commandFinished();
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "[%1#execute]", (Object)"CommandSpeechDSIReinit");
+        this.logger.log(1000000, "[%1#execute]", (Object)LOGCLASS);
         this.timeoutHandler.startInitTimer();
         this.sdsAdapter.setSDSReady(false);
         this.sdsAdapter.setInitializationStep((byte)0);
         if (!this.srHandler.init()) {
-            this.logger.log(10000, "[%1#execute] Initialization failed.", (Object)"CommandSpeechDSIReinit");
+            this.logger.log(10000, "[%1#execute] Initialization failed.", (Object)LOGCLASS);
             this.processingFinished();
             return;
         }
-        this.logger.log(1078071040, "[%1#execute] Wait for responseInit.", (Object)"CommandSpeechDSIReinit");
+        this.logger.log(1000000, "[%1#execute] Wait for responseInit.", (Object)LOGCLASS);
     }
 
-    @Override
     public void responseInit(int n) {
-        this.logger.log(1078071040, "[%1#responseInit] '%2'", (Object)"CommandSpeechDSIReinit", (long)n);
+        this.logger.log(1000000, "[%1#responseInit] '%2'", (Object)LOGCLASS, (long)n);
         this.sdsAdapter.setInitializationStep((byte)1);
         String string = this.framework.getLanguageMgr().getCurrentLanguage("LANG_COMPONENT_SDS").getLanguageCode();
-        this.logger.log(1078071040, "[%1#responseInit] language locale='%2'", (Object)"CommandSpeechDSIReinit", (Object)string);
+        this.logger.log(1000000, "[%1#responseInit] language locale='%2'", (Object)LOGCLASS, (Object)string);
         if (!this.srHandler.setLanguage(string)) {
             this.sdsAdapter.updateSDSState((byte)2);
             this.processingFinished();
             return;
         }
-        this.logger.log(1078071040, "[%1#responseInit] Wait for responseSetLanguage", (Object)"CommandSpeechDSIReinit");
+        this.logger.log(1000000, "[%1#responseInit] Wait for responseSetLanguage", (Object)LOGCLASS);
     }
 
-    @Override
     public void responseSetLanguage(int n) {
-        this.logger.log(1078071040, "[%1#responseSetLanguage] replyCode=%2, requesting DSISpeechRec version!", (Object)"CommandSpeechDSIReinit", (long)n);
+        this.logger.log(1000000, "[%1#responseSetLanguage] replyCode=%2, requesting DSISpeechRec version!", (Object)LOGCLASS, (long)n);
         this.sdsAdapter.setInitializationStep((byte)2);
         this.timeoutHandler.cancelInitTimer();
         this.srHandler.getVersion();
         boolean bl = SDSModelAccess.isSDSDisabledForLanguage();
-        this.logger.log(1078071040, "[%1#responseSetLanguage] sdsDisabledForLanguage=%2!", (Object)"CommandSpeechDSIReinit", (Object)bl);
+        this.logger.log(1000000, "[%1#responseSetLanguage] sdsDisabledForLanguage=%2!", (Object)LOGCLASS, (Object)bl);
         if (SDSUtils.checkReplyCodeForError(n, this.logger) || bl) {
-            this.logger.log(-1601830656, "[%1#responseSetLanguage] FAILED or language disabled!", (Object)"CommandSpeechDSIReinit");
+            this.logger.log(100000, "[%1#responseSetLanguage] FAILED or language disabled!", (Object)LOGCLASS);
             this.sdsAdapter.updateSDSState((byte)2);
             this.framework.getLanguageMgr().responseSetLanguage("LANG_COMPONENT_SDS", false);
             this.processingFinished();
@@ -95,20 +92,18 @@ extends AbstractSpeechCommand {
         this.framework.getLanguageMgr().responseSetLanguage("LANG_COMPONENT_SDS", true);
         this.sdsAdapter.setInitializationStep((byte)7);
         this.naviHandler.setSpeechDSIStatus(true);
-        this.logger.log(1078071040, "[%1#responseSetLanguage] Wait for responseSetMaxSlotNBestListSize", (Object)"CommandSpeechDSIReinit");
+        this.logger.log(1000000, "[%1#responseSetLanguage] Wait for responseSetMaxSlotNBestListSize", (Object)LOGCLASS);
         this.srHandler.setMaxSlotNBestListSize(20);
     }
 
-    @Override
     public void responseSetMaxSlotNBestListSize(int n) {
-        this.logger.log(1078071040, "[%1#responseSetMaxSlotNBestListSize] replyCode=%2, wait for responseSetMaxCommandNBestListSize", (Object)"CommandSpeechDSIReinit", (long)n);
+        this.logger.log(1000000, "[%1#responseSetMaxSlotNBestListSize] replyCode=%2, wait for responseSetMaxCommandNBestListSize", (Object)LOGCLASS, (long)n);
         this.sdsAdapter.setInitializationStep((byte)3);
         this.srHandler.setMaxCommandNBestListSize(2);
     }
 
-    @Override
     public void responseSetMaxCommandNBestListSize(int n) {
-        this.logger.log(1078071040, "[%1#responseSetMaxCommandNBestListSize] replyCode=%2, reload all current grammars", (Object)"CommandSpeechDSIReinit", (long)n);
+        this.logger.log(1000000, "[%1#responseSetMaxCommandNBestListSize] replyCode=%2, reload all current grammars", (Object)LOGCLASS, (long)n);
         this.sdsAdapter.setInitializationStep((byte)4);
         SortedSet sortedSet = this.dynamicHMILists.resetLoadedSlotRuleIDs();
         SortedSet sortedSet2 = this.grammarState.getCurrentlyLoadedGrammarRuleIDs();
@@ -118,7 +113,7 @@ extends AbstractSpeechCommand {
         arrayList.addAll(CommandSetGrammarContext.slotIDsToDSIGrammar(this.logger, this.dynamicHMILists, sortedSet));
         arrayList.addAll(CommandSetGrammarContext.ruleIDsToDSIGrammar(this.logger, null, this.dynamicHMILists, sortedSet2, false, null));
         if (arrayList.isEmpty()) {
-            this.logger.log(1078071040, "[%1#responseSetMaxCommandNBestListSize] Empty DSI grammar list.", (Object)"CommandSpeechDSIReinit");
+            this.logger.log(1000000, "[%1#responseSetMaxCommandNBestListSize] Empty DSI grammar list.", (Object)LOGCLASS);
             this.sdsAdapter.setInitializationStep((byte)9);
             this.sdsAdapter.setSDSReady(true);
             this.processingFinished();
@@ -126,7 +121,7 @@ extends AbstractSpeechCommand {
         }
         boolean bl = this.srHandler.loadGrammar((Grammar[])arrayList.toArray(new Grammar[arrayList.size()]));
         if (!bl) {
-            this.logger.log(-1601830656, "[%1#responseSetMaxCommandNBestListSize] loadGrammar failed. Clear grammar state.", (Object)"CommandSpeechDSIReinit");
+            this.logger.log(100000, "[%1#responseSetMaxCommandNBestListSize] loadGrammar failed. Clear grammar state.", (Object)LOGCLASS);
             this.grammarState.setCurrentlyLoadedGrammarRuleIDs(new TreeSet());
             this.sdsAdapter.setSDSReady(true);
             this.sdsAdapter.setInitializationStep((byte)9);
@@ -135,16 +130,15 @@ extends AbstractSpeechCommand {
         }
         this.sdsAdapter.setInitializationStep((byte)8);
         this.dynamicHMILists.markAllSlotsAsLoaded(bl);
-        this.logger.log(1078071040, "[%1#responseSetMaxCommandNBestListSize] Wait for responseLoadGrammar", (Object)"CommandSpeechDSIReinit");
+        this.logger.log(1000000, "[%1#responseSetMaxCommandNBestListSize] Wait for responseLoadGrammar", (Object)LOGCLASS);
     }
 
-    @Override
     public void responseLoadGrammar(int n, GrammarInfo[] grammarInfoArray) {
         if (this.logger.isDebug()) {
-            this.logger.log(1078071040, "[%1#responseLoadGrammar] replyCode=%3, info='%2'", (Object)"CommandSpeechDSIReinit", (Object)SDSUtils.toString((Object[])grammarInfoArray, false), (long)n);
+            this.logger.log(1000000, "[%1#responseLoadGrammar] replyCode=%3, info='%2'", (Object)LOGCLASS, (Object)SDSUtils.toString((Object[])grammarInfoArray, false), (long)n);
         }
         if (SDSUtils.checkReplyCodeForError(n, this.logger)) {
-            this.logger.log(-1601830656, "[%1#responseLoadGrammar] Load grammar failed. Clear grammar state.", (Object)"CommandSpeechDSIReinit");
+            this.logger.log(100000, "[%1#responseLoadGrammar] Load grammar failed. Clear grammar state.", (Object)LOGCLASS);
             this.grammarState.setCurrentlyLoadedGrammarRuleIDs(new TreeSet());
         }
         this.sdsAdapter.setSDSReady(true);
@@ -152,14 +146,12 @@ extends AbstractSpeechCommand {
         this.processingFinished();
     }
 
-    @Override
     public long getTimeout() {
         return -1L;
     }
 
-    @Override
     public String toString() {
-        return new StringBuffer().append("CommandSpeechDSIReinit").append(this.hashCode()).toString();
+        return LOGCLASS + this.hashCode();
     }
 }
 

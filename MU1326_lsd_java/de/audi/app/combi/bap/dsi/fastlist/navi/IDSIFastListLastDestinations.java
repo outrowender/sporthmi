@@ -8,13 +8,10 @@ import org.dsi.ifc.kombifastlist.DataAddress;
 
 public interface IDSIFastListLastDestinations
 extends IDSIFastListNavi {
-    default public void pushLastDestinations(DataAddress[] dataAddressArray) {
-    }
+    public void pushLastDestinations(DataAddress[] var1);
 
-    default public void pushCurrentListSizeLastDestinations(int n) {
-    }
+    public void pushCurrentListSizeLastDestinations(int var1);
 
-    default public void responseNotifyLastDestinations(boolean bl) {
-    }
+    public void responseNotifyLastDestinations(boolean var1);
 }
 

@@ -5,15 +5,22 @@ package de.audi.app.sdsmanager.dictation.user;
 
 import de.audi.app.sdsmanager.dictation.DictationComponentManager;
 import de.audi.app.sdsmanager.dictation.component.AbstractDictationComponent;
+import de.audi.app.sdsmanager.dictation.dsiadapter.DsiDictationAdapterEmptyListener;
+import de.audi.app.sdsmanager.dictation.osgi.AbstractTrackerCustomizer;
 import de.audi.app.sdsmanager.dictation.osgi.BundleEnvironment;
 import de.audi.app.sdsmanager.dictation.osgi.IServiceRegistry;
 import de.audi.app.sdsmanager.dictation.osgi.ServiceFilterBuilder;
-import de.audi.app.sdsmanager.dictation.user.UserIdManager$1;
-import de.audi.app.sdsmanager.dictation.user.UserIdManager$DsiDictationAdapterListener;
+import de.audi.app.sdsmanager.dictation.user.DsiBluetoothEmptyListener;
+import de.audi.app.sdsmanager.dictation.user.DsiTelephoneEmptyListener;
 import de.audi.app.sdsmanager.dictation.util.DictationUtil;
-import de.audi.atip.log.LogChannel;
+import org.dsi.ifc.base.DSIListener;
+import org.dsi.ifc.bluetooth.DSIBluetooth;
 import org.dsi.ifc.bluetooth.TrustedDevice;
+import org.dsi.ifc.telephone.DSITelephone;
+import org.dsi.ifc.telephone.PhoneInformation;
 import org.osgi.framework.Filter;
+import org.osgi.framework.InvalidSyntaxException;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
@@ -30,13 +37,11 @@ extends AbstractDictationComponent {
         super(bundleEnvironment, "App.SDS.Dictation");
     }
 
-    @Override
     public void init(DictationComponentManager dictationComponentManager) {
         super.init(dictationComponentManager);
-        dictationComponentManager.getDsiDictationAdapter().addListener(new UserIdManager$DsiDictationAdapterListener(this, null));
+        dictationComponentManager.getDsiDictationAdapter().addListener(new DsiDictationAdapterListener());
     }
 
-    @Override
     public void connect(IServiceRegistry iServiceRegistry) {
         try {
             super.connect(iServiceRegistry);
@@ -47,7 +52,7 @@ extends AbstractDictationComponent {
         }
     }
 
-    private ServiceTracker createServiceTracker() {
+    private ServiceTracker createServiceTracker() throws InvalidSyntaxException {
         ServiceFilterBuilder serviceFilterBuilder = new ServiceFilterBuilder();
         serviceFilterBuilder.beginOr();
         serviceFilterBuilder.beginAnd();
@@ -61,13 +66,27 @@ extends AbstractDictationComponent {
         serviceFilterBuilder.endOr();
         String string = serviceFilterBuilder.createFilterString();
         Filter filter = this.bundleContext.createFilter(string);
-        UserIdManager$1 userIdManager$1 = new UserIdManager$1(this, this.log, this.bundleContext);
-        return new ServiceTracker(this.bundleContext, filter, (ServiceTrackerCustomizer)userIdManager$1);
+        AbstractTrackerCustomizer abstractTrackerCustomizer = new AbstractTrackerCustomizer(this.log, this.bundleContext){
+
+            public void addService(ServiceReference serviceReference, Object object) {
+                if (object != null) {
+                    if (object instanceof DSIBluetooth) {
+                        ((DSIBluetooth)object).setNotification(6, (DSIListener)new DsiBluetoothListener());
+                    } else {
+                        ((DSITelephone)object).setNotification(20, (DSIListener)new DsiTelephoneListener());
+                    }
+                }
+            }
+
+            public void removeService(ServiceReference serviceReference, Object object) {
+            }
+        };
+        return new ServiceTracker(this.bundleContext, filter, (ServiceTrackerCustomizer)abstractTrackerCustomizer);
     }
 
     private void setImsi(String string) {
         String string2;
-        this.log.log(-2137614336, "[UserIdManager#setImsi] pImsi = %1", (Object)String.valueOf(string));
+        this.log.log(10000000, "[UserIdManager#setImsi] pImsi = %1", (Object)String.valueOf(string));
         String string3 = string2 = string == null ? "" : string;
         if (!this.imsi.equals(string2)) {
             this.imsi = string2;
@@ -77,7 +96,7 @@ extends AbstractDictationComponent {
 
     private void setMapDeviceAddress(String string) {
         String string2;
-        this.log.log(-2137614336, "[UserIdManager#setMapDevice] pMapDeviceAddress = %1", (Object)String.valueOf(string));
+        this.log.log(10000000, "[UserIdManager#setMapDevice] pMapDeviceAddress = %1", (Object)String.valueOf(string));
         String string3 = string2 = string == null ? "" : string;
         if (!this.mapDeviceAddress.equals(string2)) {
             this.mapDeviceAddress = string2;
@@ -87,7 +106,7 @@ extends AbstractDictationComponent {
 
     private void setSapDeviceAddress(String string) {
         String string2;
-        this.log.log(-2137614336, "[UserIdManager#setSapDevice] pSapDeviceAddress = %1", (Object)String.valueOf(string));
+        this.log.log(10000000, "[UserIdManager#setSapDevice] pSapDeviceAddress = %1", (Object)String.valueOf(string));
         String string3 = string2 = string == null ? "" : string;
         if (!this.sapDeviceAddress.equals(string2)) {
             this.sapDeviceAddress = string2;
@@ -96,7 +115,7 @@ extends AbstractDictationComponent {
     }
 
     private void computeAndSetUserId() {
-        this.log.log(-2137614336, "[UserIdManager#computeAndSetUserId]");
+        this.log.log(10000000, "[UserIdManager#computeAndSetUserId]");
         if (this.dsiAvailable) {
             String string = "";
             if (!DictationUtil.isNullOrEmpty(this.sapDeviceAddress)) {
@@ -117,8 +136,8 @@ extends AbstractDictationComponent {
 
     private static boolean isMapConnected(TrustedDevice trustedDevice) {
         int n = trustedDevice.getActiveServiceTypes();
-        boolean bl = (n & 0x2000) != 0;
-        boolean bl2 = (n & 0x4000) != 0;
+        boolean bl = (n & 0x200000) != 0;
+        boolean bl2 = (n & 0x400000) != 0;
         return bl || bl2;
     }
 
@@ -135,69 +154,70 @@ extends AbstractDictationComponent {
         }
     }
 
-    static /* synthetic */ LogChannel access$301(UserIdManager userIdManager) {
-        return userIdManager.log;
+    private final class DsiBluetoothListener
+    extends DsiBluetoothEmptyListener {
+        private DsiBluetoothListener() {
+        }
+
+        public void updateTrustedDevices(TrustedDevice[] trustedDeviceArray, int n) {
+            if (n != 1 && UserIdManager.this.log.isInfo()) {
+                UserIdManager.this.log.log(1000000, "[UserIdManager#updateTrustedDevices] validFlag = %1", (long)n);
+            } else if (n == 1) {
+                Object object;
+                TrustedDevice trustedDevice = null;
+                TrustedDevice trustedDevice2 = null;
+                for (int i2 = 0; i2 < trustedDeviceArray.length; ++i2) {
+                    object = trustedDeviceArray[i2];
+                    if (trustedDevice == null && UserIdManager.isMapConnected((TrustedDevice)object)) {
+                        trustedDevice = object;
+                    }
+                    if (trustedDevice2 == null && UserIdManager.isSapConnected((TrustedDevice)object)) {
+                        trustedDevice2 = object;
+                    }
+                    if (trustedDevice != null && trustedDevice2 != null) break;
+                }
+                if (UserIdManager.this.log.isInfo()) {
+                    UserIdManager.this.log.log(1000000, " [UserIdManager#updateTrustedDevices] mapDevice = %1, sapDevice = %2", (Object)trustedDevice, (Object)trustedDevice2);
+                }
+                String string = trustedDevice != null ? trustedDevice.getDeviceAddress() : null;
+                object = trustedDevice2 != null ? trustedDevice2.getDeviceAddress() : null;
+                UserIdManager.this.setMapDeviceAddress(string);
+                UserIdManager.this.setSapDeviceAddress((String)object);
+            }
+        }
     }
 
-    static /* synthetic */ boolean access$402(UserIdManager userIdManager, boolean bl) {
-        userIdManager.dsiAvailable = bl;
-        return userIdManager.dsiAvailable;
+    private final class DsiTelephoneListener
+    extends DsiTelephoneEmptyListener {
+        private DsiTelephoneListener() {
+        }
+
+        public void updatePhoneInformation(PhoneInformation phoneInformation, int n) {
+            if (n != 1 && UserIdManager.this.log.isInfo()) {
+                UserIdManager.this.log.log(1000000, "[UserIdManager#updatePhoneInformation] validFlag = %1", (long)n);
+            } else if (n == 1) {
+                String string;
+                String string2 = string = phoneInformation != null ? phoneInformation.getImsi() : null;
+                if (UserIdManager.this.log.isInfo()) {
+                    UserIdManager.this.log.log(1000000, "[UserIdManager#updatePhoneInformation] validFlag = %1, phoneInformation.getImsi() = %2", (Object)String.valueOf(n), (Object)String.valueOf(string));
+                }
+                UserIdManager.this.setImsi(string);
+            }
+        }
     }
 
-    static /* synthetic */ void access$500(UserIdManager userIdManager) {
-        userIdManager.computeAndSetUserId();
-    }
+    private class DsiDictationAdapterListener
+    extends DsiDictationAdapterEmptyListener {
+        private DsiDictationAdapterListener() {
+        }
 
-    static /* synthetic */ LogChannel access$600(UserIdManager userIdManager) {
-        return userIdManager.log;
-    }
-
-    static /* synthetic */ LogChannel access$700(UserIdManager userIdManager) {
-        return userIdManager.log;
-    }
-
-    static /* synthetic */ boolean access$800(TrustedDevice trustedDevice) {
-        return UserIdManager.isMapConnected(trustedDevice);
-    }
-
-    static /* synthetic */ boolean access$900(TrustedDevice trustedDevice) {
-        return UserIdManager.isSapConnected(trustedDevice);
-    }
-
-    static /* synthetic */ LogChannel access$1000(UserIdManager userIdManager) {
-        return userIdManager.log;
-    }
-
-    static /* synthetic */ LogChannel access$1100(UserIdManager userIdManager) {
-        return userIdManager.log;
-    }
-
-    static /* synthetic */ void access$1200(UserIdManager userIdManager, String string) {
-        userIdManager.setMapDeviceAddress(string);
-    }
-
-    static /* synthetic */ void access$1300(UserIdManager userIdManager, String string) {
-        userIdManager.setSapDeviceAddress(string);
-    }
-
-    static /* synthetic */ LogChannel access$1400(UserIdManager userIdManager) {
-        return userIdManager.log;
-    }
-
-    static /* synthetic */ LogChannel access$1500(UserIdManager userIdManager) {
-        return userIdManager.log;
-    }
-
-    static /* synthetic */ LogChannel access$1600(UserIdManager userIdManager) {
-        return userIdManager.log;
-    }
-
-    static /* synthetic */ LogChannel access$1700(UserIdManager userIdManager) {
-        return userIdManager.log;
-    }
-
-    static /* synthetic */ void access$1800(UserIdManager userIdManager, String string) {
-        userIdManager.setImsi(string);
+        public void updateDsiAvailability(boolean bl) {
+            UserIdManager.this.log.log(10000000, "[UserIdManager$DsiDictationAdapterListener#updateDsiAvailability] dsiAvailable = %1", bl);
+            UserIdManager.this.dsiAvailable = bl;
+            if (bl) {
+                UserIdManager.this.computeAndSetUserId();
+            }
+        }
     }
 }
 

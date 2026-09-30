@@ -17,28 +17,23 @@ import java.security.SignatureException;
 
 public abstract class SignatureRSA
 extends Signature {
-    protected static final int STATE_UNINITIALIZED;
-    protected static final int STATE_SIGN;
-    protected static final int STATE_VERIFY;
-    protected static final String[] STATE_DESCRIPTION;
+    protected static final int STATE_UNINITIALIZED = 0;
+    protected static final int STATE_SIGN = 1;
+    protected static final int STATE_VERIFY = 2;
+    protected static final String[] STATE_DESCRIPTION = new String[]{"UNINITIALIZED", "SIGN", "VERIFY"};
     protected RSAPrivateKey privateKey;
     protected RSAPublicKey publicKey;
     protected int state = 0;
     protected String digestAlgorithmName;
     protected PKCS1 rsaEngine = null;
 
-    static {
-        STATE_DESCRIPTION = new String[]{"UNINITIALIZED", "SIGN", "VERIFY"};
-    }
-
     public SignatureRSA(String string) {
-        super(new StringBuffer(String.valueOf(string)).append("with").append("RSA").toString());
+        super(String.valueOf(string) + "with" + "RSA");
         this.digestAlgorithmName = string;
         this.rsaEngine = new PKCS1(string);
     }
 
-    @Override
-    protected void engineInitSign(PrivateKey privateKey) {
+    protected void engineInitSign(PrivateKey privateKey) throws InvalidKeyException {
         if (privateKey instanceof java.security.interfaces.RSAPrivateCrtKey) {
             this.privateKey = new RSAPrivateCrtKey((java.security.interfaces.RSAPrivateCrtKey)privateKey);
         } else if (privateKey instanceof java.security.interfaces.RSAPrivateKey) {
@@ -50,8 +45,7 @@ extends Signature {
         this.resetHash();
     }
 
-    @Override
-    protected void engineInitVerify(PublicKey publicKey) {
+    protected void engineInitVerify(PublicKey publicKey) throws InvalidKeyException {
         boolean bl = true;
         if (publicKey != null) {
             try {
@@ -70,8 +64,7 @@ extends Signature {
         this.resetHash();
     }
 
-    @Override
-    protected byte[] engineSign() {
+    protected byte[] engineSign() throws SignatureException {
         try {
             byte[] byArray = this.rsaEngine.signSSA_PKCS1_v15Impl(this.privateKey, this.getHash());
             this.resetHash();
@@ -82,18 +75,15 @@ extends Signature {
         }
     }
 
-    @Override
-    protected void engineUpdate(byte by) {
+    protected void engineUpdate(byte by) throws SignatureException {
         this.updateHash(by);
     }
 
-    @Override
-    protected void engineUpdate(byte[] byArray, int n, int n2) {
+    protected void engineUpdate(byte[] byArray, int n, int n2) throws SignatureException {
         this.updateHash(byArray, n, n2);
     }
 
-    @Override
-    protected boolean engineVerify(byte[] byArray) {
+    protected boolean engineVerify(byte[] byArray) throws SignatureException {
         int n = this.publicKey.getModulus().bitLength();
         int n2 = (int)Math.ceil((double)n / 8.0);
         n2 = Math.min(byArray.length, n2);
@@ -104,7 +94,6 @@ extends Signature {
         return bl;
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer(128);
         stringBuffer.append(" RSA Signature (");
@@ -113,16 +102,12 @@ extends Signature {
         return stringBuffer.toString();
     }
 
-    protected abstract void resetHash() {
-    }
+    protected abstract void resetHash();
 
-    protected abstract void updateHash(byte[] byArray, int n, int n2) {
-    }
+    protected abstract void updateHash(byte[] var1, int var2, int var3);
 
-    protected abstract void updateHash(byte by) {
-    }
+    protected abstract void updateHash(byte var1);
 
-    protected abstract byte[] getHash() {
-    }
+    protected abstract byte[] getHash();
 }
 

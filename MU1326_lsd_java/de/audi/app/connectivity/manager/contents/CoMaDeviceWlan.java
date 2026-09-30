@@ -12,9 +12,8 @@ extends AbstractCoMaDevice {
         super(2, n, n2, n3, string2, string, 0);
     }
 
-    @Override
     PropertyListCell getProperties() {
-        return PropertyListCell.create(1303657598, null);
+        return PropertyListCell.create(2117907533, null);
     }
 }
 

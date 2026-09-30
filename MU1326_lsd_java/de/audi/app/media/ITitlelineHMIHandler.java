@@ -6,24 +6,19 @@ package de.audi.app.media;
 import de.audi.app.media.source.ISourceSlot;
 
 public interface ITitlelineHMIHandler {
-    public static final int REPEAT_SCOPE_ICON_OFF;
-    public static final int REPEAT_SCOPE_ICON_TITLE;
-    public static final int REPEAT_SCOPE_ICON_FOLDER;
-    public static final int REPEAT_SCOPE_ICON_PLAYLIST;
+    public static final int REPEAT_SCOPE_ICON_OFF = 0;
+    public static final int REPEAT_SCOPE_ICON_TITLE = 1;
+    public static final int REPEAT_SCOPE_ICON_FOLDER = 2;
+    public static final int REPEAT_SCOPE_ICON_PLAYLIST = 3;
 
-    default public void setSourceIcon(ISourceSlot iSourceSlot) {
-    }
+    public void setSourceIcon(ISourceSlot var1);
 
-    default public void resetIcons() {
-    }
+    public void resetIcons();
 
-    default public void setRepeatScopeIcon(int n) {
-    }
+    public void setRepeatScopeIcon(int var1);
 
-    default public void setMixIcon(boolean bl) {
-    }
+    public void setMixIcon(boolean var1);
 
-    default public void flush() {
-    }
+    public void flush();
 }
 

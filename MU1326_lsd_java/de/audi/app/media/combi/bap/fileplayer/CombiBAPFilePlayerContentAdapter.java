@@ -20,16 +20,15 @@ import org.dsi.ifc.global.ResourceLocator;
 public class CombiBAPFilePlayerContentAdapter
 extends AbstractCombiBAPContentAdapter
 implements IPlayerTrackListener {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "CombiBAPFilePlayerContentAdapter";
     private IPlayer filePlayer;
 
     public CombiBAPFilePlayerContentAdapter(LogChannel logChannel) {
         super(logChannel);
     }
 
-    @Override
     public void activate(IContent iContent, ICombiBAPContentAccessor iCombiBAPContentAccessor) {
-        this.logger.log(1078071040, "[%1.activate]", (Object)"CombiBAPFilePlayerContentAdapter");
+        this.logger.log(1000000, "[%1.activate]", (Object)LOGCLASS);
         super.activate(iContent, iCombiBAPContentAccessor);
         this.filePlayer = ((IContentMedia)iContent).getPlayer();
         this.filePlayer.addTrackListener(this);
@@ -39,16 +38,14 @@ implements IPlayerTrackListener {
         iCombiBAPContentAccessor.updatePlaybackFolder(false);
     }
 
-    @Override
     public void deactivate() {
-        this.logger.log(1078071040, "[%1.deactivate]", (Object)"CombiBAPFilePlayerContentAdapter");
+        this.logger.log(1000000, "[%1.deactivate]", (Object)LOGCLASS);
         this.filePlayer.removeTrackListener(this);
         super.deactivate();
     }
 
-    @Override
     public void detailInfoChanged(MediaDetailInfo mediaDetailInfo) {
-        this.logger.log(14808325, "[%1.detailInfoChanged]", (Object)"CombiBAPFilePlayerContentAdapter");
+        this.logger.log(100000000, "[%1.detailInfoChanged]", (Object)LOGCLASS);
         if (mediaDetailInfo.isAudio()) {
             this.getCombiAccessor().updateActiveFileplayerPlaybackType(0);
         } else {
@@ -56,21 +53,18 @@ implements IPlayerTrackListener {
         }
     }
 
-    @Override
     public void trackChanged(boolean bl, boolean bl2, PlayingTrack playingTrack, PlayTime playTime) {
     }
 
-    @Override
     public void coverArtChanged(ResourceLocator resourceLocator) {
     }
 
     public String toString() {
         Buffer buffer = new Buffer(20);
-        buffer.append("CombiBAPFilePlayerContentAdapter").append("@").append(this.hashCode());
+        buffer.append(LOGCLASS).append("@").append(this.hashCode());
         return buffer.toString();
     }
 
-    @Override
     public void playbackFolderChanged(MediaListEntry[] mediaListEntryArray) {
     }
 }

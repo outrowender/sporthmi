@@ -19,12 +19,10 @@ extends AbstractDestinationsListAdapterFastList {
         super(lastDestinationsListHandler);
     }
 
-    @Override
     public int getDSIListID() {
         return 2;
     }
 
-    @Override
     public void setNotificationLastDestinationsList(boolean bl) {
         this.setPushListNotification(bl);
         if (bl) {
@@ -32,26 +30,21 @@ extends AbstractDestinationsListAdapterFastList {
         }
     }
 
-    @Override
     public void setNotificationFavoriteDestinationsList(boolean bl) {
     }
 
-    @Override
     protected void pushCurrentListSize(int n) {
         this.dsiFastListControllerLastDestinations.pushCurrentListSizeLastDestinations(n);
     }
 
-    @Override
     protected void pushList(DataAddress[] dataAddressArray) {
         this.dsiFastListControllerLastDestinations.pushLastDestinations(dataAddressArray);
     }
 
-    @Override
     public IDSIController getDSIController() {
         return this.dsiFastListControllerLastDestinations;
     }
 
-    @Override
     public void responseInitials(int n, int n2, int n3, DataInitials[] dataInitialsArray) {
         this.dsiFastListControllerLastDestinations.responseGetInitialsNavigation(n, n2, n3, dataInitialsArray);
     }

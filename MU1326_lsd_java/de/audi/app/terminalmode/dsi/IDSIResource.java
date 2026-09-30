@@ -7,32 +7,25 @@ import de.audi.app.terminalmode.dsi.IResource;
 
 public interface IDSIResource
 extends IResource {
-    public static final int NOTHING_ACTIVE;
-    public static final int RVC_ACTIVE;
-    public static final int PHONE_ACTIVE;
-    public static final int MEDIA_ACTIVE;
-    public static final int NAVI_ACTIVE;
-    public static final int SPEECH_ACTIVE;
+    public static final int NOTHING_ACTIVE = 0;
+    public static final int RVC_ACTIVE = 1;
+    public static final int PHONE_ACTIVE = 2;
+    public static final int MEDIA_ACTIVE = 4;
+    public static final int NAVI_ACTIVE = 8;
+    public static final int SPEECH_ACTIVE = 16;
 
-    default public int getDSIResourceId() {
-    }
+    public int getDSIResourceId();
 
-    default public int getDSIResourceOwner() {
-    }
+    public int getDSIResourceOwner();
 
-    default public int getDSITakeType(boolean bl) {
-    }
+    public int getDSITakeType(boolean var1);
 
-    default public int getDSITransferPriority(boolean bl) {
-    }
+    public int getDSITransferPriority(boolean var1);
 
-    default public int getDSITakeConstraint(boolean bl) {
-    }
+    public int getDSITakeConstraint(boolean var1);
 
-    default public int getDSIBorrowConstraint(boolean bl) {
-    }
+    public int getDSIBorrowConstraint(boolean var1);
 
-    default public int getDSIUnborrowConstraint(boolean bl) {
-    }
+    public int getDSIUnborrowConstraint(boolean var1);
 }
 

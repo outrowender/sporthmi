@@ -28,24 +28,22 @@ import de.esolutions.fw.util.commons.job.DispatcherBase;
 
 public class IntelliDestOptSelection
 extends IntelliDestGuiSearchHandler {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "IntelliDestOptSelection";
 
     public IntelliDestOptSelection(int[] nArray, BaseListModelApp baseListModelApp, SpellerModelApp spellerModelApp, ChoiceModelApp choiceModelApp, LogChannel logChannel, AbstractSearch abstractSearch, NavigationEnv navigationEnv, IPreviewMap iPreviewMap, NaviADBHandler naviADBHandler, ADBInterAppService aDBInterAppService, InterAppService interAppService, IconHandler iconHandler, ICommandListFactory iCommandListFactory, NaviFavoriteHandlerEvo naviFavoriteHandlerEvo, IPoiService iPoiService, HomeAddressHandler homeAddressHandler, IAddressInputForm iAddressInputForm, SearchResultAsyncNavLocationExtractor searchResultAsyncNavLocationExtractor, MapInterface mapInterface, DispatcherBase dispatcherBase, NaviServiceListener naviServiceListener, IIntelliDestSearchTimer iIntelliDestSearchTimer) {
         super(nArray, baseListModelApp, spellerModelApp, choiceModelApp, logChannel, abstractSearch, navigationEnv, iPreviewMap, naviADBHandler, aDBInterAppService, interAppService, iconHandler, iCommandListFactory, naviFavoriteHandlerEvo, iPoiService, homeAddressHandler, iAddressInputForm, searchResultAsyncNavLocationExtractor, mapInterface, dispatcherBase, naviServiceListener, iIntelliDestSearchTimer, null);
     }
 
-    @Override
     public void activate() {
-        this.lc.log(1078071040, "%1#activate()", (Object)"IntelliDestOptSelection");
+        this.lc.log(1000000, "%1#activate()", (Object)LOGCLASS);
         this.registerListeners();
         this.mdlSpellerSearchText.clear();
-        this.env.getChoiceModel(1881015808).setValue(1);
+        this.env.getChoiceModel(401008).setValue(1);
         this.clearModels();
     }
 
-    @Override
     public void textChanged(int n, String string, char c2, int n2) {
-        this.lc.log(-2137614336, "%1#textChanged = %2", (Object)"IntelliDestOptSelection", (Object)string);
+        this.lc.log(10000000, "%1#textChanged = %2", (Object)LOGCLASS, (Object)string);
         if (string.length() == 0) {
             this.appSearch.cancelQuery();
             this.clearModels();

@@ -41,17 +41,14 @@ implements ATIPAudioRoute {
         this.routeStatus = n3;
     }
 
-    @Override
     public int getRoutingInput() {
         return this.routingInput;
     }
 
-    @Override
     public int getRoutingOutput() {
         return this.routingOutput;
     }
 
-    @Override
     public int getRouteStatus() {
         return this.routeStatus;
     }

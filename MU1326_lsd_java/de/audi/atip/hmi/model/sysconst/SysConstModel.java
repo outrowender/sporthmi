@@ -20,31 +20,25 @@ implements SysConstModelApp {
         super(n, n2);
     }
 
-    @Override
     public int getValue() {
         return this.value;
     }
 
-    @Override
     public void setValue(int n) {
         this.value = n;
     }
 
-    @Override
     public boolean isEmpty() {
         return false;
     }
 
-    @Override
     public int getModelType() {
         return 24;
     }
 
-    @Override
     public void resetListener() {
     }
 
-    @Override
     public String dumpContent() {
         Buffer buffer = new Buffer(100);
         buffer.append(super.dumpContent());

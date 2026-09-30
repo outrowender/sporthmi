@@ -4,16 +4,12 @@
 package de.audi.atip.interapp.displaymanager;
 
 public interface IDisplayManagerListener {
-    default public void startComponentResult(int n, int n2, int n3, int n4) {
-    }
+    public void startComponentResult(int var1, int var2, int var3, int var4);
 
-    default public void stopComponentResult(int n, int n2, int n3, int n4) {
-    }
+    public void stopComponentResult(int var1, int var2, int var3, int var4);
 
-    default public void setCroppingResult(int n) {
-    }
+    public void setCroppingResult(int var1);
 
-    default public void error() {
-    }
+    public void error();
 }
 

@@ -12,11 +12,11 @@ import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 public class VideoNormSetting
 extends AbstractMediaTerminalComponent
 implements ChoiceListener {
-    public static final int HMI_VIDEO_NORM_ID_NTSC;
-    public static final int HMI_VIDEO_NORM_ID_PAL;
-    public static final int HMI_VIDEO_NORM_ID_AUTOMATIC;
-    public static final int HMI_VIDEO_NORM_ID_UNDEFINED;
-    private static final String LOGCLASS;
+    public static final int HMI_VIDEO_NORM_ID_NTSC = 2;
+    public static final int HMI_VIDEO_NORM_ID_PAL = 1;
+    public static final int HMI_VIDEO_NORM_ID_AUTOMATIC = 0;
+    public static final int HMI_VIDEO_NORM_ID_UNDEFINED = -1;
+    private static final String LOGCLASS = "VideoNormSetting";
     private final IMediaDSIPlayerController dsiPlayer;
     private final ChoiceModelApp videoNormChoiceModel;
     private final int persistenceKey;
@@ -30,60 +30,54 @@ implements ChoiceListener {
     }
 
     public void activate() {
-        this.logger.main().log(1078071040, "[%1.activate]", (Object)"VideoNormSetting");
+        this.logger.main().log(1000000, "[%1.activate]", (Object)LOGCLASS);
         this.videoNormChoiceModel.setChoiceListener(this);
     }
 
     public void deactivate() {
-        this.logger.main().log(1078071040, "[%1.deactivate]", (Object)"VideoNormSetting");
+        this.logger.main().log(1000000, "[%1.deactivate]", (Object)LOGCLASS);
         this.videoNormChoiceModel.setValue(-1);
         this.videoNormChoiceModel.setChoiceListener(null);
     }
 
     public void setActiveVideoNorm(int n) {
         this.currentVideoNorm = VideoNormSetting.getHMIVideoNormID(n);
-        this.logger.hmi().log(1078071040, "[%1.setActiveVideoNorm] '%3' ('%2').", (Object)"VideoNormSetting", (Object)VideoNormSetting.hmiVideoNormStr(this.currentVideoNorm), (long)n);
+        this.logger.hmi().log(1000000, "[%1.setActiveVideoNorm] '%3' ('%2').", (Object)LOGCLASS, (Object)VideoNormSetting.hmiVideoNormStr(this.currentVideoNorm), (long)n);
         this.videoNormChoiceModel.setValue(this.currentVideoNorm);
         this.getTerminal().getMediaPersistence().getStorage().persist(this.getTerminal(), this.persistenceKey, this.currentVideoNorm);
     }
 
     public void restoreSetting() {
         this.currentVideoNorm = this.getTerminal().getMediaPersistence().getStorage().load(this.getTerminal(), this.persistenceKey, 0, 0, 2);
-        this.logger.main().log(1078071040, "[%1.restoreSetting] '%2'.", (Object)"VideoNormSetting", (Object)VideoNormSetting.hmiVideoNormStr(this.currentVideoNorm));
+        this.logger.main().log(1000000, "[%1.restoreSetting] '%2'.", (Object)LOGCLASS, (Object)VideoNormSetting.hmiVideoNormStr(this.currentVideoNorm));
         this.dsiPlayer.setVideoNorm(VideoNormSetting.getDSIVideoNormID(this.currentVideoNorm));
     }
 
     public void resetSetting(boolean bl) {
-        this.logger.main().log(1078071040, "[%1.resetSetting] Reset video norm.", (Object)"VideoNormSetting");
+        this.logger.main().log(1000000, "[%1.resetSetting] Reset video norm.", (Object)LOGCLASS);
         this.getTerminal().getMediaPersistence().getStorage().persist(this.getTerminal(), this.persistenceKey, 0);
         if (bl) {
             this.dsiPlayer.setVideoNorm(VideoNormSetting.getDSIVideoNormID(0));
         }
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
-        this.logger.hmi().log(1078071040, "[%1.itemSelected] '%2'.", (Object)"VideoNormSetting", (Object)VideoNormSetting.hmiVideoNormStr(n2));
+        this.logger.hmi().log(1000000, "[%1.itemSelected] '%2'.", (Object)LOGCLASS, (Object)VideoNormSetting.hmiVideoNormStr(n2));
         this.dsiPlayer.setVideoNorm(VideoNormSetting.getDSIVideoNormID(n2));
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 

@@ -4,7 +4,6 @@
 package de.audi.app.online.evo;
 
 import de.audi.app.online.evo.AbstractScreenAccess;
-import de.audi.app.online.evo.AbstractScreenAccess$ModelData;
 import de.audi.atip.hmi.model.ModelGroup;
 import de.audi.atip.hmi.modelaccess.ButtonModelApp;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
@@ -15,36 +14,34 @@ import de.audi.tghu.online.app.remotehmi.RemoteHMIService;
 
 public class PartialPopupScreenAccess
 extends AbstractScreenAccess {
-    private static final int MODEL_BUTTONS;
-    private static final int MODEL_TIMEOUT;
-    private static final int MODEL_MESSAGE;
-    private static final int MODEL_VISIBILITY_BUTTON_1;
-    private static final int MODEL_LABEL_BUTTON_1;
-    private static final int MODEL_VISIBILITY_BUTTON_2;
-    private static final int MODEL_LABEL_BUTTON_2;
-    private static final int MODEL_COUNT;
-    private AbstractScreenAccess$ModelData[] models = new AbstractScreenAccess$ModelData[7];
+    private static final int MODEL_BUTTONS = 0;
+    private static final int MODEL_TIMEOUT = 1;
+    private static final int MODEL_MESSAGE = 2;
+    private static final int MODEL_VISIBILITY_BUTTON_1 = 3;
+    private static final int MODEL_LABEL_BUTTON_1 = 4;
+    private static final int MODEL_VISIBILITY_BUTTON_2 = 5;
+    private static final int MODEL_LABEL_BUTTON_2 = 6;
+    private static final int MODEL_COUNT = 7;
+    private AbstractScreenAccess.ModelData[] models = new AbstractScreenAccess.ModelData[7];
     private ModelGroup modelGroup;
 
     public PartialPopupScreenAccess(LogChannel logChannel, RemoteHMIService remoteHMIService, ModelGroup modelGroup, OnlineModelBankAccess onlineModelBankAccess, ChoiceModelApp choiceModelApp) {
         super(choiceModelApp, logChannel);
-        this.models[0] = new AbstractScreenAccess$ModelData(onlineModelBankAccess, "buttons", 3, true, 1394352896);
-        this.models[1] = new AbstractScreenAccess$ModelData(onlineModelBankAccess, "timeout", 3, true, 1377575680);
-        this.models[2] = new AbstractScreenAccess$ModelData(onlineModelBankAccess, "message", 0, true, 1360798464);
-        this.models[3] = new AbstractScreenAccess$ModelData(onlineModelBankAccess, "action1Button", 4, true, 1276912384);
-        this.models[4] = new AbstractScreenAccess$ModelData(onlineModelBankAccess, "action1Label", 0, true, 1293689600);
-        this.models[5] = new AbstractScreenAccess$ModelData(onlineModelBankAccess, "action2Button", 4, true, 1310466816);
-        this.models[6] = new AbstractScreenAccess$ModelData(onlineModelBankAccess, "action2Label", 0, true, 1327244032);
+        this.models[0] = new AbstractScreenAccess.ModelData(onlineModelBankAccess, "buttons", 3, true, 2301011);
+        this.models[1] = new AbstractScreenAccess.ModelData(onlineModelBankAccess, "timeout", 3, true, 2301010);
+        this.models[2] = new AbstractScreenAccess.ModelData(onlineModelBankAccess, "message", 0, true, 2301009);
+        this.models[3] = new AbstractScreenAccess.ModelData(onlineModelBankAccess, "action1Button", 4, true, 2301004);
+        this.models[4] = new AbstractScreenAccess.ModelData(onlineModelBankAccess, "action1Label", 0, true, 2301005);
+        this.models[5] = new AbstractScreenAccess.ModelData(onlineModelBankAccess, "action2Button", 4, true, 2301006);
+        this.models[6] = new AbstractScreenAccess.ModelData(onlineModelBankAccess, "action2Label", 0, true, 2301007);
         this.modelGroup = modelGroup;
         this.refreshModelGroup(modelGroup, this.models);
     }
 
-    @Override
     public boolean isMainScreen() {
         return true;
     }
 
-    @Override
     public boolean switchScreen(boolean bl) {
         return false;
     }

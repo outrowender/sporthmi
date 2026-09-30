@@ -18,12 +18,10 @@ extends ListRow {
         super(listCellArray);
     }
 
-    @Override
     public int hashCode() {
         return (int)(this.getUid() ^ this.getUid() >>> 32);
     }
 
-    @Override
     public boolean equals(Object object) {
         try {
             AbstractHierarchyListRow abstractHierarchyListRow = (AbstractHierarchyListRow)object;
@@ -50,16 +48,12 @@ extends ListRow {
         this.border = bl;
     }
 
-    public abstract long getUid() {
-    }
+    public abstract long getUid();
 
-    public abstract boolean isHasChildren() {
-    }
+    public abstract boolean isHasChildren();
 
-    public abstract boolean isHasDetails() {
-    }
+    public abstract boolean isHasDetails();
 
-    public abstract void queryDetails() {
-    }
+    public abstract void queryDetails();
 }
 

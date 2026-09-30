@@ -22,14 +22,12 @@ IAppSystem {
         this.appManagerEvo = new AppManagerEvo(iFrameworkAccess);
     }
 
-    @Override
     protected AbstractAppManagerCore getAppManager() {
         return this.appManagerEvo;
     }
 
-    @Override
     public void fireInitialEvent() {
-        this.getLog().log(1078071040, "AppSystemEvo.fireInitialEvent()");
+        this.getLog().log(1000000, "AppSystemEvo.fireInitialEvent()");
         this.fireSMEvent(0, -7);
         if (this.getFramework().isShowDDP2Combi()) {
             this.fireSMEvent(1, -7);
@@ -39,7 +37,6 @@ IAppSystem {
         }
     }
 
-    @Override
     public void fireHKReturn(int n) {
         this.fireSMEvent(n, 1741);
         if (n == 0) {
@@ -47,27 +44,22 @@ IAppSystem {
         }
     }
 
-    @Override
     public void fireHKSelection(int n) {
         this.fireSMEvent(n, 1750);
     }
 
-    @Override
     public void fireJoystickLeft(int n) {
         this.fireSMEvent(n, 1742);
     }
 
-    @Override
     public void jumpToCustomerDownload(int n) {
         this.fireSMEvent(n, -6);
     }
 
-    @Override
     public void cancelCustomerDownload(int n) {
         this.fireSMEvent(n, 1741);
     }
 
-    @Override
     public boolean isEventContextSensitive(int n) {
         switch (n) {
             case -5: 
@@ -82,7 +74,6 @@ IAppSystem {
         return false;
     }
 
-    @Override
     public boolean isEventSubterminalSensitive(int n) {
         switch (n) {
             case -5: {
@@ -92,52 +83,42 @@ IAppSystem {
         return false;
     }
 
-    @Override
     public void showNoPowerPopups(int n) {
         this.getHMIService().removePopup(6, n);
     }
 
-    @Override
     public void showBlackScreenLEDsOn(int n) {
         this.getHMIService().showPopup(6, n);
     }
 
-    @Override
     public void showBlackScreenLEDsOff(int n) {
         this.getHMIService().showPopup(6, n);
     }
 
-    @Override
     public void showQ21Warning(int n) {
         this.getHMIService().showPopup(7, n);
     }
 
-    @Override
     public void removeQ21Warning(int n) {
         this.getHMIService().removePopup(7, n);
     }
 
-    @Override
     public void showCritcalTemperature(int n) {
         this.getHMIService().showPopup(8, n);
     }
 
-    @Override
     public void removeCritcalTemperature(int n) {
         this.getHMIService().removePopup(8, n);
     }
 
-    @Override
     public void showTelMaxWarning(int n) {
-        this.getHMIService().showPopup(-1071183616, n);
+        this.getHMIService().showPopup(600000, n);
     }
 
-    @Override
     public void removeTelMaxWarning(int n) {
-        this.getHMIService().removePopup(-1071183616, n);
+        this.getHMIService().removePopup(600000, n);
     }
 
-    @Override
     public void showStandbyWarning(int n) {
         if (this.getFramework().isEvoHighMMIKombi()) {
             this.getHMIService().showPopup(22, n);
@@ -146,7 +127,6 @@ IAppSystem {
         }
     }
 
-    @Override
     public void removeStandbyWarning(int n) {
         if (this.getFramework().isEvoHighMMIKombi()) {
             this.getHMIService().removePopup(22, n);
@@ -155,11 +135,9 @@ IAppSystem {
         }
     }
 
-    @Override
     public void showLegalDisclaimer(int n) {
     }
 
-    @Override
     public void removeLegalDisclaimer(int n) {
     }
 
@@ -168,40 +146,33 @@ IAppSystem {
         return iLastmodeHandler != null ? iLastmodeHandler.getLastmode(0) : -1;
     }
 
-    @Override
     public void switch2Tuner() {
         if (this.getLastmode() != 1) {
             this.fireSMEvent(0, 101);
         }
     }
 
-    @Override
     public void switch2Media() {
         if (this.getLastmode() != 2 && this.getLastmode() != 38) {
             this.fireSMEvent(0, 102);
         }
     }
 
-    @Override
     public void showSdsStatusPopup(int n) {
     }
 
-    @Override
     public void showDiagPopup(int n) {
     }
 
     public void removeDiagPopup() {
     }
 
-    @Override
     public void showEngineOffPopup(int n) {
     }
 
-    @Override
     public void removeEngineOffPopup(int n) {
     }
 
-    @Override
     public void removeDiagPopup(int n) {
     }
 }

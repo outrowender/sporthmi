@@ -7,41 +7,34 @@ import de.audi.atip.interapp.combi.bap.CombiBAPService;
 
 public interface CombiBAPServicePhone2
 extends CombiBAPService {
-    public static final int MOBILE_SERVICE_SUPPORT_MOBILE_SERVICE_SUPPORT;
-    public static final int MOBILE_SERVICE_SUPPORT_REGISTER_STATE;
-    public static final int MOBILE_SERVICE_SUPPORT_LOCK_STATE;
-    public static final int MOBILE_SERVICE_SUPPORT_NETWORK_PROVIDER;
-    public static final int MOBILE_SERVICE_SUPPORT_SIGNAL_QUALITY;
-    public static final int MOBILE_SERVICE_SUPPORT_PHONE_MODULE_STATE;
-    public static final int MOBILE_SERVICE_SUPPORT_AUTOMATIC_CALL_FORWARDING;
-    public static final int MOBILE_SERVICE_SUPPORT_MAX;
-    public static final int DIVERT_STATE_FORWARDING_IF_BUSY;
-    public static final int DIVERT_STATE_FORWARDING_IF_NOT_ANSWERED;
-    public static final int DIVERT_STATE_FORWARDING_IF_OUT_OF_REACH;
-    public static final int DIVERT_STATE_FORWARDING_IF_NOT_AVAILABLE;
-    public static final int DIVERT_STATE_FORWARDING_ALL_VOICE_CALLS;
-    public static final int DIVERT_STATE_FORWARDING_ALL_FAX_CALLS;
-    public static final int DIVERT_STATE_FORWARDING_ALL_DATA_CALLS;
+    public static final int MOBILE_SERVICE_SUPPORT_MOBILE_SERVICE_SUPPORT = 0;
+    public static final int MOBILE_SERVICE_SUPPORT_REGISTER_STATE = 1;
+    public static final int MOBILE_SERVICE_SUPPORT_LOCK_STATE = 2;
+    public static final int MOBILE_SERVICE_SUPPORT_NETWORK_PROVIDER = 3;
+    public static final int MOBILE_SERVICE_SUPPORT_SIGNAL_QUALITY = 4;
+    public static final int MOBILE_SERVICE_SUPPORT_PHONE_MODULE_STATE = 5;
+    public static final int MOBILE_SERVICE_SUPPORT_AUTOMATIC_CALL_FORWARDING = 6;
+    public static final int MOBILE_SERVICE_SUPPORT_MAX = 7;
+    public static final int DIVERT_STATE_FORWARDING_IF_BUSY = 1;
+    public static final int DIVERT_STATE_FORWARDING_IF_NOT_ANSWERED = 2;
+    public static final int DIVERT_STATE_FORWARDING_IF_OUT_OF_REACH = 4;
+    public static final int DIVERT_STATE_FORWARDING_IF_NOT_AVAILABLE = 8;
+    public static final int DIVERT_STATE_FORWARDING_ALL_VOICE_CALLS = 16;
+    public static final int DIVERT_STATE_FORWARDING_ALL_FAX_CALLS = 32;
+    public static final int DIVERT_STATE_FORWARDING_ALL_DATA_CALLS = 64;
 
-    default public void updateMobileServiceSupport(boolean[] blArray) {
-    }
+    public void updateMobileServiceSupport(boolean[] var1);
 
-    default public void updateRegisterState(int n, int n2, int n3) {
-    }
+    public void updateRegisterState(int var1, int var2, int var3);
 
-    default public void updateLockState(int n) {
-    }
+    public void updateLockState(int var1);
 
-    default public void updateNetworkProvider(int n, String string, int n2, String string2) {
-    }
+    public void updateNetworkProvider(int var1, String var2, int var3, String var4);
 
-    default public void updateSignalQuality(int n) {
-    }
+    public void updateSignalQuality(int var1);
 
-    default public void updatePhoneModuleState(int n, int n2, int n3, int n4) {
-    }
+    public void updatePhoneModuleState(int var1, int var2, int var3, int var4);
 
-    default public void updateAutomaticCallForwarding(int n) {
-    }
+    public void updateAutomaticCallForwarding(int var1);
 }
 

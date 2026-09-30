@@ -6,13 +6,13 @@ package de.audi.app.phone.core.audio;
 import de.audi.app.phone.core.AbstractPhoneComponent;
 import de.audi.app.phone.core.ITelApplication;
 import de.audi.app.phone.core.PhoneServiceTracker;
+import de.audi.app.phone.core.audio.AbstractTelAudioCmd;
 import de.audi.app.phone.core.audio.TelAbortOutbandRingtonePlaybackCmdList;
 import de.audi.app.phone.core.audio.TelAbortRingingMediaCmdList;
 import de.audi.app.phone.core.audio.TelAbortRingtoneListMediaCmdList;
 import de.audi.app.phone.core.audio.TelAbortRingtoneListWavePlayerCmdList;
 import de.audi.app.phone.core.audio.TelAudioCmdDefaultListener;
 import de.audi.app.phone.core.audio.TelAudioCmdListMobileSpeechRecognition;
-import de.audi.app.phone.core.audio.TelAudioCmdManager$SetAudioScenarioCommand;
 import de.audi.app.phone.core.audio.TelAudioDSISoundCmdListener;
 import de.audi.app.phone.core.audio.TelAudioScenarioBTHS1CmdList;
 import de.audi.app.phone.core.audio.TelAudioScenarioBTHS1MuteCmdList;
@@ -42,6 +42,7 @@ import de.audi.app.phone.core.audio.TelUpdateRingtoneMuteStateCmd;
 import de.audi.atip.audio.HMIAudioService;
 import de.audi.atip.interapp.media.IMediaFilePlayerService;
 import de.audi.atip.interapp.media.IMediaFilePlayerSession;
+import de.audi.atip.log.LogChannel;
 import de.audi.tghu.command.Command;
 import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.CommandListManager;
@@ -84,7 +85,6 @@ implements ServiceTrackerCustomizer {
         this.defaultListener.setCurrentAudioScenario(n);
     }
 
-    @Override
     public void init() {
         long l = this.getApplication().getFrameworkAccess().getMonotonicTime();
         this.hmiAudioServiceTracker = new PhoneServiceTracker(this.getApplication().getBundleContext(), (class$de$audi$atip$audio$HMIAudioService == null ? (class$de$audi$atip$audio$HMIAudioService = TelAudioCmdManager.class$("de.audi.atip.audio.HMIAudioService")) : class$de$audi$atip$audio$HMIAudioService).getName(), (ServiceTrackerCustomizer)this, this.log);
@@ -94,10 +94,9 @@ implements ServiceTrackerCustomizer {
         this.hmiAudioServiceCmdListener.init();
         this.wavePlayerCmdListener.init();
         this.dsiSoundCmdListener.init();
-        this.getApplication().getStartupLogChannel().log(1078071040, "[TelAudioCmdManager#init] done in %1 ms", this.getApplication().getFrameworkAccess().getMonotonicTime() - l);
+        this.getApplication().getStartupLogChannel().log(1000000, "[TelAudioCmdManager#init] done in %1 ms", this.getApplication().getFrameworkAccess().getMonotonicTime() - l);
     }
 
-    @Override
     public void deinit() {
         this.manager.destroy();
         this.hmiAudioServiceCmdListener.deinit();
@@ -114,7 +113,7 @@ implements ServiceTrackerCustomizer {
     }
 
     private Command getAudioScenarioCommand(int n) {
-        return new TelAudioCmdManager$SetAudioScenarioCommand(this, this.log, this.hmiAudioService, n);
+        return new SetAudioScenarioCommand(this.log, this.hmiAudioService, n);
     }
 
     synchronized void scheduleAbortOutbandRinging(RingTonePlayer ringTonePlayer) {
@@ -295,7 +294,7 @@ implements ServiceTrackerCustomizer {
                 break;
             }
             default: {
-                this.log.log(-1601830656, "[TelAudioCmdManager#scheduleAudioScenario] unknown audio scenario %1", (long)n);
+                this.log.log(100000, "[TelAudioCmdManager#scheduleAudioScenario] unknown audio scenario %1", (long)n);
             }
         }
     }
@@ -306,7 +305,6 @@ implements ServiceTrackerCustomizer {
         commandList.execute(new StringBuffer().append("requesting connection %1").append(n).toString());
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         if (serviceReference == null) {
             this.log.log(10000, "TelAudioCmdManager#addingService reference is null");
@@ -319,12 +317,12 @@ implements ServiceTrackerCustomizer {
         }
         if (object instanceof HMIAudioService) {
             if (HMIAudioService.CLIENT_PHONE.equals(serviceReference.getProperty("AUDIO_CLIENT_ID"))) {
-                this.log.log(-2137614336, "[TelAudioCmdManager#addingService] HMIAudioService=%1", object);
+                this.log.log(10000000, "[TelAudioCmdManager#addingService] HMIAudioService=%1", object);
                 this.setHMIAudioService((HMIAudioService)object);
                 return object;
             }
         } else if (object instanceof DSISound) {
-            this.log.log(1078071040, "[TelWavePlayerHandler#addingService] WavePlayer=%1", object);
+            this.log.log(1000000, "[TelWavePlayerHandler#addingService] WavePlayer=%1", object);
             this.setDSISound((DSISound)object);
             return object;
         }
@@ -340,11 +338,9 @@ implements ServiceTrackerCustomizer {
         this.hmiAudioService = hMIAudioService;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (serviceReference == null) {
             this.log.log(10000, "TelAudioCmdManager#removedService reference is null");
@@ -355,7 +351,7 @@ implements ServiceTrackerCustomizer {
             return;
         }
         if (object instanceof HMIAudioService) {
-            this.log.log(-2137614336, "[TelAudioCmdManager#removedService] HMIAudioService=%1", object);
+            this.log.log(10000000, "[TelAudioCmdManager#removedService] HMIAudioService=%1", object);
             this.getApplication().getBundleContext().ungetService(serviceReference);
             this.hmiAudioService = null;
         }
@@ -382,8 +378,19 @@ implements ServiceTrackerCustomizer {
         }
     }
 
-    static /* synthetic */ void access$000(TelAudioCmdManager telAudioCmdManager, int n) {
-        telAudioCmdManager.setCurrentAudioScenario(n);
+    private class SetAudioScenarioCommand
+    extends AbstractTelAudioCmd {
+        final int audioScenario;
+
+        SetAudioScenarioCommand(LogChannel logChannel, HMIAudioService hMIAudioService, int n) {
+            super(logChannel, "SetAudioScenarioCommand", hMIAudioService);
+            this.audioScenario = n;
+        }
+
+        public void execute() {
+            TelAudioCmdManager.this.setCurrentAudioScenario(this.audioScenario);
+            this.getCommandList().commandFinished();
+        }
     }
 }
 

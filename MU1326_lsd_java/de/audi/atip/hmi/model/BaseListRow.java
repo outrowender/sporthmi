@@ -37,7 +37,7 @@ public class BaseListRow {
             this.cells[n] = listCell;
         }
         catch (Exception exception) {
-            throw new IllegalArgumentException(new StringBuffer().append("Invalid col:").append(n).append(" - #col:").append(this.cells.length).toString());
+            throw new IllegalArgumentException("Invalid col:" + n + " - #col:" + this.cells.length);
         }
     }
 
@@ -54,7 +54,7 @@ public class BaseListRow {
             return this.cells[n];
         }
         catch (Exception exception) {
-            throw new IllegalArgumentException(new StringBuffer().append("Invalid col:").append(n).append(" - #col:").append(this.cells.length).toString());
+            throw new IllegalArgumentException("Invalid col:" + n + " - #col:" + this.cells.length);
         }
     }
 

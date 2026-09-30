@@ -4,7 +4,6 @@
 package de.audi.atip.interapp;
 
 public interface IConnectivityRHMIStateListener {
-    default public void updateRHMIServerList(String[] stringArray, String[] stringArray2, boolean[] blArray) {
-    }
+    public void updateRHMIServerList(String[] var1, String[] var2, boolean[] var3);
 }
 

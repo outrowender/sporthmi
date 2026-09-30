@@ -45,8 +45,8 @@ public abstract class AbstractCarApplication
 implements ICarApplication,
 HMIApplication,
 ITestSupportHandlerNotification {
-    public static final int BOOLEAN_OPERATOR_AND;
-    public static final int BOOLEAN_OPERATOR_OR;
+    public static final int BOOLEAN_OPERATOR_AND = 0;
+    public static final int BOOLEAN_OPERATOR_OR = 1;
     private final LogChannel logChan;
     private final IFrameworkAccess frameworkAccess;
     private final BundleContext bundleContext;
@@ -83,9 +83,8 @@ ITestSupportHandlerNotification {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void init() {
-        this.getLogChannel().log(1078071040, "[AbstractCarApplication#init] called");
+        this.getLogChannel().log(1000000, "[AbstractCarApplication#init] called");
         this.jobDispatcher = this.frameworkAccess.getDispatcherManager().createDispatcher(this.getApplicationName(), new JobLogger(this.getLogChannel()));
         this.jobDispatcher.start();
         this.dumpRegistry = new DumpRegistry(this);
@@ -104,7 +103,7 @@ ITestSupportHandlerNotification {
             for (int i2 = 0; i2 < this.components.size(); ++i2) {
                 ICarComponent iCarComponent = (ICarComponent)this.components.get(i2);
                 try {
-                    this.getLogChannel().log(1078071040, "[AbstractCarApplication#init] initialize component '%1'", (long)iCarComponent.getID());
+                    this.getLogChannel().log(1000000, "[AbstractCarApplication#init] initialize component '%1'", (long)iCarComponent.getID());
                     iCarComponent.init();
                     continue;
                 }
@@ -121,9 +120,8 @@ ITestSupportHandlerNotification {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void deinit() {
-        this.getLogChannel().log(1078071040, "[AbstractCarApplication#deinit] called");
+        this.getLogChannel().log(1000000, "[AbstractCarApplication#deinit] called");
         this.testSupportHandler.deinit();
         this.deregisterServices();
         this.sdisConnector.deinit();
@@ -132,7 +130,7 @@ ITestSupportHandlerNotification {
             for (int i2 = 0; i2 < this.components.size(); ++i2) {
                 ICarComponent iCarComponent = (ICarComponent)this.components.get(i2);
                 try {
-                    this.getLogChannel().log(1078071040, "[AbstractCarApplication#deinit] de-initialize component '%1'", (long)iCarComponent.getID());
+                    this.getLogChannel().log(1000000, "[AbstractCarApplication#deinit] de-initialize component '%1'", (long)iCarComponent.getID());
                     iCarComponent.deinit();
                     continue;
                 }
@@ -158,7 +156,7 @@ ITestSupportHandlerNotification {
     }
 
     private void registerServices() {
-        this.getLogChannel().log(1078071040, "[AbstractCarApplication#registerServices] called");
+        this.getLogChannel().log(1000000, "[AbstractCarApplication#registerServices] called");
         Hashtable hashtable = new Hashtable();
         hashtable.put("ApplicationName", this.getApplicationName());
         hashtable.put("moduleID", new Integer(this.getId()));
@@ -167,19 +165,17 @@ ITestSupportHandlerNotification {
     }
 
     private void deregisterServices() {
-        this.getLogChannel().log(1078071040, "[AbstractCarApplication#deregisterServices] called");
+        this.getLogChannel().log(1000000, "[AbstractCarApplication#deregisterServices] called");
         this.hmiAppServiceProvider.stopService();
     }
 
-    public abstract IMenuEntryStructure getMenuEntryStructure() {
-    }
+    public abstract IMenuEntryStructure getMenuEntryStructure();
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void startDSIServiceForComponent(String string, int n) {
-        this.getLogChannel().log(1078071040, "[AbstractCarApplication#startDSIServiceForComponent] className='%1', instance='%2'", (Object)string, (long)n);
+        this.getLogChannel().log(1000000, "[AbstractCarApplication#startDSIServiceForComponent] className='%1', instance='%2'", (Object)string, (long)n);
         HashMap hashMap = this.startedDSIs;
         synchronized (hashMap) {
             Object object = this.startedDSIs.get(string);
@@ -188,72 +184,59 @@ ITestSupportHandlerNotification {
                 this.getFrameworkAccess().startDSIService(string, n);
                 this.startedDSIs.put(string, new Object());
             } else {
-                this.getLogChannel().log(1078071040, "[AbstractCarApplication#startDSIServiceForComponent] dsi already started");
+                this.getLogChannel().log(1000000, "[AbstractCarApplication#startDSIServiceForComponent] dsi already started");
             }
         }
     }
 
-    @Override
     public final BundleContext getBundleContext() {
         return this.bundleContext;
     }
 
-    @Override
     public final IActionProxyDispatcher getActionProxyDispatcher() {
         return this.actionProxyDispatcher;
     }
 
-    @Override
     public final IPowerEventDispatcher getPowerEventDispatcher() {
         return this.powerEventDispatcher;
     }
 
-    @Override
     public final IFrameworkAccess getFrameworkAccess() {
         return this.frameworkAccess;
     }
 
-    @Override
     public final IMenuEntryRegistry getMenuEntryRegistry() {
         return this.menuEntryRegistry;
     }
 
-    @Override
     public final IPopupStateDispatcher getScreenStateDispatcher() {
         return this.popupStateDispatcher;
     }
 
-    @Override
     public final IMessageDispatcher getMessageDispatcher() {
         return this.messageDispatcher;
     }
 
-    @Override
     public final ILanguageUpdateDispatcher getLanguageUpdateDispatcher() {
         return this.languageUpdateDispatcher;
     }
 
-    @Override
     public final LogChannel getLogChannel() {
         return this.logChan;
     }
 
-    @Override
     public final ISDISConnector getSDISConnector() {
         return this.sdisConnector;
     }
 
-    @Override
     public CarFuncAdap getCarMenuCoding() {
         return this.frameworkAccess.getSysConstManager().getCarFuncAdaptation();
     }
 
-    @Override
     public IDumpRegistry getDumpRegistry() {
         return this.dumpRegistry;
     }
 
-    @Override
     public final DispatcherBase getJobDispatcher() {
         return this.jobDispatcher;
     }
@@ -271,7 +254,6 @@ ITestSupportHandlerNotification {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public final ICarComponent getComponent(int n) {
         ArrayList arrayList = this.components;
         synchronized (arrayList) {
@@ -285,9 +267,7 @@ ITestSupportHandlerNotification {
         return null;
     }
 
-    @Override
-    public abstract String getApplicationName() {
-    }
+    public abstract String getApplicationName();
 
     public final boolean isComponentAvailable(short s, CarFuncAdap carFuncAdap) {
         return carFuncAdap.isMenuDisplayActivated(s);
@@ -313,64 +293,53 @@ ITestSupportHandlerNotification {
         return false;
     }
 
-    @Override
-    public abstract int getId() {
-    }
+    public abstract int getId();
 
-    @Override
     public ButtonModelApp getVirtualButton(int n) {
         if (n == 13) {
-            return this.getFrameworkAccess().getHmiServiceApp().getButtonModel(-1859450624);
+            return this.getFrameworkAccess().getHmiServiceApp().getButtonModel(600977);
         }
         if (n == 39) {
-            return this.getFrameworkAccess().getHmiServiceApp().getButtonModel(-1842673408);
+            return this.getFrameworkAccess().getHmiServiceApp().getButtonModel(600978);
         }
         return null;
     }
 
-    @Override
     public void popupVisible(int n, int n2) {
-        this.getLogChannel().log(1078071040, "[AbstractCarApplication#popupVisible] id=%1, terminal=%2", (long)n, (long)n2);
+        this.getLogChannel().log(1000000, "[AbstractCarApplication#popupVisible] id=%1, terminal=%2", (long)n, (long)n2);
         this.getScreenStateDispatcher().notifyPopupVisible(n, n2);
     }
 
-    @Override
     public void popupHidden(int n, int n2) {
-        this.getLogChannel().log(1078071040, "[AbstractCarApplication#popupHidden] id=%1, terminal=%2", (long)n, (long)n2);
+        this.getLogChannel().log(1000000, "[AbstractCarApplication#popupHidden] id=%1, terminal=%2", (long)n, (long)n2);
         this.getScreenStateDispatcher().notifyPopupHidden(n, n2);
     }
 
-    @Override
     public void popupRemoved(int n, int n2) {
-        this.getLogChannel().log(1078071040, "[AbstractCarApplication#popupRemoved] id=%1, terminal=%2", (long)n, (long)n2);
+        this.getLogChannel().log(1000000, "[AbstractCarApplication#popupRemoved] id=%1, terminal=%2", (long)n, (long)n2);
         this.getScreenStateDispatcher().notifyPopupRemoved(n, n2);
     }
 
-    @Override
     public void screenVisible(int n, int n2) {
-        this.getLogChannel().log(1078071040, "[AbstractCarApplication#screenVisible] id=%1, terminal=%2", (long)n, (long)n2);
+        this.getLogChannel().log(1000000, "[AbstractCarApplication#screenVisible] id=%1, terminal=%2", (long)n, (long)n2);
         this.getScreenStateDispatcher().notifyScreenVisible(n, n2);
     }
 
-    @Override
     public void screenHidden(int n, int n2) {
-        this.getLogChannel().log(1078071040, "[AbstractCarApplication#screenHidden] id=%1, terminal=%2", (long)n, (long)n2);
+        this.getLogChannel().log(1000000, "[AbstractCarApplication#screenHidden] id=%1, terminal=%2", (long)n, (long)n2);
         this.getScreenStateDispatcher().notifyScreenHidden(n, n2);
     }
 
-    @Override
     public void screenFadedOut(int n, int n2) {
-        this.getLogChannel().log(1078071040, "[AbstractCarApplication#screenFadedOut] id=%1, terminal=%2", (long)n, (long)n2);
+        this.getLogChannel().log(1000000, "[AbstractCarApplication#screenFadedOut] id=%1, terminal=%2", (long)n, (long)n2);
         this.getScreenStateDispatcher().notifyScreenFadedOut(n, n2);
     }
 
-    @Override
     public void screenConnected(int n, int n2) {
-        this.getLogChannel().log(1078071040, "[AbstractCarApplication#screenConnected] id=%1, terminal=%2", (long)n, (long)n2);
+        this.getLogChannel().log(1000000, "[AbstractCarApplication#screenConnected] id=%1, terminal=%2", (long)n, (long)n2);
         this.getScreenStateDispatcher().notifyScreenConnected(n, n2);
     }
 
-    @Override
     public void debugDataVisible(boolean bl) {
         if (bl) {
             this.testSupportHandler.updateData(this.createAllViewOptionsAsArray());
@@ -379,11 +348,9 @@ ITestSupportHandlerNotification {
         }
     }
 
-    @Override
     public void commandEntrySelected(int n) {
     }
 
-    @Override
     public TestSupportDataReceiverEntry[] getCommandEntries() {
         return new TestSupportDataReceiverEntry[0];
     }
@@ -427,7 +394,6 @@ ITestSupportHandlerNotification {
         return this.getFrameworkAccess().getSysConst(3858) == 1;
     }
 
-    @Override
     public int getClimateSystemVariant() {
         boolean bl = this.getCarMenuCoding().isMenuDisplayActivated((short)9);
         boolean bl2 = this.getCarMenuCoding().isMenuDisplayActivated((short)46);

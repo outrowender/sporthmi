@@ -11,147 +11,106 @@ import de.audi.atip.mmicombi.IViewSizeListener;
 import org.osgi.framework.BundleContext;
 
 public interface IViewSizeManager {
-    public static final int REQUEST_UNDEFINED;
-    public static final int REQUEST_OPTION_DRAWER_OPENED;
-    public static final int REQUEST_SELECTION_DRAWER_SUBLIST_OPENED;
-    public static final int REQUEST_ENTER_SCREEN_SMALL_STAGE_TYPE_REPLACE;
-    public static final int REQUEST_ENTER_SCREEN_SMALL_STAGE_TYPE_SCREENSHOT;
-    public static final int REQUEST_ENTER_SCREEN_SMALL_STAGE_TYPE_SCREENSHOT_FULLSCREEN;
-    public static final int REQUEST_ENTER_SCREEN_SMALL_STAGE_TYPE_CANCEL;
-    public static final int REQUEST_ENTER_OPTIONSCREEN;
-    public static final int REQUEST_KEY_TURNED_IN_NOT_FOCUSABLE_SCREEN;
-    public static final int REQUEST_KEY_PRESSED_IN_NOT_FOCUSABLE_SCREEN;
-    public static final int REQUEST_SCREEN_PREFERS_LARGE_VIEWSIZE;
-    public static final int REQUEST_MAP_BRIEFING;
-    public static final int REQUEST_SPELLER_OPENED;
-    public static final int REQUEST_FULLSCREEN_POPUP_HMI;
-    public static final int REQUEST_FULLSCREEN_POPUP_KOMBI;
-    public static final int REQUEST_ENTER_SCREEN_SMALL_STAGE_TYPE_KEEP_VIEWSIZE;
-    public static final int REQUEST_SDS;
-    public static final int REQUEST_KOMBI_INTERNAL_REASON_FOR_LARGE_VIEW_SIZE_ACTIVE;
-    public static final int NUM_REQUEST_TYPES;
+    public static final int REQUEST_UNDEFINED = -1;
+    public static final int REQUEST_OPTION_DRAWER_OPENED = 0;
+    public static final int REQUEST_SELECTION_DRAWER_SUBLIST_OPENED = 1;
+    public static final int REQUEST_ENTER_SCREEN_SMALL_STAGE_TYPE_REPLACE = 2;
+    public static final int REQUEST_ENTER_SCREEN_SMALL_STAGE_TYPE_SCREENSHOT = 3;
+    public static final int REQUEST_ENTER_SCREEN_SMALL_STAGE_TYPE_SCREENSHOT_FULLSCREEN = 4;
+    public static final int REQUEST_ENTER_SCREEN_SMALL_STAGE_TYPE_CANCEL = 5;
+    public static final int REQUEST_ENTER_OPTIONSCREEN = 6;
+    public static final int REQUEST_KEY_TURNED_IN_NOT_FOCUSABLE_SCREEN = 7;
+    public static final int REQUEST_KEY_PRESSED_IN_NOT_FOCUSABLE_SCREEN = 8;
+    public static final int REQUEST_SCREEN_PREFERS_LARGE_VIEWSIZE = 9;
+    public static final int REQUEST_MAP_BRIEFING = 10;
+    public static final int REQUEST_SPELLER_OPENED = 11;
+    public static final int REQUEST_FULLSCREEN_POPUP_HMI = 12;
+    public static final int REQUEST_FULLSCREEN_POPUP_KOMBI = 13;
+    public static final int REQUEST_ENTER_SCREEN_SMALL_STAGE_TYPE_KEEP_VIEWSIZE = 14;
+    public static final int REQUEST_SDS = 15;
+    public static final int REQUEST_KOMBI_INTERNAL_REASON_FOR_LARGE_VIEW_SIZE_ACTIVE = 16;
+    public static final int NUM_REQUEST_TYPES = 17;
 
-    default public void optionMenuChange(int n) {
-    }
+    public void optionMenuChange(int var1);
 
-    default public void touchpadViewSizeChangeRequest() {
-    }
+    public void touchpadViewSizeChangeRequest();
 
-    default public void setViewSize(int n, boolean bl) {
-    }
+    public void setViewSize(int var1, boolean var2);
 
-    default public int getCurrentViewSize() {
-    }
+    public int getCurrentViewSize();
 
-    default public int getViewSize(Screen screen) {
-    }
+    public int getViewSize(Screen var1);
 
-    default public void setScreen(Screen screen) {
-    }
+    public void setScreen(Screen var1);
 
-    default public void setSelectionDrawerOpened(boolean bl) {
-    }
+    public void setSelectionDrawerOpened(boolean var1);
 
-    default public void startTrackingServices(BundleContext bundleContext, HMITerminal hMITerminal) {
-    }
+    public void startTrackingServices(BundleContext var1, HMITerminal var2);
 
-    default public void registerViewSizeManagerService(IFrameworkAccess iFrameworkAccess) {
-    }
+    public void registerViewSizeManagerService(IFrameworkAccess var1);
 
-    default public void requestViewSizeChange(int n) {
-    }
+    public void requestViewSizeChange(int var1);
 
-    default public void requestEarlyViewSizeChange(int n, int n2) {
-    }
+    public void requestEarlyViewSizeChange(int var1, int var2);
 
-    default public void requestLargeViewSizeViaBitfield(long l) {
-    }
+    public void requestLargeViewSizeViaBitfield(long var1);
 
-    default public void requestLargeViewSize(int n) {
-    }
+    public void requestLargeViewSize(int var1);
 
-    default public void requestLargeViewSize(int n, int n2) {
-    }
+    public void requestLargeViewSize(int var1, int var2);
 
-    default public void unrequestLargeViewSize(int n) {
-    }
+    public void unrequestLargeViewSize(int var1);
 
-    default public void unrequestLargeViewSize(int n, int n2) {
-    }
+    public void unrequestLargeViewSize(int var1, int var2);
 
-    default public void unrequestLargeViewSize(int n, boolean bl) {
-    }
+    public void unrequestLargeViewSize(int var1, boolean var2);
 
-    default public void addViewSizeListener(IViewSizeListener iViewSizeListener) {
-    }
+    public void addViewSizeListener(IViewSizeListener var1);
 
-    default public void viewSizeKeyPressed() {
-    }
+    public void viewSizeKeyPressed();
 
-    default public int getPreferredViewSize() {
-    }
+    public int getPreferredViewSize();
 
-    default public void setPreferredViewSize(int n) {
-    }
+    public void setPreferredViewSize(int var1);
 
-    default public void addViewSizeRequest(int n) {
-    }
+    public void addViewSizeRequest(int var1);
 
-    default public boolean isRequestActive(int n) {
-    }
+    public boolean isRequestActive(int var1);
 
-    default public boolean isLargeViewSizeRequestActive() {
-    }
+    public boolean isLargeViewSizeRequestActive();
 
-    default public boolean isNonScreenBasedRequestActive() {
-    }
+    public boolean isNonScreenBasedRequestActive();
 
-    default public void dumpAllViewSizeRequests() {
-    }
+    public void dumpAllViewSizeRequests();
 
-    default public int getRequestedViewSize() {
-    }
+    public int getRequestedViewSize();
 
-    default public void resetRequestedViewSize() {
-    }
+    public void resetRequestedViewSize();
 
-    default public void setRequestedViewSize(int n) {
-    }
+    public void setRequestedViewSize(int var1);
 
-    default public boolean isViewSizeInitialized() {
-    }
+    public boolean isViewSizeInitialized();
 
-    default public void releaseInvalidation() {
-    }
+    public void releaseInvalidation();
 
-    default public boolean setLocked(boolean bl, boolean bl2) {
-    }
+    public boolean setLocked(boolean var1, boolean var2);
 
-    default public boolean isLocked() {
-    }
+    public boolean isLocked();
 
-    default public void setSportskinSmallStage(boolean bl) {
-    }
+    public void setSportskinSmallStage(boolean var1);
 
-    default public boolean isSportskinSmallStage() {
-    }
+    public boolean isSportskinSmallStage();
 
-    default public void mfwArrowKeyPressed(int n, long l) {
-    }
+    public void mfwArrowKeyPressed(int var1, long var2);
 
-    default public LogChannel getLogChannel() {
-    }
+    public LogChannel getLogChannel();
 
-    default public void screenChangeStateFinished(int n) {
-    }
+    public void screenChangeStateFinished(int var1);
 
-    default public boolean isKombiPopupHandlingActive() {
-    }
+    public boolean isKombiPopupHandlingActive();
 
-    default public boolean isHMIPopupHandlingActive() {
-    }
+    public boolean isHMIPopupHandlingActive();
 
-    default public boolean isAnimationRunning() {
-    }
+    public boolean isAnimationRunning();
 }
 

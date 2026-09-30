@@ -4,7 +4,6 @@
 package de.audi.atip.interapp;
 
 public interface IMessagingLicenseServiceListener {
-    default public void responseOnlineDictationLicenseInfo(int n) {
-    }
+    public void responseOnlineDictationLicenseInfo(int var1);
 }
 

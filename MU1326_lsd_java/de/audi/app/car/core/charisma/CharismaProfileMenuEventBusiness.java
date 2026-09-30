@@ -26,7 +26,6 @@ extends MenuModelEventBusinessAdapter {
         this.handler = defaultMenuModelHandler;
     }
 
-    @Override
     public boolean processItemFocused(int n, MenuModelHandler menuModelHandler) {
         if (this.getFocusChoice().getValue() != n) {
             this.setFocusChoice(n);
@@ -46,7 +45,7 @@ extends MenuModelEventBusinessAdapter {
     public void updateActiveProfile(int n) {
         if (this.getHandler() != null) {
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "[CharismaProfileMenuEventBusiness#updateActiveProfile] trigger JOIN_CURSOR: menuModelID='%1', currentFocus='%2', targetFocus'%3'", (long)this.getHandler().getHandledModel().getID(), (long)this.getFocusChoice().getValue(), (long)n);
+                this.getLogChannel().log(1000000, "[CharismaProfileMenuEventBusiness#updateActiveProfile] trigger JOIN_CURSOR: menuModelID='%1', currentFocus='%2', targetFocus'%3'", (long)this.getHandler().getHandledModel().getID(), (long)this.getFocusChoice().getValue(), (long)n);
             }
             this.setFocusChoice(n);
             ((MenuModelApp)this.getHandler().getHandledModel()).trigger(ModelTrigger.JOIN_CURSOR);

@@ -7,16 +7,15 @@ import de.audi.app.messaging.core.util.Strings;
 import de.esolutions.fw.util.commons.Buffer;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map$Entry;
 
 public final class TemplateProcessor {
     public static String replaceVariables(String string, Map map) {
         String string2 = string;
         Iterator iterator = map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            String string3 = (String)map$Entry.getKey();
-            String string4 = (String)map$Entry.getValue();
+            Map.Entry entry = (Map.Entry)iterator.next();
+            String string3 = (String)entry.getKey();
+            String string4 = (String)entry.getValue();
             string2 = TemplateProcessor.replaceFirst(string2, string3, string4);
         }
         return string2;

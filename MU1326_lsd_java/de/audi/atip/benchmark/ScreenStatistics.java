@@ -5,8 +5,6 @@ package de.audi.atip.benchmark;
 
 import de.audi.atip.benchmark.IScreenStatistics;
 import de.audi.atip.benchmark.IStatisticsManager;
-import de.audi.atip.benchmark.ScreenStatistics$NullScreenStatistics;
-import de.audi.atip.benchmark.ScreenStatistics$ScreenMetrics;
 import de.audi.atip.benchmark.StatisticsManager;
 import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.fw.util.commons.timeout.ITimeSource;
@@ -19,10 +17,10 @@ import java.util.Map;
 
 class ScreenStatistics
 implements IScreenStatistics {
-    static final int SCREENS;
-    static final String SUMMARY_HEADER;
-    static final String HEADER;
-    static final IScreenStatistics NULL_OBJECT;
+    static final int SCREENS = 1000;
+    static final String SUMMARY_HEADER = "SUMMARY;Visited Screens;Total Screens;Percentage";
+    static final String HEADER = "ScreenId;Screen Name;Paint Count;Avg Paint Time;Avg Draw Time;Worst Paint Time;Worst Draw Time;Worst Create Time;Created Count;Cache hits;Avg Create Time;Connected Count;Avg Connect Time;Worst Connect Time";
+    static final IScreenStatistics NULL_OBJECT = IStatisticsManager.INSTRUMENTATION_ENABLED ? new NullScreenStatistics() : null;
     private final ITimeSource timeSource;
     private final Map paintScreenStatistics = new HashMap(1000);
     private int currentScreenId;
@@ -35,66 +33,57 @@ implements IScreenStatistics {
         this.timeSource = statisticsManager.getTimeSource();
     }
 
-    @Override
     public void paintStart(int n) {
         this.currentScreenId = n;
         this.start = this.timeSource.getCurrentTime();
         this.inPaint = true;
     }
 
-    @Override
     public void paintEnd() {
         this.end = this.timeSource.getCurrentTime();
         this.inPaint = false;
     }
 
-    @Override
     public void drawEnd() {
         this.registerStatistics(this.currentScreenId, this.end - this.start, this.timeSource.getCurrentTime() - this.end);
     }
 
-    @Override
     public void increaseCacheHits(int n) {
         ++this.getStatisticsForScreen((int)n).cacheHits;
     }
 
-    @Override
     public void getScreenStart(int n) {
         this.currentScreenId = n;
         this.start = this.timeSource.getCurrentTime();
     }
 
-    @Override
     public void getScreenEnd() {
-        ScreenStatistics$ScreenMetrics screenStatistics$ScreenMetrics = this.getStatisticsForScreen(this.currentScreenId);
+        ScreenMetrics screenMetrics = this.getStatisticsForScreen(this.currentScreenId);
         long l = this.timeSource.getCurrentTime() - this.start;
-        if ((long)screenStatistics$ScreenMetrics.worstCreateTime < l) {
-            screenStatistics$ScreenMetrics.worstCreateTime = (int)l;
+        if ((long)screenMetrics.worstCreateTime < l) {
+            screenMetrics.worstCreateTime = (int)l;
         }
-        screenStatistics$ScreenMetrics.totalCreateTime += l;
-        ++screenStatistics$ScreenMetrics.createdCount;
+        screenMetrics.totalCreateTime += l;
+        ++screenMetrics.createdCount;
     }
 
-    @Override
     public void connectStart(int n) {
         this.currentScreenId = n;
         this.start = this.timeSource.getCurrentTime();
         this.inConnect = true;
     }
 
-    @Override
     public void connectEnd() {
-        ScreenStatistics$ScreenMetrics screenStatistics$ScreenMetrics = this.getStatisticsForScreen(this.currentScreenId);
+        ScreenMetrics screenMetrics = this.getStatisticsForScreen(this.currentScreenId);
         long l = this.timeSource.getCurrentTime() - this.start;
-        ++screenStatistics$ScreenMetrics.connectCount;
-        screenStatistics$ScreenMetrics.connectTotalTime += l;
-        if (l > (long)screenStatistics$ScreenMetrics.worstConnectTime) {
-            screenStatistics$ScreenMetrics.worstConnectTime = (int)l;
+        ++screenMetrics.connectCount;
+        screenMetrics.connectTotalTime += l;
+        if (l > (long)screenMetrics.worstConnectTime) {
+            screenMetrics.worstConnectTime = (int)l;
         }
         this.inConnect = false;
     }
 
-    @Override
     public void reset() {
         this.paintScreenStatistics.clear();
     }
@@ -104,7 +93,7 @@ implements IScreenStatistics {
             this.doDump(printStream);
         }
         catch (Exception exception) {
-            printStream.println(new StringBuffer().append("Exception while printing statistics: ").append(exception).toString());
+            printStream.println("Exception while printing statistics: " + exception);
         }
     }
 
@@ -117,26 +106,26 @@ implements IScreenStatistics {
     }
 
     private void registerStatistics(int n, long l, long l2) {
-        ScreenStatistics$ScreenMetrics screenStatistics$ScreenMetrics = this.getStatisticsForScreen(n);
-        if ((long)screenStatistics$ScreenMetrics.worstGuiDrawTime < l2) {
-            screenStatistics$ScreenMetrics.worstGuiDrawTime = (int)l2;
+        ScreenMetrics screenMetrics = this.getStatisticsForScreen(n);
+        if ((long)screenMetrics.worstGuiDrawTime < l2) {
+            screenMetrics.worstGuiDrawTime = (int)l2;
         }
-        if ((long)screenStatistics$ScreenMetrics.worstPaintTime < l) {
-            screenStatistics$ScreenMetrics.worstPaintTime = (int)l;
+        if ((long)screenMetrics.worstPaintTime < l) {
+            screenMetrics.worstPaintTime = (int)l;
         }
-        ++screenStatistics$ScreenMetrics.screenDraws;
-        screenStatistics$ScreenMetrics.screenPaintTime += l;
-        screenStatistics$ScreenMetrics.guiDrawTime += l2;
+        ++screenMetrics.screenDraws;
+        screenMetrics.screenPaintTime += l;
+        screenMetrics.guiDrawTime += l2;
     }
 
-    private ScreenStatistics$ScreenMetrics getStatisticsForScreen(int n) {
+    private ScreenMetrics getStatisticsForScreen(int n) {
         Integer n2 = new Integer(n);
-        ScreenStatistics$ScreenMetrics screenStatistics$ScreenMetrics = (ScreenStatistics$ScreenMetrics)this.paintScreenStatistics.get(n2);
-        if (null == screenStatistics$ScreenMetrics) {
-            screenStatistics$ScreenMetrics = new ScreenStatistics$ScreenMetrics(null);
-            this.paintScreenStatistics.put(n2, screenStatistics$ScreenMetrics);
+        ScreenMetrics screenMetrics = (ScreenMetrics)this.paintScreenStatistics.get(n2);
+        if (null == screenMetrics) {
+            screenMetrics = new ScreenMetrics();
+            this.paintScreenStatistics.put(n2, screenMetrics);
         }
-        return screenStatistics$ScreenMetrics;
+        return screenMetrics;
     }
 
     private void doDump(PrintStream printStream) {
@@ -144,35 +133,33 @@ implements IScreenStatistics {
             printStream.println("No measurements have been collected");
             return;
         }
-        printStream.println("SUMMARY;Visited Screens;Total Screens;Percentage");
+        printStream.println(SUMMARY_HEADER);
         int n = this.paintScreenStatistics.size();
         int n2 = ScreenStatistics.getNumberOfTotalScreens();
-        String string = new DecimalFormat("0.00").format((float)n / (float)n2 * 51266);
+        String string = new DecimalFormat("0.00").format((float)n / (float)n2 * 100.0f);
         Buffer buffer = new Buffer(128).append(";").append(n).append(";").append(n2).append(";").append(string);
         printStream.println(buffer);
-        Buffer buffer2 = new Buffer(128).append("ScreenId;Screen Name;Paint Count;Avg Paint Time;Avg Draw Time;Worst Paint Time;Worst Draw Time;Worst Create Time;Created Count;Cache hits;Avg Create Time;Connected Count;Avg Connect Time;Worst Connect Time").append(StatisticsManager.instance().getResourceLoaderStatistics().getStatisticsForScreen(-1));
+        Buffer buffer2 = new Buffer(128).append(HEADER).append(StatisticsManager.instance().getResourceLoaderStatistics().getStatisticsForScreen(-1));
         printStream.println(buffer2);
         Iterator iterator = this.paintScreenStatistics.keySet().iterator();
         while (iterator.hasNext()) {
             Integer n3 = (Integer)iterator.next();
-            ScreenStatistics$ScreenMetrics screenStatistics$ScreenMetrics = (ScreenStatistics$ScreenMetrics)this.paintScreenStatistics.get(n3);
-            Buffer buffer3 = new Buffer(256).append(n3).append(";").append(ScreenStatistics.getScreenName(n3)).append(";").append(screenStatistics$ScreenMetrics.screenDraws).append(";").append((float)screenStatistics$ScreenMetrics.screenPaintTime / (float)screenStatistics$ScreenMetrics.screenDraws).append(";").append((float)screenStatistics$ScreenMetrics.guiDrawTime / (float)screenStatistics$ScreenMetrics.screenDraws).append(";").append(screenStatistics$ScreenMetrics.worstPaintTime).append(";").append(screenStatistics$ScreenMetrics.worstGuiDrawTime).append(";").append(screenStatistics$ScreenMetrics.worstCreateTime).append(";").append(screenStatistics$ScreenMetrics.createdCount).append(";").append(screenStatistics$ScreenMetrics.cacheHits).append(";").append((float)screenStatistics$ScreenMetrics.totalCreateTime / (float)screenStatistics$ScreenMetrics.createdCount).append(";").append(screenStatistics$ScreenMetrics.connectCount).append(";").append((float)screenStatistics$ScreenMetrics.connectTotalTime / (float)screenStatistics$ScreenMetrics.connectCount).append(";").append(screenStatistics$ScreenMetrics.worstConnectTime).append(StatisticsManager.instance().getResourceLoaderStatistics().getStatisticsForScreen(n3));
+            ScreenMetrics screenMetrics = (ScreenMetrics)this.paintScreenStatistics.get(n3);
+            Buffer buffer3 = new Buffer(256).append(n3).append(";").append(ScreenStatistics.getScreenName(n3)).append(";").append(screenMetrics.screenDraws).append(";").append((float)screenMetrics.screenPaintTime / (float)screenMetrics.screenDraws).append(";").append((float)screenMetrics.guiDrawTime / (float)screenMetrics.screenDraws).append(";").append(screenMetrics.worstPaintTime).append(";").append(screenMetrics.worstGuiDrawTime).append(";").append(screenMetrics.worstCreateTime).append(";").append(screenMetrics.createdCount).append(";").append(screenMetrics.cacheHits).append(";").append((float)screenMetrics.totalCreateTime / (float)screenMetrics.createdCount).append(";").append(screenMetrics.connectCount).append(";").append((float)screenMetrics.connectTotalTime / (float)screenMetrics.connectCount).append(";").append(screenMetrics.worstConnectTime).append(StatisticsManager.instance().getResourceLoaderStatistics().getStatisticsForScreen(n3));
             printStream.println(buffer3);
         }
     }
 
-    @Override
     public String getName() {
         return "ScreenStatistics.csv";
     }
 
-    @Override
     public void dump(PrintStream printStream, String string) {
         try {
             this.doDump(printStream);
         }
         catch (Exception exception) {
-            printStream.println(new StringBuffer().append("Exception while printing statistics: ").append(exception).toString());
+            printStream.println("Exception while printing statistics: " + exception);
         }
     }
 
@@ -203,8 +190,62 @@ implements IScreenStatistics {
         }
     }
 
-    static {
-        NULL_OBJECT = IStatisticsManager.INSTRUMENTATION_ENABLED ? new ScreenStatistics$NullScreenStatistics(null) : null;
+    private static class ScreenMetrics {
+        int screenDraws;
+        long screenPaintTime;
+        long guiDrawTime;
+        int worstPaintTime;
+        int worstGuiDrawTime;
+        int cacheHits;
+        int createdCount;
+        int worstCreateTime;
+        long totalCreateTime;
+        int connectCount;
+        int worstConnectTime;
+        long connectTotalTime;
+
+        private ScreenMetrics() {
+        }
+    }
+
+    private static final class NullScreenStatistics
+    implements IScreenStatistics {
+        private NullScreenStatistics() {
+        }
+
+        public String getName() {
+            return "ScreenStatistics.csv";
+        }
+
+        public void dump(PrintStream printStream, String string) {
+        }
+
+        public void reset() {
+        }
+
+        public void paintStart(int n) {
+        }
+
+        public void paintEnd() {
+        }
+
+        public void drawEnd() {
+        }
+
+        public void increaseCacheHits(int n) {
+        }
+
+        public void getScreenStart(int n) {
+        }
+
+        public void getScreenEnd() {
+        }
+
+        public void connectStart(int n) {
+        }
+
+        public void connectEnd() {
+        }
     }
 }
 

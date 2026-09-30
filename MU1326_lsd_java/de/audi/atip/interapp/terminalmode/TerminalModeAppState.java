@@ -6,10 +6,10 @@ package de.audi.atip.interapp.terminalmode;
 import de.esolutions.fw.util.commons.Buffer;
 
 public class TerminalModeAppState {
-    public static final int APP_UNKNOWN;
-    public static final int APP_NAVIGATION;
-    public static final int APP_PHONE;
-    public static final int APP_SPEECH;
+    public static final int APP_UNKNOWN = 0;
+    public static final int APP_NAVIGATION = 1;
+    public static final int APP_PHONE = 2;
+    public static final int APP_SPEECH = 3;
     private final int appId;
     private final boolean runningOnDevice;
 
@@ -40,7 +40,7 @@ public class TerminalModeAppState {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         TerminalModeAppState terminalModeAppState = (TerminalModeAppState)object;

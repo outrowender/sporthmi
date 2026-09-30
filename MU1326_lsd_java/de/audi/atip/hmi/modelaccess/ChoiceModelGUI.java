@@ -7,13 +7,10 @@ import de.audi.atip.hmi.modelaccess.ButtonModelGUI;
 
 public interface ChoiceModelGUI
 extends ButtonModelGUI {
-    default public int getValue() {
-    }
+    public int getValue();
 
-    default public void itemSelected(int n, int n2) {
-    }
+    public void itemSelected(int var1, int var2);
 
-    default public void itemFocused(int n, int n2) {
-    }
+    public void itemFocused(int var1, int var2);
 }
 

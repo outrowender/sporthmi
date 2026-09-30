@@ -11,12 +11,12 @@ import de.audi.atip.timer.TimerListener;
 class AnnoyingOrange
 implements TimerListener,
 PowerEventListener {
-    private static final String TIMER_STARTUP_NAME;
-    private static final long TIMER_STARTUP_DELAY;
-    private static final String TIMER_CLAMP_S_UP_NAME;
-    private static final long TIMER_CLAMP_S_UP_DELAY;
-    private static final String TIMER_RSAP_RECONNECT_NAME;
-    private static final long TIMER_RSAP_RECONNECT_DELAY;
+    private static final String TIMER_STARTUP_NAME = "OrangeStartupTimer";
+    private static final long TIMER_STARTUP_DELAY = 90000L;
+    private static final String TIMER_CLAMP_S_UP_NAME = "OrangeClampSUpTimer";
+    private static final long TIMER_CLAMP_S_UP_DELAY = 3000L;
+    private static final String TIMER_RSAP_RECONNECT_NAME = "OrangeReconnectTimer";
+    private static final long TIMER_RSAP_RECONNECT_DELAY = 90000L;
     private final AbstractErrorHandler errorHandler;
     private final Timer clampSTimer;
     private final Timer reconnectTimer;
@@ -28,9 +28,9 @@ PowerEventListener {
 
     public AnnoyingOrange(AbstractErrorHandler abstractErrorHandler) {
         this.errorHandler = abstractErrorHandler;
-        new Timer("OrangeStartupTimer", 0, true, this).start();
-        this.clampSTimer = new Timer("OrangeClampSUpTimer", 0, true, this);
-        this.reconnectTimer = new Timer("OrangeReconnectTimer", 0, true, this);
+        new Timer(TIMER_STARTUP_NAME, 90000L, true, this).start();
+        this.clampSTimer = new Timer(TIMER_CLAMP_S_UP_NAME, 3000L, true, this);
+        this.reconnectTimer = new Timer(TIMER_RSAP_RECONNECT_NAME, 90000L, true, this);
     }
 
     /*
@@ -78,14 +78,13 @@ PowerEventListener {
         return this.clampSTimer.isRunning() || this.reconnectTimer.isRunning();
     }
 
-    @Override
     public void fireTimer(Timer timer) {
-        if ("OrangeStartupTimer".equals(timer.getName())) {
+        if (TIMER_STARTUP_NAME.equals(timer.getName())) {
             this.isStartupTimerFinished = true;
             this.retriggerErrorPresentation();
-        } else if ("OrangeClampSUpTimer".equals(timer.getName())) {
+        } else if (TIMER_CLAMP_S_UP_NAME.equals(timer.getName())) {
             this.retriggerErrorPresentation();
-        } else if ("OrangeReconnectTimer".equals(timer.getName())) {
+        } else if (TIMER_RSAP_RECONNECT_NAME.equals(timer.getName())) {
             this.retriggerErrorPresentation();
         }
     }
@@ -94,11 +93,9 @@ PowerEventListener {
         this.errorHandler.reaction();
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 
-    @Override
     public void updateClampState(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
         if (bl != this.isClampS) {
             this.isClampS = bl;
@@ -125,15 +122,12 @@ PowerEventListener {
         return this.isTethering && this.isTrustedNetworkAvailable;
     }
 
-    @Override
     public void notifyPowerListenerOnEnterState(int n, int n2) {
     }
 
-    @Override
     public void notifyPowerListenerOnExitState(int n, int n2) {
     }
 
-    @Override
     public void notifyPowerTriggerAction(int n, int n2) {
     }
 }

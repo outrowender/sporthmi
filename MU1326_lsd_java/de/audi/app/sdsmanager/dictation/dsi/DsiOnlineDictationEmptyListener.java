@@ -8,19 +8,15 @@ import org.dsi.ifc.online.DictationValueSentence;
 
 public class DsiOnlineDictationEmptyListener
 implements DSIOnlineDictationListener {
-    @Override
     public void asyncException(int n, String string, int n2) {
     }
 
-    @Override
     public void dictationResult(int n) {
     }
 
-    @Override
     public void finishDictationResponse(int n) {
     }
 
-    @Override
     public void dictationValueList(DictationValueSentence dictationValueSentence) {
     }
 }

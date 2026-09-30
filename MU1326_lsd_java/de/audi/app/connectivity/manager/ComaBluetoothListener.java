@@ -38,10 +38,10 @@ implements IConnectivityPhoneStateListener {
         if ((n & 4) != 0) {
             n2 |= 4;
         }
-        if ((n & 0x800100) != 0) {
+        if ((n & 0x18000) != 0) {
             n2 |= 0x10;
         }
-        if ((n & 0x20006000) != 0) {
+        if ((n & 0x600020) != 0) {
             n2 |= 0x20;
         }
         return n2;
@@ -66,7 +66,6 @@ implements IConnectivityPhoneStateListener {
         this.coma = connectivityManager;
     }
 
-    @Override
     protected int[] getAttributeNotifications() {
         return ATTRIBUTE_NOTIFICATIONS;
     }
@@ -146,36 +145,32 @@ implements IConnectivityPhoneStateListener {
         }
     }
 
-    @Override
     public void updateTrustedDevices(TrustedDevice[] trustedDeviceArray, int n) {
         if (this.log.isInfo()) {
-            this.log.log(1078071040, "ComaBluetoothListener#updateTrustedDevices(): %1", (Object)StringUtils.toString(trustedDeviceArray));
+            this.log.log(1000000, "ComaBluetoothListener#updateTrustedDevices(): %1", (Object)StringUtils.toString(trustedDeviceArray));
         }
         if (trustedDeviceArray == null) {
-            this.log.log(-1601830656, "ComaBluetoothListener#updateTrustedDevices(): trustedDevices List from DSI is NULL!");
+            this.log.log(100000, "ComaBluetoothListener#updateTrustedDevices(): trustedDevices List from DSI is NULL!");
             return;
         }
         this.bluetoothDevices = trustedDeviceArray;
         this.update();
     }
 
-    @Override
     public void updatePriorizedDeviceReconnect(boolean bl, String string, int n) {
-        this.log.log(1078071040, "ComaBluetoothListener#updatePriorizedDeviceReconnect():  '%2' %1", bl, (Object)string);
+        this.log.log(1000000, "ComaBluetoothListener#updatePriorizedDeviceReconnect():  '%2' %1", bl, (Object)string);
         this.prioritizedPhone = bl ? string : null;
         this.update();
     }
 
-    @Override
     public void updateMESlotInfo(ITelMESlotState iTelMESlotState, ITelMESlotState iTelMESlotState2, ITelMESlotState iTelMESlotState3) {
-        this.log.log(-2137614336, "ComaBluetoothListener#updateMESlotInfo(): %1 %2 %3", (Object)iTelMESlotState, (Object)iTelMESlotState2, (Object)iTelMESlotState3);
+        this.log.log(10000000, "ComaBluetoothListener#updateMESlotInfo(): %1 %2 %3", (Object)iTelMESlotState, (Object)iTelMESlotState2, (Object)iTelMESlotState3);
         this.primary = iTelMESlotState;
         this.secondary = iTelMESlotState2;
         this.data = iTelMESlotState3;
         this.update();
     }
 
-    @Override
     public void updatePhoneState(int n, int n2) {
         boolean bl;
         boolean bl2 = bl = n2 == 2;
@@ -185,42 +180,34 @@ implements IConnectivityPhoneStateListener {
         }
     }
 
-    @Override
     public void updateESIMInfo(String string, String string2, boolean bl, boolean bl2) {
     }
 
-    @Override
     public void telAppEntered() {
     }
 
-    @Override
     public void telAppLeft() {
     }
 
-    @Override
     public void telUnlockEntered() {
     }
 
-    @Override
     public void telUnlockLeft() {
     }
 
-    @Override
     public void updateConnectedGatewayState(boolean bl) {
-        this.log.log(1078071040, "ComaBluetoothListener#updateConnectedGatewayState(): isAnyEorBCallActive=%1", bl);
+        this.log.log(1000000, "ComaBluetoothListener#updateConnectedGatewayState(): isAnyEorBCallActive=%1", bl);
         if (this.isAnyEorBCallActive != bl) {
             this.isAnyEorBCallActive = bl;
             this.update();
         }
     }
 
-    @Override
     public void init() {
         super.init();
         this.registration = this.coma.getBundleContext().registerService((class$de$audi$atip$interapp$IConnectivityPhoneStateListener == null ? (class$de$audi$atip$interapp$IConnectivityPhoneStateListener = ComaBluetoothListener.class$("de.audi.atip.interapp.IConnectivityPhoneStateListener")) : class$de$audi$atip$interapp$IConnectivityPhoneStateListener).getName(), (Object)this, null);
     }
 
-    @Override
     public void deinit() {
         this.registration.unregister();
         this.registration = null;

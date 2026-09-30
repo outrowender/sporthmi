@@ -7,9 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class CarplayRequest {
-    public static final int REQUESTTYPE_UPDATEMODE;
-    public static final int REQUESTTYPE_AUDIOTYPE;
-    public static final String AUDIOTYPE;
+    public static final int REQUESTTYPE_UPDATEMODE = 1;
+    public static final int REQUESTTYPE_AUDIOTYPE = 2;
+    public static final String AUDIOTYPE = "AUDIOTYPE";
     private final long messageId;
     private final int requestType;
     private final Map parameterMap;

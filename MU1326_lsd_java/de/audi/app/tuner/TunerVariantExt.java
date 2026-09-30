@@ -39,17 +39,14 @@ implements ITunerVariantExt {
     private final AbstractListRowFactory listRowFactory = new ListRowFactoryEvo();
     private CombiBAPServiceElementFactoryEvo combiBapServiceElementFactory = new CombiBAPServiceElementFactoryEvo();
 
-    @Override
     public AbstractListRowFactory getListRowFactory() {
         return this.listRowFactory;
     }
 
-    @Override
     public IMemListStorage getMemListStorage(IStorageAccess iStorageAccess, LogChannel logChannel, AbstractListRowFactory abstractListRowFactory) {
         return new MemListStorageEvo(iStorageAccess, logChannel, abstractListRowFactory);
     }
 
-    @Override
     public void showPartialPopup(int n) {
         int n2 = CUSTOMID_TO_EXTERNALID.get(n);
         if (n2 != -1) {
@@ -57,7 +54,6 @@ implements ITunerVariantExt {
         }
     }
 
-    @Override
     public void hidePartialPopup(int n) {
         int n2 = CUSTOMID_TO_EXTERNALID.get(n);
         if (n2 != -1) {
@@ -65,7 +61,6 @@ implements ITunerVariantExt {
         }
     }
 
-    @Override
     public int getPopupId(int n) {
         int n2 = CUSTOMID_TO_EXTERNALID.get(n);
         if (n2 == -1) {
@@ -74,22 +69,18 @@ implements ITunerVariantExt {
         return n2;
     }
 
-    @Override
     public int getFavoriteScreenId() {
-        return -1132068608;
+        return 100028;
     }
 
-    @Override
     public String getBandString(int n) {
         return Utilities.getHMIServiceApp().getText(AppTunerTextConstants.TEXT_CONST_TUNER_BANDS[n]);
     }
 
-    @Override
     public SDARSStationListHandler getSDARSStationListHandler(SDARSTuner sDARSTuner, TunerBasics tunerBasics, IStoreHandler iStoreHandler, LanguageManager languageManager, AbstractListRowFactory abstractListRowFactory, IScanHandler iScanHandler, TunerStorage tunerStorage) {
         return new SDARSStationListHandler(sDARSTuner, tunerBasics, iStoreHandler, languageManager, abstractListRowFactory, iScanHandler, tunerStorage);
     }
 
-    @Override
     public HMIResourceLocator getDefaultImage(int n) {
         int n2 = -1;
         switch (n) {
@@ -126,39 +117,35 @@ implements ITunerVariantExt {
         return new HMIResourceLocator(buffer.toString());
     }
 
-    @Override
     public int getVirtualButtonModel(int n) {
         return -1;
     }
 
-    @Override
     public AbstractSeekListSizeRistrictionHandler getSeekListRestriction(TunerBasics tunerBasics, SDARSDSISeekDownManager sDARSDSISeekDownManager) {
         return new SeekListSizeRestrictionHandlerSimple(tunerBasics, sDARSDSISeekDownManager);
     }
 
-    @Override
     public IAlertListBuilder getSdarsAlertListBuilder() {
         return new DefaultAlertListBuilder();
     }
 
-    @Override
     public ICombiBAPServiceElementFactory getCombiBAPServiceElementFactory() {
         return this.combiBapServiceElementFactory;
     }
 
     static {
-        CUSTOMID_TO_EXTERNALID.add(1, 193396992);
-        CUSTOMID_TO_EXTERNALID.add(2, 981926144);
-        CUSTOMID_TO_EXTERNALID.add(3, 210174208);
+        CUSTOMID_TO_EXTERNALID.add(1, 100107);
+        CUSTOMID_TO_EXTERNALID.add(2, 100154);
+        CUSTOMID_TO_EXTERNALID.add(3, 100108);
         CUSTOMID_TO_EXTERNALID.add(6, 23);
-        CUSTOMID_TO_EXTERNALID.add(9, 998703360);
-        CUSTOMID_TO_EXTERNALID.add(10, 948371712);
-        CUSTOMID_TO_EXTERNALID.add(11, 965148928);
-        CUSTOMID_TO_EXTERNALID.add(13, 1015480576);
-        CUSTOMID_TO_EXTERNALID.add(14, 1015480576);
-        CUSTOMID_TO_EXTERNALID.add(15, 1032257792);
-        CUSTOMID_TO_EXTERNALID.add(16, 1082589440);
-        CUSTOMID_TO_EXTERNALID.add(17, 1082589440);
+        CUSTOMID_TO_EXTERNALID.add(9, 100155);
+        CUSTOMID_TO_EXTERNALID.add(10, 100152);
+        CUSTOMID_TO_EXTERNALID.add(11, 100153);
+        CUSTOMID_TO_EXTERNALID.add(13, 100156);
+        CUSTOMID_TO_EXTERNALID.add(14, 100156);
+        CUSTOMID_TO_EXTERNALID.add(15, 100157);
+        CUSTOMID_TO_EXTERNALID.add(16, 100160);
+        CUSTOMID_TO_EXTERNALID.add(17, 100160);
     }
 }
 

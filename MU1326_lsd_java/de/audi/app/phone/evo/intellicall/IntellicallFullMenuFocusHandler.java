@@ -1,5 +1,8 @@
 /*
  * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  de.mib.swdiagnosis.phone.IPhoneDiagComponent
  */
 package de.audi.app.phone.evo.intellicall;
 
@@ -9,7 +12,6 @@ import de.audi.app.phone.core.ap.IActionProxyListener;
 import de.audi.app.phone.core.calllist.AbstractPhoneCall;
 import de.audi.app.phone.core.state.IGlobalTelephoneStateStruct;
 import de.audi.app.phone.core.util.PhoneUtils;
-import de.audi.app.phone.evo.intellicall.IntellicallFullMenuFocusHandler$IntellicallFullMenuFocusHandlerDiag;
 import de.audi.app.phone.evo.intellicall.search.IntellicallADBEntryDetailsResultRow;
 import de.audi.app.phone.evo.intellicall.search.IntellicallADBSearchResultRow;
 import de.audi.app.phone.evo.intellicall.search.IntellicallCallStackSearchResultRow;
@@ -17,6 +19,7 @@ import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.hmi.model.menu.MenuModelListener;
 import de.audi.atip.hmi.model.menu.focus.FocusAdvice;
 import de.audi.atip.hmi.modelaccess.ResourceLocatorModelApp;
+import de.mib.swdiagnosis.phone.IPhoneDiagComponent;
 import java.util.Map;
 import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.telephoneng.CallStackEntry;
@@ -25,14 +28,14 @@ public class IntellicallFullMenuFocusHandler
 extends AbstractPhoneComponent
 implements MenuModelListener,
 IActionProxyListener {
-    private static final int ROW_IGNORE;
-    private static final int MENU_ITEM_CALL_LIST;
-    private static final int MENU_ITEM_DTMF;
-    private static final int MENU_ITEM_SEARCH_FIELD;
-    public static final int MENU_ITEM_MAILBOX;
-    private static final int MENU_ITEM_CALLSTACK_LIST;
-    private static final int MENU_ITEM_SPELLER_CONTENT;
-    private static final int MENU_ITEM_SEARCH_RESULT_LIST;
+    private static final int ROW_IGNORE = -1;
+    private static final int MENU_ITEM_CALL_LIST = 300827;
+    private static final int MENU_ITEM_DTMF = 300732;
+    private static final int MENU_ITEM_SEARCH_FIELD = 200;
+    public static final int MENU_ITEM_MAILBOX = 300627;
+    private static final int MENU_ITEM_CALLSTACK_LIST = 300441;
+    private static final int MENU_ITEM_SPELLER_CONTENT = 300468;
+    private static final int MENU_ITEM_SEARCH_RESULT_LIST = 300718;
     private volatile IGlobalTelephoneStateStruct telephoneState;
 
     private static String getMenuItemName(int n) {
@@ -77,35 +80,31 @@ IActionProxyListener {
         super(iTelApplication, "App.Phone.Main");
     }
 
-    @Override
     public void init() {
         this.getApplication().getGlobalTelephoneStateManager().registerListener(this);
-        this.getMenuModel(-929692672).setListener(this);
-        this.getResourceLocatorModel(177669120).setStatus(0);
-        this.getApplication().addDiagnosisComponent(new IntellicallFullMenuFocusHandler$IntellicallFullMenuFocusHandlerDiag(this, null));
+        this.getMenuModel(300744).setListener(this);
+        this.getResourceLocatorModel(300810).setStatus(0);
+        this.getApplication().addDiagnosisComponent(new IntellicallFullMenuFocusHandlerDiag());
         this.getApplication().getActionProxyDispatcher().addActionProxyListener(18, this);
     }
 
-    @Override
     public void deinit() {
         this.getApplication().getGlobalTelephoneStateManager().removeListener(this);
-        this.getMenuModel(-929692672).resetListener();
+        this.getMenuModel(300744).resetListener();
         this.getApplication().getActionProxyDispatcher().removeActionProxyListener(18, this);
     }
 
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         this.telephoneState = iGlobalTelephoneStateStruct;
     }
 
-    @Override
     public void itemFocused(int n, int n2, long l, int n3) {
-        this.log.log(-2137614336, "[IntellicallFullMenuFocusHandler#itemFocused] %1", (Object)IntellicallFullMenuFocusHandler.getMenuItemName(n));
+        this.log.log(10000000, "[IntellicallFullMenuFocusHandler#itemFocused] %1", (Object)IntellicallFullMenuFocusHandler.getMenuItemName(n));
         this.checkShowPicture(n, l);
     }
 
     protected void checkShowPicture(int n, long l) {
-        if (n == -1718287360) {
+        if (n == 300441) {
             CallStackEntry callStackEntry = null;
             CallStackEntry[] callStackEntryArray = this.telephoneState.getCombinedCallStackEntries();
             for (int i2 = 0; i2 < callStackEntryArray.length; ++i2) {
@@ -116,7 +115,7 @@ IActionProxyListener {
             if (callStackEntry != null) {
                 this.setPictureModel(callStackEntry.getAdbPictureID());
             }
-        } else if (n == -1365900288) {
+        } else if (n == 300718) {
             EvoListRow evoListRow = this.getBaseListModel(n).getRowByUniqueID(l);
             if (evoListRow instanceof IntellicallCallStackSearchResultRow) {
                 IntellicallCallStackSearchResultRow intellicallCallStackSearchResultRow = (IntellicallCallStackSearchResultRow)evoListRow;
@@ -135,16 +134,16 @@ IActionProxyListener {
 
     private void setPictureModel(ResourceLocator resourceLocator) {
         if (PhoneUtils.isPictureAvailable(resourceLocator)) {
-            this.getResourceLocatorModel(177669120).setResourceLocator(resourceLocator.getId(), resourceLocator.getUrl());
-            this.getResourceLocatorModel(177669120).setStatus(1);
+            this.getResourceLocatorModel(300810).setResourceLocator(resourceLocator.getId(), resourceLocator.getUrl());
+            this.getResourceLocatorModel(300810).setStatus(1);
         } else {
             this.resetPictureModel();
         }
     }
 
     private void resetPictureModel() {
-        this.getResourceLocatorModel(177669120).setResourceLocator(-1, ResourceLocatorModelApp.UNDEFINED_URI);
-        this.getResourceLocatorModel(177669120).setStatus(0);
+        this.getResourceLocatorModel(300810).setResourceLocator(-1, ResourceLocatorModelApp.UNDEFINED_URI);
+        this.getResourceLocatorModel(300810).setStatus(0);
     }
 
     private void focusMenuItem(int n, FocusAdvice focusAdvice) {
@@ -152,8 +151,8 @@ IActionProxyListener {
     }
 
     private void focusMenuItem(int n, FocusAdvice focusAdvice, long l) {
-        this.log.log(1078071040, "[IntellicallFullMenuFocusHandler#focusMenuItem] menuItemID=%2, focusAdvice=%1, rowUniqueID=%3", (Object)focusAdvice, (Object)IntellicallFullMenuFocusHandler.getMenuItemName(n), l);
-        this.getMenuModel(-929692672).setFocusedItem(n, focusAdvice, l);
+        this.log.log(1000000, "[IntellicallFullMenuFocusHandler#focusMenuItem] menuItemID=%2, focusAdvice=%1, rowUniqueID=%3", (Object)focusAdvice, (Object)IntellicallFullMenuFocusHandler.getMenuItemName(n), l);
+        this.getMenuModel(300744).setFocusedItem(n, focusAdvice, l);
     }
 
     private void focusSearchField() {
@@ -165,15 +164,15 @@ IActionProxyListener {
     }
 
     public void focusDtmf() {
-        this.focusMenuItem(-1131019264, FocusAdvice.KEEP_POSITION);
+        this.focusMenuItem(300732, FocusAdvice.KEEP_POSITION);
     }
 
     void focusMailbox() {
-        this.focusMenuItem(1402340352, FocusAdvice.KEEP_POSITION);
+        this.focusMenuItem(300627, FocusAdvice.KEEP_POSITION);
     }
 
     void focusSpellerContentLabel() {
-        this.focusMenuItem(-1265302528, FocusAdvice.KEEP_POSITION);
+        this.focusMenuItem(300468, FocusAdvice.KEEP_POSITION);
     }
 
     void focusActiveCall() {
@@ -195,22 +194,55 @@ IActionProxyListener {
     }
 
     void focusCallList(int n) {
-        this.focusMenuItem(462881792, FocusAdvice.KEEP_POSITION, n);
+        this.focusMenuItem(300827, FocusAdvice.KEEP_POSITION, n);
     }
 
-    @Override
     public void actionProxyCallPerformed(int n, Map map) {
         if (n == 18) {
-            this.getMenuModel(-929692672).resetFocusedItem();
+            this.getMenuModel(300744).resetFocusedItem();
         }
     }
 
-    static /* synthetic */ void access$100(IntellicallFullMenuFocusHandler intellicallFullMenuFocusHandler) {
-        intellicallFullMenuFocusHandler.focusSearchField();
-    }
+    private class IntellicallFullMenuFocusHandlerDiag
+    implements IPhoneDiagComponent {
+        private IntellicallFullMenuFocusHandlerDiag() {
+        }
 
-    static /* synthetic */ void access$200(IntellicallFullMenuFocusHandler intellicallFullMenuFocusHandler, int n, FocusAdvice focusAdvice, long l) {
-        intellicallFullMenuFocusHandler.focusMenuItem(n, focusAdvice, l);
+        public void cmdIntellicallFullFocusCallList(int n) {
+            IntellicallFullMenuFocusHandler.this.focusCallList(n);
+        }
+
+        public void cmdIntellicallFullFocusDTMF() {
+            IntellicallFullMenuFocusHandler.this.focusDtmf();
+        }
+
+        public void cmdIntellicallFullFocusSearchField() {
+            IntellicallFullMenuFocusHandler.this.focusSearchField();
+        }
+
+        public void cmdIntellicallFullFocusMailbox() {
+            IntellicallFullMenuFocusHandler.this.focusMailbox();
+        }
+
+        public void cmdIntellicallFullFocusCallStackList(int n) {
+            IntellicallFullMenuFocusHandler.this.focusMenuItem(300441, FocusAdvice.KEEP_POSITION, n);
+        }
+
+        public void cmdIntellicallFullFocusSpellerContent() {
+            IntellicallFullMenuFocusHandler.this.focusSpellerContentLabel();
+        }
+
+        public void cmdIntellicallFullFocusSearchResultList(int n) {
+            IntellicallFullMenuFocusHandler.this.focusMenuItem(300718, FocusAdvice.KEEP_POSITION, n);
+        }
+
+        public void cmdIntellicallFullFocusActiveCall() {
+            IntellicallFullMenuFocusHandler.this.focusActiveCall();
+        }
+
+        public void cmdIntellicallFullFocusHeldCall() {
+            IntellicallFullMenuFocusHandler.this.focusHeldCall();
+        }
     }
 }
 

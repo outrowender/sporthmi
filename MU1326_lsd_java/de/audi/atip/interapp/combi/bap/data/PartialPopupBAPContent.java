@@ -3,17 +3,16 @@
  */
 package de.audi.atip.interapp.combi.bap.data;
 
-import de.audi.atip.interapp.combi.bap.data.PartialPopupBAPContent$SelectionOption;
 import de.esolutions.fw.util.commons.Buffer;
 
 public final class PartialPopupBAPContent {
     private int priority;
     private int context;
     private int initialCursorPosition;
-    private PartialPopupBAPContent$SelectionOption option1;
-    private PartialPopupBAPContent$SelectionOption option2;
-    private PartialPopupBAPContent$SelectionOption option3;
-    private PartialPopupBAPContent$SelectionOption option4;
+    private SelectionOption option1;
+    private SelectionOption option2;
+    private SelectionOption option3;
+    private SelectionOption option4;
     private String text;
     private int icon;
     private int maximumDisplayTime;
@@ -30,10 +29,10 @@ public final class PartialPopupBAPContent {
         this.priority = n;
         this.context = n2;
         this.initialCursorPosition = 0;
-        this.option1 = new PartialPopupBAPContent$SelectionOption();
-        this.option2 = new PartialPopupBAPContent$SelectionOption();
-        this.option3 = new PartialPopupBAPContent$SelectionOption();
-        this.option4 = new PartialPopupBAPContent$SelectionOption();
+        this.option1 = new SelectionOption();
+        this.option2 = new SelectionOption();
+        this.option3 = new SelectionOption();
+        this.option4 = new SelectionOption();
         this.text = string;
         this.icon = 0;
         this.maximumDisplayTime = 0;
@@ -87,7 +86,7 @@ public final class PartialPopupBAPContent {
         this.maximumDisplayTime = n;
     }
 
-    public PartialPopupBAPContent$SelectionOption getSelectionOption1() {
+    public SelectionOption getSelectionOption1() {
         return this.option1;
     }
 
@@ -97,7 +96,7 @@ public final class PartialPopupBAPContent {
         this.option1.optionString = string;
     }
 
-    public PartialPopupBAPContent$SelectionOption getSelectionOption2() {
+    public SelectionOption getSelectionOption2() {
         return this.option2;
     }
 
@@ -107,7 +106,7 @@ public final class PartialPopupBAPContent {
         this.option2.optionString = string;
     }
 
-    public PartialPopupBAPContent$SelectionOption getSelectionOption3() {
+    public SelectionOption getSelectionOption3() {
         return this.option3;
     }
 
@@ -117,7 +116,7 @@ public final class PartialPopupBAPContent {
         this.option3.optionString = string;
     }
 
-    public PartialPopupBAPContent$SelectionOption getSelectionOption4() {
+    public SelectionOption getSelectionOption4() {
         return this.option4;
     }
 
@@ -155,6 +154,47 @@ public final class PartialPopupBAPContent {
             }
         }
         return buffer.toString();
+    }
+
+    public static class SelectionOption {
+        int optionID;
+        int optionType;
+        String optionString;
+
+        public SelectionOption() {
+            this.optionID = -1;
+            this.optionType = 0;
+            this.optionString = "";
+        }
+
+        public SelectionOption(int n, int n2, String string) {
+            this.optionID = n;
+            this.optionType = n2;
+            this.optionString = string;
+        }
+
+        public int getOptionID() {
+            return this.optionID;
+        }
+
+        public int getOptionType() {
+            return this.optionType;
+        }
+
+        public String getOptionString() {
+            return this.optionString;
+        }
+
+        public boolean isAvailable() {
+            return this.optionType != 0;
+        }
+
+        public String toString() {
+            Buffer buffer = new Buffer();
+            buffer.append("type=").append(this.optionType);
+            buffer.append(", '").append(this.optionString).append("'");
+            return buffer.toString();
+        }
     }
 }
 

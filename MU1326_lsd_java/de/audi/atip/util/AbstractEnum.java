@@ -3,6 +3,7 @@
  */
 package de.audi.atip.util;
 
+import java.io.ObjectStreamException;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.List;
 public abstract class AbstractEnum
 implements Comparable,
 Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
     private final String name;
     private final int ordinal;
     static /* synthetic */ Class class$de$audi$atip$util$AbstractEnum;
@@ -84,22 +85,21 @@ Serializable {
         return super.equals(object);
     }
 
-    @Override
     public final int compareTo(Object object) {
         Class clazz;
-        Class clazz2 = super.getClass();
+        Class clazz2 = this.getClass();
         if (clazz2 != (clazz = object.getClass())) {
             throw new IllegalArgumentException(new StringBuffer().append("Given object is of type ").append(clazz).append(" but expected is type ").append(clazz2).append("!").toString());
         }
         return this.ordinal - ((AbstractEnum)object).ordinal;
     }
 
-    protected final Object clone() {
+    protected final Object clone() throws CloneNotSupportedException {
         throw new CloneNotSupportedException();
     }
 
-    public Object readResolve() {
-        return AbstractEnum.valueOf(super.getClass(), this.name);
+    public Object readResolve() throws ObjectStreamException {
+        return AbstractEnum.valueOf(this.getClass(), this.name);
     }
 
     static /* synthetic */ Class class$(String string) {

@@ -17,9 +17,8 @@ extends AbstractSearchResultFormatter {
         this.log = logChannel;
     }
 
-    @Override
     public SearchResultListRow formatResult(SearchResult searchResult) {
-        this.log.log(-2137614336, "[SearchResultFormatter.formatResult] %1", (Object)searchResult);
+        this.log.log(10000000, "[SearchResultFormatter.formatResult] %1", (Object)searchResult);
         return new RadioSearchListRow(searchResult);
     }
 }

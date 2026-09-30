@@ -39,47 +39,43 @@ extends AddressDisambiguator {
         this.previewMap = iPreviewMap;
     }
 
-    @Override
     protected void getBestPointAndNearestHNr() {
         LIValueList lIValueList = this.env.getContainer().getLispValueList();
-        this.env.getLabelModel(-903870976).setText(lIValueList.list[0].data);
+        this.env.getLabelModel(401610).setText(lIValueList.list[0].data);
     }
 
-    @Override
     protected void setListModels(int n) {
         switch (n) {
             case 5: {
-                this.matchSpeller = this.env.getMatchSpellerModel(-1860172288);
-                this.tiledList = this.env.getTiledListModel(-1390344704);
-                this.menuModel = this.env.getMenuModel(-1356790272);
+                this.matchSpeller = this.env.getMatchSpellerModel(401553);
+                this.tiledList = this.env.getTiledListModel(401837);
+                this.menuModel = this.env.getMenuModel(401839);
                 break;
             }
             case 4: {
-                this.matchSpeller = this.env.getMatchSpellerModel(-1256192512);
-                this.tiledList = this.env.getTiledListModel(-1340013056);
-                this.menuModel = this.env.getMenuModel(-1373567488);
+                this.matchSpeller = this.env.getMatchSpellerModel(401589);
+                this.tiledList = this.env.getTiledListModel(401840);
+                this.menuModel = this.env.getMenuModel(401838);
                 break;
             }
             default: {
-                this.matchSpeller = this.env.getMatchSpellerModel(-1256192512);
-                this.tiledList = this.env.getTiledListModel(-1340013056);
-                this.menuModel = this.env.getMenuModel(-1373567488);
-                this.logger.log(-1601830656, "AddressDisambiguatorEvo#fsetListModels no models implemented for parameter disambChoice=>>%1<<", (long)n);
+                this.matchSpeller = this.env.getMatchSpellerModel(401589);
+                this.tiledList = this.env.getTiledListModel(401840);
+                this.menuModel = this.env.getMenuModel(401838);
+                this.logger.log(100000, "AddressDisambiguatorEvo#fsetListModels no models implemented for parameter disambChoice=>>%1<<", (long)n);
             }
         }
         new AddressDisambiguatorHMIListener(this, this.env, this.homeAddressHandler, this.adbInterAppService, this.addressInputForm, this.previewMap);
-        this.env.getChoiceModel(1042286080).setValue(n);
+        this.env.getChoiceModel(401470).setValue(n);
     }
 
-    @Override
     protected void setSpellerInput(String string) {
         this.matchSpeller.setText(string);
     }
 
-    @Override
     protected boolean fillRowsIn(LIValueList lIValueList) {
         if (null == this.matchSpeller) {
-            this.logger.log(-1601830656, "AddressDisambiguatorEvo#fillRowsIn no match speller model set (setListModels(MatchspellerModelApp speller, BaseListModelApp list))");
+            this.logger.log(100000, "AddressDisambiguatorEvo#fillRowsIn no match speller model set (setListModels(MatchspellerModelApp speller, BaseListModelApp list))");
             return false;
         }
         this.matchSpeller.setValidChars(this.env.getContainer().getLispValidCharacters());

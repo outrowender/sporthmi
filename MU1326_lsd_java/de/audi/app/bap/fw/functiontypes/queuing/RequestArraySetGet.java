@@ -13,7 +13,6 @@ extends AbstractArrayRequest {
         super(bAPFunctionArrayASG, 0, setGetArray, n);
     }
 
-    @Override
     public boolean responseIsExpected() {
         return true;
     }

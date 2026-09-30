@@ -28,18 +28,15 @@ implements ADBSearch {
         this.appAdr = aDBApplication;
     }
 
-    @Override
     public void deinit(BundleContext bundleContext) {
         this.getActiveGuiSearchHandler().release();
         this.stopDSI(bundleContext);
     }
 
-    @Override
     public void startSearch() {
         ((AbstractADBTruffleSearchGuiHandler)this.getActiveGuiSearchHandler()).startSearch();
     }
 
-    @Override
     public void enableFiltering(boolean bl) {
         if (bl) {
             switch (this.appAdr.getAdbMode()) {
@@ -61,7 +58,6 @@ implements ADBSearch {
         }
     }
 
-    @Override
     public void setSearchResultDetails(ADBEntryDetailsListRow[] aDBEntryDetailsListRowArray, ADBSearchListRow aDBSearchListRow) {
         this.getActiveGuiSearchHandler().setChildrenNodes(aDBEntryDetailsListRowArray, (SearchResultListRow)((Object)aDBSearchListRow));
     }

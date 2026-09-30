@@ -6,8 +6,8 @@ package de.audi.app.phone.core.dsi.cmd;
 import de.audi.app.phone.core.dsi.ITelDSIMobileEquipmentRequestWrapper;
 import de.audi.app.phone.core.dsi.ITelDSIResponseListener;
 import de.audi.app.phone.core.dsi.cmd.AbstractTelDSIMECommand;
-import de.audi.app.phone.core.dsi.cmd.TelSIMPINRequiredCmd$1;
 import de.audi.atip.log.LogChannel;
+import de.audi.tghu.command.Command;
 import de.audi.tghu.command.CommandListManager;
 import de.audi.tghu.command.Monitor;
 
@@ -23,25 +23,32 @@ extends AbstractTelDSIMECommand {
     }
 
     public void schedule(CommandListManager commandListManager, Monitor monitor) {
-        TelSIMPINRequiredCmd.schedule(commandListManager, this, "TelSIMPINRequiredCmd", new TelSIMPINRequiredCmd$1(this, this.logger, "TelSIMPINRequiredCmdError"), monitor);
+        TelSIMPINRequiredCmd.schedule(commandListManager, this, "TelSIMPINRequiredCmd", new Command(this.logger, "TelSIMPINRequiredCmdError"){
+
+            public void execute() {
+                this.logger.log(100000, "[TelSIMPINRequiredCmd.schedule().new Command() {...}#execute] Error.");
+                if (TelSIMPINRequiredCmd.this.listener != null) {
+                    TelSIMPINRequiredCmd.this.listener.responseSIMPINRequired(65537, TelSIMPINRequiredCmd.this.terminalID);
+                }
+                this.getCommandList().commandFinished();
+            }
+        }, monitor);
     }
 
-    @Override
     public void execute() {
         if (this.logger.isInfo()) {
-            this.logger.log(1078071040, "[TelSIMPINRequiredCmd#execute] telCurrentCode=%1, simPINrequired=%2", (Object)String.valueOf(this.telCurrentCode), (Object)String.valueOf(this.simPINrequired));
+            this.logger.log(1000000, "[TelSIMPINRequiredCmd#execute] telCurrentCode=%1, simPINrequired=%2", (Object)String.valueOf(this.telCurrentCode), (Object)String.valueOf(this.simPINrequired));
         }
         if (this.isDSIAvailable()) {
             this.dsi.requestSIMPINRequired(this.telCurrentCode, this.simPINrequired);
         } else {
-            this.logger.log(-1601830656, "[TelSIMPINRequiredCmd#execute] dsi is null!");
+            this.logger.log(100000, "[TelSIMPINRequiredCmd#execute] dsi is null!");
             this.getCommandList().commandFinished();
         }
     }
 
-    @Override
     public void responseSIMPINRequired(int n) {
-        this.logger.log(1078071040, "[TelSIMPINRequiredCmd#responseSIMPINRequired] result=%1", (long)n);
+        this.logger.log(1000000, "[TelSIMPINRequiredCmd#responseSIMPINRequired] result=%1", (long)n);
         if (this.listener != null) {
             this.listener.responseSIMPINRequired(n, this.terminalID);
         }

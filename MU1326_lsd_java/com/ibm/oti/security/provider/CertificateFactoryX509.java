@@ -9,7 +9,6 @@ import com.ibm.oti.security.provider.X509CRL;
 import com.ibm.oti.security.provider.X509CertImpl;
 import com.ibm.oti.security.provider.X509Certificate;
 import com.ibm.oti.util.ASN1Decoder;
-import com.ibm.oti.util.ASN1Decoder$Node;
 import com.ibm.oti.util.ASN1Exception;
 import com.ibm.oti.util.BASE64Decoder;
 import com.ibm.oti.util.Msg;
@@ -32,13 +31,12 @@ import java.util.Vector;
 
 public class CertificateFactoryX509
 extends CertificateFactorySpi {
-    private static final String BEGIN_CERTIFICATE;
-    private static final String END_CERTIFICATE;
-    private static final String BEGIN_PKCS7;
-    private static final String END_PKCS7;
+    private static final String BEGIN_CERTIFICATE = "-----BEGIN CERTIFICATE-----";
+    private static final String END_CERTIFICATE = "-----END CERTIFICATE-----";
+    private static final String BEGIN_PKCS7 = "-----BEGIN PKCS7-----";
+    private static final String END_PKCS7 = "-----END PKCS7-----";
 
-    @Override
-    public Certificate engineGenerateCertificate(InputStream inputStream) {
+    public Certificate engineGenerateCertificate(InputStream inputStream) throws CertificateException {
         try {
             inputStream = new BufferedInputStream(inputStream);
             try {
@@ -53,8 +51,7 @@ extends CertificateFactorySpi {
         }
     }
 
-    @Override
-    public Collection engineGenerateCertificates(InputStream inputStream) {
+    public Collection engineGenerateCertificates(InputStream inputStream) throws CertificateException {
         Vector vector = new Vector();
         try {
             inputStream = new BufferedInputStream(inputStream);
@@ -87,8 +84,7 @@ extends CertificateFactorySpi {
         throw new CertificateException();
     }
 
-    @Override
-    public CRL engineGenerateCRL(InputStream inputStream) {
+    public CRL engineGenerateCRL(InputStream inputStream) throws CRLException {
         try {
             inputStream = new BufferedInputStream(inputStream);
             inputStream.mark(1024);
@@ -105,8 +101,7 @@ extends CertificateFactorySpi {
         }
     }
 
-    @Override
-    public Collection engineGenerateCRLs(InputStream inputStream) {
+    public Collection engineGenerateCRLs(InputStream inputStream) throws CRLException {
         Vector vector = new Vector();
         try {
             inputStream = new BufferedInputStream(inputStream);
@@ -133,8 +128,7 @@ extends CertificateFactorySpi {
         throw new CRLException();
     }
 
-    @Override
-    public CertPath engineGenerateCertPath(InputStream inputStream, String string) {
+    public CertPath engineGenerateCertPath(InputStream inputStream, String string) throws CertificateException {
         if (string.equals("PKCS7")) {
             return this.genCertPathFromPKCS7(inputStream);
         }
@@ -144,25 +138,25 @@ extends CertificateFactorySpi {
         throw new CertificateException(Msg.getString("K0300"));
     }
 
-    private CertPath genCertPathFromPkiPath(InputStream inputStream) {
+    private CertPath genCertPathFromPkiPath(InputStream inputStream) throws CertificateEncodingException, CertificateException {
         ASN1Decoder aSN1Decoder = new ASN1Decoder(inputStream);
         aSN1Decoder.collectBytes(true);
         aSN1Decoder.configureTypeRedirection(3, X509CertImpl.X509_MAPPER);
-        ASN1Decoder$Node aSN1Decoder$Node = null;
+        ASN1Decoder.Node node = null;
         try {
-            aSN1Decoder$Node = aSN1Decoder.readContents();
+            node = aSN1Decoder.readContents();
         }
         catch (ASN1Exception aSN1Exception) {
             throw new CertificateEncodingException(aSN1Exception.getMessage());
         }
-        if (aSN1Decoder$Node == null) {
+        if (node == null) {
             throw new CertificateEncodingException(Msg.getString("K039a"));
         }
-        ASN1Decoder$Node[] aSN1Decoder$NodeArray = (ASN1Decoder$Node[])aSN1Decoder$Node.data;
+        ASN1Decoder.Node[] nodeArray = (ASN1Decoder.Node[])node.data;
         LinkedList linkedList = new LinkedList();
         int n = 0;
-        while (n < aSN1Decoder$NodeArray.length) {
-            X509Certificate x509Certificate = X509Certificate.certificateFromASN1Object(aSN1Decoder$NodeArray[n], aSN1Decoder.collectedBytes());
+        while (n < nodeArray.length) {
+            X509Certificate x509Certificate = X509Certificate.certificateFromASN1Object(nodeArray[n], aSN1Decoder.collectedBytes());
             linkedList.add(x509Certificate);
             ++n;
         }
@@ -170,7 +164,7 @@ extends CertificateFactorySpi {
         return certPath;
     }
 
-    private CertPath genCertPathFromPKCS7(InputStream inputStream) {
+    private CertPath genCertPathFromPKCS7(InputStream inputStream) throws CertificateException, CertificateEncodingException {
         PKCS7 pKCS7;
         try {
             pKCS7 = this.parsePKCS7(inputStream);
@@ -184,13 +178,11 @@ extends CertificateFactorySpi {
         throw new CertificateEncodingException(Msg.getString("K0301"));
     }
 
-    @Override
-    public CertPath engineGenerateCertPath(InputStream inputStream) {
+    public CertPath engineGenerateCertPath(InputStream inputStream) throws CertificateException {
         return this.engineGenerateCertPath(inputStream, CertPathX509.getDefaultEncoding());
     }
 
-    @Override
-    public CertPath engineGenerateCertPath(List list) {
+    public CertPath engineGenerateCertPath(List list) throws CertificateException {
         int n = 0;
         while (n < list.size()) {
             if (!(list.get(n) instanceof X509Certificate)) {
@@ -201,20 +193,19 @@ extends CertificateFactorySpi {
         return new CertPathX509(list);
     }
 
-    @Override
     public Iterator engineGetCertPathEncodings() {
         return CertPathX509.getSupportedEncodings();
     }
 
-    private Certificate parsePEMCertificate(InputStream inputStream) {
+    private Certificate parsePEMCertificate(InputStream inputStream) throws CertificateException, IOException {
         inputStream.mark(1024);
         try {
             byte[] byArray = this.readLine(inputStream);
-            if (byArray == null || !CertificateFactoryX509.equals("-----BEGIN CERTIFICATE-----", byArray)) {
+            if (byArray == null || !CertificateFactoryX509.equals(BEGIN_CERTIFICATE, byArray)) {
                 throw new CertificateException();
             }
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            while (!CertificateFactoryX509.equals("-----END CERTIFICATE-----", byArray = this.readLine(inputStream))) {
+            while (!CertificateFactoryX509.equals(END_CERTIFICATE, byArray = this.readLine(inputStream))) {
                 byteArrayOutputStream.write(byArray);
             }
             byte[] byArray2 = null;
@@ -236,7 +227,7 @@ extends CertificateFactorySpi {
         }
     }
 
-    private Certificate parseDERCertificate(InputStream inputStream) {
+    private Certificate parseDERCertificate(InputStream inputStream) throws CertificateException, IOException {
         inputStream.mark(1024);
         try {
             return X509Certificate.certificateFromASN1Object(inputStream);
@@ -251,7 +242,7 @@ extends CertificateFactorySpi {
         }
     }
 
-    private PKCS7 parsePKCS7(InputStream inputStream) {
+    private PKCS7 parsePKCS7(InputStream inputStream) throws CertificateException, IOException {
         inputStream.mark(1024);
         try {
             return new PKCS7(inputStream);
@@ -264,11 +255,11 @@ extends CertificateFactorySpi {
         }
         inputStream.mark(1024);
         byte[] byArray = this.readLine(inputStream);
-        if (byArray == null || !CertificateFactoryX509.equals("-----BEGIN PKCS7-----", byArray)) {
+        if (byArray == null || !CertificateFactoryX509.equals(BEGIN_PKCS7, byArray)) {
             throw new CertificateException();
         }
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        while (!CertificateFactoryX509.equals("-----END PKCS7-----", byArray = this.readLine(inputStream))) {
+        while (!CertificateFactoryX509.equals(END_PKCS7, byArray = this.readLine(inputStream))) {
             byteArrayOutputStream.write(byArray);
         }
         byte[] byArray2 = BASE64Decoder.decode(byteArrayOutputStream.toByteArray());
@@ -285,7 +276,7 @@ extends CertificateFactorySpi {
         }
     }
 
-    private static boolean equals(String string, byte[] byArray) {
+    private static boolean equals(String string, byte[] byArray) throws CertificateException {
         if (byArray == null) {
             throw new CertificateException();
         }
@@ -302,7 +293,7 @@ extends CertificateFactorySpi {
         return true;
     }
 
-    private byte[] readLine(InputStream inputStream) {
+    private byte[] readLine(InputStream inputStream) throws IOException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(80);
         while (true) {
             int n = inputStream.read();

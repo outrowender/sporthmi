@@ -4,30 +4,23 @@
 package de.audi.remotehmi.ui.pag;
 
 public interface IImageUpdateContainer {
-    public static final int ID_TITLEIMAGE;
-    public static final int ID_LISTIMAGE;
-    public static final int ID_BUTTONIMAGE;
-    public static final int ID_COMMENT_IMAGE;
+    public static final int ID_TITLEIMAGE = 1;
+    public static final int ID_LISTIMAGE = 2;
+    public static final int ID_BUTTONIMAGE = 3;
+    public static final int ID_COMMENT_IMAGE = 4;
 
-    default public String getPath() {
-    }
+    public String getPath();
 
-    default public String getGridId() {
-    }
+    public String getGridId();
 
-    default public int getListIndex() {
-    }
+    public int getListIndex();
 
-    default public int getRowIndex() {
-    }
+    public int getRowIndex();
 
-    default public int getColumnLocation() {
-    }
+    public int getColumnLocation();
 
-    default public void setPath(String string) {
-    }
+    public void setPath(String var1);
 
-    default public void setColumnLocation(int n) {
-    }
+    public void setColumnLocation(int var1);
 }
 

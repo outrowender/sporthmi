@@ -17,7 +17,7 @@ import java.util.List;
 public final class BAPMethodRGActDeactWaitingForProperties
 implements IAcknowledgeListener,
 BAPFunctionDataListener {
-    private static final int NO_RESULT_RECEIVED;
+    private static final int NO_RESULT_RECEIVED = -1;
     private final CombiModuleNavi combiModuleNavi;
     private final BAPFunctionMethodFSG bapMethodRGActDeact;
     private final List propertiesToWaitFor = new ArrayList();
@@ -34,7 +34,7 @@ BAPFunctionDataListener {
      */
     public void rgActDeactStartResultReceived(RG_ActDeact_StartResult rG_ActDeact_StartResult) {
         int[] nArray;
-        this.combiModuleNavi.getLogChannel().log(-2137614336, "[BAPMethodRGActDeactWaitingForProperties#rgActDeactStartResultReceived]");
+        this.combiModuleNavi.getLogChannel().log(10000000, "[BAPMethodRGActDeactWaitingForProperties#rgActDeactStartResultReceived]");
         this.resultReceived = -1;
         this.waitingForFunctionSync = true;
         this.clearPropertiesToWaitFor();
@@ -62,36 +62,36 @@ BAPFunctionDataListener {
                     continue;
                 }
             }
-            this.combiModuleNavi.getLogChannel().log(-2137614336, "[BAPMethodRGActDeactWaitingForProperties#rgActDeactStartResultReceived] fctID=%1 not supported -> ignore", (long)nArray[i2]);
+            this.combiModuleNavi.getLogChannel().log(10000000, "[BAPMethodRGActDeactWaitingForProperties#rgActDeactStartResultReceived] fctID=%1 not supported -> ignore", (long)nArray[i2]);
         }
     }
 
     public void rgActDeactSyncFinished() {
         this.waitingForFunctionSync = false;
         if (this.isNoMorePropertiesToWaitFor()) {
-            this.combiModuleNavi.getLogChannel().log(-2137614336, "[BAPMethodRGActDeactWaitingForProperties#rgActDeactSyncFinished] send result");
+            this.combiModuleNavi.getLogChannel().log(10000000, "[BAPMethodRGActDeactWaitingForProperties#rgActDeactSyncFinished] send result");
             RG_ActDeact_Result rG_ActDeact_Result = (RG_ActDeact_Result)this.combiModuleNavi.createResultSerializer(34);
             rG_ActDeact_Result.rg_ActDeact_Result = this.resultReceived;
             this.bapMethodRGActDeact.resultREQ(rG_ActDeact_Result);
         } else {
-            this.combiModuleNavi.getLogChannel().log(-2137614336, "[BAPMethodRGActDeactWaitingForProperties#rgActDeactSyncFinished] sync finished, waiting for properties to be updated");
+            this.combiModuleNavi.getLogChannel().log(10000000, "[BAPMethodRGActDeactWaitingForProperties#rgActDeactSyncFinished] sync finished, waiting for properties to be updated");
         }
     }
 
     public void rgActDeactResultReceived(int n) {
-        this.combiModuleNavi.getLogChannel().log(-2137614336, "[BAPMethodRGActDeactWaitingForProperties#rgActDeactResultReceived] result=%1", (long)n);
+        this.combiModuleNavi.getLogChannel().log(10000000, "[BAPMethodRGActDeactWaitingForProperties#rgActDeactResultReceived] result=%1", (long)n);
         this.resultReceived = n;
         RG_ActDeact_Result rG_ActDeact_Result = (RG_ActDeact_Result)this.combiModuleNavi.createResultSerializer(34);
         rG_ActDeact_Result.rg_ActDeact_Result = n;
         this.bapMethodRGActDeact.setResultWaiting(n);
         if (n != 0) {
             rG_ActDeact_Result.rg_ActDeact_Result = n == 2 ? 0 : n;
-            this.combiModuleNavi.getLogChannel().log(-2137614336, "[BAPMethodRGActDeactWaitingForProperties#rgActDeactResultReceived] send result immediately");
+            this.combiModuleNavi.getLogChannel().log(10000000, "[BAPMethodRGActDeactWaitingForProperties#rgActDeactResultReceived] send result immediately");
             this.clearPropertiesToWaitFor();
             this.waitingForFunctionSync = false;
             this.bapMethodRGActDeact.resultREQ(rG_ActDeact_Result);
         } else if (!this.waitingForFunctionSync && this.isNoMorePropertiesToWaitFor()) {
-            this.combiModuleNavi.getLogChannel().log(-2137614336, "[BAPMethodRGActDeactWaitingForProperties#rgActDeactResultReceived] send result");
+            this.combiModuleNavi.getLogChannel().log(10000000, "[BAPMethodRGActDeactWaitingForProperties#rgActDeactResultReceived] send result");
             this.bapMethodRGActDeact.resultREQ(rG_ActDeact_Result);
         }
     }
@@ -126,7 +126,7 @@ BAPFunctionDataListener {
      */
     private void updateReceived(int n) {
         BAPFunctionPropertyFSG bAPFunctionPropertyFSG = this.combiModuleNavi.getBAPFunctionPropertyFSG(n);
-        this.combiModuleNavi.getLogChannel().log(-2137614336, "[BAPMethodRGActDeactWaitingForProperties#updateReceived] %1", (Object)bAPFunctionPropertyFSG.getFctIDDescription());
+        this.combiModuleNavi.getLogChannel().log(10000000, "[BAPMethodRGActDeactWaitingForProperties#updateReceived] %1", (Object)bAPFunctionPropertyFSG.getFctIDDescription());
         List list = this.propertiesToWaitFor;
         synchronized (list) {
             if (this.propertiesToWaitFor.contains(bAPFunctionPropertyFSG)) {
@@ -142,20 +142,16 @@ BAPFunctionDataListener {
         }
     }
 
-    @Override
     public void notifyDataValidChanged(int n, boolean bl) {
     }
 
-    @Override
     public void notifyDataChanged(int n) {
     }
 
-    @Override
     public void notifyDataUpdatedNoChange(int n) {
         this.updateReceived(n);
     }
 
-    @Override
     public void processAcknowledge(int n, int n2) {
         this.updateReceived(n);
     }

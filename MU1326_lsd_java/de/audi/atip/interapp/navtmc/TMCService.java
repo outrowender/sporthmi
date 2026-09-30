@@ -7,73 +7,53 @@ import org.dsi.ifc.navigation.NavRouteListData;
 import org.dsi.ifc.tmc.TmcMessage;
 
 public interface TMCService {
-    public static final long TMC_REPEAT_MIN_TIMESLOT;
-    public static final int TMC_REPEAT_SUCCESS;
-    public static final int TMC_REPEAT_NO_MESSAGE_AVAILABLE;
-    public static final int TMC_REPEAT_NO_TIMESLOT;
-    public static final int TMC_ABORTED;
-    public static final int OPTION_TRAFFICREROUTING_AUTO;
-    public static final int OPTION_TRAFFICREROUTING_SEMIDYNAMIC;
-    public static final int OPTION_TRAFFICREROUTING_OFF;
+    public static final long TMC_REPEAT_MIN_TIMESLOT = 2000L;
+    public static final int TMC_REPEAT_SUCCESS = 0;
+    public static final int TMC_REPEAT_NO_MESSAGE_AVAILABLE = 1;
+    public static final int TMC_REPEAT_NO_TIMESLOT = 2;
+    public static final int TMC_ABORTED = 3;
+    public static final int OPTION_TRAFFICREROUTING_AUTO = 0;
+    public static final int OPTION_TRAFFICREROUTING_SEMIDYNAMIC = 1;
+    public static final int OPTION_TRAFFICREROUTING_OFF = 2;
 
-    default public void updateDistanceToFinalDestination(int n) {
-    }
+    public void updateDistanceToFinalDestination(int var1);
 
-    default public void updateRgDestinationInfo(NavRouteListData[] navRouteListDataArray) {
-    }
+    public void updateRgDestinationInfo(NavRouteListData[] var1);
 
-    default public void updateIndexOfCurrentDestination(int n) {
-    }
+    public void updateIndexOfCurrentDestination(int var1);
 
-    default public void updateTimeToNextAnnouncement(long l) {
-    }
+    public void updateTimeToNextAnnouncement(long var1);
 
-    default public void updateRgActive(boolean bl) {
-    }
+    public void updateRgActive(boolean var1);
 
-    default public void updateDynamicRgActive(boolean bl) {
-    }
+    public void updateDynamicRgActive(boolean var1);
 
-    default public void updateTrafficRerouting(int n) {
-    }
+    public void updateTrafficRerouting(int var1);
 
-    default public void updateSemidynamicRouteGuidance(long l, boolean bl, boolean bl2, int n) {
-    }
+    public void updateSemidynamicRouteGuidance(long var1, boolean var3, boolean var4, int var5);
 
-    default public void updateTMCMapActive(boolean bl) {
-    }
+    public void updateTMCMapActive(boolean var1);
 
-    default public void updateNaviFullyOperable(boolean bl) {
-    }
+    public void updateNaviFullyOperable(boolean var1);
 
-    default public int repeatOrAbortTmcMessageReadOutSince(long l) {
-    }
+    public int repeatOrAbortTmcMessageReadOutSince(long var1);
 
-    default public void showHideTMCPopup() {
-    }
+    public void showHideTMCPopup();
 
-    default public void showTMCWarningPopup() {
-    }
+    public void showTMCWarningPopup();
 
-    default public void fillDetailScreen(TmcMessage tmcMessage) {
-    }
+    public void fillDetailScreen(TmcMessage var1);
 
-    default public void fillDetailScreen(TmcMessage tmcMessage, int n) {
-    }
+    public void fillDetailScreen(TmcMessage var1, int var2);
 
-    default public void setPreviewTrafficInfoTmcEvent(TmcMessage tmcMessage) {
-    }
+    public void setPreviewTrafficInfoTmcEvent(TmcMessage var1);
 
-    default public void setPreviewTrafficInfoTmcEvent(TmcMessage tmcMessage, int n) {
-    }
+    public void setPreviewTrafficInfoTmcEvent(TmcMessage var1, int var2);
 
-    default public void setPreviewTrafficInfoTmcEvent(TmcMessage tmcMessage, int n, boolean bl) {
-    }
+    public void setPreviewTrafficInfoTmcEvent(TmcMessage var1, int var2, boolean var3);
 
-    default public void leaveMapSemidynamicRouteScreen() {
-    }
+    public void leaveMapSemidynamicRouteScreen();
 
-    default public void updateTmcMessagesAhead(TmcMessage[] tmcMessageArray) {
-    }
+    public void updateTmcMessagesAhead(TmcMessage[] var1);
 }
 

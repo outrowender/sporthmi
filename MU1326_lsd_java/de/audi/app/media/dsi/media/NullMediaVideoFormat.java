@@ -8,20 +8,18 @@ import de.audi.atip.log.LogChannel;
 
 public class NullMediaVideoFormat
 implements IMediaVideoFormat {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "NullMediaVideoFormat";
     protected final LogChannel logger;
 
     public NullMediaVideoFormat(LogChannel logChannel) {
         this.logger = logChannel;
     }
 
-    @Override
     public boolean setVideoFormat(int n) {
-        this.logger.log(1078071040, "[%1.setVideoFormat]", (Object)"NullMediaVideoFormat");
+        this.logger.log(1000000, "[%1.setVideoFormat]", (Object)LOGCLASS);
         return false;
     }
 
-    @Override
     public int getHMIVideoFormatID(int n) {
         return 0;
     }

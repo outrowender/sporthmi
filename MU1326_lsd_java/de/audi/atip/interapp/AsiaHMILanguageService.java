@@ -4,12 +4,10 @@
 package de.audi.atip.interapp;
 
 public interface AsiaHMILanguageService {
-    public static final String ASIA_HMI_LANGUAGE_SERVICE_APP_NAME;
+    public static final String ASIA_HMI_LANGUAGE_SERVICE_APP_NAME = "AsiaHMILanguageService";
 
-    default public void updateLanguage(String string, int n) {
-    }
+    public void updateLanguage(String var1, int var2);
 
-    default public void updateAvailableLanguages(String[] stringArray, int n) {
-    }
+    public void updateAvailableLanguages(String[] var1, int var2);
 }
 

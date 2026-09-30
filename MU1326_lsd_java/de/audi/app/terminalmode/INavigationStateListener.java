@@ -4,7 +4,6 @@
 package de.audi.app.terminalmode;
 
 public interface INavigationStateListener {
-    default public void stateChanged(boolean bl) {
-    }
+    public void stateChanged(boolean var1);
 }
 

@@ -12,32 +12,26 @@ extends PlayViewListRequest {
         super(null, null, null, 1L);
     }
 
-    @Override
     public int getType() {
         return -1;
     }
 
-    @Override
     public String getName() {
         return "";
     }
 
-    @Override
     public void start() {
     }
 
-    @Override
     public void responsePlayView(int n, MediaListEntry[] mediaListEntryArray, int n2) {
     }
 
-    @Override
     public void abort(boolean bl) {
     }
 
     public void discardPlayViewRequests() {
     }
 
-    @Override
     public void errorListRequestAborted() {
     }
 }

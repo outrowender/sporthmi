@@ -4,13 +4,11 @@
 package de.audi.app.navi.evo.di.eu.wfm;
 
 import de.audi.app.navi.evo.di.eu.wfm.AbstractAddressInputScreenWorkFlowManagerEU;
-import de.audi.app.navi.evo.di.eu.wfm.AddressInputMainScreenWorkFlowManagerEU$1;
-import de.audi.app.navi.evo.di.eu.wfm.AddressInputMainScreenWorkFlowManagerEU$2;
-import de.audi.app.navi.evo.di.eu.wfm.AddressInputMainScreenWorkFlowManagerEU$3;
 import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.ICommandListFactory;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.command.LIGetStateCommand;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.di.AddressInputUtil;
 import de.audi.tghu.navi.app.li.SpellerStack;
 import de.audi.tghu.navi.app.li.sc.SpellerContext;
@@ -22,9 +20,8 @@ extends AbstractAddressInputScreenWorkFlowManagerEU {
         super(navigationEnv, iCommandListFactory, spellerStack);
     }
 
-    @Override
     public CommandList handleWorkFlow(CommandList commandList, int n) {
-        this.logChannel.log(-2137614336, "%1#handleWorkFlow - screenEventId=%2", (Object)this.CLASS_NAME, (long)n);
+        this.logChannel.log(10000000, "%1#handleWorkFlow - screenEventId=%2", (Object)this.CLASS_NAME, (long)n);
         switch (n) {
             case 7: {
                 this.createEuMainScreenStartWorkFlow(commandList);
@@ -90,16 +87,28 @@ extends AbstractAddressInputScreenWorkFlowManagerEU {
     }
 
     private void createEuMainScreenStartForRemoteHmiWorkFlow(CommandList commandList) {
-        this.logChannel.log(-2137614336, "%1#createEuMainScreenStartForRemoteHmiWorkFlow", (Object)this.CLASS_NAME);
-        commandList.add(new AddressInputMainScreenWorkFlowManagerEU$1(this, "Reset SpellerStack"));
+        this.logChannel.log(10000000, "%1#createEuMainScreenStartForRemoteHmiWorkFlow", (Object)this.CLASS_NAME);
+        commandList.add(new NavCommand("Reset SpellerStack"){
+
+            public void execute() {
+                AddressInputMainScreenWorkFlowManagerEU.this.spellerStack.reset();
+                this.getCommandList().commandFinished();
+            }
+        });
         SpellerContext spellerContext = this.getSpellerContext(75);
         commandList.add(new LIGetStateCommand(this.spellerStack, spellerContext));
         commandList.add(this.inputManager.getMainScreenListener().getStartCommandList());
     }
 
     private void createEuMainScreenStartWorkFlow(CommandList commandList) {
-        this.logChannel.log(-2137614336, "%1#createEuMainScreenStartWorkFlow", (Object)this.CLASS_NAME);
-        commandList.add(new AddressInputMainScreenWorkFlowManagerEU$2(this, "Reset SpellerStack"));
+        this.logChannel.log(10000000, "%1#createEuMainScreenStartWorkFlow", (Object)this.CLASS_NAME);
+        commandList.add(new NavCommand("Reset SpellerStack"){
+
+            public void execute() {
+                AddressInputMainScreenWorkFlowManagerEU.this.spellerStack.reset();
+                this.getCommandList().commandFinished();
+            }
+        });
         SpellerContext spellerContext = this.getSpellerContext(19);
         commandList.add(new LIGetStateCommand(this.spellerStack, spellerContext));
         Object object = commandList.get("startMainScreenNavLocation");
@@ -111,8 +120,14 @@ extends AbstractAddressInputScreenWorkFlowManagerEU {
     }
 
     private void createEuMainScreenStartForOnlineWorkFlow(CommandList commandList) {
-        this.logChannel.log(-2137614336, "%1#createEuMainScreenStartForOnlineWorkFlow", (Object)this.CLASS_NAME);
-        commandList.add(new AddressInputMainScreenWorkFlowManagerEU$3(this, "Reset SpellerStack"));
+        this.logChannel.log(10000000, "%1#createEuMainScreenStartForOnlineWorkFlow", (Object)this.CLASS_NAME);
+        commandList.add(new NavCommand("Reset SpellerStack"){
+
+            public void execute() {
+                AddressInputMainScreenWorkFlowManagerEU.this.spellerStack.reset();
+                this.getCommandList().commandFinished();
+            }
+        });
         SpellerContext spellerContext = this.getSpellerContext(48);
         commandList.add(new LIGetStateCommand(this.spellerStack, spellerContext));
         commandList.add(this.inputManager.getMainScreenListener().getStartCommandListForOnline());
@@ -120,9 +135,9 @@ extends AbstractAddressInputScreenWorkFlowManagerEU {
 
     private void createEuMainScreenCountryWorkFlow(CommandList commandList, boolean bl) {
         SpellerContext spellerContext;
-        this.logChannel.log(-2137614336, "%1#createEuMainScreenCountryWorkFlow - startedWithDirectWriting=%2", (Object)this.CLASS_NAME, (Object)Boolean.toString(bl));
+        this.logChannel.log(10000000, "%1#createEuMainScreenCountryWorkFlow - startedWithDirectWriting=%2", (Object)this.CLASS_NAME, (Object)Boolean.toString(bl));
         if (this.inputManager.getActiveSpellerContextId() == 75) {
-            this.logChannel.log(-2137614336, "%1#CTX - CTX_DI_EU_COUNTRY_SCREEN_FOR_REMOTE_HMI", (Object)this.CLASS_NAME);
+            this.logChannel.log(10000000, "%1#CTX - CTX_DI_EU_COUNTRY_SCREEN_FOR_REMOTE_HMI", (Object)this.CLASS_NAME);
             spellerContext = this.getSpellerContext(104);
         } else {
             spellerContext = this.getSpellerContext(20);
@@ -137,7 +152,7 @@ extends AbstractAddressInputScreenWorkFlowManagerEU {
     }
 
     private void createEuMainScreenCityZipWorkFlow(CommandList commandList, boolean bl) {
-        this.logChannel.log(-2137614336, "%1#createEuMainScreenCityZipWorkFlow - startedWithDirectWriting=%2", (Object)this.CLASS_NAME, (Object)Boolean.toString(bl));
+        this.logChannel.log(10000000, "%1#createEuMainScreenCityZipWorkFlow - startedWithDirectWriting=%2", (Object)this.CLASS_NAME, (Object)Boolean.toString(bl));
         SpellerContext spellerContext = this.inputManager.getActiveSpellerContextId() == 48 ? this.getSpellerContext(49) : (this.inputManager.getActiveSpellerContextId() == 75 ? this.getSpellerContext(77) : this.getSpellerContext(21));
         commandList.add(new LIGetStateCommand(this.spellerStack, spellerContext));
         if (bl) {
@@ -149,7 +164,7 @@ extends AbstractAddressInputScreenWorkFlowManagerEU {
     }
 
     private void createEuMainScreenStreetWorkFlow(CommandList commandList, boolean bl) {
-        this.logChannel.log(-2137614336, "%1#createEuMainScreenStreetWorkFlow - startedWithDirectWriting=%2", (Object)this.CLASS_NAME, (Object)Boolean.toString(bl));
+        this.logChannel.log(10000000, "%1#createEuMainScreenStreetWorkFlow - startedWithDirectWriting=%2", (Object)this.CLASS_NAME, (Object)Boolean.toString(bl));
         SpellerContext spellerContext = this.getSpellerContext(22);
         commandList.add(new LIGetStateCommand(this.spellerStack, spellerContext));
         if (bl) {
@@ -161,7 +176,7 @@ extends AbstractAddressInputScreenWorkFlowManagerEU {
     }
 
     private void createEuMainScreenHousenumberWorkFlow(CommandList commandList, boolean bl) {
-        this.logChannel.log(-2137614336, "%1#createEuMainScreenHousenumberWorkFlow - startedWithDirectWriting=%2", (Object)this.CLASS_NAME, (Object)Boolean.toString(bl));
+        this.logChannel.log(10000000, "%1#createEuMainScreenHousenumberWorkFlow - startedWithDirectWriting=%2", (Object)this.CLASS_NAME, (Object)Boolean.toString(bl));
         SpellerContext spellerContext = this.getSpellerContext(23);
         commandList.add(new LIGetStateCommand(this.spellerStack, spellerContext));
         if (AddressInputUtil.useHousenumberFreetextSpeller(this.env)) {
@@ -180,7 +195,7 @@ extends AbstractAddressInputScreenWorkFlowManagerEU {
     }
 
     private void createEuMainScreenJunctionWorkFlow(CommandList commandList, boolean bl) {
-        this.logChannel.log(-2137614336, "%1#createEuMainScreenJunctionWorkFlow - startedWithDirectWriting=%2", (Object)this.CLASS_NAME, (Object)Boolean.toString(bl));
+        this.logChannel.log(10000000, "%1#createEuMainScreenJunctionWorkFlow - startedWithDirectWriting=%2", (Object)this.CLASS_NAME, (Object)Boolean.toString(bl));
         SpellerContext spellerContext = this.getSpellerContext(24);
         commandList.add(new LIGetStateCommand(this.spellerStack, spellerContext));
         if (bl) {
@@ -192,7 +207,7 @@ extends AbstractAddressInputScreenWorkFlowManagerEU {
     }
 
     private void createEuMainScreenStartGuidanceWorkFlow(CommandList commandList) {
-        this.logChannel.log(-2137614336, "%1#createEuMainScreenStartGuidanceWorkFlow", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#createEuMainScreenStartGuidanceWorkFlow", (Object)this.CLASS_NAME);
     }
 }
 

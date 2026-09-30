@@ -16,8 +16,8 @@ public class PhoneRedialNumberCommand
 extends AbstractSystemCallCommand {
     protected final ITelServiceSDS phoneService;
     private final AddressBookSDSHandler adbHandler;
-    private static final int VALUE_PHONE_NUMBER;
-    private static final int VALUE_CONTACT;
+    private static final int VALUE_PHONE_NUMBER = 0;
+    private static final int VALUE_CONTACT = 1;
 
     public PhoneRedialNumberCommand(LogChannel logChannel, String string, SDSHandlerService sDSHandlerService, ITelServiceSDS iTelServiceSDS, AddressBookSDSHandler addressBookSDSHandler) {
         super(logChannel, string, sDSHandlerService);
@@ -25,18 +25,17 @@ extends AbstractSystemCallCommand {
         this.adbHandler = addressBookSDSHandler;
     }
 
-    @Override
     public void execute() {
         TelServiceCallStackEntry telServiceCallStackEntry = this.phoneService.getLastDialedNumber();
         if (telServiceCallStackEntry == null) {
-            this.logger.log(-1601830656, "%1#execute: No csEntry given!", (Object)this.getName());
+            this.logger.log(100000, "%1#execute: No csEntry given!", (Object)this.getName());
             this.sendResult(30002);
             return;
         }
         long l = telServiceCallStackEntry.getAdbEntryID();
-        this.logger.log(-2137614336, "%1#execute: adbEntryID=%2!", (Object)this.getName(), l);
+        this.logger.log(10000000, "%1#execute: adbEntryID=%2!", (Object)this.getName(), l);
         if (l > 0L) {
-            this.logger.log(-2137614336, "%1#execute: Valid adbEntryID available, storing it and sending OK!", (Object)this.getName());
+            this.logger.log(10000000, "%1#execute: Valid adbEntryID available, storing it and sending OK!", (Object)this.getName());
             this.setExtraPromptingLabesHook(telServiceCallStackEntry);
             this.adbHandler.setSelectedEntryID(l);
             SDSModelAccess.setPhoneRedialContentChoice(1);
@@ -44,9 +43,9 @@ extends AbstractSystemCallCommand {
             return;
         }
         String string = telServiceCallStackEntry.getNumber();
-        this.logger.log(-2137614336, "%1#execute: csNumber=%2!", (Object)this.getName(), (Object)string);
+        this.logger.log(10000000, "%1#execute: csNumber=%2!", (Object)this.getName(), (Object)string);
         if (SDSUtils.isEmpty(string)) {
-            this.logger.log(-1601830656, "%1#execute: No csNumber found!", (Object)this.getName());
+            this.logger.log(100000, "%1#execute: No csNumber found!", (Object)this.getName());
             this.sendResult(30002);
             return;
         }

@@ -22,20 +22,17 @@ public class PoiCallEvo
 extends AbstractPoiCall {
     public PoiCallEvo(AbstractOperatorCallMain abstractOperatorCallMain, TelephoneHandler telephoneHandler, OperatorCallCommandListManager operatorCallCommandListManager, NavigationHandler navigationHandler, IFrameworkAccess iFrameworkAccess, OperatorCallModelHandlerCommon operatorCallModelHandlerCommon, IntelliDestOperatorCallDataProvider intelliDestOperatorCallDataProvider, OnlinePOICall onlinePOICall, RemoteHMIService remoteHMIService) {
         super(abstractOperatorCallMain, telephoneHandler, operatorCallCommandListManager, navigationHandler, iFrameworkAccess, operatorCallModelHandlerCommon, intelliDestOperatorCallDataProvider, onlinePOICall, remoteHMIService);
-        this.logChannel.log(1078071040, "PoiCallEvo#constructor: called");
+        this.logChannel.log(1000000, "PoiCallEvo#constructor: called");
     }
 
-    @Override
     protected AbstractModelHandler createModelHandler() {
         return new PoiCallModelHandlerEvo(this.getFramework().getHMIService(), this);
     }
 
-    @Override
     protected AbstractOperatorCallDataContainer createNewOperatorCallDataContainer(IntelliDestOperatorCallDataProvider intelliDestOperatorCallDataProvider) {
         return new OperatorCallDataContainerEvo(this.getServiceTypeName(), this.framework, this.naviHandler, intelliDestOperatorCallDataProvider, this.shouldPersistLists(), this.shouldPersistCCP(), this.getMaxNumberOfCalls(), this.getMaxNumberOfPoisPerCall());
     }
 
-    @Override
     public int getCurrentPermissionToTransmitCcp() {
         return 1;
     }

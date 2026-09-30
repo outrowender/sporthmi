@@ -18,9 +18,8 @@ extends AbstractADBCommand {
         this.showOnlyUsableContacts = bl;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "SetContextSpecificVisibilityCommand#execute()");
+        this.logger.log(10000000, "SetContextSpecificVisibilityCommand#execute()");
         boolean bl = this.adbDSIAccess.setContextSpecificVisibility(this.showOnlyUsableContacts);
         if (!bl) {
             this.logger.log(10000, "SetContextSpecificVisibilityCommand#execute(): dsi call was not successful, finishing command.");
@@ -28,9 +27,8 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public void setContextSpecificVisibilityResult(int n) {
-        this.logger.log(-2137614336, "SetContextSpecificVisibilityCommand#setContextSpecificVisibilityResult(): success: %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
+        this.logger.log(10000000, "SetContextSpecificVisibilityCommand#setContextSpecificVisibilityResult(): success: %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
         this.commandList.commandFinished();
     }
 

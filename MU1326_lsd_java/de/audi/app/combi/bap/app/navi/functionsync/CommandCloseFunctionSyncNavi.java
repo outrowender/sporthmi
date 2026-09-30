@@ -15,7 +15,6 @@ extends AbstractCommandCloseFunctionSync {
         super(abstractCombiModule, abstractFunctionSynchronization);
     }
 
-    @Override
     protected StatusProperty createFunctionSynchronizationStatus() {
         return new FunctionSynchronisation_Status();
     }

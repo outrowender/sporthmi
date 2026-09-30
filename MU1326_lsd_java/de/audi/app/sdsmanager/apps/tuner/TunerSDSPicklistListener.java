@@ -21,12 +21,11 @@ extends DefaultBaseListModelListener {
         this.hmi = hMIService;
         this.sdsHandler = tunerSDSHandler;
         SDSUtils.initPickList(hMIService.getBaseListModel(3865), 2, this);
-        this.lc.log(-2137614336, "TunerSDSPicklistListener started.");
+        this.lc.log(10000000, "TunerSDSPicklistListener started.");
     }
 
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.lc.log(-2137614336, "TunerSDSPicklistListener#itemSelected: id=%1, row=%2 (0-indexed)", (long)n, (long)n2);
+        this.lc.log(10000000, "TunerSDSPicklistListener#itemSelected: id=%1, row=%2 (0-indexed)", (long)n, (long)n2);
         SDSUtils.handleItemSelected(n, n2, this.hmi, this.sdsHandler, this.lc);
     }
 }

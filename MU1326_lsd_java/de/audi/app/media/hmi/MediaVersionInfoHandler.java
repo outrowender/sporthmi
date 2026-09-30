@@ -11,7 +11,7 @@ import de.audi.app.media.dsi.media.IMediaVersionListener;
 public class MediaVersionInfoHandler
 extends AbstractMediaTerminalComponent
 implements IMediaVersionListener {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "MediaVersionInfoHandler";
     private final IMediaDSIBaseController dsiController;
 
     public MediaVersionInfoHandler(IMediaTerminal iMediaTerminal) {
@@ -20,36 +20,33 @@ implements IMediaVersionListener {
     }
 
     public void init() {
-        this.logger.hmi().log(1078071040, "[%1.init]", (Object)"MediaVersionInfoHandler");
+        this.logger.hmi().log(1000000, "[%1.init]", (Object)LOGCLASS);
         this.dsiController.addMediaVersionListener(this);
     }
 
     public void deinit() {
-        this.logger.hmi().log(1078071040, "[%1.deinit]", (Object)"MediaVersionInfoHandler");
+        this.logger.hmi().log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         this.dsiController.removeMediaVersionListener(this);
     }
 
-    @Override
     public void updateMediaApplicationVersion(String string) {
         if (null == string) {
             return;
         }
-        this.logger.hmi().log(1078071040, "[%1.updateMediaApplicationVersion] '%2'", (Object)"MediaVersionInfoHandler", (Object)string);
+        this.logger.hmi().log(1000000, "[%1.updateMediaApplicationVersion] '%2'", (Object)LOGCLASS, (Object)string);
         this.getLabelModel(3851).setText(string);
     }
 
-    @Override
     public void updateMetadataDBVersion(String string) {
         if (null == string) {
             return;
         }
-        this.logger.hmi().log(1078071040, "[%1.updateMetadataDBVersion] '%2'", (Object)"MediaVersionInfoHandler", (Object)string);
+        this.logger.hmi().log(1000000, "[%1.updateMetadataDBVersion] '%2'", (Object)LOGCLASS, (Object)string);
         this.getLabelModel(3850).setText(string);
     }
 
-    @Override
     public void updateCustomerUpdate(int n) {
-        this.logger.hmi().log(1078071040, "[%1.updateCustomerUpdate] '%2'", (Object)"MediaVersionInfoHandler", (long)n);
+        this.logger.hmi().log(1000000, "[%1.updateCustomerUpdate] '%2'", (Object)LOGCLASS, (long)n);
         this.getChoiceModel(4074).setValue(n);
     }
 }

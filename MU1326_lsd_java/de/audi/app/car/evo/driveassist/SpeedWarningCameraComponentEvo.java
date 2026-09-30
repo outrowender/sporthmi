@@ -16,20 +16,17 @@ extends AbstractSpeedWarningCameraComponent {
         super(iCarApplication);
     }
 
-    @Override
     protected void initVisibility() {
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-1792538368, (short)30);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-1775761152, (short)30);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600213, (short)30);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600214, (short)30);
         this.updateSpeedWarningCameraVisibilityState(this.speedWarningCameraVisiblityState);
     }
 
-    @Override
     protected void deinitVisibility() {
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-1792538368);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-1775761152);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600213);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600214);
     }
 
-    @Override
     protected void updateMenuEntryVisibility(TSDViewOptions tSDViewOptions) {
         int n = this.getMenuEntryVisibilityState(tSDViewOptions.getSpeedWarningThreshold());
         this.selectVariant(n);
@@ -48,26 +45,24 @@ extends AbstractSpeedWarningCameraComponent {
         }
         boolean bl = this.getApplication().getMenuEntryRegistry().updateSlotBinding(56, n2);
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[SpeedWarningCameraComponentEvo#selectVariant] variant='%1', menu entry manual speedwarning has been moved = '%2'", (Object)string, (Object)bl);
+            this.getLogChannel().log(1000000, "[SpeedWarningCameraComponentEvo#selectVariant] variant='%1', menu entry manual speedwarning has been moved = '%2'", (Object)string, (Object)bl);
         }
     }
 
-    @Override
     public int getID() {
         return 24;
     }
 
     private void updateMenuEntryVisibilitySpeedWarningCamera(boolean bl, int n) {
         if (bl) {
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1792538368, n);
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1775761152, 1);
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600213, n);
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600214, 1);
         } else {
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1775761152, n);
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1792538368, 1);
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600214, n);
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600213, 1);
         }
     }
 
-    @Override
     protected void updateSpeedWarningUnit(boolean bl) {
         this.speedWarningUnitKMPH = bl;
         this.updateMenuEntryVisibilitySpeedWarningCamera(bl, this.getSpeedWarningCameraVisiblityState());

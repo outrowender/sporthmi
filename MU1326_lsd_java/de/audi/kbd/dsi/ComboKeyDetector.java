@@ -16,10 +16,10 @@ import de.esolutions.fw.util.commons.IntList;
 
 final class ComboKeyDetector
 implements TimerListener {
-    private static final int STATE_INIT;
-    private static final int STATE_BEGIN_COMBO;
-    private static final int STATE_COMBO;
-    private static int T_KEY_DELAY;
+    private static final int STATE_INIT = 0;
+    private static final int STATE_BEGIN_COMBO = 1;
+    private static final int STATE_COMBO = 2;
+    private static int T_KEY_DELAY = 500;
     private final int[][] tableCombo;
     private int comboState = 0;
     private int key1;
@@ -50,19 +50,19 @@ implements TimerListener {
 
     public synchronized boolean keyPressedConsumed(int n, int n2) {
         if (KeyMap.isComboIgnoreKey(n)) {
-            this.log.log(-2137614336, "ComboKeyDetector.keyPressedConsumed: ignore key %1", (long)n);
+            this.log.log(10000000, "ComboKeyDetector.keyPressedConsumed: ignore key %1", (long)n);
             return false;
         }
         switch (this.comboState) {
             case 0: {
                 if (!this.isComboKey1(n)) break;
-                this.log.log(1078071040, "ComboKeyDetector.keyPressedConsumed: The first key of a combo key pair has been detected! (keyCode=%1, terminalID=%2)", (long)n, (long)n2);
+                this.log.log(1000000, "ComboKeyDetector.keyPressedConsumed: The first key of a combo key pair has been detected! (keyCode=%1, terminalID=%2)", (long)n, (long)n2);
                 this.comboState = 1;
                 this.key1 = n;
                 this.key1TerminalID = n2;
                 if (this.isDoublePressKey(this.key1)) {
-                    this.log.log(1078071040, "ComboKeyDetector.keyPressedConsumed: DoublePressComboKey detected(keyCode=%1, terminalID=%2)", (long)n, (long)n2);
-                    this.log.log(1078071040, "ComboKeyDetector.keyPressedConsumed: ReleaseKey for DoublePressComboKey will be consumed");
+                    this.log.log(1000000, "ComboKeyDetector.keyPressedConsumed: DoublePressComboKey detected(keyCode=%1, terminalID=%2)", (long)n, (long)n2);
+                    this.log.log(1000000, "ComboKeyDetector.keyPressedConsumed: ReleaseKey for DoublePressComboKey will be consumed");
                     this.consumeReleaseKeyList.add(this.key1);
                 }
                 this.keydelayTimer.restart();
@@ -70,13 +70,13 @@ implements TimerListener {
             }
             case 1: {
                 if (this.isComboKeyCombination(this.key1, n)) {
-                    this.log.log(1078071040, "ComboKeyDetector.keyPressedConsumed: The second key of a combo key pair has been detected! (keyCode=%1, terminalID=%2)", (long)n, (long)n2);
+                    this.log.log(1000000, "ComboKeyDetector.keyPressedConsumed: The second key of a combo key pair has been detected! (keyCode=%1, terminalID=%2)", (long)n, (long)n2);
                     this.comboState = 2;
                     this.key2 = n;
                     this.key2TerminalID = n2;
                     if (this.isDoublePressKey(this.key1) && this.key1 != n) {
-                        this.log.log(1078071040, "ComboKeyDetector.keyPressedConsumed: The second key of a combo key pair is not the same as the first one (keyCode=%1, terminalID=%2)", (long)n, (long)n2);
-                        this.log.log(1078071040, "ComboKeyDetector.keyPressedConsumed: consumeReleaseKeyList for key1:%1 will be removed", (long)this.key1);
+                        this.log.log(1000000, "ComboKeyDetector.keyPressedConsumed: The second key of a combo key pair is not the same as the first one (keyCode=%1, terminalID=%2)", (long)n, (long)n2);
+                        this.log.log(1000000, "ComboKeyDetector.keyPressedConsumed: consumeReleaseKeyList for key1:%1 will be removed", (long)this.key1);
                         this.consumeReleaseKeyList.removeElement(this.key1);
                     }
                     this.keydelayTimer.cancel();
@@ -84,18 +84,18 @@ implements TimerListener {
                     this.keycomboTimer.restart();
                     return true;
                 }
-                this.log.log(1078071040, "ComboKeyDetector.keyPressedConsumed: Abort combo key detection!");
+                this.log.log(1000000, "ComboKeyDetector.keyPressedConsumed: Abort combo key detection!");
                 this.kbdListener.triggerKeyPressedEvent(this.key1, this.key1TerminalID);
                 this.keydelayTimer.cancel();
                 this.comboState = 0;
                 break;
             }
             case 2: {
-                this.log.log(1078071040, "ComboKeyDetector.keyPressedConsumed: Abort combo key execution!");
+                this.log.log(1000000, "ComboKeyDetector.keyPressedConsumed: Abort combo key execution!");
                 this.comboState = 0;
                 this.kbdListener.triggerKeyPressedEvent(this.key1, this.key1TerminalID);
                 if (this.key1 == this.key2) {
-                    this.log.log(1078071040, "ComboKeyDetector.keyPressedConsumed: Abort combo key execution and send triggerKeyReleasedEvent for key1(%1) of DoubleKeyCombo!", (long)this.key1);
+                    this.log.log(1000000, "ComboKeyDetector.keyPressedConsumed: Abort combo key execution and send triggerKeyReleasedEvent for key1(%1) of DoubleKeyCombo!", (long)this.key1);
                     this.kbdListener.triggerKeyReleasedEvent(this.key1, this.key1TerminalID);
                 }
                 this.kbdListener.triggerKeyPressedEvent(this.key2, this.key2TerminalID);
@@ -107,12 +107,12 @@ implements TimerListener {
 
     public synchronized boolean keyReleasedConsumed(int n, int n2) {
         if (this.consumeReleaseKeyList.contains(n)) {
-            this.log.log(-2137614336, "ComboKeyDetector.keyReleasedConsumed: consume key %1", (long)n);
+            this.log.log(10000000, "ComboKeyDetector.keyReleasedConsumed: consume key %1", (long)n);
             this.consumeReleaseKeyList.removeElement(n);
             return true;
         }
         if (KeyMap.isComboIgnoreKey(n)) {
-            this.log.log(-2137614336, "ComboKeyDetector.keyReleasedConsumed: ignore key %1", (long)n);
+            this.log.log(10000000, "ComboKeyDetector.keyReleasedConsumed: ignore key %1", (long)n);
             return false;
         }
         switch (this.comboState) {
@@ -134,28 +134,27 @@ implements TimerListener {
         return false;
     }
 
-    @Override
     public synchronized void fireTimer(Timer timer) {
         if (this.keydelayTimer.equals(timer)) {
-            this.log.log(1078071040, "ComboKeyDetector.fireTimer: The key delay timer has been fired! (comboState=%1)", (long)this.comboState);
+            this.log.log(1000000, "ComboKeyDetector.fireTimer: The key delay timer has been fired! (comboState=%1)", (long)this.comboState);
             if (this.comboState == 1) {
                 this.kbdListener.triggerKeyPressedEvent(this.key1, this.key1TerminalID);
                 if (this.isDoublePressKey(this.key1) && !this.consumeReleaseKeyList.removeElement(this.key1)) {
-                    this.log.log(1078071040, "ComboKeyDetector.fireTimer: Also KeyReleasedEvent will be fired for key: %1 terminal: %2", (long)this.key1, (long)this.key1TerminalID);
+                    this.log.log(1000000, "ComboKeyDetector.fireTimer: Also KeyReleasedEvent will be fired for key: %1 terminal: %2", (long)this.key1, (long)this.key1TerminalID);
                     this.kbdListener.triggerKeyReleasedEvent(this.key1, this.key1TerminalID);
                 }
                 this.comboState = 0;
             }
         } else if (this.keycomboTimer.equals(timer)) {
-            this.log.log(1078071040, "ComboKeyDetector.fireTimer: The key combo timer has been fired! (comboState=%1)", (long)this.comboState);
+            this.log.log(1000000, "ComboKeyDetector.fireTimer: The key combo timer has been fired! (comboState=%1)", (long)this.comboState);
             if (this.comboState == 2) {
                 this.triggerComboKeyAction(this.key1, this.key2);
                 this.comboState = 0;
                 if (this.key1 != this.key2) {
-                    this.log.log(-2137614336, "ComboKeyDetector.fireTimer: store keys to consume release: key1=%1", (long)this.key1);
+                    this.log.log(10000000, "ComboKeyDetector.fireTimer: store keys to consume release: key1=%1", (long)this.key1);
                     this.consumeReleaseKeyList.add(this.key1);
                 }
-                this.log.log(-2137614336, "ComboKeyDetector.fireTimer: store keys to consume release: key2=%1", (long)this.key2);
+                this.log.log(10000000, "ComboKeyDetector.fireTimer: store keys to consume release: key2=%1", (long)this.key2);
                 this.consumeReleaseKeyList.add(this.key2);
             }
         } else {
@@ -164,7 +163,6 @@ implements TimerListener {
         }
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 
@@ -260,16 +258,12 @@ implements TimerListener {
     void makeScreenshot() {
         this.kbdScreenShotManager.doScreenShot();
         try {
-            Thread.sleep(0);
+            Thread.sleep(300L);
         }
         catch (InterruptedException interruptedException) {
             Thread.interrupted();
         }
         this.kbdListener.blinkScreen();
-    }
-
-    static {
-        T_KEY_DELAY = 500;
     }
 }
 

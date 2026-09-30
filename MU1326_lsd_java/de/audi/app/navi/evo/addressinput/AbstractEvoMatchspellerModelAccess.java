@@ -16,44 +16,42 @@ import org.dsi.ifc.navigation.LIValueListElement;
 
 public abstract class AbstractEvoMatchspellerModelAccess
 extends AbstractMatchspellerModelAccess {
-    public static final int CURSOR_POSITION_COUNTRY;
-    public static final int CURSOR_POSITION_CITY;
-    public static final int CURSOR_POSITION_STREET;
-    public static final int CURSOR_POSITION_HOUSENUMBER;
-    public static final int CURSOR_POSITION_CROSSING;
-    public static final int CURSOR_POSITION_START_ROUTE_GUIDANCE;
-    public static final int CURSOR_POSITION_CITY_CN;
-    public static final int CURSOR_POSITION_LOCATION_CN;
-    public static final int CURSOR_POSITION_STREET_CN;
-    public static final int CURSOR_POSITION_HOUSENUMBER_CN;
-    public static final int CURSOR_POSITION_INTERSECTION_CN;
-    public static final int CURSOR_POSITION_START_ROUTE_GUIDANCE_CN;
-    public static final int CURSOR_POSITION_PERFECTURE_JP;
-    public static final int CURSOR_POSITION_CITY_JP;
-    public static final int CURSOR_POSITION_FACILITY_JP;
-    public static final int CURSOR_POSITION_PLACENAME_JP;
-    public static final int CURSOR_POSITION_CHOMENUMBER_JP;
-    public static final int CURSOR_POSITION_START_ROUTE_GUIDANCE_JP;
-    public static final int CURSOR_POSITION_PROVINCE_KR;
-    public static final int CURSOR_POSITION_CITY_KR;
-    public static final int CURSOR_POSITION_FACILITY_KR;
-    public static final int CURSOR_POSITION_TOWNSTREET_KR;
-    public static final int CURSOR_POSITION_NUMBER_KR;
-    public static final int CURSOR_POSITION_START_ROUTE_GUIDANCE_KR;
+    public static final int CURSOR_POSITION_COUNTRY = 0;
+    public static final int CURSOR_POSITION_CITY = 1;
+    public static final int CURSOR_POSITION_STREET = 2;
+    public static final int CURSOR_POSITION_HOUSENUMBER = 3;
+    public static final int CURSOR_POSITION_CROSSING = 4;
+    public static final int CURSOR_POSITION_START_ROUTE_GUIDANCE = 5;
+    public static final int CURSOR_POSITION_CITY_CN = 1;
+    public static final int CURSOR_POSITION_LOCATION_CN = 2;
+    public static final int CURSOR_POSITION_STREET_CN = 3;
+    public static final int CURSOR_POSITION_HOUSENUMBER_CN = 4;
+    public static final int CURSOR_POSITION_INTERSECTION_CN = 5;
+    public static final int CURSOR_POSITION_START_ROUTE_GUIDANCE_CN = 6;
+    public static final int CURSOR_POSITION_PERFECTURE_JP = 1;
+    public static final int CURSOR_POSITION_CITY_JP = 2;
+    public static final int CURSOR_POSITION_FACILITY_JP = 3;
+    public static final int CURSOR_POSITION_PLACENAME_JP = 4;
+    public static final int CURSOR_POSITION_CHOMENUMBER_JP = 5;
+    public static final int CURSOR_POSITION_START_ROUTE_GUIDANCE_JP = 6;
+    public static final int CURSOR_POSITION_PROVINCE_KR = 1;
+    public static final int CURSOR_POSITION_CITY_KR = 2;
+    public static final int CURSOR_POSITION_FACILITY_KR = 3;
+    public static final int CURSOR_POSITION_TOWNSTREET_KR = 4;
+    public static final int CURSOR_POSITION_NUMBER_KR = 5;
+    public static final int CURSOR_POSITION_START_ROUTE_GUIDANCE_KR = 6;
 
     protected AbstractEvoMatchspellerModelAccess(NavigationEnv navigationEnv, int n, int n2, IAddressInputFormModelAccessHelper iAddressInputFormModelAccessHelper) {
         super(navigationEnv, n, n2, iAddressInputFormModelAccessHelper);
     }
 
-    @Override
     public void onUpdateLocation(NavLocation navLocation, Map map) {
         this.modelAccessHelper.onUpdateLocation(this.env, this.logChannel, navLocation, map);
     }
 
-    @Override
     public void onUpdateResultList(LIValueList lIValueList, long l, String string, boolean bl, int n, int n2) {
         LIValueListElement[] lIValueListElementArray;
-        this.logChannel.log(-2137614336, "%1#onUpdateResultList - matchCount=%2, currentInput=%3, fullMatch=%4", (Object)this.CLASS_NAME, (Object)new StringBuffer().append("").append(l).toString(), (Object)string, (Object)Boolean.toString(bl));
+        this.logChannel.log(10000000, "%1#onUpdateResultList - matchCount=%2, currentInput=%3, fullMatch=%4", (Object)this.CLASS_NAME, (Object)("" + l), (Object)string, (Object)Boolean.toString(bl));
         int n3 = Util.isEmpty(string) ? 0 : 1;
         LIValueListElement[] lIValueListElementArray2 = lIValueListElementArray = Util.isListValid(lIValueList) ? lIValueList.getList() : new LIValueListElement[]{};
         if (Util.isEmpty(string)) {
@@ -62,13 +60,12 @@ extends AbstractMatchspellerModelAccess {
         this.previewListModelApp.setLength((int)l);
         EvoListRow[] evoListRowArray = new AddressInputLIValueListElementListRow[lIValueListElementArray.length];
         for (int i2 = 0; i2 < lIValueListElementArray.length; ++i2) {
-            evoListRowArray[i2] = new AddressInputLIValueListElementListRow(lIValueListElementArray[i2], 160082217, new int[0]);
+            evoListRowArray[i2] = new AddressInputLIValueListElementListRow(lIValueListElementArray[i2], 698976777, new int[0]);
         }
         this.previewListModelApp.setRows(n, n2, evoListRowArray);
         this.matchSpellerModelApp.setMatchCount((int)l, n3);
     }
 
-    @Override
     public void onSpellerStatusChanged(int n) {
     }
 }

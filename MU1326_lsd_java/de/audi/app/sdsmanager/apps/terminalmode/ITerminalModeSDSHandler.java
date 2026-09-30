@@ -4,15 +4,13 @@
 package de.audi.app.sdsmanager.apps.terminalmode;
 
 public interface ITerminalModeSDSHandler {
-    public static final int PTT_PRESSED;
-    public static final int PTT_RELEASED_AFTER_SHORT_PRESS;
-    public static final int PTT_LONG_DETECTED;
-    public static final int PTT_RELEASED_AFTER_LONG_PRESS;
+    public static final int PTT_PRESSED = 0;
+    public static final int PTT_RELEASED_AFTER_SHORT_PRESS = 1;
+    public static final int PTT_LONG_DETECTED = 2;
+    public static final int PTT_RELEASED_AFTER_LONG_PRESS = 3;
 
-    default public boolean isTerminalModeDeviceActive() {
-    }
+    public boolean isTerminalModeDeviceActive();
 
-    default public boolean isTerminalModeSpeechActive() {
-    }
+    public boolean isTerminalModeSpeechActive();
 }
 

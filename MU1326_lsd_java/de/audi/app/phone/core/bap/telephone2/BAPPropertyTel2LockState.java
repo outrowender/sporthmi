@@ -16,23 +16,23 @@ import de.esolutions.fw.util.commons.job.DispatcherBase;
 class BAPPropertyTel2LockState
 extends AbstractTel2EnqueuedBAPPropertyHandler
 implements IBAPPropertyTel2LockStateService {
-    protected static final int LOCK_STATE_PUK_REQUIRED_ENTER_NEW_PIN;
-    private static final int LOCK_STATE_NO_LOCK;
-    private static final int LOCK_STATE_REQUIRE_PIN;
-    private static final int LOCK_STATE_REQUIRE_PIN2;
-    private static final int LOCK_STATE_PIN_BLOCKED_REQUIRE_PUK;
-    private static final int LOCK_STATE_PIN2BLOCKED_REQUIRE_PUK2;
-    private static final int LOCK_STATE_PUK_BLOCKED;
-    private static final int LOCK_STATE_PUK2BLOCKED;
-    private static final int LOCK_STATE_KEYPAD_BLOCKED;
-    private static final int LOCK_STATE_SIM_NOT_AVAILABLE_NOT_PLUGGED_IN;
-    private static final int LOCK_STATE_PI_NINVALID;
-    private static final int LOCK_STATE_PIN2INVALID;
-    private static final int LOCK_STATE_SI_MNOT_FUNCTIONAL_NOT_READABLE_OR_NOT_FUNCTIONAL;
-    private static final int LOCK_STATE_SI_MNOT_READY_CHECKING_SIM_CARD;
-    private static final int LOCK_STATE_REQUIRE_LOCK_CODE_CDMA_TDMA;
-    private static final int LOCK_STATE_REQUIRE_SECURITY_CODE;
-    private static final int LOCK_STATE_SECURITY_CODE_BLOCKED;
+    protected static final int LOCK_STATE_PUK_REQUIRED_ENTER_NEW_PIN = 255;
+    private static final int LOCK_STATE_NO_LOCK = 0;
+    private static final int LOCK_STATE_REQUIRE_PIN = 1;
+    private static final int LOCK_STATE_REQUIRE_PIN2 = 2;
+    private static final int LOCK_STATE_PIN_BLOCKED_REQUIRE_PUK = 3;
+    private static final int LOCK_STATE_PIN2BLOCKED_REQUIRE_PUK2 = 4;
+    private static final int LOCK_STATE_PUK_BLOCKED = 5;
+    private static final int LOCK_STATE_PUK2BLOCKED = 6;
+    private static final int LOCK_STATE_KEYPAD_BLOCKED = 7;
+    private static final int LOCK_STATE_SIM_NOT_AVAILABLE_NOT_PLUGGED_IN = 8;
+    private static final int LOCK_STATE_PI_NINVALID = 9;
+    private static final int LOCK_STATE_PIN2INVALID = 10;
+    private static final int LOCK_STATE_SI_MNOT_FUNCTIONAL_NOT_READABLE_OR_NOT_FUNCTIONAL = 11;
+    private static final int LOCK_STATE_SI_MNOT_READY_CHECKING_SIM_CARD = 12;
+    private static final int LOCK_STATE_REQUIRE_LOCK_CODE_CDMA_TDMA = 13;
+    private static final int LOCK_STATE_REQUIRE_SECURITY_CODE = 14;
+    private static final int LOCK_STATE_SECURITY_CODE_BLOCKED = 15;
     private volatile PhoneServiceProvider lockStateServiceProvider;
     private volatile int clusterLockState = -1;
     static /* synthetic */ Class class$de$audi$app$phone$core$bap$telephone2$IBAPPropertyTel2LockStateService;
@@ -126,14 +126,12 @@ implements IBAPPropertyTel2LockStateService {
         super(iTelApplication, dispatcherBase);
     }
 
-    @Override
     public void init() {
         super.init();
         this.lockStateServiceProvider = new PhoneServiceProvider((class$de$audi$app$phone$core$bap$telephone2$IBAPPropertyTel2LockStateService == null ? (class$de$audi$app$phone$core$bap$telephone2$IBAPPropertyTel2LockStateService = BAPPropertyTel2LockState.class$("de.audi.app.phone.core.bap.telephone2.IBAPPropertyTel2LockStateService")) : class$de$audi$app$phone$core$bap$telephone2$IBAPPropertyTel2LockStateService).getName(), this, null, this.getApplication().getBundleContext(), this.log);
         this.lockStateServiceProvider.startService();
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         if (this.lockStateServiceProvider != null) {
@@ -142,7 +140,6 @@ implements IBAPPropertyTel2LockStateService {
         }
     }
 
-    @Override
     protected boolean doProcessGlobalTelephoneStateUpdate(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         return iGlobalTelephoneStateStruct != null;
     }
@@ -163,7 +160,7 @@ implements IBAPPropertyTel2LockStateService {
                     buffer.append(n3);
                     buffer.append(" --> clusterLockState=");
                     buffer.append(n4);
-                    this.log.log(1078071040, "[BAPPropertyTel2LockState#updateCluster] %1", (Object)buffer);
+                    this.log.log(1000000, "[BAPPropertyTel2LockState#updateCluster] %1", (Object)buffer);
                 }
                 if (TelBAPManagerTel2Utils.telModeSupportsData(n3) || !bl) {
                     combiBAPServicePhone2.updateLockState(n4);
@@ -171,13 +168,12 @@ implements IBAPPropertyTel2LockStateService {
                 }
             }
         } else {
-            this.log.log(-1601830656, "[BAPPropertyTel2LockState#updateCluster] CombiBAPServicePhone2 is null --> NOP!");
+            this.log.log(100000, "[BAPPropertyTel2LockState#updateCluster] CombiBAPServicePhone2 is null --> NOP!");
         }
     }
 
-    @Override
     public void updateLockStatePUKNewPINRequired() {
-        this.log.log(1078071040, "[BAPPropertyTel2LockState#updateLockStatePUKNewPINRequired]");
+        this.log.log(1000000, "[BAPPropertyTel2LockState#updateLockStatePUKNewPINRequired]");
         IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct = this.getTelephoneState();
         if (iGlobalTelephoneStateStruct != null && iGlobalTelephoneStateStruct.getNadInstanceState() != null) {
             if (iGlobalTelephoneStateStruct.getNadInstanceState().getActivationState() != null) {
@@ -186,11 +182,10 @@ implements IBAPPropertyTel2LockStateService {
                 this.updateCluster(n, 255, n2);
             }
         } else {
-            this.log.log(-1601830656, "[BAPPropertyTel2LockState#updateLockStatePUKNewPINRequired] state is null --> NOP!");
+            this.log.log(100000, "[BAPPropertyTel2LockState#updateLockStatePUKNewPINRequired] state is null --> NOP!");
         }
     }
 
-    @Override
     protected void updateAsync() {
         IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct = this.getTelephoneState();
         if (iGlobalTelephoneStateStruct != null && iGlobalTelephoneStateStruct.getNadInstanceState() != null) {

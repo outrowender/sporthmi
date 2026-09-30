@@ -17,7 +17,6 @@ extends Command {
         this.setName("SdisCmdReleaseA2LS");
     }
 
-    @Override
     public void execute() {
         this.audioService.releaseConnection(308, 0);
         this.commandList.commandFinished();

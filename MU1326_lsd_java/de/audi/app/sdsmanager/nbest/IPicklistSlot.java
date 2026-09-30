@@ -4,22 +4,16 @@
 package de.audi.app.sdsmanager.nbest;
 
 public interface IPicklistSlot {
-    default public String getText() {
-    }
+    public String getText();
 
-    default public void setText(String string) {
-    }
+    public void setText(String var1);
 
-    default public String getObjectStringID() {
-    }
+    public String getObjectStringID();
 
-    default public long getObjID() {
-    }
+    public long getObjID();
 
-    default public int getIndex() {
-    }
+    public int getIndex();
 
-    default public boolean isDuplicateSlot(IPicklistSlot iPicklistSlot) {
-    }
+    public boolean isDuplicateSlot(IPicklistSlot var1);
 }
 

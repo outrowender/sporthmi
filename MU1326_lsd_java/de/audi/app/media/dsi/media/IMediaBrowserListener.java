@@ -4,16 +4,12 @@
 package de.audi.app.media.dsi.media;
 
 public interface IMediaBrowserListener {
-    default public void browseSourceActivated() {
-    }
+    public void browseSourceActivated();
 
-    default public void browseSourceDeactivated() {
-    }
+    public void browseSourceDeactivated();
 
-    default public void browseSourceInvalidated() {
-    }
+    public void browseSourceInvalidated();
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3);
 }
 

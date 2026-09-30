@@ -4,7 +4,6 @@
 package de.audi.atip.interapp.sm;
 
 public interface IInterappState {
-    default public String getStateName() {
-    }
+    public String getStateName();
 }
 

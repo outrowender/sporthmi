@@ -3,6 +3,7 @@
  */
 package de.audi.app.messaging.evo.devicerole;
 
+import de.audi.app.messaging.core.accounts.IAccountManagerListener;
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
 import de.audi.app.messaging.core.component.AbstractMessagingComponent;
 import de.audi.app.messaging.core.osgi.IServiceRegistry;
@@ -10,8 +11,6 @@ import de.audi.app.messaging.core.osgi.MessagingBundleContext;
 import de.audi.app.messaging.core.osgi.ServiceProperties;
 import de.audi.app.messaging.core.util.Logs;
 import de.audi.app.messaging.core.util.Strings;
-import de.audi.app.messaging.evo.devicerole.DeviceRoleManagerEvo$1;
-import de.audi.app.messaging.evo.devicerole.DeviceRoleManagerEvo$MyAccountManagerListener;
 import de.audi.atip.interapp.messaging.devicerole.DeviceRoleInfo;
 import de.audi.atip.interapp.messaging.devicerole.IDeviceRoleObserver;
 import org.dsi.ifc.messaging.MessagingAccount;
@@ -26,13 +25,11 @@ implements IDeviceRoleObserver {
         super(messagingBundleContext, "App.Messaging.Main");
     }
 
-    @Override
     public void init(AbstractMsgApplication abstractMsgApplication) {
         super.init(abstractMsgApplication);
-        abstractMsgApplication.getAccountManager().addListener(new DeviceRoleManagerEvo$MyAccountManagerListener(this, null));
+        abstractMsgApplication.getAccountManager().addListener(new MyAccountManagerListener());
     }
 
-    @Override
     public void connect(IServiceRegistry iServiceRegistry) {
         try {
             super.connect(iServiceRegistry);
@@ -56,18 +53,23 @@ implements IDeviceRoleObserver {
                     bl = true;
                 }
             }
-            this.log.log(1078071040, "[DeviceRoleManagerEvo#determineIfPrimaryAccountIsSelected] isSelectedAccountPrimary = %1", (Object)(bl ? "true" : "false"));
-            this.framework.getHmiServiceApp().getChoiceModel(-1684856576).setValue(bl ? 1 : 0);
+            this.log.log(1000000, "[DeviceRoleManagerEvo#determineIfPrimaryAccountIsSelected] isSelectedAccountPrimary = %1", (Object)(bl ? "true" : "false"));
+            this.framework.getHmiServiceApp().getChoiceModel(2200475).setValue(bl ? 1 : 0);
         }
         catch (Exception exception) {
             Logs.logException(this.log, exception, "[DeviceRoleManagerEvo#determineIfPrimaryAccountIsSelected]");
         }
     }
 
-    @Override
-    public void updateDeviceRoleInfo(DeviceRoleInfo deviceRoleInfo) {
-        this.log.log(1078071040, "[DeviceRoleManager#updateDeviceRoleInfo] primaryDeviceInfo = %1", (Object)deviceRoleInfo);
-        this.msgApp.getExecutorManager().getExternalTaskDispatcher().execute(new DeviceRoleManagerEvo$1(this, deviceRoleInfo));
+    public void updateDeviceRoleInfo(final DeviceRoleInfo deviceRoleInfo) {
+        this.log.log(1000000, "[DeviceRoleManager#updateDeviceRoleInfo] primaryDeviceInfo = %1", (Object)deviceRoleInfo);
+        this.msgApp.getExecutorManager().getExternalTaskDispatcher().execute(new Runnable(){
+
+            public void run() {
+                DeviceRoleManagerEvo.this.primaryDevice = deviceRoleInfo;
+                DeviceRoleManagerEvo.this.determineIfPrimaryAccountIsSelected();
+            }
+        });
     }
 
     static /* synthetic */ Class class$(String string) {
@@ -79,13 +81,14 @@ implements IDeviceRoleObserver {
         }
     }
 
-    static /* synthetic */ DeviceRoleInfo access$102(DeviceRoleManagerEvo deviceRoleManagerEvo, DeviceRoleInfo deviceRoleInfo) {
-        deviceRoleManagerEvo.primaryDevice = deviceRoleInfo;
-        return deviceRoleManagerEvo.primaryDevice;
-    }
+    private class MyAccountManagerListener
+    extends IAccountManagerListener.DefaultAccountManagerListener {
+        private MyAccountManagerListener() {
+        }
 
-    static /* synthetic */ void access$200(DeviceRoleManagerEvo deviceRoleManagerEvo) {
-        deviceRoleManagerEvo.determineIfPrimaryAccountIsSelected();
+        public void selectedAccountChanged() {
+            DeviceRoleManagerEvo.this.determineIfPrimaryAccountIsSelected();
+        }
     }
 }
 

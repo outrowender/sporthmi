@@ -34,13 +34,11 @@ extends KombiBrightnessDsiWrapper {
         return this.brightness;
     }
 
-    @Override
     public void updateDCBrightness(int n, int n2) {
     }
 
-    @Override
     public void setDSI(DSIBase dSIBase) {
-        this.lc.log(-1601830656, "setDSI( %1 )", (Object)dSIBase);
+        this.lc.log(100000, "setDSI( %1 )", (Object)dSIBase);
         if (dSIBase == null) {
             this.dsi = null;
             this.lc.log(10000, "KombiBrightnessHandler: DSICarKombi provider is NULL!");
@@ -48,17 +46,15 @@ extends KombiBrightnessDsiWrapper {
             this.dsi = (DSICarKombi)dSIBase;
             this.brightness = this.env.getFw().getLastmodeHandler().getLastmodeStorage().getKombiBrightness();
         } else {
-            this.lc.log(-1601830656, "setDSI( %1 ) failed! wrong class!", (Object)dSIBase);
+            this.lc.log(100000, "setDSI( %1 ) failed! wrong class!", (Object)dSIBase);
         }
     }
 
-    @Override
     public int[] getAutoNotifications() {
-        this.lc.log(1078071040, "getAutoNotifications()");
+        this.lc.log(1000000, "getAutoNotifications()");
         return new int[]{83};
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
         this.lc.log(10000, "asyncException( %2, %1, %3 )", (Object)string, (long)n, (long)n2);
     }

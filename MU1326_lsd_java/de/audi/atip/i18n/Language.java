@@ -16,9 +16,9 @@ implements Comparable {
     private final Locale locale;
     private final int sdisLanguage;
     private final Locale sdisLocale;
-    public static final int TEXTDIRECTION_LTR;
-    public static final int TEXTDIRECTION_RTL;
-    public static final int TEXTDIRECTION_DEFAULT;
+    public static final int TEXTDIRECTION_LTR = 0;
+    public static final int TEXTDIRECTION_RTL = 1;
+    public static final int TEXTDIRECTION_DEFAULT = 0;
 
     public Language(int n, String string, String string2, String string3, int n2, Locale locale) {
         this(n, string, string2, string3, n2, 0, locale);
@@ -84,7 +84,6 @@ implements Comparable {
         return this.sdisLocale;
     }
 
-    @Override
     public int compareTo(Object object) {
         return this.languageName.compareTo(((Language)object).languageName);
     }
@@ -100,7 +99,7 @@ implements Comparable {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         Language language = (Language)object;
@@ -108,7 +107,7 @@ implements Comparable {
     }
 
     public String toString() {
-        return new StringBuffer().append("LangCode=").append(this.languageCode).append(", HMICode=").append(this.hmiCode).append(", VoiceId=").append(this.voiceId).append(", Idx=").append(this.languageIndex).toString();
+        return "LangCode=" + this.languageCode + ", HMICode=" + this.hmiCode + ", VoiceId=" + this.voiceId + ", Idx=" + this.languageIndex;
     }
 }
 

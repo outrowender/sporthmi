@@ -1,5 +1,8 @@
 /*
  * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  de.mib.swdiagnosis.phone.IPhoneDiagComponent
  */
 package de.audi.app.phone.core.interapp;
 
@@ -7,31 +10,30 @@ import de.audi.app.phone.core.AbstractPhoneComponent;
 import de.audi.app.phone.core.ITelApplication;
 import de.audi.app.phone.core.PhoneServiceProvider;
 import de.audi.app.phone.core.PhoneServiceTracker;
-import de.audi.app.phone.core.interapp.AbstractPhoneServiceImpl$1;
-import de.audi.app.phone.core.interapp.AbstractPhoneServiceImpl$2;
-import de.audi.app.phone.core.interapp.AbstractPhoneServiceImpl$3;
-import de.audi.app.phone.core.interapp.AbstractPhoneServiceImpl$4;
-import de.audi.app.phone.core.interapp.AbstractPhoneServiceImpl$5;
-import de.audi.app.phone.core.interapp.AbstractPhoneServiceImpl$6;
-import de.audi.app.phone.core.interapp.AbstractPhoneServiceImpl$PhoneServiceDiag;
+import de.audi.app.phone.core.dsi.ITelDSIResponseListener;
+import de.audi.app.phone.core.dsi.TelDefaultDSIResponseListener;
+import de.audi.app.phone.core.event.AbstractTelInterappEvent;
 import de.audi.app.phone.core.interapp.TelDialNumberSessionHandler;
+import de.audi.app.phone.core.interapp.TelServiceListenerWrapper;
 import de.audi.app.phone.core.interapp.TelServiceSDSListenerWrapper;
 import de.audi.app.phone.core.sim.ITelLockStateHandler;
 import de.audi.app.phone.core.state.IGlobalTelephoneStateStruct;
 import de.audi.app.phone.core.util.PhoneUtils;
 import de.audi.atip.hmi.model.list.BaseListModelApp;
-import de.audi.atip.hmi.modelaccess.ButtonModelApp;
-import de.audi.atip.hmi.modelaccess.SpellerModelApp;
+import de.audi.atip.interapp.phone.ITelCallControl;
+import de.audi.atip.interapp.phone.ITelCallInformation;
 import de.audi.atip.interapp.phone.ITelCallSession;
-import de.audi.atip.log.LogChannel;
 import de.audi.atip.phone.ITelServiceListener;
 import de.audi.atip.phone.ITelServiceSDS;
 import de.audi.atip.phone.ITelServiceSDSListener;
 import de.audi.atip.phone.TelServiceCallStackEntry;
+import de.esolutions.fw.util.commons.Buffer;
+import de.mib.swdiagnosis.phone.IPhoneDiagComponent;
 import java.util.Calendar;
 import java.util.Hashtable;
 import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.telephoneng.CallStackEntry;
+import org.dsi.ifc.telephoneng.SuppServiceResponseStruct;
 import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
@@ -55,10 +57,9 @@ ServiceTrackerCustomizer {
         this.addSubPhoneComponent(this.dialNumberSessionHandler);
     }
 
-    @Override
     public void init() {
         super.init();
-        this.getApplication().addDiagnosisComponent(new AbstractPhoneServiceImpl$PhoneServiceDiag(this, null));
+        this.getApplication().addDiagnosisComponent(new PhoneServiceDiag());
         this.registerPhoneService();
         this.registerPhoneServiceSDS();
         this.getApplication().getGlobalTelephoneStateManager().registerListener(this);
@@ -66,7 +67,6 @@ ServiceTrackerCustomizer {
         this.lockStateHandlerServiceTracker.openTracker();
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         if (this.sdsPhoneService != null) {
@@ -81,7 +81,6 @@ ServiceTrackerCustomizer {
         }
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.getApplication().getBundleContext().getService(serviceReference);
         if (object instanceof ITelLockStateHandler) {
@@ -92,11 +91,9 @@ ServiceTrackerCustomizer {
         return null;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof ITelLockStateHandler) {
             this.getApplication().getBundleContext().ungetService(serviceReference);
@@ -118,84 +115,202 @@ ServiceTrackerCustomizer {
         this.phoneService.startService();
     }
 
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         this.globalState = iGlobalTelephoneStateStruct;
     }
 
-    @Override
-    public void dialNumber(String string, ITelServiceListener iTelServiceListener, boolean bl) {
-        this.getApplication().enqueueEvent(new AbstractPhoneServiceImpl$1(this, "AbstractPhoneServiceImpl#dialNumber", string, bl, iTelServiceListener));
+    public void dialNumber(final String string, final ITelServiceListener iTelServiceListener, final boolean bl) {
+        this.getApplication().enqueueEvent(new AbstractTelInterappEvent("AbstractPhoneServiceImpl#dialNumber"){
+
+            public void run() {
+                AbstractPhoneServiceImpl.this.log.log(1000000, "[AbstractPhoneServiceImpl#dialNumber] number=%1, jumpToPhone=%2", (Object)string, (Object)String.valueOf(bl));
+                AbstractPhoneServiceImpl.this.getApplication().getTelephoneDSIAccess().dialNumber(string, 0, true, new TelDefaultDSIResponseListener(){
+
+                    public void responseDialNumber(int n, int n2, SuppServiceResponseStruct suppServiceResponseStruct, int n3) {
+                        ITelDSIResponseListener iTelDSIResponseListener;
+                        ITelDSIResponseListener iTelDSIResponseListener2 = iTelDSIResponseListener = iTelServiceListener != null ? new TelServiceListenerWrapper(iTelServiceListener) : AbstractPhoneServiceImpl.this.getApplication().getDefaultListener();
+                        if (iTelDSIResponseListener != null) {
+                            iTelDSIResponseListener.responseDialNumber(n, n2, suppServiceResponseStruct, n3);
+                        }
+                        if (n == 0) {
+                            if (bl) {
+                                AbstractPhoneServiceImpl.this.log.log(1000000, "[AbstractPhoneServiceImpl.dialNumber] RESULT_OK - switching to phone!");
+                                AbstractPhoneServiceImpl.this.triggerJumpToPhone();
+                            } else {
+                                AbstractPhoneServiceImpl.this.log.log(1000000, "[AbstractPhoneServiceImpl#dialNumber] RESULT_OK - jumpToPhone false.");
+                            }
+                        } else {
+                            AbstractPhoneServiceImpl.this.log.log(1000000, "[AbstractPhoneServiceImpl#dialNumber] result=%1", (long)n);
+                        }
+                    }
+                });
+            }
+        });
     }
 
-    @Override
-    public void dialNumberFromADBEntry(String string, String string2, short s, short s2, long l, ResourceLocator resourceLocator, int n, int n2, ITelServiceListener iTelServiceListener, boolean bl) {
-        this.getApplication().enqueueEvent(new AbstractPhoneServiceImpl$2(this, "AbstractPhoneServiceImpl#dialNumberFromADBEntry", string, string2, s, s2, l, resourceLocator, n, n2, bl, iTelServiceListener));
+    public void dialNumberFromADBEntry(final String string, final String string2, final short s, final short s2, final long l, final ResourceLocator resourceLocator, final int n, final int n2, final ITelServiceListener iTelServiceListener, final boolean bl) {
+        this.getApplication().enqueueEvent(new AbstractTelInterappEvent("AbstractPhoneServiceImpl#dialNumberFromADBEntry"){
+
+            public void run() {
+                if (AbstractPhoneServiceImpl.this.log.isDebug()) {
+                    Buffer buffer = new Buffer();
+                    buffer.append("name=");
+                    buffer.append(string);
+                    buffer.append(", ");
+                    buffer.append("number=");
+                    buffer.append(string2);
+                    buffer.append(", ");
+                    buffer.append("phoneType=");
+                    buffer.append(s);
+                    buffer.append(", ");
+                    buffer.append("entryType=");
+                    buffer.append(s2);
+                    buffer.append(", ");
+                    buffer.append("entryID=");
+                    buffer.append(l);
+                    buffer.append(", ");
+                    buffer.append("pictureLocator=");
+                    buffer.append(resourceLocator);
+                    buffer.append(", ");
+                    buffer.append("phoneNumberIndex=");
+                    buffer.append(n);
+                    buffer.append(", ");
+                    buffer.append("phoneDataCount=");
+                    buffer.append(n2);
+                    buffer.append("jumpToPhone=");
+                    buffer.append(bl);
+                    AbstractPhoneServiceImpl.this.log.log(1000000, "[AbstractPhoneServiceImpl#dialNumberFromADBEntry] %1", (Object)buffer);
+                }
+                AbstractPhoneServiceImpl.this.getApplication().getTelephoneDSIAccess().dialNumberFromDBEntry(string2, l, string, s, s2, resourceLocator, n, n2, 0, true, new TelDefaultDSIResponseListener(){
+
+                    public void responseDialNumber(int n, int n2, SuppServiceResponseStruct suppServiceResponseStruct, int n3) {
+                        ITelDSIResponseListener iTelDSIResponseListener;
+                        ITelDSIResponseListener iTelDSIResponseListener2 = iTelDSIResponseListener = iTelServiceListener != null ? new TelServiceListenerWrapper(iTelServiceListener) : AbstractPhoneServiceImpl.this.getApplication().getDefaultListener();
+                        if (iTelDSIResponseListener != null) {
+                            iTelDSIResponseListener.responseDialNumber(n, n2, suppServiceResponseStruct, n3);
+                        }
+                        if (n == 0) {
+                            if (bl) {
+                                AbstractPhoneServiceImpl.this.log.log(1000000, "[AbstractPhoneServiceImpl.dialNumberFromADBEntry] RESULT_OK - switching to phone!");
+                                AbstractPhoneServiceImpl.this.triggerJumpToPhone();
+                            } else {
+                                AbstractPhoneServiceImpl.this.log.log(1000000, "[AbstractPhoneServiceImpl#dialNumberFromADBEntry] RESULT_OK - jumpToPhone false.");
+                            }
+                        } else {
+                            AbstractPhoneServiceImpl.this.log.log(1000000, "[AbstractPhoneServiceImpl#dialNumberFromADBEntry] result=%1", (long)n);
+                        }
+                    }
+                });
+            }
+        });
     }
 
     private void triggerJumpToPhone() {
         PhoneUtils.triggerJumpToPhone(this.getApplication().getFrameworkAccess().getHmiServiceApp());
     }
 
-    @Override
-    public void dialNumber(ITelCallSession iTelCallSession, boolean bl) {
-        this.getApplication().enqueueEvent(new AbstractPhoneServiceImpl$3(this, "AbstractPhoneServiceImpl#dialNumber call session", iTelCallSession, bl));
+    public void dialNumber(final ITelCallSession iTelCallSession, final boolean bl) {
+        this.getApplication().enqueueEvent(new AbstractTelInterappEvent("AbstractPhoneServiceImpl#dialNumber call session"){
+
+            public void run() {
+                if (iTelCallSession != null) {
+                    String string = iTelCallSession.getTelephoneNumber();
+                    int n = iTelCallSession.getCallType();
+                    AbstractPhoneServiceImpl.this.log.log(1000000, "[AbstractPhoneServiceImpl#dialNumber] number=%1, type=%2", (Object)string, (long)n);
+                    if (n == 0) {
+                        AbstractPhoneServiceImpl.this.dialNumberSessionHandler.addSession(iTelCallSession);
+                        AbstractPhoneServiceImpl.this.dialNumber(string, null, bl);
+                    } else if (n == 1 || n == 196608 || n == 131072 || n == 65536) {
+                        AbstractPhoneServiceImpl.this.dialNumberSessionHandler.addSession(iTelCallSession);
+                        AbstractPhoneServiceImpl.this.getApplication().getTelephoneDSIAccess().dialOperator(string, n, 0);
+                    } else {
+                        AbstractPhoneServiceImpl.this.log.log(100000, "[AbstractPhoneServiceImpl#dialNumber] callType=%1 --> NOP!", (long)n);
+                    }
+                } else {
+                    AbstractPhoneServiceImpl.this.log.log(100000, "[AbstractPhoneServiceImpl#dialNumber] callSession is null --> NOP!");
+                }
+            }
+        });
     }
 
-    @Override
     public boolean checkForSuppService(String string) {
         boolean bl = string != null && ('*' == string.charAt(0) || '#' == string.charAt(0));
-        this.log.log(1078071040, "[AbstractPhoneServiceImpl#checkForSuppService] number=%1, suppService=%2", (Object)string, (Object)String.valueOf(bl));
+        this.log.log(1000000, "[AbstractPhoneServiceImpl#checkForSuppService] number=%1, suppService=%2", (Object)string, (Object)String.valueOf(bl));
         return bl;
     }
 
-    @Override
     public String getPINSpellerContent() {
-        String string = this.getSpellerModel(848692224).getText();
-        this.log.log(1078071040, "[AbstractPhoneServiceImpl#getPINSpellerContent] pinText=%1", (Object)string);
+        String string = this.getSpellerModel(300594).getText();
+        this.log.log(1000000, "[AbstractPhoneServiceImpl#getPINSpellerContent] pinText=%1", (Object)string);
         return string;
     }
 
-    @Override
-    public void setPINSpeller(String string) {
-        this.getApplication().enqueueEvent(new AbstractPhoneServiceImpl$4(this, "AbstractPhoneServiceImpl#setPINSpeller", string));
+    public void setPINSpeller(final String string) {
+        this.getApplication().enqueueEvent(new AbstractTelInterappEvent("AbstractPhoneServiceImpl#setPINSpeller"){
+
+            public void run() {
+                AbstractPhoneServiceImpl.this.log.log(1000000, "[AbstractPhoneServiceImpl#setPINSpeller] setting pin speller text to %1", (Object)string);
+                ITelLockStateHandler iTelLockStateHandler = AbstractPhoneServiceImpl.this.lockStateHandlerService;
+                if (iTelLockStateHandler != null) {
+                    iTelLockStateHandler.setPINSpeller(string);
+                } else {
+                    AbstractPhoneServiceImpl.this.log.log(100000, "[AbstractPhoneServiceImpl#setPINSpeller] lock handler is null --> NOP!");
+                }
+            }
+        });
     }
 
-    @Override
     public String getMailboxSpellerContent() {
-        String string = this.getSpellerModel(1687684096).getText();
-        this.log.log(1078071040, "[AbstractPhoneServiceImpl#getMailboxSpellerContent] mailboxSpellerText=%1", (Object)string);
+        String string = this.getSpellerModel(301156).getText();
+        this.log.log(1000000, "[AbstractPhoneServiceImpl#getMailboxSpellerContent] mailboxSpellerText=%1", (Object)string);
         return string;
     }
 
-    @Override
-    public void setMailboxSpeller(String string) {
-        this.getApplication().enqueueEvent(new AbstractPhoneServiceImpl$5(this, "AbstractPhoneServiceImpl#setMailboxSpeller", string));
+    public void setMailboxSpeller(final String string) {
+        this.getApplication().enqueueEvent(new AbstractTelInterappEvent("AbstractPhoneServiceImpl#setMailboxSpeller"){
+
+            public void run() {
+                AbstractPhoneServiceImpl.this.log.log(1000000, "[AbstractPhoneServiceImpl#setMailboxSpeller] setting mailbox speller text to %1", (Object)string);
+                AbstractPhoneServiceImpl.this.getSpellerModel(301156).setText(string);
+                if (string != null && string.length() > 0) {
+                    AbstractPhoneServiceImpl.this.getButtonModel(300418).setStatus(1);
+                } else {
+                    AbstractPhoneServiceImpl.this.getButtonModel(300418).setStatus(0);
+                }
+            }
+        });
     }
 
-    @Override
     public void setMailboxNumber(String string, ITelServiceSDSListener iTelServiceSDSListener) {
-        this.log.log(1078071040, "[AbstractPhoneServiceImpl#setMailboxNumber] setting mailbox number to %1", (Object)string);
+        this.log.log(1000000, "[AbstractPhoneServiceImpl#setMailboxNumber] setting mailbox number to %1", (Object)string);
         this.getApplication().getTelephoneDSIAccess().requestSetMailboxNumber(string, 0, true, iTelServiceSDSListener != null ? new TelServiceSDSListenerWrapper(iTelServiceSDSListener) : this.getApplication().getDefaultListener());
     }
 
-    @Override
-    public void unlockSIMWithPIN(String string, ITelServiceSDSListener iTelServiceSDSListener) {
-        this.getApplication().enqueueEvent(new AbstractPhoneServiceImpl$6(this, "AbstractPhoneServiceImpl#unlockSIMWithPIN", string, iTelServiceSDSListener));
+    public void unlockSIMWithPIN(final String string, final ITelServiceSDSListener iTelServiceSDSListener) {
+        this.getApplication().enqueueEvent(new AbstractTelInterappEvent("AbstractPhoneServiceImpl#unlockSIMWithPIN"){
+
+            public void run() {
+                AbstractPhoneServiceImpl.this.log.log(1000000, "[AbstractPhoneServiceImpl#unlockSIMWithPIN] pinCode=%1", (Object)string);
+                ITelLockStateHandler iTelLockStateHandler = AbstractPhoneServiceImpl.this.lockStateHandlerService;
+                if (iTelLockStateHandler != null) {
+                    iTelLockStateHandler.unlockSIMwithPIN(string, 0, iTelServiceSDSListener != null ? new TelServiceSDSListenerWrapper(iTelServiceSDSListener) : AbstractPhoneServiceImpl.this.getApplication().getDefaultListener());
+                } else {
+                    AbstractPhoneServiceImpl.this.log.log(100000, "[AbstractPhoneServiceImpl#unlockSIMWithPIN] lock handler is null --> NOP!");
+                }
+            }
+        });
     }
 
-    @Override
     public String getMailboxNumber() {
         IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct = this.globalState;
         if (iGlobalTelephoneStateStruct != null) {
             String string = iGlobalTelephoneStateStruct.getMailboxNumber();
-            this.log.log(1078071040, "[AbstractPhoneServiceImpl#getMailboxNumber] mailboxNumber=%1", (Object)string);
+            this.log.log(1000000, "[AbstractPhoneServiceImpl#getMailboxNumber] mailboxNumber=%1", (Object)string);
             return string;
         }
         return null;
     }
 
-    @Override
     public TelServiceCallStackEntry getLastDialedNumber() {
         CallStackEntry callStackEntry;
         TelServiceCallStackEntry telServiceCallStackEntry = null;
@@ -205,7 +320,7 @@ ServiceTrackerCustomizer {
             calendar.set(callStackEntry.getClYear(), callStackEntry.getClMonth() - 1, callStackEntry.getClDay(), callStackEntry.getClHour(), callStackEntry.getClMinute(), callStackEntry.getClSecond());
             telServiceCallStackEntry = new TelServiceCallStackEntry(callStackEntry.getClEntryID(), callStackEntry.getClName(), callStackEntry.getClNumber(), callStackEntry.getAdbEntryID(), (short)callStackEntry.getAdbNumberType(), 0, callStackEntry.getAdbPictureID(), callStackEntry.getAdbPhoneDataIndex(), callStackEntry.getAdbPhoneDataCount(), calendar.getTime());
         }
-        this.log.log(1078071040, "[AbstractPhoneServiceImpl#getLastDialedNumber] lastDialedNumber=%1", telServiceCallStackEntry);
+        this.log.log(1000000, "[AbstractPhoneServiceImpl#getLastDialedNumber] lastDialedNumber=%1", telServiceCallStackEntry);
         return telServiceCallStackEntry;
     }
 
@@ -222,132 +337,45 @@ ServiceTrackerCustomizer {
         }
     }
 
-    static /* synthetic */ LogChannel access$100(AbstractPhoneServiceImpl abstractPhoneServiceImpl) {
-        return abstractPhoneServiceImpl.log;
-    }
+    private class PhoneServiceDiag
+    implements IPhoneDiagComponent {
+        private ITelCallControl sessionControl;
 
-    static /* synthetic */ ITelApplication access$400(AbstractPhoneServiceImpl abstractPhoneServiceImpl) {
-        return abstractPhoneServiceImpl.getApplication();
-    }
+        private PhoneServiceDiag() {
+        }
 
-    static /* synthetic */ LogChannel access$600(AbstractPhoneServiceImpl abstractPhoneServiceImpl) {
-        return abstractPhoneServiceImpl.log;
-    }
+        public void cmdPhoneServiceDialNumberSession(final String string, final int n, boolean bl) {
+            AbstractPhoneServiceImpl.this.dialNumber(new ITelCallSession(){
 
-    static /* synthetic */ void access$700(AbstractPhoneServiceImpl abstractPhoneServiceImpl) {
-        abstractPhoneServiceImpl.triggerJumpToPhone();
-    }
+                public void updateCallInformation(ITelCallInformation iTelCallInformation, int n2) {
+                    AbstractPhoneServiceImpl.this.log.log(10000000, "[AbstractPhoneServiceImpl.PhoneServiceDiag.cmdPhoneServiceDialNumberSession(...).new ITelCallSession() {...}#updateCallInformation] callInformation=%1", (Object)iTelCallInformation);
+                }
 
-    static /* synthetic */ LogChannel access$800(AbstractPhoneServiceImpl abstractPhoneServiceImpl) {
-        return abstractPhoneServiceImpl.log;
-    }
+                public void onClose() {
+                    AbstractPhoneServiceImpl.this.log.log(10000000, "[AbstractPhoneServiceImpl.PhoneServiceDiag.cmdPhoneServiceDialNumberSession(...).new ITelCallSession() {...}#onClose]");
+                }
 
-    static /* synthetic */ LogChannel access$900(AbstractPhoneServiceImpl abstractPhoneServiceImpl) {
-        return abstractPhoneServiceImpl.log;
-    }
+                public void onActive(ITelCallControl iTelCallControl) {
+                    AbstractPhoneServiceImpl.this.log.log(10000000, "[AbstractPhoneServiceImpl.PhoneServiceDiag.cmdPhoneServiceDialNumberSession(...).new ITelCallSession() {...}#onActive] callControl=%1", (Object)iTelCallControl);
+                    PhoneServiceDiag.this.sessionControl = iTelCallControl;
+                }
 
-    static /* synthetic */ ITelApplication access$1000(AbstractPhoneServiceImpl abstractPhoneServiceImpl) {
-        return abstractPhoneServiceImpl.getApplication();
-    }
+                public String getTelephoneNumber() {
+                    return string;
+                }
 
-    static /* synthetic */ LogChannel access$1100(AbstractPhoneServiceImpl abstractPhoneServiceImpl) {
-        return abstractPhoneServiceImpl.log;
-    }
+                public int getCallType() {
+                    return n;
+                }
+            }, bl);
+        }
 
-    static /* synthetic */ LogChannel access$1200(AbstractPhoneServiceImpl abstractPhoneServiceImpl) {
-        return abstractPhoneServiceImpl.log;
-    }
-
-    static /* synthetic */ ITelApplication access$1500(AbstractPhoneServiceImpl abstractPhoneServiceImpl) {
-        return abstractPhoneServiceImpl.getApplication();
-    }
-
-    static /* synthetic */ LogChannel access$1700(AbstractPhoneServiceImpl abstractPhoneServiceImpl) {
-        return abstractPhoneServiceImpl.log;
-    }
-
-    static /* synthetic */ LogChannel access$1800(AbstractPhoneServiceImpl abstractPhoneServiceImpl) {
-        return abstractPhoneServiceImpl.log;
-    }
-
-    static /* synthetic */ LogChannel access$1900(AbstractPhoneServiceImpl abstractPhoneServiceImpl) {
-        return abstractPhoneServiceImpl.log;
-    }
-
-    static /* synthetic */ ITelApplication access$2000(AbstractPhoneServiceImpl abstractPhoneServiceImpl) {
-        return abstractPhoneServiceImpl.getApplication();
-    }
-
-    static /* synthetic */ LogChannel access$2100(AbstractPhoneServiceImpl abstractPhoneServiceImpl) {
-        return abstractPhoneServiceImpl.log;
-    }
-
-    static /* synthetic */ TelDialNumberSessionHandler access$2200(AbstractPhoneServiceImpl abstractPhoneServiceImpl) {
-        return abstractPhoneServiceImpl.dialNumberSessionHandler;
-    }
-
-    static /* synthetic */ ITelApplication access$2300(AbstractPhoneServiceImpl abstractPhoneServiceImpl) {
-        return abstractPhoneServiceImpl.getApplication();
-    }
-
-    static /* synthetic */ LogChannel access$2400(AbstractPhoneServiceImpl abstractPhoneServiceImpl) {
-        return abstractPhoneServiceImpl.log;
-    }
-
-    static /* synthetic */ LogChannel access$2500(AbstractPhoneServiceImpl abstractPhoneServiceImpl) {
-        return abstractPhoneServiceImpl.log;
-    }
-
-    static /* synthetic */ LogChannel access$2600(AbstractPhoneServiceImpl abstractPhoneServiceImpl) {
-        return abstractPhoneServiceImpl.log;
-    }
-
-    static /* synthetic */ ITelLockStateHandler access$2700(AbstractPhoneServiceImpl abstractPhoneServiceImpl) {
-        return abstractPhoneServiceImpl.lockStateHandlerService;
-    }
-
-    static /* synthetic */ LogChannel access$2800(AbstractPhoneServiceImpl abstractPhoneServiceImpl) {
-        return abstractPhoneServiceImpl.log;
-    }
-
-    static /* synthetic */ LogChannel access$2900(AbstractPhoneServiceImpl abstractPhoneServiceImpl) {
-        return abstractPhoneServiceImpl.log;
-    }
-
-    static /* synthetic */ SpellerModelApp access$3000(AbstractPhoneServiceImpl abstractPhoneServiceImpl, int n) {
-        return abstractPhoneServiceImpl.getSpellerModel(n);
-    }
-
-    static /* synthetic */ ButtonModelApp access$3100(AbstractPhoneServiceImpl abstractPhoneServiceImpl, int n) {
-        return abstractPhoneServiceImpl.getButtonModel(n);
-    }
-
-    static /* synthetic */ ButtonModelApp access$3200(AbstractPhoneServiceImpl abstractPhoneServiceImpl, int n) {
-        return abstractPhoneServiceImpl.getButtonModel(n);
-    }
-
-    static /* synthetic */ LogChannel access$3300(AbstractPhoneServiceImpl abstractPhoneServiceImpl) {
-        return abstractPhoneServiceImpl.log;
-    }
-
-    static /* synthetic */ ITelApplication access$3400(AbstractPhoneServiceImpl abstractPhoneServiceImpl) {
-        return abstractPhoneServiceImpl.getApplication();
-    }
-
-    static /* synthetic */ LogChannel access$3500(AbstractPhoneServiceImpl abstractPhoneServiceImpl) {
-        return abstractPhoneServiceImpl.log;
-    }
-
-    static /* synthetic */ LogChannel access$3700(AbstractPhoneServiceImpl abstractPhoneServiceImpl) {
-        return abstractPhoneServiceImpl.log;
-    }
-
-    static /* synthetic */ LogChannel access$3800(AbstractPhoneServiceImpl abstractPhoneServiceImpl) {
-        return abstractPhoneServiceImpl.log;
-    }
-
-    static /* synthetic */ LogChannel access$3900(AbstractPhoneServiceImpl abstractPhoneServiceImpl) {
-        return abstractPhoneServiceImpl.log;
+        public void cmdPhoneServiceHangupSession() {
+            ITelCallControl iTelCallControl = this.sessionControl;
+            if (iTelCallControl != null) {
+                iTelCallControl.hangupCall();
+            }
+        }
     }
 }
 

@@ -7,10 +7,8 @@ import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.interapp.ADBRemoteHMIAddress;
 
 public interface ADBRemoteHMIService {
-    default public int[] getListModelIDs() {
-    }
+    public int[] getListModelIDs();
 
-    default public ADBRemoteHMIAddress getAddress(EvoListRow evoListRow) {
-    }
+    public ADBRemoteHMIAddress getAddress(EvoListRow var1);
 }
 

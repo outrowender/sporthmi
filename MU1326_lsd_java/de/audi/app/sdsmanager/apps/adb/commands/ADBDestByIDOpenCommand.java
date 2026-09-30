@@ -25,26 +25,25 @@ extends AbstractSystemCallCommand {
         this.adbHandler = addressBookSDSHandler;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: entryIDSource=%2!", (Object)this.getName(), (long)this.entryIDSource);
+        this.logger.log(10000000, "%1#execute: entryIDSource=%2!", (Object)this.getName(), (long)this.entryIDSource);
         long l = this.adbHandler.getADBID(this.entryIDSource);
         if (l == 0L) {
-            this.logger.log(-2137614336, "%1#execute: Unhandled entryIDSource %2, sending ERROR!", (Object)this.getName(), (long)this.entryIDSource);
+            this.logger.log(10000000, "%1#execute: Unhandled entryIDSource %2, sending ERROR!", (Object)this.getName(), (long)this.entryIDSource);
             this.sendResult(3001);
             return;
         }
         this.adbHandler.setCurrentEntryID(l);
         int n = SDSModelAccess.getADBCategoryLocationModel();
-        this.logger.log(-2137614336, "%1#execute: adbID=%2, locationType=%3, showing navi locations!", (Object)this.getName(), l, (long)n);
+        this.logger.log(10000000, "%1#execute: adbID=%2, locationType=%3, showing navi locations!", (Object)this.getName(), l, (long)n);
         this.adbService.showAddresses(l, n != 1, n != 2);
     }
 
     public void responseShowAddresses(int n, int[] nArray, String string) {
-        this.logger.log(-2137614336, "%1#responseShowAddresses: resultCode=%3, availableNavLocations=%2", (Object)this.getName(), (Object)nArray, (long)n);
-        this.logger.log(-2137614336, "%1#responseShowAddresses: combinedName=%2, sending OK!", (Object)this.getName(), (Object)string);
+        this.logger.log(10000000, "%1#responseShowAddresses: resultCode=%3, availableNavLocations=%2", (Object)this.getName(), (Object)nArray, (long)n);
+        this.logger.log(10000000, "%1#responseShowAddresses: combinedName=%2, sending OK!", (Object)this.getName(), (Object)string);
         if (n != 0) {
-            this.logger.log(-1601830656, "%1#responseShowAddresses: Unhandled resultCode %2, sending ERROR!", (Object)this.getName(), (long)n);
+            this.logger.log(100000, "%1#responseShowAddresses: Unhandled resultCode %2, sending ERROR!", (Object)this.getName(), (long)n);
             this.sendResult(3001);
             return;
         }

@@ -14,7 +14,6 @@ implements IOneshotPicklistHandling {
         this.hmi = hMIService;
     }
 
-    @Override
     public void handlePicklistTitle(int n) {
         int n2;
         int n3 = 3833;
@@ -46,7 +45,6 @@ implements IOneshotPicklistHandling {
         this.hmi.getChoiceModel(n3).setValue(n2);
     }
 
-    @Override
     public int getSlotLevelOffset() {
         return 0;
     }

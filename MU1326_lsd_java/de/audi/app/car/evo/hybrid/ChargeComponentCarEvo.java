@@ -10,26 +10,23 @@ import org.dsi.ifc.carhybrid.BatteryControlViewOptions;
 
 public class ChargeComponentCarEvo
 extends AbstractDSICarHybridAdapter {
-    public static final short CODING_ID;
+    public static final short CODING_ID = 41;
     BatteryControlViewOptions currViewOptions = null;
 
     public ChargeComponentCarEvo(ICarApplication iCarApplication) {
         super(iCarApplication, "App.Car.Charge");
     }
 
-    @Override
     protected void initVisibility() {
         this.getApplication().getMenuEntryRegistry().registerMenuEntry(511, (short)41);
         this.getApplication().getMenuEntryRegistry().registerMenuEntry(512, (short)41);
     }
 
-    @Override
     protected void deinitVisibility() {
         this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(511);
         this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(512);
     }
 
-    @Override
     public int getID() {
         return 47;
     }
@@ -43,30 +40,24 @@ extends AbstractDSICarHybridAdapter {
         return -1;
     }
 
-    @Override
     public String getName() {
         return null;
     }
 
-    @Override
     public CarDSIAttributesSet[] getDSIAttributesSets() {
         return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{6}, new int[0])};
     }
 
-    @Override
     public String getCurrentViewOptions() {
         return null;
     }
 
-    @Override
     protected void initModels() {
     }
 
-    @Override
     protected void deinitModels() {
     }
 
-    @Override
     public void updateBatteryControlViewOptions(BatteryControlViewOptions batteryControlViewOptions, int n) {
         if (n == 1) {
             this.currViewOptions = batteryControlViewOptions;

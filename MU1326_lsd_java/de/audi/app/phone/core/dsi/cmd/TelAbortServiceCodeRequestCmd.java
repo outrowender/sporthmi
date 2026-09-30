@@ -16,45 +16,40 @@ extends AbstractTelDSIMECommand {
         super(iTelDSIMobileEquipmentRequestWrapper, logChannel, "TelAbortServiceCodeRequestCmd", n, iTelDSIResponseListener);
     }
 
-    @Override
     public void execute() {
         if (this.isDSIAvailable()) {
-            this.logger.log(1078071040, "[TelAbortServiceCodeRequestCmd#execute]");
+            this.logger.log(1000000, "[TelAbortServiceCodeRequestCmd#execute]");
             this.dsi.requestServiceCodeAbort();
         } else {
-            this.logger.log(-1601830656, "[TelAbortServiceCodeRequestCmd#execute] dsi is null!");
+            this.logger.log(100000, "[TelAbortServiceCodeRequestCmd#execute] dsi is null!");
             this.getCommandList().commandFinished();
         }
     }
 
-    @Override
     public void responseServiceCodeAbort(int n) {
-        this.logger.log(1078071040, "[TelAbortServiceCodeRequestCmd#responseServiceCodeAbort] result=%1", (long)n);
+        this.logger.log(1000000, "[TelAbortServiceCodeRequestCmd#responseServiceCodeAbort] result=%1", (long)n);
         if (this.listener != null) {
             this.listener.responseServiceCodeAbort(n, this.terminalID);
         }
         this.getCommandList().commandFinished();
     }
 
-    @Override
     public void responseCallForward(CFResponseData[] cFResponseDataArray, int n) {
-        this.logger.log(1078071040, "[TelAbortServiceCodeRequestCmd#responseCallForward] telCFResponseData=%1, result=%2", (Object)Converter.array2String(cFResponseDataArray), (long)n);
+        this.logger.log(1000000, "[TelAbortServiceCodeRequestCmd#responseCallForward] telCFResponseData=%1, result=%2", (Object)Converter.array2String(cFResponseDataArray), (long)n);
         if (this.listener != null) {
             this.listener.responseCallForward(cFResponseDataArray, n, this.terminalID);
         }
     }
 
-    @Override
     public void responseCallWaiting(int n, int n2) {
-        this.logger.log(1078071040, "[TelAbortServiceCodeRequestCmd#responseCallWaiting] int telCWStatus=%1, result=%2", (long)n, (long)n2);
+        this.logger.log(1000000, "[TelAbortServiceCodeRequestCmd#responseCallWaiting] int telCWStatus=%1, result=%2", (long)n, (long)n2);
         if (this.listener != null) {
             this.listener.responseCallWaiting(-1, n, n2, this.terminalID);
         }
     }
 
-    @Override
     public void responseCLIR(int n, int n2, int n3) {
-        this.logger.log(1078071040, "[TelAbortServiceCodeRequestCmd#responseCLIR] telCLIRState=%1, telCLIRNWState=%2, result=%3", (long)n, (long)n2, (long)n3);
+        this.logger.log(1000000, "[TelAbortServiceCodeRequestCmd#responseCLIR] telCLIRState=%1, telCLIRNWState=%2, result=%3", (long)n, (long)n2, (long)n3);
         if (this.listener != null) {
             this.listener.responseCLIR(n, n2, n3, this.terminalID);
         }

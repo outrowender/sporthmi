@@ -7,13 +7,10 @@ import de.audi.app.terminalmode.dsi.IAppState;
 
 public interface IDSIAppState
 extends IAppState {
-    default public int getDSIAppStateId() {
-    }
+    public int getDSIAppStateId();
 
-    default public int getDSIOwner() {
-    }
+    public int getDSIOwner();
 
-    default public int getDSISpeechMode() {
-    }
+    public int getDSISpeechMode();
 }
 

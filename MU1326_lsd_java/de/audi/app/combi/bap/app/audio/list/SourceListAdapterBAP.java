@@ -27,7 +27,6 @@ extends AbstractListAdapterBAP {
     public void sendEmptyList() {
     }
 
-    @Override
     protected int getCommonRecordAddress(boolean[] blArray) {
         boolean bl = blArray[1] || blArray[0];
         boolean bl2 = blArray[1] || blArray[0];
@@ -37,7 +36,6 @@ extends AbstractListAdapterBAP {
         return CombiBAPAudioSource.getRecordAddress(false, bl, bl2, bl3, bl4, bl5);
     }
 
-    @Override
     protected BAPArrayElement convertArrayElement(CombiBAPArrayElement combiBAPArrayElement, ArrayHeader arrayHeader) {
         SourceList_Data sourceList_Data = new SourceList_Data(arrayHeader);
         if (combiBAPArrayElement instanceof CombiBAPAudioSource) {
@@ -55,24 +53,21 @@ extends AbstractListAdapterBAP {
             sourceList_Data.attributes.noImportRunning = !combiBAPAudioSource.getAttributes().isImportRunning();
             sourceList_Data.attributes.mediumSupportBrowserList = !combiBAPAudioSource.getAttributes().isMediumDoesNotSupportBrowserList();
         } else {
-            this.logChannel.log(10000, "[SourceListAdapterBAP#convertArrayElement] wrong dataType (expected: %1, is: %2)", (Object)(class$de$audi$atip$interapp$combi$bap$audio$data$CombiBAPAudioSource == null ? (class$de$audi$atip$interapp$combi$bap$audio$data$CombiBAPAudioSource = SourceListAdapterBAP.class$("de.audi.atip.interapp.combi.bap.audio.data.CombiBAPAudioSource")) : class$de$audi$atip$interapp$combi$bap$audio$data$CombiBAPAudioSource).getName(), (Object)super.getClass().getName());
+            this.logChannel.log(10000, "[SourceListAdapterBAP#convertArrayElement] wrong dataType (expected: %1, is: %2)", (Object)(class$de$audi$atip$interapp$combi$bap$audio$data$CombiBAPAudioSource == null ? (class$de$audi$atip$interapp$combi$bap$audio$data$CombiBAPAudioSource = SourceListAdapterBAP.class$("de.audi.atip.interapp.combi.bap.audio.data.CombiBAPAudioSource")) : class$de$audi$atip$interapp$combi$bap$audio$data$CombiBAPAudioSource).getName(), (Object)combiBAPArrayElement.getClass().getName());
         }
         return sourceList_Data;
     }
 
-    @Override
     protected BAPArrayElement createArrayElement(ArrayHeader arrayHeader, int n) {
         SourceList_Data sourceList_Data = new SourceList_Data(arrayHeader);
         sourceList_Data.setPos(n);
         return sourceList_Data;
     }
 
-    @Override
     protected ChangedArray createChangedArraySerializer() {
         return new SourceList_ChangedArray();
     }
 
-    @Override
     protected StatusArray createStatusArraySerializer() {
         return new SourceList_StatusArray();
     }

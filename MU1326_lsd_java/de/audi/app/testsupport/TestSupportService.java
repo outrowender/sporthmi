@@ -33,39 +33,35 @@ implements ITestSupportService {
     }
 
     protected void init() {
-        this.logChannel.log(1078071040, "[TestSupportService#init] registering service");
+        this.logChannel.log(1000000, "[TestSupportService#init] registering service");
         Hashtable hashtable = new Hashtable();
         this.serviceRegistration = this.bundleContext.registerService((class$de$audi$atip$testsupport$ITestSupportService == null ? (class$de$audi$atip$testsupport$ITestSupportService = TestSupportService.class$("de.audi.atip.testsupport.ITestSupportService")) : class$de$audi$atip$testsupport$ITestSupportService).getName(), (Object)this, (Dictionary)hashtable);
     }
 
     protected void deinit() {
-        this.logChannel.log(1078071040, "[TestSupportService#init] stopping service");
+        this.logChannel.log(1000000, "[TestSupportService#init] stopping service");
         if (this.serviceRegistration != null) {
             this.serviceRegistration.unregister();
         }
     }
 
-    @Override
     public ITestSupportSession registerDataProvider(ITestSupportDataProvider iTestSupportDataProvider) {
-        this.logChannel.log(1078071040, "[TestSupportService#registerDataProvider] name='%1'", (Object)iTestSupportDataProvider.getDataProviderName());
+        this.logChannel.log(1000000, "[TestSupportService#registerDataProvider] name='%1'", (Object)iTestSupportDataProvider.getDataProviderName());
         return this.sessionHandler.registerDataProvider(iTestSupportDataProvider);
     }
 
-    @Override
     public void deRegisterDataProvider(ITestSupportDataProvider iTestSupportDataProvider) {
-        this.logChannel.log(1078071040, "[TestSupportService#deRegisterDataProvider] name='%1'", (Object)iTestSupportDataProvider.getDataProviderName());
+        this.logChannel.log(1000000, "[TestSupportService#deRegisterDataProvider] name='%1'", (Object)iTestSupportDataProvider.getDataProviderName());
         this.sessionHandler.deRegisterDataProvider(iTestSupportDataProvider);
     }
 
-    @Override
     public ITestSupportReceiverSession registerDataReceiver(ITestSupportDataReceiver iTestSupportDataReceiver) {
-        this.logChannel.log(1078071040, "[TestSupportService#registerDataReceiver] name='%1'", (Object)iTestSupportDataReceiver.getName());
+        this.logChannel.log(1000000, "[TestSupportService#registerDataReceiver] name='%1'", (Object)iTestSupportDataReceiver.getName());
         return this.receiverSessionHandler.registerDataReceiver(iTestSupportDataReceiver);
     }
 
-    @Override
     public void deRegisterDataReceiver(ITestSupportDataReceiver iTestSupportDataReceiver) {
-        this.logChannel.log(1078071040, "[TestSupportService#deRegisterDataReceiver] name='%1'", (Object)iTestSupportDataReceiver.getName());
+        this.logChannel.log(1000000, "[TestSupportService#deRegisterDataReceiver] name='%1'", (Object)iTestSupportDataReceiver.getName());
         this.receiverSessionHandler.deRegisterDataReceiver(iTestSupportDataReceiver);
     }
 

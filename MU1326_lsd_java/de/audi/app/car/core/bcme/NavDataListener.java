@@ -25,10 +25,9 @@ implements CarNavListener {
         this.gpsCoordinates = metricsModelApp3;
     }
 
-    @Override
     public void updateVehicleHeading(int n, int n2, boolean bl) {
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[NavDataListener#updateVehicleHeading] heading='%1', angle='%2', isValid='%3'", (Object)new Integer(n), (Object)new Integer(n2), (Object)bl);
+            this.logChannel.log(1000000, "[NavDataListener#updateVehicleHeading] heading='%1', angle='%2', isValid='%3'", (Object)new Integer(n), (Object)new Integer(n2), (Object)bl);
         }
         if (bl) {
             this.compass.setMetric(this.createCompassMetric(n2, n));
@@ -36,10 +35,9 @@ implements CarNavListener {
         }
     }
 
-    @Override
     public void updateVehicleHeight(int n, boolean bl) {
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[NavDataListener#updateVehicleHeight] height='%1', isValid='%2'", (Object)new Integer(n), (Object)bl);
+            this.logChannel.log(1000000, "[NavDataListener#updateVehicleHeight] height='%1', isValid='%2'", (Object)new Integer(n), (Object)bl);
         }
         if (bl) {
             Distance distance = new Distance(n, 5, 2);
@@ -49,10 +47,9 @@ implements CarNavListener {
         }
     }
 
-    @Override
     public void updateVehiclePosition(int n, int n2, boolean bl) {
         if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[NavDataListener#updateVehiclePosition] latitude='%1', longitude='%2' , isValid='%3'", (Object)new Integer(n), (Object)new Integer(n2), (Object)bl);
+            this.logChannel.log(1000000, "[NavDataListener#updateVehiclePosition] latitude='%1', longitude='%2' , isValid='%3'", (Object)new Integer(n), (Object)new Integer(n2), (Object)bl);
         }
         if (bl) {
             GeoMetric geoMetric = new GeoMetric(n, n2);
@@ -62,7 +59,6 @@ implements CarNavListener {
         }
     }
 
-    @Override
     public void updateVehiclePositionDescription(String string, String string2, String string3, String string4, String string5, boolean bl) {
     }
 
@@ -78,7 +74,7 @@ implements CarNavListener {
         if (n >= 0 && n < HEADING_TO_COMPASS_METRIC_ORIENTATION_MAPPING.length) {
             return HEADING_TO_COMPASS_METRIC_ORIENTATION_MAPPING[n];
         }
-        this.logChannel.log(-1601830656, "[NavDataListener#mapHeadingToCompassMetricOrientation] received invalid heading value from Navi App: '%1'", (long)n);
+        this.logChannel.log(100000, "[NavDataListener#mapHeadingToCompassMetricOrientation] received invalid heading value from Navi App: '%1'", (long)n);
         return -1;
     }
 }

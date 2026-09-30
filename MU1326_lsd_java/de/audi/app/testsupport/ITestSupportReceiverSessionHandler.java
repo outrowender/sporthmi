@@ -4,7 +4,6 @@
 package de.audi.app.testsupport;
 
 public interface ITestSupportReceiverSessionHandler {
-    default public void entriesUpdated(int n) {
-    }
+    public void entriesUpdated(int var1);
 }
 

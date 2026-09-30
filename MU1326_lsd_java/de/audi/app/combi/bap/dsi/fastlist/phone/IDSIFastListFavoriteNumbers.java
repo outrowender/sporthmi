@@ -8,13 +8,10 @@ import org.dsi.ifc.kombifastlist.DataFavoriteList;
 
 public interface IDSIFastListFavoriteNumbers
 extends IDSIFastListPhone {
-    default public void pushupdateFavoriteNumbers(DataFavoriteList[] dataFavoriteListArray) {
-    }
+    public void pushupdateFavoriteNumbers(DataFavoriteList[] var1);
 
-    default public void pushCurrentListSizeFavoriteNumbers(int n) {
-    }
+    public void pushCurrentListSizeFavoriteNumbers(int var1);
 
-    default public void responseNotifyFavoriteNumbersPush(boolean bl) {
-    }
+    public void responseNotifyFavoriteNumbersPush(boolean var1);
 }
 

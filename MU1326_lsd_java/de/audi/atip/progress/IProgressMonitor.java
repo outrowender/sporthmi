@@ -4,13 +4,10 @@
 package de.audi.atip.progress;
 
 public interface IProgressMonitor {
-    default public void start() {
-    }
+    public void start();
 
-    default public void stop() {
-    }
+    public void stop();
 
-    default public void taskCompleted(int n, boolean bl) {
-    }
+    public void taskCompleted(int var1, boolean var2);
 }
 

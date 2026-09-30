@@ -7,25 +7,18 @@ import de.audi.atip.i18n.ILanguageManager;
 import de.audi.atip.i18n.Language;
 
 public interface ILanguageUIHandler {
-    default public void updateFlag() {
-    }
+    public void updateFlag();
 
-    default public void updateListSelection() {
-    }
+    public void updateListSelection();
 
-    default public void setWaiting() {
-    }
+    public void setWaiting();
 
-    default public void langChangeFinished() {
-    }
+    public void langChangeFinished();
 
-    default public void executeLanguageChange(Language language) {
-    }
+    public void executeLanguageChange(Language var1);
 
-    default public void initModels() {
-    }
+    public void initModels();
 
-    default public void setLanguageManager(ILanguageManager iLanguageManager) {
-    }
+    public void setLanguageManager(ILanguageManager var1);
 }
 

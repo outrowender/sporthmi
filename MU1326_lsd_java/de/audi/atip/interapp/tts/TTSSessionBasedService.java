@@ -7,19 +7,14 @@ import de.audi.atip.interapp.tts.TTSService;
 
 public interface TTSSessionBasedService
 extends TTSService {
-    default public void startSession() {
-    }
+    public void startSession();
 
-    default public void stopSession() {
-    }
+    public void stopSession();
 
-    default public void pause() {
-    }
+    public void pause();
 
-    default public void resume() {
-    }
+    public void resume();
 
-    default public void playTone(int n) {
-    }
+    public void playTone(int var1);
 }
 

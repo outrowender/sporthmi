@@ -19,15 +19,14 @@ implements DSIAudioManagement {
     public DSIAudioSpeechPCSim(LogChannel logChannel) {
         this.lc = logChannel;
         this.listener = new NullDSIAudioManagementListener(logChannel);
-        logChannel.log(1078071040, "[DSIAudioSpeechPCSim]");
+        logChannel.log(1000000, "[DSIAudioSpeechPCSim]");
     }
 
-    @Override
     public void requestConnection(int n, int n2, int n3) {
         if (n == 0) {
             return;
         }
-        this.lc.log(1078071040, "[DSIAudioSpeechPCSim.requestConnection] AC:%1 AT:%2", (long)n, (long)n2);
+        this.lc.log(1000000, "[DSIAudioSpeechPCSim.requestConnection] AC:%1 AT:%2", (long)n, (long)n2);
         switch (n) {
             case 8: {
                 break;
@@ -57,52 +56,44 @@ implements DSIAudioManagement {
         this.getActiveEntertainmentConnection(n2);
     }
 
-    @Override
     public void fadeToConnection(int n, int n2) {
         if (n == 0) {
             return;
         }
-        this.lc.log(1078071040, "[DSIAudioSpeechPCSim.fadeToConnection] AC:%1 AT:%2", (long)n, (long)n2);
+        this.lc.log(1000000, "[DSIAudioSpeechPCSim.fadeToConnection] AC:%1 AT:%2", (long)n, (long)n2);
         this.listener.fadedIn(n, n2);
     }
 
-    @Override
     public void releaseConnection(int n, int n2) {
         if (n == 0) {
             return;
         }
-        this.lc.log(1078071040, "[DSIAudioSpeechPCSim.releaseConnection] AC:%1 AT:%2", (long)n, (long)n2);
+        this.lc.log(1000000, "[DSIAudioSpeechPCSim.releaseConnection] AC:%1 AT:%2", (long)n, (long)n2);
         this.listener.stopConnection(n, n2);
     }
 
-    @Override
     public void getActiveConnection(int n) {
         this.listener.updateActiveConnection(this.activeConn, n, 1);
     }
 
-    @Override
     public void getActiveEntertainmentConnection(int n) {
         this.listener.updateActiveEntertainmentConnection(this.activeEntConn, n, 1);
     }
 
-    @Override
     public void setVolumelock(int n, int n2, boolean bl) {
-        this.lc.log(1078071040, "[DSIAudioSpeechPCSim.setVolumelock] Not supported.");
+        this.lc.log(1000000, "[DSIAudioSpeechPCSim.setVolumelock] Not supported.");
     }
 
-    @Override
     public void getVolumelock(int n, int n2) {
-        this.lc.log(1078071040, "[DSIAudioSpeechPCSim.getVolumelock] Not supported.");
+        this.lc.log(1000000, "[DSIAudioSpeechPCSim.getVolumelock] Not supported.");
     }
 
-    @Override
     public void setNotification(int[] nArray, DSIListener dSIListener) {
         for (int i2 = 0; i2 < nArray.length; ++i2) {
             this.setNotification(nArray[i2], dSIListener);
         }
     }
 
-    @Override
     public void setNotification(int n, DSIListener dSIListener) {
         if (dSIListener instanceof DSIAudioManagementListener) {
             this.listener = (DSIAudioManagementListener)dSIListener;
@@ -110,27 +101,23 @@ implements DSIAudioManagement {
             this.lc.log(10000, "[DSIAudioSpeechPCSim.setListener] Invalid listener:%1", (Object)dSIListener);
         }
         if (n == 1) {
-            this.lc.log(1078071040, "[DSIAudioSpeechPCSim.setNotification] attr:%1 --> send amAvailable", (long)n);
+            this.lc.log(1000000, "[DSIAudioSpeechPCSim.setNotification] attr:%1 --> send amAvailable", (long)n);
             this.listener.updateAMAvailable(3, 0, 1);
         }
     }
 
-    @Override
     public void setNotification(DSIListener dSIListener) {
         this.lc.log(10000, "[DSIAudioSpeechPCSim.setNotification] Not supported!");
     }
 
-    @Override
     public void clearNotification(int[] nArray, DSIListener dSIListener) {
         this.lc.log(10000, "[DSIAudioSpeechPCSim.clearNotification] Not supported!");
     }
 
-    @Override
     public void clearNotification(int n, DSIListener dSIListener) {
         this.lc.log(10000, "[DSIAudioSpeechPCSim.clearNotification] Not supported!");
     }
 
-    @Override
     public void clearNotification(DSIListener dSIListener) {
         this.lc.log(10000, "[DSIAudioSpeechPCSim.clearNotification] Not supported!");
     }

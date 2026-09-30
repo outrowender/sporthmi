@@ -5,15 +5,14 @@ package de.audi.app.earlyfunc.core.seat;
 
 import de.audi.app.earlyfunc.core.seat.ISeatPopupController;
 import de.audi.app.earlyfunc.core.seat.MasterSeatPopinContent;
-import de.audi.app.earlyfunc.core.seat.MasterSeatPopinContent$SeatMemoryDetail;
 import de.audi.app.earlyfunc.core.seat.SeatPopinConfigurationHandler;
 import de.audi.app.earlyfunc.core.seat.SeatPopinContent;
 import de.audi.atip.log.LogChannel;
 
 public abstract class AbstractSeatPopin {
-    protected static final int STATE_INVISIBLE;
-    protected static final int STATE_REQUESTED;
-    protected static final int STATE_SHOWN;
+    protected static final int STATE_INVISIBLE = 0;
+    protected static final int STATE_REQUESTED = 1;
+    protected static final int STATE_SHOWN = 2;
     protected final SeatPopinContent currentContent;
     private final ISeatPopupController popinController;
     private final int hmiPopinID;
@@ -64,7 +63,7 @@ public abstract class AbstractSeatPopin {
     private boolean isContentAvailable(SeatPopinContent seatPopinContent) {
         boolean bl = this.getConfig().isContentAvailable(this.isLeft(), seatPopinContent);
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[%1#isContentAvailable] content('%2') is %3", (Object)this, (Object)seatPopinContent, (Object)(bl ? "available" : "not available"));
+            this.getLogChannel().log(1000000, "[%1#isContentAvailable] content('%2') is %3", (Object)this, (Object)seatPopinContent, (Object)(bl ? "available" : "not available"));
         }
         return bl;
     }
@@ -92,7 +91,7 @@ public abstract class AbstractSeatPopin {
         if (this.isResponsibleForContent(seatPopinContent)) {
             boolean bl = this.getConfig().isContentAvailable(this.isLeft(), seatPopinContent);
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "[%1#supportsContent] is responsible for seatContent='%2': content is %3", (Object)this, (Object)seatPopinContent, (Object)(bl ? "available" : "not available"));
+                this.getLogChannel().log(1000000, "[%1#supportsContent] is responsible for seatContent='%2': content is %3", (Object)this, (Object)seatPopinContent, (Object)(bl ? "available" : "not available"));
             }
             return bl;
         }
@@ -103,7 +102,7 @@ public abstract class AbstractSeatPopin {
         if (n == this.getHmiPopinID()) {
             if (this.state == 2) {
                 if (this.getLogChannel().isInfo()) {
-                    this.getLogChannel().log(1078071040, "[%1#processHiddenNotification] cancel popin: cancelContent='%2'", (Object)this, (Object)this.currentContent);
+                    this.getLogChannel().log(1000000, "[%1#processHiddenNotification] cancel popin: cancelContent='%2'", (Object)this, (Object)this.currentContent);
                 }
                 this.currentContent.setCancelReasonToASG();
                 this.getPopinController().cancelPopup(this.currentContent, this);
@@ -140,7 +139,7 @@ public abstract class AbstractSeatPopin {
         }
         this.setState(0);
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[%1#processHiddenNotification] seat popin is invisible", (Object)this);
+            this.getLogChannel().log(1000000, "[%1#processHiddenNotification] seat popin is invisible", (Object)this);
         }
     }
 
@@ -150,21 +149,21 @@ public abstract class AbstractSeatPopin {
             this.copyResponsibleContent(this.currentContent, seatPopinContent);
             this.getPopinController().sendShowPopupResponse(seatPopinContent, this.currentContent, this);
         }
-        this.currentContent.setContent(!this.isLeft(), MasterSeatPopinContent.NONE, MasterSeatPopinContent$SeatMemoryDetail.MEMORYDETAIL_MEMORY_NONE);
+        this.currentContent.setContent(!this.isLeft(), MasterSeatPopinContent.NONE, MasterSeatPopinContent.SeatMemoryDetail.MEMORYDETAIL_MEMORY_NONE);
         if (!this.isNoneContent(this.lastUpdatedContent)) {
             this.copyResponsibleContent(this.lastUpdatedContent, this.currentContent);
             this.resetContent(this.lastUpdatedContent);
         }
         this.setState(2);
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[%1#processVisibleNotification] seat popin is visible: shownContent='%2' ", (Object)this, (Object)this.currentContent);
+            this.getLogChannel().log(1000000, "[%1#processVisibleNotification] seat popin is visible: shownContent='%2' ", (Object)this, (Object)this.currentContent);
         }
     }
 
     public void updateContent(SeatPopinContent seatPopinContent) {
         if (this.isResponsibleForContent(seatPopinContent)) {
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "[%1#updateContent] popin is responsible for updated content('%2').", (Object)this, (Object)seatPopinContent);
+                this.getLogChannel().log(1000000, "[%1#updateContent] popin is responsible for updated content('%2').", (Object)this, (Object)seatPopinContent);
             }
             if (this.isContentAvailable(seatPopinContent) && !this.isNoneContent(seatPopinContent)) {
                 this.handleAvailableContentUpdate(seatPopinContent);
@@ -186,7 +185,7 @@ public abstract class AbstractSeatPopin {
     public void requestPopin(SeatPopinContent seatPopinContent) {
         if (this.isResponsibleForContent(seatPopinContent)) {
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "[%1#requestPopin] popin is responsible for requested content('%2').", (Object)this, (Object)seatPopinContent);
+                this.getLogChannel().log(1000000, "[%1#requestPopin] popin is responsible for requested content('%2').", (Object)this, (Object)seatPopinContent);
             }
             this.handleSupportedContentRequest(seatPopinContent);
         } else {
@@ -271,30 +270,24 @@ public abstract class AbstractSeatPopin {
     }
 
     protected void resetResponsibleContent(SeatPopinContent seatPopinContent) {
-        seatPopinContent.setContent(this.isLeft(), MasterSeatPopinContent.NONE, MasterSeatPopinContent$SeatMemoryDetail.MEMORYDETAIL_MEMORY_NONE);
+        seatPopinContent.setContent(this.isLeft(), MasterSeatPopinContent.NONE, MasterSeatPopinContent.SeatMemoryDetail.MEMORYDETAIL_MEMORY_NONE);
     }
 
     protected void resetContent(SeatPopinContent seatPopinContent) {
-        seatPopinContent.setContent(true, MasterSeatPopinContent.NONE, MasterSeatPopinContent$SeatMemoryDetail.MEMORYDETAIL_MEMORY_NONE);
-        seatPopinContent.setContent(false, MasterSeatPopinContent.NONE, MasterSeatPopinContent$SeatMemoryDetail.MEMORYDETAIL_MEMORY_NONE);
+        seatPopinContent.setContent(true, MasterSeatPopinContent.NONE, MasterSeatPopinContent.SeatMemoryDetail.MEMORYDETAIL_MEMORY_NONE);
+        seatPopinContent.setContent(false, MasterSeatPopinContent.NONE, MasterSeatPopinContent.SeatMemoryDetail.MEMORYDETAIL_MEMORY_NONE);
     }
 
-    public abstract String getClassName() {
-    }
+    public abstract String getClassName();
 
-    protected abstract boolean isResponsibleForContent(SeatPopinContent seatPopinContent) {
-    }
+    protected abstract boolean isResponsibleForContent(SeatPopinContent var1);
 
-    protected abstract void fillContentModel(SeatPopinContent seatPopinContent) {
-    }
+    protected abstract void fillContentModel(SeatPopinContent var1);
 
-    protected abstract void showPartialPopinAfterSupportedContentUpdate(SeatPopinContent seatPopinContent) {
-    }
+    protected abstract void showPartialPopinAfterSupportedContentUpdate(SeatPopinContent var1);
 
-    protected abstract boolean discardCurrentContentAfterUnsupportedContentRequest(SeatPopinContent seatPopinContent) {
-    }
+    protected abstract boolean discardCurrentContentAfterUnsupportedContentRequest(SeatPopinContent var1);
 
-    public abstract void updateAvailabilityModels() {
-    }
+    public abstract void updateAvailabilityModels();
 }
 

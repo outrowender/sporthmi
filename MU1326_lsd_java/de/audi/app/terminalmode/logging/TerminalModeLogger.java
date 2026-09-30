@@ -31,47 +31,38 @@ implements ITerminalLogger {
         this.dispatcher = iFrameworkAccess.getLogChannel("App.TerminalMode.Dispatcher");
     }
 
-    @Override
     public LogChannel dsi() {
         return this.dsi;
     }
 
-    @Override
     public LogChannel osgi() {
         return this.osgi;
     }
 
-    @Override
     public LogChannel main() {
         return this.main;
     }
 
-    @Override
     public LogChannel audio() {
         return this.audio;
     }
 
-    @Override
     public LogChannel hmi() {
         return this.hmi;
     }
 
-    @Override
     public LogChannel keypanel() {
         return this.keypanel;
     }
 
-    @Override
     public LogChannel state() {
         return this.state;
     }
 
-    @Override
     public LogChannel commandList() {
         return this.commandList;
     }
 
-    @Override
     public LogChannel dispatcher() {
         return this.dispatcher;
     }

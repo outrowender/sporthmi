@@ -6,22 +6,16 @@ package de.audi.atip.hmi.view;
 import de.audi.atip.hmi.view.HMIView;
 
 public interface ITouchInputManager {
-    default public void setDesiredRecognizerMode(HMIView hMIView, int n) {
-    }
+    public void setDesiredRecognizerMode(HMIView var1, int var2);
 
-    default public void deregister(HMIView hMIView) {
-    }
+    public void deregister(HMIView var1);
 
-    default public void presetPopupActive(boolean bl) {
-    }
+    public void presetPopupActive(boolean var1);
 
-    default public boolean isPresetPopupActive() {
-    }
+    public boolean isPresetPopupActive();
 
-    default public void clear() {
-    }
+    public void clear();
 
-    default public void updateRecognizerMode(boolean bl) {
-    }
+    public void updateRecognizerMode(boolean var1);
 }
 

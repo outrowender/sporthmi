@@ -35,7 +35,7 @@ implements IBluetoothApplication {
 
     protected AbstractBluetoothApplication(IFrameworkAccess iFrameworkAccess, BundleContext bundleContext, IConnectivity iConnectivity) {
         super(iFrameworkAccess, bundleContext, "App.Bluetooth.Main", "App.Bluetooth.Commands", "AppBluetooth");
-        this.log.log(-2137614336, "AbstractBluetoothApplication#AbstractBluetoothApplication(): BluetoothApplication created.");
+        this.log.log(10000000, "AbstractBluetoothApplication#AbstractBluetoothApplication(): BluetoothApplication created.");
         this.bluetoothDsiListener = new BluetoothDSIListener(this.commandListManager, this.log);
         this.connectivity = iConnectivity;
         this.mediaBluetoothStateProvider = new MediaBluetoothStateProvider(this);
@@ -45,12 +45,10 @@ implements IBluetoothApplication {
         this.addComponent(new EcallBluetoothServiceImpl(this));
     }
 
-    @Override
     public IMediaBluetoothStateProvider getMediaBluetoothStateProvider() {
         return this.mediaBluetoothStateProvider;
     }
 
-    @Override
     protected final void registerDSIListener() {
         Hashtable hashtable = new Hashtable();
         hashtable.put("DEVICE_NAME", (class$org$dsi$ifc$bluetooth$DSIBluetoothListener == null ? (class$org$dsi$ifc$bluetooth$DSIBluetoothListener = AbstractBluetoothApplication.class$("org.dsi.ifc.bluetooth.DSIBluetoothListener")) : class$org$dsi$ifc$bluetooth$DSIBluetoothListener).getName());
@@ -58,22 +56,18 @@ implements IBluetoothApplication {
         this.getBundleContext().registerService((class$org$dsi$ifc$base$DSIListener == null ? (class$org$dsi$ifc$base$DSIListener = AbstractBluetoothApplication.class$("org.dsi.ifc.base.DSIListener")) : class$org$dsi$ifc$base$DSIListener).getName(), (Object)this.bluetoothDsiListener, (Dictionary)hashtable);
     }
 
-    @Override
     protected final void startDSI() {
         this.framework.startDSIService((class$org$dsi$ifc$bluetooth$DSIBluetooth == null ? (class$org$dsi$ifc$bluetooth$DSIBluetooth = AbstractBluetoothApplication.class$("org.dsi.ifc.bluetooth.DSIBluetooth")) : class$org$dsi$ifc$bluetooth$DSIBluetooth).getName(), 0);
     }
 
-    @Override
     public ConnectivityDiag getDiag() {
         return this.connectivity.getDiagnosis();
     }
 
-    @Override
     public PhoneProxy getPhone() {
         return this.connectivity.getPhone();
     }
 
-    @Override
     public IClampStateProvider getClampStateProvider() {
         return this.connectivity.getClampStateProvider();
     }

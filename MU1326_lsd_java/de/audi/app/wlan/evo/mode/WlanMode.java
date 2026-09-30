@@ -15,12 +15,12 @@ import org.osgi.util.tracker.ServiceTrackerCustomizer;
 public class WlanMode
 extends AbstractWlanMode
 implements ChoiceListener {
-    private static final int OFF;
-    private static final int ON;
-    private final ChoiceModelApp wlanModeChoice = this.getChoiceModel(-2061097472);
-    private final ChoiceModelApp automatedTetheringReconnect = this.getChoiceModel(505882112);
-    private static final int SDIS_NOT_CONNECTED;
-    private static final int SDIS_CONNECTED;
+    private static final int OFF = 0;
+    private static final int ON = 1;
+    private final ChoiceModelApp wlanModeChoice = this.getChoiceModel(2500229);
+    private final ChoiceModelApp automatedTetheringReconnect = this.getChoiceModel(2500382);
+    private static final int SDIS_NOT_CONNECTED = 0;
+    private static final int SDIS_CONNECTED = 1;
     private final ServiceTracker tracker = new ServiceTracker(this.bundleContext, (class$de$audi$app$data$core$online$IOnline == null ? (class$de$audi$app$data$core$online$IOnline = WlanMode.class$("de.audi.app.data.core.online.IOnline")) : class$de$audi$app$data$core$online$IOnline).getName(), (ServiceTrackerCustomizer)this);
     private IOnline iOnline;
     static /* synthetic */ Class class$de$audi$app$data$core$online$IOnline;
@@ -29,7 +29,6 @@ implements ChoiceListener {
         super(iWlanApplication);
     }
 
-    @Override
     protected void setWlanMode(boolean bl, int n) {
         if (bl) {
             this.wlanModeChoice.setValue(1);
@@ -39,16 +38,15 @@ implements ChoiceListener {
         } else {
             this.wlanModeChoice.setValue(0);
         }
-        this.log.log(-2137614336, "WlanMode#setWlanMode(): new value: %1", (long)this.wlanModeChoice.getValue());
+        this.log.log(10000000, "WlanMode#setWlanMode(): new value: %1", (long)this.wlanModeChoice.getValue());
         if (this.iOnline != null) {
             this.iOnline.updateWlanMode(bl, n == 4 || n == 2);
         }
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
         if (n == this.wlanModeChoice.getID()) {
-            this.log.log(1078071040, "WlanMode#itemSelected(): wlanMode itemID=%1", (long)n2);
+            this.log.log(1000000, "WlanMode#itemSelected(): wlanMode itemID=%1", (long)n2);
             switch (n2) {
                 case 0: {
                     this.wlanModeChoice.setValue(0);
@@ -61,12 +59,12 @@ implements ChoiceListener {
                     break;
                 }
                 default: {
-                    this.log.log(-1601830656, "WlanMode#itemSelected(): Unmapped wlan mode selected, doing nothing.");
+                    this.log.log(100000, "WlanMode#itemSelected(): Unmapped wlan mode selected, doing nothing.");
                     break;
                 }
             }
         } else if (n == this.automatedTetheringReconnect.getID()) {
-            this.log.log(1078071040, "WlanMode#itemSelected(): automatedTetheringReconnect itemID=%1", (long)n2);
+            this.log.log(1000000, "WlanMode#itemSelected(): automatedTetheringReconnect itemID=%1", (long)n2);
             switch (n2) {
                 case 0: {
                     this.automatedTetheringReconnect.setValue(0);
@@ -79,17 +77,15 @@ implements ChoiceListener {
                     break;
                 }
                 default: {
-                    this.log.log(-1601830656, "WlanMode#itemSelected(): Unmapped wlan mode selected, doing nothing.");
+                    this.log.log(100000, "WlanMode#itemSelected(): Unmapped wlan mode selected, doing nothing.");
                 }
             }
         }
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof IOnline) {
@@ -99,16 +95,14 @@ implements ChoiceListener {
         return super.addingService(serviceReference);
     }
 
-    @Override
     public void updateSdisConnected(boolean bl) {
         super.updateSdisConnected(bl);
         if (!this.isClientModeForbidden() && this.automatedTetheringReconnect.getValue() == 1) {
             this.setRoleOnly(4, null);
         }
-        this.getChoiceModel(421996032).setValue(bl ? 1 : 0);
+        this.getChoiceModel(2500377).setValue(bl ? 1 : 0);
     }
 
-    @Override
     public void updateRole(int n, int n2) {
         if (n2 != 1) {
             return;
@@ -118,7 +112,6 @@ implements ChoiceListener {
         this.automatedTetheringReconnect.setValue(bl ? 1 : 0);
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof IOnline) {
             this.iOnline = null;
@@ -127,7 +120,6 @@ implements ChoiceListener {
         super.removedService(serviceReference, object);
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
         if (object instanceof IOnline) {
             this.iOnline = (IOnline)object;
@@ -135,7 +127,6 @@ implements ChoiceListener {
         super.modifiedService(serviceReference, object);
     }
 
-    @Override
     public void init() {
         super.init();
         this.wlanModeChoice.setChoiceListener(this);
@@ -143,7 +134,6 @@ implements ChoiceListener {
         this.tracker.open();
     }
 
-    @Override
     public void deinit() {
         this.tracker.close();
         this.automatedTetheringReconnect.resetListener();

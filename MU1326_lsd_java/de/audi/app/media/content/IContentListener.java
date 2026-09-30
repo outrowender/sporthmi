@@ -7,13 +7,10 @@ import de.audi.app.media.content.IContent;
 import de.audi.app.media.source.ISourceSlot;
 
 public interface IContentListener {
-    default public void contentActivated(IContent iContent, ISourceSlot iSourceSlot) {
-    }
+    public void contentActivated(IContent var1, ISourceSlot var2);
 
-    default public void contentActivationFinished(IContent iContent) {
-    }
+    public void contentActivationFinished(IContent var1);
 
-    default public void contentDeactivated(IContent iContent) {
-    }
+    public void contentDeactivated(IContent var1);
 }
 

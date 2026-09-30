@@ -9,8 +9,8 @@ import de.audi.atip.log.LogChannel;
 class PopupMapperEvo {
     private static int[][] commandModeToPopupMappingID = new int[][]{{4, 102}, {2, 103}, {3, 104}, {1, 105}, {5, 106}, {0, 107}, {6, 108}, {8, 109}, {9, 110}, {10, 111}, {7, 112}};
     private static final int[][] helpModeToHelpPopupMappingID = new int[][]{{0, 120}, {4, 121}, {1, 122}, {2, 123}, {3, 124}, {5, 125}, {6, 126}, {7, 127}, {8, 128}, {9, 129}, {10, 130}, {11, 131}, {12, 132}, {13, 133}, {14, 134}, {15, 135}, {17, 136}, {18, 137}, {19, 138}, {20, 139}, {21, 140}, {16, 141}, {22, 142}, {23, 143}};
-    private static final int[][] popupMappingToHMIPopup = new int[][]{{0, 1}, {1, 2}, {2, 3}, {3, 11}, {4, 19}, {70, 1622018560}, {71, 1638795776}, {72, 1655572992}, {73, 1672350208}, {74, -275577856}, {75, -1030676224}, {76, -963567360}, {77, -997121792}, {44, -1961228800}, {40, -2145778176}, {41, -1994783232}, {42, -2011560448}, {43, -1978006016}, {45, -1944451584}, {46, -1927674368}, {50, -1877342720}, {51, -1860565504}, {47, -132512256}, {48, -820378112}, {49, -65403392}, {101, 14}, {113, 18}, {11, -1517944576}, {10, -1517944576}, {1000, 15}, {20, 1192035072}, {30, -325909504}, {114, 20}, {115, -527236096}, {78, -946790144}, {52, -1827011072}, {102, 12}, {103, 1208812288}, {104, -393018368}, {105, -1534721792}, {106, -2028337664}, {107, -2045114880}, {108, 1612194560}, {109, -1064230656}, {110, -1047453440}, {111, 1662526208}, {112, -936965888}, {120, 1175257856}, {121, 1108148992}, {122, 1158480640}, {123, 1141703424}, {124, 1124926208}, {125, -1601830656}, {126, -1551499008}, {127, -1585053440}, {126, -1568276224}, {129, -2129000960}, {130, -2095446528}, {131, -2061892096}, {132, -2078669312}, {133, -409795584}, {134, -510458880}, {135, -493681664}, {136, -460127232}, {137, -443350016}, {138, -426572800}, {139, 10}, {140, -2112223744}, {141, -970520320}, {142, 1628971776}, {143, 1645748992}, {128, -1568276224}, {100, 13}, {80, 30}, {81, 31}, {82, 32}, {83, 33}, {84, 34}, {85, 35}, {86, 36}, {87, 37}, {88, 38}, {89, 39}, {90, 40}};
-    private static final int[] bigCommandPopups = new int[]{12, 1208812288, -393018368, -1534721792, -2028337664, -2045114880, 1612194560, -936965888, -1064230656, -1047453440, 1662526208};
+    private static final int[][] popupMappingToHMIPopup = new int[][]{{0, 1}, {1, 2}, {2, 3}, {3, 11}, {4, 19}, {70, 700000}, {71, 700001}, {72, 700002}, {73, 700003}, {74, 300015}, {75, 2200002}, {76, 2200006}, {77, 2200004}, {44, 400011}, {40, 400000}, {41, 400009}, {42, 400008}, {43, 400010}, {45, 400012}, {46, 400013}, {50, 400016}, {51, 400017}, {47, 400120}, {48, 400079}, {49, 400124}, {101, 14}, {113, 18}, {11, 100005}, {10, 100005}, {1000, 15}, {20, 200007}, {30, 300012}, {114, 20}, {115, 300000}, {78, 2200007}, {52, 400019}, {102, 12}, {103, 200008}, {104, 300008}, {105, 100004}, {106, 400007}, {107, 400006}, {108, 2300000}, {109, 2200000}, {110, 2200001}, {111, 2300003}, {112, 600008}, {120, 200006}, {121, 200002}, {122, 200005}, {123, 200004}, {124, 200003}, {125, 100000}, {126, 100003}, {127, 100001}, {126, 100002}, {129, 400001}, {130, 400003}, {131, 400005}, {132, 400004}, {133, 300007}, {134, 300001}, {135, 300002}, {136, 300004}, {137, 300005}, {138, 300006}, {139, 10}, {140, 400002}, {141, 600006}, {142, 2300001}, {143, 2300002}, {128, 100002}, {100, 13}, {80, 30}, {81, 31}, {82, 32}, {83, 33}, {84, 34}, {85, 35}, {86, 36}, {87, 37}, {88, 38}, {89, 39}, {90, 40}};
+    private static final int[] bigCommandPopups = new int[]{12, 200008, 300008, 100004, 400007, 400006, 2300000, 600008, 2200000, 2200001, 2300003};
     private static final int[] furtherCommandPopups = new int[]{13, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40};
     private static final int[] disambiguationPopups = new int[]{14, 18};
 
@@ -18,25 +18,25 @@ class PopupMapperEvo {
     }
 
     static int getCommandScreenPopupMapping(int n, LogChannel logChannel) {
-        logChannel.log(-2137614336, "PopupMapper#getCommandScreenPopup: commandMode=%1", (long)n);
+        logChannel.log(10000000, "PopupMapper#getCommandScreenPopup: commandMode=%1", (long)n);
         int n2 = SDSUtils.translate(n, commandModeToPopupMappingID);
-        return n2 == 128 ? -1 : n2;
+        return n2 == Integer.MIN_VALUE ? -1 : n2;
     }
 
     static int getHelpScreenPopupMapping(int n, LogChannel logChannel) {
-        logChannel.log(-2137614336, "PopupMapper#getHelpScreenPopup: listMode=%1", (long)n);
+        logChannel.log(10000000, "PopupMapper#getHelpScreenPopup: listMode=%1", (long)n);
         int n2 = SDSUtils.translate(n, helpModeToHelpPopupMappingID);
-        return n2 == 128 ? -1 : n2;
+        return n2 == Integer.MIN_VALUE ? -1 : n2;
     }
 
     static int getPopupID(int n) {
         int n2 = SDSUtils.translate(n, popupMappingToHMIPopup);
-        return n2 == 128 ? -1 : n2;
+        return n2 == Integer.MIN_VALUE ? -1 : n2;
     }
 
     static int getPopupMappingID(int n) {
         int n2 = SDSUtils.reverseTranslate(n, popupMappingToHMIPopup);
-        return n2 == 128 ? -1 : n2;
+        return n2 == Integer.MIN_VALUE ? -1 : n2;
     }
 
     static int[] getSDSPopups() {
@@ -48,7 +48,7 @@ class PopupMapperEvo {
     }
 
     static boolean isSDSPopup(int n) {
-        return 128 != SDSUtils.reverseTranslate(n, popupMappingToHMIPopup);
+        return Integer.MIN_VALUE != SDSUtils.reverseTranslate(n, popupMappingToHMIPopup);
     }
 
     static int[] getBigCommandPopups() {

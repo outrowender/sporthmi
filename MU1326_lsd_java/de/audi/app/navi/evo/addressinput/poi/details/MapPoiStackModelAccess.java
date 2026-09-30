@@ -15,7 +15,6 @@ extends AbstractPoiBaseListModelAccess {
         super(navigationEnv, baseListModelListener, iEvoListRowBuilder, n);
     }
 
-    @Override
     public void onElementSelected(LIValueListElement lIValueListElement) {
     }
 }

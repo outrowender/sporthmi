@@ -14,29 +14,26 @@ extends AbstractTelDSIMECommand {
         super(iTelDSIMobileEquipmentRequestWrapper, logChannel, "TelAbortNetworkRegistrationCmd", n, iTelDSIResponseListener);
     }
 
-    @Override
     public void execute() {
         if (this.isDSIAvailable()) {
-            this.logger.log(1078071040, "[TelAbortNetworkRegistrationCmd#execute]");
+            this.logger.log(1000000, "[TelAbortNetworkRegistrationCmd#execute]");
             this.dsi.requestAbortNetworkRegistration();
         } else {
-            this.logger.log(-1601830656, "[TelAbortNetworkRegistrationCmd#execute] dsi is null!");
+            this.logger.log(100000, "[TelAbortNetworkRegistrationCmd#execute] dsi is null!");
             this.getCommandList().commandFinished();
         }
     }
 
-    @Override
     public void responseAbortNetworkRegistration(int n) {
-        this.logger.log(1078071040, "[TelAbortServiceCodeRequestCmd#responseAbortNetworkRegistration] result=%1", (long)n);
+        this.logger.log(1000000, "[TelAbortServiceCodeRequestCmd#responseAbortNetworkRegistration] result=%1", (long)n);
         if (this.listener != null) {
             this.listener.responseAbortNetworkRegistration(n, this.terminalID);
         }
         this.getCommandList().commandFinished();
     }
 
-    @Override
     public void responseNetworkRegistration(int n) {
-        this.logger.log(1078071040, "[TelAbortServiceCodeRequestCmd#responseNetworkRegistration] result=%1", (long)n);
+        this.logger.log(1000000, "[TelAbortServiceCodeRequestCmd#responseNetworkRegistration] result=%1", (long)n);
         if (this.listener != null) {
             this.listener.responseNetworkRegistration(n, this.terminalID);
         }

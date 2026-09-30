@@ -21,29 +21,23 @@ extends AbstractHybridBaseComponent {
         this.getViewController().setWheelDriveType(n);
     }
 
-    protected abstract IHybridEnergyMonitorViewController getViewController() {
-    }
+    protected abstract IHybridEnergyMonitorViewController getViewController();
 
-    @Override
     public String getName() {
         return "HybridEnergyMonitor";
     }
 
-    @Override
     public CarDSIAttributesSet[] getDSIAttributesSets() {
         return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{1}, new int[]{3, 2, 8})};
     }
 
-    @Override
     protected void initModels() {
         this.getViewController().initialize();
     }
 
-    @Override
     protected void deinitModels() {
     }
 
-    @Override
     public void updateHybridViewOptions(HybridViewOptions hybridViewOptions, int n) {
         super.updateHybridViewOptions(hybridViewOptions, n);
         if (1 == n) {
@@ -51,31 +45,28 @@ extends AbstractHybridBaseComponent {
         }
     }
 
-    @Override
     public void updateHybridEnergyFlowState(HybridEnergyFlowState hybridEnergyFlowState, int n) {
         if (1 == n) {
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "[AbstractHybridEnergyMonitorComponent#updateHybridEnergyFlowState] energyFlowState='%1'", (Object)hybridEnergyFlowState);
+                this.getLogChannel().log(1000000, "[AbstractHybridEnergyMonitorComponent#updateHybridEnergyFlowState] energyFlowState='%1'", (Object)hybridEnergyFlowState);
             }
             this.getViewController().updateHybridEnergyFlowState(hybridEnergyFlowState);
         }
     }
 
-    @Override
     public void updateHybridCharge(int n, int n2) {
         if (1 == n2) {
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "[AbstractHybridEnergyMonitorComponent#updateHybridCharge] currentCharge=%1, validFlag=%2", (long)n, (long)n2);
+                this.getLogChannel().log(1000000, "[AbstractHybridEnergyMonitorComponent#updateHybridCharge] currentCharge=%1, validFlag=%2", (long)n, (long)n2);
             }
             this.getViewController().updateHybridCharge(n);
         }
     }
 
-    @Override
     public void updateBatteryControlChargeState(BatteryControlChargeState batteryControlChargeState, int n) {
         if (1 == n) {
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "[AbstractHybridEnergyMonitorComponent#updateBatteryControlChargeState] chargeState=%1, validFlag=%2", (Object)batteryControlChargeState, (long)n);
+                this.getLogChannel().log(1000000, "[AbstractHybridEnergyMonitorComponent#updateBatteryControlChargeState] chargeState=%1, validFlag=%2", (Object)batteryControlChargeState, (long)n);
             }
             this.getViewController().updateBatteryControlChargeState(batteryControlChargeState);
         }

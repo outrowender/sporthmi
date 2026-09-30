@@ -6,76 +6,52 @@ package de.audi.app.data.core.online;
 import org.dsi.ifc.bluetooth.ReconnectInfo;
 
 public interface IOnline {
-    default public void notifyLocalNetMode() {
-    }
+    public void notifyLocalNetMode();
 
-    default public void updateSimState(int n, boolean bl, boolean bl2, boolean bl3) {
-    }
+    public void updateSimState(int var1, boolean var2, boolean var3, boolean var4);
 
-    default public void updateProfileState(int n) {
-    }
+    public void updateProfileState(int var1);
 
-    default public void updatePermissionGeneral(int n) {
-    }
+    public void updatePermissionGeneral(int var1);
 
-    default public void updatePermission(int n, int n2) {
-    }
+    public void updatePermission(int var1, int var2);
 
-    default public void updatePermissionRoaming(int n) {
-    }
+    public void updatePermissionRoaming(int var1);
 
-    default public void roamingSettingDeactivatedByUser() {
-    }
+    public void roamingSettingDeactivatedByUser();
 
-    default public void wlanHotspotActive(boolean bl) {
-    }
+    public void wlanHotspotActive(boolean var1);
 
-    default public void onlineAppEntered() {
-    }
+    public void onlineAppEntered();
 
-    default public void onlineAppLeft() {
-    }
+    public void onlineAppLeft();
 
-    default public void onlineCheckEntered() {
-    }
+    public void onlineCheckEntered();
 
-    default public void onlineCheckLeft() {
-    }
+    public void onlineCheckLeft();
 
-    default public void onlinePopupEntered() {
-    }
+    public void onlinePopupEntered();
 
-    default public void onlinePopupLeft() {
-    }
+    public void onlinePopupLeft();
 
-    default public void onlinePopupRemoved() {
-    }
+    public void onlinePopupRemoved();
 
-    default public void onlineRequestEntered(int n) {
-    }
+    public void onlineRequestEntered(int var1);
 
-    default public void telAppEntered() {
-    }
+    public void telAppEntered();
 
-    default public void telAppLeft() {
-    }
+    public void telAppLeft();
 
-    default public void telUnlockEntered() {
-    }
+    public void telUnlockEntered();
 
-    default public void telUnlockLeft() {
-    }
+    public void telUnlockLeft();
 
-    default public void hkTelPressed() {
-    }
+    public void hkTelPressed();
 
-    default public void updateReconnectInfo(ReconnectInfo reconnectInfo) {
-    }
+    public void updateReconnectInfo(ReconnectInfo var1);
 
-    default public void updateWlanMode(boolean bl, boolean bl2) {
-    }
+    public void updateWlanMode(boolean var1, boolean var2);
 
-    default public void updateTrustedNetworks(boolean bl) {
-    }
+    public void updateTrustedNetworks(boolean var1);
 }
 

@@ -14,7 +14,6 @@ extends AbstractBAPArrayElementListASG {
         super(logChannel);
     }
 
-    @Override
     public boolean isDeleted(BAPArrayElement bAPArrayElement) {
         return bAPArrayElement instanceof AllowedEmergencyNumbers_Data && ((AllowedEmergencyNumbers_Data)bAPArrayElement).id.isEmptyString();
     }

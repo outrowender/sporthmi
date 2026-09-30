@@ -10,37 +10,26 @@ import de.audi.atip.hmi.event.KeyEvent;
 import de.audi.atip.hmi.event.WheelButtonEvent;
 
 public interface IVirtualGUIManager {
-    default public void notifyPowerListenerOnEnterState(int n, int n2) {
-    }
+    public void notifyPowerListenerOnEnterState(int var1, int var2);
 
-    default public void notifyPowerListenerOnExitState(int n, int n2) {
-    }
+    public void notifyPowerListenerOnExitState(int var1, int var2);
 
-    default public void notifyPowerTriggerAction(int n, int n2) {
-    }
+    public void notifyPowerTriggerAction(int var1, int var2);
 
-    default public void updateClampState(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
-    }
+    public void updateClampState(boolean var1, boolean var2, boolean var3, boolean var4);
 
-    default public void connectService(HMIApplication hMIApplication) {
-    }
+    public void connectService(HMIApplication var1);
 
-    default public void disconnectService(HMIApplication hMIApplication) {
-    }
+    public void disconnectService(HMIApplication var1);
 
-    default public void keyPressed(KeyEvent keyEvent) {
-    }
+    public void keyPressed(KeyEvent var1);
 
-    default public void keyMoved(JoystickEvent joystickEvent) {
-    }
+    public void keyMoved(JoystickEvent var1);
 
-    default public void keyReleased(KeyEvent keyEvent) {
-    }
+    public void keyReleased(KeyEvent var1);
 
-    default public void keyTurned(WheelButtonEvent wheelButtonEvent) {
-    }
+    public void keyTurned(WheelButtonEvent var1);
 
-    default public IFocusManager getFocusManager() {
-    }
+    public IFocusManager getFocusManager();
 }
 

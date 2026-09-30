@@ -21,13 +21,11 @@ implements J9SSLContext {
     private J9SSLSessionContext sessionTable = new J9SSLSessionContext();
     private boolean sessionCreationEnabled = true;
 
-    @Override
     public void getRandomBytes(byte[] byArray) {
         CL3.rng(null, byArray, 0, byArray.length);
     }
 
-    @Override
-    public void verifyCertificateChain(X509Certificate[] x509CertificateArray) {
+    public void verifyCertificateChain(X509Certificate[] x509CertificateArray) throws CertificateException {
         try {
             CertificateVerifierSecurity.verifyCertificateChain(x509CertificateArray, new Date());
         }
@@ -36,47 +34,38 @@ implements J9SSLContext {
         }
     }
 
-    @Override
     public void addSession(SessionState sessionState) {
         this.sessionTable.addSession(sessionState);
     }
 
-    @Override
     public SessionState getSession(String string) {
         return this.sessionTable.getSession(string);
     }
 
-    @Override
     public void removeSession(SessionState sessionState) {
         this.sessionTable.removeSession(sessionState);
     }
 
-    @Override
     public J9SSLSessionContext getSessionContext() {
         return this.sessionTable;
     }
 
-    @Override
     public boolean getSessionCreationEnabled() {
         return this.sessionCreationEnabled;
     }
 
-    @Override
     public void setEnableSessionCreation(boolean bl) {
         this.sessionCreationEnabled = bl;
     }
 
-    @Override
     public PrivateKey getPrivateKey(String string) {
         throw new UnsupportedOperationException(Msg.getString("K03ab"));
     }
 
-    @Override
     public X509Certificate[] getClientCertificateChain(String string) {
         throw new UnsupportedOperationException(Msg.getString("K03ab"));
     }
 
-    @Override
     public String getClientAlias(String[] stringArray, Principal[] principalArray) {
         throw new UnsupportedOperationException(Msg.getString("K03ab"));
     }

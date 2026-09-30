@@ -15,28 +15,20 @@ import de.vw.mib.bap.requests.StatusProperty;
 
 public interface IFunctionRegistrationFSG
 extends IFunctionRegistration {
-    default public BAPFunctionMethodFSG getBAPFunctionMethodFSG(int n) {
-    }
+    public BAPFunctionMethodFSG getBAPFunctionMethodFSG(int var1);
 
-    default public ResultMethod createResultForMethodFSG(int n) {
-    }
+    public ResultMethod createResultForMethodFSG(int var1);
 
-    default public BAPFunctionPropertyFSG getBAPFunctionPropertyFSG(int n) {
-    }
+    public BAPFunctionPropertyFSG getBAPFunctionPropertyFSG(int var1);
 
-    default public StatusProperty createStatusForPropertyFSG(int n) {
-    }
+    public StatusProperty createStatusForPropertyFSG(int var1);
 
-    default public StatusAckProperty createStatusAckForPropertyFSG(int n) {
-    }
+    public StatusAckProperty createStatusAckForPropertyFSG(int var1);
 
-    default public BAPFunctionArrayFSG getBAPFunctionArrayFSG(int n) {
-    }
+    public BAPFunctionArrayFSG getBAPFunctionArrayFSG(int var1);
 
-    default public StatusArray createStatusArrayForArrayFSG(int n) {
-    }
+    public StatusArray createStatusArrayForArrayFSG(int var1);
 
-    default public ChangedArray createChangedArrayForArrayFSG(int n) {
-    }
+    public ChangedArray createChangedArrayForArrayFSG(int var1);
 }
 

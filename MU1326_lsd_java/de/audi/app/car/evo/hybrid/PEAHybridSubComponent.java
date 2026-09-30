@@ -17,21 +17,17 @@ extends AbstractPEAHybridSubComponent {
         this.peaComponent = pEAComponentHybridAccess;
     }
 
-    @Override
     protected void initVisibility() {
     }
 
-    @Override
     protected void deinitVisibility() {
     }
 
-    @Override
     public void updateMenuEntryVisibility(HybridViewOptions hybridViewOptions) {
         int n = this.getMenuEntryVisibilityState(hybridViewOptions.hybridActivePedal);
         this.peaComponent.updateHybridFunctionVisibility(n);
     }
 
-    @Override
     public int getID() {
         return 50;
     }

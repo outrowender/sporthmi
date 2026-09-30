@@ -43,183 +43,152 @@ IConnectivitySimUsageListener {
         this.errorHandler = abstractErrorHandler;
         this.onlineErrorState = new OnlineErrorState(this.log, iDataApplication.getFramework().getHmiServiceApp(), abstractErrorHandler);
         this.applicationState = new OnlineApplicationState(this.log, abstractErrorHandler);
-        this.onlineCheckApplicationChoice = this.getChoiceModel(2049320448);
+        this.onlineCheckApplicationChoice = this.getChoiceModel(2500218);
     }
 
-    @Override
     protected int[] getAttributeNotifications() {
         return ATTRIBUTE_NOTIFICATIONS;
     }
 
-    @Override
     public void notifyLocalNetMode() {
-        this.log.log(1078071040, "BaseOnlineComponent#notifyLocalNetMode(): Local net mode is active");
+        this.log.log(1000000, "BaseOnlineComponent#notifyLocalNetMode(): Local net mode is active");
         this.onlineErrorState.updateLocalNetMode();
     }
 
-    @Override
     public void updateSimState(int n, boolean bl, boolean bl2, boolean bl3) {
-        this.log.log(-2137614336, "BaseOnlineComponent#updateSimState(): simState=%2, isNadModeDataOnly=%1", bl, (long)n);
+        this.log.log(10000000, "BaseOnlineComponent#updateSimState(): simState=%2, isNadModeDataOnly=%1", bl, (long)n);
         this.applicationState.updatePhone(bl);
         this.onlineErrorState.updateSimState(n, bl, bl2, bl3);
     }
 
-    @Override
     public void updateProfileState(int n) {
-        this.log.log(-2137614336, "BaseOnlineComponent#updateProfileState(): profileState=%1", (long)n);
+        this.log.log(10000000, "BaseOnlineComponent#updateProfileState(): profileState=%1", (long)n);
         this.onlineErrorState.updateProfileState(n);
     }
 
-    @Override
     public void updatePermissionGeneral(int n) {
-        this.log.log(-2137614336, "BaseOnlineComponent#updatePermissionGeneral(): permissionState=%1", (long)n);
+        this.log.log(10000000, "BaseOnlineComponent#updatePermissionGeneral(): permissionState=%1", (long)n);
         this.onlineErrorState.updatePermissionGeneral(n);
     }
 
-    @Override
     public void updatePermission(int n, int n2) {
-        this.log.log(-2137614336, "BaseOnlineComponent#updatePermission(): permissionState=%1", (long)n2);
+        this.log.log(10000000, "BaseOnlineComponent#updatePermission(): permissionState=%1", (long)n2);
         this.onlineErrorState.updatePermission(n, n2);
     }
 
-    @Override
     public void updatePermissionRoaming(int n) {
-        this.log.log(-2137614336, "BaseOnlineComponent#updatePermissionRoaming(): permissionState=%1", (long)n);
+        this.log.log(10000000, "BaseOnlineComponent#updatePermissionRoaming(): permissionState=%1", (long)n);
         this.onlineErrorState.updatePermissionRoaming(n);
     }
 
-    @Override
     public void roamingSettingDeactivatedByUser() {
-        this.log.log(-2137614336, "BaseOnlineComponent#roamingSettingDeactivatedByUser()");
+        this.log.log(10000000, "BaseOnlineComponent#roamingSettingDeactivatedByUser()");
         this.errorHandler.roamingSettingDeactivatedByUser();
     }
 
-    @Override
     public void onlineAppEntered() {
-        this.log.log(1078071040, "BaseOnlineComponent#onlineAppEntered()");
+        this.log.log(1000000, "BaseOnlineComponent#onlineAppEntered()");
         this.applicationState.updateRedApp(true);
     }
 
-    @Override
     public void onlineAppLeft() {
-        this.log.log(1078071040, "BaseOnlineComponent#onlineAppLeft()");
+        this.log.log(1000000, "BaseOnlineComponent#onlineAppLeft()");
         this.applicationState.updateRedApp(false);
     }
 
-    @Override
     public void wlanHotspotActive(boolean bl) {
-        this.log.log(-2137614336, "BaseOnlineComponent#wlanHotspotActive(): %1", bl);
+        this.log.log(10000000, "BaseOnlineComponent#wlanHotspotActive(): %1", bl);
         this.applicationState.updateWlan(bl);
     }
 
-    @Override
     public void onlineCheckEntered() {
-        this.log.log(-2137614336, "BaseOnlineComponent#onlineCheckEntered()");
+        this.log.log(10000000, "BaseOnlineComponent#onlineCheckEntered()");
         this.applicationState.updateCheck(true);
         this.errorHandler.errorShown(true);
     }
 
-    @Override
     public void onlineCheckLeft() {
-        this.log.log(-2137614336, "BaseOnlineComponent#onlineCheckLeft()");
+        this.log.log(10000000, "BaseOnlineComponent#onlineCheckLeft()");
         this.errorHandler.errorShown(false);
         this.applicationState.updateCheck(false);
     }
 
-    @Override
     public void onlinePopupEntered() {
-        this.log.log(-2137614336, "BaseOnlineComponent#onlinePopupEntered()");
+        this.log.log(10000000, "BaseOnlineComponent#onlinePopupEntered()");
     }
 
-    @Override
     public void onlinePopupLeft() {
-        this.log.log(-2137614336, "BaseOnlineComponent#onlinePopupLeft()");
+        this.log.log(10000000, "BaseOnlineComponent#onlinePopupLeft()");
     }
 
-    @Override
     public void onlinePopupRemoved() {
-        this.log.log(-2137614336, "BaseOnlineComponent#onlinePopupRemoved()");
+        this.log.log(10000000, "BaseOnlineComponent#onlinePopupRemoved()");
         this.onlineCheckApplicationChoice.setValue(0);
     }
 
-    @Override
     public void onlineRequestEntered(int n) {
-        this.log.log(-2137614336, "BaseOnlineComponent#onlineRequestEntered(): %1", (long)n);
+        this.log.log(10000000, "BaseOnlineComponent#onlineRequestEntered(): %1", (long)n);
         this.errorHandler.notifyErrorShown(n, 14);
     }
 
-    @Override
     public void telAppEntered() {
-        this.log.log(1078071040, "BaseOnlineComponent#telAppEntered()");
+        this.log.log(1000000, "BaseOnlineComponent#telAppEntered()");
         this.errorHandler.telAppEntered();
     }
 
-    @Override
     public void telAppLeft() {
-        this.log.log(1078071040, "BaseOnlineComponent#telAppLeft()");
+        this.log.log(1000000, "BaseOnlineComponent#telAppLeft()");
         this.errorHandler.telAppLeft();
     }
 
-    @Override
     public void telUnlockEntered() {
-        this.log.log(1078071040, "BaseOnlineComponent#telUnlockEntered()");
+        this.log.log(1000000, "BaseOnlineComponent#telUnlockEntered()");
         this.applicationState.updateTelUnlock(true);
     }
 
-    @Override
     public void telUnlockLeft() {
-        this.log.log(1078071040, "BaseOnlineComponent#telUnlockLeft()");
+        this.log.log(1000000, "BaseOnlineComponent#telUnlockLeft()");
         this.applicationState.updateTelUnlock(false);
     }
 
-    @Override
     public void hkTelPressed() {
-        this.log.log(1078071040, "BaseOnlineComponent#hkTelPressed()");
+        this.log.log(1000000, "BaseOnlineComponent#hkTelPressed()");
         this.errorHandler.hkTelPressed();
     }
 
-    @Override
     public void updateReconnectInfo(ReconnectInfo reconnectInfo) {
         this.errorHandler.updateReconnectInfo(reconnectInfo);
     }
 
-    @Override
     public void updateWlanMode(boolean bl, boolean bl2) {
-        this.log.log(1078071040, "BaseOnlineComponent#updateWlanMode(): is on=%1, client mode=%2", bl, bl2);
+        this.log.log(1000000, "BaseOnlineComponent#updateWlanMode(): is on=%1, client mode=%2", bl, bl2);
         this.errorHandler.updateWlanMode(bl, bl2);
     }
 
-    @Override
     public void updateTrustedNetworks(boolean bl) {
-        this.log.log(1078071040, "BaseOnlineComponent#updateTrustedNetworks(): %1", bl);
+        this.log.log(1000000, "BaseOnlineComponent#updateTrustedNetworks(): %1", bl);
         this.errorHandler.updateTrustedNetworks(bl);
     }
 
-    @Override
     public void onlineMapEntered() {
-        this.log.log(1078071040, "BaseOnlineComponent#onlineMapEntered()");
+        this.log.log(1000000, "BaseOnlineComponent#onlineMapEntered()");
         this.applicationState.updateMap(true);
     }
 
-    @Override
     public void onlineMapLeft() {
-        this.log.log(1078071040, "BaseOnlineComponent#onlineMapLeft()");
+        this.log.log(1000000, "BaseOnlineComponent#onlineMapLeft()");
         this.applicationState.updateMap(false);
     }
 
-    @Override
     public void enableOnlineDataConfiguration() {
     }
 
-    @Override
     public void disableOnlineDataConfiguration() {
     }
 
-    @Override
     public void connectivityDataOnlineCheckEntered() {
     }
 
-    @Override
     public void connectivityDataOnlineCheckLeft() {
     }
 
@@ -227,22 +196,19 @@ IConnectivitySimUsageListener {
         return this.onlineErrorState;
     }
 
-    @Override
     public void updateRoamingState(int n, int n2) {
         if (n2 != 1) {
             return;
         }
-        this.log.log(1078071040, "BaseOnlineComponent#updateRoamingState(): %1", (long)n);
+        this.log.log(1000000, "BaseOnlineComponent#updateRoamingState(): %1", (long)n);
         boolean bl = n == 11;
         this.onlineErrorState.updateRoamingState(bl);
     }
 
-    @Override
     public void updateSimUsageToBeShown(boolean bl) {
         this.onlineErrorState.updateSimUsageToBeShown(bl);
     }
 
-    @Override
     public void init() {
         super.init();
         this.serviceRegistration1 = this.dataApplication.getBundleContext().registerService((class$de$audi$app$data$core$online$IOnline == null ? (class$de$audi$app$data$core$online$IOnline = BaseOnlineComponent.class$("de.audi.app.data.core.online.IOnline")) : class$de$audi$app$data$core$online$IOnline).getName(), (Object)this, null);
@@ -251,7 +217,6 @@ IConnectivitySimUsageListener {
         this.dataApplication.getDiag().addDiagnosisComponent((IDiagComponent)new BaseOnlineComponentDiag(this));
     }
 
-    @Override
     public void deinit() {
         this.serviceRegistration1.unregister();
         this.serviceRegistration1 = null;

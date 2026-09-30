@@ -24,23 +24,20 @@ implements ADBHMIAppService {
         this.log = logChannel;
     }
 
-    @Override
     public void showEntryDetails(long l, int n) {
-        this.log.log(1078071040, "AddressBookHMIAppServiceImpl#showEntryDetails(): entryId: %1, context: %2", l, (long)n);
+        this.log.log(1000000, "AddressBookHMIAppServiceImpl#showEntryDetails(): entryId: %1, context: %2", l, (long)n);
         this.setAdbModeFromCallingContext(n);
         GetEntryCommand.createGetEntryCommand(this.appAdr, l);
     }
 
-    @Override
     public void showSpeedDialEntryDetails(long l, int n) {
-        this.log.log(1078071040, "AddressBookHMIAppServiceImpl#showSpeedDialEntryDetails(): entryId: %1, context: %2", l, (long)n);
+        this.log.log(1000000, "AddressBookHMIAppServiceImpl#showSpeedDialEntryDetails(): entryId: %1, context: %2", l, (long)n);
         this.setAdbModeFromCallingContext(n);
         GetSpeedDialEntryCommand.createGetSpeedDialEntryCommand(this.appAdr, l);
     }
 
-    @Override
     public void showEntryDetails(AdbEntry adbEntry, int n) {
-        this.log.log(1078071040, "AddressBookHMIAppServiceImpl#showEntryDetails(): entry: %1", (Object)adbEntry);
+        this.log.log(1000000, "AddressBookHMIAppServiceImpl#showEntryDetails(): entry: %1", (Object)adbEntry);
         this.setAdbModeFromCallingContext(n);
         this.appAdr.setCurrentEntry(adbEntry);
         this.appAdr.setFocusedEntryId(adbEntry.entryId);
@@ -68,16 +65,14 @@ implements ADBHMIAppService {
         }
     }
 
-    @Override
     public void requestParseVCards(String string, ADBHMIAppServiceListener aDBHMIAppServiceListener) {
-        this.log.log(-2137614336, "AddressBookHMIAppServiceImpl#requestParseVCards(): fullPathToVCards: %1", (Object)string);
+        this.log.log(10000000, "AddressBookHMIAppServiceImpl#requestParseVCards(): fullPathToVCards: %1", (Object)string);
         VCardExchangeADBHandler vCardExchangeADBHandler = this.appAdr.getVCardExchangeADBHandler();
         ParseVCardCommand.createParseVCardCommand(vCardExchangeADBHandler, string, aDBHMIAppServiceListener);
     }
 
-    @Override
     public void requestInsertEntry(AdbEntry adbEntry, ADBHMIAppServiceListener aDBHMIAppServiceListener) {
-        this.log.log(1078071040, "AddressBookHMIAppServiceImpl#requestInsertEntry(): adbEntry: %1", (Object)adbEntry);
+        this.log.log(1000000, "AddressBookHMIAppServiceImpl#requestInsertEntry(): adbEntry: %1", (Object)adbEntry);
         InsertEntryCommand.createInsertEntryCommand(this.appAdr, adbEntry, aDBHMIAppServiceListener);
     }
 }

@@ -16,17 +16,14 @@ implements PhoneService {
         super(logChannel, "PhoneService");
     }
 
-    @Override
     public void dialNumber(String string, String string2, boolean bl) {
         super.log();
     }
 
-    @Override
     public void dialNumber(String string, String string2, long l, long l2, long l3, ResourceLocator resourceLocator, int n, int n2, boolean bl) {
         super.log();
     }
 
-    @Override
     public boolean isDefaultRingingActive() {
         super.log();
         return false;
@@ -40,149 +37,123 @@ implements PhoneService {
         super.log();
     }
 
-    @Override
     public void setMicGainLevel(int n) {
         super.log();
     }
 
-    @Override
     public String getIMSI() {
         super.log();
         return "";
     }
 
-    @Override
     public void fillCallStackList(ListModelApp listModelApp, int n) {
         super.log();
     }
 
-    @Override
     public String getCallStackNumber(ListModelApp listModelApp, int n) {
         super.log();
         return null;
     }
 
-    @Override
     public int getCallStackLength(int n) {
         super.log();
         return 0;
     }
 
-    @Override
     public String getCallStackNumber(int n) {
         super.log();
         return null;
     }
 
-    @Override
     public String getLastDialedNumber() {
         super.log();
         return null;
     }
 
-    @Override
     public boolean dialMailboxNumber(boolean bl) {
         super.log();
         return false;
     }
 
-    @Override
     public void setWaitForDialing(boolean bl) {
         super.log();
     }
 
-    @Override
     public int getPhonePowerState() {
         super.log();
         return 0;
     }
 
-    @Override
     public int getPhoneLockState() {
         super.log();
         return 0;
     }
 
-    @Override
     public boolean hasNetwork() {
         super.log();
         return false;
     }
 
-    @Override
     public void setNumberSpeller(String string) {
         super.log();
     }
 
-    @Override
     public String getNumberSpellerContent() {
         super.log();
         return null;
     }
 
-    @Override
     public void setPINSpeller(String string, boolean bl) {
         super.log();
     }
 
-    @Override
     public String getPINSpellerContent() {
         super.log();
         return null;
     }
 
-    @Override
     public boolean checkForSuppService(String string) {
         super.log();
         return false;
     }
 
-    @Override
     public int getNumType(String string) {
         super.log();
         return 0;
     }
 
-    @Override
     public boolean isPrivacyModeOn() {
         super.log();
         return false;
     }
 
-    @Override
     public void unlock(int n, String string) {
         super.log();
     }
 
-    @Override
     public byte freezeDynamicLists() {
         super.log();
         return 0;
     }
 
-    @Override
     public byte unfreezeDynamicLists() {
         super.log();
         return 0;
     }
 
-    @Override
     public void setUserDefinedRingtone(String string, String string2) {
         super.log();
     }
 
-    @Override
     public void updateConnectedBTProfiles(boolean bl) {
         super.log();
     }
 
-    @Override
     public boolean callLastDialedNumber() {
         super.log();
         return false;
     }
 
-    @Override
     public String getFavoritesNumber(int n) {
         super.log();
         return null;

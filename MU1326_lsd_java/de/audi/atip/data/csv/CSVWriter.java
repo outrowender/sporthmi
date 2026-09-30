@@ -14,23 +14,23 @@ public class CSVWriter {
     private boolean isNotFirstLine = false;
     private BufferedWriter writer;
 
-    public CSVWriter(File file) {
+    public CSVWriter(File file) throws IOException {
         this(file, ';');
     }
 
-    public CSVWriter(File file, char c2) {
+    public CSVWriter(File file, char c2) throws IOException {
         if (file == null) {
             throw new IllegalArgumentException("Parameter csvFile is null!");
         }
         file.createNewFile();
         if (!file.isFile()) {
-            throw new IOException(new StringBuffer().append("CSV file \"").append(file).append("\" is not a file!").toString());
+            throw new IOException("CSV file \"" + file + "\" is not a file!");
         }
         this.delimiterChar = c2;
         this.file = file;
     }
 
-    public void writeLine(String[] stringArray) {
+    public void writeLine(String[] stringArray) throws IOException {
         try {
             if (this.writer == null) {
                 this.writer = new BufferedWriter(new FileWriter(this.file));
@@ -47,7 +47,7 @@ public class CSVWriter {
         }
     }
 
-    public void close() {
+    public void close() throws IOException {
         if (this.writer != null) {
             this.writer.close();
         }

@@ -14,15 +14,13 @@ extends AbstractManagedListHandler {
         super(abstractCombiModule, "FavoriteDestinationsListHandler");
     }
 
-    @Override
     public void getNextListPos(int n, int n2) {
         super.getNextListPosForArbitraryIds(n, n2);
     }
 
-    @Override
     public void getNextListPosResult(boolean bl, int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "[%1#getNextListPosResult] called (result=%2, currentEntryID=%3,...)", (Object)this.className, (Object)(bl ? "successful" : "unsuccessful"), (long)n);
-        this.logChannel.log(-2137614336, "[%1#getNextListPosResult] ..., nextEntryID=%2, absoluteListPos=%3", (Object)this.className, (long)n2, (long)n3);
+        this.logChannel.log(10000000, "[%1#getNextListPosResult] called (result=%2, currentEntryID=%3,...)", (Object)this.className, (Object)(bl ? "successful" : "unsuccessful"), (long)n);
+        this.logChannel.log(10000000, "[%1#getNextListPosResult] ..., nextEntryID=%2, absoluteListPos=%3", (Object)this.className, (long)n2, (long)n3);
         BAPFunctionMethodFSG bAPFunctionMethodFSG = this.moduleFsg.getBAPFunctionMethodFSG(41);
         GetNextListPos_Result getNextListPos_Result = (GetNextListPos_Result)this.moduleFsg.createResultSerializer(41);
         getNextListPos_Result.getNextListPos_Result = bl ? 0 : 1;
@@ -32,7 +30,6 @@ extends AbstractManagedListHandler {
         bAPFunctionMethodFSG.resultREQ(getNextListPos_Result);
     }
 
-    @Override
     public int getIndexSize() {
         return 0;
     }

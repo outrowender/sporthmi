@@ -4,13 +4,13 @@
 package de.audi.app.phone.evo.audio;
 
 import de.audi.app.phone.core.ITelApplication;
+import de.audi.app.phone.core.ap.AbstractTelActionProxyListener;
 import de.audi.app.phone.core.audio.TelRingtoneManager;
 import de.audi.app.phone.core.state.IGlobalTelephoneStateStruct;
-import de.audi.app.phone.evo.audio.TelEvoRingtoneManager$RingtoneListDisplayFocusListener;
-import de.audi.app.phone.evo.audio.TelEvoRingtoneManager$RingtoneListEnteredListener;
-import de.audi.app.phone.evo.audio.TelEvoRingtoneManager$RingtoneListExitedListener;
-import de.audi.app.phone.evo.audio.TelEvoRingtoneManager$StageSizeListener;
+import de.audi.app.phone.evo.util.AbstractDisplayFocusListener;
+import de.audi.app.phone.evo.util.AbstractTelStageChangeListener;
 import de.audi.atip.mmicombi.IViewSizeListener;
+import java.util.Map;
 
 public class TelEvoRingtoneManager
 extends TelRingtoneManager
@@ -20,13 +20,12 @@ implements IViewSizeListener {
 
     public TelEvoRingtoneManager(ITelApplication iTelApplication) {
         super(iTelApplication);
-        this.addSubPhoneComponent(new TelEvoRingtoneManager$RingtoneListDisplayFocusListener(this, iTelApplication));
-        this.addSubPhoneComponent(new TelEvoRingtoneManager$StageSizeListener(this, iTelApplication));
-        this.addSubPhoneComponent(new TelEvoRingtoneManager$RingtoneListEnteredListener(this, iTelApplication));
-        this.addSubPhoneComponent(new TelEvoRingtoneManager$RingtoneListExitedListener(this, iTelApplication));
+        this.addSubPhoneComponent(new RingtoneListDisplayFocusListener(iTelApplication));
+        this.addSubPhoneComponent(new StageSizeListener(iTelApplication));
+        this.addSubPhoneComponent(new RingtoneListEnteredListener(iTelApplication));
+        this.addSubPhoneComponent(new RingtoneListExitedListener(iTelApplication));
     }
 
-    @Override
     public void viewSizeChanged(int n) {
         if (n == 1) {
             this.viewStageSmall = true;
@@ -52,39 +51,75 @@ implements IViewSizeListener {
         IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct = this.telState;
         boolean bl2 = iGlobalTelephoneStateStruct != null && iGlobalTelephoneStateStruct.getCallState() != null ? iGlobalTelephoneStateStruct.getCallState().getMpCallState() == 15 : (bl = false);
         if (bl) {
-            this.log.log(1078071040, "[TelRingtoneManager#ringtoneListLeft] entered=%1, ringing=%2 --> Not aborting ringtone", this.ringtoneListEntered, bl);
+            this.log.log(1000000, "[TelRingtoneManager#ringtoneListLeft] entered=%1, ringing=%2 --> Not aborting ringtone", this.ringtoneListEntered, bl);
             this.setRingtoneListPlaybackStarted(false);
         } else {
             this.abortRingtoneListPlayback();
         }
     }
 
-    static /* synthetic */ boolean access$002(TelEvoRingtoneManager telEvoRingtoneManager, boolean bl) {
-        telEvoRingtoneManager.focusLost = bl;
-        return telEvoRingtoneManager.focusLost;
+    private class StageSizeListener
+    extends AbstractTelStageChangeListener {
+        public StageSizeListener(ITelApplication iTelApplication) {
+            super(iTelApplication, "App.Phone.Audio");
+        }
+
+        protected void smallStageShown() {
+            this.log.log(1000000, "[TelEvoRingtoneManager.StageSizeListener#smallStageShown]");
+            TelEvoRingtoneManager.this.viewStageSmall = true;
+            TelEvoRingtoneManager.this.checkDoRingtoneListPlayback();
+        }
+
+        protected void largeStateShown() {
+            this.log.log(1000000, "[TelEvoRingtoneManager.StageSizeListener#largeStateShown]");
+            TelEvoRingtoneManager.this.viewStageSmall = false;
+            TelEvoRingtoneManager.this.checkDoRingtoneListPlayback();
+        }
     }
 
-    static /* synthetic */ void access$100(TelEvoRingtoneManager telEvoRingtoneManager) {
-        telEvoRingtoneManager.checkDoRingtoneListPlayback();
+    private class RingtoneListExitedListener
+    extends AbstractTelActionProxyListener {
+        public RingtoneListExitedListener(ITelApplication iTelApplication) {
+            super(iTelApplication, "App.Phone.Audio", 3);
+        }
+
+        protected void actionProxyCalled(Map map) {
+            this.log.log(1000000, "[RingtoneListExitedListener#actionProxyCalled] CANCEL_RINGING_TONE");
+            TelEvoRingtoneManager.this.ringtoneListEntered = false;
+            TelEvoRingtoneManager.this.ringtoneListLeft();
+        }
     }
 
-    static /* synthetic */ boolean access$202(TelEvoRingtoneManager telEvoRingtoneManager, boolean bl) {
-        telEvoRingtoneManager.viewStageSmall = bl;
-        return telEvoRingtoneManager.viewStageSmall;
+    private class RingtoneListEnteredListener
+    extends AbstractTelActionProxyListener {
+        public RingtoneListEnteredListener(ITelApplication iTelApplication) {
+            super(iTelApplication, "App.Phone.Audio", 2);
+        }
+
+        protected void actionProxyCalled(Map map) {
+            this.log.log(1000000, "[RingtoneListEnteredListener#actionProxyCalled] PHONE_TONE_SETUP_ENTERED");
+            TelEvoRingtoneManager.this.ringtoneListEntered = true;
+            TelEvoRingtoneManager.this.startRingtoneListPlayback();
+        }
     }
 
-    static /* synthetic */ boolean access$302(TelEvoRingtoneManager telEvoRingtoneManager, boolean bl) {
-        telEvoRingtoneManager.ringtoneListEntered = bl;
-        return telEvoRingtoneManager.ringtoneListEntered;
-    }
+    private class RingtoneListDisplayFocusListener
+    extends AbstractDisplayFocusListener {
+        public RingtoneListDisplayFocusListener(ITelApplication iTelApplication) {
+            super(iTelApplication, "App.Phone.Audio", 4026);
+        }
 
-    static /* synthetic */ boolean access$402(TelEvoRingtoneManager telEvoRingtoneManager, boolean bl) {
-        telEvoRingtoneManager.ringtoneListEntered = bl;
-        return telEvoRingtoneManager.ringtoneListEntered;
-    }
+        protected void focusLost() {
+            this.log.log(1000000, "[TelEvoRingtoneManager.RingtoneListDisplayFocusListener#focusLost]");
+            TelEvoRingtoneManager.this.focusLost = true;
+            TelEvoRingtoneManager.this.checkDoRingtoneListPlayback();
+        }
 
-    static /* synthetic */ void access$500(TelEvoRingtoneManager telEvoRingtoneManager) {
-        telEvoRingtoneManager.ringtoneListLeft();
+        protected void focusGained() {
+            this.log.log(1000000, "[TelEvoRingtoneManager.RingtoneListDisplayFocusListener#focusGained]");
+            TelEvoRingtoneManager.this.focusLost = false;
+            TelEvoRingtoneManager.this.checkDoRingtoneListPlayback();
+        }
     }
 }
 

@@ -21,7 +21,6 @@ extends AbstractSearchResultFormatter {
         this.lc = logChannel;
     }
 
-    @Override
     public SearchResultListRow formatResult(SearchResult searchResult) {
         if (null == searchResult) {
             this.lc.log(10000, "SearchResultFormatterNavDb#formatResult - Search-result parameter is null");

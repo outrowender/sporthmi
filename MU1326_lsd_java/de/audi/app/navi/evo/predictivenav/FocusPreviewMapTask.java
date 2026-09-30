@@ -14,7 +14,7 @@ implements Runnable {
     private final PredictiveNavListRow row;
     private final IPreviewMap previewMap;
     private final LogChannel logChannel;
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "FocusPreviewMapTask";
 
     public FocusPreviewMapTask(IPreviewMap iPreviewMap, PredictiveNavListRow predictiveNavListRow, LogChannel logChannel) {
         this.row = predictiveNavListRow;
@@ -22,7 +22,6 @@ implements Runnable {
         this.logChannel = logChannel;
     }
 
-    @Override
     public void run() {
         LikelyDestination likelyDestination = this.row.getLikelyDestination();
         NavSegmentID navSegmentID = likelyDestination.getSegmentId();
@@ -32,11 +31,11 @@ implements Runnable {
     private void focusPreviewMapOnNavSegmentID(NavSegmentID navSegmentID) {
         if (navSegmentID != null) {
             if (this.logChannel.isDebug2()) {
-                this.logChannel.log(14808325, "%1#focusPreviewMapOnNavSegmentID()", (Object)"FocusPreviewMapTask");
+                this.logChannel.log(100000000, "%1#focusPreviewMapOnNavSegmentID()", (Object)LOGCLASS);
             }
             this.previewMap.setPreviewPredictiveNavigationRoute(navSegmentID, 1, null, null);
         } else {
-            this.logChannel.log(-2137614336, "%1#focusPreviewMapOnNavSegmentID() - no NavSegmentID", (Object)"FocusPreviewMapTask");
+            this.logChannel.log(10000000, "%1#focusPreviewMapOnNavSegmentID() - no NavSegmentID", (Object)LOGCLASS);
         }
     }
 }

@@ -9,7 +9,6 @@ import de.audi.app.sdsmanager.apps.SDSHandlerService;
 import de.audi.app.sdsmanager.apps.navi.NaviSDSHandler;
 import de.audi.app.sdsmanager.common.SDSUtils;
 import de.audi.atip.interapp.NaviService;
-import de.audi.atip.interapp.NaviService$NaviInfoDetails;
 import de.audi.atip.log.LogChannel;
 
 public class NaviFillPromptLabelsCommand
@@ -23,24 +22,23 @@ extends AbstractSystemCallCommand {
         this.naviHandler = naviSDSHandler;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: called");
-        NaviService$NaviInfoDetails naviService$NaviInfoDetails = this.service.getAddressDetails(this.naviHandler.getSDSAddressInputMode());
-        this.logger.log(-2137614336, "%1#execute: infoDetails=%2!", (Object)this.getName(), (Object)naviService$NaviInfoDetails);
-        if (naviService$NaviInfoDetails == null) {
-            this.logger.log(-1601830656, "%1#execute: No infoDetails given!", (Object)this.getName());
-            this.sendResult(1100742656);
+        this.logger.log(10000000, "%1#execute: called");
+        NaviService.NaviInfoDetails naviInfoDetails = this.service.getAddressDetails(this.naviHandler.getSDSAddressInputMode());
+        this.logger.log(10000000, "%1#execute: infoDetails=%2!", (Object)this.getName(), (Object)naviInfoDetails);
+        if (naviInfoDetails == null) {
+            this.logger.log(100000, "%1#execute: No infoDetails given!", (Object)this.getName());
+            this.sendResult(40001);
             return;
         }
-        SDSModelAccess.setOneshotCityLabel(SDSUtils.isEmpty(naviService$NaviInfoDetails.city) ? "" : naviService$NaviInfoDetails.city);
-        SDSModelAccess.setOneshotStreetLabel(SDSUtils.isEmpty(naviService$NaviInfoDetails.street) ? "" : naviService$NaviInfoDetails.street);
-        SDSModelAccess.setOneshotHouseNRLabel(SDSUtils.isEmpty(naviService$NaviInfoDetails.houseNumber) ? "" : naviService$NaviInfoDetails.houseNumber);
-        if (SDSUtils.isEmpty(naviService$NaviInfoDetails.city)) {
-            this.logger.log(-2137614336, "%1#execute: No city in infoDetails given!", (Object)this.getName());
-            this.sendResult(1184628736);
+        SDSModelAccess.setOneshotCityLabel(SDSUtils.isEmpty(naviInfoDetails.city) ? "" : naviInfoDetails.city);
+        SDSModelAccess.setOneshotStreetLabel(SDSUtils.isEmpty(naviInfoDetails.street) ? "" : naviInfoDetails.street);
+        SDSModelAccess.setOneshotHouseNRLabel(SDSUtils.isEmpty(naviInfoDetails.houseNumber) ? "" : naviInfoDetails.houseNumber);
+        if (SDSUtils.isEmpty(naviInfoDetails.city)) {
+            this.logger.log(10000000, "%1#execute: No city in infoDetails given!", (Object)this.getName());
+            this.sendResult(40006);
         } else {
-            this.sendResult(1083965440);
+            this.sendResult(40000);
         }
     }
 }

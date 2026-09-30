@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  de.audi.app.terminalmode.statemachine.TMState
  */
 package de.audi.app.terminalmode.statemachine.commands;
 
@@ -15,19 +12,18 @@ import de.audi.app.terminalmode.statemachine.commands.AbstractCommand;
 
 public class UpdateMainunitState
 extends AbstractCommand {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "UpdateMainunitState";
     private final TMState newState;
     private final IStateHandler stateHandler;
 
     public UpdateMainunitState(TMState tMState, IContext iContext, IStateHandler iStateHandler) {
-        super(iContext.getLogger().main(), "UpdateMainunitState", iContext);
+        super(iContext.getLogger().main(), LOGCLASS, iContext);
         this.newState = tMState;
         this.stateHandler = iStateHandler;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "[%1.execute]", (Object)"UpdateMainunitState");
+        this.logger.log(1000000, "[%1.execute]", (Object)LOGCLASS);
         Application[] applicationArray = Application.values();
         for (int i2 = 0; i2 < applicationArray.length; ++i2) {
             if (this.newState.isAppOwnerMainUnit(applicationArray[i2])) {

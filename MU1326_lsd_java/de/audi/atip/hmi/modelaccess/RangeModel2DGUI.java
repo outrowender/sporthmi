@@ -7,43 +7,30 @@ import de.audi.atip.hmi.modelaccess.ButtonModelGUI;
 
 public interface RangeModel2DGUI
 extends ButtonModelGUI {
-    default public int getMaximumX() {
-    }
+    public int getMaximumX();
 
-    default public int getMaximumY() {
-    }
+    public int getMaximumY();
 
-    default public int getMinimumX() {
-    }
+    public int getMinimumX();
 
-    default public int getMinimumY() {
-    }
+    public int getMinimumY();
 
-    default public int getStepX() {
-    }
+    public int getStepX();
 
-    default public int getStepY() {
-    }
+    public int getStepY();
 
-    default public int getValueX() {
-    }
+    public int getValueX();
 
-    default public int getValueY() {
-    }
+    public int getValueY();
 
-    default public int getMedialPositionX() {
-    }
+    public int getMedialPositionX();
 
-    default public int getMedialPositionY() {
-    }
+    public int getMedialPositionY();
 
-    default public void setValueHit(int n, int n2, int n3) {
-    }
+    public void setValueHit(int var1, int var2, int var3);
 
-    default public void forceUpdate(boolean bl) {
-    }
+    public void forceUpdate(boolean var1);
 
-    default public boolean isForceUpdateEnabled() {
-    }
+    public boolean isForceUpdateEnabled();
 }
 

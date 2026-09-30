@@ -28,12 +28,12 @@ import java.util.ArrayList;
 public abstract class AbstractPhoneComponent
 implements ITelComponent,
 IGlobalTelephoneStateListener {
-    public static final int STATUS_WAITING;
-    public static final int STATUS_VALID;
-    public static final int STATUS_ERROR;
-    public static final int VALUE_AVAILABLE;
-    public static final int VALUE_UNAVAILABLE;
-    public static final int VALUE_UNKNOWN;
+    public static final int STATUS_WAITING = 0;
+    public static final int STATUS_VALID = 1;
+    public static final int STATUS_ERROR = 2;
+    public static final int VALUE_AVAILABLE = 1;
+    public static final int VALUE_UNAVAILABLE = -1;
+    public static final int VALUE_UNKNOWN = 0;
     private final ITelApplication phoneApplication;
     protected final LogChannel log;
     private ArrayList subComponents;
@@ -44,7 +44,6 @@ IGlobalTelephoneStateListener {
         this.log = iTelApplication.getFrameworkAccess().getLogChannel(string);
     }
 
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
     }
 
@@ -162,12 +161,10 @@ IGlobalTelephoneStateListener {
         return this.phoneApplication.getFrameworkAccess().getHmiServiceApp().getSpellerModel(n);
     }
 
-    @Override
     public void init() {
         this.initSubComponents();
     }
 
-    @Override
     public void deinit() {
         this.deinitSubComponents();
     }

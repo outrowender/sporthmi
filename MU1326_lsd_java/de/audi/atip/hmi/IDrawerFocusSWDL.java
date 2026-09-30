@@ -4,11 +4,11 @@
 package de.audi.atip.hmi;
 
 public interface IDrawerFocusSWDL {
-    public static final int FOCUS_EVO_EINGABEFELD_BEFUELLT;
-    public static final int FOCUS_EVO_LATIN_ONLY;
-    public static final int FOCUS_EVO_SPELLER_IST_OFFEN;
-    public static final int FOCUS_EVO_ZEICHENSATZ_ARABISCH_AKTIV;
-    public static final int FOCUS_EVO_ZEICHENSATZ_CYRILLIC_AKTIV;
-    public static final int FOCUS_EVO_ZEICHENSATZ_LATIN_AKTIV;
+    public static final int FOCUS_EVO_EINGABEFELD_BEFUELLT = -2060695188;
+    public static final int FOCUS_EVO_LATIN_ONLY = -1203745353;
+    public static final int FOCUS_EVO_SPELLER_IST_OFFEN = 711938558;
+    public static final int FOCUS_EVO_ZEICHENSATZ_ARABISCH_AKTIV = 1638346405;
+    public static final int FOCUS_EVO_ZEICHENSATZ_CYRILLIC_AKTIV = -1703602904;
+    public static final int FOCUS_EVO_ZEICHENSATZ_LATIN_AKTIV = -1167520288;
 }
 

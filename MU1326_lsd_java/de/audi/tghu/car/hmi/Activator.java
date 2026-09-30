@@ -19,7 +19,6 @@ extends AbstractHMIActivator {
         super(6, "Car", System.getProperty("variant.skin", "EvoHighScale"), new CarModelBank());
     }
 
-    @Override
     protected synchronized AbstractScreenFactory getScreenFactory() {
         if (this.instance == null) {
             this.instance = new CarScreenFactory(this.getFramework());
@@ -27,7 +26,6 @@ extends AbstractHMIActivator {
         return this.instance;
     }
 
-    @Override
     public HMIConditionBank getConditionBank() {
         if (this.conditionBank == null) {
             this.conditionBank = new CarConditionBank((CarScreenFactory)this.getScreenFactory());

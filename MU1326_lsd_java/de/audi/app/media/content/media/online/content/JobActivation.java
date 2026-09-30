@@ -10,19 +10,18 @@ import org.dsi.ifc.media.Capabilities;
 
 public class JobActivation
 extends AbstractOnlinePlayerJob {
-    private static final String LOGCLASS;
-    private static final int STATE_WAIT_FOR_CAPABILITIES;
-    private static final int STATE_RECEIVE_CAPABILITIES;
-    private static final int STATE_ACTIVATION_FINISHED;
+    private static final String LOGCLASS = "JobActivation";
+    private static final int STATE_WAIT_FOR_CAPABILITIES = 1;
+    private static final int STATE_RECEIVE_CAPABILITIES = 2;
+    private static final int STATE_ACTIVATION_FINISHED = 3;
     private int state;
 
     public JobActivation(LogChannel logChannel, IOnlinePlayer iOnlinePlayer) {
         super(logChannel, "ACTIVATION", iOnlinePlayer);
     }
 
-    @Override
     public void start() {
-        this.logger.log(14808325, "[%1.start]", (Object)"JobActivation");
+        this.logger.log(100000000, "[%1.start]", (Object)LOGCLASS);
         this.setState(1);
     }
 
@@ -30,26 +29,25 @@ extends AbstractOnlinePlayerJob {
         this.state = n;
         switch (this.state) {
             case 1: {
-                this.logger.log(1078071040, "[%1.setState] STATE_WAIT_FOR_CAPABILITIES", (Object)"JobActivation");
+                this.logger.log(1000000, "[%1.setState] STATE_WAIT_FOR_CAPABILITIES", (Object)LOGCLASS);
                 break;
             }
             case 2: {
-                this.logger.log(1078071040, "[%1.setState] STATE_RECEIVE_CAPABILITIES", (Object)"JobActivation");
+                this.logger.log(1000000, "[%1.setState] STATE_RECEIVE_CAPABILITIES", (Object)LOGCLASS);
                 this.setState(3);
                 break;
             }
             case 3: {
-                this.logger.log(1078071040, "[%1.setState] STATE_ACTIVATION_FINISHED", (Object)"JobActivation");
+                this.logger.log(1000000, "[%1.setState] STATE_ACTIVATION_FINISHED", (Object)LOGCLASS);
                 this.getExecutionContext().jobFinished();
                 break;
             }
         }
     }
 
-    @Override
     public void onCapabilitiesChanged(Capabilities capabilities) {
         super.onCapabilitiesChanged(capabilities);
-        this.logger.log(14808325, "[%1.onCapabilitiesChanged]", (Object)"JobActivation");
+        this.logger.log(100000000, "[%1.onCapabilitiesChanged]", (Object)LOGCLASS);
         if (this.state == 1) {
             this.setState(2);
         }

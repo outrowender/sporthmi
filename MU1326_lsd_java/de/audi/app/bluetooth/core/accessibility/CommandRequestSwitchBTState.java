@@ -23,19 +23,17 @@ extends AbstractBluetoothCommand {
         this.btStateTarget = n;
     }
 
-    @Override
     public void execute() {
         if (this.dsiBluetooth != null) {
             this.dsiBluetooth.requestSwitchBTState(this.btStateTarget);
         } else {
-            this.logger.log(-1601830656, "CommandRequestSwitchBTState#execute(): dsiBluetooth is NULL");
+            this.logger.log(100000, "CommandRequestSwitchBTState#execute(): dsiBluetooth is NULL");
             this.commandList.commandFinished();
         }
     }
 
-    @Override
     public void responseSwitchBTState(int n) {
-        this.logger.log(1078071040, "CommandRequestSwitchBTState#responseSwitchBTState(): result=%1", (long)n);
+        this.logger.log(1000000, "CommandRequestSwitchBTState#responseSwitchBTState(): result=%1", (long)n);
         this.commandList.commandFinished();
     }
 

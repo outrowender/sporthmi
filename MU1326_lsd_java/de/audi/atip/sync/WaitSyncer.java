@@ -29,7 +29,6 @@ implements IWaitSyncer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean isTriggered() {
         boolean bl;
         Object object = this.monitor;
@@ -42,7 +41,6 @@ implements IWaitSyncer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean isWaiting() {
         boolean bl;
         Object object = this.monitor;
@@ -55,9 +53,8 @@ implements IWaitSyncer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void waitForTrigger() {
-        this.log.log(1078071040, "WaitSyncer[%1]: waitForTrigger()", (Object)this.name);
+        this.log.log(1000000, "WaitSyncer[%1]: waitForTrigger()", (Object)this.name);
         Object object = this.monitor;
         synchronized (object) {
             if (!this.waiting) {
@@ -90,9 +87,9 @@ implements IWaitSyncer {
                     buffer.append(l2);
                     buffer.append(" ms");
                 }
-                this.log.log(1078071040, "WaitSyncer[%1]#waitForTrigger: %2", (Object)this.name, (Object)buffer);
+                this.log.log(1000000, "WaitSyncer[%1]#waitForTrigger: %2", (Object)this.name, (Object)buffer);
             } else {
-                this.log.log(-2137614336, "WaitSyncer[%1]#waitForTrigger: already waiting --> NOP!", (Object)this.name);
+                this.log.log(10000000, "WaitSyncer[%1]#waitForTrigger: already waiting --> NOP!", (Object)this.name);
             }
         }
     }
@@ -100,9 +97,8 @@ implements IWaitSyncer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void trigger() {
-        this.log.log(1078071040, "WaitSyncer[%1]: trigger()", (Object)this.name);
+        this.log.log(1000000, "WaitSyncer[%1]: trigger()", (Object)this.name);
         Object object = this.monitor;
         synchronized (object) {
             this.triggered = true;
@@ -116,9 +112,8 @@ implements IWaitSyncer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void cancel() {
-        this.log.log(1078071040, "WaitSyncer[%1]: cancel()", (Object)this.name);
+        this.log.log(1000000, "WaitSyncer[%1]: cancel()", (Object)this.name);
         Object object = this.monitor;
         synchronized (object) {
             this.canceled = true;

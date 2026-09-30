@@ -4,8 +4,6 @@
 package de.audi.app.earlyfunc.core.seat;
 
 import de.audi.app.earlyfunc.core.seat.MasterSeatPopinContent;
-import de.audi.app.earlyfunc.core.seat.MasterSeatPopinContent$MassageProgram;
-import de.audi.app.earlyfunc.core.seat.MasterSeatPopinContent$SeatMemoryDetail;
 import de.audi.app.earlyfunc.core.seat.SeatDisplayContent;
 import de.audi.app.earlyfunc.core.seat.SeatPopinContent;
 import de.audi.app.earlyfunc.core.seat.SeatPopinModel;
@@ -22,8 +20,8 @@ public class SeatPopinConfigurationHandler {
     private volatile SeatViewOptions viewOptions;
     private volatile SeatPneumaticViewOptions pneumaticViewOptions;
     private boolean driversideLeft = true;
-    private static final int DRIVERSIDE_LEFT;
-    private static final int DRIVERSIDE_RIGHT;
+    private static final int DRIVERSIDE_LEFT = 0;
+    private static final int DRIVERSIDE_RIGHT = 1;
     private final ChoiceModelApp driversideModel;
     private final SeatPopinModel seatPopinModelLeft;
     private final SeatPopinModel seatPopinModelRight;
@@ -105,7 +103,7 @@ public class SeatPopinConfigurationHandler {
 
     private SeatDisplayContent getSecondaryFunctionAvailability(boolean bl, boolean bl2, MasterSeatPopinContent masterSeatPopinContent) {
         SeatDisplayContent seatDisplayContent = new SeatDisplayContent(masterSeatPopinContent);
-        seatDisplayContent.setContentAvailable(this.isContentAvailable(bl, bl2, masterSeatPopinContent, MasterSeatPopinContent$SeatMemoryDetail.MEMORYDETAIL_MEMORY_NONE));
+        seatDisplayContent.setContentAvailable(this.isContentAvailable(bl, bl2, masterSeatPopinContent, MasterSeatPopinContent.SeatMemoryDetail.MEMORYDETAIL_MEMORY_NONE));
         seatDisplayContent.setHorizontalArrowsAvailable(this.getArrowAvailability(bl, bl2, masterSeatPopinContent, 1, seatDisplayContent.isContentAvailable()));
         seatDisplayContent.setVerticalArrowsAvailable(this.getArrowAvailability(bl, bl2, masterSeatPopinContent, 2, seatDisplayContent.isContentAvailable()));
         return seatDisplayContent;
@@ -157,13 +155,13 @@ public class SeatPopinConfigurationHandler {
     }
 
     private void addMassageDisplayContent(boolean bl, boolean bl2, ArrayList arrayList) {
-        MasterSeatPopinContent$MassageProgram[] masterSeatPopinContent$MassageProgramArray = MasterSeatPopinContent$MassageProgram.getAllMassagePrograms();
-        for (int i2 = MasterSeatPopinContent$MassageProgram.MASSAGE_PROGRAM_NONE.getDsiProgramNr(); i2 < masterSeatPopinContent$MassageProgramArray.length; ++i2) {
-            SeatDisplayContent seatDisplayContent = new SeatDisplayContent(masterSeatPopinContent$MassageProgramArray[i2]);
+        MasterSeatPopinContent.MassageProgram[] massageProgramArray = MasterSeatPopinContent.MassageProgram.getAllMassagePrograms();
+        for (int i2 = MasterSeatPopinContent.MassageProgram.MASSAGE_PROGRAM_NONE.getDsiProgramNr(); i2 < massageProgramArray.length; ++i2) {
+            SeatDisplayContent seatDisplayContent = new SeatDisplayContent(massageProgramArray[i2]);
             seatDisplayContent.setContentAvailable(this.isMassageProgramAvailable(bl, bl2, i2));
             arrayList.add(seatDisplayContent);
         }
-        SeatDisplayContent seatDisplayContent = new SeatDisplayContent(MasterSeatPopinContent$MassageProgram.MASSAGE_PROGRAM_NONE);
+        SeatDisplayContent seatDisplayContent = new SeatDisplayContent(MasterSeatPopinContent.MassageProgram.MASSAGE_PROGRAM_NONE);
         seatDisplayContent.setContentAvailable(this.isMassageAvailable(bl, bl2));
         arrayList.add(seatDisplayContent);
     }
@@ -200,31 +198,31 @@ public class SeatPopinConfigurationHandler {
         return this.getSeitenwangenArrowState(bl, this.arePneumaticSettingsActive(bl), 2);
     }
 
-    public boolean isSeatMemoryAvailable(boolean bl, MasterSeatPopinContent$SeatMemoryDetail masterSeatPopinContent$SeatMemoryDetail) {
-        return this.isContentAvailable(bl, false, MasterSeatPopinContent.MEMORY, masterSeatPopinContent$SeatMemoryDetail);
+    public boolean isSeatMemoryAvailable(boolean bl, MasterSeatPopinContent.SeatMemoryDetail seatMemoryDetail) {
+        return this.isContentAvailable(bl, false, MasterSeatPopinContent.MEMORY, seatMemoryDetail);
     }
 
     public boolean isLordoseAvailable(boolean bl, boolean bl2) {
-        return this.isContentAvailable(bl, bl2, MasterSeatPopinContent.LORDORSE, MasterSeatPopinContent$SeatMemoryDetail.MEMORYDETAIL_MEMORY_NONE);
+        return this.isContentAvailable(bl, bl2, MasterSeatPopinContent.LORDORSE, MasterSeatPopinContent.SeatMemoryDetail.MEMORYDETAIL_MEMORY_NONE);
     }
 
     public boolean isSeitenwangenAvailable(boolean bl, boolean bl2) {
-        return this.isContentAvailable(bl, bl2, MasterSeatPopinContent.SEITENWANGEN, MasterSeatPopinContent$SeatMemoryDetail.MEMORYDETAIL_MEMORY_NONE);
+        return this.isContentAvailable(bl, bl2, MasterSeatPopinContent.SEITENWANGEN, MasterSeatPopinContent.SeatMemoryDetail.MEMORYDETAIL_MEMORY_NONE);
     }
 
     private boolean isSitztiefeAvailable(boolean bl, boolean bl2) {
-        return this.isContentAvailable(bl, bl2, MasterSeatPopinContent.SITZTIEFE, MasterSeatPopinContent$SeatMemoryDetail.MEMORYDETAIL_MEMORY_NONE);
+        return this.isContentAvailable(bl, bl2, MasterSeatPopinContent.SITZTIEFE, MasterSeatPopinContent.SeatMemoryDetail.MEMORYDETAIL_MEMORY_NONE);
     }
 
     private boolean isLehnenkopfAvailable(boolean bl, boolean bl2) {
-        return this.isContentAvailable(bl, bl2, MasterSeatPopinContent.LEHNENKOPF, MasterSeatPopinContent$SeatMemoryDetail.MEMORYDETAIL_MEMORY_NONE);
+        return this.isContentAvailable(bl, bl2, MasterSeatPopinContent.LEHNENKOPF, MasterSeatPopinContent.SeatMemoryDetail.MEMORYDETAIL_MEMORY_NONE);
     }
 
     private boolean isGurthoeheAvailable(boolean bl, boolean bl2) {
-        return this.isContentAvailable(bl, bl2, MasterSeatPopinContent.GURTHOEHE, MasterSeatPopinContent$SeatMemoryDetail.MEMORYDETAIL_MEMORY_NONE);
+        return this.isContentAvailable(bl, bl2, MasterSeatPopinContent.GURTHOEHE, MasterSeatPopinContent.SeatMemoryDetail.MEMORYDETAIL_MEMORY_NONE);
     }
 
-    public boolean isContentAvailable(boolean bl, boolean bl2, MasterSeatPopinContent masterSeatPopinContent, MasterSeatPopinContent$SeatMemoryDetail masterSeatPopinContent$SeatMemoryDetail) {
+    public boolean isContentAvailable(boolean bl, boolean bl2, MasterSeatPopinContent masterSeatPopinContent, MasterSeatPopinContent.SeatMemoryDetail seatMemoryDetail) {
         if (masterSeatPopinContent.usesVOConfigType(1)) {
             VisualizationConfig visualizationConfig = this.getVisualizationConfig(bl, bl2);
             if (visualizationConfig != null) {
@@ -233,7 +231,7 @@ public class SeatPopinConfigurationHandler {
             return false;
         }
         if (masterSeatPopinContent.usesVOConfigType(2)) {
-            return this.isMemoryAvailable(bl, masterSeatPopinContent$SeatMemoryDetail);
+            return this.isMemoryAvailable(bl, seatMemoryDetail);
         }
         if (masterSeatPopinContent.usesVOConfigType(3)) {
             return this.isMassageAvailable(bl, bl2);
@@ -245,8 +243,8 @@ public class SeatPopinConfigurationHandler {
         return this.isContentAvailable(bl, seatPopinContent.isPneumaticSeatContent(), seatPopinContent.getMasterContent(bl), seatPopinContent.getMemoryDetail(bl));
     }
 
-    public boolean isContentAvailable(boolean bl, boolean bl2, int n, MasterSeatPopinContent$SeatMemoryDetail masterSeatPopinContent$SeatMemoryDetail) {
-        return this.isContentAvailable(bl, bl2, MasterSeatPopinContent.getContentForID(n), masterSeatPopinContent$SeatMemoryDetail);
+    public boolean isContentAvailable(boolean bl, boolean bl2, int n, MasterSeatPopinContent.SeatMemoryDetail seatMemoryDetail) {
+        return this.isContentAvailable(bl, bl2, MasterSeatPopinContent.getContentForID(n), seatMemoryDetail);
     }
 
     private boolean isVisualized(VisualizationConfig visualizationConfig, MasterSeatPopinContent masterSeatPopinContent) {
@@ -268,12 +266,12 @@ public class SeatPopinConfigurationHandler {
         return false;
     }
 
-    private boolean isMemoryAvailable(boolean bl, MasterSeatPopinContent$SeatMemoryDetail masterSeatPopinContent$SeatMemoryDetail) {
+    private boolean isMemoryAvailable(boolean bl, MasterSeatPopinContent.SeatMemoryDetail seatMemoryDetail) {
         if (this.viewOptions != null && this.viewOptions.getSeatmemoryConfig() != null) {
             boolean bl2;
-            boolean bl3 = bl2 = masterSeatPopinContent$SeatMemoryDetail.getModelValue() > -1;
+            boolean bl3 = bl2 = seatMemoryDetail.getModelValue() > -1;
             if (this.logChannel.isInfo()) {
-                this.logChannel.log(1078071040, "[SeatPopinConfigurationHandler#isMemoryAvailable] MemoryDetail('%1') %2 used.", (Object)masterSeatPopinContent$SeatMemoryDetail, (Object)(bl2 ? "is" : "is not"));
+                this.logChannel.log(1000000, "[SeatPopinConfigurationHandler#isMemoryAvailable] MemoryDetail('%1') %2 used.", (Object)seatMemoryDetail, (Object)(bl2 ? "is" : "is not"));
             }
             if (bl) {
                 return this.viewOptions.seatmemoryConfig.seatmemory1RL && bl2;

@@ -4,7 +4,6 @@
 package de.audi.app.phone.core.bap.telephone;
 
 public interface IBAPPropertyTelLockStateService {
-    default public void updateLockStatePUKNewPINRequired() {
-    }
+    public void updateLockStatePUKNewPINRequired();
 }
 

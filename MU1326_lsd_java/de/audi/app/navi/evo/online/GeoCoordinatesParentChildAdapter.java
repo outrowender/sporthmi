@@ -16,7 +16,6 @@ extends GeoCoordinatesAdapter {
         super(navLocationExctractor, navigationEnv);
     }
 
-    @Override
     public NavLocation extractGeoCoordinates(int n, int n2, NavigationEnv navigationEnv) {
         EvoListRow evoListRow = this.env.getBaseListModel(n).getRow(n2);
         if (evoListRow instanceof PoiIconedParentCategoriesParentListRow) {

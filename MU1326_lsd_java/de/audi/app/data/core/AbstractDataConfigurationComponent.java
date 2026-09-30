@@ -28,16 +28,13 @@ DSIDataConfigurationListener {
         this.dataApplication = iDataApplication;
     }
 
-    protected abstract int[] getAttributeNotifications() {
-    }
+    protected abstract int[] getAttributeNotifications();
 
-    @Override
     public void init() {
         this.serviceTracker = new ServiceTracker(this.bundleContext, new String[]{(class$org$dsi$ifc$networking$DSIDataConfiguration == null ? (class$org$dsi$ifc$networking$DSIDataConfiguration = AbstractDataConfigurationComponent.class$("org.dsi.ifc.networking.DSIDataConfiguration")) : class$org$dsi$ifc$networking$DSIDataConfiguration).getName()}, (ServiceTrackerCustomizer)this);
         this.serviceTracker.open();
     }
 
-    @Override
     public void deinit() {
         if (this.dsiDataConfiguration != null) {
             this.dsiDataConfiguration.clearNotification(this);
@@ -47,7 +44,6 @@ DSIDataConfigurationListener {
         this.serviceTracker = null;
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof DSIDataConfiguration) {
@@ -58,7 +54,6 @@ DSIDataConfigurationListener {
         return null;
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof DSIDataConfiguration) {
             this.dsiDataConfiguration = null;
@@ -66,74 +61,57 @@ DSIDataConfigurationListener {
         }
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
         if (object instanceof DSIDataConfiguration) {
             this.dsiDataConfiguration = (DSIDataConfiguration)object;
         }
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
     }
 
-    @Override
     public void acceptDataRequestResponse(int n) {
     }
 
-    @Override
     public void automaticProfileResponse(int n, CDataProfile cDataProfile, int n2) {
     }
 
-    @Override
     public void resetPacketCounterResponse(int n) {
     }
 
-    @Override
     public void restoreFactorySettingsResponse(int n) {
     }
 
-    @Override
     public void setConnectionModeResponse(int n) {
     }
 
-    @Override
     public void setDataProfileResponse(CDataProfile cDataProfile, int n) {
     }
 
-    @Override
     public void setRequestSettingResponse(int n) {
     }
 
-    @Override
     public void setRoamingStateResponse(int n) {
     }
 
-    @Override
     public void updateActiveProfile(int n, int n2) {
     }
 
-    @Override
     public void updateAvailableProfiles(CDataProfile[] cDataProfileArray, int n) {
     }
 
-    @Override
     public void updateConnectionMode(int n, int n2) {
     }
 
-    @Override
     public void updateDataRequest(int n, int n2) {
     }
 
-    @Override
     public void updatePacketCounter(CPacketCounter cPacketCounter, int n) {
     }
 
-    @Override
     public void updateRequestSetting(int n, int n2, int n3) {
     }
 
-    @Override
     public void updateRoamingState(int n, int n2) {
     }
 

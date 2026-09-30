@@ -8,7 +8,6 @@ import de.audi.app.wlan.core.IWlanApplication;
 
 public interface IEvoWlanApplication
 extends IWlanApplication {
-    default public IEvoConnectivity getConnectivity() {
-    }
+    public IEvoConnectivity getConnectivity();
 }
 

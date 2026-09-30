@@ -24,7 +24,7 @@ import org.osgi.framework.ServiceRegistration;
 public class MediaOnlineDrawerContextHandler
 extends DrawerContextHandler
 implements IActiveSourceListener {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "MediaOnlineDrawerContextHandler";
     private final IServiceManager serviceManager;
     private volatile ServiceRegistration mediaDrawerServiceRegistration;
     private final ISourceController sourceController;
@@ -38,26 +38,23 @@ implements IActiveSourceListener {
         this.lastActiveSource = -1;
     }
 
-    @Override
     public void init() {
         super.init();
-        this.logger.log(1078071040, "[%1.init]", (Object)"MediaOnlineDrawerContextHandler");
+        this.logger.log(1000000, "[%1.init]", (Object)LOGCLASS);
         this.sourceController.addActiveSourceListener(this);
         this.registerService();
     }
 
-    @Override
     public void deinit() {
-        this.logger.log(1078071040, "[%1.deinit]", (Object)"MediaOnlineDrawerContextHandler");
+        this.logger.log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         this.unregisterService();
         this.sourceController.removeActiveSourceListener(this);
         this.lastActiveSource = -1;
         super.deinit();
     }
 
-    @Override
     public void deactivate() {
-        this.logger.log(1078071040, "[%1.deactivate]", (Object)"MediaOnlineDrawerContextHandler");
+        this.logger.log(1000000, "[%1.deactivate]", (Object)LOGCLASS);
         this.state = 0;
         this.drawerContextListModel.removeAll();
         this.drawerContextListModel.resetListener();
@@ -71,9 +68,8 @@ implements IActiveSourceListener {
         this.mediaDrawerServiceRegistration.unregister();
     }
 
-    @Override
     public void activeSourceChanged(boolean bl, ActiveSourceState activeSourceState) {
-        this.logger.log(-2137614336, "[%1.activeSourceChanged]", (Object)"MediaOnlineDrawerContextHandler");
+        this.logger.log(10000000, "[%1.activeSourceChanged]", (Object)LOGCLASS);
         if (!bl) {
             return;
         }
@@ -86,17 +82,15 @@ implements IActiveSourceListener {
             return;
         }
         this.lastActiveSource = n;
-        this.logger.log(-2137614336, "[%1.activeSourceChanged] Active source changed to online.", (Object)"MediaOnlineDrawerContextHandler");
+        this.logger.log(10000000, "[%1.activeSourceChanged] Active source changed to online.", (Object)LOGCLASS);
         this.activate();
     }
 
-    @Override
     public void sourceDeactivated() {
     }
 
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.logger.log(1078071040, "[%1.itemSelected]", (Object)"MediaOnlineDrawerContextHandler");
+        this.logger.log(1000000, "[%1.itemSelected]", (Object)LOGCLASS);
         DrawerContextListRow drawerContextListRow = (DrawerContextListRow)evoListRow;
         IMediaDrawerElement iMediaDrawerElement = drawerContextListRow.getMediaDrawerElement();
         this.drawerContextListModel.setSelectedUniqueID(iMediaDrawerElement.getID());
@@ -107,22 +101,21 @@ implements IActiveSourceListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setDrawerElements(List list, IMediaDrawerContextListener iMediaDrawerContextListener) {
-        this.logger.log(1078071040, "[%1.setDrawerElements]", (Object)"MediaOnlineDrawerContextHandler");
+        this.logger.log(1000000, "[%1.setDrawerElements]", (Object)LOGCLASS);
         if (this.state == 0) {
-            this.logger.log(1078071040, "[%1.setDrawerElements] Online not active source ignore", (Object)"MediaOnlineDrawerContextHandler");
+            this.logger.log(1000000, "[%1.setDrawerElements] Online not active source ignore", (Object)LOGCLASS);
             return;
         }
         this.drawerContextListener = null == iMediaDrawerContextListener ? this.nullDrawerContextListener : iMediaDrawerContextListener;
         if (null == list || list.isEmpty()) {
-            this.logger.log(1078071040, "[%1.setDrawerElements] List empty.", (Object)"MediaOnlineDrawerContextHandler");
+            this.logger.log(1000000, "[%1.setDrawerElements] List empty.", (Object)LOGCLASS);
             this.drawerContextListModel.removeAll();
             return;
         }
         BaseListModelApp baseListModelApp = this.drawerContextListModel.getCopy();
         if (this.newDataEqualsCurrentData(list, baseListModelApp)) {
-            this.logger.log(1078071040, "[%1.setDrawerElements] ignore placeholder update", (Object)"MediaOnlineDrawerContextHandler");
+            this.logger.log(1000000, "[%1.setDrawerElements] ignore placeholder update", (Object)LOGCLASS);
             return;
         }
         try {

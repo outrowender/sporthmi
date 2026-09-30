@@ -3,9 +3,6 @@
  */
 package de.audi.atip.util;
 
-import de.audi.atip.util.StringUtilities$1;
-import de.audi.atip.util.StringUtilities$2;
-import de.audi.atip.util.StringUtilities$Accessor;
 import de.esolutions.fw.util.commons.Buffer;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -18,14 +15,14 @@ public class StringUtilities {
     private StringUtilities() {
     }
 
-    public static void formatMessage(Buffer buffer, String string, StringUtilities$Accessor accessor) {
+    public static void formatMessage(Buffer buffer, String string, Accessor accessor) {
         StringUtilities.formatMessage(buffer, string, accessor, null);
     }
 
-    public static void formatMessage(Buffer buffer, String string, StringUtilities$Accessor stringUtilities$Accessor, String string2) {
+    public static void formatMessage(Buffer buffer, String string, Accessor accessor, String string2) {
         int n = 0;
         int n2 = 0;
-        if (stringUtilities$Accessor == null) {
+        if (accessor == null) {
             buffer.append(string);
         } else {
             while (n >= 0 && (n = string.indexOf(37, n2)) >= 0) {
@@ -41,8 +38,8 @@ public class StringUtilities {
                 }
                 char c2 = string.charAt(n + 1);
                 int n3 = c2 - 49;
-                if (n3 >= 0 && n3 < stringUtilities$Accessor.getLength()) {
-                    stringUtilities$Accessor.appendArg(buffer, n3, n);
+                if (n3 >= 0 && n3 < accessor.getLength()) {
+                    accessor.appendArg(buffer, n3, n);
                     continue;
                 }
                 if (c2 == '%') {
@@ -60,12 +57,30 @@ public class StringUtilities {
         StringUtilities.formatMessage(buffer, string, stringArray, null);
     }
 
-    public static void formatMessage(Buffer buffer, String string, String[] stringArray, String string2) {
-        StringUtilities.formatMessage(buffer, string, new StringUtilities$1(stringArray), string2);
+    public static void formatMessage(Buffer buffer, String string, final String[] stringArray, String string2) {
+        StringUtilities.formatMessage(buffer, string, new Accessor(){
+
+            public int getLength() {
+                return stringArray != null ? stringArray.length : 0;
+            }
+
+            public void appendArg(Buffer buffer, int n, int n2) {
+                buffer.append(stringArray != null ? (n >= 0 && n < stringArray.length ? stringArray[n] : "") : "");
+            }
+        }, string2);
     }
 
-    public static void formatMessage(Buffer buffer, String string, int[] nArray) {
-        StringUtilities.formatMessage(buffer, string, new StringUtilities$2(nArray));
+    public static void formatMessage(Buffer buffer, String string, final int[] nArray) {
+        StringUtilities.formatMessage(buffer, string, new Accessor(){
+
+            public int getLength() {
+                return nArray != null ? nArray.length : 0;
+            }
+
+            public void appendArg(Buffer buffer, int n, int n2) {
+                buffer.append(nArray != null ? (n >= 0 && n < nArray.length ? Integer.toString(nArray[n]) : "") : "");
+            }
+        });
     }
 
     public static String formatMessage(String string, String[] stringArray) {
@@ -127,7 +142,7 @@ public class StringUtilities {
             string = "";
         }
         if (n >= n3 || n < 0 || n2 > n3 || n2 < n) {
-            throw new IllegalArgumentException(new StringBuffer().append("Array Index out of Bounds size: ").append(list.size()).append(" start: ").append(n).append(" endIndex[excluded] ").append(n2).toString());
+            throw new IllegalArgumentException("Array Index out of Bounds size: " + list.size() + " start: " + n + " endIndex[excluded] " + n2);
         }
         Buffer buffer = new Buffer();
         String string2 = "";
@@ -224,6 +239,12 @@ public class StringUtilities {
         for (n = string.length() - 1; n > 0 && string.charAt(n - 1) == ' '; --n) {
         }
         return string.substring(0, n);
+    }
+
+    public static interface Accessor {
+        public int getLength();
+
+        public void appendArg(Buffer var1, int var2, int var3);
     }
 }
 

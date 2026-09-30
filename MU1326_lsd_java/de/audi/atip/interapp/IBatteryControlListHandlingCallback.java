@@ -8,13 +8,10 @@ import org.dsi.ifc.carhybrid.BatteryControlProfileOperation;
 
 public interface IBatteryControlListHandlingCallback
 extends IBatteryControlListHandlingConstants {
-    default public void updateClimateSystemType(int n, int n2) {
-    }
+    public void updateClimateSystemType(int var1, int var2);
 
-    default public void updateChargeTimerClimateChoice(int n, int n2) {
-    }
+    public void updateChargeTimerClimateChoice(int var1, int var2);
 
-    default public void onBatteryControlProfileOperationChanged(int n, BatteryControlProfileOperation batteryControlProfileOperation) {
-    }
+    public void onBatteryControlProfileOperationChanged(int var1, BatteryControlProfileOperation var2);
 }
 

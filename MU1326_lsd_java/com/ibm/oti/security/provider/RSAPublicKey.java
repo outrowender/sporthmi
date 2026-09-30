@@ -5,8 +5,6 @@ package com.ibm.oti.security.provider;
 
 import com.ibm.oti.security.provider.PKCS1;
 import com.ibm.oti.util.ASN1Decoder;
-import com.ibm.oti.util.ASN1Decoder$BitString;
-import com.ibm.oti.util.ASN1Decoder$Node;
 import com.ibm.oti.util.ASN1Encoder;
 import com.ibm.oti.util.ASN1Exception;
 import java.io.ByteArrayInputStream;
@@ -37,7 +35,7 @@ implements java.security.interfaces.RSAPublicKey {
     public RSAPublicKey() {
     }
 
-    public RSAPublicKey(X509EncodedKeySpec x509EncodedKeySpec) {
+    public RSAPublicKey(X509EncodedKeySpec x509EncodedKeySpec) throws InvalidKeySpecException {
         this.encoded = x509EncodedKeySpec.getEncoded();
         try {
             this.decodeFromX509();
@@ -47,7 +45,7 @@ implements java.security.interfaces.RSAPublicKey {
         }
     }
 
-    public RSAPublicKey(byte[] byArray) {
+    public RSAPublicKey(byte[] byArray) throws IllegalArgumentException {
         this.encoded = byArray;
         try {
             this.decodeFromX509();
@@ -57,12 +55,10 @@ implements java.security.interfaces.RSAPublicKey {
         }
     }
 
-    @Override
     public String getAlgorithm() {
         return "RSA";
     }
 
-    @Override
     public byte[] getEncoded() {
         if (this.encoded == null) {
             this.encoded = ASN1Encoder.encodeNode(this.toASN1Node());
@@ -70,17 +66,14 @@ implements java.security.interfaces.RSAPublicKey {
         return this.encoded;
     }
 
-    @Override
     public String getFormat() {
         return "X.509";
     }
 
-    @Override
     public BigInteger getModulus() {
         return this.modulus;
     }
 
-    @Override
     public BigInteger getPublicExponent() {
         return this.publicExponent;
     }
@@ -91,7 +84,7 @@ implements java.security.interfaces.RSAPublicKey {
 
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
-        stringBuffer.append(super.getClass().getName());
+        stringBuffer.append(this.getClass().getName());
         RSAPublicKey.writeParamString(this.modulus, "modulus (n)", stringBuffer);
         RSAPublicKey.writeParamString(this.publicExponent, "public exponent (e)", stringBuffer);
         return stringBuffer.toString();
@@ -114,12 +107,12 @@ implements java.security.interfaces.RSAPublicKey {
         }
     }
 
-    protected void decodeFromX509() {
+    protected void decodeFromX509() throws ASN1Exception {
         ASN1Decoder aSN1Decoder = new ASN1Decoder(new ByteArrayInputStream(this.encoded));
         try {
-            ASN1Decoder$Node[] aSN1Decoder$NodeArray = (ASN1Decoder$Node[])aSN1Decoder.readContents().data;
-            ASN1Decoder$Node[] aSN1Decoder$NodeArray2 = (ASN1Decoder$Node[])aSN1Decoder$NodeArray[0].data;
-            int[] nArray = (int[])aSN1Decoder$NodeArray2[0].data;
+            ASN1Decoder.Node[] nodeArray = (ASN1Decoder.Node[])aSN1Decoder.readContents().data;
+            ASN1Decoder.Node[] nodeArray2 = (ASN1Decoder.Node[])nodeArray[0].data;
+            int[] nArray = (int[])nodeArray2[0].data;
             int n = 0;
             while (n < PKCS1.OID_RSA.length) {
                 if (n == nArray.length || nArray[n] != PKCS1.OID_RSA[n]) {
@@ -127,14 +120,14 @@ implements java.security.interfaces.RSAPublicKey {
                 }
                 ++n;
             }
-            ASN1Decoder$BitString aSN1Decoder$BitString = (ASN1Decoder$BitString)aSN1Decoder$NodeArray[1].data;
-            aSN1Decoder = new ASN1Decoder(new ByteArrayInputStream(aSN1Decoder$BitString.data));
-            ASN1Decoder$Node[] aSN1Decoder$NodeArray3 = (ASN1Decoder$Node[])aSN1Decoder.readContents().data;
-            if (aSN1Decoder$NodeArray3 == null || aSN1Decoder$NodeArray3.length < 2) {
+            ASN1Decoder.BitString bitString = (ASN1Decoder.BitString)nodeArray[1].data;
+            aSN1Decoder = new ASN1Decoder(new ByteArrayInputStream(bitString.data));
+            ASN1Decoder.Node[] nodeArray3 = (ASN1Decoder.Node[])aSN1Decoder.readContents().data;
+            if (nodeArray3 == null || nodeArray3.length < 2) {
                 throw new ASN1Exception();
             }
-            this.modulus = (BigInteger)aSN1Decoder$NodeArray3[0].data;
-            this.publicExponent = (BigInteger)aSN1Decoder$NodeArray3[1].data;
+            this.modulus = (BigInteger)nodeArray3[0].data;
+            this.publicExponent = (BigInteger)nodeArray3[1].data;
         }
         catch (ClassCastException classCastException) {
             throw new ASN1Exception();
@@ -144,34 +137,34 @@ implements java.security.interfaces.RSAPublicKey {
         }
     }
 
-    public ASN1Decoder$Node toASN1Node() {
-        ASN1Decoder$Node[] aSN1Decoder$NodeArray;
-        ASN1Decoder$Node[] aSN1Decoder$NodeArray2;
-        ASN1Decoder$Node[] aSN1Decoder$NodeArray3;
-        ASN1Decoder$Node aSN1Decoder$Node = new ASN1Decoder$Node();
-        aSN1Decoder$Node.type = 16;
-        aSN1Decoder$Node.data = aSN1Decoder$NodeArray3 = new ASN1Decoder$Node[2];
-        aSN1Decoder$NodeArray3[0] = new ASN1Decoder$Node();
-        aSN1Decoder$NodeArray3[0].type = 16;
-        aSN1Decoder$NodeArray3[0].data = aSN1Decoder$NodeArray2 = new ASN1Decoder$Node[2];
-        aSN1Decoder$NodeArray2[0] = new ASN1Decoder$Node();
-        aSN1Decoder$NodeArray2[0].type = 6;
-        aSN1Decoder$NodeArray2[0].data = PKCS1.OID_RSA;
-        aSN1Decoder$NodeArray2[1] = new ASN1Decoder$Node();
-        aSN1Decoder$NodeArray2[1].type = 5;
-        ASN1Decoder$Node aSN1Decoder$Node2 = new ASN1Decoder$Node();
-        aSN1Decoder$Node2.type = 16;
-        aSN1Decoder$Node2.data = aSN1Decoder$NodeArray = new ASN1Decoder$Node[2];
-        aSN1Decoder$NodeArray[0] = new ASN1Decoder$Node();
-        aSN1Decoder$NodeArray[0].type = 2;
-        aSN1Decoder$NodeArray[0].data = this.modulus;
-        aSN1Decoder$NodeArray[1] = new ASN1Decoder$Node();
-        aSN1Decoder$NodeArray[1].type = 2;
-        aSN1Decoder$NodeArray[1].data = this.publicExponent;
-        aSN1Decoder$NodeArray3[1] = new ASN1Decoder$Node();
-        aSN1Decoder$NodeArray3[1].type = 3;
-        aSN1Decoder$NodeArray3[1].data = new ASN1Decoder$BitString(0, ASN1Encoder.encodeNode(aSN1Decoder$Node2));
-        return aSN1Decoder$Node;
+    public ASN1Decoder.Node toASN1Node() {
+        ASN1Decoder.Node[] nodeArray;
+        ASN1Decoder.Node[] nodeArray2;
+        ASN1Decoder.Node[] nodeArray3;
+        ASN1Decoder.Node node = new ASN1Decoder.Node();
+        node.type = 16;
+        node.data = nodeArray3 = new ASN1Decoder.Node[2];
+        nodeArray3[0] = new ASN1Decoder.Node();
+        nodeArray3[0].type = 16;
+        nodeArray3[0].data = nodeArray2 = new ASN1Decoder.Node[2];
+        nodeArray2[0] = new ASN1Decoder.Node();
+        nodeArray2[0].type = 6;
+        nodeArray2[0].data = PKCS1.OID_RSA;
+        nodeArray2[1] = new ASN1Decoder.Node();
+        nodeArray2[1].type = 5;
+        ASN1Decoder.Node node2 = new ASN1Decoder.Node();
+        node2.type = 16;
+        node2.data = nodeArray = new ASN1Decoder.Node[2];
+        nodeArray[0] = new ASN1Decoder.Node();
+        nodeArray[0].type = 2;
+        nodeArray[0].data = this.modulus;
+        nodeArray[1] = new ASN1Decoder.Node();
+        nodeArray[1].type = 2;
+        nodeArray[1].data = this.publicExponent;
+        nodeArray3[1] = new ASN1Decoder.Node();
+        nodeArray3[1].type = 3;
+        nodeArray3[1].data = new ASN1Decoder.BitString(0, ASN1Encoder.encodeNode(node2));
+        return node;
     }
 }
 

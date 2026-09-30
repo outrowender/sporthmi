@@ -28,52 +28,42 @@ implements IEcallState {
         this.allowedEmergencyNumbers = iEcallStateStruct.getAllowedEmergencyNumbersList();
     }
 
-    @Override
     public boolean hasActiveCall() {
         return this.hasActiveCall;
     }
 
-    @Override
     public boolean isServiceActive() {
         return this.isServiceActive;
     }
 
-    @Override
     public PhoneCall getCall() {
         return this.phoneCall;
     }
 
-    @Override
     public boolean isEmergencyCallType() {
         return this.serviceKind == 5 || this.serviceKind == 4;
     }
 
-    @Override
     public boolean isLowPrioritySOSEmergencyCallType() {
         return this.phoneCall != null && this.phoneCall.isLowPrioritySOSCall();
     }
 
-    @Override
     public boolean isCustomerCallNotAllowed() {
         return this.isServiceActive && (this.isEmergencyCallType() || this.isLowPrioritySOSEmergencyCallType());
     }
 
-    @Override
     public boolean isCustomerCallAllowed() {
         return !this.isCustomerCallNotAllowed();
     }
 
-    @Override
     public int getServiceKind() {
         return this.serviceKind;
     }
 
-    @Override
     public String getEmergencyNumberToBeDialed() {
         return this.emergencyNumberToBeDialed;
     }
 
-    @Override
     public EmergencyNumber[] getAllowedEmergencyNumbers() {
         return this.allowedEmergencyNumbers;
     }

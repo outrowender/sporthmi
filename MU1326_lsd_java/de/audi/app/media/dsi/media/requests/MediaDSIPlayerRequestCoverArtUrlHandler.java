@@ -12,27 +12,25 @@ import org.dsi.ifc.media.DSIMediaPlayer;
 
 public class MediaDSIPlayerRequestCoverArtUrlHandler
 extends AbstractQueuedRequestHandler {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "MediaDSIPlayerRequestCoverArtUrlHandler";
 
     public MediaDSIPlayerRequestCoverArtUrlHandler(LogChannel logChannel, int n) {
         super(logChannel, true, n);
     }
 
-    @Override
     protected final String getLogClass() {
-        return "MediaDSIPlayerRequestCoverArtUrlHandler";
+        return LOGCLASS;
     }
 
-    @Override
     protected final boolean sendRequest(IRequestParameter iRequestParameter, DSIBase dSIBase, int n) {
         try {
             long l = ((RequestParameterEntryID)iRequestParameter).getEntryID();
-            this.getLogChannel().log(1078071040, "[%1.sendRequest] [%3] dsiMediaPlayer.requestCoverArt('%2').", (Object)"MediaDSIPlayerRequestCoverArtUrlHandler", l, (long)n);
+            this.getLogChannel().log(1000000, "[%1.sendRequest] [%3] dsiMediaPlayer.requestCoverArt('%2').", (Object)LOGCLASS, l, (long)n);
             ((DSIMediaPlayer)dSIBase).requestCoverArt(l);
             return true;
         }
         catch (Exception exception) {
-            this.getLogChannel().log(-1601830656, "[%1.sendRequest] Error on requesting detail informations: %2", (Object)"MediaDSIPlayerRequestCoverArtUrlHandler", (Throwable)exception);
+            this.getLogChannel().log(100000, "[%1.sendRequest] Error on requesting detail informations: %2", (Object)LOGCLASS, (Throwable)exception);
             return false;
         }
     }

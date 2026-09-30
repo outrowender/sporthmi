@@ -7,10 +7,8 @@ import de.audi.atip.interapp.tts.TTSService;
 
 public interface TTSSDSService
 extends TTSService {
-    default public void playTone(int n) {
-    }
+    public void playTone(int var1);
 
-    default public void speakRemoteHMI(String string) {
-    }
+    public void speakRemoteHMI(String var1);
 }
 

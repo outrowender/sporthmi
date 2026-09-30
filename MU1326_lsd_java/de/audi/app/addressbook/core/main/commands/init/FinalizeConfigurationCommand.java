@@ -15,9 +15,8 @@ extends AbstractADBCommand {
         super(aDBApplication);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "FinalizeConfigurationCommand#execute()");
+        this.logger.log(10000000, "FinalizeConfigurationCommand#execute()");
         boolean bl = this.adbDSIAccess.finalizeConfiguration();
         if (!bl) {
             this.logger.log(10000, "FinalizeConfigurationCommand#execute(): dsi call was not successful, finishing command.");

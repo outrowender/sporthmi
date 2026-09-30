@@ -12,13 +12,13 @@ import java.util.HashMap;
 public class CarEvoMenuEntryStructureGenerated
 implements CarEvoMenuEntryIDs {
     protected static void addStructure(IFrameworkAccess iFrameworkAccess, LogChannel logChannel, HashMap hashMap) {
-        MenuEntry menuEntry = (MenuEntry)hashMap.get(new Integer(1630013696));
-        MenuEntry menuEntry2 = (MenuEntry)hashMap.get(new Integer(1646790912));
-        MenuEntry menuEntry3 = (MenuEntry)hashMap.get(new Integer(1713899776));
-        MenuEntry menuEntry4 = (MenuEntry)hashMap.get(new Integer(1680345344));
-        MenuEntry menuEntry5 = (MenuEntry)hashMap.get(new Integer(640289024));
-        MenuEntry menuEntry6 = new MenuEntry(1646790912, "DRIVE_ASSIST_HUD", 1462438144, iFrameworkAccess, logChannel);
-        hashMap.put(new Integer(656935168), menuEntry6);
+        MenuEntry menuEntry = (MenuEntry)hashMap.get(new Integer(600161));
+        MenuEntry menuEntry2 = (MenuEntry)hashMap.get(new Integer(600162));
+        MenuEntry menuEntry3 = (MenuEntry)hashMap.get(new Integer(600166));
+        MenuEntry menuEntry4 = (MenuEntry)hashMap.get(new Integer(600164));
+        MenuEntry menuEntry5 = (MenuEntry)hashMap.get(new Integer(600614));
+        MenuEntry menuEntry6 = new MenuEntry(600162, "DRIVE_ASSIST_HUD", 600919, iFrameworkAccess, logChannel);
+        hashMap.put(new Integer(600103), menuEntry6);
         menuEntry2.setChildren(new MenuEntry[]{menuEntry6});
     }
 

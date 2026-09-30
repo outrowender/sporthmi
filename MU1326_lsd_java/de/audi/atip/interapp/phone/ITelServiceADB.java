@@ -6,7 +6,6 @@ package de.audi.atip.interapp.phone;
 import de.audi.atip.interapp.phone.TelFavoriteStruct;
 
 public interface ITelServiceADB {
-    default public void addToFavorites(TelFavoriteStruct telFavoriteStruct) {
-    }
+    public void addToFavorites(TelFavoriteStruct var1);
 }
 

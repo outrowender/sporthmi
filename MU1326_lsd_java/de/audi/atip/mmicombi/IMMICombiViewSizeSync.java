@@ -4,7 +4,6 @@
 package de.audi.atip.mmicombi;
 
 public interface IMMICombiViewSizeSync {
-    default public boolean requestViewSize(int n) {
-    }
+    public boolean requestViewSize(int var1);
 }
 

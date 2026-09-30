@@ -66,11 +66,11 @@ public class SDSAppFactory {
         this.oneshotHandlerFactory = new OneshotHandlerFactory(iFrameworkAccess);
         this.createHandlers(iFrameworkAccess, nBestStorageAccess, iDynamicLists, sDSHandlerService, speechRecognitionHandler, iSDSPopupHelper, mobileSpeechRecognitionHandler, dictationService);
         this.registerHandlers(iSDSDispatcher);
-        this.lc.log(-2137614336, "SDSAppFactory initialized.");
+        this.lc.log(10000000, "SDSAppFactory initialized.");
     }
 
     private void createHandlers(IFrameworkAccess iFrameworkAccess, NBestStorageAccess nBestStorageAccess, IDynamicLists iDynamicLists, SDSHandlerService sDSHandlerService, SpeechRecognitionHandler speechRecognitionHandler, ISDSPopupHelper iSDSPopupHelper, MobileSpeechRecognitionHandler mobileSpeechRecognitionHandler, DictationService dictationService) {
-        this.lc.log(-2137614336, "SDSAppFactory#createHandlers: called");
+        this.lc.log(10000000, "SDSAppFactory#createHandlers: called");
         HMIService hMIService = iFrameworkAccess.getHMIService();
         ILanguageManager iLanguageManager = iFrameworkAccess.getLanguageMgr();
         this.adbSDSHandler = new AddressBookSDSHandlerImpl(hMIService, sDSHandlerService, this, nBestStorageAccess, iSDSPopupHelper);
@@ -102,7 +102,7 @@ public class SDSAppFactory {
     }
 
     private void registerHandlers(ISDSDispatcher iSDSDispatcher) {
-        this.lc.log(-2137614336, "SDSAppFactory#registerHandlers: called");
+        this.lc.log(10000000, "SDSAppFactory#registerHandlers: called");
         iSDSDispatcher.registerApplication(this.systemSDSHandler, (byte)14);
         iSDSDispatcher.registerApplication(this.adbSDSHandler, (byte)7);
         iSDSDispatcher.registerApplication(this.mediaSDSHandler, (byte)2);

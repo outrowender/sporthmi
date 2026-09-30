@@ -7,46 +7,32 @@ import de.audi.app.car.common.mer.IMERVisibilityChangeListener;
 import de.audi.app.car.common.mer.IMenuEntry;
 
 public interface IMenuEntryRegistry {
-    default public void init() {
-    }
+    public void init();
 
-    default public void deinit() {
-    }
+    public void deinit();
 
-    default public Object getVehicleStatusDump() {
-    }
+    public Object getVehicleStatusDump();
 
-    default public IMenuEntry registerMenuEntry(int n, short s) {
-    }
+    public IMenuEntry registerMenuEntry(int var1, short var2);
 
-    default public void deregisterMenuEntry(int n) {
-    }
+    public void deregisterMenuEntry(int var1);
 
-    default public void updateMenuEntryCoding(int n, short s) {
-    }
+    public void updateMenuEntryCoding(int var1, short var2);
 
-    default public void updateMenuEntryVisibility(int n, int n2) {
-    }
+    public void updateMenuEntryVisibility(int var1, int var2);
 
-    default public void registerVisibilityChangeListener(IMERVisibilityChangeListener iMERVisibilityChangeListener) {
-    }
+    public void registerVisibilityChangeListener(IMERVisibilityChangeListener var1);
 
-    default public void unregisterVisibilityChangeListener(IMERVisibilityChangeListener iMERVisibilityChangeListener) {
-    }
+    public void unregisterVisibilityChangeListener(IMERVisibilityChangeListener var1);
 
-    default public void notifyStateChange(IMenuEntry iMenuEntry) {
-    }
+    public void notifyStateChange(IMenuEntry var1);
 
-    default public void stateUpdateForwardingTerminated() {
-    }
+    public void stateUpdateForwardingTerminated();
 
-    default public boolean updateSlotBinding(int n, int n2) {
-    }
+    public boolean updateSlotBinding(int var1, int var2);
 
-    default public void updateStateOfAllPossibleSlotsToInvisible(int n) {
-    }
+    public void updateStateOfAllPossibleSlotsToInvisible(int var1);
 
-    default public int getCurrentMenuEntryState(int n) {
-    }
+    public int getCurrentMenuEntryState(int var1);
 }
 

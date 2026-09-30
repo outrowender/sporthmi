@@ -4,10 +4,8 @@
 package de.audi.app.bluetooth.core.a2dp;
 
 public interface IAudio {
-    default public void requestSetA2DPUserSetting(boolean bl) {
-    }
+    public void requestSetA2DPUserSetting(boolean var1);
 
-    default public void requestSetA2DPUserSetting(boolean bl, boolean bl2) {
-    }
+    public void requestSetA2DPUserSetting(boolean var1, boolean var2);
 }
 

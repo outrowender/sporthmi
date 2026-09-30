@@ -4,10 +4,8 @@
 package de.audi.app.terminalmode.logging;
 
 public interface ILoggingDecoratorFactory {
-    default public Object wrap(Class clazz, Object object) {
-    }
+    public Object wrap(Class var1, Object var2);
 
-    default public Object wrap(String string, Object object) {
-    }
+    public Object wrap(String var1, Object var2);
 }
 

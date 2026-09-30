@@ -24,21 +24,21 @@ public class ImportExportManager {
     }
 
     public void addService(DataImportExport dataImportExport) {
-        this.lc.log(-2137614336, "ImportExportManager.addService(%2, %1) ", (Object)dataImportExport, (long)dataImportExport.getApplicationID());
+        this.lc.log(10000000, "ImportExportManager.addService(%2, %1) ", (Object)dataImportExport, (long)dataImportExport.getApplicationID());
         this.serviceList.add(dataImportExport);
     }
 
     public void removeService(DataImportExport dataImportExport) {
-        this.lc.log(-2137614336, "ImportExportManager.removeService( %1 ) ", (long)dataImportExport.getApplicationID());
+        this.lc.log(10000000, "ImportExportManager.removeService( %1 ) ", (long)dataImportExport.getApplicationID());
         this.serviceList.remove(dataImportExport);
     }
 
     public boolean importFromCSV(File file) {
-        this.lc.log(-2137614336, "ImportExportManager.importFromCSV( %1 ) ", (Object)file);
+        this.lc.log(10000000, "ImportExportManager.importFromCSV( %1 ) ", (Object)file);
         try {
             Object[] objectArray;
             SimpleIntObjectMap simpleIntObjectMap = new SimpleIntObjectMap(20);
-            this.lc.log(-2137614336, "ImportExportManager.importFromCSV(): Start parsing CSV file... ");
+            this.lc.log(10000000, "ImportExportManager.importFromCSV(): Start parsing CSV file... ");
             CSVReader cSVReader = new CSVReader(file);
             while ((objectArray = cSVReader.readLine()) != null) {
                 try {
@@ -54,7 +54,7 @@ public class ImportExportManager {
                     this.lc.log(10000, "ImportExportManager.importFromCSV(): Import of record %1 failed! ", (Object)this.toString(objectArray), (Throwable)exception);
                 }
             }
-            this.lc.log(-2137614336, "ImportExportManager.importFromCSV(): CSV file successfully parsed. ");
+            this.lc.log(10000000, "ImportExportManager.importFromCSV(): CSV file successfully parsed. ");
             boolean bl = true;
             int n = this.serviceList.size();
             for (int i2 = 0; i2 < n; ++i2) {
@@ -62,14 +62,14 @@ public class ImportExportManager {
                 int n2 = dataImportExport.getApplicationID();
                 ExchangeData exchangeData = (ExchangeData)simpleIntObjectMap.get(n2);
                 if (exchangeData == null) {
-                    this.lc.log(1078071040, "ImportExportManager.importFromCSV(): There is no import data for application %1 ", (long)n2);
+                    this.lc.log(1000000, "ImportExportManager.importFromCSV(): There is no import data for application %1 ", (long)n2);
                     continue;
                 }
-                this.lc.log(-2137614336, "ImportExportManager.importFromCSV(): Importing %1 records for application %2 ... ", (long)exchangeData.size(), (long)n2);
+                this.lc.log(10000000, "ImportExportManager.importFromCSV(): Importing %1 records for application %2 ... ", (long)exchangeData.size(), (long)n2);
                 boolean bl2 = dataImportExport.importData(exchangeData);
                 bl = bl && bl2;
             }
-            this.lc.log(-2137614336, "ImportExportManager.importFromCSV(): Import finished ");
+            this.lc.log(10000000, "ImportExportManager.importFromCSV(): Import finished ");
             return bl;
         }
         catch (Exception exception) {
@@ -79,7 +79,7 @@ public class ImportExportManager {
     }
 
     public boolean exportToCSV(File file) {
-        this.lc.log(-2137614336, "ImportExportManager.exportToCSV( %1 ) ", (Object)file);
+        this.lc.log(10000000, "ImportExportManager.exportToCSV( %1 ) ", (Object)file);
         try {
             ExchangeRecord[] exchangeRecordArray;
             int n;
@@ -88,18 +88,18 @@ public class ImportExportManager {
             for (n = 0; n < exchangeDataArray.length; ++n) {
                 exchangeRecordArray = (ExchangeRecord[])this.serviceList.get(n);
                 exchangeDataArray[n] = new ExchangeData(exchangeRecordArray.getApplicationID());
-                this.lc.log(-2137614336, "ImportExportManager.exportToCSV(): Request data from app %1 ", (long)exchangeDataArray[n].app);
+                this.lc.log(10000000, "ImportExportManager.exportToCSV(): Request data from app %1 ", (long)exchangeDataArray[n].app);
                 exchangeRecordArray.exportData(exchangeDataArray[n]);
             }
             for (n = 0; n < exchangeDataArray.length; ++n) {
                 exchangeRecordArray = exchangeDataArray[n].getSortedRecords();
-                this.lc.log(-2137614336, "ImportExportManager.exportToCSV(): Write %1 records from app %2 to file ", (long)exchangeRecordArray.length, (long)exchangeDataArray[n].app);
+                this.lc.log(10000000, "ImportExportManager.exportToCSV(): Write %1 records from app %2 to file ", (long)exchangeRecordArray.length, (long)exchangeDataArray[n].app);
                 for (int i2 = 0; i2 < exchangeRecordArray.length; ++i2) {
                     cSVWriter.writeLine(exchangeRecordArray[i2].toCSV());
                 }
             }
             cSVWriter.close();
-            this.lc.log(-2137614336, "ImportExportManager.exportToCSV(): Export finished ");
+            this.lc.log(10000000, "ImportExportManager.exportToCSV(): Export finished ");
             return true;
         }
         catch (Exception exception) {

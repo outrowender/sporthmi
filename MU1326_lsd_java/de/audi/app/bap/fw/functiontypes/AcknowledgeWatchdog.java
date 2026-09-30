@@ -3,16 +3,15 @@
  */
 package de.audi.app.bap.fw.functiontypes;
 
-import de.audi.app.bap.fw.functiontypes.AcknowledgeWatchdog$AcknowledgeWatchdogListener;
-
 public interface AcknowledgeWatchdog {
-    default public void activate() {
-    }
+    public void activate();
 
-    default public void deactivate() {
-    }
+    public void deactivate();
 
-    default public void setListener(AcknowledgeWatchdog$AcknowledgeWatchdogListener acknowledgeWatchdog$AcknowledgeWatchdogListener) {
+    public void setListener(AcknowledgeWatchdogListener var1);
+
+    public static interface AcknowledgeWatchdogListener {
+        public void acknowledgeMissing();
     }
 }
 

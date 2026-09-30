@@ -13,11 +13,9 @@ extends AbstractPlaybackModeHandler {
         super(iMediaTerminal, abstractMediaPlayer);
     }
 
-    @Override
     public void deactivate() {
     }
 
-    @Override
     public boolean sendCurrentPlaybackMode() {
         return true;
     }
@@ -26,15 +24,12 @@ extends AbstractPlaybackModeHandler {
         return false;
     }
 
-    @Override
     public void trackChanged() {
     }
 
-    @Override
     public void resetPlaybackMode() {
     }
 
-    @Override
     protected boolean restoreLastPlaymode() {
         return true;
     }
@@ -42,7 +37,6 @@ extends AbstractPlaybackModeHandler {
     protected void updateRepeatScope(int n) {
     }
 
-    @Override
     public int setRepeatTitle(boolean bl) {
         return 2;
     }
@@ -50,11 +44,9 @@ extends AbstractPlaybackModeHandler {
     protected void updateMixMode(boolean bl) {
     }
 
-    @Override
     protected void playbackModeChanged() {
     }
 
-    @Override
     public void setResetRepeatTitleOnTrackChange(boolean bl) {
     }
 }

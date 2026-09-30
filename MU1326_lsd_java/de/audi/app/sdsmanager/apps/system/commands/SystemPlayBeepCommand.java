@@ -22,11 +22,10 @@ extends AbstractSystemCallCommand {
         this.beepValue = SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: called", (Object)this.getName());
+        this.logger.log(10000000, "%1#execute: called", (Object)this.getName());
         int n = SDSUtils.translate(this.beepValue, PARAMETER_TO_DSIBEEPVALUES);
-        if (n == 128) {
+        if (n == Integer.MIN_VALUE) {
             this.sendResult(3001);
             return;
         }

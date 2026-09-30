@@ -4,14 +4,14 @@
 package de.audi.atip.interapp.combi.bap.phone.data;
 
 public final class CallStartTime {
-    private static final int HOURS_MASK;
-    private static final int MINUTES_MASK;
-    private static final int SECONDS_MASK;
-    private static final int LEAST_SIGNIFICANT_4_BITS;
-    private static final int LEAST_SIGNIFICANT_6_BITS;
-    private static final int HOURS_BIT_SHIFT;
-    private static final int MINUTES_BIT_SHIFT;
-    private static final int SECONDS_BIT_SHIFT;
+    private static final int HOURS_MASK = 61440;
+    private static final int MINUTES_MASK = 4032;
+    private static final int SECONDS_MASK = 63;
+    private static final int LEAST_SIGNIFICANT_4_BITS = 15;
+    private static final int LEAST_SIGNIFICANT_6_BITS = 63;
+    private static final int HOURS_BIT_SHIFT = 12;
+    private static final int MINUTES_BIT_SHIFT = 6;
+    private static final int SECONDS_BIT_SHIFT = 0;
     private final int timeStamp;
 
     public CallStartTime(int n) {
@@ -26,7 +26,7 @@ public final class CallStartTime {
     }
 
     public int getHours() {
-        return (this.timeStamp & 0xF00000) >> 12;
+        return (this.timeStamp & 0xF000) >> 12;
     }
 
     public int getMinutes() {
@@ -54,7 +54,7 @@ public final class CallStartTime {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         CallStartTime callStartTime = (CallStartTime)object;
@@ -62,7 +62,7 @@ public final class CallStartTime {
     }
 
     public String toString() {
-        return new StringBuffer().append("CallDuration [hours=").append(this.getHours()).append(" minutes=").append(this.getMinutes()).append(" seconds=").append(this.getSeconds()).append(" timeStamp=").append(this.timeStamp).append("]").toString();
+        return "CallDuration [hours=" + this.getHours() + " minutes=" + this.getMinutes() + " seconds=" + this.getSeconds() + " timeStamp=" + this.timeStamp + "]";
     }
 }
 

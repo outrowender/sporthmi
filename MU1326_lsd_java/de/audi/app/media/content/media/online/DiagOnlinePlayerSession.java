@@ -22,73 +22,60 @@ implements IMediaOnlinePlayerSession {
         this.url = string2;
     }
 
-    @Override
     public int getAudioConnection() {
         return this.connection;
     }
 
-    @Override
     public int getType() {
         return this.type;
     }
 
-    @Override
     public String getName() {
         return this.name;
     }
 
-    @Override
     public String getServiceID() {
         return this.getName();
     }
 
-    @Override
     public String getUrl() {
         return this.url;
     }
 
-    @Override
     public void onActive(IMediaSessionPlayer iMediaSessionPlayer) {
         this.player = (IMediaOnlineSessionPlayer)iMediaSessionPlayer;
     }
 
-    @Override
     public void onSuspend() {
         this.player = null;
     }
 
-    @Override
     public void onClose() {
         this.player = null;
     }
 
-    @Override
     public void updateState(int n) {
-        System.out.println(new StringBuffer().append("[DiagSession.updateState][").append(this.getName()).append("] ").append(n).toString());
+        System.out.println("[DiagSession.updateState][" + this.getName() + "] " + n);
     }
 
-    @Override
     public void updatePlayPosition(int n, int n2) {
-        System.out.println(new StringBuffer().append("[DiagSession.updatePlayPosition][").append(this.getName()).append("] ").append(n).toString());
+        System.out.println("[DiagSession.updatePlayPosition][" + this.getName() + "] " + n);
     }
 
-    @Override
     public void updateBufferState(int n, int n2) {
-        System.out.println(new StringBuffer().append("[DiagSession.updateBufferState][").append(this.getName()).append("] ").append(n).append(",").append(n2).toString());
+        System.out.println("[DiagSession.updateBufferState][" + this.getName() + "] " + n + "," + n2);
     }
 
-    @Override
     public void trackChanged(long l) {
-        System.out.println(new StringBuffer().append("[DiagSession.trackChanged][").append(this.getName()).append("]").toString());
+        System.out.println("[DiagSession.trackChanged][" + this.getName() + "]");
     }
 
     public void trackSkipped() {
-        System.out.println(new StringBuffer().append("[DiagSession.trackSkipped][").append(this.getName()).append("]").toString());
+        System.out.println("[DiagSession.trackSkipped][" + this.getName() + "]");
     }
 
-    @Override
     public void updateCapabilities(boolean bl, boolean bl2, boolean bl3, boolean bl4, boolean bl5, boolean bl6) {
-        System.out.println(new StringBuffer().append("[DiagSession.updateCapabilities][").append(this.getName()).append("]").append(bl).append(",").append(bl2).append(",").append(bl3).append(",").append(bl4).append(",").append(bl5).append(",").append(bl6).toString());
+        System.out.println("[DiagSession.updateCapabilities][" + this.getName() + "]" + bl + "," + bl2 + "," + bl3 + "," + bl4 + "," + bl5 + "," + bl6);
     }
 
     public void pause() {
@@ -127,19 +114,16 @@ implements IMediaOnlinePlayerSession {
         this.player.setRepeatTitle(bl);
     }
 
-    @Override
     public void updatePlaybackMode(boolean bl, boolean bl2) {
-        System.out.println(new StringBuffer().append("[DiagSession.updatePlaybackMode][").append(this.getName()).append("](repeatTitle=").append(bl).append(", shuffle=").append(bl2).append(")").toString());
+        System.out.println("[DiagSession.updatePlaybackMode][" + this.getName() + "](repeatTitle=" + bl + ", shuffle=" + bl2 + ")");
     }
 
-    @Override
     public void updateSkipCount(boolean bl, int n) {
-        System.out.println(new StringBuffer().append("[DiagSession.updateSkipCount][").append(this.getName()).append("](isForward=").append(bl).append(", skipCount=").append(n).append(")").toString());
+        System.out.println("[DiagSession.updateSkipCount][" + this.getName() + "](isForward=" + bl + ", skipCount=" + n + ")");
     }
 
-    @Override
     public void responseDetailInfo(String string, String string2, String string3, String string4) {
-        System.out.println(new StringBuffer().append("[DiagSession.responseDetailInfo][").append(this.getName()).append("](trackId=").append(string).append(", title=").append(string2).append(", album=").append(string3).append(", artist=").append(string4).append(")").toString());
+        System.out.println("[DiagSession.responseDetailInfo][" + this.getName() + "](trackId=" + string + ", title=" + string2 + ", album=" + string3 + ", artist=" + string4 + ")");
     }
 }
 

@@ -3,15 +3,15 @@
  */
 package de.audi.app.terminalmode;
 
-import de.audi.app.terminalmode.FactoryResetMessageHandler$1;
-import de.audi.app.terminalmode.FactoryResetMessageHandler$2;
 import de.audi.app.terminalmode.IContext;
 import de.audi.app.terminalmode.ITerminalModeComponent;
 import de.audi.app.terminalmode.device.TMDeviceStorekeeper;
+import de.audi.app.terminalmode.diagnosis.IDiagnosisCommandProvider;
 import de.audi.app.terminalmode.diagnosis.IDiagnosisManager;
 import de.audi.app.terminalmode.dsi.smartphoneintegration.ISmartphoneIntegrationDSIController;
 import de.audi.app.terminalmode.osgi.IServiceManager;
 import de.audi.app.terminalmode.util.IStreamableStorageContainer;
+import de.audi.atip.msg.MsgListener;
 import java.util.ArrayList;
 import org.osgi.framework.ServiceRegistration;
 
@@ -35,13 +35,27 @@ implements ITerminalModeComponent {
         this.tmDeviceStorageKeeper = (TMDeviceStorekeeper)iContext.get(class$de$audi$app$terminalmode$device$TMDeviceStorekeeper == null ? (class$de$audi$app$terminalmode$device$TMDeviceStorekeeper = FactoryResetMessageHandler.class$("de.audi.app.terminalmode.device.TMDeviceStorekeeper")) : class$de$audi$app$terminalmode$device$TMDeviceStorekeeper);
     }
 
-    @Override
     public void init() {
-        this.registeredService = this.serviceManager.registerService(class$de$audi$atip$msg$MsgListener == null ? (class$de$audi$atip$msg$MsgListener = FactoryResetMessageHandler.class$("de.audi.atip.msg.MsgListener")) : class$de$audi$atip$msg$MsgListener, new FactoryResetMessageHandler$1(this), IServiceManager.EMPTY_PARAMETERS);
-        this.diagnosisManager.addCommandProvider(-1, new FactoryResetMessageHandler$2(this));
+        this.registeredService = this.serviceManager.registerService(class$de$audi$atip$msg$MsgListener == null ? (class$de$audi$atip$msg$MsgListener = FactoryResetMessageHandler.class$("de.audi.atip.msg.MsgListener")) : class$de$audi$atip$msg$MsgListener, new MsgListener(){
+
+            public void processMsg(int n) {
+                if (n == 94) {
+                    FactoryResetMessageHandler.this.doFactoryReset();
+                }
+            }
+        }, IServiceManager.EMPTY_PARAMETERS);
+        this.diagnosisManager.addCommandProvider(-1, new IDiagnosisCommandProvider(){
+
+            public String[] getDiagKeys() {
+                return new String[]{"requestFactoryReset"};
+            }
+
+            public void executeDiagCommand(String string, String[] stringArray) {
+                FactoryResetMessageHandler.this.doFactoryReset();
+            }
+        });
     }
 
-    @Override
     public void deinit() {
         this.registeredService.unregister();
     }
@@ -59,10 +73,6 @@ implements ITerminalModeComponent {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ void access$000(FactoryResetMessageHandler factoryResetMessageHandler) {
-        factoryResetMessageHandler.doFactoryReset();
     }
 }
 

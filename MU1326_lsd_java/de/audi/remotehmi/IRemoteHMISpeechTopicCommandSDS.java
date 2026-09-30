@@ -7,7 +7,6 @@ import de.audi.remotehmi.IRemoteHMISpeechCommandSDS;
 
 public interface IRemoteHMISpeechTopicCommandSDS
 extends IRemoteHMISpeechCommandSDS {
-    default public String getContext() {
-    }
+    public String getContext();
 }
 

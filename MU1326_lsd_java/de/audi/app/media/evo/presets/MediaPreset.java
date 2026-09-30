@@ -61,47 +61,45 @@ extends MediaFavorite {
     private String getLabelText(I18NString i18NString) {
         switch (i18NString.getI18NKey()) {
             case 3: {
-                return this.presetHandler.getText(2099184384);
+                return this.presetHandler.getText(204669);
             }
             case 4: {
-                return this.presetHandler.getText(2115961600);
+                return this.presetHandler.getText(204670);
             }
             case 6: {
-                return this.presetHandler.getText(2132738816);
+                return this.presetHandler.getText(204671);
             }
             case 7: {
-                return this.presetHandler.getText(-2145451264);
+                return this.presetHandler.getText(204672);
             }
             case 9: {
-                return this.presetHandler.getText(-2128674048);
+                return this.presetHandler.getText(204673);
             }
             case 10: {
-                return this.presetHandler.getText(-2111896832);
+                return this.presetHandler.getText(204674);
             }
             case 50: {
-                return this.presetHandler.getText(1159725824);
+                return this.presetHandler.getText(204869);
             }
             case 51: {
-                return this.presetHandler.getText(1142948608);
+                return this.presetHandler.getText(204868);
             }
             case 30: {
-                return this.presetHandler.getText(-2095119616);
+                return this.presetHandler.getText(204675);
             }
             case 13: {
-                return this.presetHandler.getText(-769719552);
+                return this.presetHandler.getText(204754);
             }
         }
         return i18NString.getOriginalString();
     }
 
-    @Override
     public int hashCode() {
         int n = super.hashCode();
         n = 31 * n + (this.presetSlot == null ? 0 : this.presetSlot.hashCode());
         return n;
     }
 
-    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -109,7 +107,7 @@ extends MediaFavorite {
         if (!super.equals(object)) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         MediaPreset mediaPreset = (MediaPreset)object;

@@ -3,12 +3,14 @@
  */
 package de.audi.app.messaging.core.util;
 
-import de.audi.app.messaging.core.util.IFormatter$1;
-
 public interface IFormatter {
-    public static final IFormatter SIMPLE_FORMATTER = new IFormatter$1();
+    public static final IFormatter SIMPLE_FORMATTER = new IFormatter(){
 
-    default public String format(Object object) {
-    }
+        public String format(Object object) {
+            return String.valueOf(object);
+        }
+    };
+
+    public String format(Object var1);
 }
 

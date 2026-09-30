@@ -4,16 +4,13 @@
 package de.audi.app.sdsmanager.dictation.combinedstate;
 
 import de.audi.app.sdsmanager.dictation.DictationComponentManager;
-import de.audi.app.sdsmanager.dictation.combinedstate.DictationStateManager$1;
-import de.audi.app.sdsmanager.dictation.combinedstate.DictationStateManager$2;
-import de.audi.app.sdsmanager.dictation.combinedstate.DictationStateManager$DsiDictationAdapterListener;
 import de.audi.app.sdsmanager.dictation.combinedstate.DictationStateObserverProxy;
 import de.audi.app.sdsmanager.dictation.combinedstate.IDictationStateManager;
 import de.audi.app.sdsmanager.dictation.combinedstate.IDictationStateObserver;
 import de.audi.app.sdsmanager.dictation.component.AbstractDictationComponent;
+import de.audi.app.sdsmanager.dictation.dsiadapter.DsiDictationAdapterEmptyListener;
 import de.audi.app.sdsmanager.dictation.osgi.BundleEnvironment;
 import de.audi.app.sdsmanager.dictation.recognizer.IRecognizerStateObserver;
-import de.audi.atip.log.LogChannel;
 import de.esolutions.fw.util.commons.job.DispatcherBase;
 
 public final class DictationStateManager
@@ -29,27 +26,26 @@ IDictationStateManager {
     private volatile int dictationState = 0;
 
     private static long getDictationMaxDuration() {
-        int n = 0;
-        String string = System.getProperty("dictation.maxDuration", String.valueOf((long)0));
+        long l = 19500L;
+        String string = System.getProperty("dictation.maxDuration", String.valueOf(19500L));
         try {
-            n = (int)Long.parseLong(string);
+            l = Long.parseLong(string);
         }
         catch (Exception exception) {
-            n = 0;
+            l = 19500L;
         }
-        return n;
+        return l;
     }
 
     public DictationStateManager(BundleEnvironment bundleEnvironment) {
         super(bundleEnvironment, "App.SDS.Dictation");
     }
 
-    @Override
     public void init(DictationComponentManager dictationComponentManager) {
         super.init(dictationComponentManager);
         this.dispatcher = dictationComponentManager.getDispatcherManager().getInternalTaskDispatcher();
         this.initObserverProxy();
-        dictationComponentManager.getDsiDictationAdapter().addListener(new DictationStateManager$DsiDictationAdapterListener(this, null));
+        dictationComponentManager.getDsiDictationAdapter().addListener(new DsiDictationAdapterListener());
     }
 
     private void initObserverProxy() {
@@ -96,58 +92,60 @@ IDictationStateManager {
         }
     }
 
-    @Override
     public void addObserver(IDictationStateObserver iDictationStateObserver) {
-        this.log.log(1078071040, "[DictationStateManager#addObserver] observer = %1", (Object)iDictationStateObserver);
+        this.log.log(1000000, "[DictationStateManager#addObserver] observer = %1", (Object)iDictationStateObserver);
         this.observerProxy.addObserver(iDictationStateObserver);
     }
 
-    @Override
     public void removeObserver(IDictationStateObserver iDictationStateObserver) {
-        this.log.log(1078071040, "[DictationStateManager#removeObserver] observer = %1", (Object)iDictationStateObserver);
+        this.log.log(1000000, "[DictationStateManager#removeObserver] observer = %1", (Object)iDictationStateObserver);
         this.observerProxy.removeObserver(iDictationStateObserver);
     }
 
-    @Override
     public void indicateStartOfSpeech() {
-        this.dispatcher.execute(new DictationStateManager$1(this));
+        this.dispatcher.execute(new Runnable(){
+
+            public void run() {
+                DictationStateManager.this.log.log(1000000, "[DictationStateManager#indicateStartOfSpeech]");
+                DictationStateManager.this.setSpeechInProgress(true);
+            }
+        });
     }
 
-    @Override
     public void indicateEndOfSpeech() {
-        this.dispatcher.execute(new DictationStateManager$2(this));
+        this.dispatcher.execute(new Runnable(){
+
+            public void run() {
+                DictationStateManager.this.log.log(1000000, "[DictationStateManager#indicateEndOfSpeech]");
+                DictationStateManager.this.setSpeechInProgress(false);
+            }
+        });
     }
 
-    static /* synthetic */ LogChannel access$100(DictationStateManager dictationStateManager) {
-        return dictationStateManager.log;
-    }
+    private class DsiDictationAdapterListener
+    extends DsiDictationAdapterEmptyListener {
+        private DsiDictationAdapterListener() {
+        }
 
-    static /* synthetic */ void access$200(DictationStateManager dictationStateManager, boolean bl) {
-        dictationStateManager.setSpeechInProgress(bl);
-    }
+        public void updateActivationState(final int n) {
+            DictationStateManager.this.dispatcher.execute(new Runnable(){
 
-    static /* synthetic */ LogChannel access$300(DictationStateManager dictationStateManager) {
-        return dictationStateManager.log;
-    }
+                public void run() {
+                    DictationStateManager.this.log.log(10000000, "[DictationStateManager#updateActivationState] activationState = %1", (long)n);
+                    DictationStateManager.this.setActivationState(n);
+                }
+            });
+        }
 
-    static /* synthetic */ LogChannel access$500(DictationStateManager dictationStateManager) {
-        return dictationStateManager.log;
-    }
+        public void updateDsiAvailability(final boolean bl) {
+            DictationStateManager.this.dispatcher.execute(new Runnable(){
 
-    static /* synthetic */ void access$600(DictationStateManager dictationStateManager, int n) {
-        dictationStateManager.setActivationState(n);
-    }
-
-    static /* synthetic */ DispatcherBase access$700(DictationStateManager dictationStateManager) {
-        return dictationStateManager.dispatcher;
-    }
-
-    static /* synthetic */ LogChannel access$800(DictationStateManager dictationStateManager) {
-        return dictationStateManager.log;
-    }
-
-    static /* synthetic */ void access$900(DictationStateManager dictationStateManager, boolean bl) {
-        dictationStateManager.setDsiAvailable(bl);
+                public void run() {
+                    DictationStateManager.this.log.log(10000000, "[DictationStateManager#updateDsiAvailability] dsiAvailable = %1", bl);
+                    DictationStateManager.this.setDsiAvailable(bl);
+                }
+            });
+        }
     }
 }
 

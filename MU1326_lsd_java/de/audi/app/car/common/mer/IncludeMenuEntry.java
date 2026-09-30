@@ -42,7 +42,7 @@ extends MenuEntry {
         if (this.acceptsSlotCandidate(slotMenuEntry)) {
             bl = this.rebindBidirectionalSlotIncludeConnection(slotMenuEntry);
         } else if (this.logChannel.isInfo()) {
-            this.logChannel.log(1078071040, "[%1('%2')#moveToSlot] didn't accept target %3('%4')", (Object)this.getType(), (Object)this, (Object)slotMenuEntry.getType(), (Object)slotMenuEntry);
+            this.logChannel.log(1000000, "[%1('%2')#moveToSlot] didn't accept target %3('%4')", (Object)this.getType(), (Object)this, (Object)slotMenuEntry.getType(), (Object)slotMenuEntry);
         }
         this.updateState(this.getState());
         return bl;
@@ -51,7 +51,7 @@ extends MenuEntry {
     private boolean rebindBidirectionalSlotIncludeConnection(SlotMenuEntry slotMenuEntry) {
         if (this.isBoundToSlot(slotMenuEntry)) {
             if (this.logChannel.isInfo()) {
-                this.logChannel.log(1078071040, "[%1('%2')#rebindBidirectionalSlotIncludeConnection] menu entry is already bound to target %3('%4')", (Object)this.getType(), (Object)this, (Object)slotMenuEntry.getType(), (Object)slotMenuEntry);
+                this.logChannel.log(1000000, "[%1('%2')#rebindBidirectionalSlotIncludeConnection] menu entry is already bound to target %3('%4')", (Object)this.getType(), (Object)this, (Object)slotMenuEntry.getType(), (Object)slotMenuEntry);
             }
             return false;
         }
@@ -65,7 +65,6 @@ extends MenuEntry {
         return bl;
     }
 
-    @Override
     public void setParent(IMenuEntry iMenuEntry) {
         if (iMenuEntry == null || iMenuEntry.isType(MenuEntryType.SLOT_MENU_ENTRY) && this.isCurrentlyMoving) {
             super.setParent(iMenuEntry);
@@ -82,23 +81,19 @@ extends MenuEntry {
         return false;
     }
 
-    @Override
     public boolean isLeaf() {
         return false;
     }
 
-    @Override
     public MenuEntryType getType() {
         return MenuEntryType.INCLUDE_MENU_ENTRY;
     }
 
-    @Override
     protected void setState(int n) {
-        this.logChannel.log(1078071040, "[%1('%2')#setState] state='%3'", (Object)this.getType(), (Object)this, (long)n);
+        this.logChannel.log(1000000, "[%1('%2')#setState] state='%3'", (Object)this.getType(), (Object)this, (long)n);
         this.state = n;
     }
 
-    @Override
     public void updateState(int n) {
         int n2 = this.getState();
         super.updateState(n);
@@ -107,7 +102,6 @@ extends MenuEntry {
         }
     }
 
-    @Override
     public boolean isRegistrable() {
         return false;
     }

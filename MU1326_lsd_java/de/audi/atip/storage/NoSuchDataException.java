@@ -5,7 +5,7 @@ package de.audi.atip.storage;
 
 public abstract class NoSuchDataException
 extends RuntimeException {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -1777840130593173511L;
     private int namespace;
     private long key;
 
@@ -23,9 +23,8 @@ extends RuntimeException {
         return this.key;
     }
 
-    @Override
     public String toString() {
-        return new StringBuffer().append("Namespace=").append(this.getNamespace()).append(" Key=").append(this.getKey()).append(" Cause: ").append(this.getMessage()).toString();
+        return "Namespace=" + this.getNamespace() + " Key=" + this.getKey() + " Cause: " + this.getMessage();
     }
 }
 

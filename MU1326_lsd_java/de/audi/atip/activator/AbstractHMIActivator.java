@@ -44,12 +44,10 @@ I18NTarget {
         this.modelBank = hMIModelBank;
     }
 
-    @Override
     public String getName() {
         return new StringBuffer().append("HMI").append(this.appName).append(this.skinName).toString();
     }
 
-    @Override
     public void start(BundleContext bundleContext) {
         Hashtable hashtable;
         super.start(bundleContext);
@@ -67,7 +65,6 @@ I18NTarget {
         this.registerService(new String[]{(class$de$audi$atip$hmi$HMIBundle == null ? (class$de$audi$atip$hmi$HMIBundle = AbstractHMIActivator.class$("de.audi.atip.hmi.HMIBundle")) : class$de$audi$atip$hmi$HMIBundle).getName(), (class$de$audi$atip$i18n$I18NTarget == null ? (class$de$audi$atip$i18n$I18NTarget = AbstractHMIActivator.class$("de.audi.atip.i18n.I18NTarget")) : class$de$audi$atip$i18n$I18NTarget).getName()}, (Object)this, (Dictionary)hashtable);
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         if (this.modelBank != null) {
             this.modelBank.resetAllModelListeners();
@@ -75,18 +72,15 @@ I18NTarget {
         super.stop(bundleContext);
     }
 
-    @Override
     public String getSkin() {
         return this.skinName;
     }
 
-    @Override
     public int getId() {
         return this.moduleId;
     }
 
-    protected abstract AbstractScreenFactory getScreenFactory() {
-    }
+    protected abstract AbstractScreenFactory getScreenFactory();
 
     private AbstractScreenFactory getCashedScreenFactory() {
         if (this.cashedScreenFactory == null) {
@@ -95,72 +89,58 @@ I18NTarget {
         return this.cashedScreenFactory;
     }
 
-    @Override
     public URL getKzbUrlFromClassloader(String string) {
         return this.getCashedScreenFactory().getKzbUrlFromClassloader(string);
     }
 
-    @Override
     public URL getKzbUrlFromClassloader(int n) {
         return this.getCashedScreenFactory().getKzbUrlFromClassloader(n);
     }
 
-    @Override
     public URL getImageUrlFromClassloader(int n) {
         return this.getCashedScreenFactory().getImageUrlFromClassloader(n);
     }
 
-    @Override
     public URL getImageUrlFromClassloader(int n, int n2) {
         return this.getCashedScreenFactory().getImageUrlFromClassloader(n, n2);
     }
 
-    @Override
     public String getImagePath(int n, int n2) {
         return this.getCashedScreenFactory().getImagePath(n, n2);
     }
 
-    @Override
     public String getKzbPath(String string) {
         return this.getCashedScreenFactory().getKzbPath(string);
     }
 
-    @Override
     public String getKzbPath(int n, int n2) {
         return this.getCashedScreenFactory().getKzbPath(n, n2);
     }
 
-    @Override
     public String getText(int n) {
         return this.getCashedScreenFactory().getText(n);
     }
 
-    @Override
     public Screen getScreen(int n, int n2) {
         return this.getCashedScreenFactory().getScreen(n, n2);
     }
 
-    @Override
     public void setLanguage(Language language) {
         this.getCashedScreenFactory().setLanguage(language);
     }
 
-    @Override
     public IDrawerController[] getSelectionDrawers(int n) {
         return this.getCashedScreenFactory().getSelectionDrawers(n);
     }
 
-    @Override
     public IDrawerController[] getOptionDrawers(int n) {
         return this.getCashedScreenFactory().getOptionDrawers(n);
     }
 
-    @Override
     public IDrawerController getEntertainmentDrawer(int n) {
         return this.getCashedScreenFactory().getEntertainmentDrawer(n);
     }
 
-    @Override
     public List getEntertainmentDrawerContent(int n) {
         Object[] objectArray = this.getCashedScreenFactory().getEntertainmentDrawerContents(n);
         if (objectArray != null && objectArray.length > 0) {
@@ -169,12 +149,10 @@ I18NTarget {
         return Collections.EMPTY_LIST;
     }
 
-    @Override
     public IPartialPopupController getPartialPopup(int n, int n2) {
         return this.getScreenFactory().getPartialPopup(n, n2);
     }
 
-    @Override
     public IPartialPopupController[] getPartialPopupStubs(int n) {
         return this.getScreenFactory().getPartialPopupStubs(n);
     }

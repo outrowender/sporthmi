@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 public class FavoriteHeaderData
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 722811022815740669L;
     private final int sourceType;
     private final String mediaId;
     private final int persistentKey;

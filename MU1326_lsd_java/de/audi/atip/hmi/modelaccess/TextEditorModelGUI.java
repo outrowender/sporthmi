@@ -8,33 +8,25 @@ import java.util.LinkedList;
 
 public interface TextEditorModelGUI
 extends HMIModelGUI {
-    public static final int MODE_HAPTIC;
-    public static final int MODE_LINGUISTIC;
-    public static final int COMMAND_NEW;
-    public static final int COMMAND_DELETE;
+    public static final int MODE_HAPTIC = 0;
+    public static final int MODE_LINGUISTIC = 1;
+    public static final int COMMAND_NEW = 1;
+    public static final int COMMAND_DELETE = 2;
 
-    default public void openAlternativesList(int n, int n2) {
-    }
+    public void openAlternativesList(int var1, int var2);
 
-    default public void alternativeSelected(int n, int n2, int n3) {
-    }
+    public void alternativeSelected(int var1, int var2, int var3);
 
-    default public void textChanged(int n, int n2, int n3) {
-    }
+    public void textChanged(int var1, int var2, int var3);
 
-    default public void editedText(LinkedList linkedList) {
-    }
+    public void editedText(LinkedList var1);
 
-    default public LinkedList getText() {
-    }
+    public LinkedList getText();
 
-    default public int getDictationMode() {
-    }
+    public int getDictationMode();
 
-    default public int getMaxLength() {
-    }
+    public int getMaxLength();
 
-    default public void commandPressed(int n, int n2) {
-    }
+    public void commandPressed(int var1, int var2);
 }
 

@@ -23,7 +23,7 @@ extends ATIPEvent {
     }
 
     public String toString() {
-        return new StringBuffer().append("ActiveContextEvent: [").append(this.getPosted()).append("] terminal: ").append(this.terminal).append(" activeContext: ").append(this.activeContext).append(" sessionID: ").append(this.sessionID).toString();
+        return "ActiveContextEvent: [" + this.getPosted() + "] terminal: " + this.terminal + " activeContext: " + this.activeContext + " sessionID: " + this.sessionID;
     }
 
     public int getTerminal() {

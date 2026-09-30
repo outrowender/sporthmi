@@ -4,10 +4,8 @@
 package de.audi.app.terminalmode.audio;
 
 public interface IMediaRoutesChangeListener {
-    default public void mediaRoutesChanging() {
-    }
+    public void mediaRoutesChanging();
 
-    default public void mediaRoutesChanged() {
-    }
+    public void mediaRoutesChanged();
 }
 

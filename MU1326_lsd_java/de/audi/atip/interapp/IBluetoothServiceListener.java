@@ -4,10 +4,8 @@
 package de.audi.atip.interapp;
 
 public interface IBluetoothServiceListener {
-    default public void responseConnectService(String string, int n, String string2, boolean bl, int n2) {
-    }
+    public void responseConnectService(String var1, int var2, String var3, boolean var4, int var5);
 
-    default public void responseDisconnectService(String string, int n, int n2) {
-    }
+    public void responseDisconnectService(String var1, int var2, int var3);
 }
 

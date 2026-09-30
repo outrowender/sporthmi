@@ -36,7 +36,7 @@ extends AbstractTel1EnqueuedBAPPropertyHandler {
             this.log.log(10000, "BAPPropertyTelFSGOperationState#updateArgs telephoneState is null");
             return;
         }
-        this.log.log(-2137614336, "[BAPPropertyTelFSGOperationState#updateArgs call");
+        this.log.log(10000000, "[BAPPropertyTelFSGOperationState#updateArgs call");
         IEcallState iEcallState = iGlobalTelephoneStateStruct.getConnectedGatewayState();
         boolean bl2 = bl = iEcallState != null && iEcallState.isLowPrioritySOSEmergencyCallType();
         if (bl) {
@@ -54,7 +54,7 @@ extends AbstractTel1EnqueuedBAPPropertyHandler {
     }
 
     private void updateTelState() {
-        this.log.log(-2137614336, "[BAPPropertyTelFSGOperationState#updateTelState] call");
+        this.log.log(10000000, "[BAPPropertyTelFSGOperationState#updateTelState] call");
         if (this.isLowPriorityEcallActive) {
             this.telState = 15;
             return;
@@ -87,7 +87,7 @@ extends AbstractTel1EnqueuedBAPPropertyHandler {
                         break block0;
                     }
                 }
-                this.log.log(-2137614336, "PhoneBAPPropertyFSGOperationState#telStateChanged: For ACTIVATIONSTATE_PHONE_OFF no action for %1", (long)this.phoneModuleState);
+                this.log.log(10000000, "PhoneBAPPropertyFSGOperationState#telStateChanged: For ACTIVATIONSTATE_PHONE_OFF no action for %1", (long)this.phoneModuleState);
                 break;
             }
             case 2: 
@@ -119,24 +119,22 @@ extends AbstractTel1EnqueuedBAPPropertyHandler {
         return n == 2 || n == 0 || n == 1;
     }
 
-    @Override
     protected boolean doProcessGlobalTelephoneStateUpdate(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         return true;
     }
 
-    @Override
     protected void updateAsync() {
         IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct = this.getTelephoneState();
         CombiBAPServicePhone combiBAPServicePhone = this.getCombiService();
         if (iGlobalTelephoneStateStruct == null) {
-            this.log.log(-2137614336, "[BAPPropertyTelFSGOperationState#update nothing to update:  globalTelephoneState is null]");
+            this.log.log(10000000, "[BAPPropertyTelFSGOperationState#update nothing to update:  globalTelephoneState is null]");
             return;
         }
         this.updateArgs(iGlobalTelephoneStateStruct);
-        super.getClass();
+        this.getClass();
         TelBapFSGOperationStateStruct telBapFSGOperationStateStruct = new TelBapFSGOperationStateStruct(this.telState, this.isPrivacyMode, true);
         if (!telBapFSGOperationStateStruct.equals(this.fsgOperationStateStruct) && combiBAPServicePhone != null) {
-            this.log.log(1078071040, "[BAPPropertyTelFSGOperationState#update] updating cluster: %1", (Object)telBapFSGOperationStateStruct);
+            this.log.log(1000000, "[BAPPropertyTelFSGOperationState#update] updating cluster: %1", (Object)telBapFSGOperationStateStruct);
             combiBAPServicePhone.updateFSGOperationState(telBapFSGOperationStateStruct.getTelState(), telBapFSGOperationStateStruct.isPrivacyModeActive(), telBapFSGOperationStateStruct.isEnhancedPrivacyModeActive());
             this.fsgOperationStateStruct = telBapFSGOperationStateStruct;
         }

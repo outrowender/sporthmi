@@ -21,7 +21,6 @@ implements IReadableProvider {
         super(messagingBundleContext, "App.Messaging.Main");
     }
 
-    @Override
     public IReadable getReadable() {
         Readable readable = null;
         try {

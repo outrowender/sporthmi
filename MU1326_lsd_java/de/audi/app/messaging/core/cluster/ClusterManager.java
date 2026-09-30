@@ -5,26 +5,25 @@ package de.audi.app.messaging.core.cluster;
 
 import de.audi.app.messaging.core.accounts.Accounts;
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
-import de.audi.app.messaging.core.cluster.ClusterManager$1;
-import de.audi.app.messaging.core.cluster.ClusterManager$2;
-import de.audi.app.messaging.core.cluster.ClusterManager$3;
-import de.audi.app.messaging.core.cluster.ClusterManager$4;
-import de.audi.app.messaging.core.cluster.ClusterManager$MyDsiMessagingListener;
-import de.audi.app.messaging.core.cluster.ClusterManager$NewMessageIndicationManagerObserver;
 import de.audi.app.messaging.core.component.AbstractMessagingComponent;
+import de.audi.app.messaging.core.dsi.messaging.DsiMessagingEmptyListener;
+import de.audi.app.messaging.core.indication.INewMessageIndicationManagerObserver;
 import de.audi.app.messaging.core.indication.NewMessageIndicationManager;
+import de.audi.app.messaging.core.osgi.AbstractMessagingTrackerCustomizer;
 import de.audi.app.messaging.core.osgi.IServiceRegistry;
 import de.audi.app.messaging.core.osgi.MessagingBundleContext;
 import de.audi.app.messaging.core.osgi.ServiceFilterBuilder;
 import de.audi.app.messaging.core.osgi.ServiceProperties;
+import de.audi.app.messaging.core.util.Logs;
 import de.audi.atip.interapp.combi.bap.phone.CombiBAPServiceMessaging;
 import de.audi.atip.interapp.combi.bap.phone.CombiBAPServiceMessagingListener;
-import de.audi.atip.log.LogChannel;
 import de.esolutions.fw.util.commons.Buffer;
 import java.util.Iterator;
 import java.util.Set;
 import org.dsi.ifc.messaging.MessagingAccount;
 import org.osgi.framework.Filter;
+import org.osgi.framework.InvalidSyntaxException;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
@@ -45,14 +44,12 @@ implements CombiBAPServiceMessagingListener {
         super(messagingBundleContext, "App.Messaging.Main");
     }
 
-    @Override
     public void init(AbstractMsgApplication abstractMsgApplication) {
         super.init(abstractMsgApplication);
-        abstractMsgApplication.getDsiMessagingPrimaryListener().addSubscriber(new ClusterManager$MyDsiMessagingListener(this, null));
-        abstractMsgApplication.getNewMessageIndicationManager().addObserver(new ClusterManager$NewMessageIndicationManagerObserver(this, null));
+        abstractMsgApplication.getDsiMessagingPrimaryListener().addSubscriber(new MyDsiMessagingListener());
+        abstractMsgApplication.getNewMessageIndicationManager().addObserver(new NewMessageIndicationManagerObserver());
     }
 
-    @Override
     public void connect(IServiceRegistry iServiceRegistry) {
         try {
             super.connect(iServiceRegistry);
@@ -64,11 +61,23 @@ implements CombiBAPServiceMessagingListener {
         }
     }
 
-    private ServiceTracker createServiceTracker() {
+    private ServiceTracker createServiceTracker() throws InvalidSyntaxException {
         String string = ServiceFilterBuilder.createFilterString("objectClass", (class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServiceMessaging == null ? (class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServiceMessaging = ClusterManager.class$("de.audi.atip.interapp.combi.bap.phone.CombiBAPServiceMessaging")) : class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServiceMessaging).getName());
         Filter filter = this.bundleContext.createFilter(string);
-        ClusterManager$1 clusterManager$1 = new ClusterManager$1(this, this.log, this.bundleContext);
-        return new ServiceTracker(this.bundleContext, filter, (ServiceTrackerCustomizer)clusterManager$1);
+        AbstractMessagingTrackerCustomizer abstractMessagingTrackerCustomizer = new AbstractMessagingTrackerCustomizer(this.log, this.bundleContext){
+
+            public void addService(ServiceReference serviceReference, Object object) {
+                ClusterManager.this.combiBapServiceMessaging = (CombiBAPServiceMessaging)object;
+                ClusterManager.this.dispatchUpdateMobileServiceSupport();
+                ClusterManager.this.dispatchUpdateSmsState();
+                ClusterManager.this.dispatchUpdateEmailState();
+            }
+
+            public void removeService(ServiceReference serviceReference, Object object) {
+                ClusterManager.this.combiBapServiceMessaging = null;
+            }
+        };
+        return new ServiceTracker(this.bundleContext, filter, (ServiceTrackerCustomizer)abstractMessagingTrackerCustomizer);
     }
 
     private void setAccountStatus(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
@@ -78,7 +87,7 @@ implements CombiBAPServiceMessagingListener {
             buffer.append(", isEmailAccountPresent = ").append(bl2);
             buffer.append(", isSmsMemoryDepleted = ").append(bl3);
             buffer.append(", isEmailMemoryDepleted = ").append(bl4);
-            this.log.log(-2137614336, buffer.toString());
+            this.log.log(10000000, buffer.toString());
         }
         boolean bl5 = false;
         boolean bl6 = false;
@@ -112,7 +121,7 @@ implements CombiBAPServiceMessagingListener {
     }
 
     private void setNewMessageAvailability() {
-        this.log.log(-2137614336, "[ClusterManager#setNewMessageAvailability]");
+        this.log.log(10000000, "[ClusterManager#setNewMessageAvailability]");
         int n = 0;
         int n2 = 0;
         NewMessageIndicationManager newMessageIndicationManager = this.msgApp.getNewMessageIndicationManager();
@@ -141,36 +150,68 @@ implements CombiBAPServiceMessagingListener {
     }
 
     private void dispatchUpdateMobileServiceSupport() {
-        CombiBAPServiceMessaging combiBAPServiceMessaging = this.combiBapServiceMessaging;
+        final CombiBAPServiceMessaging combiBAPServiceMessaging = this.combiBapServiceMessaging;
         if (combiBAPServiceMessaging != null) {
-            boolean bl = this.isSmsAccountPresent;
-            boolean bl2 = this.isEmailAccountPresent;
-            this.msgApp.getExecutorManager().getExternalTaskDispatcher().execute(new ClusterManager$2(this, bl, bl2, combiBAPServiceMessaging));
+            final boolean bl = this.isSmsAccountPresent;
+            final boolean bl2 = this.isEmailAccountPresent;
+            this.msgApp.getExecutorManager().getExternalTaskDispatcher().execute(new Runnable(){
+
+                public void run() {
+                    ClusterManager.this.log.log(1000000, "[ClusterManager#dispatchUpdateMobileServiceSupport] smsStateSupported = %1, emailStateSupported = %2", bl, bl2);
+                    try {
+                        combiBAPServiceMessaging.updateMobileServiceSupport(bl, bl2);
+                    }
+                    catch (Exception exception) {
+                        Logs.logException(ClusterManager.this.log, exception, "[ClusterManager#dispatchUpdateMobileServiceSupport]");
+                    }
+                }
+            });
         }
     }
 
     private void dispatchUpdateSmsState() {
-        CombiBAPServiceMessaging combiBAPServiceMessaging = this.combiBapServiceMessaging;
+        final CombiBAPServiceMessaging combiBAPServiceMessaging = this.combiBapServiceMessaging;
         if (combiBAPServiceMessaging != null) {
-            boolean bl = this.isSmsAccountPresent;
-            int n = this.isSmsMemoryDepleted ? 1 : 0;
-            int n2 = this.newSmsCount;
-            this.msgApp.getExecutorManager().getExternalTaskDispatcher().execute(new ClusterManager$3(this, n, n2, bl, combiBAPServiceMessaging));
+            final boolean bl = this.isSmsAccountPresent;
+            final int n = this.isSmsMemoryDepleted ? 1 : 0;
+            final int n2 = this.newSmsCount;
+            this.msgApp.getExecutorManager().getExternalTaskDispatcher().execute(new Runnable(){
+
+                public void run() {
+                    ClusterManager.this.log.log(1000000, "[ClusterManager#dispatchUpdateSmsState] simReady = %3, smsStorageState = %1, numberOfNewSms = %2", (long)n, (long)n2, bl);
+                    try {
+                        combiBAPServiceMessaging.updateSMSState(bl, n, n2);
+                    }
+                    catch (Exception exception) {
+                        Logs.logException(ClusterManager.this.log, exception, "[ClusterManager#dispatchUpdateSmsState]");
+                    }
+                }
+            });
         }
     }
 
     private void dispatchUpdateEmailState() {
-        CombiBAPServiceMessaging combiBAPServiceMessaging = this.combiBapServiceMessaging;
+        final CombiBAPServiceMessaging combiBAPServiceMessaging = this.combiBapServiceMessaging;
         if (combiBAPServiceMessaging != null) {
-            int n = this.isEmailMemoryDepleted ? 1 : 0;
-            int n2 = this.newEmailCount;
-            this.msgApp.getExecutorManager().getExternalTaskDispatcher().execute(new ClusterManager$4(this, n, n2, combiBAPServiceMessaging));
+            final int n = this.isEmailMemoryDepleted ? 1 : 0;
+            final int n2 = this.newEmailCount;
+            this.msgApp.getExecutorManager().getExternalTaskDispatcher().execute(new Runnable(){
+
+                public void run() {
+                    ClusterManager.this.log.log(1000000, "[ClusterManager#dispatchUpdateEmailState] emailStorageState = %1, numberOfNewEmails = %2", (long)n, (long)n2);
+                    try {
+                        combiBAPServiceMessaging.updateEmailState(n, n2);
+                    }
+                    catch (Exception exception) {
+                        Logs.logException(ClusterManager.this.log, exception, "[ClusterManager#dispatchUpdateEmailState]");
+                    }
+                }
+            });
         }
     }
 
-    @Override
     public void setSMSState(int n) {
-        this.log.log(1078071040, "[ClusterManager#setSMSState] numberOfNewSMS = %1", (long)n);
+        this.log.log(1000000, "[ClusterManager#setSMSState] numberOfNewSMS = %1", (long)n);
         if (n == 0) {
             Set set = this.msgApp.getNewMessageIndicationManager().getNewMessageAccountSet();
             Iterator iterator = set.iterator();
@@ -181,10 +222,10 @@ implements CombiBAPServiceMessagingListener {
                     this.msgApp.getNewMessageIndicationManager().clearNewMessageIndication(n2);
                     continue;
                 }
-                this.log.log(1078071040, "[ClusterManager#setSMSState] messagingAccount is NULL= %1", messagingAccount == null);
+                this.log.log(1000000, "[ClusterManager#setSMSState] messagingAccount is NULL= %1", messagingAccount == null);
             }
         } else {
-            this.log.log(-1601830656, "[ClusterManager#setSMSState] Invalid parameter. Clearing the new message status is an all-or-nothing operation.");
+            this.log.log(100000, "[ClusterManager#setSMSState] Invalid parameter. Clearing the new message status is an all-or-nothing operation.");
         }
     }
 
@@ -197,61 +238,55 @@ implements CombiBAPServiceMessagingListener {
         }
     }
 
-    static /* synthetic */ CombiBAPServiceMessaging access$202(ClusterManager clusterManager, CombiBAPServiceMessaging combiBAPServiceMessaging) {
-        clusterManager.combiBapServiceMessaging = combiBAPServiceMessaging;
-        return clusterManager.combiBapServiceMessaging;
+    private class MyDsiMessagingListener
+    extends DsiMessagingEmptyListener {
+        private MyDsiMessagingListener() {
+        }
+
+        public void updateMessagingAccounts(MessagingAccount[] messagingAccountArray, int n) {
+            int n2;
+            boolean bl;
+            ClusterManager.this.log.log(10000000, "[ClusterManager#updateMessagingAccounts]");
+            boolean bl2 = false;
+            boolean bl3 = false;
+            for (bl = false; bl < messagingAccountArray.length; bl += 1) {
+                MessagingAccount messagingAccount = messagingAccountArray[bl];
+                n2 = Accounts.supportsSms(messagingAccount);
+                if (n2 != 0) {
+                    bl2 = true;
+                } else {
+                    bl3 = true;
+                }
+                if (bl2 && bl3) break;
+            }
+            bl = false;
+            boolean bl4 = false;
+            for (n2 = 0; n2 < messagingAccountArray.length; ++n2) {
+                MessagingAccount messagingAccount = messagingAccountArray[n2];
+                if (messagingAccount.getMemoryStatus() == 0) continue;
+                boolean bl5 = Accounts.supportsSms(messagingAccount);
+                if (bl5) {
+                    bl = true;
+                } else {
+                    bl4 = true;
+                }
+                if (bl && bl4) break;
+            }
+            ClusterManager.this.setAccountStatus(bl2, bl3, bl, bl4);
+        }
     }
 
-    static /* synthetic */ void access$300(ClusterManager clusterManager) {
-        clusterManager.dispatchUpdateMobileServiceSupport();
-    }
+    private class NewMessageIndicationManagerObserver
+    implements INewMessageIndicationManagerObserver {
+        private NewMessageIndicationManagerObserver() {
+        }
 
-    static /* synthetic */ void access$400(ClusterManager clusterManager) {
-        clusterManager.dispatchUpdateSmsState();
-    }
-
-    static /* synthetic */ void access$500(ClusterManager clusterManager) {
-        clusterManager.dispatchUpdateEmailState();
-    }
-
-    static /* synthetic */ LogChannel access$600(ClusterManager clusterManager) {
-        return clusterManager.log;
-    }
-
-    static /* synthetic */ LogChannel access$700(ClusterManager clusterManager) {
-        return clusterManager.log;
-    }
-
-    static /* synthetic */ LogChannel access$800(ClusterManager clusterManager) {
-        return clusterManager.log;
-    }
-
-    static /* synthetic */ LogChannel access$900(ClusterManager clusterManager) {
-        return clusterManager.log;
-    }
-
-    static /* synthetic */ LogChannel access$1000(ClusterManager clusterManager) {
-        return clusterManager.log;
-    }
-
-    static /* synthetic */ LogChannel access$1100(ClusterManager clusterManager) {
-        return clusterManager.log;
-    }
-
-    static /* synthetic */ LogChannel access$1200(ClusterManager clusterManager) {
-        return clusterManager.log;
-    }
-
-    static /* synthetic */ void access$1300(ClusterManager clusterManager) {
-        clusterManager.setNewMessageAvailability();
-    }
-
-    static /* synthetic */ LogChannel access$1400(ClusterManager clusterManager) {
-        return clusterManager.log;
-    }
-
-    static /* synthetic */ void access$1500(ClusterManager clusterManager, boolean bl, boolean bl2, boolean bl3, boolean bl4) {
-        clusterManager.setAccountStatus(bl, bl2, bl3, bl4);
+        public void indicateIndicationStateChanged(int n) {
+            ClusterManager.this.log.log(10000000, "[ClusterManager#indicateIndicationStateChanged] stateAspect = %1", (long)n);
+            if (n == 0) {
+                ClusterManager.this.setNewMessageAvailability();
+            }
+        }
     }
 }
 

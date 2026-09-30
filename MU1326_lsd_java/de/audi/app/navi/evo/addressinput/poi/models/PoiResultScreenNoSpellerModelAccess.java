@@ -37,34 +37,32 @@ implements IPoiResultScreenNoSpellerModelAccess {
         this.previewListModel = navigationEnv.getBaseListModel(n);
     }
 
-    @Override
     public void onUpdateSearchStatus(ValueListStatus valueListStatus) {
         int n = valueListStatus.getNumberOfAvailableItems();
         int n2 = valueListStatus.getDistance();
-        this.logChannel.log(-2137614336, "%1#onUpdateSearchStatus(%2, %3)", (Object)this.CLASS_NAME, (long)n, (long)n2);
-        this.env.getChoiceModel(35456512).setValue(n);
+        this.logChannel.log(10000000, "%1#onUpdateSearchStatus(%2, %3)", (Object)this.CLASS_NAME, (long)n, (long)n2);
+        this.env.getChoiceModel(400642).setValue(n);
         this.previewListModel.setLength(n);
         int n3 = valueListStatus.getStatus();
         if (n3 == 3) {
-            this.env.getChoiceModel(-685767168).setValue(0);
+            this.env.getChoiceModel(401623).setValue(0);
         } else {
-            this.env.getChoiceModel(-685767168).setValue(1);
+            this.env.getChoiceModel(401623).setValue(1);
         }
     }
 
-    @Override
     public void onUpdateResultList(LIValueList lIValueList, long l, String string, boolean bl) {
-        this.env.getChoiceModel(35456512).setValue((int)l);
+        this.env.getChoiceModel(400642).setValue((int)l);
         this.previewListModel.setLength((int)l);
-        this.logChannel.log(-2137614336, "%1#onUpdateResultList() - valueList: %2, currentInput: %3", (Object)this.CLASS_NAME, (Object)lIValueList, (Object)string);
+        this.logChannel.log(10000000, "%1#onUpdateResultList() - valueList: %2, currentInput: %3", (Object)this.CLASS_NAME, (Object)lIValueList, (Object)string);
         if (!Util.isListValid(lIValueList) || lIValueList.getList().length == 0) {
-            this.logChannel.log(-2137614336, "%1#onUpdateResultList() - invalid value list: %2", (Object)this.CLASS_NAME, (Object)lIValueList);
+            this.logChannel.log(10000000, "%1#onUpdateResultList() - invalid value list: %2", (Object)this.CLASS_NAME, (Object)lIValueList);
             this.previewListModel.removeAll();
             return;
         }
         LIValueListElement[] lIValueListElementArray = lIValueList.getList();
         int n = this.previewListModel.getLength();
-        this.logChannel.log(-2137614336, "%1#onUpdateResultList() - valueListSize: %2, currentListModelLength: %3", (Object)this.CLASS_NAME, (long)lIValueListElementArray.length, (long)n);
+        this.logChannel.log(10000000, "%1#onUpdateResultList() - valueListSize: %2, currentListModelLength: %3", (Object)this.CLASS_NAME, (long)lIValueListElementArray.length, (long)n);
         EvoListRow[] evoListRowArray = this.createUpdateListRow(lIValueListElementArray, PoiScreensEvo.createPoiIconedResultsListRowBuilder(this.poiSearchArea, this.env, this.iconHandler, this.vehicle, this.routeManager));
         this.previewListModel.setRows(-1, 0, evoListRowArray);
     }
@@ -96,23 +94,21 @@ implements IPoiResultScreenNoSpellerModelAccess {
                 break;
             }
             default: {
-                this.env.getPOILogChannel().log(1078071040, "%1#createUpdateListRow no valid searchContext : %2", (Object)this.CLASS_NAME, (long)n);
+                this.env.getPOILogChannel().log(1000000, "%1#createUpdateListRow no valid searchContext : %2", (Object)this.CLASS_NAME, (long)n);
             }
         }
         return evoListRowArray;
     }
 
-    @Override
     public void onElementSelected(LIValueListElement lIValueListElement) {
-        this.logChannel.log(-2137614336, "%1#onElementSelected - selectedElement.data=%2", (Object)this.CLASS_NAME, (Object)lIValueListElement.data);
-        if (this.env.getChoiceModel(1075709440).getValue() == 1) {
-            this.env.getLabelModel(-1776024064).setText(lIValueListElement.data);
+        this.logChannel.log(10000000, "%1#onElementSelected - selectedElement.data=%2", (Object)this.CLASS_NAME, (Object)lIValueListElement.data);
+        if (this.env.getChoiceModel(400960).getValue() == 1) {
+            this.env.getLabelModel(402582).setText(lIValueListElement.data);
         }
     }
 
-    @Override
     public void onUpdatePoiList(LIValueList lIValueList) {
-        this.logChannel.log(-2137614336, "%1#onUpdatePoiList() - poiValueList: %2", (Object)this.CLASS_NAME, (Object)lIValueList);
+        this.logChannel.log(10000000, "%1#onUpdatePoiList() - poiValueList: %2", (Object)this.CLASS_NAME, (Object)lIValueList);
         boolean bl = false;
         boolean bl2 = false;
         boolean bl3 = false;
@@ -136,52 +132,47 @@ implements IPoiResultScreenNoSpellerModelAccess {
                 string = lIValueListElementArray[n].data;
             }
             if (bl || bl2 || bl3) {
-                this.env.getChoiceModel(-1558510080).setValue(1);
-                this.env.getLabelModel(975046144).setText(string);
+                this.env.getChoiceModel(400291).setValue(1);
+                this.env.getLabelModel(400954).setText(string);
             } else {
-                this.env.getChoiceModel(-1558510080).setValue(0);
+                this.env.getChoiceModel(400291).setValue(0);
             }
         }
     }
 
-    @Override
     public void onUpdateResultListForRequest(LIValueList lIValueList, long l, String string, boolean bl, int n, int n2) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#onUpdateResultListForRequest( %1, %2, %3, %4)").toString(), (Object)string, (Object)Long.toString(l), (Object)Integer.toString(n), (Object)Integer.toString(n2));
+        this.logChannel.log(10000000, this.CLASS_NAME + "#onUpdateResultListForRequest( %1, %2, %3, %4)", (Object)string, (Object)Long.toString(l), (Object)Integer.toString(n), (Object)Integer.toString(n2));
         if (!Util.isListValid(lIValueList) || lIValueList.getList().length == 0) {
-            this.logChannel.log(-2137614336, "%1#onUpdateResultListForRequest() - invalid value list: %2", (Object)this.CLASS_NAME, (Object)lIValueList);
+            this.logChannel.log(10000000, "%1#onUpdateResultListForRequest() - invalid value list: %2", (Object)this.CLASS_NAME, (Object)lIValueList);
             this.previewListModel.removeAll();
             return;
         }
         LIValueListElement[] lIValueListElementArray = lIValueList.getList();
         int n3 = this.previewListModel.getLength();
-        this.logChannel.log(-2137614336, "%1#onUpdateResultListForRequest() - valueListSize: %2, currentListModelLength: %3", (Object)this.CLASS_NAME, (long)lIValueListElementArray.length, (long)n3);
+        this.logChannel.log(10000000, "%1#onUpdateResultListForRequest() - valueListSize: %2, currentListModelLength: %3", (Object)this.CLASS_NAME, (long)lIValueListElementArray.length, (long)n3);
         EvoListRow[] evoListRowArray = this.createUpdateListRow(lIValueListElementArray, PoiScreensEvo.createPoiIconedResultsListRowBuilder(this.poiSearchArea, this.env, this.iconHandler, this.vehicle, this.routeManager));
         this.previewListModel.setRows(n, n2, evoListRowArray);
     }
 
-    @Override
     public void onUnrequestItems(int n, int n2) {
         this.previewListModel.clearRows(n, n2);
     }
 
-    @Override
     public void onStart() {
         this.previewListModel.removeAll();
     }
 
-    @Override
     public void prepareParentChild(int n) {
-        this.logChannel.log(-2137614336, "%1#prepareParentChild(%2)", (Object)this.CLASS_NAME, (long)n);
-        this.env.getChoiceModel(538838528).setValue(n);
+        this.logChannel.log(10000000, "%1#prepareParentChild(%2)", (Object)this.CLASS_NAME, (long)n);
+        this.env.getChoiceModel(400928).setValue(n);
     }
 
-    @Override
     public void onElementFocused(NavLocation navLocation) {
         String string = LocationFormatter.getPhoneNumber(navLocation);
         if (Util.isEmpty(string)) {
-            this.env.getChoiceModel(-400554496).setValue(2);
+            this.env.getChoiceModel(401640).setValue(2);
         } else {
-            this.env.getChoiceModel(-400554496).setValue(1);
+            this.env.getChoiceModel(401640).setValue(1);
         }
     }
 }

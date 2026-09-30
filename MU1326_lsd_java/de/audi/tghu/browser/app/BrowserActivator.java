@@ -39,9 +39,9 @@ ServiceTrackerCustomizer {
     private ServiceTracker serviceTracker;
     private ServiceReference[] serviceReferenceDSIBrowser = new ServiceReference[8];
     private AbstractBrowserHandler[] browserHandlers = new AbstractBrowserHandler[8];
-    private static final String PROPERTY_USE_BROWSER_SCROLLBAR;
-    private static final int[] BROWSER_ATTRIBUTES_REMOTEHMI_WITH_SCROLLBAR;
-    private static final int[] BROWSER_ATTRIBUTES_REMOTEHMI_WITHOUT_SCROLLBAR;
+    private static final String PROPERTY_USE_BROWSER_SCROLLBAR = "RemoteHMIUseBrowserScrollbar";
+    private static final int[] BROWSER_ATTRIBUTES_REMOTEHMI_WITH_SCROLLBAR = new int[]{3, 1, 2, 4, 10, 7, 13};
+    private static final int[] BROWSER_ATTRIBUTES_REMOTEHMI_WITHOUT_SCROLLBAR = new int[]{3, 1, 2, 4, 10, 7};
     static /* synthetic */ Class class$org$dsi$ifc$browser$DSIBrowser;
     static /* synthetic */ Class class$org$dsi$ifc$browser$DSIBrowserBoardbook;
     static /* synthetic */ Class class$de$audi$atip$diag$sw$SwDiagnosisManager;
@@ -51,7 +51,6 @@ ServiceTrackerCustomizer {
     static /* synthetic */ Class class$org$dsi$ifc$base$DSIListener;
     static /* synthetic */ Class class$org$dsi$ifc$browser$DSIBrowserBoardbookListener;
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         this.logChannelActivator = this.framework.getLogChannel("Fw.Browser.Activator");
@@ -115,7 +114,7 @@ ServiceTrackerCustomizer {
                 }
                 case 6: {
                     ContextSwitchBrowserHandler contextSwitchBrowserHandler = new ContextSwitchBrowserHandler(this.framework, n, this.logChannelBrowser, this.logChannelBrowserDSI);
-                    if (System.getProperty("RemoteHMIUseBrowserScrollbar") == null || Boolean.getBoolean("RemoteHMIUseBrowserScrollbar")) {
+                    if (System.getProperty(PROPERTY_USE_BROWSER_SCROLLBAR) == null || Boolean.getBoolean(PROPERTY_USE_BROWSER_SCROLLBAR)) {
                         contextSwitchBrowserHandler.setAttributes(BROWSER_ATTRIBUTES_REMOTEHMI_WITHOUT_SCROLLBAR);
                     } else {
                         contextSwitchBrowserHandler.setAttributes(BROWSER_ATTRIBUTES_REMOTEHMI_WITH_SCROLLBAR);
@@ -124,7 +123,7 @@ ServiceTrackerCustomizer {
                     break;
                 }
             }
-            this.logChannelActivator.log(-2137614336, "BrowserActivator::createAndRegisterBrowserHandler() - registering handler for instance %1", (long)n);
+            this.logChannelActivator.log(10000000, "BrowserActivator::createAndRegisterBrowserHandler() - registering handler for instance %1", (long)n);
             object = new Hashtable();
             ((Hashtable)object).put("DEVICE_NAME", (class$de$audi$atip$browser$IBrowserHandler == null ? (class$de$audi$atip$browser$IBrowserHandler = BrowserActivator.class$("de.audi.atip.browser.IBrowserHandler")) : class$de$audi$atip$browser$IBrowserHandler).getName());
             ((Hashtable)object).put("DEVICE_INSTANCE", new Integer(n));
@@ -155,7 +154,6 @@ ServiceTrackerCustomizer {
         }
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         this.serviceTracker = this.closeTracker(this.serviceTracker);
         for (int i2 = 0; i2 < this.serviceReferenceDSIBrowser.length; ++i2) {
@@ -166,12 +164,11 @@ ServiceTrackerCustomizer {
         super.stop(bundleContext);
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         Object object2 = serviceReference.getProperty("DEVICE_NAME");
         Object object3 = serviceReference.getProperty("DEVICE_INSTANCE");
-        this.logChannelActivator.log(-2137614336, "BrowserActivator::addingService(%1)", object2);
+        this.logChannelActivator.log(10000000, "BrowserActivator::addingService(%1)", object2);
         if (object instanceof SwDiagnosisManager) {
             ((SwDiagnosisManager)object).addDiagGateway((AbstractSwDiagnosis)this.getBrowserDiag());
         } else {
@@ -185,11 +182,9 @@ ServiceTrackerCustomizer {
         return null;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof DSIBrowser) {
             Object object2 = serviceReference.getProperty("DEVICE_INSTANCE");
@@ -203,25 +198,25 @@ ServiceTrackerCustomizer {
         if (!IBrowserHandler.DEVICEINSTANCE_DSIBROWSER_TEST.equals(object)) {
             if (IBrowserHandler.DEVICEINSTANCE_DSIBROWSER_POI.equals(object)) {
                 n = 2;
-                this.logChannelActivator.log(-2137614336, "BrowserActivator::addDSIBrowser(INSTANCE_POI)");
+                this.logChannelActivator.log(10000000, "BrowserActivator::addDSIBrowser(INSTANCE_POI)");
             } else if (IBrowserHandler.DEVICEINSTANCE_DSIBROWSER_BOS.equals(object)) {
                 n = 3;
-                this.logChannelActivator.log(-2137614336, "BrowserActivator::addDSIBrowser(INSTANCE_BOS)");
+                this.logChannelActivator.log(10000000, "BrowserActivator::addDSIBrowser(INSTANCE_BOS)");
             } else if (IBrowserHandler.DEVICEINSTANCE_DSIBROWSER_GE.equals(object)) {
                 n = 4;
-                this.logChannelActivator.log(-2137614336, "BrowserActivator::addDSIBrowser(INSTANCE_GE)");
+                this.logChannelActivator.log(10000000, "BrowserActivator::addDSIBrowser(INSTANCE_GE)");
             } else if (IBrowserHandler.DEVICEINSTANCE_DSIBROWSER_BOARDBOOK.equals(object)) {
                 n = 7;
-                this.logChannelActivator.log(-2137614336, "BrowserActivator::addDSIBrowser(INSTANCE_BOARDBOOK)");
+                this.logChannelActivator.log(10000000, "BrowserActivator::addDSIBrowser(INSTANCE_BOARDBOOK)");
             } else if (IBrowserHandler.DEVICEINSTANCE_DSIBROWSER_DAB.equals(object)) {
                 n = 1;
-                this.logChannelActivator.log(-2137614336, "BrowserActivator::addDSIBrowser(INSTANCE_DAB)");
+                this.logChannelActivator.log(10000000, "BrowserActivator::addDSIBrowser(INSTANCE_DAB)");
             } else if (IBrowserHandler.DEVICEINSTANCE_DSIBROWSER_REMOTEHMI.equals(object)) {
                 n = 5;
-                this.logChannelActivator.log(-2137614336, "BrowserActivator::addDSIBrowser(INSTANCE_REMOTEHMI)");
+                this.logChannelActivator.log(10000000, "BrowserActivator::addDSIBrowser(INSTANCE_REMOTEHMI)");
             } else if (IBrowserHandler.DEVICEINSTANCE_DSIBROWSER_REMOTEHMI_FULLSCREEN.equals(object)) {
                 n = 6;
-                this.logChannelActivator.log(-2137614336, "BrowserActivator::addDSIBrowser(INSTANCE_REMOTEHMI_FULLSCREEN)");
+                this.logChannelActivator.log(10000000, "BrowserActivator::addDSIBrowser(INSTANCE_REMOTEHMI_FULLSCREEN)");
             } else {
                 this.logChannelActivator.log(10000, "BrowserActivator::addDSIBrowser() - unknown service: %1", object);
             }
@@ -239,7 +234,7 @@ ServiceTrackerCustomizer {
 
     private Object addDSIBrowserBoardbook(ServiceReference serviceReference, Object object) {
         DSIBrowserBoardbook dSIBrowserBoardbook = null;
-        this.logChannelActivator.log(-2137614336, "BrowserActivator::addDSIBrowserBoardbook (%1)", object);
+        this.logChannelActivator.log(10000000, "BrowserActivator::addDSIBrowserBoardbook (%1)", object);
         dSIBrowserBoardbook = (DSIBrowserBoardbook)this.bundleContext.getService(serviceReference);
         if (this.browserHandlers[7] != null) {
             ((BoardbookBrowserHandler)this.browserHandlers[7]).setDSIBrowserBoardbook(dSIBrowserBoardbook);
@@ -268,7 +263,7 @@ ServiceTrackerCustomizer {
             n = 6;
         }
         if (n != -1) {
-            this.logChannelActivator.log(-2137614336, "BrowserActivator::removeDSIBrowser (%1)", (long)n);
+            this.logChannelActivator.log(10000000, "BrowserActivator::removeDSIBrowser (%1)", (long)n);
             this.browserHandlers[n].setDSIBrowser(null);
             this.browserHandlers[n] = null;
         }
@@ -288,11 +283,6 @@ ServiceTrackerCustomizer {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static {
-        BROWSER_ATTRIBUTES_REMOTEHMI_WITH_SCROLLBAR = new int[]{3, 1, 2, 4, 10, 7, 13};
-        BROWSER_ATTRIBUTES_REMOTEHMI_WITHOUT_SCROLLBAR = new int[]{3, 1, 2, 4, 10, 7};
     }
 }
 

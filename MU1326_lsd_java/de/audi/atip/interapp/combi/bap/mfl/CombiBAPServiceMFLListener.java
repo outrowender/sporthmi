@@ -7,17 +7,15 @@ import de.audi.atip.interapp.combi.bap.CombiBAPServiceListener;
 
 public interface CombiBAPServiceMFLListener
 extends CombiBAPServiceListener {
-    public static final int JOKER_KEY_FUNCTION_SCREENSAVER_ON_OFF_AVAILABLE;
-    public static final int JOKER_KEY_FUNCTION_TRAFFIC_SIGNS_ON_OFF_AVAILABLE;
-    public static final int JOKER_KEY_FUNCTION_CONTEXT_SWITCH_TO_PHONEBOOK_AVAILABLE;
-    public static final int JOKER_KEY_FUNCTION_CONTEXT_SWITCH_TO_LAST_DESTINATIONS_AVAILABLE;
-    public static final int JOKER_KEY_FUNCTION_CONTEXT_SWITCH_TO_TRAFFIC_SIGN_INFORMATION_AVAILABLE;
-    public static final int JOKER_KEY_FUNCTION_CONTEXT_SWITCH_TO_DIGITAL_SPEED_AVAILABLE;
+    public static final int JOKER_KEY_FUNCTION_SCREENSAVER_ON_OFF_AVAILABLE = 1;
+    public static final int JOKER_KEY_FUNCTION_TRAFFIC_SIGNS_ON_OFF_AVAILABLE = 2;
+    public static final int JOKER_KEY_FUNCTION_CONTEXT_SWITCH_TO_PHONEBOOK_AVAILABLE = 4;
+    public static final int JOKER_KEY_FUNCTION_CONTEXT_SWITCH_TO_LAST_DESTINATIONS_AVAILABLE = 8;
+    public static final int JOKER_KEY_FUNCTION_CONTEXT_SWITCH_TO_TRAFFIC_SIGN_INFORMATION_AVAILABLE = 16;
+    public static final int JOKER_KEY_FUNCTION_CONTEXT_SWITCH_TO_DIGITAL_SPEED_AVAILABLE = 32;
 
-    default public void setAvailableJokerKeyClusterFunctions(int n) {
-    }
+    public void setAvailableJokerKeyClusterFunctions(int var1);
 
-    default public void confirmCurrentJokerKeyFunctions(int n, int n2, int n3, int n4, int n5) {
-    }
+    public void confirmCurrentJokerKeyFunctions(int var1, int var2, int var3, int var4, int var5);
 }
 

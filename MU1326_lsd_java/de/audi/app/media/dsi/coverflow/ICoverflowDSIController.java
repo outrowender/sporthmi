@@ -9,42 +9,30 @@ import de.audi.app.media.source.ISourceSlot;
 
 public interface ICoverflowDSIController
 extends IDSIController {
-    public static final long FIRST_ALBUM_ID;
+    public static final long FIRST_ALBUM_ID = -1L;
 
-    default public void setCoverflowListener(ICoverflowListener iCoverflowListener) {
-    }
+    public void setCoverflowListener(ICoverflowListener var1);
 
-    default public void deinitialize() {
-    }
+    public void deinitialize();
 
-    default public void initialize(ISourceSlot iSourceSlot) {
-    }
+    public void initialize(ISourceSlot var1);
 
-    default public void startActive() {
-    }
+    public void startActive();
 
-    default public void startSingle() {
-    }
+    public void startSingle();
 
-    default public void startPreview() {
-    }
+    public void startPreview();
 
-    default public void stop() {
-    }
+    public void stop();
 
-    default public void moveFocus(long l, boolean bl) {
-    }
+    public void moveFocus(long var1, boolean var3);
 
-    default public void scrollTicks(int n) {
-    }
+    public void scrollTicks(int var1);
 
-    default public void setScrollMode(int n) {
-    }
+    public void setScrollMode(int var1);
 
-    default public void selectAlbum(long l) {
-    }
+    public void selectAlbum(long var1);
 
-    default public void requestAlbumIdxForFID(long l) {
-    }
+    public void requestAlbumIdxForFID(long var1);
 }
 

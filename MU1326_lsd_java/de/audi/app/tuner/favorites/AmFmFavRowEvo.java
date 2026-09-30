@@ -15,18 +15,18 @@ import de.audi.tuner.app.memory.AmFmMemoryRow;
 
 public class AmFmFavRowEvo
 extends AmFmMemoryRow {
-    private static final int INDEX_PROPERTIES;
-    private static final int INDEX_DEFAULT_IMAGE_ID;
-    private static final int INDEX_PRESET_POS;
-    private static final int INDEX_EXTENSION_HD;
-    private static final int INDEX_ALBUM_COMPOSER;
-    private static final int INDEX_ALBUM_COMPOSER_ICON;
-    private static final int INDEX_ARTIST_ICON;
-    private static final int INDEX_TITLE_ICON;
-    private static final int INDEX_ITUNES_ICON;
-    public static final int NUM_COLS;
-    private static final int ITUNES_ICON_RESET;
-    private static final int ITUNES_ICON_ENABLED;
+    private static final int INDEX_PROPERTIES = 14;
+    private static final int INDEX_DEFAULT_IMAGE_ID = 15;
+    private static final int INDEX_PRESET_POS = 16;
+    private static final int INDEX_EXTENSION_HD = 17;
+    private static final int INDEX_ALBUM_COMPOSER = 18;
+    private static final int INDEX_ALBUM_COMPOSER_ICON = 19;
+    private static final int INDEX_ARTIST_ICON = 20;
+    private static final int INDEX_TITLE_ICON = 21;
+    private static final int INDEX_ITUNES_ICON = 22;
+    public static final int NUM_COLS = 23;
+    private static final int ITUNES_ICON_RESET = Utilities.isNARBuild() && Utilities.isTaggingSupported() ? 1 : 0;
+    private static final int ITUNES_ICON_ENABLED = Utilities.isNARBuild() && Utilities.isTaggingSupported() ? 2 : 0;
     private final RadioRowProperties props;
 
     public AmFmFavRowEvo(AMFMStation aMFMStation, int n, int n2) {
@@ -47,12 +47,10 @@ extends AmFmMemoryRow {
         this.props = amFmFavRowEvo.props;
     }
 
-    @Override
     public EvoListRow copy() {
         return new AmFmFavRowEvo(this);
     }
 
-    @Override
     public void setStationActive(boolean bl) {
         this.props.setActive(bl);
         if (!bl) {
@@ -62,14 +60,12 @@ extends AmFmMemoryRow {
         this.setPropertyCell(14, new PropertyListCell(this.props.getCategory(), this.props.toArray()));
     }
 
-    @Override
     public void setPSFreeze(boolean bl, String string) {
         super.setPSFreeze(bl, string);
         this.props.setNameFreezed(bl);
         this.setPropertyCell(14, new PropertyListCell(this.props.getCategory(), this.props.toArray()));
     }
 
-    @Override
     public void resetProgramData() {
         super.resetProgramData();
         this.props.setCategory(AmFmFavRowEvo.determineCategoryFor(this.station));
@@ -82,7 +78,6 @@ extends AmFmMemoryRow {
         this.setInteger(22, ITUNES_ICON_RESET);
     }
 
-    @Override
     public void setProgramData(TunerObjectContainer tunerObjectContainer, int n) {
         super.setProgramData(tunerObjectContainer, n);
         String string = tunerObjectContainer.getAMFMService().getAlbum();
@@ -99,19 +94,16 @@ extends AmFmMemoryRow {
         this.setInteger(22, bl ? ITUNES_ICON_ENABLED : ITUNES_ICON_RESET);
     }
 
-    @Override
     public void setPresetIndex(int n) {
         int n2 = Utilities.adjustPresetPosForNar(n + 1);
         this.setInteger(16, n2);
     }
 
-    @Override
     protected void tmpOverwrite(TunerObjectContainer tunerObjectContainer) {
         super.tmpOverwrite(tunerObjectContainer);
         this.setText(17, tunerObjectContainer.getAMFMService().getHdExtension());
     }
 
-    @Override
     protected void resetOverwrite() {
         super.resetOverwrite();
         this.setText(17, this.station.getHdExtension());
@@ -119,14 +111,9 @@ extends AmFmMemoryRow {
 
     private static int determineCategoryFor(AMFMStation aMFMStation) {
         if (aMFMStation.waveband == 1) {
-            return aMFMStation.isHd() ? 921087017 : 1330850098;
+            return aMFMStation.isHd() ? 699196982 : 841569103;
         }
-        return aMFMStation.isHd() ? -376755059 : 220659906;
-    }
-
-    static {
-        ITUNES_ICON_RESET = Utilities.isNARBuild() && Utilities.isTaggingSupported() ? 1 : 0;
-        ITUNES_ICON_ENABLED = Utilities.isNARBuild() && Utilities.isTaggingSupported() ? 2 : 0;
+        return aMFMStation.isHd() ? -1926460439 : -1040177395;
     }
 }
 

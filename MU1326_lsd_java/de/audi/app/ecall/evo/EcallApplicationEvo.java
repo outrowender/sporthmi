@@ -36,19 +36,16 @@ extends AbstractEcallApplication {
         this.actionProxy = new EcallActionProxyImpl(bundleContext, this.actionProxyDispatcher);
     }
 
-    @Override
     public void init() {
         super.init();
         this.actionProxy.init();
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.actionProxy.deinit();
     }
 
-    @Override
     protected void addComponents() {
         this.addEcallComponent(this.contextListenersDistributor);
         this.addEcallComponent(this.sosPopupHandler);
@@ -57,17 +54,14 @@ extends AbstractEcallApplication {
         this.addEcallComponent(new SendTestModeSignalToEcall(this));
     }
 
-    @Override
     protected void addEcallComponentPost() {
-        this.addEcallComponent(new ENIServiceEcallHandler(this, -1587924480, this.licensePopupStateManager));
+        this.addEcallComponent(new ENIServiceEcallHandler(this, 3300001, this.licensePopupStateManager));
     }
 
-    @Override
     public ISOSOpenClosePopupHandler getSOSPopupHandler() {
         return this.sosPopupHandler;
     }
 
-    @Override
     public IOPROpenClosePopupHandler getOPRPopupHandler() {
         return this.oprPopupHandler;
     }

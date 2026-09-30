@@ -7,8 +7,8 @@ import de.audi.atip.mmicombi.exchange.MMICombiPopupExchangePacket;
 
 public class MMICombiPopupStatus
 extends MMICombiPopupExchangePacket {
-    public static final int POPUP_REGISTERED;
-    public static final int POPUP_REMOVED;
+    public static final int POPUP_REGISTERED = 1;
+    public static final int POPUP_REMOVED = 2;
     int popupStatus;
 
     public MMICombiPopupStatus(int n, int n2, int n3, int n4, int n5, int n6, int n7) {
@@ -24,7 +24,6 @@ extends MMICombiPopupExchangePacket {
         this.popupStatus = n;
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer(36);
         stringBuffer.append("MMICombiPopupStatus {");

@@ -25,7 +25,7 @@ public class PhoneGateway {
     }
 
     public void setPhoneService(ITelService iTelService) {
-        this.log.log(-2137614336, "PhoneGateway#setPhoneService(): phone: %1", (Object)iTelService);
+        this.log.log(10000000, "PhoneGateway#setPhoneService(): phone: %1", (Object)iTelService);
         this.phone = iTelService;
     }
 
@@ -34,7 +34,7 @@ public class PhoneGateway {
     }
 
     public void setPhoneAdbService(ITelServiceADB iTelServiceADB) {
-        this.log.log(-2137614336, "PhoneGateway#setPhoneAdbService(): phoneAdb: %1", (Object)iTelServiceADB);
+        this.log.log(10000000, "PhoneGateway#setPhoneAdbService(): phoneAdb: %1", (Object)iTelServiceADB);
         this.phoneAdb = iTelServiceADB;
     }
 
@@ -43,7 +43,7 @@ public class PhoneGateway {
     }
 
     public void setPhonePresetService(ITelPresetService iTelPresetService) {
-        this.log.log(-2137614336, "PhoneGateway#setPhonePresetService(): phonePresetService: %1", (Object)iTelPresetService);
+        this.log.log(10000000, "PhoneGateway#setPhonePresetService(): phonePresetService: %1", (Object)iTelPresetService);
         this.phonePresetService = iTelPresetService;
     }
 
@@ -61,8 +61,8 @@ public class PhoneGateway {
             this.log.log(10000, "PhoneGateway#dialNumber(): phone service not available!");
             return;
         }
-        this.log.log(1078071040, "PhoneGateway#dialNumber(): name: %1, number: %2, entryId: %3", (Object)string, (Object)string2, l);
-        this.log.log(-2137614336, "PhoneGateway#dialNumber(): resourceLocator: %1, phoneNumberIndex: %2", (Object)resourceLocator, (long)n3);
+        this.log.log(1000000, "PhoneGateway#dialNumber(): name: %1, number: %2, entryId: %3", (Object)string, (Object)string2, l);
+        this.log.log(10000000, "PhoneGateway#dialNumber(): resourceLocator: %1, phoneNumberIndex: %2", (Object)resourceLocator, (long)n3);
         iTelService.dialNumberFromADBEntry(string, string2, (short)n, (short)n2, l, resourceLocator, n3, n4, null, bl);
     }
 
@@ -72,7 +72,7 @@ public class PhoneGateway {
             this.log.log(10000, "PhoneGateway#dialNumber(): phone service not available!");
             return;
         }
-        this.log.log(1078071040, "PhoneGateway#dialNumber(): number: %1", (Object)string);
+        this.log.log(1000000, "PhoneGateway#dialNumber(): number: %1", (Object)string);
         iTelService.dialNumber(string, null, bl);
     }
 
@@ -82,8 +82,8 @@ public class PhoneGateway {
             this.log.log(10000, "PhoneGateway#prepareDialing(): phone service not available!");
             return;
         }
-        this.log.log(1078071040, "PhoneGateway#prepareDialing(): name: %1, number: %2, entryId: %3", (Object)string, (Object)string2, l);
-        this.log.log(-2137614336, "PhoneGateway#prepareDialing(): resourceLocator: %1, phoneNumberIndex: %2", (Object)resourceLocator, (long)n3);
+        this.log.log(1000000, "PhoneGateway#prepareDialing(): name: %1, number: %2, entryId: %3", (Object)string, (Object)string2, l);
+        this.log.log(10000000, "PhoneGateway#prepareDialing(): resourceLocator: %1, phoneNumberIndex: %2", (Object)resourceLocator, (long)n3);
         iTelService.prepareDialing(string, string2, (short)n, (short)n2, l, resourceLocator, n3, n4, null);
     }
 
@@ -93,7 +93,7 @@ public class PhoneGateway {
             this.log.log(10000, "PhoneGateway#prepareDialing(): phone service not available!");
             return;
         }
-        this.log.log(1078071040, "PhoneGateway#prepareDialing(): number: %1", (Object)string);
+        this.log.log(1000000, "PhoneGateway#prepareDialing(): number: %1", (Object)string);
         iTelService.prepareDialing(string, null);
     }
 
@@ -103,7 +103,7 @@ public class PhoneGateway {
             this.log.log(10000, "PhoneGateway#addToFavorites(): phoneAdb service not available!");
             return;
         }
-        this.log.log(1078071040, "PhoneGateway#addToFavorites(): telFavorite=%1", (Object)telFavoriteStruct);
+        this.log.log(1000000, "PhoneGateway#addToFavorites(): telFavorite=%1", (Object)telFavoriteStruct);
         iTelServiceADB.addToFavorites(telFavoriteStruct);
     }
 
@@ -113,7 +113,7 @@ public class PhoneGateway {
             this.log.log(10000, "PhoneGateway#definePreset(): telPresetService not available!");
             return;
         }
-        this.log.log(1078071040, "PhoneGateway#definePreset(): name: %1, number: %2", (Object)string2, (Object)string);
+        this.log.log(1000000, "PhoneGateway#definePreset(): name: %1, number: %2", (Object)string2, (Object)string);
         iTelPresetService.definePreset(definitionRequest, string, string2, n);
     }
 }

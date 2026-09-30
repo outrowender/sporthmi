@@ -6,14 +6,15 @@ package de.audi.app.phone.core.callcontrol;
 import de.audi.app.phone.core.AbstractPhoneComponent;
 import de.audi.app.phone.core.ITelApplication;
 import de.audi.app.phone.core.callcontrol.ITelCallControl;
-import de.audi.app.phone.core.callcontrol.TelCallControlBase$TelEcallServiceTracker;
 import de.audi.app.phone.core.calllist.AbstractPhoneCall;
 import de.audi.app.phone.core.dsi.ITelDSIResponseListener;
 import de.audi.app.phone.core.state.CallStateStruct;
 import de.audi.app.phone.core.state.IGlobalTelephoneStateStruct;
+import de.audi.app.phone.core.util.AbstractTelServiceTracker;
 import de.audi.atip.hmi.model.ButtonListener;
 import de.audi.atip.hmi.modelaccess.ButtonModelApp;
 import de.audi.atip.interapp.phone.ITelEcallService;
+import de.audi.atip.interapp.phone.NullTelEcallService;
 import de.esolutions.fw.util.commons.Buffer;
 
 public class TelCallControlBase
@@ -22,15 +23,14 @@ implements ITelCallControl,
 ButtonListener {
     private volatile IGlobalTelephoneStateStruct state;
     private volatile ITelEcallService telEcallService;
-    private final TelCallControlBase$TelEcallServiceTracker telEcallServiceTracker;
+    private final TelEcallServiceTracker telEcallServiceTracker;
     static /* synthetic */ Class class$de$audi$atip$interapp$phone$ITelEcallService;
 
     public TelCallControlBase(ITelApplication iTelApplication) {
         super(iTelApplication, "App.Phone.Main");
-        this.telEcallServiceTracker = new TelCallControlBase$TelEcallServiceTracker(this, iTelApplication);
+        this.telEcallServiceTracker = new TelEcallServiceTracker(iTelApplication);
     }
 
-    @Override
     public void init() {
         super.init();
         this.getApplication().getGlobalTelephoneStateManager().registerListener(this);
@@ -44,7 +44,6 @@ ButtonListener {
         this.telEcallServiceTracker.init();
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.getApplication().getGlobalTelephoneStateManager().removeListener(this);
@@ -58,48 +57,44 @@ ButtonListener {
         this.telEcallServiceTracker.deinit();
     }
 
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         this.state = iGlobalTelephoneStateStruct;
     }
 
     protected ButtonModelApp getAcceptButton() {
-        return this.getButtonModel(1603798016);
+        return this.getButtonModel(301151);
     }
 
     protected ButtonModelApp getRejectButton() {
-        return this.getButtonModel(1654129664);
+        return this.getButtonModel(301154);
     }
 
     protected ButtonModelApp getSwapButton() {
-        return this.getButtonModel(244646912);
+        return this.getButtonModel(300302);
     }
 
     protected ButtonModelApp getJoinToConferenceButton() {
-        return this.getButtonModel(1955988480);
+        return this.getButtonModel(300660);
     }
 
     protected ButtonModelApp getHangupButton() {
-        return this.getButtonModel(1704330240);
+        return this.getButtonModel(300645);
     }
 
     protected ButtonModelApp getReplaceButton() {
-        return this.getButtonModel(-929823744);
+        return this.getButtonModel(300232);
     }
 
     protected ButtonModelApp getResponseAndHoldButton() {
-        return this.getButtonModel(1704461312);
+        return this.getButtonModel(301157);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
         if (this.log.isInfo()) {
             Buffer buffer = new Buffer();
@@ -111,7 +106,7 @@ ButtonListener {
             buffer.append(", ");
             buffer.append("terminalID=");
             buffer.append(n3);
-            this.log.log(1078071040, "[TelCallControlBase#keyTyped] %1", (Object)buffer);
+            this.log.log(1000000, "[TelCallControlBase#keyTyped] %1", (Object)buffer);
         }
         if (n == this.getAcceptButton().getID()) {
             this.acceptIncomingCall(n3);
@@ -128,7 +123,7 @@ ButtonListener {
         } else if (n == this.getResponseAndHoldButton().getID()) {
             this.placeIncomingCallOnHold(n3);
         } else {
-            this.log.log(-2137614336, "[TelCallControlBase#keyTyped] unhandled modelID %1", (long)n);
+            this.log.log(10000000, "[TelCallControlBase#keyTyped] unhandled modelID %1", (long)n);
         }
     }
 
@@ -136,16 +131,13 @@ ButtonListener {
         this.getApplication().getTelephoneDSIAccess().placeIncomingCallOnHold(n);
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void replaceActiveCallWithIncomingCall(int n) {
         this.getApplication().getTelephoneDSIAccess().acceptCall(n);
     }
 
-    @Override
     public void hangupCall(int n) {
         CallStateStruct callStateStruct;
         IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct = this.state;
@@ -169,7 +161,6 @@ ButtonListener {
         }
     }
 
-    @Override
     public void hangupCall(int n, int n2) {
         CallStateStruct callStateStruct;
         IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct = this.state;
@@ -182,12 +173,10 @@ ButtonListener {
         }
     }
 
-    @Override
     public void joinCallsToConference(int n) {
         this.getApplication().getTelephoneDSIAccess().joinCallsToConference(n);
     }
 
-    @Override
     public void swapCalls(int n) {
         CallStateStruct callStateStruct;
         IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct = this.state;
@@ -203,7 +192,6 @@ ButtonListener {
         return null;
     }
 
-    @Override
     public void rejectIncomingCall(int n) {
         AbstractPhoneCall abstractPhoneCall;
         CallStateStruct callStateStruct;
@@ -214,12 +202,10 @@ ButtonListener {
         }
     }
 
-    @Override
     public void acceptIncomingCall(int n) {
         this.getApplication().getTelephoneDSIAccess().acceptCall(n);
     }
 
-    @Override
     public void acceptOnNCLDOngoing(boolean bl) {
     }
 
@@ -232,9 +218,21 @@ ButtonListener {
         }
     }
 
-    static /* synthetic */ ITelEcallService access$002(TelCallControlBase telCallControlBase, ITelEcallService iTelEcallService) {
-        telCallControlBase.telEcallService = iTelEcallService;
-        return telCallControlBase.telEcallService;
+    private class TelEcallServiceTracker
+    extends AbstractTelServiceTracker {
+        public TelEcallServiceTracker(ITelApplication iTelApplication) {
+            super(iTelApplication, "App.Phone.Main", class$de$audi$atip$interapp$phone$ITelEcallService == null ? (class$de$audi$atip$interapp$phone$ITelEcallService = TelCallControlBase.class$("de.audi.atip.interapp.phone.ITelEcallService")) : class$de$audi$atip$interapp$phone$ITelEcallService);
+        }
+
+        protected void serviceAvailable(Object object) {
+            this.log.log(1000000, "TelCallControlBase.TelServiceListenerTracker#serviceAvailable(): %1", object);
+            TelCallControlBase.this.telEcallService = (ITelEcallService)object;
+        }
+
+        protected void serviceRemoved(Object object) {
+            this.log.log(1000000, "TelCallControlBase.TelServiceListenerTracker#serviceRemoved(): %1", object);
+            TelCallControlBase.this.telEcallService = new NullTelEcallService(this.log);
+        }
     }
 }
 

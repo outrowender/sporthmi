@@ -19,7 +19,6 @@ extends AbstractSystemCallCommand {
         this.nBestStorage = nBestStorageAccess;
     }
 
-    @Override
     public void execute() {
         IPicklistSlot iPicklistSlot = this.nBestStorage.getMatchingPicklist((byte)0).getSlot(0, 0);
         if (iPicklistSlot == null) {
@@ -27,7 +26,7 @@ extends AbstractSystemCallCommand {
             return;
         }
         int n = (int)iPicklistSlot.getObjID();
-        this.logger.log(-2137614336, "%1#execute: objectID=%2!", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "%1#execute: objectID=%2!", (Object)this.getName(), (long)n);
         if (n >= 1 && n <= 6) {
             String string = Integer.toString(n);
             iPicklistSlot.setText(string);

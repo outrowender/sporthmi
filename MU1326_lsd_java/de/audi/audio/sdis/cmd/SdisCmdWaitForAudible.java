@@ -21,12 +21,11 @@ extends Command {
         this.connections = nArray;
     }
 
-    @Override
     public void execute() {
         for (int i2 = 0; i2 < this.connections.length; ++i2) {
             int n = this.connections[i2];
             int n2 = ConnectionStore.INSTANCE.getStatus(n, 2);
-            this.logger.log(-2137614336, "[SdisCmdWaitForAudible.execute] AC:%1, status:%2", (long)n, (long)n2);
+            this.logger.log(10000000, "[SdisCmdWaitForAudible.execute] AC:%1, status:%2", (long)n, (long)n2);
             if (n2 != 5 && n2 != 4 && n2 != 0) continue;
             this.finishCmd(n);
         }
@@ -34,10 +33,10 @@ extends Command {
 
     public void finishCmd(int n) {
         if (AudioConnection.contains(this.connections, n)) {
-            this.logger.log(-2137614336, "[SdisCmdWaitForAudible.finishCmd] AC:%1", (long)n);
+            this.logger.log(10000000, "[SdisCmdWaitForAudible.finishCmd] AC:%1", (long)n);
             this.commandList.commandFinished();
         } else {
-            this.logger.log(-2137614336, "[SdisCmdWaitForAudible.finishCmd] AC:%1 is not a valid connection", (long)n);
+            this.logger.log(10000000, "[SdisCmdWaitForAudible.finishCmd] AC:%1 is not a valid connection", (long)n);
         }
     }
 }

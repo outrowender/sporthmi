@@ -8,7 +8,6 @@ import de.audi.app.terminalmode.logging.ILoggingDecoratorFactory;
 import de.audi.app.terminalmode.logging.TerminalModeLoggingDecoratorFactory;
 import de.audi.app.terminalmode.osgi.IServiceManager;
 import de.audi.app.terminalmode.osgi.IServiceTracker;
-import de.audi.app.terminalmode.osgi.ServiceManagerImpl$1;
 import de.audi.app.terminalmode.osgi.ServiceTrackerImpl;
 import de.audi.atip.base.IFrameworkAccess;
 import de.audi.atip.log.LogChannel;
@@ -25,7 +24,7 @@ import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
 public class ServiceManagerImpl
 implements IServiceManager {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "ServiceManagerImpl";
     private final BundleContext osgiBundleContext;
     private final IFrameworkAccess framework;
     private final LogChannel logger;
@@ -41,7 +40,6 @@ implements IServiceManager {
         this.registeredServices = new ArrayList();
     }
 
-    @Override
     public IServiceTracker createServiceTracker(Class clazz, ServiceTrackerCustomizer serviceTrackerCustomizer) {
         if (clazz == null || serviceTrackerCustomizer == null) {
             throw new IllegalArgumentException();
@@ -49,7 +47,6 @@ implements IServiceManager {
         return new ServiceTrackerImpl(this.osgiBundleContext, clazz, serviceTrackerCustomizer);
     }
 
-    @Override
     public ServiceReference[] getServiceReferences(Class clazz) {
         if (clazz == null) {
             throw new IllegalArgumentException();
@@ -62,18 +59,30 @@ implements IServiceManager {
         }
     }
 
-    @Override
     public final ServiceRegistration registerService(Class clazz, Object object, Dictionary dictionary) {
         if (clazz == null || object == null || dictionary == null) {
             throw new IllegalArgumentException();
         }
-        this.logger.log(-2137614336, "[%1.registerService] '%2'.", (Object)"ServiceManagerImpl", (Object)this.getClassnameWithoutPackage(clazz.getName()));
-        ServiceRegistration serviceRegistration = this.osgiBundleContext.registerService(clazz.getName(), object, dictionary);
+        this.logger.log(10000000, "[%1.registerService] '%2'.", (Object)LOGCLASS, (Object)this.getClassnameWithoutPackage(clazz.getName()));
+        final ServiceRegistration serviceRegistration = this.osgiBundleContext.registerService(clazz.getName(), object, dictionary);
         this.registeredServices.add(serviceRegistration);
-        return new ServiceManagerImpl$1(this, serviceRegistration);
+        return new ServiceRegistration(){
+
+            public void unregister() {
+                ServiceManagerImpl.this.registeredServices.remove(serviceRegistration);
+                serviceRegistration.unregister();
+            }
+
+            public void setProperties(Dictionary dictionary) {
+                serviceRegistration.setProperties(dictionary);
+            }
+
+            public ServiceReference getReference() {
+                return serviceRegistration.getReference();
+            }
+        };
     }
 
-    @Override
     public void unregisterService(ServiceRegistration serviceRegistration) {
         try {
             serviceRegistration.unregister();
@@ -83,9 +92,8 @@ implements IServiceManager {
         }
     }
 
-    @Override
     public final ServiceRegistration registerDSIListener(int n, String string, DSIListener dSIListener) {
-        this.logger.log(14808325, "[%1.registerDSIListener] [%2,%3]", (Object)"ServiceManagerImpl", (Object)this.getClassnameWithoutPackage(string), (long)n);
+        this.logger.log(100000000, "[%1.registerDSIListener] [%2,%3]", (Object)LOGCLASS, (Object)this.getClassnameWithoutPackage(string), (long)n);
         if (string == null || dSIListener == null) {
             throw new IllegalArgumentException();
         }
@@ -96,7 +104,6 @@ implements IServiceManager {
         return this.registerService(class$org$dsi$ifc$base$DSIListener == null ? (class$org$dsi$ifc$base$DSIListener = ServiceManagerImpl.class$("org.dsi.ifc.base.DSIListener")) : class$org$dsi$ifc$base$DSIListener, object, hashtable);
     }
 
-    @Override
     public Object getService(ServiceReference serviceReference) {
         if (serviceReference == null) {
             throw new IllegalArgumentException();
@@ -108,7 +115,6 @@ implements IServiceManager {
         return this.osgiBundleContext.getService(serviceReference);
     }
 
-    @Override
     public void releaseService(ServiceReference serviceReference) {
         if (serviceReference == null) {
             throw new IllegalArgumentException();
@@ -116,9 +122,8 @@ implements IServiceManager {
         this.osgiBundleContext.ungetService(serviceReference);
     }
 
-    @Override
     public boolean startDSIService(String string, int n) {
-        this.logger.log(14808325, "[%1.startDSIService] [%2,%3]", (Object)"ServiceManagerImpl", (Object)this.getClassnameWithoutPackage(string), (long)n);
+        this.logger.log(100000000, "[%1.startDSIService] [%2,%3]", (Object)LOGCLASS, (Object)this.getClassnameWithoutPackage(string), (long)n);
         return this.framework.startDSIService(string, n);
     }
 
@@ -133,7 +138,6 @@ implements IServiceManager {
         return this.framework;
     }
 
-    @Override
     public BundleContext getBundleContext() {
         return this.osgiBundleContext;
     }
@@ -144,10 +148,6 @@ implements IServiceManager {
             ((ServiceRegistration)iterator.next()).unregister();
         }
         this.registeredServices.clear();
-    }
-
-    static /* synthetic */ List access$000(ServiceManagerImpl serviceManagerImpl) {
-        return serviceManagerImpl.registeredServices;
     }
 
     static /* synthetic */ Class class$(String string) {

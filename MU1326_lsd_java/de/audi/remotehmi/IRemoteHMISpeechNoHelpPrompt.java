@@ -4,7 +4,6 @@
 package de.audi.remotehmi;
 
 public interface IRemoteHMISpeechNoHelpPrompt {
-    default public String[] getNoHelpPrompts() {
-    }
+    public String[] getNoHelpPrompts();
 }
 

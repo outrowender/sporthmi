@@ -71,19 +71,17 @@ extends AbstractSwDiagnosis {
         this.manager = sDISCarManager;
     }
 
-    @Override
     public String getName() {
         return "CarSDISDiag";
     }
 
-    @Override
     public int getId() {
         return 12345;
     }
 
     public void cmdUpdateOilLevel_Level_Warning(int n, int n2) {
         if (this.manager.getCarVehicleStateComponent() == null) {
-            this.logger.log(-1601830656, "Component is null -> check coding!");
+            this.logger.log(100000, "Component is null -> check coding!");
             return;
         }
         OilLevelData oilLevelData = new OilLevelData(n, new OilLevelRefillVolume(5, 0), n2, false, false);
@@ -92,7 +90,7 @@ extends AbstractSwDiagnosis {
 
     public void cmdUpdateOilLevel_Refill_Unit(int n, int n2) {
         if (this.manager.getCarVehicleStateComponent() == null) {
-            this.logger.log(-1601830656, "Component is null -> check coding!");
+            this.logger.log(100000, "Component is null -> check coding!");
             return;
         }
         OilLevelData oilLevelData = new OilLevelData(0, new OilLevelRefillVolume(n, n2), 0, false, false);
@@ -101,7 +99,7 @@ extends AbstractSwDiagnosis {
 
     public void cmdUpdateOilViewOption(int n, int n2) {
         if (this.manager.getCarVehicleStateComponent() == null) {
-            this.logger.log(-1601830656, "Component is null -> check coding!");
+            this.logger.log(100000, "Component is null -> check coding!");
             return;
         }
         this.manager.getCarVehicleStateComponent().updateOilLevelViewOption(new CarViewOption(n, n2), 1);
@@ -109,7 +107,7 @@ extends AbstractSwDiagnosis {
 
     public void cmdUpdateVin(String string) {
         if (this.manager.getCarVehicleStateComponent() == null) {
-            this.logger.log(-1601830656, "Component is null -> check coding!");
+            this.logger.log(100000, "Component is null -> check coding!");
             return;
         }
         this.manager.getCarVehicleStateComponent().updateVINData(string, 1);
@@ -117,7 +115,7 @@ extends AbstractSwDiagnosis {
 
     public void cmdUpdateVinViewOption(int n, int n2) {
         if (this.manager.getCarVehicleStateComponent() == null) {
-            this.logger.log(-1601830656, "Component is null -> check coding!");
+            this.logger.log(100000, "Component is null -> check coding!");
             return;
         }
         this.manager.getCarVehicleStateComponent().updateVINViewOption(new CarViewOption(n, n2), 1);
@@ -125,7 +123,7 @@ extends AbstractSwDiagnosis {
 
     public void cmdUpdateAdblue_Value_State_Unit_Tank_Min_Max(int n, int n2, int n3, int n4, float f2, float f3) {
         if (this.manager.getCarVehicleStateComponent() == null) {
-            this.logger.log(-1601830656, "Component is null -> check coding!");
+            this.logger.log(100000, "Component is null -> check coding!");
             return;
         }
         DynamicVehicleInfoSCR dynamicVehicleInfoSCR = new DynamicVehicleInfoSCR();
@@ -141,7 +139,7 @@ extends AbstractSwDiagnosis {
 
     public void cmdUpdateAdblueViewOption(int n, int n2) {
         if (this.manager.getCarVehicleStateComponent() == null) {
-            this.logger.log(-1601830656, "Component is null -> check coding!");
+            this.logger.log(100000, "Component is null -> check coding!");
             return;
         }
         VehicleInfoViewOptions vehicleInfoViewOptions = new VehicleInfoViewOptions();
@@ -151,7 +149,7 @@ extends AbstractSwDiagnosis {
 
     public void cmdUpdateRDK(int n, int n2, int n3, int n4) {
         if (this.manager.getCarComfortComponent() == null) {
-            this.logger.log(-1601830656, "Component is null -> check coding!");
+            this.logger.log(100000, "Component is null -> check coding!");
             return;
         }
         RDKTireDisplayData rDKTireDisplayData = new RDKTireDisplayData();
@@ -164,7 +162,7 @@ extends AbstractSwDiagnosis {
 
     public void cmdUpdateRDKViewOption(int n, int n2) {
         if (this.manager.getCarComfortComponent() == null) {
-            this.logger.log(-1601830656, "Component is null -> check coding!");
+            this.logger.log(100000, "Component is null -> check coding!");
             return;
         }
         RDKViewOptions rDKViewOptions = new RDKViewOptions();
@@ -176,7 +174,7 @@ extends AbstractSwDiagnosis {
 
     public void cmdUpdateKeyData(int n) {
         if (this.manager.getCarVehicleStateComponent() == null) {
-            this.logger.log(-1601830656, "Component is null -> check coding!");
+            this.logger.log(100000, "Component is null -> check coding!");
             return;
         }
         KeyData keyData = new KeyData();
@@ -186,7 +184,7 @@ extends AbstractSwDiagnosis {
 
     public void cmdUpdateKeyDataViewOption(int n, int n2) {
         if (this.manager.getCarVehicleStateComponent() == null) {
-            this.logger.log(-1601830656, "Component is null -> check coding!");
+            this.logger.log(100000, "Component is null -> check coding!");
             return;
         }
         CarViewOption carViewOption = new CarViewOption(n, n2);
@@ -195,7 +193,7 @@ extends AbstractSwDiagnosis {
 
     public void cmdUpdateSIA(int n, int n2) {
         if (this.manager.getCarKombiComponent() == null) {
-            this.logger.log(-1601830656, "Component is null -> check coding!");
+            this.logger.log(100000, "Component is null -> check coding!");
             return;
         }
         SIAServiceData sIAServiceData = new SIAServiceData();
@@ -208,7 +206,7 @@ extends AbstractSwDiagnosis {
 
     public void cmdUpdateSIAOilInspection(int n, int n2) {
         if (this.manager.getCarKombiComponent() == null) {
-            this.logger.log(-1601830656, "Component is null -> check coding!");
+            this.logger.log(100000, "Component is null -> check coding!");
             return;
         }
         SIAOilInspection sIAOilInspection = new SIAOilInspection();
@@ -222,7 +220,7 @@ extends AbstractSwDiagnosis {
     public void cmdUpdateSIAViewOption(int n, int n2) {
         CarViewOption carViewOption;
         if (this.manager.getCarKombiComponent() == null) {
-            this.logger.log(-1601830656, "Component is null -> check coding!");
+            this.logger.log(100000, "Component is null -> check coding!");
             return;
         }
         SIAViewOptions sIAViewOptions = new SIAViewOptions();
@@ -234,7 +232,7 @@ extends AbstractSwDiagnosis {
     public void cmdUpdateTADConfiguration(int n, int n2, int n3) {
         TADConfiguration tADConfiguration;
         if (this.manager.getCarDrivingCharacteristicsComponent() == null) {
-            this.logger.log(-1601830656, "Component is null -> check coding!");
+            this.logger.log(100000, "Component is null -> check coding!");
             return;
         }
         TADViewOptions tADViewOptions = new TADViewOptions();
@@ -245,7 +243,7 @@ extends AbstractSwDiagnosis {
 
     public void cmdUpdateTADPitch(float f2) {
         if (this.manager.getCarDrivingCharacteristicsComponent() == null) {
-            this.logger.log(-1601830656, "Component is null -> check coding!");
+            this.logger.log(100000, "Component is null -> check coding!");
             return;
         }
         this.manager.getCarDrivingCharacteristicsComponent().updateTADCurrentPitchAngle(f2, 1);
@@ -253,7 +251,7 @@ extends AbstractSwDiagnosis {
 
     public void cmdUpdateTADRoll(float f2) {
         if (this.manager.getCarDrivingCharacteristicsComponent() == null) {
-            this.logger.log(-1601830656, "Component is null -> check coding!");
+            this.logger.log(100000, "Component is null -> check coding!");
             return;
         }
         this.manager.getCarDrivingCharacteristicsComponent().updateTADCurrentRollAngle(f2, 1);
@@ -261,7 +259,7 @@ extends AbstractSwDiagnosis {
 
     public void cmdUpdateTADViewOption(boolean bl, boolean bl2) {
         if (this.manager.getCarDrivingCharacteristicsComponent() == null) {
-            this.logger.log(-1601830656, "Component is null -> check coding!");
+            this.logger.log(100000, "Component is null -> check coding!");
             return;
         }
         TADViewOptions tADViewOptions = new TADViewOptions();
@@ -273,7 +271,7 @@ extends AbstractSwDiagnosis {
 
     public void cmdUpdateAirSuspension(int n) {
         if (this.manager.getCarDrivingCharacteristicsComponent() == null) {
-            this.logger.log(-1601830656, "Component is null -> check coding!");
+            this.logger.log(100000, "Component is null -> check coding!");
             return;
         }
         this.manager.getCarDrivingCharacteristicsComponent().updateSuspensionControlCurrentLevel(n, 1);
@@ -282,7 +280,7 @@ extends AbstractSwDiagnosis {
     public void cmdUpdateAirSuspensionViewOption(int n, int n2) {
         CarViewOption carViewOption;
         if (this.manager.getCarDrivingCharacteristicsComponent() == null) {
-            this.logger.log(-1601830656, "Component is null -> check coding!");
+            this.logger.log(100000, "Component is null -> check coding!");
             return;
         }
         SuspensionControlViewOptions suspensionControlViewOptions = new SuspensionControlViewOptions();
@@ -292,7 +290,7 @@ extends AbstractSwDiagnosis {
 
     public void cmdUpdateSpeed(int n, int n2) {
         if (this.manager.getCarVehicleStateComponent() == null) {
-            this.logger.log(-1601830656, "Component is null -> check coding!");
+            this.logger.log(100000, "Component is null -> check coding!");
             return;
         }
         CarBCSpeed carBCSpeed = new CarBCSpeed(1, n, n2);
@@ -304,7 +302,7 @@ extends AbstractSwDiagnosis {
     public void cmdUpdateSpeedViewOption(int n, int n2) {
         CarViewOption carViewOption;
         if (this.manager.getCarVehicleStateComponent() == null) {
-            this.logger.log(-1601830656, "Component is null -> check coding!");
+            this.logger.log(100000, "Component is null -> check coding!");
             return;
         }
         DynamicVehicleInfoHighFrequentViewOptions dynamicVehicleInfoHighFrequentViewOptions = new DynamicVehicleInfoHighFrequentViewOptions();
@@ -314,7 +312,7 @@ extends AbstractSwDiagnosis {
 
     public void cmdUpdateWheelPressure(int n, int n2, int n3, int n4, int n5) {
         if (this.manager.getCarComfortComponent() == null) {
-            this.logger.log(-1601830656, "Component is null -> check coding!");
+            this.logger.log(100000, "Component is null -> check coding!");
             return;
         }
         this.data.wheelPressures = new RDKWheelPressures(n5, n, n2, n3, n4, 0);
@@ -323,7 +321,7 @@ extends AbstractSwDiagnosis {
 
     public void cmdUpdateWheelTemperature(int n, int n2, int n3, int n4, int n5) {
         if (this.manager.getCarComfortComponent() == null) {
-            this.logger.log(-1601830656, "Component is null -> check coding!");
+            this.logger.log(100000, "Component is null -> check coding!");
             return;
         }
         this.data.wheelTemperatures = new RDKWheelTemperatures(n5, n, n2, n3, n4, 0);
@@ -332,7 +330,7 @@ extends AbstractSwDiagnosis {
 
     public void cmdUpdateWheelState(int n, int n2, int n3, int n4, int n5) {
         if (this.manager.getCarComfortComponent() == null) {
-            this.logger.log(-1601830656, "Component is null -> check coding!");
+            this.logger.log(100000, "Component is null -> check coding!");
             return;
         }
         this.data.wheelStates = new RDKWheelStates(n, n2, n3, n4, n5, 0);
@@ -341,7 +339,7 @@ extends AbstractSwDiagnosis {
 
     public void cmdUpdateDriveSelectProfile(int n) {
         if (this.manager.getCarDrivingCharacteristicsComponent() == null) {
-            this.logger.log(-1601830656, "Component is null -> check coding!");
+            this.logger.log(100000, "Component is null -> check coding!");
             return;
         }
         this.manager.getCarDrivingCharacteristicsComponent().updateCharismaActiveProfile(n, 1);
@@ -349,7 +347,7 @@ extends AbstractSwDiagnosis {
 
     public void cmdUpdateDriveSelectProfileViewOption(int n, int n2) {
         if (this.manager.getCarDrivingCharacteristicsComponent() == null) {
-            this.logger.log(-1601830656, "Component is null -> check coding!");
+            this.logger.log(100000, "Component is null -> check coding!");
             return;
         }
         CarViewOption carViewOption = new CarViewOption(n, n2);
@@ -360,7 +358,7 @@ extends AbstractSwDiagnosis {
 
     public void cmdUpdateBC() {
         if (this.manager.getCarKombiComponent() == null) {
-            this.logger.log(-1601830656, "Component is null -> check coding!");
+            this.logger.log(100000, "Component is null -> check coding!");
             return;
         }
         CarViewOption carViewOption = new CarViewOption(2, 0);
@@ -374,13 +372,13 @@ extends AbstractSwDiagnosis {
         bCViewOptions.longTermAverageConsumption2 = carViewOption;
         bCViewOptions.longTermGeneral = carViewOption;
         this.manager.getCarKombiComponent().updateBCViewOptions(bCViewOptions, 1);
-        this.manager.getCarKombiComponent().updateBCShortTermAverageConsumption1(new CarBCConsumption(0, 8257, 0), 1);
-        this.manager.getCarKombiComponent().updateBCShortTermAverageConsumption2(new CarBCConsumption(0, 41025, 0), 1);
-        this.manager.getCarKombiComponent().updateBCLongTermAverageConsumption1(new CarBCConsumption(0, 5699, 0), 1);
-        this.manager.getCarKombiComponent().updateBCLongTermAverageConsumption2(new CarBCConsumption(0, 31299, 0), 1);
-        BCLongTermGeneralData bCLongTermGeneralData = new BCLongTermGeneralData(new CarBCDistance(0, 500.0, 0), new CarBCSpeed(0, 61506, 0), new CarBCTime(1, 1088553216));
+        this.manager.getCarKombiComponent().updateBCShortTermAverageConsumption1(new CarBCConsumption(0, 10.0f, 0), 1);
+        this.manager.getCarKombiComponent().updateBCShortTermAverageConsumption2(new CarBCConsumption(0, 20.0f, 0), 1);
+        this.manager.getCarKombiComponent().updateBCLongTermAverageConsumption1(new CarBCConsumption(0, 150.0f, 0), 1);
+        this.manager.getCarKombiComponent().updateBCLongTermAverageConsumption2(new CarBCConsumption(0, 250.0f, 0), 1);
+        BCLongTermGeneralData bCLongTermGeneralData = new BCLongTermGeneralData(new CarBCDistance(0, 500.0, 0), new CarBCSpeed(0, 120.0f, 0), new CarBCTime(1, 123456));
         this.manager.getCarKombiComponent().updateBCLongTermGeneral(bCLongTermGeneralData, 1);
-        BCShortTermGeneralData bCShortTermGeneralData = new BCShortTermGeneralData(new CarBCDistance(0, 500.0, 0), new CarBCSpeed(0, 61506, 0), new CarBCTime(1, 1088553216));
+        BCShortTermGeneralData bCShortTermGeneralData = new BCShortTermGeneralData(new CarBCDistance(0, 500.0, 0), new CarBCSpeed(0, 120.0f, 0), new CarBCTime(1, 123456));
         this.manager.getCarKombiComponent().updateBCShortTermGeneral(bCShortTermGeneralData, 1);
         this.manager.getCarKombiComponent().updateBCCurrentRange1(new CarBCCurrentRange(0, 100, 0), 1);
         this.manager.getCarKombiComponent().updateBCCurrentRange2(new CarBCCurrentRange(0, 200, 0), 1);
@@ -408,8 +406,8 @@ extends AbstractSwDiagnosis {
         this.cmdUpdateSIA(365, 2000);
         this.cmdUpdateSpeed(100, 0);
         this.cmdUpdateAirSuspension(50);
-        this.cmdUpdateTADPitch(8257);
-        this.cmdUpdateTADRoll(8257);
+        this.cmdUpdateTADPitch(10.0f);
+        this.cmdUpdateTADRoll(10.0f);
         this.cmdUpdateDriveSelectProfile(3);
         this.cmdUpdateWheelPressure(10, 15, 20, 25, 0);
         this.cmdUpdateWheelTemperature(70, 75, 80, 85, 0);

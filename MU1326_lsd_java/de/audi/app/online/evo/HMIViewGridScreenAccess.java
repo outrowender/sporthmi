@@ -4,7 +4,6 @@
 package de.audi.app.online.evo;
 
 import de.audi.app.online.evo.AbstractScreenAccess;
-import de.audi.app.online.evo.AbstractScreenAccess$ModelData;
 import de.audi.app.online.evo.Decorator;
 import de.audi.atip.hmi.model.ModelGroup;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
@@ -18,37 +17,37 @@ import de.audi.tghu.online.app.remotehmi.RemoteHMIService;
 
 public class HMIViewGridScreenAccess
 extends AbstractScreenAccess {
-    private static final int MODEL_SUBTITLE;
-    private static final int MODEL_BREAD_CRUMB;
-    private static final int MODEL_MAIN_LIST;
-    private static final int MODEL_MEDIA_CHOICE;
-    private static final int MODEL_DECORATOR_IMAGE;
-    private static final int MODEL_DECORATOR_LAYOUT;
-    private static final int MODEL_DECORATOR_DEBUG;
-    private static final int MODEL_UPDATING;
-    private static final int MODEL_SDS_LINE_NUMBER;
-    private static final int MODEL_COUNT;
+    private static final int MODEL_SUBTITLE = 0;
+    private static final int MODEL_BREAD_CRUMB = 1;
+    private static final int MODEL_MAIN_LIST = 2;
+    private static final int MODEL_MEDIA_CHOICE = 3;
+    private static final int MODEL_DECORATOR_IMAGE = 4;
+    private static final int MODEL_DECORATOR_LAYOUT = 5;
+    private static final int MODEL_DECORATOR_DEBUG = 6;
+    private static final int MODEL_UPDATING = 7;
+    private static final int MODEL_SDS_LINE_NUMBER = 9;
+    private static final int MODEL_COUNT = 10;
     private Decorator mainDecorator;
     private Decorator optionDecorator;
     private IGridList mainGridList;
     private IGridList optionGridList;
-    private AbstractScreenAccess$ModelData[] models;
+    private AbstractScreenAccess.ModelData[] models;
     private final ModelGroup modelGroup;
     private boolean modelGroupIsMain = true;
 
     public HMIViewGridScreenAccess(LogChannel logChannel, RemoteHMIService remoteHMIService, ModelGroup modelGroup, OnlineModelBankAccess onlineModelBankAccess, ChoiceModelApp choiceModelApp) {
         super(choiceModelApp, logChannel);
         this.modelGroup = modelGroup;
-        this.models = new AbstractScreenAccess$ModelData[10];
-        this.models[0] = new AbstractScreenAccess$ModelData(onlineModelBankAccess, "subtitle", 0, true, 169419520, 1058808576);
-        this.models[1] = new AbstractScreenAccess$ModelData(onlineModelBankAccess, "breadCrumb", 0, true, 1545282304, 1042031360);
-        this.models[2] = new AbstractScreenAccess$ModelData(onlineModelBankAccess, "mainList", 1, true, -48749824, 1092363008);
-        this.models[3] = new AbstractScreenAccess$ModelData(onlineModelBankAccess, "mediaChoice", 3, false, 1679500032, 1159471872);
-        this.models[4] = new AbstractScreenAccess$ModelData(onlineModelBankAccess, "decoratorImage", 2, true, 1528505088, 1193026304);
-        this.models[5] = new AbstractScreenAccess$ModelData(onlineModelBankAccess, "decoratorLayout", 3, true, 1562059520, 1142694656);
-        this.models[6] = new AbstractScreenAccess$ModelData(onlineModelBankAccess, "decoratorDebug", 0, true, -1239735552);
-        this.models[7] = new AbstractScreenAccess$ModelData(onlineModelBankAccess, "updatingIcon", 3, false, OnlineModelBankAccess.getUpdatingIconChoiceId());
-        this.models[9] = new AbstractScreenAccess$ModelData(onlineModelBankAccess, "lineNumber", 3, false, 1478238976);
+        this.models = new AbstractScreenAccess.ModelData[10];
+        this.models[0] = new AbstractScreenAccess.ModelData(onlineModelBankAccess, "subtitle", 0, true, 2300170, 2300991);
+        this.models[1] = new AbstractScreenAccess.ModelData(onlineModelBankAccess, "breadCrumb", 0, true, 2300764, 2300990);
+        this.models[2] = new AbstractScreenAccess.ModelData(onlineModelBankAccess, "mainList", 1, true, 2300157, 2300993);
+        this.models[3] = new AbstractScreenAccess.ModelData(onlineModelBankAccess, "mediaChoice", 3, false, 2300772, 2300997);
+        this.models[4] = new AbstractScreenAccess.ModelData(onlineModelBankAccess, "decoratorImage", 2, true, 2300763, 2300999);
+        this.models[5] = new AbstractScreenAccess.ModelData(onlineModelBankAccess, "decoratorLayout", 3, true, 2300765, 2300996);
+        this.models[6] = new AbstractScreenAccess.ModelData(onlineModelBankAccess, "decoratorDebug", 0, true, 2300854);
+        this.models[7] = new AbstractScreenAccess.ModelData(onlineModelBankAccess, "updatingIcon", 3, false, OnlineModelBankAccess.getUpdatingIconChoiceId());
+        this.models[9] = new AbstractScreenAccess.ModelData(onlineModelBankAccess, "lineNumber", 3, false, 2301016);
         this.mainDecorator = new Decorator(logChannel, remoteHMIService, this.getDecoratorImageModel(true), this.getDecoratorLayoutModel(true), this.getDecoratorDebugModel(true));
         this.optionDecorator = new Decorator(logChannel, remoteHMIService, this.getDecoratorImageModel(false), this.getDecoratorLayoutModel(false), this.getDecoratorDebugModel(false));
         this.refreshModelGroup(modelGroup, this.models);
@@ -115,7 +114,6 @@ extends AbstractScreenAccess {
         }
     }
 
-    @Override
     public boolean switchScreen(boolean bl) {
         boolean bl2 = super.switchScreen(bl);
         boolean bl3 = this.isMainScreen();

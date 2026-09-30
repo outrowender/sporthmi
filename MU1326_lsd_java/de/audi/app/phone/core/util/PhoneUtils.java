@@ -13,13 +13,13 @@ import java.lang.reflect.Field;
 import org.dsi.ifc.global.ResourceLocator;
 
 public class PhoneUtils {
-    public static final String STRING_EMPTY;
-    private static final long SECS_PER_HOUR;
-    private static final long SECS_PER_MINUTE;
+    public static final String STRING_EMPTY = "";
+    private static final long SECS_PER_HOUR = 3600L;
+    private static final long SECS_PER_MINUTE = 60L;
 
     public static String privatize(String string, boolean bl) {
-        if (string == null || string.equals("")) {
-            return "";
+        if (string == null || string.equals(STRING_EMPTY)) {
+            return STRING_EMPTY;
         }
         if (bl) {
             return "********";
@@ -28,8 +28,8 @@ public class PhoneUtils {
     }
 
     public static String getDisplayName(String string, String string2) {
-        if (string == null || string.equals("")) {
-            if (string2 == null || string2.equals("")) {
+        if (string == null || string.equals(STRING_EMPTY)) {
+            if (string2 == null || string2.equals(STRING_EMPTY)) {
                 return "UNKNOWN";
             }
             return string2;
@@ -40,7 +40,7 @@ public class PhoneUtils {
     public static String getDisplayNumber(String string, String string2) {
         String string3 = PhoneUtils.getDisplayName(string, string2);
         if (string2 == null || string3 != null && string3.equals(string2)) {
-            return "";
+            return STRING_EMPTY;
         }
         return string2;
     }
@@ -96,7 +96,7 @@ public class PhoneUtils {
             }
             return string;
         }
-        return "";
+        return STRING_EMPTY;
     }
 
     public static String removeSeparators(String string) {
@@ -121,7 +121,7 @@ public class PhoneUtils {
             }
             return stringBuffer.toString();
         }
-        return "";
+        return STRING_EMPTY;
     }
 
     private static String convertVanityNumbers(String string) {
@@ -130,7 +130,7 @@ public class PhoneUtils {
             PhoneUtils.convertCharacters(stringBuffer, string.toCharArray());
             return stringBuffer.toString();
         }
-        return "";
+        return STRING_EMPTY;
     }
 
     private static void convertCharacters(StringBuffer stringBuffer, char[] cArray) {
@@ -148,18 +148,18 @@ public class PhoneUtils {
     private static String formatTime(long l) {
         long l2;
         Buffer buffer = new Buffer(10);
-        long l3 = l / 0;
+        long l3 = l / 3600L;
         if (l3 > 0L) {
             buffer.append(l3);
             buffer.append(':');
         }
-        if ((l2 = l % 0 / 0) < 0 && l3 > 0L) {
+        if ((l2 = l % 3600L / 60L) < 10L && l3 > 0L) {
             buffer.append('0');
         }
         buffer.append(l2);
         buffer.append(':');
-        long l4 = l % 0;
-        if (l4 < 0) {
+        long l4 = l % 60L;
+        if (l4 < 10L) {
             buffer.append('0');
         }
         buffer.append(l4);
@@ -170,7 +170,7 @@ public class PhoneUtils {
         if (n == 4 || n == 6) {
             return PhoneUtils.formatTime(l);
         }
-        return "";
+        return STRING_EMPTY;
     }
 
     public static void triggerJumpToPhone(IHMIServiceApp iHMIServiceApp) {
@@ -281,7 +281,7 @@ public class PhoneUtils {
             }
             return iEmergencyTextFactory.getText(0);
         }
-        return "";
+        return STRING_EMPTY;
     }
 }
 

@@ -10,29 +10,26 @@ import de.audi.atip.log.NullLogChannel;
 
 public class LoggerOnlineFunctionsBAP
 extends AbstractBAPLogger {
-    private static final String LOG_CH_PREFIX;
-    private static final String LOG_CH_ONLINE_FUNCTIONS;
-    private static final String LOG_CH_ONLINE_FUNCTIONS_BAPDATA;
+    private static final String LOG_CH_PREFIX = "App.OnlineFunctionsBAP";
+    private static final String LOG_CH_ONLINE_FUNCTIONS = "OnlineFunctions";
+    private static final String LOG_CH_ONLINE_FUNCTIONS_BAPDATA = "OnlineFunctions.BAPData";
     private final LogChannel logOnlineFunctions;
     private final LogChannel logOnlineFunctionsBAPData;
 
     public LoggerOnlineFunctionsBAP(IFrameworkAccess iFrameworkAccess) {
-        AbstractBAPLogger.init(iFrameworkAccess, "App.OnlineFunctionsBAP");
-        this.logOnlineFunctions = iFrameworkAccess.getLogChannel(LoggerOnlineFunctionsBAP.createLogChannelName("OnlineFunctions"));
-        this.logOnlineFunctionsBAPData = iFrameworkAccess.getLogChannel(LoggerOnlineFunctionsBAP.createLogChannelName("OnlineFunctions.BAPData"));
+        AbstractBAPLogger.init(iFrameworkAccess, LOG_CH_PREFIX);
+        this.logOnlineFunctions = iFrameworkAccess.getLogChannel(LoggerOnlineFunctionsBAP.createLogChannelName(LOG_CH_ONLINE_FUNCTIONS));
+        this.logOnlineFunctionsBAPData = iFrameworkAccess.getLogChannel(LoggerOnlineFunctionsBAP.createLogChannelName(LOG_CH_ONLINE_FUNCTIONS_BAPDATA));
     }
 
-    @Override
     public LogChannel getLog(int n) {
         return this.logOnlineFunctions;
     }
 
-    @Override
     public LogChannel getLogBAPData(int n) {
         return this.logOnlineFunctionsBAPData;
     }
 
-    @Override
     public LogChannel getMainLog() {
         return logMain != null ? logMain : NullLogChannel.getInstance();
     }

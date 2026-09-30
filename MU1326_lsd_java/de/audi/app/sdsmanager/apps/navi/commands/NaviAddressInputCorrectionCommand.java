@@ -25,11 +25,10 @@ extends AbstractSystemCallCommand {
         this.destinationType = (byte)SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: destinationType=%2", (Object)this.getName(), (long)this.destinationType);
+        this.logger.log(10000000, "%1#execute: destinationType=%2", (Object)this.getName(), (long)this.destinationType);
         int n = NaviSDSUtils.getNaviDestType(this.destinationType);
-        this.logger.log(-2137614336, "%1#execute: Trigger address input return with destType %2!", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "%1#execute: Trigger address input return with destType %2!", (Object)this.getName(), (long)n);
         NaviSDSUtils.resetVDEData(this.destinationType, this.naviHandler);
         switch (n) {
             case 19: {
@@ -43,15 +42,15 @@ extends AbstractSystemCallCommand {
     }
 
     public void responseTriggerAddressInputReturn(byte by) {
-        this.logger.log(-2137614336, "%1#responseTriggerAddressInputReturn: result=%2", (Object)this.getName(), (long)by);
+        this.logger.log(10000000, "%1#responseTriggerAddressInputReturn: result=%2", (Object)this.getName(), (long)by);
         int n = NaviSDSUtils.getGenericSDSResult(by);
-        this.logger.log(-2137614336, "%1#responseTriggerAddressInputReturn: sdsRes=%2!", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "%1#responseTriggerAddressInputReturn: sdsRes=%2!", (Object)this.getName(), (long)n);
         this.sendResult(n);
     }
 
     public void responseMapCodeResult(byte by) {
         int n = NaviSDSUtils.getGenericSDSResult(by);
-        this.logger.log(-2137614336, "%1#responseMapCodeResult: sdsRes=%2!", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "%1#responseMapCodeResult: sdsRes=%2!", (Object)this.getName(), (long)n);
         this.sendResult(n);
     }
 }

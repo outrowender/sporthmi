@@ -4,10 +4,8 @@
 package de.audi.atip.interapp.audio;
 
 public interface IAudioSdisListener {
-    default public void updateActiveConnection(int n, int n2) {
-    }
+    public void updateActiveConnection(int var1, int var2);
 
-    default public void updateActiveEntertainmentConnection(int n, int n2) {
-    }
+    public void updateActiveEntertainmentConnection(int var1, int var2);
 }
 

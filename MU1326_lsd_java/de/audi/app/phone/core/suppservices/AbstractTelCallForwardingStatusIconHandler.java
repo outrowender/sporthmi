@@ -21,7 +21,6 @@ implements IGlobalTelephoneStateListener {
         this.log = logChannel;
     }
 
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         CFResponseData[] cFResponseDataArray;
         boolean bl;
@@ -29,17 +28,17 @@ implements IGlobalTelephoneStateListener {
         this.nadActiveUnlockedRegistered = PhoneUtils.isOnUnlockedRegistered(iGlobalTelephoneStateStruct.getNadInstanceState());
         boolean bl2 = this.nadActiveUnlockedRegistered && !this.nadActiveUnlockedRegisteredOld;
         boolean bl3 = bl = !this.nadActiveUnlockedRegistered && this.nadActiveUnlockedRegisteredOld;
-        if (n == 0x1A000100 || n == 436208128) {
-            this.log.log(-2137614336, "TelCallForwardingStatusIconHandler#updateGlobalTelephoneStateProperty() received call forwarding status");
+        if (n == 65562 || n == 131098) {
+            this.log.log(10000000, "TelCallForwardingStatusIconHandler#updateGlobalTelephoneStateProperty() received call forwarding status");
             cFResponseDataArray = iGlobalTelephoneStateStruct.getNadInstanceState() != null ? (iGlobalTelephoneStateStruct.getNadInstanceState().getSuppServiceResponse() != null ? iGlobalTelephoneStateStruct.getNadInstanceState().getSuppServiceResponse().getTelCFResponseData() : null) : null;
             this.updateCallForwardingStatusIcon(cFResponseDataArray);
         }
         if (bl2) {
-            this.log.log(1078071040, "TelCallForwardingStatusIconHandler#updateGlobalTelephoneStateProperty() nad is ready now");
+            this.log.log(1000000, "TelCallForwardingStatusIconHandler#updateGlobalTelephoneStateProperty() nad is ready now");
             cFResponseDataArray = iGlobalTelephoneStateStruct.getNadInstanceState() != null ? (iGlobalTelephoneStateStruct.getNadInstanceState().getSuppServiceResponse() != null ? iGlobalTelephoneStateStruct.getNadInstanceState().getSuppServiceResponse().getTelCFResponseData() : null) : null;
             this.updateCallForwardingStatusIcon(cFResponseDataArray);
         } else if (bl) {
-            this.log.log(1078071040, "TelCallForwardingStatusIconHandler#updateGlobalTelephoneStateProperty() nad is not ready anymore");
+            this.log.log(1000000, "TelCallForwardingStatusIconHandler#updateGlobalTelephoneStateProperty() nad is not ready anymore");
             this.callForwardingStatusBitField.clearAllBits();
             this.hideCallForwardingIcon();
         }
@@ -47,7 +46,7 @@ implements IGlobalTelephoneStateListener {
 
     void updateCallForwardingStatusIcon(CFResponseData[] cFResponseDataArray) {
         this.storeCallForwardingStatus(cFResponseDataArray);
-        this.log.log(-2137614336, "TelCallForwardingStatusIconHandler#updateCallForwardingStatusIcon: callForwardingStatusBitField: %1", (long)this.callForwardingStatusBitField.getAllBits());
+        this.log.log(10000000, "TelCallForwardingStatusIconHandler#updateCallForwardingStatusIcon: callForwardingStatusBitField: %1", (long)this.callForwardingStatusBitField.getAllBits());
         if (this.isCallForwardingActive()) {
             this.showCallForwardingIcon();
         } else {
@@ -86,10 +85,8 @@ implements IGlobalTelephoneStateListener {
         return cFResponseData.telCFStatus == 1 && (cFResponseData.telClass & 1) > 0;
     }
 
-    protected abstract void showCallForwardingIcon() {
-    }
+    protected abstract void showCallForwardingIcon();
 
-    protected abstract void hideCallForwardingIcon() {
-    }
+    protected abstract void hideCallForwardingIcon();
 }
 

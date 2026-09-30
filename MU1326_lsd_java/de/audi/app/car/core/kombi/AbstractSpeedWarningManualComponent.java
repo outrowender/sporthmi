@@ -5,13 +5,15 @@ package de.audi.app.car.core.kombi;
 
 import de.audi.app.car.common.adapter.AbstractDSICarKombiAdapter;
 import de.audi.app.car.common.app.ICarApplication;
+import de.audi.app.car.common.comp.AbstractCarComponent;
 import de.audi.app.car.common.comp.CarDSIAttributesSet;
-import de.audi.app.car.core.kombi.AbstractSpeedWarningManualComponent$SpeedWarningHandler;
 import de.audi.atip.hmi.model.ChoiceListener;
+import de.audi.atip.hmi.model.ModelGroup;
 import de.audi.atip.hmi.model.RangeListener;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.hmi.modelaccess.MetricsModelApp;
 import de.audi.atip.hmi.modelaccess.RangeModelApp;
+import de.audi.atip.metrics.Speed;
 import org.dsi.ifc.carkombi.BCSpeedWarningSettings;
 import org.dsi.ifc.carkombi.BCViewOptions;
 
@@ -19,32 +21,30 @@ public abstract class AbstractSpeedWarningManualComponent
 extends AbstractDSICarKombiAdapter
 implements RangeListener,
 ChoiceListener {
-    public static final short CODING_ID;
-    private static final String LOGCHANNEL_NAME;
+    public static final short CODING_ID = 10;
+    private static final String LOGCHANNEL_NAME = "App.Car.SpeedWarning.Manual";
     private volatile BCViewOptions currentViewOptions;
-    private final AbstractSpeedWarningManualComponent$SpeedWarningHandler handler = new AbstractSpeedWarningManualComponent$SpeedWarningHandler(this);
+    private final SpeedWarningHandler handler = new SpeedWarningHandler();
 
     public AbstractSpeedWarningManualComponent(ICarApplication iCarApplication) {
-        super(iCarApplication, "App.Car.SpeedWarning.Manual");
+        super(iCarApplication, LOGCHANNEL_NAME);
     }
 
-    @Override
     protected void initModels() {
-        this.getRangeModel(-1423308544).setRangeListener(this);
-        this.getChoiceModel(1647118592).setChoiceListener(this);
+        this.getRangeModel(600747).setRangeListener(this);
+        this.getChoiceModel(601442).setChoiceListener(this);
         this.handler.initModels();
     }
 
-    @Override
     protected void deinitModels() {
         this.handler.deinitModels();
-        this.getRangeModel(-1423308544).resetListener();
-        this.getChoiceModel(1647118592).resetListener();
+        this.getRangeModel(600747).resetListener();
+        this.getChoiceModel(601442).resetListener();
     }
 
     protected synchronized void saveCurrentSpeedSetting() {
         BCSpeedWarningSettings bCSpeedWarningSettings = this.handler.getChangedSpeedWarning();
-        this.getLogChannel().log(1078071040, "dsi.setBCSpeedWarning(%1)", (Object)bCSpeedWarningSettings);
+        this.getLogChannel().log(1000000, "dsi.setBCSpeedWarning(%1)", (Object)bCSpeedWarningSettings);
         this.getDSI().setBCSpeedWarning(bCSpeedWarningSettings);
     }
 
@@ -52,10 +52,9 @@ ChoiceListener {
         this.handler.resetChangeSetting();
     }
 
-    @Override
     public void updateBCViewOptions(BCViewOptions bCViewOptions, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "updateBCViewOptions: '%1', valid='%2'", (Object)(bCViewOptions != null ? this.formatViewOptionsLog(bCViewOptions.toString()) : "null"), (long)n);
+            this.getLogChannel().log(1000000, "updateBCViewOptions: '%1', valid='%2'", (Object)(bCViewOptions != null ? this.formatViewOptionsLog(bCViewOptions.toString()) : "null"), (long)n);
         }
         if (n == 1 && bCViewOptions != null) {
             this.currentViewOptions = bCViewOptions;
@@ -64,56 +63,48 @@ ChoiceListener {
         }
     }
 
-    @Override
     public synchronized void updateBCSpeedWarning(BCSpeedWarningSettings bCSpeedWarningSettings, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "updateBCSpeedWarning: '%1', valid='%2'", (Object)bCSpeedWarningSettings, (long)n);
+            this.getLogChannel().log(1000000, "updateBCSpeedWarning: '%1', valid='%2'", (Object)bCSpeedWarningSettings, (long)n);
         }
         if (n == 1) {
             this.handler.setCurrentSpeedWarning(bCSpeedWarningSettings);
         }
     }
 
-    @Override
     public void updateBCLifeTipsDisplay(boolean bl, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "updateBCLifeTipsDisplay: enable='%1', valid='%2'", bl, (long)n);
+            this.getLogChannel().log(1000000, "updateBCLifeTipsDisplay: enable='%1', valid='%2'", bl, (long)n);
         }
         if (n == 1) {
-            this.getChoiceModel(1647118592).setValue(bl ? 1 : 0);
+            this.getChoiceModel(601442).setValue(bl ? 1 : 0);
         }
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
-        this.getLogChannel().log(1078071040, "keyPressed: model='%1'", (long)n);
+        this.getLogChannel().log(1000000, "keyPressed: model='%1'", (long)n);
         switch (n) {
             case 600747: {
-                this.getRangeModel(-1423308544).fireEvent(n3);
+                this.getRangeModel(600747).fireEvent(n3);
                 break;
             }
         }
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
-        this.getLogChannel().log(1078071040, "itemSelected: model='%1' , itemID='%2'", (long)n, (long)n2);
+        this.getLogChannel().log(1000000, "itemSelected: model='%1' , itemID='%2'", (long)n, (long)n2);
         switch (n) {
             case 601442: {
                 this.setBCLiveTips(n2 == 1);
@@ -125,32 +116,28 @@ ChoiceListener {
         }
     }
 
-    @Override
     public void decrement(int n, int n2, int n3) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "decrement: model=%1, steps=%2", (long)n, (long)n2);
+            this.getLogChannel().log(1000000, "decrement: model=%1, steps=%2", (long)n, (long)n2);
         }
-        if (n == -1423308544) {
+        if (n == 600747) {
             this.handler.changeSetting(-n2);
         }
     }
 
-    @Override
     public void increment(int n, int n2, int n3) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "increment: model=%1, steps=%2", (long)n, (long)n2);
+            this.getLogChannel().log(1000000, "increment: model=%1, steps=%2", (long)n, (long)n2);
         }
-        if (n == -1423308544) {
+        if (n == 600747) {
             this.handler.changeSetting(n2);
         }
     }
 
-    @Override
     public CarDSIAttributesSet[] getDSIAttributesSets() {
         return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{4}, new int[]{33, 21})};
     }
 
-    @Override
     public String getCurrentViewOptions() {
         if (this.currentViewOptions == null) {
             return "no view options received yet";
@@ -158,33 +145,162 @@ ChoiceListener {
         return this.currentViewOptions.toString();
     }
 
-    protected abstract void updateMenuEntryVisibility(BCViewOptions bCViewOptions) {
-    }
+    protected abstract void updateMenuEntryVisibility(BCViewOptions var1);
 
-    @Override
     public String getName() {
         return "SpeedWarningManual";
     }
 
     private void setBCLiveTips(boolean bl) {
-        this.getLogChannel().log(1078071040, "dsi.setBCLifeTipsDisplay(%1)", bl);
+        this.getLogChannel().log(1000000, "dsi.setBCLifeTipsDisplay(%1)", bl);
         this.getDSI().setBCLifeTipsDisplay(bl);
     }
 
-    static /* synthetic */ MetricsModelApp access$000(AbstractSpeedWarningManualComponent abstractSpeedWarningManualComponent, int n) {
-        return abstractSpeedWarningManualComponent.getMetricsModel(n);
-    }
+    class SpeedWarningHandler {
+        public static final int OFF_KMH = 20;
+        public static final int MAX_KMH = 240;
+        public static final int STEP_KMH = 10;
+        public static final int OFF_MPH = 15;
+        public static final int MAX_MPH = 150;
+        public static final int STEP_MPH = 5;
+        private static final int TEXT_OFF_VISIBLE = 0;
+        private static final int TEXT_SPEED_VISIBLE = 1;
+        private BCSpeedWarningSettings currentSpeedWarning = new BCSpeedWarningSettings();
+        private int changedSpeed;
+        private final ModelGroup rotaryLabelsGroup = new ModelGroup();
+        private MetricsModelApp currentLimitModel;
+        private MetricsModelApp maxLimitModel;
+        private RangeModelApp rangeModel;
+        private ChoiceModelApp switchTextModel;
 
-    static /* synthetic */ RangeModelApp access$100(AbstractSpeedWarningManualComponent abstractSpeedWarningManualComponent, int n) {
-        return abstractSpeedWarningManualComponent.getRangeModel(n);
-    }
+        SpeedWarningHandler() {
+        }
 
-    static /* synthetic */ MetricsModelApp access$200(AbstractSpeedWarningManualComponent abstractSpeedWarningManualComponent, int n) {
-        return abstractSpeedWarningManualComponent.getMetricsModel(n);
-    }
+        void initModels() {
+            this.currentLimitModel = AbstractSpeedWarningManualComponent.this.getMetricsModel(600746);
+            Speed speed = new Speed(20.0f, 1);
+            speed.setUseInstanceUnit(true);
+            this.currentLimitModel.setMetric(speed);
+            this.currentLimitModel.formatChanged();
+            this.rangeModel = AbstractSpeedWarningManualComponent.this.getRangeModel(600747);
+            this.maxLimitModel = AbstractSpeedWarningManualComponent.this.getMetricsModel(600754);
+            this.switchTextModel = AbstractSpeedWarningManualComponent.this.getChoiceModel(600752);
+            this.rangeModel.setValue(20);
+            this.rangeModel.setLimits(20, 240, 10);
+            this.rangeModel.setMedialPosition(20);
+            Speed speed2 = new Speed(240.0f, 1);
+            speed2.setUseInstanceUnit(true);
+            this.maxLimitModel.setMetric(speed2);
+            this.maxLimitModel.formatChanged();
+            this.rotaryLabelsGroup.add(this.currentLimitModel);
+            this.rotaryLabelsGroup.add(this.rangeModel);
+            this.rotaryLabelsGroup.add(this.maxLimitModel);
+            this.rotaryLabelsGroup.add(this.switchTextModel);
+        }
 
-    static /* synthetic */ ChoiceModelApp access$300(AbstractSpeedWarningManualComponent abstractSpeedWarningManualComponent, int n) {
-        return abstractSpeedWarningManualComponent.getChoiceModel(n);
+        void deinitModels() {
+            this.rotaryLabelsGroup.removeAll();
+        }
+
+        void setCurrentSpeedWarning(BCSpeedWarningSettings bCSpeedWarningSettings) {
+            bCSpeedWarningSettings.speedValue = this.roundSpeedWarningValue(bCSpeedWarningSettings.getSpeedValue(), bCSpeedWarningSettings.getSpeedUnit(), bCSpeedWarningSettings.state);
+            boolean bl = bCSpeedWarningSettings.getSpeedUnit() == 0;
+            Speed speed = new Speed(bCSpeedWarningSettings.getSpeedValue(), bl ? 1 : 2);
+            speed.setUseInstanceUnit(true);
+            this.currentLimitModel.setMetric(speed);
+            if (this.currentSpeedWarning.getSpeedUnit() != bCSpeedWarningSettings.getSpeedUnit()) {
+                Speed speed2 = bl ? new Speed(240.0f, 1) : new Speed(150.0f, 2);
+                speed2.setUseInstanceUnit(true);
+                this.maxLimitModel.setMetric(speed2);
+                this.maxLimitModel.formatChanged();
+                this.currentLimitModel.formatChanged();
+                this.rangeModel.setLimits(bl ? 20 : 15, bl ? 240 : 150, bl ? 10 : 5);
+                this.rangeModel.setMedialPosition(bl ? 20 : 15);
+            }
+            this.updateSpeedValues(bCSpeedWarningSettings.getSpeedValue(), bCSpeedWarningSettings.getSpeedUnit());
+            this.currentSpeedWarning = bCSpeedWarningSettings;
+        }
+
+        void changeSetting(int n) {
+            boolean bl = this.currentSpeedWarning.getSpeedUnit() == 0;
+            int n2 = AbstractCarComponent.clip(this.changedSpeed + n, bl ? 20 : 15, bl ? 240 : 150);
+            AbstractSpeedWarningManualComponent.this.getLogChannel().log(10000000, "changeSetting: speed=%1", (long)n2);
+            this.updateSpeedValues(n2, this.currentSpeedWarning.getSpeedUnit());
+        }
+
+        void resetChangeSetting() {
+            AbstractSpeedWarningManualComponent.this.getLogChannel().log(10000000, "resetChangeSetting: resetting to '%1'", (Object)this.currentSpeedWarning);
+            this.updateSpeedValues(this.currentSpeedWarning.getSpeedValue(), this.currentSpeedWarning.getSpeedUnit());
+        }
+
+        private void updateSpeedValues(int n, int n2) {
+            boolean bl;
+            this.changedSpeed = n;
+            this.rangeModel.setValue(n);
+            boolean bl2 = bl = n2 == 0;
+            if (bl && n > 20 || !bl && n > 15) {
+                this.switchTextModel.setValue(1);
+            } else {
+                this.switchTextModel.setValue(0);
+            }
+            this.rotaryLabelsGroup.flush();
+        }
+
+        BCSpeedWarningSettings getChangedSpeedWarning() {
+            BCSpeedWarningSettings bCSpeedWarningSettings = new BCSpeedWarningSettings();
+            bCSpeedWarningSettings.speedUnit = this.currentSpeedWarning.getSpeedUnit();
+            if (this.currentSpeedWarning.getSpeedUnit() == 0 && this.changedSpeed > 240) {
+                bCSpeedWarningSettings.speedValue = 240;
+                bCSpeedWarningSettings.state = true;
+            } else if (this.currentSpeedWarning.getSpeedUnit() == 0 && this.changedSpeed <= 20) {
+                bCSpeedWarningSettings.speedValue = 0;
+                bCSpeedWarningSettings.state = false;
+            } else if (this.currentSpeedWarning.getSpeedUnit() == 1 && this.changedSpeed > 150) {
+                bCSpeedWarningSettings.speedValue = 150;
+                bCSpeedWarningSettings.state = true;
+            } else if (this.currentSpeedWarning.getSpeedUnit() == 1 && this.changedSpeed <= 15) {
+                bCSpeedWarningSettings.speedValue = 0;
+                bCSpeedWarningSettings.state = false;
+            } else {
+                bCSpeedWarningSettings.speedValue = this.changedSpeed;
+                bCSpeedWarningSettings.state = true;
+            }
+            return bCSpeedWarningSettings;
+        }
+
+        private int roundSpeedWarningValue(int n, int n2, boolean bl) {
+            AbstractSpeedWarningManualComponent.this.getLogChannel().log(10000000, "roundSpeedWarningValue: BEFORE rounding (%1)", (long)n);
+            int n3 = n;
+            if (n2 == 1) {
+                if (!bl) {
+                    n3 = 15;
+                } else if (n <= 15) {
+                    n3 = 15;
+                } else if (n > 150) {
+                    n3 = 150;
+                } else {
+                    int n4 = n % 5;
+                    if (n4 != 0) {
+                        n3 = n4 <= 2 ? n - n4 : n + (5 - n4);
+                    }
+                }
+            } else if (n2 == 0) {
+                if (!bl) {
+                    n3 = 20;
+                } else if (n <= 20) {
+                    n3 = 20;
+                } else if (n > 240) {
+                    n3 = 240;
+                } else {
+                    int n5 = n % 10;
+                    if (n5 != 0) {
+                        n3 = n5 <= 4 ? n - n5 : n + (10 - n5);
+                    }
+                }
+            }
+            AbstractSpeedWarningManualComponent.this.getLogChannel().log(10000000, "roundSpeedWarningValue: AFTER rounding (%1)", (long)n3);
+            return n3;
+        }
     }
 }
 

@@ -18,9 +18,8 @@ extends AbstractADBCommand {
         this.defaultSortOrder = n;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "SetDefaultSortOrderCommand#execute(): defaultSortOrder: %1", (Object)ADBDbgUtils.dbgSortOrder(this.defaultSortOrder));
+        this.logger.log(10000000, "SetDefaultSortOrderCommand#execute(): defaultSortOrder: %1", (Object)ADBDbgUtils.dbgSortOrder(this.defaultSortOrder));
         boolean bl = this.adbDSIAccess.setDefaultSortOrder(this.defaultSortOrder);
         if (!bl) {
             this.logger.log(10000, "SetDefaultSortOrderCommand#execute(): dsi call was not successful, finishing command.");
@@ -28,9 +27,8 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public void setDefaultSortOrderResult(int n) {
-        this.logger.log(-2137614336, "SetDefaultSortOrderCommand#setDefaultSortOrderResult(): %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
+        this.logger.log(10000000, "SetDefaultSortOrderCommand#setDefaultSortOrderResult(): %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
         this.commandList.commandFinished();
     }
 

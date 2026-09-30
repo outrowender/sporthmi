@@ -29,14 +29,12 @@ extends TunerActivatorBase {
     static /* synthetic */ Class class$de$audi$atip$statemachine$ActionProxy;
     static /* synthetic */ Class class$org$dsi$ifc$search$DSISearchDataProviderListener;
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext, new TunerVariantExt());
         this.appTunerEvo = new AppTunerEvo(this.appTuner, this.framework, bundleContext);
         this.doStartAll();
     }
 
-    @Override
     protected void doStartAll() {
         super.doStartAll();
         TunerActionProxyListener[] tunerActionProxyListenerArray = this.appTuner.getCoreActionProxyListeners();
@@ -52,7 +50,6 @@ extends TunerActivatorBase {
         this.registerActionProxy();
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         this.tracker.close();
         super.stop(bundleContext);
@@ -93,7 +90,6 @@ extends TunerActivatorBase {
         }
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = super.addingService(serviceReference);
         if (object != null) {

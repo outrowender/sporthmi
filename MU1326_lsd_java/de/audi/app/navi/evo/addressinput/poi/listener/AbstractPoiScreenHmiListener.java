@@ -19,16 +19,16 @@ import org.dsi.ifc.navigation.LIValueListElement;
 
 public abstract class AbstractPoiScreenHmiListener
 implements MenuModelListener {
-    public static final int AMOUNT_OF_POIS_TO_DISPLAY;
+    public static final int AMOUNT_OF_POIS_TO_DISPLAY = 3;
     protected boolean displayMultiplePois = true;
     protected final NavigationEnv env;
     protected final PoiManager poiManager;
     protected final LogChannel logChannel;
     protected final IPreviewMap previewMapInterface;
     protected final PoiSearchArea poiSearchArea;
-    protected static final int SPELLER_OPENED;
-    protected static final int SPELLER_CLOSED;
-    protected final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
+    protected static final int SPELLER_OPENED = 4711;
+    protected static final int SPELLER_CLOSED = 4712;
+    protected final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
 
     public AbstractPoiScreenHmiListener(NavigationEnv navigationEnv, PoiManager poiManager, IPreviewMap iPreviewMap, PoiSearchArea poiSearchArea) {
         this.env = navigationEnv;
@@ -39,21 +39,18 @@ implements MenuModelListener {
         this.registerAsListener();
     }
 
-    public abstract CommandList getStartCommandList() {
-    }
+    public abstract CommandList getStartCommandList();
 
-    protected abstract void registerAsListener() {
-    }
+    protected abstract void registerAsListener();
 
-    public abstract void preparePreviewMap() {
-    }
+    public abstract void preparePreviewMap();
 
     protected LIValueListElement getLiValueListElement(EvoListRow evoListRow, int n) {
         return PoiScreensEvo.getLiValueListElementFromRow(evoListRow, n);
     }
 
     protected void previewSearchLocation(int n, NavLocation navLocation) {
-        this.logChannel.log(-2137614336, "AbstractPoiScreenHmiListener#previewSearchLocation() - currentSearchLocation=%1, searchContext=%2", (Object)LocationFormatter.formatLocationShort(navLocation), (long)n);
+        this.logChannel.log(10000000, "AbstractPoiScreenHmiListener#previewSearchLocation() - currentSearchLocation=%1, searchContext=%2", (Object)LocationFormatter.formatLocationShort(navLocation), (long)n);
         if (navLocation == null) {
             switch (n) {
                 case 1: {
@@ -65,7 +62,7 @@ implements MenuModelListener {
                     break;
                 }
                 default: {
-                    this.logChannel.log(-2137614336, "AbstractPoiScreenHmiListener#previewSearchLocation() - unknown search context: %1", (long)n);
+                    this.logChannel.log(10000000, "AbstractPoiScreenHmiListener#previewSearchLocation() - unknown search context: %1", (long)n);
                     this.previewMapInterface.setPreviewAreaAroundCCP(1);
                     break;
                 }

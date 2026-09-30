@@ -3,10 +3,10 @@
  */
 package com.ibm.oti.connection;
 
+import java.io.IOException;
 import javax.microedition.io.Connection;
 
 public interface CreateConnection {
-    default public Connection setParameters2(String string, int n, boolean bl) {
-    }
+    public Connection setParameters2(String var1, int var2, boolean var3) throws IOException;
 }
 

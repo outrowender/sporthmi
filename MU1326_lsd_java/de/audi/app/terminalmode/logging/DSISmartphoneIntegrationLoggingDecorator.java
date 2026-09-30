@@ -17,25 +17,21 @@ implements DSISmartphoneIntegration {
         this.wrappee = dSISmartphoneIntegration;
     }
 
-    @Override
     public void connectDevice(int n, int n2) {
         this.lc.log(this.level, "-> [DSISmartphoneIntegration.connectDevice] deviceID %1, connectionMethod %2", (long)n, (long)n2);
         this.wrappee.connectDevice(n, n2);
     }
 
-    @Override
     public void disconnectDevice(int n) {
         this.lc.log(this.level, "-> [DSISmartphoneIntegration.disconnectDevice] deviceID %1", (long)n);
         this.wrappee.disconnectDevice(n);
     }
 
-    @Override
     public void requestFactorySettings(int n) {
         this.lc.log(this.level, "-> [DSISmartphoneIntegration.requestFactorySettings] resetMode %1", (long)n);
         this.wrappee.requestFactorySettings(n);
     }
 
-    @Override
     public void requestAppConnectContextActive(boolean bl) {
         this.lc.log(this.level, "-> [DSISmartphoneIntegration.requestAppConnectContextActive] active %1", bl);
         this.wrappee.requestAppConnectContextActive(bl);

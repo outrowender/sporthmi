@@ -20,7 +20,6 @@ implements IAcknowledgeListener {
         this.mediaBrowserArray = abstractBAPModuleFSG.getBAPFunctionArrayFSG(36);
     }
 
-    @Override
     public void execute() {
         ArrayHandler arrayHandler = this.mediaBrowserArray.getArrayHandler();
         if (arrayHandler != null) {
@@ -34,7 +33,6 @@ implements IAcknowledgeListener {
         }
     }
 
-    @Override
     public void processAcknowledge(int n, int n2) {
         if (n2 == 4) {
             this.mediaBrowserArray.removeAcknowledgeListener(this);

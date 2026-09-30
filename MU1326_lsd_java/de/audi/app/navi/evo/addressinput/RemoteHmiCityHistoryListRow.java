@@ -8,9 +8,9 @@ import org.dsi.ifc.navigation.LICityHistoryEntry;
 
 public class RemoteHmiCityHistoryListRow
 extends EvoListRow {
-    private static final int COLUMN_ID;
-    private static final int COLUMN_NAME;
-    private static final int COLUMN_COUNT;
+    private static final int COLUMN_ID = 0;
+    private static final int COLUMN_NAME = 1;
+    private static final int COLUMN_COUNT = 2;
     private LICityHistoryEntry entry;
 
     public RemoteHmiCityHistoryListRow(LICityHistoryEntry lICityHistoryEntry) {
@@ -29,7 +29,6 @@ extends EvoListRow {
         return this.entry;
     }
 
-    @Override
     public EvoListRow copy() {
         return new RemoteHmiCityHistoryListRow(this);
     }

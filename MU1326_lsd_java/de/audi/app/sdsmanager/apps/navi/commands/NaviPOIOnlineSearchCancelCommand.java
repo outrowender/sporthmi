@@ -18,9 +18,8 @@ extends AbstractSystemCallCommand {
         this.poiOnlineService = naviSDSPOIOnlineService;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: called", (Object)this.getName());
+        this.logger.log(10000000, "%1#execute: called", (Object)this.getName());
         this.sendResult(NaviSDSUtils.handlePOIOnlineReplyCode(this.logger, this.poiOnlineService.poiOnlineSearchCancel(), this.getName()));
     }
 }

@@ -22,9 +22,8 @@ extends AbstractADBCommand {
         this.serviceListener = aDBHMIAppServiceListener;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "InsertEntryCommand#execute()");
+        this.logger.log(10000000, "InsertEntryCommand#execute()");
         boolean bl = this.adbDSIAccess.insertEntry(this.adbEntry, 0);
         if (!bl) {
             this.logger.log(10000, "InsertEntryCommand#execute(): dsi call was not successful, finishing command.");
@@ -32,9 +31,8 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public void insertEntryResult(int n, AdbEntry adbEntry) {
-        this.logger.log(-2137614336, "InsertEntryCommand#insertEntryResult(): adbEntry: %1, success: %2", (Object)adbEntry, (Object)ADBDbgUtils.dbgSuccessFlag(n));
+        this.logger.log(10000000, "InsertEntryCommand#insertEntryResult(): adbEntry: %1, success: %2", (Object)adbEntry, (Object)ADBDbgUtils.dbgSuccessFlag(n));
         try {
             this.serviceListener.responseInsertEntry(n);
         }

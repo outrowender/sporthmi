@@ -25,20 +25,18 @@ extends AbstractDataCommand {
         this.dataAccept = bl;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "CommandAcceptDataRequest#execute(): dataApplicationIdOnlineServices %1, dataAccept %2", (Object)String.valueOf(this.dataApplicationIdOnlineServices), (Object)String.valueOf(this.dataAccept));
+        this.logger.log(1000000, "CommandAcceptDataRequest#execute(): dataApplicationIdOnlineServices %1, dataAccept %2", (Object)String.valueOf(this.dataApplicationIdOnlineServices), (Object)String.valueOf(this.dataAccept));
         if (this.dsi != null) {
             this.dsi.acceptDataRequest(this.dataApplicationIdOnlineServices, this.dataAccept);
         } else {
-            this.logger.log(-1601830656, "CommandAcceptDataRequest#execute(): dsi is NULL");
+            this.logger.log(100000, "CommandAcceptDataRequest#execute(): dsi is NULL");
             this.commandList.commandFinished();
         }
     }
 
-    @Override
     public void acceptDataRequestResponse(int n) {
-        this.logger.log(1078071040, "CommandAcceptDataRequest#acceptDataRequestResponse(): result=%1", (long)n);
+        this.logger.log(1000000, "CommandAcceptDataRequest#acceptDataRequestResponse(): result=%1", (long)n);
         this.commandList.commandFinished();
     }
 

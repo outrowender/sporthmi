@@ -8,10 +8,8 @@ import de.audi.app.car.common.handler.ChoiceModelHandler;
 import de.audi.app.car.common.handler.business.ChoiceModelEventBusinessAdapter;
 import de.audi.app.car.common.handler.business.HandlerTransactionData;
 import de.audi.app.car.core.charisma.CharismaIndivEntryBusinessConfig;
-import de.audi.app.car.core.charisma.CharismaIndivEntryBusinessConfig$BusinessEventProcessingConfig;
 import de.audi.app.car.core.charisma.CharismaIndividualChoiceModelHandler;
 import de.audi.app.car.core.charisma.CharismaIndividualEntryTransactionData;
-import de.audi.app.car.core.charisma.CharismaIndividualEntryTransactionData$CharismaIndivOptionMapping;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.log.LogChannel;
 import de.esolutions.fw.util.commons.Buffer;
@@ -34,8 +32,8 @@ extends ChoiceModelEventBusinessAdapter {
     private ChoiceModelApp availableModel;
     private final ChoiceModelApp selectedProfileModel;
     private CharismaIndividualChoiceModelHandler handler;
-    private CharismaIndividualEntryTransactionData$CharismaIndivOptionMapping optionMapping;
-    private CharismaIndivEntryBusinessConfig$BusinessEventProcessingConfig eventProcessingConfig = CharismaIndivEntryBusinessConfig$BusinessEventProcessingConfig.EVENT_PROCESS_CONFIG_ITEM_SELECTED_ONLY;
+    private CharismaIndividualEntryTransactionData.CharismaIndivOptionMapping optionMapping;
+    private CharismaIndivEntryBusinessConfig.BusinessEventProcessingConfig eventProcessingConfig = CharismaIndivEntryBusinessConfig.BusinessEventProcessingConfig.EVENT_PROCESS_CONFIG_ITEM_SELECTED_ONLY;
     private boolean enforceProfileIndivActivation = true;
     static /* synthetic */ Class class$org$dsi$ifc$cardrivingcharacteristics$CharismaSetupTableWithoutOptionMask;
     static /* synthetic */ Class class$org$dsi$ifc$cardrivingcharacteristics$CharismaSetupTableWithOptionMask;
@@ -54,7 +52,6 @@ extends ChoiceModelEventBusinessAdapter {
         this.enforceProfileIndivActivation = charismaIndivEntryBusinessConfig.enforceProfileIndivActivation();
     }
 
-    @Override
     public boolean processKeyPressed(HandlerTransactionData handlerTransactionData, ButtonModelHandler buttonModelHandler) {
         if (this.supportsKeyPressed()) {
             return this.processBusinessEvent(handlerTransactionData, buttonModelHandler, "processKeyPressed");
@@ -62,7 +59,6 @@ extends ChoiceModelEventBusinessAdapter {
         return false;
     }
 
-    @Override
     public boolean processItemSelected(HandlerTransactionData handlerTransactionData, ChoiceModelHandler choiceModelHandler) {
         if (this.supportsItemSelected()) {
             return this.processBusinessEvent(handlerTransactionData, choiceModelHandler, "processItemSelected");
@@ -75,7 +71,7 @@ extends ChoiceModelEventBusinessAdapter {
         CharismaSetupTableWithoutOptionMask charismaSetupTableWithoutOptionMask = this.createCompatibleSetupTable(n);
         if (null != charismaSetupTableWithoutOptionMask) {
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "[%1#processSetSetupValue] dsi.requestCharismaProfileFunction(): selectedDSIOption='%2' ", (Object)this, (long)charismaSetupTableWithoutOptionMask.getSetupValue());
+                this.getLogChannel().log(1000000, "[%1#processSetSetupValue] dsi.requestCharismaProfileFunction(): selectedDSIOption='%2' ", (Object)this, (long)charismaSetupTableWithoutOptionMask.getSetupValue());
             }
             CharismaSetupTableWithoutOptionMask[] charismaSetupTableWithoutOptionMaskArray = new CharismaSetupTableWithoutOptionMask[]{charismaSetupTableWithoutOptionMask};
             this.getDSICarDrivingCharacteristics().requestCharismaProfileFunction(7, charismaSetupTableWithoutOptionMaskArray);
@@ -90,7 +86,7 @@ extends ChoiceModelEventBusinessAdapter {
         if (charismaSetupTableWithoutOptionMask != null) {
             CharismaSetupTableWithoutOptionMask[] charismaSetupTableWithoutOptionMaskArray = new CharismaSetupTableWithoutOptionMask[]{charismaSetupTableWithoutOptionMask};
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "[%1#%2] dsi.requestCharismaProfileFunction(): selectedDSIOption='%3' ", (Object)this, (Object)string, (long)charismaSetupTableWithoutOptionMaskArray[0].getSetupValue());
+                this.getLogChannel().log(1000000, "[%1#%2] dsi.requestCharismaProfileFunction(): selectedDSIOption='%3' ", (Object)this, (Object)string, (long)charismaSetupTableWithoutOptionMaskArray[0].getSetupValue());
             }
             this.getDSICarDrivingCharacteristics().requestCharismaProfileFunction(7, charismaSetupTableWithoutOptionMaskArray);
         }
@@ -100,7 +96,7 @@ extends ChoiceModelEventBusinessAdapter {
     private void enforceProfileIndivActivation() {
         if (this.enforceProfileIndivActivation && this.selectedProfileModel != null && this.selectedProfileModel.getValue() != 6) {
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "[%1#enforceProfileIndivActivation] calls dsi.setCharismaActiveProfile(DSICarDrivingCharacteristics.CHARISMAPROFILES_INDIVIDUAL)", (Object)this);
+                this.getLogChannel().log(1000000, "[%1#enforceProfileIndivActivation] calls dsi.setCharismaActiveProfile(DSICarDrivingCharacteristics.CHARISMAPROFILES_INDIVIDUAL)", (Object)this);
             }
             this.getDSICarDrivingCharacteristics().setCharismaActiveProfile(7);
         }
@@ -248,7 +244,7 @@ extends ChoiceModelEventBusinessAdapter {
                 this.getHandler().setHintsToConfigureEntriesInComboBox(charismaIndividualEntryTransactionData);
             }
         } else if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[%1#useOptionMaskToSetFunctionAvailability] empty mask ", (Object)this);
+            this.getLogChannel().log(1000000, "[%1#useOptionMaskToSetFunctionAvailability] empty mask ", (Object)this);
         }
         this.setVisibility(bl);
     }
@@ -256,7 +252,7 @@ extends ChoiceModelEventBusinessAdapter {
     public void setInvisibleWhenNoInfoWasReceived() {
         if (!this.isInfoReceived()) {
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "[%1#setInvisibleWhenNoInfoWasReceived] no matching CharismaSetupTableWithOptionMask received --> set invisible", (Object)this);
+                this.getLogChannel().log(1000000, "[%1#setInvisibleWhenNoInfoWasReceived] no matching CharismaSetupTableWithOptionMask received --> set invisible", (Object)this);
             }
             this.setVisibility(false);
         }
@@ -265,7 +261,7 @@ extends ChoiceModelEventBusinessAdapter {
     private void setVisibility(boolean bl) {
         if (this.getAvailableModel() != null) {
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "[%1#setVisibility] %2 charisma individual entry", (Object)this, (Object)(bl ? "show" : "hide"));
+                this.getLogChannel().log(1000000, "[%1#setVisibility] %2 charisma individual entry", (Object)this, (Object)(bl ? "show" : "hide"));
             }
             this.getAvailableModel().setValue(bl ? 0 : 1);
         }
@@ -303,7 +299,7 @@ extends ChoiceModelEventBusinessAdapter {
 
     public void setAvailableModel(ChoiceModelApp choiceModelApp) {
         if (choiceModelApp == null) {
-            this.getLogChannel().log(1078071040, "[%1#setAvailableModel] set available model to NULL", (Object)this);
+            this.getLogChannel().log(1000000, "[%1#setAvailableModel] set available model to NULL", (Object)this);
         }
         this.availableModel = choiceModelApp;
     }
@@ -360,24 +356,24 @@ extends ChoiceModelEventBusinessAdapter {
         return (DSICarDrivingCharacteristics)this.getDSI();
     }
 
-    protected CharismaIndividualEntryTransactionData$CharismaIndivOptionMapping getOptionMapping() {
+    protected CharismaIndividualEntryTransactionData.CharismaIndivOptionMapping getOptionMapping() {
         return this.optionMapping;
     }
 
-    private void setOptionMapping(CharismaIndividualEntryTransactionData$CharismaIndivOptionMapping charismaIndividualEntryTransactionData$CharismaIndivOptionMapping) {
-        this.optionMapping = charismaIndividualEntryTransactionData$CharismaIndivOptionMapping;
+    private void setOptionMapping(CharismaIndividualEntryTransactionData.CharismaIndivOptionMapping charismaIndivOptionMapping) {
+        this.optionMapping = charismaIndivOptionMapping;
     }
 
     public boolean supportsKeyPressed() {
-        return CharismaIndivEntryBusinessConfig$BusinessEventProcessingConfig.EVENT_PROCESS_CONFIG_KEY_PRESSED_ONLY.equalsConfig(this.eventProcessingConfig);
+        return CharismaIndivEntryBusinessConfig.BusinessEventProcessingConfig.EVENT_PROCESS_CONFIG_KEY_PRESSED_ONLY.equalsConfig(this.eventProcessingConfig);
     }
 
     public boolean supportsItemSelected() {
-        return CharismaIndivEntryBusinessConfig$BusinessEventProcessingConfig.EVENT_PROCESS_CONFIG_ITEM_SELECTED_ONLY.equalsConfig(this.eventProcessingConfig);
+        return CharismaIndivEntryBusinessConfig.BusinessEventProcessingConfig.EVENT_PROCESS_CONFIG_ITEM_SELECTED_ONLY.equalsConfig(this.eventProcessingConfig);
     }
 
-    private void setEventProcessingConfig(CharismaIndivEntryBusinessConfig$BusinessEventProcessingConfig charismaIndivEntryBusinessConfig$BusinessEventProcessingConfig) {
-        this.eventProcessingConfig = charismaIndivEntryBusinessConfig$BusinessEventProcessingConfig;
+    private void setEventProcessingConfig(CharismaIndivEntryBusinessConfig.BusinessEventProcessingConfig businessEventProcessingConfig) {
+        this.eventProcessingConfig = businessEventProcessingConfig;
     }
 
     static /* synthetic */ Class class$(String string) {

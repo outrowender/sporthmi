@@ -14,31 +14,25 @@ extends AbstractCombiPlayViewJob {
         super(logChannel, combiBAPPlayViewContentAdapter);
     }
 
-    @Override
     public int getType() {
         return 6;
     }
 
-    @Override
     public String getName() {
         return "SELECTION_CHANGED";
     }
 
-    @Override
     public void abort(boolean bl) {
     }
 
-    @Override
     public void start() {
         this.getCombiAdapter().getCombiAccessor().trackChangeIsComing();
         this.getExecutionContext().jobFinished();
     }
 
-    @Override
     public void responsePlayViewList(int n, MediaListEntry[] mediaListEntryArray) {
     }
 
-    @Override
     public void errorListRequestAborted() {
     }
 }

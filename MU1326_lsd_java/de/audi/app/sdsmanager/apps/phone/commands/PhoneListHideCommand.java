@@ -14,8 +14,8 @@ public class PhoneListHideCommand
 extends AbstractSystemCallCommand {
     private int listMode;
     private final ISDSPopupHelper popupHelper;
-    private static final int LIST_MODE_SDS_PHONE_PICKLIST;
-    private static final int LIST_MODE_TEL_SDS_NUM;
+    private static final int LIST_MODE_SDS_PHONE_PICKLIST = 0;
+    private static final int LIST_MODE_TEL_SDS_NUM = 1;
 
     public PhoneListHideCommand(LogChannel logChannel, String string, SDSHandlerService sDSHandlerService, ISDSPopupHelper iSDSPopupHelper, ISystemCallParameter[] iSystemCallParameterArray) {
         super(logChannel, string, sDSHandlerService);
@@ -23,9 +23,8 @@ extends AbstractSystemCallCommand {
         this.listMode = SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: called, listmode=%2", (Object)this.getName(), (long)this.listMode);
+        this.logger.log(10000000, "%1#execute: called, listmode=%2", (Object)this.getName(), (long)this.listMode);
         switch (this.listMode) {
             case 0: {
                 this.popupHelper.triggerHapticalPopup(30, false);
@@ -36,7 +35,7 @@ extends AbstractSystemCallCommand {
                 break;
             }
             default: {
-                this.logger.log(-1601830656, "%1#execute: called, unhandled listmode=%2", (Object)this.getName(), (long)this.listMode);
+                this.logger.log(100000, "%1#execute: called, unhandled listmode=%2", (Object)this.getName(), (long)this.listMode);
             }
         }
         this.processingFinished();

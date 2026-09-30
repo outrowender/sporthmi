@@ -54,37 +54,30 @@ implements IDataSelectionContext {
         this.sourceSlot = iSourceSlot;
     }
 
-    @Override
     public int getBrowseMode() {
         return this.browseMode;
     }
 
-    @Override
     public MediaListEntry[] getFolder() {
         return this.folder;
     }
 
-    @Override
     public MediaListEntry getFolderToSelect() {
         return this.folderToSelect;
     }
 
-    @Override
     public MediaListEntry getEntryToPlay() {
         return this.entryToPlay;
     }
 
-    @Override
     public void addParameter(String string, Object object) {
         this.metadata.put(string, object);
     }
 
-    @Override
     public Object getParameter(String string, Object object) {
         return this.metadata.containsKey(string) ? this.metadata.get(string) : object;
     }
 
-    @Override
     public MediaDetailInfo getDetailInfo() {
         return this.detailInfo;
     }
@@ -101,12 +94,10 @@ implements IDataSelectionContext {
         return buffer.toString();
     }
 
-    @Override
     public int getBrowserCategory() {
         return this.browserCategory;
     }
 
-    @Override
     public ISourceSlot getSourceSlot() {
         return this.sourceSlot;
     }

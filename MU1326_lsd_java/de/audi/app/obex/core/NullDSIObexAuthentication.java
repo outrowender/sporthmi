@@ -15,37 +15,30 @@ implements DSIObexAuthentication {
         super(logChannel, "DSIObexAuthentication");
     }
 
-    @Override
     public void setNotification(int[] nArray, DSIListener dSIListener) {
         this.log();
     }
 
-    @Override
     public void setNotification(int n, DSIListener dSIListener) {
         this.log();
     }
 
-    @Override
     public void setNotification(DSIListener dSIListener) {
         this.log();
     }
 
-    @Override
     public void clearNotification(int[] nArray, DSIListener dSIListener) {
         this.log();
     }
 
-    @Override
     public void clearNotification(int n, DSIListener dSIListener) {
         this.log();
     }
 
-    @Override
     public void clearNotification(DSIListener dSIListener) {
         this.log();
     }
 
-    @Override
     public void setAuthenticationInfo(int n, String string, String string2) {
         this.log();
     }

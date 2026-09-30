@@ -6,7 +6,6 @@ package de.audi.app.phone.core.bap.telephone2;
 import de.audi.app.phone.core.AbstractPhoneComponent;
 import de.audi.app.phone.core.ITelApplication;
 import de.audi.app.phone.core.PhoneServiceTracker;
-import de.audi.app.phone.core.bap.telephone2.AbstractTel2EnqueuedBAPPropertyHandler$1;
 import de.audi.app.phone.core.dsi.ITelDSIMobileEquipmentDeviceState;
 import de.audi.app.phone.core.state.IGlobalTelephoneStateStruct;
 import de.audi.atip.interapp.combi.bap.phone.CombiBAPServicePhone2;
@@ -28,14 +27,12 @@ implements ServiceTrackerCustomizer {
         this.bapCombiDispatcher = dispatcherBase;
     }
 
-    @Override
     public void init() {
         this.bapServiceTracker = new PhoneServiceTracker(this.getApplication().getBundleContext(), (class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServicePhone2 == null ? (class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServicePhone2 = AbstractTel2EnqueuedBAPPropertyHandler.class$("de.audi.atip.interapp.combi.bap.phone.CombiBAPServicePhone2")) : class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServicePhone2).getName(), (ServiceTrackerCustomizer)this, this.log);
         this.bapServiceTracker.openTracker();
         this.getApplication().getGlobalTelephoneStateManager().registerListener(this);
     }
 
-    @Override
     public void deinit() {
         if (this.bapServiceTracker != null) {
             this.bapServiceTracker.closeTracker();
@@ -45,14 +42,18 @@ implements ServiceTrackerCustomizer {
     }
 
     private void enqueueUpdate() {
-        this.scheduleExecution(new AbstractTel2EnqueuedBAPPropertyHandler$1(this));
+        this.scheduleExecution(new Runnable(){
+
+            public void run() {
+                AbstractTel2EnqueuedBAPPropertyHandler.this.updateAsync();
+            }
+        });
     }
 
     private void scheduleExecution(Runnable runnable) {
         this.bapCombiDispatcher.execute(runnable);
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         if (serviceReference == null) {
             this.log.log(10000, "AbstractTel2EnqueuedBAPPropertyHandler#addingService reference is null");
@@ -71,11 +72,9 @@ implements ServiceTrackerCustomizer {
         return null;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if ((class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServicePhone2 == null ? (class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServicePhone2 = AbstractTel2EnqueuedBAPPropertyHandler.class$("de.audi.atip.interapp.combi.bap.phone.CombiBAPServicePhone2")) : class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServicePhone2).isInstance(object)) {
             this.setBAPServiceAndSendUpdate(null);
@@ -83,7 +82,6 @@ implements ServiceTrackerCustomizer {
         }
     }
 
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         this.setTelephoneState(iGlobalTelephoneStateStruct);
         if (iGlobalTelephoneStateStruct == null) {
@@ -109,7 +107,7 @@ implements ServiceTrackerCustomizer {
         if (combiBAPServicePhone2 != null) {
             this.enqueueUpdate();
         } else {
-            this.log.log(-1601830656, "AbstractTel2EnqueuedBAPPropertyHandler#setBAPServiceAndSendUpdate service is null");
+            this.log.log(100000, "AbstractTel2EnqueuedBAPPropertyHandler#setBAPServiceAndSendUpdate service is null");
         }
     }
 
@@ -121,11 +119,9 @@ implements ServiceTrackerCustomizer {
         return this.combiService;
     }
 
-    protected abstract boolean doProcessGlobalTelephoneStateUpdate(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
-    }
+    protected abstract boolean doProcessGlobalTelephoneStateUpdate(int var1, IGlobalTelephoneStateStruct var2);
 
-    protected abstract void updateAsync() {
-    }
+    protected abstract void updateAsync();
 
     public void setTelephoneState(IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         this.telephoneState = iGlobalTelephoneStateStruct;

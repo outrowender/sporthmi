@@ -15,7 +15,6 @@ extends AbstractPlayerSelectionRequest {
         this.selectionListener = iFavoritePlayerSelectionListener;
     }
 
-    @Override
     public void responseSetSelection(boolean bl) {
         this.selectionListener.playFavoriteSelectionDone(bl);
     }

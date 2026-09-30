@@ -7,16 +7,13 @@ import org.dsi.ifc.media.SearchListEntry;
 import org.dsi.ifc.media.SearchListEntryExt;
 
 public interface IMediaBrowserSearchListListener {
-    public static final int LIST_REQUEST_CLIENT_CONTROLLER;
-    public static final int LIST_REQUEST_CLIENT_FASTSCROLL_HANDLER;
+    public static final int LIST_REQUEST_CLIENT_CONTROLLER = 1;
+    public static final int LIST_REQUEST_CLIENT_FASTSCROLL_HANDLER = 2;
 
-    default public int getClientID() {
-    }
+    public int getClientID();
 
-    default public void responseSearchList(SearchListEntry[] searchListEntryArray, int n) {
-    }
+    public void responseSearchList(SearchListEntry[] var1, int var2);
 
-    default public void responseSearchListExt(SearchListEntryExt[] searchListEntryExtArray, int n) {
-    }
+    public void responseSearchListExt(SearchListEntryExt[] var1, int var2);
 }
 

@@ -4,36 +4,26 @@
 package de.audi.remotehmi.ui.mib2.grid;
 
 public interface ICursorComponent {
-    public static final int NO_SELECTION;
+    public static final int NO_SELECTION = -1;
 
-    default public int getIndex() {
-    }
+    public int getIndex();
 
-    default public int getSubindex() {
-    }
+    public int getSubindex();
 
-    default public String getId() {
-    }
+    public String getId();
 
-    default public String getSubid() {
-    }
+    public String getSubid();
 
-    default public int getRightDrawerIndex() {
-    }
+    public int getRightDrawerIndex();
 
-    default public ICursorComponent withRightDrawerIndex(int n) {
-    }
+    public ICursorComponent withRightDrawerIndex(int var1);
 
-    default public ICursorComponent withValues(int n, int n2, String string, String string2) {
-    }
+    public ICursorComponent withValues(int var1, int var2, String var3, String var4);
 
-    default public ICursorComponent withValues(int n, int n2, String string, String string2, int n3) {
-    }
+    public ICursorComponent withValues(int var1, int var2, String var3, String var4, int var5);
 
-    default public ICursorComponent withDefaultValues() {
-    }
+    public ICursorComponent withDefaultValues();
 
-    default public boolean equalsIgnoringRightDrawer(ICursorComponent iCursorComponent) {
-    }
+    public boolean equalsIgnoringRightDrawer(ICursorComponent var1);
 }
 

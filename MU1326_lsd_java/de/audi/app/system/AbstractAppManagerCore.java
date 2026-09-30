@@ -69,7 +69,7 @@ implements ButtonListener {
                 return;
             }
             int n = kbdService.getCurrentKeyboardType();
-            this.log.log(-2137614336, "# AbstractAppManagerCore#setKeyboardTypeModel KBD_TYPE=%1", (long)n);
+            this.log.log(10000000, "# AbstractAppManagerCore#setKeyboardTypeModel KBD_TYPE=%1", (long)n);
             if (n != 0) {
                 ((ChoiceModel)this.framework.getHMIService().getModel(4076)).setValue(n);
             }
@@ -92,18 +92,15 @@ implements ButtonListener {
     }
 
     protected void fireSMEvent(int n, int n2) {
-        this.getLog().log(1078071040, "AbstractAppManager.fireSMEvent(%1, %2)", (long)n, (long)n2);
+        this.getLog().log(1000000, "AbstractAppManager.fireSMEvent(%1, %2)", (long)n, (long)n2);
         this.getHMIService().fireSMEvent(n, n2);
     }
 
-    abstract void handleHKSource(int n, int n2) {
-    }
+    abstract void handleHKSource(int var1, int var2);
 
-    abstract void handleHKOption(int n, int n2) {
-    }
+    abstract void handleHKOption(int var1, int var2);
 
-    abstract void handleHKNav(int n, int n2) {
-    }
+    abstract void handleHKNav(int var1, int var2);
 
     protected final void initSMEvents(int n, int n2, int n3, int n4, int n5, int n6, int n7, int n8, int n9, int n10, int n11, int n12, int n13, int n14, int n15, int n16, int n17, int n18, int n19, int n20) {
         this.smEvents[0] = n;
@@ -202,17 +199,14 @@ implements ButtonListener {
         return null;
     }
 
-    @Override
     public final void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public final void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public final void keyTyped(int n, int n2, int n3) {
-        this.getLog().log(1078071040, "AbstractAppManager.keyTyped(%1, %2, %3)", (long)n, (long)n2, (long)n3);
+        this.getLog().log(1000000, "AbstractAppManager.keyTyped(%1, %2, %3)", (long)n, (long)n2, (long)n3);
         switch (n) {
             case 119: {
                 this.fireSMEvent(n3, this.smEvents[0]);
@@ -297,7 +291,6 @@ implements ButtonListener {
         }
     }
 
-    @Override
     public final void keyLongTyped(int n, int n2, int n3) {
     }
 

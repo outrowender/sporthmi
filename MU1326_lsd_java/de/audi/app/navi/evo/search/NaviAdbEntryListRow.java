@@ -11,12 +11,12 @@ import org.dsi.ifc.organizer.AdbEntry;
 
 public class NaviAdbEntryListRow
 extends AdbEntryListRow {
-    private static final int MAX_COLUMNS;
-    public static final int COL_IDX_LAYOUT;
-    public static final int COL_IDX_ICONID;
-    public static final int COL_IDX_TEXTLINE1;
-    public static final int COL_IDX_PROPERTIES;
-    public static final int LAYOUT_ADB_ADDRESS_DATA;
+    private static final int MAX_COLUMNS = 7;
+    public static final int COL_IDX_LAYOUT = 0;
+    public static final int COL_IDX_ICONID = 1;
+    public static final int COL_IDX_TEXTLINE1 = 2;
+    public static final int COL_IDX_PROPERTIES = 4;
+    public static final int LAYOUT_ADB_ADDRESS_DATA = 6;
     private final String addressLine;
 
     public NaviAdbEntryListRow(AdbEntry adbEntry, String string, int n, PropertyListCell propertyListCell) {
@@ -32,7 +32,6 @@ extends AdbEntryListRow {
         this(naviAdbEntryListRow.getAdbEntry(), naviAdbEntryListRow.getAddressLine(), naviAdbEntryListRow.getAdbType(), (PropertyListCell)naviAdbEntryListRow.getCell(4));
     }
 
-    @Override
     public EvoListRow copy() {
         return new NaviAdbEntryListRow(this);
     }

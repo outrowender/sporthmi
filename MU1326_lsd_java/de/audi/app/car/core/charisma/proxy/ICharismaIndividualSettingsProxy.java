@@ -8,22 +8,16 @@ import de.audi.app.car.core.charisma.proxy.ICharismaIndividualSettingsClient;
 import org.dsi.ifc.cardrivingcharacteristics.CharismaSetupTableWithoutOptionMask;
 
 public interface ICharismaIndividualSettingsProxy {
-    default public boolean hasClients() {
-    }
+    public boolean hasClients();
 
-    default public void registerClient(ICharismaIndividualSettingsClient iCharismaIndividualSettingsClient) {
-    }
+    public void registerClient(ICharismaIndividualSettingsClient var1);
 
-    default public void unregisterClient(ICharismaIndividualSettingsClient iCharismaIndividualSettingsClient) {
-    }
+    public void unregisterClient(ICharismaIndividualSettingsClient var1);
 
-    default public void setSetupTableEntry(CharismaSetupTableWithoutOptionMask charismaSetupTableWithoutOptionMask) {
-    }
+    public void setSetupTableEntry(CharismaSetupTableWithoutOptionMask var1);
 
-    default public void invokeSaveIndividualSettingsRequest() {
-    }
+    public void invokeSaveIndividualSettingsRequest();
 
-    default public CharismaSetupTableEntryBuilder createSetupTableEntryBuilder() {
-    }
+    public CharismaSetupTableEntryBuilder createSetupTableEntryBuilder();
 }
 

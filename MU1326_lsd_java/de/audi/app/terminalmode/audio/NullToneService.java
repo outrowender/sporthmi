@@ -8,66 +8,55 @@ import de.audi.atip.log.LogChannel;
 
 public class NullToneService
 implements ToneService {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "NullToneService";
     private final LogChannel logger;
 
     public NullToneService(LogChannel logChannel) {
         this.logger = logChannel;
     }
 
-    @Override
     public void updateMicGainLevel(int n) {
-        this.logger.log(1078071040, "[%1.updateMicGainLevel]", (Object)"NullToneService");
+        this.logger.log(1000000, "[%1.updateMicGainLevel]", (Object)LOGCLASS);
     }
 
-    @Override
     public void updateMicGainRange(int n, int n2) {
-        this.logger.log(1078071040, "[%1.updateMicGainRange]", (Object)"NullToneService");
+        this.logger.log(1000000, "[%1.updateMicGainRange]", (Object)LOGCLASS);
     }
 
-    @Override
     public void updatePhoneAudioScenario(int n) {
-        this.logger.log(1078071040, "[%1.updatePhoneAudioScenario]", (Object)"NullToneService");
+        this.logger.log(1000000, "[%1.updatePhoneAudioScenario]", (Object)LOGCLASS);
     }
 
-    @Override
     public void updateBTLinkKeyAvailable(int n, boolean bl) {
-        this.logger.log(1078071040, "[%1.updateBTLinkKeyAvailable]", (Object)"NullToneService");
+        this.logger.log(1000000, "[%1.updateBTLinkKeyAvailable]", (Object)LOGCLASS);
     }
 
-    @Override
     public void setMicGainLevel(int n) {
-        this.logger.log(1078071040, "[%1.setMicGainLevel]", (Object)"NullToneService");
+        this.logger.log(1000000, "[%1.setMicGainLevel]", (Object)LOGCLASS);
     }
 
-    @Override
     public void updateUserDefinedRingtone(String string, String string2) {
-        this.logger.log(1078071040, "[%1.updateUserDefinedRingtone]", (Object)"NullToneService");
+        this.logger.log(1000000, "[%1.updateUserDefinedRingtone]", (Object)LOGCLASS);
     }
 
-    @Override
     public void setDuration(int n, int n2) {
-        this.logger.log(1078071040, "[%1.setDuration]", (Object)"NullToneService");
+        this.logger.log(1000000, "[%1.setDuration]", (Object)LOGCLASS);
     }
 
-    @Override
     public void setThreeDMode(int n) {
-        this.logger.log(1078071040, "[%1.setThreeDMode]", (Object)"NullToneService");
+        this.logger.log(1000000, "[%1.setThreeDMode]", (Object)LOGCLASS);
     }
 
-    @Override
     public void setSurround(boolean bl) {
-        this.logger.log(1078071040, "[%1.setSurround]", (Object)"NullToneService");
+        this.logger.log(1000000, "[%1.setSurround]", (Object)LOGCLASS);
     }
 
-    @Override
     public void setInputGainOffSet(short s) {
-        this.logger.log(1078071040, "[%1.setInputGainOffSet]", (Object)"NullToneService");
+        this.logger.log(1000000, "[%1.setInputGainOffSet]", (Object)LOGCLASS);
     }
 
-    @Override
     public void setSurroundForActiveEntertainment(boolean bl) {
-        this.logger.log(1078071040, "[%1.setSurroundForActiveEntertainment]", (Object)"NullToneService");
+        this.logger.log(1000000, "[%1.setSurroundForActiveEntertainment]", (Object)LOGCLASS);
     }
 }
 

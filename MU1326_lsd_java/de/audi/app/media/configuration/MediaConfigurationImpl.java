@@ -90,7 +90,6 @@ IDiagnosisDataProvider {
         }
     }
 
-    @Override
     public boolean isSourceInstalled(int n) {
         try {
             return this.installedList[n];
@@ -100,57 +99,46 @@ IDiagnosisDataProvider {
         }
     }
 
-    @Override
     public int getLastModeSource() {
         return this.lastModeSource;
     }
 
-    @Override
     public boolean isAudioIndepend() {
         return this.audioIndepend;
     }
 
-    @Override
     public boolean isRippingEnabled() {
         return this.rippingEnabled;
     }
 
-    @Override
     public boolean isImportEnabled() {
         return this.fileImportEnabled;
     }
 
-    @Override
     public boolean isImportOverrideActive() {
         return this.importOverrideActive;
     }
 
-    @Override
     public boolean isSpeedThresholdDisabled() {
         return this.speedThresholdDisabled;
     }
 
-    @Override
     public boolean isSpeedThresholdEnabledEver() {
         return this.speedThresholdEnabledEver;
     }
 
-    @Override
     public boolean isWLANStateSynchronizationDisabled() {
         return this.wlanSynchronizationDisabled;
     }
 
-    @Override
     public boolean isBluetoothListBrowsing() {
         return this.btListHandlingSupported;
     }
 
-    @Override
     public boolean isGracenoteEnabled() {
         return this.gracenoteEnabled;
     }
 
-    @Override
     public boolean isGracenoteOnlineAvailable() {
         return this.gracenoteOnlineAvailable;
     }
@@ -158,7 +146,6 @@ IDiagnosisDataProvider {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public String getDiagValue() {
         Buffer buffer = new Buffer();
         buffer.append("---\n");
@@ -167,7 +154,7 @@ IDiagnosisDataProvider {
             buffer.append("\n");
         }
         buffer.append("---\n");
-        Field[] fieldArray = super.getClass().getDeclaredFields();
+        Field[] fieldArray = this.getClass().getDeclaredFields();
         for (int i3 = 0; i3 < fieldArray.length; ++i3) {
             Field field = fieldArray[i3];
             try {
@@ -188,22 +175,18 @@ IDiagnosisDataProvider {
         return buffer.toString();
     }
 
-    @Override
     public String getDiagKey() {
         return "Configuration";
     }
 
-    @Override
     public boolean isTVinMedia() {
         return this.tvInMedia;
     }
 
-    @Override
     public boolean isDVDVideoFormatSettingAvailable() {
         return this.dvdVideoFormatSettingAvailable;
     }
 
-    @Override
     public boolean isIAP2Supported() {
         return this.iap2Supported;
     }

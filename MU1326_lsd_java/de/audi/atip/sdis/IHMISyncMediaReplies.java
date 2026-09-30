@@ -3,31 +3,24 @@
  */
 package de.audi.atip.sdis;
 
-import de.audi.atip.sdis.IHMISyncMediaRequests$ListEntry;
-import de.audi.atip.sdis.IHMISyncMediaRequests$Source;
+import de.audi.atip.sdis.IHMISyncMediaRequests;
 
 public interface IHMISyncMediaReplies {
-    public static final int PLAYBACKSTATE_UNDEFINED;
-    public static final int PLAYBACKSTATE_PLAYING;
-    public static final int PLAYBACKSTATE_PAUSED;
-    public static final int PLAYBACKSTATE_SEEKING;
+    public static final int PLAYBACKSTATE_UNDEFINED = 0;
+    public static final int PLAYBACKSTATE_PLAYING = 1;
+    public static final int PLAYBACKSTATE_PAUSED = 2;
+    public static final int PLAYBACKSTATE_SEEKING = 3;
 
-    default public void updatePlaybackState(int n) {
-    }
+    public void updatePlaybackState(int var1);
 
-    default public void updateSourceList(IHMISyncMediaRequests.Source[] sourceArray) {
-    }
+    public void updateSourceList(IHMISyncMediaRequests.Source[] var1);
 
-    default public void updateActiveSource(IHMISyncMediaRequests.Source source) {
-    }
+    public void updateActiveSource(IHMISyncMediaRequests.Source var1);
 
-    default public void updatePlayingPosition(long l, String string, String string2, int n) {
-    }
+    public void updatePlayingPosition(long var1, String var3, String var4, int var5);
 
-    default public void updatePlayingTrack(IHMISyncMediaRequests.ListEntry listEntry) {
-    }
+    public void updatePlayingTrack(IHMISyncMediaRequests.ListEntry var1);
 
-    default public void updatePlayList(IHMISyncMediaRequests.ListEntry[] listEntryArray) {
-    }
+    public void updatePlayList(IHMISyncMediaRequests.ListEntry[] var1);
 }
 

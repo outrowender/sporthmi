@@ -21,53 +21,43 @@ import org.osgi.framework.BundleContext;
 
 public class OnlineStandardActivator
 extends AbstractOnlineEvoActivator {
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
-        this.logChannel.log(1078071040, "OnlineStandardActivator#start() - starting AppOnline Bundle ...");
+        this.logChannel.log(1000000, "OnlineStandardActivator#start() - starting AppOnline Bundle ...");
         this.finalizeStart();
     }
 
-    @Override
     protected final void registerServicesVariant() {
     }
 
-    @Override
     protected RemoteHMIService createRemoteHMIService() {
         return null;
     }
 
-    @Override
     protected final IIDMapper createTextConstants() {
         return new OnlineTextConstantsImpl();
     }
 
-    @Override
     protected IIDMapper createSmEventConstantsMapper() {
         return null;
     }
 
-    @Override
     public int getDrawerCategory() {
         return -1;
     }
 
-    @Override
     protected OnlineActionProxy createOnlineActionProxy() {
         return new OnlineActionProxyStd(this.logChannel, this.framework.getHMIService());
     }
 
-    @Override
     protected OnlineDiag createOnlineDiag() {
         return new OnlineDiag(this.framework, (AbstractOnlineActivator)this);
     }
 
-    @Override
     protected IStandardController createStandardController(HMIService hMIService) {
         return new OnlineEvoStandardController(this.logChannel, hMIService, this.getShutdownPopupId(), this.getTextConstantsConverter(), this.getFramework());
     }
 
-    @Override
     protected void initOSRApplicationVariant() {
     }
 }

@@ -24,18 +24,17 @@ extends AbstractSystemCallCommand {
         this.listOffset = Math.max(SDSUtils.retrieveInteger(iSystemCallParameterArray, 1), 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: readOnly=%2, listOffset=%3", (Object)this.getName(), (Object)this.readOnly, (long)this.listOffset);
+        this.logger.log(10000000, "%1#execute: readOnly=%2, listOffset=%3", (Object)this.getName(), (Object)this.readOnly, (long)this.listOffset);
         int n = 0;
         int n2 = 0;
         int n3 = this.sdsHandlerService.getSelectedRow();
-        this.logger.log(-2137614336, "%1#execute: selectedRow=%2!", (Object)this.getName(), (long)n3);
+        this.logger.log(10000000, "%1#execute: selectedRow=%2!", (Object)this.getName(), (long)n3);
         n = Math.max(n3 + 1 + this.listOffset, 1);
         n2 = this.readOnly ? 8 : 6;
         SDSModelAccess.setEnumerationNumberStatus(n3);
         int[] nArray = new int[]{3000, 3004, 3001};
-        this.logger.log(-2137614336, "%1#execute: Setting lineNumber %2 with pageEvent %3 and answers for OK/INVALID/ERROR!", (Object)this.getName(), (long)n, (long)n2);
+        this.logger.log(10000000, "%1#execute: Setting lineNumber %2 with pageEvent %3 and answers for OK/INVALID/ERROR!", (Object)this.getName(), (long)n, (long)n2);
         this.hmiService.fireSDSEvent(2, n2, n, nArray);
     }
 }

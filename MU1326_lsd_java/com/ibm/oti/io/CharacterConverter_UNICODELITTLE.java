@@ -11,13 +11,11 @@ extends CharacterConverter {
     boolean writeTag = true;
     boolean isModal = true;
 
-    @Override
     public CharacterConverter getModeless() {
         this.isModal = false;
         return this;
     }
 
-    @Override
     public int countChars(byte[] byArray, int n, int n2) {
         if (n2 < 0) {
             throw new StringIndexOutOfBoundsException();
@@ -27,10 +25,10 @@ extends CharacterConverter {
         }
         if (this.readTag) {
             int n3 = ((byArray[n + 1] & 0xFF) << 8) + (byArray[n] & 0xFF);
-            if (n3 == -131072) {
+            if (n3 == 65279) {
                 return n2 / 2 - 1;
             }
-            if (n3 == -16842752) {
+            if (n3 == 65534) {
                 return -1;
             }
             if (this.isModal) {
@@ -40,7 +38,6 @@ extends CharacterConverter {
         return n2 / 2;
     }
 
-    @Override
     public int convert(byte[] byArray, int n, char[] cArray, int n2, int n3) {
         if (n3 == 0) {
             return n;
@@ -60,7 +57,6 @@ extends CharacterConverter {
         return n4;
     }
 
-    @Override
     public byte[] convert(char[] cArray, int n, int n2) {
         int n3 = (n2 << 1) + (this.writeTag ? 2 : 0);
         byte[] byArray = new byte[n3];

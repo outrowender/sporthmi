@@ -15,9 +15,8 @@ implements CombiBAPServiceSDS {
         super(combiModuleAudio);
     }
 
-    @Override
     public void updateSDSState(int n) {
-        this.logChannel.log(1078071040, "[AppConnectorSDS#updateSDSState] called (state=%1)", (long)n);
+        this.logChannel.log(1000000, "[AppConnectorSDS#updateSDSState] called (state=%1)", (long)n);
         SDS_State_Status sDS_State_Status = new SDS_State_Status();
         sDS_State_Status.state = n;
         this.moduleFsg.getBAPFunctionPropertyFSG(41).sendStatusIfChanged(sDS_State_Status);

@@ -18,24 +18,21 @@ implements IPrioReconnect {
         super(iBluetoothApplication);
     }
 
-    @Override
     protected final int[] getAttributeNotifications() {
         return ATTRIBUTE_NOTIFICATIONS;
     }
 
-    @Override
     public void setPrioReconnect(String string) {
         boolean bl = string != null && !string.equals(this.address);
-        this.log.log(1078071040, "AbstractPrioReconnect#setPrioReconnect(): %2 %1", bl, (Object)string);
+        this.log.log(1000000, "AbstractPrioReconnect#setPrioReconnect(): %2 %1", bl, (Object)string);
         CommandSetPriorizedDeviceReconnect.schedule(this.bluetoothApplication, this.dsiBluetooth, string, bl);
     }
 
-    @Override
     public void updatePriorizedDeviceReconnect(boolean bl, String string, int n) {
         if (n != 1) {
             return;
         }
-        this.log.log(1078071040, "AbstractPrioReconnect#updatePriorizedDeviceReconnect(): '%2' %1", bl, (Object)string);
+        this.log.log(1000000, "AbstractPrioReconnect#updatePriorizedDeviceReconnect(): '%2' %1", bl, (Object)string);
         this.address = bl ? string : null;
     }
 }

@@ -9,13 +9,13 @@ import java.util.List;
 
 public final class Message
 implements Runnable {
-    public static final int NOT_LOGGED_CODE;
+    public static final int NOT_LOGGED_CODE = -424242424;
     private final Handler target;
     private final int code;
     final Runnable callback;
     volatile boolean removed;
-    public volatile int arg1 = 143898342;
-    public volatile int arg2 = 143898342;
+    public volatile int arg1 = -424242424;
+    public volatile int arg2 = -424242424;
     public volatile Object obj;
     public volatile String tag;
 
@@ -49,10 +49,10 @@ implements Runnable {
         } else {
             buffer.append(this.tag);
         }
-        if (this.arg1 != 143898342) {
+        if (this.arg1 != -424242424) {
             buffer.append("[").append(this.arg1).append("]");
         }
-        if (this.arg2 != 143898342) {
+        if (this.arg2 != -424242424) {
             buffer.append("[").append(this.arg2).append("]");
         }
         if (this.obj != null) {
@@ -64,7 +64,6 @@ implements Runnable {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void run() {
         List list = this.target.messageList;
         synchronized (list) {

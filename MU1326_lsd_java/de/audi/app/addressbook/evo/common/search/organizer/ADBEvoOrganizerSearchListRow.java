@@ -24,7 +24,6 @@ extends ADBOrganizerSearchListRow {
         this.setInteger(8, 0);
     }
 
-    @Override
     public EvoListRow copy() {
         ADBEvoOrganizerSearchListRow aDBEvoOrganizerSearchListRow = new ADBEvoOrganizerSearchListRow(this.dataSet, this.adbMode, this.entryDrawerCategory);
         aDBEvoOrganizerSearchListRow.setOpen(this.isOpen());

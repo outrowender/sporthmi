@@ -4,16 +4,12 @@
 package de.audi.remotehmi.remoteinterface;
 
 public interface IRemoteHMIPresetEntryConfiguration {
-    default public String getContextName() {
-    }
+    public String getContextName();
 
-    default public String getAppId() {
-    }
+    public String getAppId();
 
-    default public String getName() {
-    }
+    public String getName();
 
-    default public int getType() {
-    }
+    public int getType();
 }
 

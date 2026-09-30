@@ -15,11 +15,11 @@ extends AbstractMessagingComponent {
 
     public InterpretationGuessItem(MessagingBundleContext messagingBundleContext) {
         super(messagingBundleContext, "App.Messaging.Main");
-        this.interpretationGuessItemLabel = this.framework.getHmiServiceApp().getLabelModel(-678289152);
+        this.interpretationGuessItemLabel = this.framework.getHmiServiceApp().getLabelModel(2200279);
     }
 
     public void update(String string) {
-        this.log.log(-2137614336, "[InterpretationGuessItem#update] text = %1", (Object)string);
+        this.log.log(10000000, "[InterpretationGuessItem#update] text = %1", (Object)string);
         String string2 = this.computeInterpretationGuessItem(string);
         this.interpretationGuessItemLabel.setText(string2);
         int n = this.isValid() ? 1 : 0;

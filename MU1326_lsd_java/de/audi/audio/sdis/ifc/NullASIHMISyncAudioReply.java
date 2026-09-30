@@ -11,6 +11,7 @@ import de.esolutions.fw.comm.asi.hmisync.audio.ASIHMISyncAudioReply;
 import de.esolutions.fw.comm.asi.hmisync.audio.AudioState;
 import de.esolutions.fw.comm.asi.hmisync.audio.VolumeLockState;
 import de.esolutions.fw.comm.asi.hmisync.audio.VolumeRange;
+import de.esolutions.fw.comm.core.method.MethodException;
 
 public class NullASIHMISyncAudioReply
 extends NullService
@@ -23,62 +24,51 @@ implements ASIHMISyncAudioReply {
         super(logChannel, "NullASIHMISyncAudioReply");
     }
 
-    @Override
-    public void responseEnableA2LS(int n) {
+    public void responseEnableA2LS(int n) throws MethodException {
         this.log("responseEnableA2LS");
     }
 
-    @Override
-    public void updateASIVersion(String string, boolean bl) {
+    public void updateASIVersion(String string, boolean bl) throws MethodException {
         this.log("updateASIVersion");
     }
 
-    @Override
-    public void updateAudioContext(AudioState audioState, boolean bl) {
+    public void updateAudioContext(AudioState audioState, boolean bl) throws MethodException {
         this.log("updateAudioContext");
     }
 
-    @Override
-    public void updateVolumeLockState(VolumeLockState volumeLockState, boolean bl) {
+    public void updateVolumeLockState(VolumeLockState volumeLockState, boolean bl) throws MethodException {
         this.log("updateVolumeLockState");
     }
 
-    @Override
-    public void updateA2LSState(A2LSState a2LSState, boolean bl) {
+    public void updateA2LSState(A2LSState a2LSState, boolean bl) throws MethodException {
         this.log("updateA2LSState");
     }
 
-    @Override
-    public void updateAudibleState(int n, boolean bl) {
+    public void updateAudibleState(int n, boolean bl) throws MethodException {
         this.log("updateAudibleState");
     }
 
-    @Override
-    public void updateFrontAudioContext(AudioState audioState, boolean bl) {
+    public void updateFrontAudioContext(AudioState audioState, boolean bl) throws MethodException {
         this.log("updateFrontAudioContext");
     }
 
-    @Override
-    public void updateVolumeRange(VolumeRange volumeRange, boolean bl) {
+    public void updateVolumeRange(VolumeRange volumeRange, boolean bl) throws MethodException {
         this.log("updateVolumeRange");
     }
 
-    @Override
-    public void updateVolume(int n, boolean bl) {
+    public void updateVolume(int n, boolean bl) throws MethodException {
         this.log("updateVolume");
     }
 
-    public void updateIsAudible(boolean bl, boolean bl2) {
+    public void updateIsAudible(boolean bl, boolean bl2) throws MethodException {
         this.log("updateIsAudible");
     }
 
-    @Override
-    public void updateRequestIDs(short[] sArray, boolean bl) {
+    public void updateRequestIDs(short[] sArray, boolean bl) throws MethodException {
         this.log("updateRequestIDs");
     }
 
-    @Override
-    public void updateReplyIDs(short[] sArray, boolean bl) {
+    public void updateReplyIDs(short[] sArray, boolean bl) throws MethodException {
         this.log("updateReplyIDs");
     }
 }

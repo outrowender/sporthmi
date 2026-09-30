@@ -6,13 +6,10 @@ package de.audi.app.wlan.core.client;
 import org.dsi.ifc.networking.DiscoveredNetwork;
 
 interface IFoundNetworkList {
-    default public void add(DiscoveredNetwork discoveredNetwork) {
-    }
+    public void add(DiscoveredNetwork var1);
 
-    default public void clear() {
-    }
+    public void clear();
 
-    default public DiscoveredNetwork getNetwork(int n) {
-    }
+    public DiscoveredNetwork getNetwork(int var1);
 }
 

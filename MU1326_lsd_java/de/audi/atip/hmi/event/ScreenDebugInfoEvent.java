@@ -10,7 +10,7 @@ public class ScreenDebugInfoEvent
 extends ATIPEvent {
     private String[] debugInfo;
     private int infoType;
-    private static final int EVENT_ID;
+    private static final int EVENT_ID = 19001;
 
     public ScreenDebugInfoEvent(ATIPEventListener aTIPEventListener, String[] stringArray, int n) {
         super(aTIPEventListener, 19001);

@@ -23,7 +23,6 @@ extends AddChildrenToEntryCommand {
         this.searchResultFormatterADB = searchResultFormatterADB;
     }
 
-    @Override
     protected EvoListRow[] geteChildrenNodes(AdbEntry adbEntry) {
         return this.searchResultFormatterADB.formatADBEntry(adbEntry);
     }

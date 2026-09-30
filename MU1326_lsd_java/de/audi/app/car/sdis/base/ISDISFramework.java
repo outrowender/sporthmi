@@ -13,45 +13,33 @@ import org.dsi.ifc.global.CarViewOption;
 import org.osgi.framework.BundleContext;
 
 public interface ISDISFramework {
-    public static final int ASI_BC_SERVICE;
-    public static final int ASI_CLIMATE_SERVICE;
-    public static final int ASI_DRIVING_SERVICE;
-    public static final int ASI_CAR_SERVICE;
+    public static final int ASI_BC_SERVICE = 0;
+    public static final int ASI_CLIMATE_SERVICE = 1;
+    public static final int ASI_DRIVING_SERVICE = 2;
+    public static final int ASI_CAR_SERVICE = 3;
 
-    default public LogChannel getLogChannel(String string) {
-    }
+    public LogChannel getLogChannel(String var1);
 
-    default public IFrameworkAccess getHMIFramework() {
-    }
+    public IFrameworkAccess getHMIFramework();
 
-    default public BundleContext getBundleContext() {
-    }
+    public BundleContext getBundleContext();
 
-    default public void registerService(String string, Object object) {
-    }
+    public void registerService(String var1, Object var2);
 
-    default public void registerDSI(String string, String string2, IDSIObserver iDSIObserver) {
-    }
+    public void registerDSI(String var1, String var2, IDSIObserver var3);
 
-    default public void deRegisterDSI(String string) {
-    }
+    public void deRegisterDSI(String var1);
 
-    default public void deRegisterService(String string) {
-    }
+    public void deRegisterService(String var1);
 
-    default public CarMainASIProvider getASIDataUpdater() {
-    }
+    public CarMainASIProvider getASIDataUpdater();
 
-    default public int updateVisibility(CarViewOption carViewOption, short s) {
-    }
+    public int updateVisibility(CarViewOption var1, short var2);
 
-    default public int getVisibilityMainState(CarViewOption[] carViewOptionArray) {
-    }
+    public int getVisibilityMainState(CarViewOption[] var1);
 
-    default public CarFuncAdap getCarAdaption() {
-    }
+    public CarFuncAdap getCarAdaption();
 
-    default public GenericDsiAsiHandler getDsiAsiHandler() {
-    }
+    public GenericDsiAsiHandler getDsiAsiHandler();
 }
 

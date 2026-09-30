@@ -29,7 +29,7 @@ IAppPresetExecutionHandler,
 IOnlinePresetHandler {
     private LogChannel logger = Online.getInstance().getPresetsLogChannel();
     private RemoteHMIService remoteHMIService;
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "OnlinePresetHandler";
     private List configurations;
     static /* synthetic */ Class class$de$audi$app$online$evo$presets$OnlinePresetData;
 
@@ -37,50 +37,45 @@ IOnlinePresetHandler {
         this.remoteHMIService = remoteHMIService;
     }
 
-    @Override
     public final int getExecutionType() {
         return 6;
     }
 
-    @Override
     public void requestExecute(ExecuteRequest executeRequest) {
         Serializable serializable = executeRequest.getPreset().getData();
         if (serializable instanceof OnlinePresetData) {
             OnlinePresetData onlinePresetData = (OnlinePresetData)serializable;
             int n = onlinePresetData.getType();
             String string = onlinePresetData.getContextName();
-            RemoteHMIAction remoteHMIAction = this.remoteHMIService.getAction(1228863237);
+            RemoteHMIAction remoteHMIAction = this.remoteHMIService.getAction(100089417);
             remoteHMIAction.getParameters().putInt("type", n);
             remoteHMIAction.getParameters().put("contextName", string);
             this.remoteHMIService.invokeAction(remoteHMIAction);
             executeRequest.responseExecute(0);
-            this.logger.log(1078071040, "%1#requestExecute() called for type %2 and context %3", (Object)"OnlinePresetHandler", (Object)(n == 5 ? "DISTRIBUTED" : "SERVER"), (Object)string);
+            this.logger.log(1000000, "%1#requestExecute() called for type %2 and context %3", (Object)LOGCLASS, (Object)(n == 5 ? "DISTRIBUTED" : "SERVER"), (Object)string);
             return;
         }
-        this.logger.log(-1601830656, "%1#requestExecute(): got Serializable which was not of Class %2 but %3.", (Object)"OnlinePresetHandler", (Object)(class$de$audi$app$online$evo$presets$OnlinePresetData == null ? (class$de$audi$app$online$evo$presets$OnlinePresetData = OnlinePresetHandler.class$("de.audi.app.online.evo.presets.OnlinePresetData")) : class$de$audi$app$online$evo$presets$OnlinePresetData).getName(), (Object)super.getClass().getName());
+        this.logger.log(100000, "%1#requestExecute(): got Serializable which was not of Class %2 but %3.", (Object)LOGCLASS, (Object)(class$de$audi$app$online$evo$presets$OnlinePresetData == null ? (class$de$audi$app$online$evo$presets$OnlinePresetData = OnlinePresetHandler.class$("de.audi.app.online.evo.presets.OnlinePresetData")) : class$de$audi$app$online$evo$presets$OnlinePresetData).getName(), (Object)serializable.getClass().getName());
         executeRequest.responseExecute(1);
     }
 
-    @Override
     public int getType() {
         return 1;
     }
 
-    @Override
     public int[] getModelIds() {
-        return new int[]{-48749824};
+        return new int[]{2300157};
     }
 
-    @Override
     public void requestDefinition(DefinitionRequest definitionRequest) {
-        this.logger.log(-2137614336, "%1#requestDefinition() called", (Object)"OnlinePresetHandler");
+        this.logger.log(10000000, "%1#requestDefinition() called", (Object)LOGCLASS);
         RemoteHMIContext remoteHMIContext = this.remoteHMIService.getContext();
         if (remoteHMIContext != null && remoteHMIContext.getContextName().equals("top_wizard")) {
             this.handlePresetStorageFromTopWizard(definitionRequest);
         } else if (remoteHMIContext != null && !remoteHMIContext.getContextName().equals("top_wizard")) {
             this.handlePresetStorageInsideService(definitionRequest);
         } else {
-            this.logger.log(-2137614336, "%1#requestDefinition(): context not accessible.", (Object)"OnlinePresetHandler");
+            this.logger.log(10000000, "%1#requestDefinition(): context not accessible.", (Object)LOGCLASS);
             this.createEmptyResponse(definitionRequest);
         }
     }
@@ -107,15 +102,15 @@ IOnlinePresetHandler {
                         this.createPresetData(definitionRequest, string2, string3);
                         return;
                     }
-                    this.logger.log(-1601830656, "%1#handlePresetStorageFromTopWizard(): grid does not have any text field.", (Object)"OnlinePresetHandler");
+                    this.logger.log(100000, "%1#handlePresetStorageFromTopWizard(): grid does not have any text field.", (Object)LOGCLASS);
                 } else {
-                    this.logger.log(-1601830656, "%1#handlePresetStorageFromTopWizard(): service is a preview and should not be stored.", (Object)"OnlinePresetHandler");
+                    this.logger.log(100000, "%1#handlePresetStorageFromTopWizard(): service is a preview and should not be stored.", (Object)LOGCLASS);
                 }
             } else {
-                this.logger.log(-1601830656, "%1#handlePresetStorageFromTopWizard(): could not retrieve focussed item.", (Object)"OnlinePresetHandler");
+                this.logger.log(100000, "%1#handlePresetStorageFromTopWizard(): could not retrieve focussed item.", (Object)LOGCLASS);
             }
         } else {
-            this.logger.log(-1601830656, "%1#handlePresetStorageFromTopWizard(): could not retrieve current grid list.", (Object)"OnlinePresetHandler");
+            this.logger.log(100000, "%1#handlePresetStorageFromTopWizard(): could not retrieve current grid list.", (Object)LOGCLASS);
         }
         this.createEmptyResponse(definitionRequest);
     }
@@ -133,12 +128,12 @@ IOnlinePresetHandler {
                 presetListRow.setMainLabel(string);
                 OnlinePresetData onlinePresetData = new OnlinePresetData(string, string2, n);
                 definitionRequest.responseDefine(0, onlinePresetData, presetListRow, 6);
-                this.logger.log(1078071040, "%1#createPresetData(): created presetData for appname: %2, context: %3", (Object)"OnlinePresetHandler", (Object)string, (Object)string2);
+                this.logger.log(1000000, "%1#createPresetData(): created presetData for appname: %2, context: %3", (Object)LOGCLASS, (Object)string, (Object)string2);
                 return;
             }
-            this.logger.log(-2137614336, "%1#createPresetData(): trying to store preset of mobile app, which is not possible. Appname: '%2'", (Object)"OnlinePresetHandler", (Object)string);
+            this.logger.log(10000000, "%1#createPresetData(): trying to store preset of mobile app, which is not possible. Appname: '%2'", (Object)LOGCLASS, (Object)string);
         } else {
-            this.logger.log(-1601830656, "%1#createPresetData(): either appName (%2) or context (%3) is null.", (Object)"OnlinePresetHandler", (Object)string, (Object)string2);
+            this.logger.log(100000, "%1#createPresetData(): either appName (%2) or context (%3) is null.", (Object)LOGCLASS, (Object)string, (Object)string2);
         }
         this.createEmptyResponse(definitionRequest);
     }
@@ -155,11 +150,11 @@ IOnlinePresetHandler {
                 if (iRemoteHMIPresetEntryConfiguration.getType() != 2) {
                     return iRemoteHMIPresetEntryConfiguration.getName();
                 }
-                this.logger.log(-2137614336, "%1#getAppNameByAppId(): presets for mobile apps are not allowed. Cannot store %2.", (Object)"OnlinePresetHandler", (Object)iRemoteHMIPresetEntryConfiguration.getName());
+                this.logger.log(10000000, "%1#getAppNameByAppId(): presets for mobile apps are not allowed. Cannot store %2.", (Object)LOGCLASS, (Object)iRemoteHMIPresetEntryConfiguration.getName());
             }
-            this.logger.log(-2137614336, "%1#getAppNameByAppId(): could not retrieve app name for appId %2.", (Object)"OnlinePresetHandler", (Object)string);
+            this.logger.log(10000000, "%1#getAppNameByAppId(): could not retrieve app name for appId %2.", (Object)LOGCLASS, (Object)string);
         } else {
-            this.logger.log(-2137614336, "%1#getAppNameByAppId(): presetEntryConfigurations is null.", (Object)"OnlinePresetHandler");
+            this.logger.log(10000000, "%1#getAppNameByAppId(): presetEntryConfigurations is null.", (Object)LOGCLASS);
         }
         return null;
     }
@@ -171,9 +166,9 @@ IOnlinePresetHandler {
                 if (!iRemoteHMIPresetEntryConfiguration.getContextName().equals(string)) continue;
                 return iRemoteHMIPresetEntryConfiguration.getName();
             }
-            this.logger.log(-2137614336, "%1#getAppNameByContextName(): could not retrieve app name for context name %2.", (Object)"OnlinePresetHandler", (Object)string);
+            this.logger.log(10000000, "%1#getAppNameByContextName(): could not retrieve app name for context name %2.", (Object)LOGCLASS, (Object)string);
         } else {
-            this.logger.log(-2137614336, "%1#getAppNameByContextName(): presetEntryConfigurations is null.", (Object)"OnlinePresetHandler");
+            this.logger.log(10000000, "%1#getAppNameByContextName(): presetEntryConfigurations is null.", (Object)LOGCLASS);
         }
         return null;
     }
@@ -185,9 +180,9 @@ IOnlinePresetHandler {
                 if (!iRemoteHMIPresetEntryConfiguration.getAppId().equals(string)) continue;
                 return iRemoteHMIPresetEntryConfiguration.getContextName();
             }
-            this.logger.log(-2137614336, "%1#getContextNameByAppId(): could not retrieve context name for app id %2.", (Object)"OnlinePresetHandler", (Object)string);
+            this.logger.log(10000000, "%1#getContextNameByAppId(): could not retrieve context name for app id %2.", (Object)LOGCLASS, (Object)string);
         } else {
-            this.logger.log(-2137614336, "%1#getContextNameByAppId(): presetEntryConfigurations is null.", (Object)"OnlinePresetHandler");
+            this.logger.log(10000000, "%1#getContextNameByAppId(): presetEntryConfigurations is null.", (Object)LOGCLASS);
         }
         return null;
     }
@@ -199,31 +194,29 @@ IOnlinePresetHandler {
                 if (!iRemoteHMIPresetEntryConfiguration.getContextName().equals(string)) continue;
                 return iRemoteHMIPresetEntryConfiguration.getType();
             }
-            this.logger.log(-2137614336, "%1#getTypeByContextName(): could not retrieve type for context name %2.", (Object)"OnlinePresetHandler", (Object)string);
+            this.logger.log(10000000, "%1#getTypeByContextName(): could not retrieve type for context name %2.", (Object)LOGCLASS, (Object)string);
         } else {
-            this.logger.log(-2137614336, "%1#getTypeByContextName(): presetEntryConfigurations is null.", (Object)"OnlinePresetHandler");
+            this.logger.log(10000000, "%1#getTypeByContextName(): presetEntryConfigurations is null.", (Object)LOGCLASS);
         }
         return 0;
     }
 
-    @Override
     public Preset updatePresetPreview(Preset preset) {
         String string = ((OnlinePresetData)preset.getData()).getContextName();
         if (string != null) {
-            this.logger.log(-2137614336, "%1#updatePresetPreview() called for preset with context name '%1'", (Object)"OnlinePresetHandler", (Object)string);
+            this.logger.log(10000000, "%1#updatePresetPreview() called for preset with context name '%1'", (Object)LOGCLASS, (Object)string);
             String string2 = this.getAppNameByContextName(string);
             if (string2 != null && !string2.startsWith("Text constant TEXT_CONST")) {
                 preset.getPreview().setMainLabel(string2);
             }
         } else {
-            this.logger.log(-2137614336, "%1#updatePresetPreview() called for preset without context name. Ignoring.", (Object)"OnlinePresetHandler");
+            this.logger.log(10000000, "%1#updatePresetPreview() called for preset without context name. Ignoring.", (Object)LOGCLASS);
         }
         return preset;
     }
 
-    @Override
     public final boolean isDynmaicOnlineModel(int n) {
-        return n >= -1327815936 && n <= 10429440;
+        return n >= 2350000 && n <= 2400000;
     }
 
     static /* synthetic */ Class class$(String string) {

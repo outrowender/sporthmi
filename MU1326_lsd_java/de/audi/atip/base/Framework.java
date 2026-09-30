@@ -3,14 +3,16 @@
  */
 package de.audi.atip.base;
 
-import de.audi.atip.base.Framework$1;
 import de.audi.atip.base.FrameworkAccess;
 import de.audi.atip.base.FwServices;
 import de.audi.atip.base.IVersionInfo;
+import de.audi.atip.hmi.IRootWindow;
+import de.audi.atip.hmi.event.VRAMEvent;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.startup.StartupManager;
 import de.audi.atip.timer.Timer;
 import de.audi.atip.timer.TimerDispatcher;
+import de.audi.atip.timer.TimerListener;
 import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.fw.util.commons.Formatter;
 import java.io.BufferedInputStream;
@@ -62,9 +64,20 @@ implements BundleActivator {
 
     private final void setupMemoryLogger() {
         if (Boolean.getBoolean("log.jvm.heap.to.slog")) {
-            FrameworkAccess frameworkAccess = this.frameworkAccess;
+            final FrameworkAccess frameworkAccess = this.frameworkAccess;
             this.memLog = this.frameworkAccess.getLogChannel("Ext.JavaHeap");
-            this.memTimer = new Timer("HMI FreeMem", Long.getLong("log.jvm.heap.watchdog.time", 0), false, new Framework$1(this, frameworkAccess));
+            this.memTimer = new Timer("HMI FreeMem", Long.getLong("log.jvm.heap.watchdog.time", 5000L), false, new TimerListener(){
+
+                public void fireTimer(Timer timer) {
+                    Framework.this.memLog.log(100000, "free j9 Heap: %1", Runtime.getRuntime().freeMemory());
+                    IRootWindow iRootWindow = frameworkAccess.getHMIService().getRootWindow(0);
+                    frameworkAccess.getHMIService().getEventDispatcher().postEvent(new VRAMEvent(iRootWindow));
+                    Framework.this.checkLowMemory();
+                }
+
+                public void cancelTimer(Timer timer) {
+                }
+            });
             this.memTimer.restart();
         }
     }
@@ -74,17 +87,16 @@ implements BundleActivator {
         if (l < MIN_FREE_MEMORY) {
             if (this.firstTry) {
                 this.firstTry = false;
-                this.memLog.log(-1601830656, "Memory is too low: %1. Trying to call garbage collector", l);
+                this.memLog.log(100000, "Memory is too low: %1. Trying to call garbage collector", l);
                 Runtime.getRuntime().gc();
                 return;
             }
-            this.memLog.log(-1601830656, "Memory is too low: %1. Writing errorDump and reseting the system", l);
+            this.memLog.log(100000, "Memory is too low: %1. Writing errorDump and reseting the system", l);
             this.getFwServices().getErrorManager().handleError(new Exception("Low Memory Error"), "The free memory is too low", 0, 3, 2);
         }
         this.firstTry = true;
     }
 
-    @Override
     public void start(BundleContext bundleContext) {
         this.initProperties();
         this.frameworkAccess = new FrameworkAccess(bundleContext);
@@ -99,7 +111,7 @@ implements BundleActivator {
         TimerDispatcher.setLog(this.frameworkAccess.getLogChannel("Fw.Timer"));
         this.logVersion();
         this.getFwServices().createSysApp();
-        MIN_FREE_MEMORY = Long.getLong("log.jvm.heap.min.free.memory", 0);
+        MIN_FREE_MEMORY = Long.getLong("log.jvm.heap.min.free.memory", 512000L);
         this.setupMemoryLogger();
         StartupManager startupManager = this.getFwServices().getStartupManager();
         this.sRegPowerEvent = bundleContext.registerService((class$de$audi$atip$power$PowerEventListener == null ? (class$de$audi$atip$power$PowerEventListener = Framework.class$("de.audi.atip.power.PowerEventListener")) : class$de$audi$atip$power$PowerEventListener).getName(), (Object)startupManager, null);
@@ -107,7 +119,6 @@ implements BundleActivator {
         startupManager.start();
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         this.getFwServices().getStartupManager().stop();
         if (this.sRegFramework != null) {
@@ -121,10 +132,10 @@ implements BundleActivator {
     }
 
     private ClassLoader getResourceCL() {
-        return super.getClass().getClassLoader() != null ? super.getClass().getClassLoader() : ClassLoader.getSystemClassLoader();
+        return this.getClass().getClassLoader() != null ? this.getClass().getClassLoader() : ClassLoader.getSystemClassLoader();
     }
 
-    private void loadProperties(InputStream inputStream) {
+    private void loadProperties(InputStream inputStream) throws IOException {
         Properties properties = new Properties();
         properties.load(inputStream);
         Enumeration enumeration = properties.keys();
@@ -178,14 +189,6 @@ implements BundleActivator {
                 string = null;
             }
         }
-    }
-
-    static /* synthetic */ LogChannel access$000(Framework framework) {
-        return framework.memLog;
-    }
-
-    static /* synthetic */ void access$100(Framework framework) {
-        framework.checkLowMemory();
     }
 
     static /* synthetic */ Class class$(String string) {

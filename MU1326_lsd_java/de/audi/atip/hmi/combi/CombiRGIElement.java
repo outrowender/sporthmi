@@ -20,7 +20,6 @@ extends AbstractCombiElement {
         }
     }
 
-    @Override
     public void reset() {
         this.rgiStream = null;
         this.dirty = true;

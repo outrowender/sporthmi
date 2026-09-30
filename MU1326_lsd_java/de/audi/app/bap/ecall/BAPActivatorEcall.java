@@ -17,26 +17,22 @@ public final class BAPActivatorEcall
 extends AbstractBAPActivator {
     private AbstractBAPModuleASG eCallModule;
 
-    @Override
     protected String getApplicationName() {
         return "AppBapEcall";
     }
 
-    @Override
     protected AbstractBAPApplication createApplication(IFrameworkAccess iFrameworkAccess) {
         return new BAPApplicationEcall(iFrameworkAccess);
     }
 
-    @Override
     protected AbstractBAPModule[] createModules(AbstractBAPApplication abstractBAPApplication) {
-        this.logChannel.log(-2137614336, "[BAPActivatorEcall#createModules] application: %1", (Object)abstractBAPApplication);
+        this.logChannel.log(10000000, "[BAPActivatorEcall#createModules] application: %1", (Object)abstractBAPApplication);
         this.eCallModule = new BAPModuleEcall(abstractBAPApplication);
         return new AbstractBAPModule[]{this.eCallModule};
     }
 
-    @Override
     protected AbstractSwDiagnosis createDiagnosis(AbstractBAPApplication abstractBAPApplication) {
-        this.logChannel.log(-2137614336, "[BAPActivatorEcall#createDiagnosis] application: %1", (Object)abstractBAPApplication);
+        this.logChannel.log(10000000, "[BAPActivatorEcall#createDiagnosis] application: %1", (Object)abstractBAPApplication);
         return new BAPDiagnosisConnectorEcall(abstractBAPApplication, this.eCallModule);
     }
 }

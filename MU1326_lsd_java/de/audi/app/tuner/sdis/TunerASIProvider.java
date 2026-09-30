@@ -4,11 +4,10 @@
 package de.audi.app.tuner.sdis;
 
 import de.audi.app.tuner.sdis.ParentalEnforcement;
-import de.audi.app.tuner.sdis.TunerASIProvider$BlockingListener;
-import de.audi.app.tuner.sdis.TunerASIProvider$RadioInterappListener;
 import de.audi.atip.agent.IASIProvider;
+import de.audi.atip.interapp.sdis.ISDISBlockingListener;
 import de.audi.atip.log.LogChannel;
-import de.audi.tuner.ifc.IRadioInterappListener$RadioStation;
+import de.audi.tuner.ifc.IRadioInterappListener;
 import de.audi.tuner.ifc.IRadioInterappService;
 import de.audi.tuner.ifc.NullRadioInterappService;
 import de.esolutions.fw.comm.asi.hmisync.radio.ASIHMISyncRadioReply;
@@ -26,8 +25,8 @@ import java.util.List;
 public class TunerASIProvider
 extends ASIHMISyncRadioAbstractBaseService
 implements IASIProvider {
-    public final TunerASIProvider$RadioInterappListener radioInterappListener = new TunerASIProvider$RadioInterappListener(this, null);
-    public final TunerASIProvider$BlockingListener blockingListener = new TunerASIProvider$BlockingListener(this, null);
+    public final RadioInterappListener radioInterappListener = new RadioInterappListener();
+    public final BlockingListener blockingListener = new BlockingListener();
     public final ParentalEnforcement parentalEnforcement = new ParentalEnforcement();
     private IRadioInterappService radioInterappService;
     private final ASIHMISyncRadioService radioService;
@@ -53,51 +52,44 @@ implements IASIProvider {
         this.radioInterappService = iRadioInterappService;
     }
 
-    @Override
     public IService getService() {
         return this.radioService;
     }
 
-    @Override
     public void attachStub(IStub iStub) {
-        this.log.log(1078071040, "'%1'", (Object)iStub);
+        this.log.log(1000000, "'%1'", (Object)iStub);
     }
 
-    @Override
     public void detachStub(IStub iStub) {
-        this.log.log(1078071040, "'%1'", (Object)iStub);
+        this.log.log(1000000, "'%1'", (Object)iStub);
     }
 
-    @Override
-    public void selectBand(int n, ASIHMISyncRadioReply aSIHMISyncRadioReply) {
-        this.log.log(1078071040, "[TunerASIProvider.selectBand(%1)]", (long)n);
+    public void selectBand(int n, ASIHMISyncRadioReply aSIHMISyncRadioReply) throws MethodException {
+        this.log.log(1000000, "[TunerASIProvider.selectBand(%1)]", (long)n);
         if (!this.sdisBlocked) {
             this.radioInterappService.selectBand(n);
         } else {
-            this.log.log(1078071040, "[TunerASIProvider.selectBand()] blocked -> no action");
+            this.log.log(1000000, "[TunerASIProvider.selectBand()] blocked -> no action");
         }
     }
 
-    @Override
-    public void selectStation(long l, ASIHMISyncRadioReply aSIHMISyncRadioReply) {
-        this.log.log(1078071040, "[TunerASIProvider.selectStation(%1)]", l);
+    public void selectStation(long l, ASIHMISyncRadioReply aSIHMISyncRadioReply) throws MethodException {
+        this.log.log(1000000, "[TunerASIProvider.selectStation(%1)]", l);
         if (!this.sdisBlocked) {
             this.radioInterappService.tuneStation(l);
         } else {
-            this.log.log(1078071040, "[TunerASIProvider.selectStation()] blocked -> no action");
+            this.log.log(1000000, "[TunerASIProvider.selectStation()] blocked -> no action");
         }
     }
 
-    @Override
-    public void seekStation(int n, ASIHMISyncRadioReply aSIHMISyncRadioReply) {
-        this.log.log(1078071040, "[TunerASIProvider.seekStation] not supported");
+    public void seekStation(int n, ASIHMISyncRadioReply aSIHMISyncRadioReply) throws MethodException {
+        this.log.log(1000000, "[TunerASIProvider.seekStation] not supported");
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void enableStationDetails(boolean bl, ASIHMISyncRadioReply aSIHMISyncRadioReply) {
+    public void enableStationDetails(boolean bl, ASIHMISyncRadioReply aSIHMISyncRadioReply) throws MethodException {
         List list = this.stationDetailListeners;
         synchronized (list) {
             if (bl) {
@@ -108,10 +100,9 @@ implements IASIProvider {
         }
     }
 
-    @Override
     public void updateActiveBand(int n) {
         try {
-            this.log.log(-2137614336, "[TunerASIProvider.updateActiveBand] %1", (long)n);
+            this.log.log(10000000, "[TunerASIProvider.updateActiveBand] %1", (long)n);
             super.updateActiveBand(n);
         }
         catch (MethodException methodException) {
@@ -119,10 +110,9 @@ implements IASIProvider {
         }
     }
 
-    @Override
     public void updateWavebands(WavebandInfo[] wavebandInfoArray) {
         try {
-            this.log.log(-2137614336, "[TunerASIProvider.updateWavebands] %1", (Object)wavebandInfoArray);
+            this.log.log(10000000, "[TunerASIProvider.updateWavebands] %1", (Object)wavebandInfoArray);
             super.updateWavebands(wavebandInfoArray);
         }
         catch (MethodException methodException) {
@@ -130,11 +120,11 @@ implements IASIProvider {
         }
     }
 
-    public void updateActiveStation(IRadioInterappListener$RadioStation radioStation) {
+    public void updateActiveStation(IRadioInterappListener.RadioStation radioStation) {
         try {
             CurrentStation currentStation = this.changeStationType(radioStation);
             if (this.log.isDebug()) {
-                this.log.log(-2137614336, "[TunerASIProvider.updateActiveStation] %1", (Object)currentStation.toString());
+                this.log.log(10000000, "[TunerASIProvider.updateActiveStation] %1", (Object)currentStation.toString());
             }
             super.updateActiveStation(currentStation);
         }
@@ -143,9 +133,8 @@ implements IASIProvider {
         }
     }
 
-    @Override
     public void updateBandList(int[] nArray) {
-        this.log.log(-2137614336, "[TunerASIProvider.updateBandList] %1", (Object)nArray);
+        this.log.log(10000000, "[TunerASIProvider.updateBandList] %1", (Object)nArray);
         try {
             super.updateBandList(nArray);
         }
@@ -154,7 +143,6 @@ implements IASIProvider {
         }
     }
 
-    @Override
     public void updateRadioStationList(StationInfo[] stationInfoArray) {
         try {
             super.updateRadioStationList(stationInfoArray);
@@ -164,7 +152,7 @@ implements IASIProvider {
         }
     }
 
-    public void updateStationDetails(IRadioInterappListener$RadioStation[] radioStationArray) {
+    public void updateStationDetails(IRadioInterappListener.RadioStation[] radioStationArray) {
         int n;
         CurrentStation[] currentStationArray = new CurrentStation[radioStationArray.length];
         for (n = 0; n < radioStationArray.length; ++n) {
@@ -181,17 +169,73 @@ implements IASIProvider {
         }
     }
 
-    private CurrentStation changeStationType(IRadioInterappListener$RadioStation iRadioInterappListener$RadioStation) {
-        return new CurrentStation(iRadioInterappListener$RadioStation.id, iRadioInterappListener$RadioStation.name, iRadioInterappListener$RadioStation.fullName, iRadioInterappListener$RadioStation.artist, iRadioInterappListener$RadioStation.artistType, iRadioInterappListener$RadioStation.title, iRadioInterappListener$RadioStation.titleType, iRadioInterappListener$RadioStation.image, iRadioInterappListener$RadioStation.audioStatus, iRadioInterappListener$RadioStation.layer, iRadioInterappListener$RadioStation.album, iRadioInterappListener$RadioStation.radioText, "");
+    private CurrentStation changeStationType(IRadioInterappListener.RadioStation radioStation) {
+        return new CurrentStation(radioStation.id, radioStation.name, radioStation.fullName, radioStation.artist, radioStation.artistType, radioStation.title, radioStation.titleType, radioStation.image, radioStation.audioStatus, radioStation.layer, radioStation.album, radioStation.radioText, "");
     }
 
-    static /* synthetic */ List access$200(TunerASIProvider tunerASIProvider) {
-        return tunerASIProvider.stationDetailListeners;
+    private class BlockingListener
+    implements ISDISBlockingListener {
+        private BlockingListener() {
+        }
+
+        public void updateLockState(int n) {
+        }
+
+        public void updateBlockState(int n) {
+            TunerASIProvider.this.log.log(1000000, "[TunerASIProvider.BlockingListener.updateBlockState] %1", (long)n);
+            if ((n & 1) == 1) {
+                TunerASIProvider.this.sdisBlocked = true;
+            } else {
+                TunerASIProvider.this.sdisBlocked = false;
+            }
+        }
     }
 
-    static /* synthetic */ boolean access$302(TunerASIProvider tunerASIProvider, boolean bl) {
-        tunerASIProvider.sdisBlocked = bl;
-        return tunerASIProvider.sdisBlocked;
+    private class RadioInterappListener
+    implements IRadioInterappListener {
+        private RadioInterappListener() {
+        }
+
+        public void updateBandList(int[] nArray) {
+            TunerASIProvider.this.updateBandList(nArray);
+        }
+
+        public void updateActiveBand(int n) {
+            TunerASIProvider.this.updateActiveBand(n);
+        }
+
+        public void updateWavebandInfoList(org.dsi.ifc.radio.WavebandInfo[] wavebandInfoArray) {
+            ArrayList arrayList = new ArrayList(wavebandInfoArray.length);
+            for (int i2 = 0; i2 < wavebandInfoArray.length; ++i2) {
+                org.dsi.ifc.radio.WavebandInfo wavebandInfo = wavebandInfoArray[i2];
+                if (wavebandInfo.waveband != 1 && wavebandInfo.waveband != 3) continue;
+                int n = wavebandInfo.waveband == 3 ? 4 : wavebandInfo.waveband;
+                arrayList.add(new WavebandInfo(n, (int)wavebandInfo.lowerLimit, (int)wavebandInfo.upperLimit, (int)wavebandInfo.stepWidth));
+            }
+            TunerASIProvider.this.updateWavebands((WavebandInfo[])arrayList.toArray(new WavebandInfo[arrayList.size()]));
+        }
+
+        public void updateRadioStationList(IRadioInterappListener.RadioStation[] radioStationArray) {
+            StationInfo[] stationInfoArray = new StationInfo[radioStationArray.length];
+            for (int i2 = 0; i2 < stationInfoArray.length; ++i2) {
+                IRadioInterappListener.RadioStation radioStation = radioStationArray[i2];
+                stationInfoArray[i2] = new StationInfo(radioStation.id, radioStation.name, radioStation.fullName, radioStationArray[i2].audioStatus, radioStation.layer, radioStation.stationLogoUri, radioStation.frequency, "");
+                if (!TunerASIProvider.this.log.isDebug()) continue;
+                TunerASIProvider.this.log.log(1000000, "[TunerASIProvider.RadioInterappListener.updateRadioStationList] [%2] %1", (Object)stationInfoArray[i2], (long)i2);
+            }
+            TunerASIProvider.this.updateRadioStationList(stationInfoArray);
+            if (!TunerASIProvider.this.stationDetailListeners.isEmpty()) {
+                TunerASIProvider.this.updateStationDetails(radioStationArray);
+            }
+        }
+
+        public void updateActiveStation(IRadioInterappListener.RadioStation radioStation) {
+            TunerASIProvider.this.updateActiveStation(radioStation);
+        }
+
+        public void enforceRadio() {
+            TunerASIProvider.this.parentalEnforcement.enforceRadio();
+        }
     }
 }
 

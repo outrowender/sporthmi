@@ -15,7 +15,6 @@ extends AbstractCommandCloseFunctionSync {
         super(abstractBAPModuleFSG, abstractFunctionSynchronization);
     }
 
-    @Override
     protected StatusProperty createFunctionSynchronizationStatus() {
         return new FunctionSynchronisation_Status();
     }

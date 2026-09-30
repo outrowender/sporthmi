@@ -3,88 +3,73 @@
  */
 package de.audi.remotehmi.ui.mib2;
 
-import de.audi.remotehmi.ui.mib2.DrawerEntry$1;
 import de.audi.remotehmi.ui.mib2.DrawerEntryIcon;
 import de.audi.remotehmi.ui.mib2.grid.IGrid;
 import de.audi.remotehmi.util.DeepCloneable;
+import java.util.HashMap;
 import java.util.Map;
 
 public interface DrawerEntry
 extends DeepCloneable {
-    public static final String RIGHT_DRAWER_GLOBAL_ENTRIES;
-    public static final int UPDATE_TYPE_MAIN;
-    public static final int UPDATE_TYPE_REFLECTION;
-    public static final int UPDATE_TYPE_CLOSED;
-    public static final int UPDATE_TYPE_CLOSED_INACTIVE;
-    public static final int WIDGET_TYPE_ACTION;
-    public static final int WIDGET_TYPE_SUBMENU;
-    public static final int WIDGET_TYPE_CHECKBOX;
-    public static final int WIDGET_TYPE_SUBMENU_PREVIEW;
-    public static final int WIDGET_TYPE_DROPDOWN;
-    public static final Map widgetTypeMap;
+    public static final String RIGHT_DRAWER_GLOBAL_ENTRIES = "____global____";
+    public static final int UPDATE_TYPE_MAIN = 1;
+    public static final int UPDATE_TYPE_REFLECTION = 2;
+    public static final int UPDATE_TYPE_CLOSED = 3;
+    public static final int UPDATE_TYPE_CLOSED_INACTIVE = 4;
+    public static final int WIDGET_TYPE_ACTION = 1;
+    public static final int WIDGET_TYPE_SUBMENU = 2;
+    public static final int WIDGET_TYPE_CHECKBOX = 3;
+    public static final int WIDGET_TYPE_SUBMENU_PREVIEW = 4;
+    public static final int WIDGET_TYPE_DROPDOWN = 5;
+    public static final Map widgetTypeMap = new HashMap(){
+        private static final long serialVersionUID = -1111848786856739068L;
+        {
+            this.put("action", new Integer(1));
+            this.put("submenu", new Integer(2));
+            this.put("checkbox", new Integer(3));
+            this.put("submenupreview", new Integer(4));
+            this.put("dropdown", new Integer(5));
+        }
+    };
 
-    default public DrawerEntryIcon getIcon() {
-    }
+    public DrawerEntryIcon getIcon();
 
-    default public DrawerEntryIcon getReflectionIcon() {
-    }
+    public DrawerEntryIcon getReflectionIcon();
 
-    default public String getEntryName() {
-    }
+    public String getEntryName();
 
-    default public String getEvent() {
-    }
+    public String getEvent();
 
-    default public String getEntryId() {
-    }
+    public String getEntryId();
 
-    default public String getEntryContext() {
-    }
+    public String getEntryContext();
 
-    default public IGrid getWidgetGridForEntry() {
-    }
+    public IGrid getWidgetGridForEntry();
 
-    default public int getWidgetType() {
-    }
+    public int getWidgetType();
 
-    default public void setCheckboxValue(boolean bl) {
-    }
+    public void setCheckboxValue(boolean var1);
 
-    default public boolean getCheckboxValue() {
-    }
+    public boolean getCheckboxValue();
 
-    default public void setDefaultSelection(int n) {
-    }
+    public void setDefaultSelection(int var1);
 
-    default public int getSortOrder() {
-    }
+    public int getSortOrder();
 
-    default public boolean isMenuSpecific() {
-    }
+    public boolean isMenuSpecific();
 
-    default public void setInputFieldText(String string) {
-    }
+    public void setInputFieldText(String var1);
 
-    default public String getAppId() {
-    }
+    public String getAppId();
 
-    default public boolean isBlocking() {
-    }
+    public boolean isBlocking();
 
-    default public String getInfoText() {
-    }
+    public String getInfoText();
 
-    default public void setEnabled(boolean bl) {
-    }
+    public void setEnabled(boolean var1);
 
-    default public boolean isEnabled() {
-    }
+    public boolean isEnabled();
 
-    default public boolean isMediaContext() {
-    }
-
-    static {
-        widgetTypeMap = new DrawerEntry$1();
-    }
+    public boolean isMediaContext();
 }
 

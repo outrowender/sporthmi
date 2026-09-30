@@ -10,28 +10,20 @@ import org.dsi.ifc.online.OSRNotifyProperties;
 import org.dsi.ifc.online.OSRServiceState;
 
 public interface IOnlineServiceListener {
-    default public void getOnlineApplicationResponse(OSRApplication oSRApplication) {
-    }
+    public void getOnlineApplicationResponse(OSRApplication var1);
 
-    default public void activateLicenseResponse(int n) {
-    }
+    public void activateLicenseResponse(int var1);
 
-    default public void getLicenseInformationResult(OSRLicense[] oSRLicenseArray) {
-    }
+    public void getLicenseInformationResult(OSRLicense[] var1);
 
-    default public void getReminderStatusResult(int n) {
-    }
+    public void getReminderStatusResult(int var1);
 
-    default public void setReminderStateResponse(int n) {
-    }
+    public void setReminderStateResponse(int var1);
 
-    default public void updateApplicationState(OSRNotifyProperties[] oSRNotifyPropertiesArray) {
-    }
+    public void updateApplicationState(OSRNotifyProperties[] var1);
 
-    default public void getPreCheckResult(OSRServiceState oSRServiceState) {
-    }
+    public void getPreCheckResult(OSRServiceState var1);
 
-    default public void updateServiceState(OnlineServiceListState onlineServiceListState) {
-    }
+    public void updateServiceState(OnlineServiceListState var1);
 }
 

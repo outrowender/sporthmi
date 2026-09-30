@@ -9,40 +9,40 @@ import de.esolutions.fw.util.commons.Buffer;
 import java.util.HashMap;
 
 public class ActiveSourceState {
-    public static final int STATE_READY;
-    public static final int STATE_LOADING;
-    public static final int STATE_ON_SOURCE_CHANGE;
-    public static final int STATE_ERROR_NO_MEDIA;
-    public static final int STATE_ERROR_NOT_READABLE;
-    public static final int STATE_ERROR_TEMPERATURE_TOO_HIGH;
-    public static final int STATE_ERROR_TEMPERATURE_TOO_LOW;
-    public static final int STATE_ERROR_NO_PLAYABLE_FILES;
-    public static final int STATE_ERROR_WRONG_REGION_CODE_SOME_CHANGES_LEFT;
-    public static final int STATE_ERROR_WRONG_REGION_CODE_NO_CHANGES_LEFT;
-    public static final int STATE_ERROR_BLUETOOTH_DEACTIVATED;
-    public static final int STATE_ERROR_BLUETOOTH_DEACTIVATED_CLAMP_S_OFF;
-    public static final int STATE_ERROR_BLUETOOTH_RECONNECTING;
-    public static final int STATE_ERROR_BLUETOOTH_AUDIOPLAYER_DEACTIVATED;
-    public static final int STATE_ERROR_BLUETOOTH_AUDIOPLAYER_NOT_CONNECTED;
-    public static final int STATE_ERROR_IMPORT_RUNNING;
-    public static final int STATE_ERROR_DELETION_RUNNING;
-    public static final int STATE_ERROR_CHILDLOCK_ERROR;
-    public static final int STATE_ERROR_OVERCURRENT;
-    public static final int STATE_ERROR_NOT_SUPPORTED;
-    public static final int STATE_ERROR_NOT_SUPPORTED_WRONG_FIRMWARE;
-    public static final int STATE_ERROR_WLAN_DEACTIVATED;
-    public static final int STATE_ERROR_WLAN_DEACTIVATED_CLAMP_S_OFF;
-    public static final int STATE_ERROR_JUKEBOX_IS_EMPTY;
-    public static final int STATE_ERROR_DEVICE_NOT_AVAILABLE;
-    public static final int STATE_ERROR_CORRUPTED_PARTITION;
-    public static final int STATE_ERROR_CHARGING;
-    public static final int STATE_ERROR_ONLINE_DEACTIVATED_CLAMP_S_OFF;
-    public static final int STATE_ERROR_ONLINE_DEACTIVATED_WLAN_OFF;
-    public static final int STATE_ERROR_ONLINE_DEACTIVATED_WLAN_NO_CONN;
-    public static final int STATE_ERROR_ONLINE_NO_APP;
-    public static final int STATE_ERROR_WLAN_NO_DEVICE;
-    public static final int STATE_ERROR_WLAN_NO_APP;
-    private static final HashMap STATESTRINGMAP;
+    public static final int STATE_READY = 1;
+    public static final int STATE_LOADING = 2;
+    public static final int STATE_ON_SOURCE_CHANGE = 3;
+    public static final int STATE_ERROR_NO_MEDIA = 4;
+    public static final int STATE_ERROR_NOT_READABLE = 5;
+    public static final int STATE_ERROR_TEMPERATURE_TOO_HIGH = 6;
+    public static final int STATE_ERROR_TEMPERATURE_TOO_LOW = 7;
+    public static final int STATE_ERROR_NO_PLAYABLE_FILES = 8;
+    public static final int STATE_ERROR_WRONG_REGION_CODE_SOME_CHANGES_LEFT = 9;
+    public static final int STATE_ERROR_WRONG_REGION_CODE_NO_CHANGES_LEFT = 10;
+    public static final int STATE_ERROR_BLUETOOTH_DEACTIVATED = 11;
+    public static final int STATE_ERROR_BLUETOOTH_DEACTIVATED_CLAMP_S_OFF = 12;
+    public static final int STATE_ERROR_BLUETOOTH_RECONNECTING = 13;
+    public static final int STATE_ERROR_BLUETOOTH_AUDIOPLAYER_DEACTIVATED = 14;
+    public static final int STATE_ERROR_BLUETOOTH_AUDIOPLAYER_NOT_CONNECTED = 15;
+    public static final int STATE_ERROR_IMPORT_RUNNING = 16;
+    public static final int STATE_ERROR_DELETION_RUNNING = 17;
+    public static final int STATE_ERROR_CHILDLOCK_ERROR = 18;
+    public static final int STATE_ERROR_OVERCURRENT = 19;
+    public static final int STATE_ERROR_NOT_SUPPORTED = 20;
+    public static final int STATE_ERROR_NOT_SUPPORTED_WRONG_FIRMWARE = 21;
+    public static final int STATE_ERROR_WLAN_DEACTIVATED = 22;
+    public static final int STATE_ERROR_WLAN_DEACTIVATED_CLAMP_S_OFF = 23;
+    public static final int STATE_ERROR_JUKEBOX_IS_EMPTY = 24;
+    public static final int STATE_ERROR_DEVICE_NOT_AVAILABLE = 25;
+    public static final int STATE_ERROR_CORRUPTED_PARTITION = 26;
+    public static final int STATE_ERROR_CHARGING = 27;
+    public static final int STATE_ERROR_ONLINE_DEACTIVATED_CLAMP_S_OFF = 28;
+    public static final int STATE_ERROR_ONLINE_DEACTIVATED_WLAN_OFF = 29;
+    public static final int STATE_ERROR_ONLINE_DEACTIVATED_WLAN_NO_CONN = 30;
+    public static final int STATE_ERROR_ONLINE_NO_APP = 31;
+    public static final int STATE_ERROR_WLAN_NO_DEVICE = 32;
+    public static final int STATE_ERROR_WLAN_NO_APP = 33;
+    private static final HashMap STATESTRINGMAP = new HashMap(30);
     private final ISourceSlot slot;
     private final int state;
 
@@ -83,7 +83,7 @@ public class ActiveSourceState {
     static String getActiveSourceStateStr(int n) {
         Object object = STATESTRINGMAP.get(Integers.valueOf(n));
         if (object == null) {
-            return new StringBuffer().append("UNKNOWN (").append(n).append(")").toString();
+            return "UNKNOWN (" + n + ")";
         }
         return (String)object;
     }
@@ -97,7 +97,6 @@ public class ActiveSourceState {
     }
 
     static {
-        STATESTRINGMAP = new HashMap(30);
         STATESTRINGMAP.put(Integers.valueOf(1), "STATE_READY");
         STATESTRINGMAP.put(Integers.valueOf(2), "STATE_LOADING");
         STATESTRINGMAP.put(Integers.valueOf(3), "STATE_ON_SOURCE_CHANGE");

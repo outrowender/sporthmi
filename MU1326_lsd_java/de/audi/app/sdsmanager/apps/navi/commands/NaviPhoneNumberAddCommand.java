@@ -23,23 +23,22 @@ extends AbstractSystemCallCommand {
         this.nbest = nBestStorageAccess;
     }
 
-    @Override
     public void execute() {
         String string;
-        this.logger.log(-2137614336, "[%1#execute]", (Object)this.getName());
+        this.logger.log(10000000, "[%1#execute]", (Object)this.getName());
         IPicklistSlot iPicklistSlot = this.nbest.getMatchingPicklist((byte)0).getSlot(0, 0);
         String string2 = string = iPicklistSlot != null ? SDSUtils.remove(iPicklistSlot.getText(), ' ') : "";
         if (SDSUtils.isEmpty(string)) {
-            this.logger.log(-1601830656, "%1#execute: No number found in prompt label!", (Object)this.getName());
-            this.sendResult(1100742656);
+            this.logger.log(100000, "%1#execute: No number found in prompt label!", (Object)this.getName());
+            this.sendResult(40001);
             return;
         }
-        this.logger.log(-2137614336, "[%1#execute] setting promptText = %2", (Object)this.getName(), (Object)string);
+        this.logger.log(10000000, "[%1#execute] setting promptText = %2", (Object)this.getName(), (Object)string);
         this.naviService.inputTelephoneNumber(string);
     }
 
     public void naviPhoneNumberAddResult(byte by) {
-        this.logger.log(-2137614336, "[%1#naviPhoneNumberAddResult] result=%2", (Object)this.getName(), (long)by);
+        this.logger.log(10000000, "[%1#naviPhoneNumberAddResult] result=%2", (Object)this.getName(), (long)by);
         if (by == 0) {
             NaviSDSUtils.updateNaviPhoneNumberModels(this.naviService);
         }

@@ -16,7 +16,6 @@ implements GeoCoordinates {
         this.activeDestinationsManager = activeDestinationsManager;
     }
 
-    @Override
     public NavLocation extractGeoCoordinates(int n, int n2, NavigationEnv navigationEnv) {
         return this.activeDestinationsManager.getNavLocation(n2);
     }

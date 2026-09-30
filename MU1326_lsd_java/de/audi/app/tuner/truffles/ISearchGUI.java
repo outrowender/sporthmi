@@ -6,19 +6,14 @@ package de.audi.app.tuner.truffles;
 import de.audi.tuner.ifc.listener.IUpdateListener;
 
 public interface ISearchGUI {
-    default public int[] getSources() {
-    }
+    public int[] getSources();
 
-    default public int getMaxColumns() {
-    }
+    public int getMaxColumns();
 
-    default public IUpdateListener getUpdateListener() {
-    }
+    public IUpdateListener getUpdateListener();
 
-    default public void frequencySearchEnded(int n) {
-    }
+    public void frequencySearchEnded(int var1);
 
-    default public void runCommands() {
-    }
+    public void runCommands();
 }
 

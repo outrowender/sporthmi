@@ -24,22 +24,18 @@ ResourceLocatorModelGUI {
         super(n, n2);
     }
 
-    @Override
     public boolean isEmpty() {
         return this.resource == NULL_RESOURCE_LOCATOR;
     }
 
-    @Override
     public int getModelType() {
         return 22;
     }
 
-    @Override
     public HMIResourceLocator getResourceLocator() {
         return this.resource;
     }
 
-    @Override
     public void setResourceLocator(int n, String string) {
         this.setResourceLocator(n, string, true);
     }
@@ -49,30 +45,27 @@ ResourceLocatorModelGUI {
     }
 
     private void setResourceLocator(int n, String string, boolean bl) {
-        this.lc.log(-2137614336, "(%3) [ResourceLocatorModel.setResourceLocator] id:%2 uri:%1", (Object)string, (long)n, (long)this.id);
+        this.lc.log(10000000, "(%3) [ResourceLocatorModel.setResourceLocator] id:%2 uri:%1", (Object)string, (long)n, (long)this.id);
         this.resource = new HMIResourceLocator(n, string);
         if (bl) {
             this.fireModelUpdateEvent(1);
         }
     }
 
-    @Override
     public void setResourceLocator(int n, String string, int n2) {
-        this.lc.log(-2137614336, "(%3) [ResourceLocatorModel.setResourceLocator] id:%2 uri:%1", (Object)string, (long)n, (long)this.id);
-        this.lc.log(-2137614336, "(%2) [ResourceLocatorModel.setResourceLocator] status:%1", (long)n2, (long)this.id);
+        this.lc.log(10000000, "(%3) [ResourceLocatorModel.setResourceLocator] id:%2 uri:%1", (Object)string, (long)n, (long)this.id);
+        this.lc.log(10000000, "(%2) [ResourceLocatorModel.setResourceLocator] status:%1", (long)n2, (long)this.id);
         this.resource = new HMIResourceLocator(n, string);
         this.resource.setStatus(n2);
         this.fireModelUpdateEvent(1);
     }
 
-    @Override
     public void setResourceLocator(HMIResourceLocator hMIResourceLocator) {
-        this.lc.log(-2137614336, "(%2) [ResourceLocatorModel.setResourceLocator] loc:%1", (Object)hMIResourceLocator, (long)this.id);
+        this.lc.log(10000000, "(%2) [ResourceLocatorModel.setResourceLocator] loc:%1", (Object)hMIResourceLocator, (long)this.id);
         this.resource = new HMIResourceLocator(hMIResourceLocator);
         this.fireModelUpdateEvent(1);
     }
 
-    @Override
     public String dumpContent() {
         Buffer buffer = new Buffer(300);
         buffer.append(super.dumpContent());
@@ -80,7 +73,6 @@ ResourceLocatorModelGUI {
         return buffer.toString();
     }
 
-    @Override
     public void resetListener() {
     }
 }

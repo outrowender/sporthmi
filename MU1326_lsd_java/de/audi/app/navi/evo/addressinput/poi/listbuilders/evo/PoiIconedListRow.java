@@ -16,9 +16,9 @@ import org.dsi.ifc.navigation.LIValueListElement;
 
 public class PoiIconedListRow
 extends LiValueListRow {
-    private static final int COLUMN_ICON;
-    private static final int COLUMN_CATEGORY_NAME;
-    private static final int COLUMN_COUNT;
+    private static final int COLUMN_ICON = 0;
+    private static final int COLUMN_CATEGORY_NAME = 1;
+    private static final int COLUMN_COUNT = 2;
 
     public PoiIconedListRow(IconHandler iconHandler, LIValueListElement lIValueListElement, int n) {
         super(n, 2, lIValueListElement);
@@ -36,7 +36,6 @@ extends LiValueListRow {
         super(poiIconedListRow);
     }
 
-    @Override
     public EvoListRow copy() {
         return new PoiIconedListRow(this);
     }

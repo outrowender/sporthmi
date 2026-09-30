@@ -1,19 +1,32 @@
 /*
  * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  de.mib.swdiagnosis.DispatcherDiag
+ *  de.mib.swdiagnosis.JDSIManagerDiag
+ *  de.mib.swdiagnosis.StartUpDiag
  */
 package de.audi.atip.startup;
 
+import de.audi.atip.activator.FrameworkException;
 import de.audi.atip.base.FrameworkAccess;
 import de.audi.atip.base.FwServices;
 import de.audi.atip.base.IAppSystem;
 import de.audi.atip.base.IDomainListener;
 import de.audi.atip.base.IFrameworkAccess;
+import de.audi.atip.diag.sw.AbstractSwDiagnosis;
+import de.audi.atip.diag.sw.SwDiagnosisManager;
 import de.audi.atip.hmi.HMIService;
 import de.audi.atip.hmi.event.ATIPEvent;
+import de.audi.atip.hmi.event.EALMergeEvent;
 import de.audi.atip.hmi.event.InitialGraphicsEvent;
 import de.audi.atip.hmi.event.KeyEvent;
+import de.audi.atip.hmi.event.MMICombiSyncEvent;
+import de.audi.atip.hmi.event.ModelUpdateEvent;
+import de.audi.atip.hmi.event.RegisterPartialPopupsEvent;
 import de.audi.atip.hmi.event.RunnableEvent;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
+import de.audi.atip.hmi.view.IShowPopupRunnable;
 import de.audi.atip.job.JobLogger;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.metrics.AbstractMetrics;
@@ -27,24 +40,19 @@ import de.audi.atip.startup.ComponentState;
 import de.audi.atip.startup.DomainHandler;
 import de.audi.atip.startup.ILastmodeHandlerExtended;
 import de.audi.atip.startup.LastmodeHandler;
-import de.audi.atip.startup.StartupManager$1;
-import de.audi.atip.startup.StartupManager$2;
-import de.audi.atip.startup.StartupManager$FullFrameworkStart;
-import de.audi.atip.startup.StartupManager$LastmodeSWDLReached;
-import de.audi.atip.startup.StartupManager$LogEvent;
-import de.audi.atip.startup.StartupManager$ReleaseMute;
-import de.audi.atip.startup.StartupManager$StartBundle;
-import de.audi.atip.startup.StartupManager$StartBundles;
-import de.audi.atip.startup.StartupManager$StartupFilter;
-import de.audi.atip.startup.StartupManager$StartupFinished;
-import de.audi.atip.startup.StartupManager$StopBundle;
-import de.audi.atip.startup.StartupManager$StopBundles;
 import de.audi.atip.startup.StartupQueue;
 import de.audi.atip.startup.StartupSyncer;
 import de.audi.atip.storage.IStorageStatistic;
 import de.audi.atip.timer.WatchDog;
+import de.esolutions.fw.util.commons.Buffer;
+import de.esolutions.fw.util.commons.error.DumpInfoProvider;
+import de.esolutions.fw.util.commons.job.BaseJobFilter;
 import de.esolutions.fw.util.commons.job.DispatcherBase;
 import de.esolutions.fw.util.commons.job.IJobFilter;
+import de.esolutions.fw.util.commons.job.Job;
+import de.mib.swdiagnosis.DispatcherDiag;
+import de.mib.swdiagnosis.JDSIManagerDiag;
+import de.mib.swdiagnosis.StartUpDiag;
 import java.io.File;
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -54,6 +62,7 @@ import java.util.List;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;
+import org.osgi.framework.ServiceReference;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
@@ -62,32 +71,32 @@ public final class StartupManager
 implements IDomainListener,
 IStartupManager,
 PowerEventListener {
-    private static final String LOG_CH_STARTUP;
-    private static final String LOG_CH_STARTUP_EVENT;
-    private static final String LOG_CH_EXT_STARTUP;
-    private static final String START_HIGH_HMI_WATCHDOG;
-    private static final String WAIT_FOR_RVC_AVAILABLE;
-    private static final String WAIT_FOR_FIRST_POWERSTATE;
-    private static final String WAIT_FOR_MAP_AVAILABLE;
-    private static final String WAIT_FOR_SDS_AVAILABLE;
-    private static final String WAIT_FOR_FIRST_MMIKOMBISYNC;
-    private static final String WAIT_FOR_FIRST_SCREEN_PAINTED;
-    private static final String WAIT_FOR_DSI_PERSISTENCE;
-    private static final String WAIT_FOR_AUDIO_TIMEOUT;
-    private static final String DEFAULTSWDLDATADIR;
-    private static final String SWDLDATADIR;
-    private static final String SWDLFLAGFILE;
-    private static final int LOG_SIZE;
-    private static final int OVERRIDE_OFFSET;
-    private static final long TIMEOUT_RVC_AVAILABLE;
-    private static final long TIMEOUT_POWERSTATE;
-    private static final long TIMEOUT_MAP_AVAILABLE;
-    private static final long TIMEOUT_SDS_AVAILABLE;
-    private static final long TIMEOUT_MMIKOMBISYNC;
-    private static final long TIMEOUT_FIRST_SCREEN_PAINTED;
-    private static final long WAIT_FOR_AUDIO_TIMEOUT_DEFAULT;
-    private static final long START_BUNDLE_TIMEOUT;
-    private static final long START_HMI_TIMEOUT;
+    private static final String LOG_CH_STARTUP = "Fw.Startup";
+    private static final String LOG_CH_STARTUP_EVENT = "Fw.Startup.Event";
+    private static final String LOG_CH_EXT_STARTUP = "Ext.Startup";
+    private static final String START_HIGH_HMI_WATCHDOG = "START_HIGH_HMI_WATCHDOG";
+    private static final String WAIT_FOR_RVC_AVAILABLE = "WAIT_FOR_RVC_AVAILABLE";
+    private static final String WAIT_FOR_FIRST_POWERSTATE = "WAIT_FOR_FIRST_POWERSTATE";
+    private static final String WAIT_FOR_MAP_AVAILABLE = "WAIT_FOR_MAP_AVAILABLE";
+    private static final String WAIT_FOR_SDS_AVAILABLE = "WAIT_FOR_SDS_AVAILABLE";
+    private static final String WAIT_FOR_FIRST_MMIKOMBISYNC = "WAIT_FOR_FIRST_MMIKOMBISYNC";
+    private static final String WAIT_FOR_FIRST_SCREEN_PAINTED = "WAIT_FOR_FIRST_SCREEN_PAINTED";
+    private static final String WAIT_FOR_DSI_PERSISTENCE = "DSI_PERSISTENCE_TIMEOUT";
+    private static final String WAIT_FOR_AUDIO_TIMEOUT = "WAIT_FOR_AUDIO_TIMEOUT";
+    private static final String DEFAULTSWDLDATADIR = "/net/rcc/mnt/efs-persist/SWDL";
+    private static final String SWDLDATADIR = "SwdlDataDir";
+    private static final String SWDLFLAGFILE = "update.txt";
+    private static final int LOG_SIZE = 300;
+    private static final int OVERRIDE_OFFSET = 128;
+    private static final long TIMEOUT_RVC_AVAILABLE = Long.getLong("WAIT_FOR_RVC_AVAILABLE", 60000L);
+    private static final long TIMEOUT_POWERSTATE = Long.getLong("WAIT_FOR_FIRST_POWERSTATE", 5000L);
+    private static final long TIMEOUT_MAP_AVAILABLE = Long.getLong("WAIT_FOR_MAP_AVAILABLE", 20000L);
+    private static final long TIMEOUT_SDS_AVAILABLE = Long.getLong("WAIT_FOR_SDS_AVAILABLE", 20000L);
+    private static final long TIMEOUT_MMIKOMBISYNC = Long.getLong("WAIT_FOR_FIRST_MMIKOMBISYNC", 5000L);
+    private static final long TIMEOUT_FIRST_SCREEN_PAINTED = Long.getLong("WAIT_FOR_FIRST_SCREEN_PAINTED", 5000L);
+    private static final long WAIT_FOR_AUDIO_TIMEOUT_DEFAULT = 10000L;
+    private static final long START_BUNDLE_TIMEOUT = 10000L;
+    private static final long START_HMI_TIMEOUT = 180000L;
     private final FwServices fwServices;
     private final IFrameworkAccess framework;
     private long startOfFramework;
@@ -126,11 +135,11 @@ PowerEventListener {
     private final List shutdownQueue = new ArrayList(20);
     private final List delayedQueue = new ArrayList(20);
     private final List backgroundQueue = new ArrayList(50);
-    private static boolean isSwDiagStarted;
+    private static boolean isSwDiagStarted = false;
     private Object syncPersistence = new Object();
     private boolean persistenceAvailable = false;
-    private long bundleStartTimeout = 0;
-    private long hmiStartTimeout = 0;
+    private long bundleStartTimeout = 10000L;
+    private long hmiStartTimeout = 180000L;
     private KeyEvent pressedEvent = null;
     private List loggedEvents = new LinkedList();
     private int discardedStartupEvents = 0;
@@ -145,9 +154,8 @@ PowerEventListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void logStartupEvent(LogChannel logChannel, int n, String string, Throwable throwable) {
-        this.logExtStartup.log(1078071040, string);
+        this.logExtStartup.log(1000000, string);
         if (logChannel != null) {
             if (throwable != null) {
                 logChannel.log(n, string, throwable);
@@ -158,19 +166,17 @@ PowerEventListener {
         List list = this.loggedEvents;
         synchronized (list) {
             if (this.loggedEvents.size() < 300) {
-                this.loggedEvents.add(new StartupManager$LogEvent(this, string));
+                this.loggedEvents.add(new LogEvent(string));
             } else {
                 ++this.discardedStartupEvents;
             }
         }
     }
 
-    @Override
     public void logStartupEvent(String string) {
         this.logStartupEvent(null, 0, string, null);
     }
 
-    @Override
     public void logStartupEvent(LogChannel logChannel, int n, String string) {
         this.logStartupEvent(logChannel, n, string, null);
     }
@@ -201,15 +207,15 @@ PowerEventListener {
     }
 
     private String getSwdlDataDir() {
-        return System.getProperty("SwdlDataDir", "/net/rcc/mnt/efs-persist/SWDL");
+        return System.getProperty(SWDLDATADIR, DEFAULTSWDLDATADIR);
     }
 
     private boolean useUpdateTxt() {
-        return System.getProperty("SwdlDataDir") != null;
+        return System.getProperty(SWDLDATADIR) != null;
     }
 
     private File getSwdlFlagFile() {
-        return new File(new StringBuffer().append(this.getSwdlDataDir()).append("update.txt").toString());
+        return new File(new StringBuffer().append(this.getSwdlDataDir()).append(SWDLFLAGFILE).toString());
     }
 
     private boolean isRebootToEngineeringDL() {
@@ -229,22 +235,19 @@ PowerEventListener {
         return this.rebootToEngineeringDL;
     }
 
-    @Override
     public void setRVCActive(boolean bl) {
-        this.logStartupEvent(this.logChStartup, 1078071040, new StringBuffer().append("StartupManager#setRVCActive (").append(bl ? "active" : "inactive").append(")").toString());
+        this.logStartupEvent(this.logChStartup, 1000000, new StringBuffer().append("StartupManager#setRVCActive (").append(bl ? "active" : "inactive").append(")").toString());
         this.syncRVC.trigger();
     }
 
-    @Override
     public void setMMIKombiLastmode(int n) {
-        this.logStartupEvent(this.logChStartup, 1078071040, new StringBuffer().append("StartupManager#setMMIKombiLastmode(").append(n).append(")").toString());
+        this.logStartupEvent(this.logChStartup, 1000000, new StringBuffer().append("StartupManager#setMMIKombiLastmode(").append(n).append(")").toString());
         if (n >= 0) {
             this.getLMHandler().enqueueLastmodeChange(0, n);
         }
         this.getSyncMMIKombi().trigger();
     }
 
-    @Override
     public boolean waitForKombiSync() {
         this.getSyncMMIKombi().setupWait();
         this.logStartupEvent(null, 0, "StartupManager#waitForKombiSync() - DSIKombiSync wait for initialization ...");
@@ -257,55 +260,49 @@ PowerEventListener {
         return bl;
     }
 
-    @Override
     public void triggerNavAvailable() {
         int n;
-        this.logStartupEvent(this.logChStartup, 1078071040, "StartupManager#triggerNavAvailable()");
+        this.logStartupEvent(this.logChStartup, 1000000, "StartupManager#triggerNavAvailable()");
         int n2 = n = this.framework.isFrontMU() ? 0 : 5;
         if (this.getLMHandler().getLastmode(n) != 5 || !this.framework.isFrontMU()) {
             this.getSyncNav().trigger();
         } else {
-            this.logStartupEvent(this.logChStartup, 1078071040, "StartupManager#triggerNavAvailable() - Navi is last mode, waiting for map to be shown.");
+            this.logStartupEvent(this.logChStartup, 1000000, "StartupManager#triggerNavAvailable() - Navi is last mode, waiting for map to be shown.");
         }
     }
 
-    @Override
     public void triggerMapAvailable() {
-        this.logStartupEvent(this.logChStartup, 1078071040, "StartupManager#triggerMapAvailable()");
+        this.logStartupEvent(this.logChStartup, 1000000, "StartupManager#triggerMapAvailable()");
         this.getSyncNav().trigger();
     }
 
     public void triggerSDSAvailable() {
-        this.logStartupEvent(this.logChStartup, 1078071040, "StartupManager#triggerSDSAvailable()");
+        this.logStartupEvent(this.logChStartup, 1000000, "StartupManager#triggerSDSAvailable()");
         this.getSyncSDS().trigger();
     }
 
-    @Override
     public void triggerNewScreenVisible() {
-        this.logStartupEvent(this.logChStartup, 1078071040, "StartupManager#triggerNewScreenVisible()");
+        this.logStartupEvent(this.logChStartup, 1000000, "StartupManager#triggerNewScreenVisible()");
         this.getSyncFirstScreenPainted().trigger();
     }
 
-    @Override
     public void triggerTTSAvailable() {
-        this.logStartupEvent(this.logChStartup, 1078071040, "StMgr#triggerTTSAvailable()");
+        this.logStartupEvent(this.logChStartup, 1000000, "StMgr#triggerTTSAvailable()");
         this.getSyncTTS().trigger();
     }
 
-    @Override
     public boolean waitForTTSAvailable() {
         this.getSyncTTS().waitForTrigger();
         return this.getSyncTTS().isTriggered();
     }
 
-    @Override
     public boolean waitForFirstScreen() {
         this.getSyncFirstScreenPainted().waitForTrigger();
         return this.getSyncFirstScreenPainted().isTriggered();
     }
 
     public long getAudioTimeout() {
-        return Long.getLong("WAIT_FOR_AUDIO_TIMEOUT", 0);
+        return Long.getLong(WAIT_FOR_AUDIO_TIMEOUT, 10000L);
     }
 
     private void startDSIService(String string, int n) {
@@ -318,7 +315,7 @@ PowerEventListener {
         this.framework.getPowerMgr().setHMIReady();
         try {
             this.getVariantAppSystem().fireInitialEvent();
-            this.framework.getHMIService().getEventDispatcher().postEvent(new RunnableEvent(false, new StartupManager$ReleaseMute(this, null)));
+            this.framework.getHMIService().getEventDispatcher().postEvent(new RunnableEvent(false, new ReleaseMute()));
         }
         catch (Exception exception) {
             this.criticalStartupError(exception, "AppSystemVariant not started! Cannot initialize Statemachine!");
@@ -329,14 +326,13 @@ PowerEventListener {
         return DomainHandler.getDomainName(n);
     }
 
-    @Override
     public void showFirstScreen() {
         ComponentState componentState;
         if (this.isSMRunning()) {
-            this.logStartupEvent(this.logChStartup, -2137614336, "StartupManager#showFirstScreen() - ShowFirstScreen has already been executed - ignore");
+            this.logStartupEvent(this.logChStartup, 10000000, "StartupManager#showFirstScreen() - ShowFirstScreen has already been executed - ignore");
             return;
         }
-        this.logStartupEvent(this.logChStartup, 1078071040, "StartupManager#showFirstScreen() - before ShowFirstScreen");
+        this.logStartupEvent(this.logChStartup, 1000000, "StartupManager#showFirstScreen() - before ShowFirstScreen");
         if (this.framework.isEvoHighMMIKombi() && !this.waitForKombiSync()) {
             this.processHKsDuringStartup(true);
         }
@@ -353,22 +349,21 @@ PowerEventListener {
         if ((componentState = this.getAppStateManager().getComponentByName("Navi")) != null && componentState.isComponentEnabled()) {
             this.getAppStateManager().getNavProgressMonitor().start();
         }
-        this.logChStartup.log(1078071040, "StartupManager: send initial statemachine event");
+        this.logChStartup.log(1000000, "StartupManager: send initial statemachine event");
         this.fireInitialEvent();
         this.logStartupEvent(null, 0, "StartupManager#showFirstScreen() - SMI started!");
         this.framework.getHMIService().getEventDispatcher().setAdaptiveSleepingEnabled(true);
-        this.logStartupEvent(this.logChStartup, 1078071040, "StartupManager#showFirstScreen() - after ShowFirstScreen");
+        this.logStartupEvent(this.logChStartup, 1000000, "StartupManager#showFirstScreen() - after ShowFirstScreen");
         this.framework.getMsgDistrib().sendMessage(2);
     }
 
     private void startFull() {
         this.getFwServices().fullStart();
-        this.logStartupEvent(this.logChStartup, 1078071040, "StartupManager#startFull() - Framework startup completed!");
+        this.logStartupEvent(this.logChStartup, 1000000, "StartupManager#startFull() - Framework startup completed!");
     }
 
-    @Override
     public void initDSI() {
-        this.logStartupEvent(this.logChStartup, 1078071040, "StartupManager#initDSI() - Initialize DSI");
+        this.logStartupEvent(this.logChStartup, 1000000, "StartupManager#initDSI() - Initialize DSI");
         this.getFwServices().createJDSIAdmin();
         try {
             this.getFwServices().createDomainActivator();
@@ -378,9 +373,8 @@ PowerEventListener {
         }
     }
 
-    @Override
     public void initSystem() {
-        this.logStartupEvent(this.logChStartup, 1078071040, "StartupManager#initSystem()");
+        this.logStartupEvent(this.logChStartup, 1000000, "StartupManager#initSystem()");
         this.getFwServices().createStorageManager();
         this.initDSIPersistence();
         this.getFwServices().createMsgDistrib();
@@ -392,24 +386,23 @@ PowerEventListener {
         this.getFwServices().createLanguageManager();
         this.getLMHandler().initLastmodeStorage(this.isRebootToDownload());
         if (this.isRebootToDownload()) {
-            this.logStartupEvent(this.logChStartup, -1601830656, "StartupManager#initSystem() - SWDL is active! Start only Engineering App");
+            this.logStartupEvent(this.logChStartup, 100000, "StartupManager#initSystem() - SWDL is active! Start only Engineering App");
             this.initPersistentDataSwdl();
         } else {
-            this.logStartupEvent(this.logChStartup, -1601830656, "StartupManager#initSystem() - SWDL not active! Start complete HMI");
+            this.logStartupEvent(this.logChStartup, 100000, "StartupManager#initSystem() - SWDL not active! Start complete HMI");
             this.getFwServices().getSysApp().init(false);
             this.getLMHandler().initPersistentData();
-            this.logStartupEvent(this.logChStartup, 1078071040, "StartupManager#initSystem() - Starting DSICarTimeUnitsLanguage");
+            this.logStartupEvent(this.logChStartup, 1000000, "StartupManager#initSystem() - Starting DSICarTimeUnitsLanguage");
             this.startDSIService((class$org$dsi$ifc$cartimeunitslanguage$DSICarTimeUnitsLanguage == null ? (class$org$dsi$ifc$cartimeunitslanguage$DSICarTimeUnitsLanguage = StartupManager.class$("org.dsi.ifc.cartimeunitslanguage.DSICarTimeUnitsLanguage")) : class$org$dsi$ifc$cartimeunitslanguage$DSICarTimeUnitsLanguage).getName(), 0);
         }
     }
 
-    @Override
     public void initHMI() {
         this.fwServices.createInfotainmentRecorder();
         this.fwServices.createSMInterpreter();
         this.framework.getSMInterpreter().registersSMListener(this.getAppStateManager().getGUIGuideModuleManager());
         this.framework.startDSIService((class$org$dsi$ifc$keypanel$DSIKeyPanel == null ? (class$org$dsi$ifc$keypanel$DSIKeyPanel = StartupManager.class$("org.dsi.ifc.keypanel.DSIKeyPanel")) : class$org$dsi$ifc$keypanel$DSIKeyPanel).getName(), 0);
-        if (Boolean.getBoolean("START_HIGH_HMI_WATCHDOG")) {
+        if (Boolean.getBoolean(START_HIGH_HMI_WATCHDOG)) {
             this.getFwServices().createHMIWatchDog();
         }
         this.hmiServiceAvailable = true;
@@ -426,7 +419,6 @@ PowerEventListener {
         return this.getFramework().isNar() ? 1 : 0;
     }
 
-    @Override
     public void initModelBanks() {
         this.getFwServices().initModels();
         this.getFwServices().getMsgDistrib().sendMessage(101);
@@ -434,19 +426,19 @@ PowerEventListener {
         AbstractMetrics.setPorsche(this.getFramework().isPorsche());
         this.getFwServices().createSWaPHandler();
         this.getFwServices().createCacheHandler();
-        this.logStartupEvent(this.logChStartup, 1078071040, "StartupManager#initModelBanks() - Starting DSIGeneralVehicleStates");
+        this.logStartupEvent(this.logChStartup, 1000000, "StartupManager#initModelBanks() - Starting DSIGeneralVehicleStates");
         this.startDSIService((class$org$dsi$ifc$generalvehiclestates$DSIGeneralVehicleStates == null ? (class$org$dsi$ifc$generalvehiclestates$DSIGeneralVehicleStates = StartupManager.class$("org.dsi.ifc.generalvehiclestates.DSIGeneralVehicleStates")) : class$org$dsi$ifc$generalvehiclestates$DSIGeneralVehicleStates).getName(), 0);
         this.getAppStateManager().initializeModels();
         this.getDomainHandler().addDomainListener(this);
         this.getLMHandler().restoreLastmode();
-        this.logStartupEvent(this.logChStartup, 1078071040, new StringBuffer().append("StartupManager#initModelBanks() - Corrrected Lastmode: ").append(this.getLMHandler().getLastmode(0)).append(", Lastmode Audi: ").append(this.getLMHandler().getLastmodeAudio(0)).toString());
+        this.logStartupEvent(this.logChStartup, 1000000, new StringBuffer().append("StartupManager#initModelBanks() - Corrrected Lastmode: ").append(this.getLMHandler().getLastmode(0)).append(", Lastmode Audi: ").append(this.getLMHandler().getLastmodeAudio(0)).toString());
         this.getLMHandler().setLastmodeForAllTerminals(false);
         if (this.isRebootToDownload()) {
-            this.logStartupEvent(this.logChStartup, -1601830656, "StartupManager#initModelBanks() - SWDL is active! Start only Engineering App");
+            this.logStartupEvent(this.logChStartup, 100000, "StartupManager#initModelBanks() - SWDL is active! Start only Engineering App");
             this.getSwdlActiveChoice().setValue(1);
             this.initQueuesForSwdlLastmode();
         } else {
-            this.logStartupEvent(this.logChStartup, -1601830656, "StartupManager#initModelBanks() - SWDL not active! Start complete HMI");
+            this.logStartupEvent(this.logChStartup, 100000, "StartupManager#initModelBanks() - SWDL not active! Start complete HMI");
             this.getSwdlActiveChoice().setValue(0);
             if (!this.getFramework().isFrontMU() && this.getFwServices().getDomainActivator() != null) {
                 this.getFwServices().getDomainActivator().initRSE();
@@ -457,7 +449,6 @@ PowerEventListener {
         }
     }
 
-    @Override
     public void postStartup() {
         this.logStartupEvent(this.logChStartup, 10000, "StartupManager#postStartup() - Inform DSI that HMI is completely started!");
         this.getDomainHandler().informHMICompletelyStarted();
@@ -467,12 +458,12 @@ PowerEventListener {
         this.fwServices = fwServices;
         this.framework = fwServices.getFramework();
         this.bc = this.framework.getBundleCxt();
-        this.logChStartup = this.framework.getLogChannel("Fw.Startup");
-        this.logChStartupEvent = this.framework.getLogChannel("Fw.Startup.Event");
-        this.logExtStartup = this.framework.getLogChannel("Ext.Startup");
+        this.logChStartup = this.framework.getLogChannel(LOG_CH_STARTUP);
+        this.logChStartupEvent = this.framework.getLogChannel(LOG_CH_STARTUP_EVENT);
+        this.logExtStartup = this.framework.getLogChannel(LOG_CH_EXT_STARTUP);
         this.bundleHandler = new BundleHandler(this.bc, this.logChStartup);
-        this.bundleStartTimeout = Long.getLong("BUNDLE_START_TIMEOUT", 0);
-        this.hmiStartTimeout = Long.getLong("HMI_START_TIMEOUT", 0);
+        this.bundleStartTimeout = Long.getLong("BUNDLE_START_TIMEOUT", 10000L);
+        this.hmiStartTimeout = Long.getLong("HMI_START_TIMEOUT", 180000L);
         this.lastmodeHandler = new LastmodeHandler(this, this.logChStartup);
         this.appStateManager = new AppStateManager(this);
         this.syncPowerSwdl = new StartupSyncer(this, "PowerSwdl", TIMEOUT_POWERSTATE, this.logChStartup);
@@ -502,7 +493,7 @@ PowerEventListener {
         if (hMIService != null) {
             this.fwServices.setHMIService(hMIService);
             this.hmiService = hMIService;
-            this.logStartupEvent(this.logChStartup, 1078071040, "StartupManager#initHMIService()");
+            this.logStartupEvent(this.logChStartup, 1000000, "StartupManager#initHMIService()");
             hMIService.getEventDispatcherAdmin().addEventFilter(this.keyFilter);
         }
     }
@@ -531,7 +522,6 @@ PowerEventListener {
         return this.bundleHandler;
     }
 
-    @Override
     public ILastmodeHandler getLastmodeHandler() {
         return this.lastmodeHandler;
     }
@@ -564,7 +554,6 @@ PowerEventListener {
         return this.syncMMIKombi;
     }
 
-    @Override
     public void startSwDiag() {
         Bundle bundle = this.getBundleHandler().getBundle("FwSwDiag");
         if (bundle != null && !isSwDiagStarted) {
@@ -599,12 +588,10 @@ PowerEventListener {
         return this.getBundleHandler().getBundleName(bundle);
     }
 
-    @Override
     public boolean isStartupCompleted() {
         return this.startupCompleted;
     }
 
-    @Override
     public void setNavEnabled(boolean bl) {
         this.setNavEnabled(bl, true);
     }
@@ -617,12 +604,10 @@ PowerEventListener {
         }
     }
 
-    @Override
     public boolean isNavEnabled() {
         return this.navEnabled;
     }
 
-    @Override
     public boolean isSMRunning() {
         return this.smRunning;
     }
@@ -635,13 +620,11 @@ PowerEventListener {
         return this.hmiServiceAvailable;
     }
 
-    @Override
     public void processHKsDuringStartup(boolean bl) {
         this.logStartupEvent(null, 0, new StringBuffer().append("StartupManager#processHKsDuringStartup(").append(bl).append(")").toString());
         this.processHKs = bl;
     }
 
-    @Override
     public boolean isRebootToDownload() {
         if (this.useUpdateTxt()) {
             return this.isRebootToEngineeringDL();
@@ -685,8 +668,8 @@ PowerEventListener {
     private void waitForDSIPersistence() {
         Object object = this.syncPersistence;
         synchronized (object) {
-            long l = Long.getLong("DSI_PERSISTENCE_TIMEOUT", 0);
-            this.logStartupEvent(this.logChStartup, 1078071040, new StringBuffer().append("StartupManager#waitForDSIPersistence() - Wait up to ").append(l).append("ms for DSIPersistence to register").toString());
+            long l = Long.getLong(WAIT_FOR_DSI_PERSISTENCE, 5000L);
+            this.logStartupEvent(this.logChStartup, 1000000, new StringBuffer().append("StartupManager#waitForDSIPersistence() - Wait up to ").append(l).append("ms for DSIPersistence to register").toString());
             long l2 = this.framework.getMonotonicTime();
             if (!this.persistenceAvailable) {
                 try {
@@ -697,7 +680,7 @@ PowerEventListener {
                 }
             }
             if (this.persistenceAvailable) {
-                this.logStartupEvent(this.logChStartup, 1078071040, "StartupManager#waitForDSIPersistence() - Wait for DSIPersistence succeeded");
+                this.logStartupEvent(this.logChStartup, 1000000, "StartupManager#waitForDSIPersistence() - Wait for DSIPersistence succeeded");
                 IStorageStatistic iStorageStatistic = this.framework.getStorageMgr().getStorageStatistic();
                 if (iStorageStatistic != null) {
                     iStorageStatistic.setTime2Wait4DSI(this.framework.getMonotonicTime() - l2);
@@ -714,7 +697,7 @@ PowerEventListener {
     }
 
     private void initPersistentDataSwdl() {
-        this.logStartupEvent(this.logChStartup, 1078071040, "StartupManager#initPersistentDataSwdl() - Start start DSIPersistence");
+        this.logStartupEvent(this.logChStartup, 1000000, "StartupManager#initPersistentDataSwdl() - Start start DSIPersistence");
         this.getFwServices().getSysApp().init(true);
     }
 
@@ -731,28 +714,27 @@ PowerEventListener {
         }
     }
 
-    @Override
     public void resourcesReady(int n) {
     }
 
     void enqueueStartBundle(List list, Bundle bundle, ComponentState componentState, boolean bl) {
         if (bundle != null) {
-            this.getStartupQueue().enqueue(list, new StartupManager$StartBundle(this, bundle, componentState), bl);
+            this.getStartupQueue().enqueue(list, new StartBundle(bundle, componentState), bl);
         }
     }
 
     void enqueueStopBundle(List list, Bundle bundle, boolean bl) {
         if (bundle != null) {
-            this.getStartupQueue().enqueue(list, new StartupManager$StopBundle(this, bundle), bl);
+            this.getStartupQueue().enqueue(list, new StopBundle(bundle), bl);
         }
     }
 
     void enqueueStartBundles(List list, Bundle[] bundleArray, ComponentState componentState, boolean bl) {
-        this.getStartupQueue().enqueue(list, new StartupManager$StartBundles(this, bundleArray, componentState), bl);
+        this.getStartupQueue().enqueue(list, new StartBundles(bundleArray, componentState), bl);
     }
 
     void enqueueStopBundles(List list, Bundle[] bundleArray, boolean bl) {
-        this.getStartupQueue().enqueue(list, new StartupManager$StopBundles(this, bundleArray), bl);
+        this.getStartupQueue().enqueue(list, new StopBundles(bundleArray), bl);
     }
 
     void enqueue(List list, Runnable runnable) {
@@ -760,7 +742,7 @@ PowerEventListener {
     }
 
     private void initQueues() {
-        this.logChStartup.log(-2137614336, "StartupManager.initQueues!");
+        this.logChStartup.log(10000000, "StartupManager.initQueues!");
         this.enqueueStartComponent(this.beforeAudioQueue, this.appStateManager.getStaticInit(), true);
         this.getStartupQueue().addQueue(this.beforeAudioQueue, "Before Audio");
         this.getStartupQueue().addQueue(this.shutdownQueue, "ShutdownApps");
@@ -772,57 +754,52 @@ PowerEventListener {
         this.getStartupQueue().addQueue(this.beforeAppQueue, "Before Lastmode");
         this.getLMHandler().initLastmodeAppQueues();
         ArrayList arrayList = new ArrayList(10);
-        this.enqueue(arrayList, new StartupManager$FullFrameworkStart(this, null));
+        this.enqueue(arrayList, new FullFrameworkStart());
         this.getStartupQueue().addQueue(arrayList, "Framework completion");
         this.getStartupQueue().addQueue(this.delayedQueue, "Delayed");
         this.appStateManager.enqueueBackgroundApps(this.backgroundQueue);
         this.getStartupQueue().addQueue(this.backgroundQueue, "Background");
         this.enqueueStartComponent(this.backgroundQueue, this.appStateManager.getAddon(), true);
-        this.enqueue(this.backgroundQueue, new StartupManager$StartupFinished(this, null));
+        this.enqueue(this.backgroundQueue, new StartupFinished());
     }
 
     private void initQueuesForSwdlLastmode() {
         int n = this.getFramework().isFrontMU() ? 0 : 5;
-        this.logStartupEvent(this.logChStartup, -2137614336, new StringBuffer().append("StartupManager#initQueuesForSwdlLastmode() - Terminal: ").append(n).toString());
+        this.logStartupEvent(this.logChStartup, 10000000, new StringBuffer().append("StartupManager#initQueuesForSwdlLastmode() - Terminal: ").append(n).toString());
         this.getStartupQueue().addQueue(this.shutdownQueue, "ShutdownApps");
         this.getStartupQueue().addQueue(this.delayedQueue, "Delayed");
         ArrayList arrayList = new ArrayList(10);
-        this.logChStartup.log(1078071040, "StartupManager.initQueuesForSWDL()");
+        this.logChStartup.log(1000000, "StartupManager.initQueuesForSWDL()");
         this.enqueueStartComponent(arrayList, this.appStateManager.getSwdl(), true);
-        this.enqueue(arrayList, new StartupManager$LastmodeSWDLReached(this, n));
-        this.enqueue(arrayList, new StartupManager$StartupFinished(this, null));
+        this.enqueue(arrayList, new LastmodeSWDLReached(n));
+        this.enqueue(arrayList, new StartupFinished());
         this.getStartupQueue().addQueue(arrayList, "Swdl Lastmode");
     }
 
-    @Override
     public void requestStartBundle(String string) {
-        this.logStartupEvent(this.logChStartup, 1078071040, new StringBuffer().append("StartupManager.requestStartBundle(").append(string).append(")").toString());
+        this.logStartupEvent(this.logChStartup, 1000000, new StringBuffer().append("StartupManager.requestStartBundle(").append(string).append(")").toString());
         this.enqueueStartBundle(this.getDelayedQueue(), this.getBundleHandler().getBundle(string), null, true);
     }
 
-    @Override
     public void requestAppStart(int n) {
-        this.logStartupEvent(this.logChStartup, 1078071040, new StringBuffer().append("StartupManager.requestAppStart(").append(n).append(")").toString());
+        this.logStartupEvent(this.logChStartup, 1000000, new StringBuffer().append("StartupManager.requestAppStart(").append(n).append(")").toString());
         this.getLMHandler().enqueueLastmodeChange(-1, n);
     }
 
-    @Override
     public void requestAppStartByHMIKey(int n) {
-        this.logStartupEvent(this.logChStartup, 1078071040, new StringBuffer().append("StartupManager.requestAppStartByHMIKey(").append(n).append(")").toString());
+        this.logStartupEvent(this.logChStartup, 1000000, new StringBuffer().append("StartupManager.requestAppStartByHMIKey(").append(n).append(")").toString());
         this.getLMHandler().enqueueLastmodeChange(-1, this.getAppStateManager().convertKeyToLastmode(n));
     }
 
-    @Override
     public void muDomainIsAvailable(int n, int n2) {
-        this.logStartupEvent(this.logChStartup, -1601830656, new StringBuffer().append("StartupManager#muDomainIsAvailable(").append(this.getDomainName(n)).append(", 0x").append(n2).append(") - METHOD NOT IMPLEMENTED").toString());
+        this.logStartupEvent(this.logChStartup, 100000, new StringBuffer().append("StartupManager#muDomainIsAvailable(").append(this.getDomainName(n)).append(", 0x").append(n2).append(") - METHOD NOT IMPLEMENTED").toString());
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateDomainState(int n, int n2) {
-        this.logStartupEvent(this.logChStartup, 1078071040, new StringBuffer().append("StartupManager#updateDomainState(").append(this.getDomainName(n)).append(", 0x").append(n2).append(")").toString());
+        this.logStartupEvent(this.logChStartup, 1000000, new StringBuffer().append("StartupManager#updateDomainState(").append(this.getDomainName(n)).append(", 0x").append(n2).append(")").toString());
         try {
             this.startupDispatcher.suspend();
             this.getAppStateManager().updateDomainState(n, n2);
@@ -833,7 +810,7 @@ PowerEventListener {
     }
 
     private void delayedStart(ComponentState componentState, int n) {
-        this.logStartupEvent(this.logChStartup, 1078071040, new StringBuffer().append("StartupManager#delayedStart(").append(componentState.getComponentName()).append(", ").append(n).append(")").toString());
+        this.logStartupEvent(this.logChStartup, 1000000, new StringBuffer().append("StartupManager#delayedStart(").append(componentState.getComponentName()).append(", ").append(n).append(")").toString());
         if (DomainHandler.isIncluded(componentState.getStateFlagsMinimum(), n)) {
             componentState.enqueueStartFull(this.delayedQueue, false);
         } else {
@@ -845,7 +822,7 @@ PowerEventListener {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void delayedDomainIsAvailable(int n, int n2) {
-        this.logStartupEvent(this.logChStartup, 1078071040, new StringBuffer().append("StartupManager#delayedDomainIsAvailable(").append(this.getDomainName(n)).append(", 0x").append(n2).append(")").toString());
+        this.logStartupEvent(this.logChStartup, 1000000, new StringBuffer().append("StartupManager#delayedDomainIsAvailable(").append(this.getDomainName(n)).append(", 0x").append(n2).append(")").toString());
         try {
             this.startupDispatcher.suspend();
             ComponentState[] componentStateArray = this.getAppStateManager().getComponentStateByDomainId(n);
@@ -865,11 +842,44 @@ PowerEventListener {
     public void start() {
         this.regStartup = this.bc.registerService((class$de$audi$atip$startup$StartupManager == null ? (class$de$audi$atip$startup$StartupManager = StartupManager.class$("de.audi.atip.startup.StartupManager")) : class$de$audi$atip$startup$StartupManager).getName(), (Object)this, null);
         this.hmiWatchDog = this.createHMIStartWatchDog();
-        this.keyFilter = new StartupManager$StartupFilter(this, null);
+        this.keyFilter = new StartupFilter();
         this.startupDispatcher.start();
         this.getLMHandler().start();
-        this.getFramework().getErrorMgr().registerDumpInfoProvider(new StartupManager$1(this));
-        this.diagTracker = new ServiceTracker(this.bc, (class$de$audi$atip$diag$sw$SwDiagnosisManager == null ? (class$de$audi$atip$diag$sw$SwDiagnosisManager = StartupManager.class$("de.audi.atip.diag.sw.SwDiagnosisManager")) : class$de$audi$atip$diag$sw$SwDiagnosisManager).getName(), (ServiceTrackerCustomizer)new StartupManager$2(this));
+        this.getFramework().getErrorMgr().registerDumpInfoProvider(new DumpInfoProvider(){
+
+            public void dump(PrintStream printStream, String string) {
+                StartupManager.this.dumpMembers(printStream);
+                printStream.println();
+                StartupManager.this.startupDispatcher.dump(printStream, string);
+                printStream.println();
+                StartupManager.this.dumpEvents(printStream);
+            }
+
+            public String getName() {
+                return "StartupManager";
+            }
+        });
+        this.diagTracker = new ServiceTracker(this.bc, (class$de$audi$atip$diag$sw$SwDiagnosisManager == null ? (class$de$audi$atip$diag$sw$SwDiagnosisManager = StartupManager.class$("de.audi.atip.diag.sw.SwDiagnosisManager")) : class$de$audi$atip$diag$sw$SwDiagnosisManager).getName(), new ServiceTrackerCustomizer(){
+
+            public Object addingService(ServiceReference serviceReference) {
+                Object object = StartupManager.this.bc.getService(serviceReference);
+                if (object instanceof SwDiagnosisManager) {
+                    ((SwDiagnosisManager)object).addDiagGateway((AbstractSwDiagnosis)new StartUpDiag(StartupManager.this));
+                    ((SwDiagnosisManager)object).addDiagGateway((AbstractSwDiagnosis)new DispatcherDiag(StartupManager.this.bc));
+                    ((SwDiagnosisManager)object).addDiagGateway((AbstractSwDiagnosis)new JDSIManagerDiag(StartupManager.this.fwServices));
+                    return object;
+                }
+                StartupManager.this.bc.ungetService(serviceReference);
+                return null;
+            }
+
+            public void removedService(ServiceReference serviceReference, Object object) {
+                StartupManager.this.bc.ungetService(serviceReference);
+            }
+
+            public void modifiedService(ServiceReference serviceReference, Object object) {
+            }
+        });
         this.diagTracker.open();
     }
 
@@ -890,18 +900,15 @@ PowerEventListener {
         this.hmiService.getEventDispatcher().postEvent(aTIPEvent);
     }
 
-    @Override
     public void notifyPowerListenerOnEnterState(int n, int n2) {
     }
 
-    @Override
     public void notifyPowerListenerOnExitState(int n, int n2) {
     }
 
-    @Override
     public void notifyPowerTriggerAction(int n, int n2) {
         if (!this.useUpdateTxt()) {
-            this.logChStartup.log(1078071040, "StartupManager.notifyPowerTriggerAction(trigger=%1)", (long)n);
+            this.logChStartup.log(1000000, "StartupManager.notifyPowerTriggerAction(trigger=%1)", (long)n);
             if (!this.swdlRebootQueried) {
                 this.swdlRebootQueried = true;
                 if (8 == n) {
@@ -912,12 +919,11 @@ PowerEventListener {
                 }
                 this.syncPowerSwdl.trigger();
             } else {
-                this.logChStartup.log(1078071040, "StartupManager.notifyPowerTriggerAction ignore trigger=%1", (long)n);
+                this.logChStartup.log(1000000, "StartupManager.notifyPowerTriggerAction ignore trigger=%1", (long)n);
             }
         }
     }
 
-    @Override
     public void updateClampState(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
     }
 
@@ -990,34 +996,12 @@ PowerEventListener {
         printStream.flush();
     }
 
-    @Override
     public void addInitialEvents(List list) {
         this.initialGraphicsEvents.addAll(list);
     }
 
-    @Override
     public void setFallBackScreenShown(boolean bl) {
         this.fallBackScreenShown = bl;
-    }
-
-    static /* synthetic */ IFrameworkAccess access$100(StartupManager startupManager) {
-        return startupManager.framework;
-    }
-
-    static /* synthetic */ String access$200(StartupManager startupManager, Bundle bundle) {
-        return startupManager.getBundleName(bundle);
-    }
-
-    static /* synthetic */ LogChannel access$300(StartupManager startupManager) {
-        return startupManager.logChStartup;
-    }
-
-    static /* synthetic */ WatchDog access$400(StartupManager startupManager, String string) {
-        return startupManager.createBundleStartWatchDog(string);
-    }
-
-    static /* synthetic */ void access$500(StartupManager startupManager, String string) {
-        startupManager.updateComponentState(string);
     }
 
     static /* synthetic */ Class class$(String string) {
@@ -1029,102 +1013,357 @@ PowerEventListener {
         }
     }
 
-    static /* synthetic */ void access$600(StartupManager startupManager) {
-        startupManager.startFull();
+    private final class LogEvent {
+        private final long timestamp;
+        private final String msg;
+
+        LogEvent(String string) {
+            this.timestamp = StartupManager.this.getFramework().getMonotonicTime();
+            this.msg = string;
+        }
+
+        public String toString() {
+            return new StringBuffer().append("[").append(this.timestamp).append("] ").append(this.msg).toString();
+        }
     }
 
-    static /* synthetic */ AppStateManager access$700(StartupManager startupManager) {
-        return startupManager.appStateManager;
+    static interface BundleJob
+    extends Runnable {
+        public String getBundleName();
     }
 
-    static /* synthetic */ ILastmodeHandlerExtended access$800(StartupManager startupManager) {
-        return startupManager.getLMHandler();
+    protected class BundlesJob
+    implements Runnable {
+        final String prefix;
+        final BundleJob[] jobs;
+
+        BundlesJob(String string, int n) {
+            this.prefix = string;
+            this.jobs = new BundleJob[n];
+        }
+
+        public String toString() {
+            Buffer buffer = new Buffer().append(this.prefix);
+            for (int i2 = 0; i2 < this.jobs.length; ++i2) {
+                if (i2 > 0) {
+                    buffer.append(", ");
+                }
+                buffer.append(this.jobs[i2].getBundleName());
+            }
+            return buffer.toString();
+        }
+
+        public void run() {
+            for (int i2 = 0; i2 < this.jobs.length; ++i2) {
+                this.jobs[i2].run();
+            }
+        }
     }
 
-    static /* synthetic */ boolean access$902(StartupManager startupManager, boolean bl) {
-        startupManager.smRunning = bl;
-        return startupManager.smRunning;
+    private class StopBundle
+    implements BundleJob {
+        private final Bundle bundle;
+        private final String bundleName;
+
+        StopBundle(Bundle bundle) {
+            this.bundle = bundle;
+            this.bundleName = StartupManager.this.getBundleName(bundle);
+        }
+
+        public final String toString() {
+            return new Buffer().append("StopBundle: ").append(this.bundleName).toString();
+        }
+
+        public String getBundleName() {
+            return this.bundleName;
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public final void run() {
+            WatchDog watchDog = null;
+            try {
+                watchDog = StartupManager.this.createBundleStartWatchDog(new StringBuffer().append("StopBundle#run() - Stop of bundle timed out: ").append(this.bundleName).toString());
+                StartupManager.this.getBundleHandler().stopBundle(this.bundle);
+            }
+            catch (BundleException bundleException) {
+                StartupManager.this.logChStartup.log(10000, "Stop of Bundle %1 failed!", (Object)this.bundleName, (Throwable)bundleException);
+            }
+            catch (RuntimeException runtimeException) {
+                StartupManager.this.logChStartup.log(10000, "Stop of Bundle %1 failed!", (Object)this.bundleName, (Throwable)runtimeException);
+            }
+            finally {
+                if (watchDog != null) {
+                    watchDog.cancel();
+                }
+                StartupManager.this.getAppStateManager().updateComponentState(this.bundleName);
+            }
+        }
     }
 
-    static /* synthetic */ void access$1000(StartupManager startupManager) {
-        startupManager.fireInitialEvent();
+    private class ReleaseMute
+    implements Runnable {
+        private ReleaseMute() {
+        }
+
+        public void run() {
+            StartupManager.this.framework.getPowerMgr().releaseStandbyMute();
+        }
+
+        public String toString() {
+            return "ReleaseMute";
+        }
     }
 
-    static /* synthetic */ long access$1100(StartupManager startupManager) {
-        return startupManager.startOfFramework;
+    private class StartBundle
+    implements BundleJob {
+        private final Bundle bundle;
+        private final String bundleName;
+        private final ComponentState componentState;
+
+        StartBundle(Bundle bundle, ComponentState componentState) {
+            this.bundle = bundle;
+            this.bundleName = StartupManager.this.getBundleName(bundle);
+            this.componentState = componentState;
+        }
+
+        public String toString() {
+            return new Buffer().append("StartBundle: ").append(this.bundleName).toString();
+        }
+
+        public String getBundleName() {
+            return this.bundleName;
+        }
+
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void run() {
+            WatchDog watchDog = null;
+            if (this.componentState != null) {
+                if (this.componentState.isDomainFailed()) {
+                    StartupManager.this.logChStartup.log(1000000, "Bundle: %1 Do not start due to domain error!", (Object)this.bundleName);
+                    return;
+                }
+                if (this.componentState.isWaitingForDomainStart()) {
+                    StartupManager.this.logChStartup.log(1000000, "Bundle: %1 Do not start, startDomain call is still pending!", (Object)this.bundleName);
+                    return;
+                }
+            }
+            try {
+                watchDog = StartupManager.this.createBundleStartWatchDog(new StringBuffer().append("Start of bundle timed out: ").append(this.bundleName).toString());
+                StartupManager.this.getBundleHandler().startBundle(this.bundle);
+                StartupManager.this.updateComponentState(this.bundleName);
+            }
+            catch (BundleException bundleException) {
+                StartupManager.this.logChStartup.log(10000, "Start of Bundle %1 failed!", (Object)this.bundleName, (Throwable)bundleException);
+                StartupManager.this.updateComponentState(this.bundleName);
+                StartupManager.this.getFramework().getErrorMgr().handleError(bundleException, new StringBuffer().append("Error starting bundle (").append(this.bundleName).append(")").toString(), 0, 0, 0);
+            }
+            catch (RuntimeException runtimeException) {
+                StartupManager.this.updateComponentState(this.bundleName);
+                StartupManager.this.logStartupEvent(StartupManager.this.logChStartup, 10000, new StringBuffer().append("StartBundle#run() - Start of Bundle ").append(this.bundleName).append(" failed!").toString(), runtimeException);
+            }
+            finally {
+                if (watchDog != null) {
+                    watchDog.cancel();
+                }
+            }
+        }
     }
 
-    static /* synthetic */ boolean access$1202(StartupManager startupManager, boolean bl) {
-        startupManager.startupCompleted = bl;
-        return startupManager.startupCompleted;
+    private class StopBundles
+    extends BundlesJob {
+        StopBundles(Bundle[] bundleArray) {
+            super("StopBundles: ", bundleArray.length);
+            for (int i2 = 0; i2 < bundleArray.length; ++i2) {
+                this.jobs[i2] = new StopBundle(bundleArray[i2]);
+            }
+        }
     }
 
-    static /* synthetic */ HMIService access$1300(StartupManager startupManager) {
-        return startupManager.hmiService;
+    private class StartBundles
+    extends BundlesJob {
+        private final ComponentState componentState;
+
+        StartBundles(Bundle[] bundleArray, ComponentState componentState) {
+            super("StartBundles: ", bundleArray.length);
+            for (int i2 = 0; i2 < bundleArray.length; ++i2) {
+                this.jobs[i2] = new StartBundle(bundleArray[i2], componentState);
+            }
+            this.componentState = componentState;
+        }
+
+        public void run() {
+            if (this.componentState != null) {
+                if (this.componentState.isDomainFailed()) {
+                    StartupManager.this.logChStartup.log(1000000, "%1 Do not start due to domain error!", (Object)this);
+                    return;
+                }
+                if (this.componentState.isWaitingForDomainStart()) {
+                    StartupManager.this.logChStartup.log(1000000, "%1 Do not start, startDomain call is still pending!", (Object)this);
+                    return;
+                }
+            }
+            super.run();
+        }
     }
 
-    static /* synthetic */ IJobFilter access$1400(StartupManager startupManager) {
-        return startupManager.keyFilter;
+    private class StartupFilter
+    extends BaseJobFilter
+    implements IJobFilter {
+        private StartupFilter() {
+        }
+
+        private void processNonStartupAffecting(Job job, int n) {
+            Object object = job.getPayload();
+            if (StartupManager.this.forwardEvents()) {
+                super.enqueue(job, n);
+            } else if (object instanceof KeyEvent && ((KeyEvent)object).getKeyCode() == 16) {
+                super.enqueue(job, n);
+            } else if (object instanceof RunnableEvent) {
+                RunnableEvent runnableEvent = (RunnableEvent)object;
+                if (runnableEvent.getRunnable() instanceof IShowPopupRunnable) {
+                    StartupManager.this.popupShown = true;
+                    super.enqueue(job, n);
+                } else if (runnableEvent.isProcessBeforeFirstScreen()) {
+                    super.enqueue(job, n);
+                } else {
+                    StartupManager.this.logChStartupEvent.log(10000000, "StartupManager: discard %1", (Object)job);
+                }
+            } else if (object instanceof RegisterPartialPopupsEvent) {
+                super.enqueue(job, n);
+            } else if (object instanceof MMICombiSyncEvent) {
+                super.enqueue(job, n);
+            } else if (object instanceof ModelUpdateEvent && ((ModelUpdateEvent)object).isForceUpdateActivated()) {
+                super.enqueue(job, n);
+            } else if (object instanceof EALMergeEvent) {
+                if (StartupManager.this.logChStartupEvent.isDebug()) {
+                    StartupManager.this.logChStartupEvent.log(10000000, "StartupManager: enqueue EALMergeEvent for Node: %1", (Object)((EALMergeEvent)object).getNodeName());
+                }
+                super.enqueue(job, n);
+            } else {
+                StartupManager.this.logChStartupEvent.log(10000000, "StartupManager: discard %1", (Object)job);
+            }
+        }
+
+        public void enqueue(Job job, int n) {
+            StartupManager.this.logChStartupEvent.log(10000000, "StartupManager: handle event %1", (Object)job);
+            Object object = job.getPayload();
+            if (StartupManager.this.processHKs && !StartupManager.this.isStartupCompleted() && object instanceof KeyEvent && StartupManager.this.getLMHandler().isValidLastmode((KeyEvent)object)) {
+                StartupManager.this.logChStartupEvent.log(10000000, "StartupManager#postEvent: KeyEvent is valid lastmode");
+                KeyEvent keyEvent = (KeyEvent)object;
+                StartupManager.this.logChStartupEvent.log(1000000, "StartupManager: intercept %1", (Object)keyEvent);
+                if (keyEvent.getID() == 10402) {
+                    if (StartupManager.this.getLMHandler().checkLastmodeChange(keyEvent)) {
+                        if (StartupManager.this.pressedEvent == null) {
+                            StartupManager.this.pressedEvent = new KeyEvent(keyEvent.getReceiver(), 10401, keyEvent.getKeyCode(), keyEvent.getTerminalID());
+                        }
+                        super.enqueue(new Job(StartupManager.this.pressedEvent), n);
+                        super.enqueue(new Job(keyEvent), n);
+                    }
+                    StartupManager.this.pressedEvent = null;
+                } else {
+                    StartupManager.this.pressedEvent = keyEvent;
+                }
+            } else {
+                this.processNonStartupAffecting(job, n);
+            }
+        }
     }
 
-    static /* synthetic */ WatchDog access$1500(StartupManager startupManager) {
-        return startupManager.hmiWatchDog;
+    private class StartupFinished
+    implements Runnable {
+        private StartupFinished() {
+        }
+
+        public final String toString() {
+            return "StartupFinished";
+        }
+
+        public final void run() {
+            System.out.println("######################################");
+            System.out.println(new StringBuffer().append("# HMI STARTUP FINISHED [").append(StartupManager.this.getFramework().getMonotonicTime() - StartupManager.this.startOfFramework).append("ms]").toString());
+            System.out.println("######################################");
+            StartupManager.this.logStartupEvent(StartupManager.this.logChStartup, 1000000, "StartupFinished#run() - HMI STARTUP FINISHED");
+            StartupManager.this.startupCompleted = true;
+            if (StartupManager.this.hmiService != null) {
+                StartupManager.this.logStartupEvent(StartupManager.this.logChStartup, 1000000, "StartupFinished#run() - Remove StartupFilter from event queue");
+                StartupManager.this.hmiService.getEventDispatcherAdmin().removeEventFilter(StartupManager.this.keyFilter);
+            }
+            if (StartupManager.this.hmiWatchDog != null) {
+                StartupManager.this.hmiWatchDog.cancel();
+            }
+            if (StartupManager.this.framework.isTarget()) {
+                try {
+                    File file = new File("/tmp/MMX-startup-finished");
+                    file.delete();
+                    file.createNewFile();
+                }
+                catch (Exception exception) {
+                    StartupManager.this.logStartupEvent(StartupManager.this.logChStartup, 10000, "StartupFinished#run() - Exception on writing /tmp/MMX-startup-finished", exception);
+                }
+            }
+            StartupManager.this.framework.getMsgDistrib().sendMessage(3);
+            if (StartupManager.this.pressedEvent != null && StartupManager.this.hmiService != null) {
+                StartupManager.this.logStartupEvent(StartupManager.this.logChStartup, 10000000, new StringBuffer().append("StartupFinished#run() - Forward ").append(StartupManager.this.pressedEvent).toString());
+                StartupManager.this.logChStartupEvent.log(10000000, "StartupManager: forward %1", (Object)StartupManager.this.pressedEvent);
+                StartupManager.this.hmiService.getEventDispatcher().postEvent(StartupManager.this.pressedEvent);
+                StartupManager.this.pressedEvent = null;
+            }
+        }
     }
 
-    static /* synthetic */ KeyEvent access$1600(StartupManager startupManager) {
-        return startupManager.pressedEvent;
+    private class FullFrameworkStart
+    implements Runnable {
+        private FullFrameworkStart() {
+        }
+
+        public final String toString() {
+            return "FullFrameworkStart";
+        }
+
+        public final void run() {
+            try {
+                StartupManager.this.startFull();
+            }
+            catch (Exception exception) {
+                StartupManager.this.logStartupEvent(StartupManager.this.logChStartup, 10000, "FullFrameworkStart#run() - Full Framework start failed!", exception);
+                throw new FrameworkException("Full Framework start failed!", exception);
+            }
+        }
     }
 
-    static /* synthetic */ LogChannel access$1700(StartupManager startupManager) {
-        return startupManager.logChStartupEvent;
-    }
+    private class LastmodeSWDLReached
+    implements Runnable {
+        final int terminalID;
 
-    static /* synthetic */ KeyEvent access$1602(StartupManager startupManager, KeyEvent keyEvent) {
-        startupManager.pressedEvent = keyEvent;
-        return startupManager.pressedEvent;
-    }
+        public LastmodeSWDLReached(int n) {
+            this.terminalID = n;
+        }
 
-    static /* synthetic */ boolean access$1800(StartupManager startupManager) {
-        return startupManager.forwardEvents();
-    }
+        public final String toString() {
+            return "LastmodeSWDLReached terminalID:";
+        }
 
-    static /* synthetic */ boolean access$1902(StartupManager startupManager, boolean bl) {
-        startupManager.popupShown = bl;
-        return startupManager.popupShown;
-    }
-
-    static /* synthetic */ boolean access$2000(StartupManager startupManager) {
-        return startupManager.processHKs;
-    }
-
-    static /* synthetic */ void access$2400(StartupManager startupManager, PrintStream printStream) {
-        startupManager.dumpMembers(printStream);
-    }
-
-    static /* synthetic */ DispatcherBase access$2500(StartupManager startupManager) {
-        return startupManager.startupDispatcher;
-    }
-
-    static /* synthetic */ void access$2600(StartupManager startupManager, PrintStream printStream) {
-        startupManager.dumpEvents(printStream);
-    }
-
-    static /* synthetic */ BundleContext access$2700(StartupManager startupManager) {
-        return startupManager.bc;
-    }
-
-    static /* synthetic */ FwServices access$2800(StartupManager startupManager) {
-        return startupManager.fwServices;
-    }
-
-    static {
-        TIMEOUT_RVC_AVAILABLE = Long.getLong("WAIT_FOR_RVC_AVAILABLE", 0);
-        TIMEOUT_POWERSTATE = Long.getLong("WAIT_FOR_FIRST_POWERSTATE", 0);
-        TIMEOUT_MAP_AVAILABLE = Long.getLong("WAIT_FOR_MAP_AVAILABLE", 0);
-        TIMEOUT_SDS_AVAILABLE = Long.getLong("WAIT_FOR_SDS_AVAILABLE", 0);
-        TIMEOUT_MMIKOMBISYNC = Long.getLong("WAIT_FOR_FIRST_MMIKOMBISYNC", 0);
-        TIMEOUT_FIRST_SCREEN_PAINTED = Long.getLong("WAIT_FOR_FIRST_SCREEN_PAINTED", 0);
-        isSwDiagStarted = false;
+        public final void run() {
+            if (StartupManager.this.getLMHandler().activateLastmodeApp(StartupManager.this.appStateManager.getSwdlLastmode(), this.terminalID)) {
+                StartupManager.this.getLMHandler().setLastmode(this.terminalID, StartupManager.this.appStateManager.getSwdlLastmode(), false);
+                StartupManager.this.smRunning = true;
+                StartupManager.this.fireInitialEvent();
+                StartupManager.this.logChStartup.log(1000000, "StartupManager: lastmode app is active!");
+                StartupManager.this.switchToBackgroundPriority();
+                try {
+                    StartupManager.this.framework.getMsgDistrib().sendMessage(6);
+                    StartupManager.this.startFull();
+                }
+                catch (Exception exception) {
+                    StartupManager.this.logChStartup.log(10000, "StartupManager: Framework.startFull failed!", (Throwable)exception);
+                    throw new FrameworkException("Full Framework start failed!", exception);
+                }
+            }
+        }
     }
 }
 

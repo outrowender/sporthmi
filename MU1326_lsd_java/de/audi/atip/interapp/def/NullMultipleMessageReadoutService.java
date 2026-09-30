@@ -20,23 +20,19 @@ implements IMultipleMessageReadoutService {
         super.log();
     }
 
-    @Override
     public void requestBeginDialog(boolean bl, int n) {
         super.log();
     }
 
-    @Override
     public void requestEndDialog() {
         super.log();
     }
 
-    @Override
     public boolean isMessageAvailable() {
         super.log();
         return false;
     }
 
-    @Override
     public void requestNextMessage() {
         super.log();
     }

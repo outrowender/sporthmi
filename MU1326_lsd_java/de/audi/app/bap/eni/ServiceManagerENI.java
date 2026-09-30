@@ -27,11 +27,10 @@ extends AbstractBAPModuleServiceManager {
         this.logChannel = abstractBAPModule.getLogChannel();
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof BAPServiceENIListener) {
-            this.logChannel.log(1078071040, "[ServiceManagerENI#addingService] BAPServiceENIListener found");
+            this.logChannel.log(1000000, "[ServiceManagerENI#addingService] BAPServiceENIListener found");
             ((AppConnectorENI)this.module.getAppConnectors().get("AppBapENI")).setAppServiceListener((BAPServiceListener)object);
             this.module.getInitializationManager().notifyAppServiceChanged(true);
             return object;
@@ -40,10 +39,9 @@ extends AbstractBAPModuleServiceManager {
         return super.addingService(serviceReference);
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof BAPServiceENIListener) {
-            this.logChannel.log(-2137614336, "[ServiceManagerENI#removedService] BAPServiceENIListener removed");
+            this.logChannel.log(10000000, "[ServiceManagerENI#removedService] BAPServiceENIListener removed");
             ((AppConnectorENI)this.module.getAppConnectors().get("AppBapENI")).setAppServiceListener(null);
             this.bundleContext.ungetService(serviceReference);
         } else {
@@ -51,15 +49,13 @@ extends AbstractBAPModuleServiceManager {
         }
     }
 
-    @Override
     public void registerServices(AbstractActivator abstractActivator) {
-        this.logChannel.log(1078071040, "[ServiceManagerENI#registerServices] activator: %1", (Object)abstractActivator);
+        this.logChannel.log(1000000, "[ServiceManagerENI#registerServices] activator: %1", (Object)abstractActivator);
         abstractActivator.registerService((class$de$audi$atip$interapp$bap$eni$BAPServiceENI == null ? (class$de$audi$atip$interapp$bap$eni$BAPServiceENI = ServiceManagerENI.class$("de.audi.atip.interapp.bap.eni.BAPServiceENI")) : class$de$audi$atip$interapp$bap$eni$BAPServiceENI).getName(), this.module.getAppConnectors().get("AppBapENI"), null);
     }
 
-    @Override
     public void trackServices() {
-        this.logChannel.log(1078071040, "[ServiceManagerENI#trackServices]");
+        this.logChannel.log(1000000, "[ServiceManagerENI#trackServices]");
         String[] stringArray = new String[]{(class$de$audi$atip$interapp$bap$eni$BAPServiceENIListener == null ? (class$de$audi$atip$interapp$bap$eni$BAPServiceENIListener = ServiceManagerENI.class$("de.audi.atip.interapp.bap.eni.BAPServiceENIListener")) : class$de$audi$atip$interapp$bap$eni$BAPServiceENIListener).getName(), (class$de$audi$atip$diag$sw$SwDiagnosisManager == null ? (class$de$audi$atip$diag$sw$SwDiagnosisManager = ServiceManagerENI.class$("de.audi.atip.diag.sw.SwDiagnosisManager")) : class$de$audi$atip$diag$sw$SwDiagnosisManager).getName()};
         this.serviceTracker = new ServiceTracker(this.bundleContext, stringArray, (ServiceTrackerCustomizer)this);
         this.serviceTracker.open();

@@ -4,7 +4,6 @@
 package de.audi.atip.hmi.model;
 
 import de.audi.atip.hmi.model.AbstractModel;
-import de.audi.atip.hmi.model.OptionModel$FallbackListener;
 import de.audi.atip.hmi.model.OptionModelListener;
 import de.audi.atip.hmi.modelaccess.OptionModelApp;
 import de.audi.atip.hmi.modelaccess.OptionModelGUI;
@@ -15,7 +14,7 @@ public class OptionModel
 extends AbstractModel
 implements OptionModelApp,
 OptionModelGUI {
-    private static final OptionModelListener FALLBACK_LISTENER = new OptionModel$FallbackListener(null);
+    private static final OptionModelListener FALLBACK_LISTENER = new FallbackListener();
     private volatile OptionModelListener listener = FALLBACK_LISTENER;
     private final String logPrefix;
     private final SimpleIntObjectMap listenersMap = new SimpleIntObjectMap();
@@ -26,7 +25,6 @@ OptionModelGUI {
         this.logPrefix = new Buffer().append('{').append(n).append("} [OptionModel.").toString();
     }
 
-    @Override
     public void setListener(OptionModelListener optionModelListener) {
         this.listener = optionModelListener != null ? optionModelListener : FALLBACK_LISTENER;
     }
@@ -34,7 +32,6 @@ OptionModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setListener(OptionModelListener optionModelListener, int n) {
         SimpleIntObjectMap simpleIntObjectMap = this.listenersMap;
         synchronized (simpleIntObjectMap) {
@@ -45,7 +42,6 @@ OptionModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void removeListener(int n) {
         SimpleIntObjectMap simpleIntObjectMap = this.listenersMap;
         synchronized (simpleIntObjectMap) {
@@ -56,7 +52,6 @@ OptionModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setCustomIDListener(OptionModelListener optionModelListener, int n) {
         SimpleIntObjectMap simpleIntObjectMap = this.customIDlistenersMap;
         synchronized (simpleIntObjectMap) {
@@ -67,7 +62,6 @@ OptionModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void removeCustomIDListener(int n) {
         SimpleIntObjectMap simpleIntObjectMap = this.customIDlistenersMap;
         synchronized (simpleIntObjectMap) {
@@ -75,14 +69,12 @@ OptionModelGUI {
         }
     }
 
-    @Override
     public void resetListener() {
         this.listener = FALLBACK_LISTENER;
         this.listenersMap.clear();
         this.customIDlistenersMap.clear();
     }
 
-    @Override
     public String dumpContent() {
         int n;
         Buffer buffer = new Buffer(200);
@@ -108,25 +100,22 @@ OptionModelGUI {
         return buffer.toString();
     }
 
-    @Override
     public int getModelType() {
         return 28;
     }
 
-    @Override
     public boolean isEmpty() {
         return false;
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3, int n4) {
-        this.lc.log(-2137614336, "%1.keyPressed] targetModelID:%2 targetRow:%3", (Object)this.logPrefix, (long)n, (long)n2);
+        this.lc.log(10000000, "%1.keyPressed] targetModelID:%2 targetRow:%3", (Object)this.logPrefix, (long)n, (long)n2);
         try {
             this.listener.keyPressed(this.id, n, n2, n3, n4);
             this.getListener(n).keyPressed(this.id, n, n2, n3, n4);
             if (!this.customIDlistenersMap.isEmpty()) {
                 OptionModelListener optionModelListener = this.getCustomIDListener(n3);
-                this.lc.log(-2137614336, "%1.keyPressed] trigger listener: %2 for targetWidgetID: %3", (Object)this.logPrefix, (Object)optionModelListener, (long)n3);
+                this.lc.log(10000000, "%1.keyPressed] trigger listener: %2 for targetWidgetID: %3", (Object)this.logPrefix, (Object)optionModelListener, (long)n3);
                 optionModelListener.keyPressed(this.id, n, n2, n3, n4);
             }
         }
@@ -135,15 +124,14 @@ OptionModelGUI {
         }
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3, int n4) {
-        this.lc.log(-2137614336, "%1.keyReleased] targetModelID:%2 targetRow:%3", (Object)this.logPrefix, (long)n, (long)n2);
+        this.lc.log(10000000, "%1.keyReleased] targetModelID:%2 targetRow:%3", (Object)this.logPrefix, (long)n, (long)n2);
         try {
             this.listener.keyReleased(this.id, n, n2, n3, n4);
             this.getListener(n).keyReleased(this.id, n, n2, n3, n4);
             if (!this.customIDlistenersMap.isEmpty()) {
                 OptionModelListener optionModelListener = this.getCustomIDListener(n3);
-                this.lc.log(-2137614336, "%1.keyReleased] trigger listener: %2 for targetWidgetID: %3", (Object)this.logPrefix, (Object)optionModelListener, (long)n3);
+                this.lc.log(10000000, "%1.keyReleased] trigger listener: %2 for targetWidgetID: %3", (Object)this.logPrefix, (Object)optionModelListener, (long)n3);
                 optionModelListener.keyReleased(this.id, n, n2, n3, n4);
             }
         }
@@ -152,15 +140,14 @@ OptionModelGUI {
         }
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3, int n4) {
-        this.lc.log(-2137614336, "%1.keyTyped] targetModelID:%2 targetRow:%3", (Object)this.logPrefix, (long)n, (long)n2);
+        this.lc.log(10000000, "%1.keyTyped] targetModelID:%2 targetRow:%3", (Object)this.logPrefix, (long)n, (long)n2);
         try {
             this.listener.keyTyped(this.id, n, n2, n3, n4);
             this.getListener(n).keyTyped(this.id, n, n2, n3, n4);
             if (!this.customIDlistenersMap.isEmpty()) {
                 OptionModelListener optionModelListener = this.getCustomIDListener(n3);
-                this.lc.log(-2137614336, "%1.keyTyped] trigger listener: %2 for targetWidgetID: %3", (Object)this.logPrefix, (Object)optionModelListener, (long)n3);
+                this.lc.log(10000000, "%1.keyTyped] trigger listener: %2 for targetWidgetID: %3", (Object)this.logPrefix, (Object)optionModelListener, (long)n3);
                 optionModelListener.keyTyped(this.id, n, n2, n3, n4);
             }
         }
@@ -169,15 +156,14 @@ OptionModelGUI {
         }
     }
 
-    @Override
     public void customAction(int n, int n2, int n3, int n4) {
-        this.lc.log(-2137614336, "%1.customAction] actionID:%2 targetModelID:%3", (Object)this.logPrefix, (long)n3, (long)n);
+        this.lc.log(10000000, "%1.customAction] actionID:%2 targetModelID:%3", (Object)this.logPrefix, (long)n3, (long)n);
         try {
             this.listener.customAction(this.id, n, n3, n2, n4);
             this.getListener(n).customAction(this.id, n, n3, n2, n4);
             if (!this.customIDlistenersMap.isEmpty()) {
                 OptionModelListener optionModelListener = this.getCustomIDListener(n2);
-                this.lc.log(-2137614336, "%1.customAction] trigger listener: %2 for targetWidgetID: %3", (Object)this.logPrefix, (Object)optionModelListener, (long)n2);
+                this.lc.log(10000000, "%1.customAction] trigger listener: %2 for targetWidgetID: %3", (Object)this.logPrefix, (Object)optionModelListener, (long)n2);
                 optionModelListener.customAction(this.id, n, n3, n2, n4);
             }
         }
@@ -214,6 +200,24 @@ OptionModelGUI {
             optionModelListener = FALLBACK_LISTENER;
         }
         return optionModelListener;
+    }
+
+    private static class FallbackListener
+    implements OptionModelListener {
+        private FallbackListener() {
+        }
+
+        public void keyPressed(int n, int n2, int n3, int n4, int n5) {
+        }
+
+        public void keyReleased(int n, int n2, int n3, int n4, int n5) {
+        }
+
+        public void keyTyped(int n, int n2, int n3, int n4, int n5) {
+        }
+
+        public void customAction(int n, int n2, int n3, int n4, int n5) {
+        }
     }
 }
 

@@ -24,7 +24,7 @@ implements CombiBAPServiceAddressBookListener {
     }
 
     public void setCombiService(CombiBAPServiceAddressBook combiBAPServiceAddressBook) {
-        this.log.log(-2137614336, "CombiBAPServiceHandler#setCombiService(): combiService: %1", (Object)combiBAPServiceAddressBook);
+        this.log.log(10000000, "CombiBAPServiceHandler#setCombiService(): combiService: %1", (Object)combiBAPServiceAddressBook);
         this.combiService = combiBAPServiceAddressBook;
         this.updateMobileServiceSupport();
         this.adbHandler.getStateHandler().updateCombiPbState();
@@ -32,7 +32,7 @@ implements CombiBAPServiceAddressBookListener {
 
     public void updateMobileServiceSupport() {
         if (this.combiService == null) {
-            this.log.log(-2137614336, "CombiBAPServiceHandler#updateMobileServiceSupport(): combiService not available!");
+            this.log.log(10000000, "CombiBAPServiceHandler#updateMobileServiceSupport(): combiService not available!");
             return;
         }
         this.combiService.updateMobileServiceSupport(true, true, true);
@@ -40,74 +40,71 @@ implements CombiBAPServiceAddressBookListener {
 
     public void updatePbState(int n, int n2) {
         if (this.combiService == null) {
-            this.log.log(-2137614336, "CombiBAPServiceHandler#updatePbState(): combiService not available!");
+            this.log.log(10000000, "CombiBAPServiceHandler#updatePbState(): combiService not available!");
             return;
         }
-        this.log.log(1078071040, "CombiBAPServiceHandler#updatePbState(): downloadState: %1, numberOfEntries: %2", (long)n, (long)n2);
+        this.log.log(1000000, "CombiBAPServiceHandler#updatePbState(): downloadState: %1, numberOfEntries: %2", (long)n, (long)n2);
         this.combiService.updatePbState(n, n2);
     }
 
     public void updatePhonebookDownloadProgress(int n, int n2, int n3, int n4) {
         if (this.combiService == null) {
-            this.log.log(1078071040, "CombiBAPServiceHandler#updatePhonebookDownloadProgress(): combiService not available!");
+            this.log.log(1000000, "CombiBAPServiceHandler#updatePhonebookDownloadProgress(): combiService not available!");
             return;
         }
-        this.log.log(1078071040, "CombiBAPServiceHandler#updatePhonebookDownloadProgress(): downloadState: %1, totalPbEntries: %2, currentlyLoadedPbEntries: %3", (long)n, (long)n3, (long)n4);
+        this.log.log(1000000, "CombiBAPServiceHandler#updatePhonebookDownloadProgress(): downloadState: %1, totalPbEntries: %2, currentlyLoadedPbEntries: %3", (long)n, (long)n3, (long)n4);
         this.combiService.updatePhonebookDownloadProgress(n, n2, n3, n4);
     }
 
     public void phonebookChanged(int n) {
         if (this.combiService == null) {
-            this.log.log(-2137614336, "CombiBAPServiceHandler#phonebookChanged(): combiService not available!");
+            this.log.log(10000000, "CombiBAPServiceHandler#phonebookChanged(): combiService not available!");
             return;
         }
-        this.log.log(1078071040, "CombiBAPServiceHandler#phonebookChanged(): numberOfEntries: %1", (long)n);
+        this.log.log(1000000, "CombiBAPServiceHandler#phonebookChanged(): numberOfEntries: %1", (long)n);
         this.combiService.phonebookChanged(n);
     }
 
     public void responsePhonebookEntryDetails(long l, CombiBAPPhonebookEntryDetails[] combiBAPPhonebookEntryDetailsArray) {
         if (this.combiService == null) {
-            this.log.log(-2137614336, "CombiBAPServiceHandler#responsePhonebookEntryDetails(): combiService not available!");
+            this.log.log(10000000, "CombiBAPServiceHandler#responsePhonebookEntryDetails(): combiService not available!");
             return;
         }
-        this.log.log(1078071040, "CombiBAPServiceHandler#responsePhonebookEntryDetails(): entryID: %2, details: %1", (Object)combiBAPPhonebookEntryDetailsArray, l);
+        this.log.log(1000000, "CombiBAPServiceHandler#responsePhonebookEntryDetails(): entryID: %2, details: %1", (Object)combiBAPPhonebookEntryDetailsArray, l);
         this.combiService.responsePhonebookEntryDetails(l, combiBAPPhonebookEntryDetailsArray);
     }
 
     public void responsePhonebookListElements(CombiBAPPhonebookEntry[] combiBAPPhonebookEntryArray, int n) {
         if (this.combiService == null) {
-            this.log.log(-2137614336, "CombiBAPServiceHandler#responsePhonebookListElements(): combiService not available!");
+            this.log.log(10000000, "CombiBAPServiceHandler#responsePhonebookListElements(): combiService not available!");
             return;
         }
-        this.log.log(1078071040, "CombiBAPServiceHandler#responsePhonebookListElements(): taID: %1, entries.length: %2", (long)n, combiBAPPhonebookEntryArray != null ? (long)combiBAPPhonebookEntryArray.length : -1L);
+        this.log.log(1000000, "CombiBAPServiceHandler#responsePhonebookListElements(): taID: %1, entries.length: %2", (long)n, combiBAPPhonebookEntryArray != null ? (long)combiBAPPhonebookEntryArray.length : -1L);
         this.combiService.responsePhonebookListElements(n, combiBAPPhonebookEntryArray);
     }
 
-    @Override
     public void requestPhonebookListElements(int n, int n2, int n3) {
-        this.log.log(1078071040, "CombiBAPServiceHandler#requestPhonebookListElements(): taID: %1, startPos: %2, numberOfElements: %3", (long)n, (long)n2, (long)n3);
+        this.log.log(1000000, "CombiBAPServiceHandler#requestPhonebookListElements(): taID: %1, startPos: %2, numberOfElements: %3", (long)n, (long)n2, (long)n3);
         if (this.adbHandler.getStateHandler().isAdbReady()) {
             GetPhonebookListElementsCommand.createGetPhonebookListElementsCommand(this.adbHandler, n2, n3, n);
         } else {
-            this.log.log(-2137614336, "CombiBAPServiceHandler#requestPhonebookListElements(): adb NOT ready!");
+            this.log.log(10000000, "CombiBAPServiceHandler#requestPhonebookListElements(): adb NOT ready!");
             this.responsePhonebookListElements(new CombiBAPPhonebookEntry[0], n);
         }
     }
 
-    @Override
     public void requestPhonebookEntryDetails(long l) {
-        this.log.log(1078071040, "CombiBAPServiceHandler#requestPhonebookEntryDetails(): entryID: %1", l);
+        this.log.log(1000000, "CombiBAPServiceHandler#requestPhonebookEntryDetails(): entryID: %1", l);
         if (this.adbHandler.getStateHandler().isAdbReady()) {
             GetEntryDetailsCommand.createGetEntryDetailsCommand(this.adbHandler, l);
         } else {
-            this.log.log(-2137614336, "CombiBAPServiceHandler#requestPhonebookEntryDetails(): adb NOT ready!");
+            this.log.log(10000000, "CombiBAPServiceHandler#requestPhonebookEntryDetails(): adb NOT ready!");
             this.responsePhonebookEntryDetails(l, new CombiBAPPhonebookEntryDetails[0]);
         }
     }
 
-    @Override
     public void pbSpeller(int n, String string) {
-        this.log.log(1078071040, "CombiBAPServiceHandler#pbSpeller(): mode: %2, searchString: %1", (Object)string, (long)n);
+        this.log.log(1000000, "CombiBAPServiceHandler#pbSpeller(): mode: %2, searchString: %1", (Object)string, (long)n);
         if (this.combiService == null) {
             this.log.log(10000, "CombiBAPServiceHandler#pbSpeller(): combiService not available!");
         } else if (!this.adbHandler.getStateHandler().isAdbReady()) {
@@ -122,11 +119,11 @@ implements CombiBAPServiceAddressBookListener {
         } else {
             int n2 = this.adbHandler.findPosByChar(string.charAt(0));
             if (n2 != -1) {
-                this.log.log(1078071040, "CombiBAPServiceHandler#pbSpeller(): found match at %1", (long)n2);
-                this.combiService.pbSpellerResult(0, -65536, n2);
+                this.log.log(1000000, "CombiBAPServiceHandler#pbSpeller(): found match at %1", (long)n2);
+                this.combiService.pbSpellerResult(0, 65535, n2);
             } else {
-                this.log.log(1078071040, "CombiBAPServiceHandler#pbSpeller(): character not found");
-                this.combiService.pbSpellerResult(1, -16842752, 0);
+                this.log.log(1000000, "CombiBAPServiceHandler#pbSpeller(): character not found");
+                this.combiService.pbSpellerResult(1, 65534, 0);
             }
         }
     }

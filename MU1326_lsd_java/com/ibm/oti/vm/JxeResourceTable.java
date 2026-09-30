@@ -22,22 +22,22 @@ class JxeResourceTable {
     private byte[] header = new byte[30];
     private byte[] nameBytes = new byte[16];
     private char[] nameChars = new char[0];
-    private static final int LOCHDR;
-    private static final int SIG_LOCAL;
-    private static final int SIG_CEN;
-    private static final int SIG_ENDCEN;
+    private static final int LOCHDR = 30;
+    private static final int SIG_LOCAL = 67324752;
+    private static final int SIG_CEN = 33639248;
+    private static final int SIG_ENDCEN = 101010256;
 
-    JxeResourceTable(InputStream inputStream) {
+    JxeResourceTable(InputStream inputStream) throws IOException {
         this.iStream = inputStream;
     }
 
-    JxeResourceTable(MemInputStream memInputStream) {
+    JxeResourceTable(MemInputStream memInputStream) throws IOException {
         this.iStream = memInputStream;
         this.pointer = memInputStream.getPointer();
         this.readEntries();
     }
 
-    private void readEntries() {
+    private void readEntries() throws IOException {
         String string;
         this.offset = 0;
         this.pointerTable = new Hashtable(15);
@@ -61,15 +61,15 @@ class JxeResourceTable {
         return this.pointerTable;
     }
 
-    String getNext() {
+    String getNext() throws IOException {
         String string;
         this.osmEntry = null;
         int n = this.iStream.read(this.header, 0, this.header.length);
         long l = this.getInt(this.header, 0);
-        if (0 == l || 0 == l) {
+        if (33639248L == l || 101010256L == l) {
             return null;
         }
-        if (0 != l) {
+        if (67324752L != l) {
             throw new IOException(Msg.getString("K019c"));
         }
         if (n != 30) {

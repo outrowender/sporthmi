@@ -7,19 +7,14 @@ import de.audi.atip.statemachine.ActionProxy;
 
 public interface TrafficInfoJPActionProxy
 extends ActionProxy {
-    default public void vicsMenuEntered(int n) {
-    }
+    public void vicsMenuEntered(int var1);
 
-    default public void vicsMenuLeft(int n) {
-    }
+    public void vicsMenuLeft(int var1);
 
-    default public void focusPreviewMapOnCCP(int n) {
-    }
+    public void focusPreviewMapOnCCP(int var1);
 
-    default public void vicsApplicationLeft(int n) {
-    }
+    public void vicsApplicationLeft(int var1);
 
-    default public void vicsGlobalShowInMapLeft(int n) {
-    }
+    public void vicsGlobalShowInMapLeft(int var1);
 }
 

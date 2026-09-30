@@ -10,7 +10,6 @@ import de.audi.tghu.navi.app.details.IDetailsRowBuilder;
 
 public class AddressDetailsRowBuilder
 implements IDetailsRowBuilder {
-    @Override
     public EvoListRow buildListRow(String string, int n) {
         EvoListRow evoListRow = new EvoListRow(n, 3);
         evoListRow.setText(1, string);
@@ -18,7 +17,6 @@ implements IDetailsRowBuilder {
         return evoListRow;
     }
 
-    @Override
     public EvoListRow buildListRowWithIcon(String string, int n, int n2) {
         EvoListRow evoListRow = new EvoListRow(n2, 3);
         IconCell iconCell = new IconCell(new HMIResourceLocator(n));

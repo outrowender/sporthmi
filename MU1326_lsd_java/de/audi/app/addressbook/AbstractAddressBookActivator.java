@@ -87,11 +87,10 @@ implements ServiceTrackerCustomizer {
     static /* synthetic */ Class class$de$audi$atip$interapp$combi$bap$phone$CombiBAPServiceAddressBookListener;
     static /* synthetic */ Class class$de$audi$app$addressbook$core$main$AbstractAddressBookApplication;
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         this.log = this.framework.getLogChannel("App.AddressBook.Main");
-        this.log.log(1078071040, "AbstractAddressBookActivator#start(): bundleContext: %1", (Object)bundleContext);
+        this.log.log(1000000, "AbstractAddressBookActivator#start(): bundleContext: %1", (Object)bundleContext);
         this.appAdr = this.createAddressBookApplication(this.framework);
         this.appAdr.init();
         this.vCardExchangeADBHandler = new VCardExchangeADBHandler(this.framework);
@@ -108,9 +107,8 @@ implements ServiceTrackerCustomizer {
         this.startDSIServices();
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
-        this.appAdr.getLog().log(1078071040, "AbstractAddressBookActivator#stop(): bundleContext: %1", (Object)bundleContext);
+        this.appAdr.getLog().log(1000000, "AbstractAddressBookActivator#stop(): bundleContext: %1", (Object)bundleContext);
         if (this.serviceTracker != null) {
             this.serviceTracker.close();
         }
@@ -119,8 +117,7 @@ implements ServiceTrackerCustomizer {
         super.stop(bundleContext);
     }
 
-    protected abstract AbstractAddressBookApplication createAddressBookApplication(IFrameworkAccess iFrameworkAccess) {
-    }
+    protected abstract AbstractAddressBookApplication createAddressBookApplication(IFrameworkAccess var1);
 
     protected void registerServices() {
         Hashtable hashtable = AbstractAddressBookActivator.createServiceProperties();
@@ -185,11 +182,10 @@ implements ServiceTrackerCustomizer {
         this.framework.startDSIService((class$org$dsi$ifc$organizer$DSIAdbSetup == null ? (class$org$dsi$ifc$organizer$DSIAdbSetup = AbstractAddressBookActivator.class$("org.dsi.ifc.organizer.DSIAdbSetup")) : class$org$dsi$ifc$organizer$DSIAdbSetup).getName(), 5);
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
-        this.log.log(-2137614336, "AbstractAddressBookActivator#addingService(): serviceReference: %1", (Object)serviceReference);
+        this.log.log(10000000, "AbstractAddressBookActivator#addingService(): serviceReference: %1", (Object)serviceReference);
         if (this.bundleContext == null) {
-            this.log.log(-2137614336, "AbstractAddressBookActivator#addingService(): bundleContext is null, bundle probably has been stopped -> NOP");
+            this.log.log(10000000, "AbstractAddressBookActivator#addingService(): bundleContext is null, bundle probably has been stopped -> NOP");
             return null;
         }
         Object object = this.bundleContext.getService(serviceReference);
@@ -317,13 +313,11 @@ implements ServiceTrackerCustomizer {
         return false;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
-        this.log.log(-2137614336, "AbstractAddressBookActivator#removedService(): sr: %1, svc: %2, bundleContext: %3", (Object)serviceReference, object, (Object)this.bundleContext);
+        this.log.log(10000000, "AbstractAddressBookActivator#removedService(): sr: %1, svc: %2, bundleContext: %3", (Object)serviceReference, object, (Object)this.bundleContext);
         if (this.bundleContext != null) {
             if (this.removedDSIService(serviceReference, object)) {
                 return;
@@ -444,7 +438,7 @@ implements ServiceTrackerCustomizer {
     }
 
     private void cleanupDSIComponents() {
-        this.log.log(1078071040, "AbstractAddressBookActivator#cleanupDSIComponents(): setting all DSI references to null.");
+        this.log.log(1000000, "AbstractAddressBookActivator#cleanupDSIComponents(): setting all DSI references to null.");
         this.appAdr.getADBDSIAccess().clearDSIAdbInit(this.appAdr.getADBDSIListener());
         this.appAdr.getADBDSIAccess().clearDSIAdbList(this.appAdr.getADBDSIListener());
         this.appAdr.getADBDSIAccess().clearDSIAdbUserProfile(this.appAdr.getADBDSIListener());
@@ -471,7 +465,7 @@ implements ServiceTrackerCustomizer {
             this.appAdr.destroy();
             this.appAdr = null;
         }
-        this.log.log(1078071040, "AbstractAddressBookActivator#cleanupApplicationComponents(): application components have been set to null.");
+        this.log.log(1000000, "AbstractAddressBookActivator#cleanupApplicationComponents(): application components have been set to null.");
     }
 
     static /* synthetic */ Class class$(String string) {

@@ -27,42 +27,36 @@ extends AbstractBAPActivator {
     private ServiceTracker trackerDSIOTLI;
     static /* synthetic */ Class class$org$dsi$ifc$online$DSIOnlineTrafficLightInfo;
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         OnlineFunctionsBAPApplication onlineFunctionsBAPApplication = (OnlineFunctionsBAPApplication)this.bapApplication;
         this.trackerDSIOTLI = new ServiceTracker(bundleContext, (class$org$dsi$ifc$online$DSIOnlineTrafficLightInfo == null ? (class$org$dsi$ifc$online$DSIOnlineTrafficLightInfo = OnlineFunctionsBAPActivator.class$("org.dsi.ifc.online.DSIOnlineTrafficLightInfo")) : class$org$dsi$ifc$online$DSIOnlineTrafficLightInfo).getName(), (ServiceTrackerCustomizer)onlineFunctionsBAPApplication);
         this.trackerDSIOTLI.open();
-        this.logChannel.log(-2137614336, "[OnlineFunctionsBAPActivator#start] %1 has been started.", (Object)this.getApplicationName());
+        this.logChannel.log(10000000, "[OnlineFunctionsBAPActivator#start] %1 has been started.", (Object)this.getApplicationName());
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
-        this.logChannel.log(-2137614336, "[OnlineFunctionsBAPActivator#stop] called");
+        this.logChannel.log(10000000, "[OnlineFunctionsBAPActivator#stop] called");
         this.trackerDSIOTLI.close();
         super.stop(bundleContext);
     }
 
-    @Override
     protected String getApplicationName() {
         return "AppOnlineFunctionsBAP";
     }
 
-    @Override
     protected AbstractBAPApplication createApplication(IFrameworkAccess iFrameworkAccess) {
         return new OnlineFunctionsBAPApplication(iFrameworkAccess, new LoggerOnlineFunctionsBAP(iFrameworkAccess));
     }
 
-    @Override
     protected AbstractBAPModule[] createModules(AbstractBAPApplication abstractBAPApplication) {
-        this.logChannel.log(-2137614336, "[OnlineFunctionsBAPActivator#createModules] application: %1", (Object)abstractBAPApplication.getName());
+        this.logChannel.log(10000000, "[OnlineFunctionsBAPActivator#createModules] application: %1", (Object)abstractBAPApplication.getName());
         this.onlineFunctionsModule = new OnlineFunctionsModule(abstractBAPApplication, new FunctionListOnlineFunctions());
         return new AbstractBAPModule[]{this.onlineFunctionsModule};
     }
 
-    @Override
     protected AbstractSwDiagnosis createDiagnosis(AbstractBAPApplication abstractBAPApplication) {
-        this.logChannel.log(-2137614336, "[OnlineFunctionsBAPActivator#createDiagnosis] application: %1", (Object)abstractBAPApplication);
+        this.logChannel.log(10000000, "[OnlineFunctionsBAPActivator#createDiagnosis] application: %1", (Object)abstractBAPApplication);
         return new OnlineFunctionsDiagnosisConnector(abstractBAPApplication, (AbstractBAPModuleFSG)this.onlineFunctionsModule);
     }
 

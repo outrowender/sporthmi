@@ -26,27 +26,26 @@ extends AbstractSystemCallCommand {
         this.messageType = SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: messageType=%2", (Object)this.getName(), (long)this.messageType);
+        this.logger.log(10000000, "%1#execute: messageType=%2", (Object)this.getName(), (long)this.messageType);
         SDSModelAccess.setMsgDictateModel(this.messageType);
         SDSModelAccess.setDictationPromptLabel("");
         int[] nArray = SDSUtils.translateMulti(this.messageType, MessageDictateSDSUtils.MESSAGE_PARAMETER_2_TYPE_AND_COMPOSITION_MODE);
         int n = nArray[0];
         int n2 = nArray[1];
-        if (n == 128 || n2 == 128) {
-            this.logger.log(-1601830656, "%1#setCorrectPicklistTitle: Unsupported messageType %2!", (Object)this.getName(), (long)this.messageType);
-            this.sendResult(-115080960);
+        if (n == Integer.MIN_VALUE || n2 == Integer.MIN_VALUE) {
+            this.logger.log(100000, "%1#setCorrectPicklistTitle: Unsupported messageType %2!", (Object)this.getName(), (long)this.messageType);
+            this.sendResult(75001);
             return;
         }
-        this.logger.log(-2137614336, "%1#execute: compositionMode=%2, msgType=%3!", (Object)this.getName(), (long)n2, (long)n);
+        this.logger.log(10000000, "%1#execute: compositionMode=%2, msgType=%3!", (Object)this.getName(), (long)n2, (long)n);
         this.messagingService.requestBeginDialog(n2, n, false);
     }
 
     public void responseBeginDialog(int n) {
-        this.logger.log(-2137614336, "%1#responseBeginDialog: result=%2", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "%1#responseBeginDialog: result=%2", (Object)this.getName(), (long)n);
         this.messageDictationHandler.evaluateCompositionState();
-        this.sendResult(n == 0 ? -131858176 : -115080960);
+        this.sendResult(n == 0 ? 75000 : 75001);
     }
 }
 

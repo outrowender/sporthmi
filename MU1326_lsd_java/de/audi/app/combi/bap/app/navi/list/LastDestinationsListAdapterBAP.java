@@ -22,7 +22,6 @@ extends AbstractListAdapterBAP {
         super(abstractCombiModule, 29, arrayHandler);
     }
 
-    @Override
     protected int getCommonRecordAddress(boolean[] blArray) {
         boolean bl = blArray[15];
         boolean bl2 = blArray[0] || blArray[2];
@@ -30,7 +29,6 @@ extends AbstractListAdapterBAP {
         return CombiBAPDestinationListEntry.getRecordAddress(bl, bl2, bl3);
     }
 
-    @Override
     protected BAPArrayElement convertArrayElement(CombiBAPArrayElement combiBAPArrayElement, ArrayHeader arrayHeader) {
         LastDest_List_Data lastDest_List_Data = new LastDest_List_Data(arrayHeader);
         if (combiBAPArrayElement instanceof CombiBAPDestinationListEntry) {
@@ -39,24 +37,21 @@ extends AbstractListAdapterBAP {
             lastDest_List_Data.poi_Type = combiBAPDestinationListEntry.getPOIType();
             lastDest_List_Data.description.setContent(combiBAPDestinationListEntry.getDescription());
         } else {
-            this.logChannel.log(10000, "[LastDestinationsListAdapterBAP#convertArrayElement] invalid element type: %1", (Object)super.getClass());
+            this.logChannel.log(10000, "[LastDestinationsListAdapterBAP#convertArrayElement] invalid element type: %1", (Object)combiBAPArrayElement.getClass());
         }
         return lastDest_List_Data;
     }
 
-    @Override
     protected BAPArrayElement createArrayElement(ArrayHeader arrayHeader, int n) {
         LastDest_List_Data lastDest_List_Data = new LastDest_List_Data(arrayHeader);
         lastDest_List_Data.setPos(n);
         return lastDest_List_Data;
     }
 
-    @Override
     protected ChangedArray createChangedArraySerializer() {
         return new LastDest_List_ChangedArray();
     }
 
-    @Override
     protected StatusArray createStatusArraySerializer() {
         return new LastDest_List_StatusArray();
     }

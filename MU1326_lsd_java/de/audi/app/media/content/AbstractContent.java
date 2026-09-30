@@ -14,7 +14,7 @@ import de.audi.atip.hmi.model.ButtonListener;
 public abstract class AbstractContent
 extends AbstractMediaTerminalComponent
 implements IContent {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "AbstractContent";
     private final int contentType;
     private final IContentContext contentContext;
     private volatile IActivationContext activationContext;
@@ -25,33 +25,28 @@ implements IContent {
         this.contentType = n;
     }
 
-    @Override
     public void init() {
     }
 
-    @Override
     public void deinit() {
     }
 
-    @Override
     public void activate(IActivationContext iActivationContext) {
-        this.logger.main().log(1078071040, "[%1.activate]", (Object)"AbstractContent");
+        this.logger.main().log(1000000, "[%1.activate]", (Object)LOGCLASS);
         this.setActivationContext(iActivationContext);
     }
 
-    @Override
     public void deactivate() {
-        this.logger.main().log(1078071040, "[%1.deactivate]", (Object)"AbstractContent");
+        this.logger.main().log(1000000, "[%1.deactivate]", (Object)LOGCLASS);
         this.setActivationContext(null);
     }
 
-    @Override
     public final void notifyContentActivationFinished() {
         if (!this.isActive()) {
-            this.logger.main().log(1078071040, "[%1.notifyContentActivationFinished] Not active.", (Object)"AbstractContent");
+            this.logger.main().log(1000000, "[%1.notifyContentActivationFinished] Not active.", (Object)LOGCLASS);
             return;
         }
-        this.logger.main().log(1078071040, "[%1.notifyContentActivationFinished]", (Object)"AbstractContent");
+        this.logger.main().log(1000000, "[%1.notifyContentActivationFinished]", (Object)LOGCLASS);
         this.contentContext.notifyContentActivationFinished(this);
     }
 
@@ -59,12 +54,10 @@ implements IContent {
         this.activationContext = iActivationContext;
     }
 
-    @Override
     public IActivationContext getContext() {
         return this.activationContext;
     }
 
-    @Override
     public final ISourceSlot getActiveSlot() {
         IActivationContext iActivationContext = this.activationContext;
         if (iActivationContext != null) {
@@ -73,26 +66,21 @@ implements IContent {
         return null;
     }
 
-    @Override
     public final boolean isActive() {
         return this.getActiveSlot() != null;
     }
 
-    @Override
     public final int getContentType() {
         return this.contentType;
     }
 
-    @Override
     public void vehicleMoving(boolean bl) {
     }
 
-    @Override
     public ButtonListener getHardKeyListener() {
         return null;
     }
 
-    @Override
     public void resetSettings() {
     }
 }

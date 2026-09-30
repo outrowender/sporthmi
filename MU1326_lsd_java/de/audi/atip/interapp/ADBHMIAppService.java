@@ -7,24 +7,19 @@ import de.audi.atip.interapp.ADBHMIAppServiceListener;
 import org.dsi.ifc.organizer.AdbEntry;
 
 public interface ADBHMIAppService {
-    public static final String ADB_SERVICE_APP_NAME;
-    public static final int CONTEXT_TEL;
-    public static final int CONTEXT_NAV;
-    public static final int CONTEXT_MSG;
+    public static final String ADB_SERVICE_APP_NAME = "AddressBookInterHMIAppService";
+    public static final int CONTEXT_TEL = 0;
+    public static final int CONTEXT_NAV = 1;
+    public static final int CONTEXT_MSG = 2;
 
-    default public void showEntryDetails(long l, int n) {
-    }
+    public void showEntryDetails(long var1, int var3);
 
-    default public void showSpeedDialEntryDetails(long l, int n) {
-    }
+    public void showSpeedDialEntryDetails(long var1, int var3);
 
-    default public void showEntryDetails(AdbEntry adbEntry, int n) {
-    }
+    public void showEntryDetails(AdbEntry var1, int var2);
 
-    default public void requestParseVCards(String string, ADBHMIAppServiceListener aDBHMIAppServiceListener) {
-    }
+    public void requestParseVCards(String var1, ADBHMIAppServiceListener var2);
 
-    default public void requestInsertEntry(AdbEntry adbEntry, ADBHMIAppServiceListener aDBHMIAppServiceListener) {
-    }
+    public void requestInsertEntry(AdbEntry var1, ADBHMIAppServiceListener var2);
 }
 

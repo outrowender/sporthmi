@@ -31,19 +31,16 @@ implements IASIProvider {
         }
     }
 
-    @Override
     public IService getService() {
         return this.asiService;
     }
 
-    @Override
     public void attachStub(IStub iStub) {
-        this.log.log(1078071040, "[attachStub] %1", (Object)iStub);
+        this.log.log(1000000, "[attachStub] %1", (Object)iStub);
     }
 
-    @Override
     public void detachStub(IStub iStub) {
-        this.log.log(1078071040, "[detachStub] %1", (Object)iStub);
+        this.log.log(1000000, "[detachStub] %1", (Object)iStub);
     }
 }
 

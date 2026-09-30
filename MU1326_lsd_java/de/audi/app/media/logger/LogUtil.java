@@ -16,7 +16,7 @@ import org.dsi.ifc.media.SearchListEntry;
 import org.dsi.ifc.media.SearchListEntryExt;
 
 public class LogUtil {
-    static final int[] DSIMEDIAFLAGBITS = new int[]{4096, 0x800000, 16, 32, 1024, 1, 1024, 2048, 256, 512, 8, 512, 64, 128, 8192, 16384, 4096, 128, 1, 16384, 2};
+    static final int[] DSIMEDIAFLAGBITS = new int[]{4096, 32768, 16, 32, 1024, 1, 262144, 524288, 65536, 131072, 8, 512, 64, 128, 8192, 16384, 0x100000, Integer.MIN_VALUE, 0x1000000, 0x400000, 0x2000000};
     static final String[] DSIMEDIAFLAGBITSTRS = new String[]{"COPY_PROTECTED", "FIRMWARE_NOT_SUPPORTED", "IMPORT_RUNNING", "INVALID_REGIOCODE", "NO_CONTENT", "NO_PLAYABLE_FILES", "PASS_COVERART", "PASS_EXT_META_DATA", "PASS_FILESYSTEM", "PASS_META_DATA", "PASS_ALL", "PLAYBACK", "PML_BLOCKED", "PML_RESTRICTED", "READ_ONLY", "READY_FOR_RECORDER", "DELETION_RUNNING", "READY_FOR_COVERFLOW", "CORRUPTED_PARTITION", "LAST_PLAYSELECTION_VALID", "CHARGING"};
     static final int[] DSIDEVICEFLAGBITS = new int[]{1, 4, 2, 64, 16, 8, 32};
     static final String[] DSIDEVICEFLAGBITSTRS = new String[]{"COOPERATIVE", "ERROR", "EXCLUSIVE", "OVERCURRENT", "OVERTEMP", "UNAVAILABLE", "UNDERTEMP"};
@@ -55,10 +55,10 @@ public class LogUtil {
             buffer.append(" [");
             buffer.append(i2);
             buffer.append("] ").append(LogUtil.listEntryToString(listEntry));
-            logChannel.log(-2137614336, "%1", (Object)buffer);
+            logChannel.log(10000000, "%1", (Object)buffer);
         }
         if (listEntryArray.length == 0) {
-            logChannel.log(-2137614336, "%1 No entries in list.", (Object)string);
+            logChannel.log(10000000, "%1 No entries in list.", (Object)string);
         }
     }
 
@@ -87,7 +87,7 @@ public class LogUtil {
     }
 
     public static void logSearchList(LogChannel logChannel, SearchListEntry[] searchListEntryArray) {
-        if (logChannel.getCurrentLogThreshold() != 14808325) {
+        if (logChannel.getCurrentLogThreshold() != 100000000) {
             return;
         }
         for (int i2 = 0; i2 < searchListEntryArray.length; ++i2) {
@@ -97,12 +97,12 @@ public class LogUtil {
             buffer.append("searchid='").append(searchListEntry.getSearchID()).append("', ");
             buffer.append("description='").append(searchListEntry.getDescription()).append("', ");
             buffer.append("tagType='").append(searchListEntry.getTagType()).append("']");
-            logChannel.log(14808325, "%1", (Object)buffer);
+            logChannel.log(100000000, "%1", (Object)buffer);
         }
     }
 
     public static void logSearchExtList(LogChannel logChannel, SearchListEntryExt[] searchListEntryExtArray) {
-        if (logChannel.getCurrentLogThreshold() != 14808325) {
+        if (logChannel.getCurrentLogThreshold() != 100000000) {
             return;
         }
         for (int i2 = 0; i2 < searchListEntryExtArray.length; ++i2) {
@@ -116,7 +116,7 @@ public class LogUtil {
             buffer.append("AlbumID='").append(searchListEntryExt.getAlbumID()).append("', ");
             buffer.append("Album='").append(searchListEntryExt.getAlbum()).append("'");
             buffer.append("]");
-            logChannel.log(14808325, "%1", (Object)buffer);
+            logChannel.log(100000000, "%1", (Object)buffer);
         }
     }
 
@@ -287,7 +287,7 @@ public class LogUtil {
                 return "SELECTION";
             }
         }
-        return new StringBuffer().append("UNKNOWN(").append(n).append(")").toString();
+        return "UNKNOWN(" + n + ")";
     }
 
     public static void logPlaybackModeList(LogChannel logChannel, String string, PlaybackMode[] playbackModeArray) {
@@ -300,7 +300,7 @@ public class LogUtil {
             boolean bl = (playbackMode.getModeFlag() & 2) == 2;
             boolean bl2 = (playbackMode.getModeFlag() & 1) == 1;
             buffer.append("modeID='").append(playbackMode.getModeID()).append("',scope='").append(LogUtil.getNameOfPlaybackScope(playbackMode.getScope())).append("',mix='").append(bl).append("',repeat='").append(bl2).append("'");
-            logChannel.log(1078071040, "%1 %2", (Object)string, (Object)buffer);
+            logChannel.log(1000000, "%1 %2", (Object)string, (Object)buffer);
         }
     }
 
@@ -326,7 +326,7 @@ public class LogUtil {
             return SOURCETYPESTR[n];
         }
         catch (Exception exception) {
-            return new StringBuffer().append("UNKNOWN (").append(n).append(")").toString();
+            return "UNKNOWN (" + n + ")";
         }
     }
 
@@ -366,7 +366,7 @@ public class LogUtil {
     public static final String getISourceSlotErrorStr(int n) {
         Object object = slotErrorStringMap.get(Integers.valueOf(n));
         if (object == null) {
-            return new StringBuffer().append("UNKNOWN (").append(n).append(")").toString();
+            return "UNKNOWN (" + n + ")";
         }
         return (String)object;
     }
@@ -410,7 +410,7 @@ public class LogUtil {
                 return "CATEGORY_RADIO";
             }
         }
-        return new StringBuffer().append("CATEGORY_UNDEFINED").append(n).toString();
+        return "CATEGORY_UNDEFINED" + n;
     }
 
     static {

@@ -26,8 +26,8 @@ public class TrafficLightOnlineHandler
 implements ButtonListener,
 ChoiceListener,
 IOnlineServiceListener {
-    private static final int TRAFFICLIGHT_CHECKBOX_OFF;
-    private static final int TRAFFICLIGHT_CHECKBOX_ON;
+    private static final int TRAFFICLIGHT_CHECKBOX_OFF = 0;
+    private static final int TRAFFICLIGHT_CHECKBOX_ON = 1;
     private LogChannel logChannel;
     private HMIService hmiService;
     private ChoiceModelApp checkBoxModel;
@@ -39,7 +39,7 @@ IOnlineServiceListener {
     public TrafficLightOnlineHandler(HMIService hMIService, LogChannel logChannel, BundleContext bundleContext) {
         this.hmiService = hMIService;
         this.logChannel = logChannel;
-        this.checkBoxModel = this.hmiService.getChoiceModel(1864246016);
+        this.checkBoxModel = this.hmiService.getChoiceModel(2301551);
         this.checkBoxModel.setChoiceListener(this);
         this.checkBoxModel.setValue(0);
         this.tracker = new ServiceTracker(bundleContext, new String[]{(class$de$audi$atip$interapp$online$IOnlineService == null ? (class$de$audi$atip$interapp$online$IOnlineService = TrafficLightOnlineHandler.class$("de.audi.atip.interapp.online.IOnlineService")) : class$de$audi$atip$interapp$online$IOnlineService).getName()}, (ServiceTrackerCustomizer)new TrafficLightOnlineServiceTrackerCustomizer(this, logChannel, bundleContext));
@@ -47,16 +47,15 @@ IOnlineServiceListener {
     }
 
     protected void setOnlineService(IOnlineService iOnlineService) {
-        this.logChannel.log(1078071040, "TrafficLightOnlineHandler#setOnlineService: got IOnlineService %1", (Object)iOnlineService);
+        this.logChannel.log(1000000, "TrafficLightOnlineHandler#setOnlineService: got IOnlineService %1", (Object)iOnlineService);
         this.onlineService = iOnlineService;
         if (this.onlineService != null) {
             this.onlineService.addCallBackListener(this);
         }
     }
 
-    @Override
     public void getOnlineApplicationResponse(OSRApplication oSRApplication) {
-        this.logChannel.log(1078071040, "TrafficLightOnlineHandler#getOnlineApplicationResponse: got OSRApplication %1", (Object)oSRApplication);
+        this.logChannel.log(1000000, "TrafficLightOnlineHandler#getOnlineApplicationResponse: got OSRApplication %1", (Object)oSRApplication);
         if (oSRApplication != null) {
             if (this.isAppEnabled(oSRApplication)) {
                 this.checkBoxModel.setValue(1);
@@ -64,55 +63,49 @@ IOnlineServiceListener {
                 this.checkBoxModel.setValue(0);
             }
         } else {
-            this.logChannel.log(-1601830656, "TrafficLightOnlineHandler#getOnlineApplicationResponse() - app is null! ");
+            this.logChannel.log(100000, "TrafficLightOnlineHandler#getOnlineApplicationResponse() - app is null! ");
         }
     }
 
     private boolean isAppEnabled(OSRApplication oSRApplication) {
         int n = oSRApplication.getState();
-        this.logChannel.log(-2137614336, "TrafficLightOnlineHandler#isAppEnabled() - state: %1 ", (long)n);
+        this.logChannel.log(10000000, "TrafficLightOnlineHandler#isAppEnabled() - state: %1 ", (long)n);
         return (n & 1) != 0;
     }
 
-    @Override
     public void activateLicenseResponse(int n) {
-        this.logChannel.log(1078071040, "TrafficLightOnlineHandler#activateLicenseResponse: activated License Response status %1", (long)n);
+        this.logChannel.log(1000000, "TrafficLightOnlineHandler#activateLicenseResponse: activated License Response status %1", (long)n);
     }
 
-    @Override
     public void getLicenseInformationResult(OSRLicense[] oSRLicenseArray) {
-        this.logChannel.log(1078071040, "TrafficLightOnlineHandler#getLicenseInformationResult: got OSRLicense length %1", (long)oSRLicenseArray.length);
+        this.logChannel.log(1000000, "TrafficLightOnlineHandler#getLicenseInformationResult: got OSRLicense length %1", (long)oSRLicenseArray.length);
     }
 
     public final void setReminderStatus(int n) {
     }
 
-    @Override
     public void getReminderStatusResult(int n) {
     }
 
-    @Override
     public void setReminderStateResponse(int n) {
     }
 
-    @Override
     public void updateApplicationState(OSRNotifyProperties[] oSRNotifyPropertiesArray) {
-        this.logChannel.log(1078071040, "TrafficLightOnlineHandler#updateApplicationState() - props.length: %1 ", (long)(oSRNotifyPropertiesArray != null ? oSRNotifyPropertiesArray.length : -1));
+        this.logChannel.log(1000000, "TrafficLightOnlineHandler#updateApplicationState() - props.length: %1 ", (long)(oSRNotifyPropertiesArray != null ? oSRNotifyPropertiesArray.length : -1));
         if (oSRNotifyPropertiesArray != null && this.logChannel.isDebug()) {
             for (int i2 = 0; i2 < oSRNotifyPropertiesArray.length; ++i2) {
-                this.logChannel.log(-2137614336, "TrafficLightOnlineHandler#updateApplicationState() - props[%1] - priority: %2 reason: %3 ", (long)i2, (long)oSRNotifyPropertiesArray[i2].getPriority(), (long)oSRNotifyPropertiesArray[i2].getReason());
+                this.logChannel.log(10000000, "TrafficLightOnlineHandler#updateApplicationState() - props[%1] - priority: %2 reason: %3 ", (long)i2, (long)oSRNotifyPropertiesArray[i2].getPriority(), (long)oSRNotifyPropertiesArray[i2].getReason());
             }
         }
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
         if (this.onlineService == null) {
-            this.logChannel.log(-1601830656, "TrafficLightOnlineHandler#itemSelected: no online service");
+            this.logChannel.log(100000, "TrafficLightOnlineHandler#itemSelected: no online service");
             return;
         }
         int n5 = this.getNewApplicationState();
-        this.logChannel.log(1078071040, "TrafficLightOnlineHandler#itemSelected: updating online application state to %1", (Object)Util.createInteger(n5));
+        this.logChannel.log(1000000, "TrafficLightOnlineHandler#itemSelected: updating online application state to %1", (Object)Util.createInteger(n5));
         this.onlineService.setOnlineApplicationState(n5, this);
     }
 
@@ -124,27 +117,21 @@ IOnlineServiceListener {
         return 0;
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void updateServiceState(OnlineServiceListState onlineServiceListState) {
     }
 
@@ -158,7 +145,6 @@ IOnlineServiceListener {
         }
     }
 
-    @Override
     public void getPreCheckResult(OSRServiceState oSRServiceState) {
     }
 

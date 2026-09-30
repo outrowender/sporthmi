@@ -33,34 +33,31 @@ implements ServiceTrackerCustomizer {
     }
 
     public void openTracker() {
-        this.logChannel.log(1078071040, "[ParkingServiceTracker#openTracker] %1", (Object)this);
+        this.logChannel.log(1000000, "[ParkingServiceTracker#openTracker] %1", (Object)this);
         this.tracker = new ServiceTracker(this.bundleContext, this.trackedServices, (ServiceTrackerCustomizer)this);
         this.tracker.open();
     }
 
     public void closeTracker() {
-        this.logChannel.log(1078071040, "[ParkingServiceTracker#closeTracker] %1", (Object)this);
+        this.logChannel.log(1000000, "[ParkingServiceTracker#closeTracker] %1", (Object)this);
         if (this.tracker != null) {
             this.tracker.close();
             this.tracker = null;
         }
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
-        this.logChannel.log(1078071040, "[ParkingServiceTracker#addingService] reference=%1", (Object)serviceReference);
+        this.logChannel.log(1000000, "[ParkingServiceTracker#addingService] reference=%1", (Object)serviceReference);
         return this.customizer.addingService(serviceReference);
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
-        this.logChannel.log(1078071040, "[ParkingServiceTracker#modifiedService] reference=%1, service=%2", (Object)serviceReference, object);
+        this.logChannel.log(1000000, "[ParkingServiceTracker#modifiedService] reference=%1, service=%2", (Object)serviceReference, object);
         this.customizer.modifiedService(serviceReference, object);
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
-        this.logChannel.log(1078071040, "[ParkingServiceTracker#modifiedService] reference=%1, service=%2", (Object)serviceReference, object);
+        this.logChannel.log(1000000, "[ParkingServiceTracker#modifiedService] reference=%1, service=%2", (Object)serviceReference, object);
         this.customizer.removedService(serviceReference, object);
     }
 

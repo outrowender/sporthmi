@@ -14,12 +14,10 @@ implements IEcallBluetoothService {
         super(logChannel, "EcallBluetoothService");
     }
 
-    @Override
     public void switchOnBluetooth() {
         this.log();
     }
 
-    @Override
     public void switchOffBluetooth() {
         this.log();
     }

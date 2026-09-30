@@ -20,9 +20,8 @@ extends AbstractSystemCallCommand {
         this.appSDSManager = appSDSManager;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: called", (Object)this.getName());
+        this.logger.log(10000000, "%1#execute: called", (Object)this.getName());
         this.sdsPopupHelper.removeSmallCommandDisplay();
         this.sdsPopupHelper.setCurrentBigCommandScreenPopupMapping(-1);
         this.sdsPopupHelper.removeAllBigCommandPopups();
@@ -30,7 +29,6 @@ extends AbstractSystemCallCommand {
         this.sendResult(3000);
     }
 
-    @Override
     public boolean isSDSEndSequenceCommand() {
         return this.appSDSManager.isSDSAborting();
     }

@@ -98,12 +98,10 @@ extends AbstractDataEntertainmentDrawerElement {
         this.addAllModelsToInternalList();
     }
 
-    @Override
     public List getModels() {
         return this.activeCallModels;
     }
 
-    @Override
     public void updateValues() {
         boolean bl;
         CallStateStruct callStateStruct;
@@ -111,28 +109,28 @@ extends AbstractDataEntertainmentDrawerElement {
         CallStateStruct callStateStruct2 = callStateStruct = iTelDSIMobileEquipmentDeviceState != null ? iTelDSIMobileEquipmentDeviceState.getCallState() : null;
         boolean bl2 = this.getCurrentStateStruct() != null ? (this.getCurrentStateStruct().getConnectedGatewayState() != null ? this.getCurrentStateStruct().getConnectedGatewayState().isLowPrioritySOSEmergencyCallType() : false) : (bl = false);
         if (bl) {
-            this.log.log(1078071040, "EntertainmentDrawerElementActiveCallDataModels#setActiveCallModels(): has low priority SOS call ");
+            this.log.log(1000000, "EntertainmentDrawerElementActiveCallDataModels#setActiveCallModels(): has low priority SOS call ");
             this.setEmergencyCallActive(this.getCurrentStateStruct().getConnectedGatewayState());
             return;
         }
         if (callStateStruct == null) {
-            this.log.log(-1601830656, "[EntertainmentDrawerElementActiveCallDataModels#setActiveCallModels] call state is null!");
+            this.log.log(100000, "[EntertainmentDrawerElementActiveCallDataModels#setActiveCallModels] call state is null!");
             return;
         }
         if (callStateStruct.isHasDisconnectingCall()) {
-            this.log.log(-2137614336, "[EntertainmentDrawerElementActiveCallDataModels#setActiveCallModels] has disconnecting call %1 ", (Object)callStateStruct.getDisconnectingCall());
+            this.log.log(10000000, "[EntertainmentDrawerElementActiveCallDataModels#setActiveCallModels] has disconnecting call %1 ", (Object)callStateStruct.getDisconnectingCall());
             this.setActiveCallmodels(callStateStruct.getDisconnectingCall(), iTelDSIMobileEquipmentDeviceState);
         } else if (callStateStruct.isHasOutgoingCall()) {
-            this.log.log(1078071040, "EntertainmentDrawerElementActiveCallDataModels#setActiveCallModels(): has outgoing call %1 ", (Object)callStateStruct.getOutgoingCall());
+            this.log.log(1000000, "EntertainmentDrawerElementActiveCallDataModels#setActiveCallModels(): has outgoing call %1 ", (Object)callStateStruct.getOutgoingCall());
             this.setActiveCallmodels(callStateStruct.getOutgoingCall(), iTelDSIMobileEquipmentDeviceState);
         } else if (callStateStruct.isHasActiveCall()) {
-            this.log.log(-2137614336, "[EntertainmentDrawerElementActiveCallDataModels#setActiveCallModels] has active call %1", (Object)callStateStruct.getActiveCall());
+            this.log.log(10000000, "[EntertainmentDrawerElementActiveCallDataModels#setActiveCallModels] has active call %1", (Object)callStateStruct.getActiveCall());
             this.setActiveCallmodels(callStateStruct.getActiveCall(), iTelDSIMobileEquipmentDeviceState);
         } else if (callStateStruct.isHasOnHoldCall()) {
-            this.log.log(-2137614336, "[EntertainmentDrawerElementActiveCallDataModels#setActiveCallModels] has held call %1 ", (Object)callStateStruct.getHeldCall());
+            this.log.log(10000000, "[EntertainmentDrawerElementActiveCallDataModels#setActiveCallModels] has held call %1 ", (Object)callStateStruct.getHeldCall());
             this.setActiveCallmodels(callStateStruct.getHeldCall(), iTelDSIMobileEquipmentDeviceState);
         } else {
-            this.log.log(-2137614336, "[EntertainmentDrawerElementActiveCallDataModels#setActiveCallModels] reseting updating model for callState %1 ", (Object)callStateStruct);
+            this.log.log(10000000, "[EntertainmentDrawerElementActiveCallDataModels#setActiveCallModels] reseting updating model for callState %1 ", (Object)callStateStruct);
             this.setActiveCallTelephoneText(0);
             this.setCallNameLabel("");
             this.setCallPhoneTypeIconModel(-1);
@@ -165,35 +163,35 @@ extends AbstractDataEntertainmentDrawerElement {
     }
 
     private void addAllModelsToInternalList() {
-        this.activeCallModels.add(this.getChoiceModel(-1114176512));
-        this.activeCallModels.add(this.getChoiceModel(-1919482880));
-        this.activeCallModels.add(this.getLabelModel(-2087255040));
-        this.activeCallModels.add(this.getChoiceModel(-2104032256));
-        this.activeCallModels.add(this.getResourceLocatorModel(-2070477824));
+        this.activeCallModels.add(this.getChoiceModel(300989));
+        this.activeCallModels.add(this.getChoiceModel(300941));
+        this.activeCallModels.add(this.getLabelModel(300931));
+        this.activeCallModels.add(this.getChoiceModel(300930));
+        this.activeCallModels.add(this.getResourceLocatorModel(300932));
     }
 
     private void setTelCallTypeChoiceValue(int n) {
-        this.getChoiceModel(-1114176512).setValue(n);
+        this.getChoiceModel(300989).setValue(n);
         this.callTypeImage = n;
     }
 
     private void setActiveCallTelephoneText(int n) {
-        this.getChoiceModel(-1919482880).setValue(n);
+        this.getChoiceModel(300941).setValue(n);
         this.telText = n;
     }
 
     private void setCallNameLabel(String string) {
-        this.getLabelModel(-2087255040).setText(string);
+        this.getLabelModel(300931).setText(string);
         this.callName = string;
     }
 
     private void setCallPhoneTypeIconModel(int n) {
-        this.getChoiceModel(-2104032256).setValue(n);
+        this.getChoiceModel(300930).setValue(n);
         this.phoneCallType = n;
     }
 
     private void setCallPictureResourceLocator(HMIResourceLocator hMIResourceLocator) {
-        this.getResourceLocatorModel(-2070477824).setResourceLocator(hMIResourceLocator);
+        this.getResourceLocatorModel(300932).setResourceLocator(hMIResourceLocator);
         this.resourceLocator = hMIResourceLocator;
     }
 
@@ -215,6 +213,21 @@ extends AbstractDataEntertainmentDrawerElement {
 
     public HMIResourceLocator getActiveCallResourceLocator() {
         return this.resourceLocator;
+    }
+
+    private static final class ActionTextValues {
+        private static final int DEFAULT = 0;
+        private static final int DISCONNECTING = 2;
+        private static final int OUTGOING_CALL = 3;
+        private static final int ACTIVE_CALL = 4;
+        private static final int HOLD = 5;
+        private static final int CONFERENCE_HOLD = 6;
+        private static final int ACTIVE_CONFERENCE = 7;
+        private static final int MUTE = 8;
+        private static final int AUDIO_ON_ME = 9;
+
+        private ActionTextValues() {
+        }
     }
 }
 

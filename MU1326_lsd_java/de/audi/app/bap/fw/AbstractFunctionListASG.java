@@ -19,7 +19,6 @@ extends AbstractFunctionList {
         this.functionSupported[this.getFctListBAPFctID()] = true;
     }
 
-    public abstract void setFunctionListConfiguration(StatusProperty statusProperty) {
-    }
+    public abstract void setFunctionListConfiguration(StatusProperty var1);
 }
 

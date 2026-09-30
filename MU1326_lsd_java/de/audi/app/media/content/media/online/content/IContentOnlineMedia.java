@@ -8,7 +8,6 @@ import de.audi.app.media.content.media.online.content.IOnlineMusicStateListener;
 
 public interface IContentOnlineMedia
 extends IContentMedia {
-    default public void setOnlineMusicStateListener(IOnlineMusicStateListener iOnlineMusicStateListener) {
-    }
+    public void setOnlineMusicStateListener(IOnlineMusicStateListener var1);
 }
 

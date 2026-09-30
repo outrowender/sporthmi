@@ -21,19 +21,17 @@ extends AbstractDataCommand {
         super(logChannel, dSIDataConfiguration, (class$de$audi$app$data$core$counter$CommandResetPacketCounter == null ? (class$de$audi$app$data$core$counter$CommandResetPacketCounter = CommandResetPacketCounter.class$("de.audi.app.data.core.counter.CommandResetPacketCounter")) : class$de$audi$app$data$core$counter$CommandResetPacketCounter).getName());
     }
 
-    @Override
     public void execute() {
         if (this.dsi != null) {
             this.dsi.resetPacketCounter();
         } else {
-            this.logger.log(-1601830656, "CommandResetPacketCounter#execute(): dsi is NULL");
+            this.logger.log(100000, "CommandResetPacketCounter#execute(): dsi is NULL");
             this.commandList.commandFinished();
         }
     }
 
-    @Override
     public void resetPacketCounterResponse(int n) {
-        this.logger.log(-2137614336, "CommandResetPacketCounter#resetPacketCounterResponse(): result=%1", (long)n);
+        this.logger.log(10000000, "CommandResetPacketCounter#resetPacketCounterResponse(): result=%1", (long)n);
         this.commandList.commandFinished();
     }
 

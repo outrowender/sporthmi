@@ -3,13 +3,15 @@
  */
 package de.audi.app.navi.evo.di.jp.wfm;
 
+import de.audi.app.navi.evo.di.AddressInputUtilEvo;
 import de.audi.app.navi.evo.di.DIScreensEvo;
 import de.audi.app.navi.evo.di.jp.wfm.AbstractAddressInputScreenWorkFlowManagerJP;
-import de.audi.app.navi.evo.di.jp.wfm.AddressInputChomeNumberWorkFlowManagerJP$1;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.ICommandListFactory;
 import de.audi.tghu.navi.app.NavigationEnv;
+import de.audi.tghu.navi.app.command.NavCommand;
+import de.audi.tghu.navi.app.di.AddressInputUtil;
 import de.audi.tghu.navi.app.li.SpellerStack;
 
 public class AddressInputChomeNumberWorkFlowManagerJP
@@ -21,9 +23,8 @@ extends AbstractAddressInputScreenWorkFlowManagerJP {
         this.housenumberAvailable = navigationEnv.getChoiceModel(DIScreensEvo.getDiJpChomeNeedsNumberChoice());
     }
 
-    @Override
     public CommandList handleWorkFlow(CommandList commandList, int n) {
-        this.logChannel.log(-2137614336, "%1#handleWorkFlow with screenEventId = %2", (Object)this.CLASS_NAME, (long)n);
+        this.logChannel.log(10000000, "%1#handleWorkFlow with screenEventId = %2", (Object)this.CLASS_NAME, (long)n);
         switch (n) {
             case 20502: {
                 this.createJPChomeScreenListElementSelectedWorkFlow(commandList);
@@ -37,12 +38,19 @@ extends AbstractAddressInputScreenWorkFlowManagerJP {
     }
 
     private void createJPChomeScreenListElementSelectedWorkFlow(CommandList commandList) {
-        this.logChannel.log(-2137614336, "%1#createJPChomeScreenListElementSelectedWorkFlow", (Object)this.CLASS_NAME);
-        commandList.add(new AddressInputChomeNumberWorkFlowManagerJP$1(this));
-    }
+        this.logChannel.log(10000000, "%1#createJPChomeScreenListElementSelectedWorkFlow", (Object)this.CLASS_NAME);
+        commandList.add(new NavCommand(){
 
-    static /* synthetic */ ChoiceModelApp access$000(AddressInputChomeNumberWorkFlowManagerJP addressInputChomeNumberWorkFlowManagerJP) {
-        return addressInputChomeNumberWorkFlowManagerJP.housenumberAvailable;
+            public void execute() {
+                if (AddressInputChomeNumberWorkFlowManagerJP.this.housenumberAvailable.getValue() == 0) {
+                    if (AddressInputUtilEvo.isOnlineOrNormalPOIContext(this.env)) {
+                        AddressInputUtil.setNewSearchAreaContextChoiceStatus(this.env, 1);
+                    }
+                    AddressInputChomeNumberWorkFlowManagerJP.this.spellerStack.pop();
+                }
+                this.getCommandList().commandFinished();
+            }
+        });
     }
 }
 

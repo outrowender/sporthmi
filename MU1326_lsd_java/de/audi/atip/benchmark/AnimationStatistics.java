@@ -3,8 +3,6 @@
  */
 package de.audi.atip.benchmark;
 
-import de.audi.atip.benchmark.AnimationStatistics$AnimationInfo;
-import de.audi.atip.benchmark.AnimationStatistics$NullAnimationStatistics;
 import de.audi.atip.benchmark.IAnimationStatistics;
 import de.audi.atip.benchmark.IStatisticsManager;
 import de.audi.atip.benchmark.StatisticsManager;
@@ -17,8 +15,8 @@ import java.util.List;
 
 class AnimationStatistics
 implements IAnimationStatistics {
-    static final String HEADER;
-    static IAnimationStatistics NULL_OBJECT;
+    static final String HEADER = "Animation Type;Animation Name;Start;End;Duration;Steps;Planned Duration;Updates/sec;Error?";
+    static IAnimationStatistics NULL_OBJECT = IStatisticsManager.INSTRUMENTATION_ENABLED ? new NullAnimationStatistics() : null;
     private final List animations = new LinkedList();
     private final IAnimationController animationController;
 
@@ -26,17 +24,14 @@ implements IAnimationStatistics {
         this.animationController = statisticsManager.getHMITerminal(0).getIAnimationController();
     }
 
-    @Override
     public void reset() {
         this.animations.clear();
     }
 
-    @Override
     public String getName() {
         return "AnimationStatistics.csv";
     }
 
-    @Override
     public void dump(PrintStream printStream, String string) {
         try {
             this.doDump(printStream);
@@ -46,17 +41,16 @@ implements IAnimationStatistics {
         }
     }
 
-    @Override
     public void registerAnimation(int n, int n2, long l, long l2, long l3, int n3, Exception exception) {
-        AnimationStatistics$AnimationInfo animationStatistics$AnimationInfo = new AnimationStatistics$AnimationInfo(null);
-        AnimationStatistics$AnimationInfo.access$202(animationStatistics$AnimationInfo, n);
-        AnimationStatistics$AnimationInfo.access$302(animationStatistics$AnimationInfo, n2);
-        AnimationStatistics$AnimationInfo.access$402(animationStatistics$AnimationInfo, l2);
-        AnimationStatistics$AnimationInfo.access$502(animationStatistics$AnimationInfo, l);
-        AnimationStatistics$AnimationInfo.access$602(animationStatistics$AnimationInfo, l3);
-        AnimationStatistics$AnimationInfo.access$702(animationStatistics$AnimationInfo, n3);
-        AnimationStatistics$AnimationInfo.access$802(animationStatistics$AnimationInfo, exception);
-        this.animations.add(animationStatistics$AnimationInfo);
+        AnimationInfo animationInfo = new AnimationInfo();
+        animationInfo.type = n;
+        animationInfo.steps = n2;
+        animationInfo.end = l2;
+        animationInfo.start = l;
+        animationInfo.plannedTime = l3;
+        animationInfo.timerInterval = n3;
+        animationInfo.e = exception;
+        this.animations.add(animationInfo);
     }
 
     private void doDump(PrintStream printStream) {
@@ -64,18 +58,46 @@ implements IAnimationStatistics {
             printStream.println("No measurements have been collected");
             return;
         }
-        printStream.println("Animation Type;Animation Name;Start;End;Duration;Steps;Planned Duration;Updates/sec;Error?");
+        printStream.println(HEADER);
         Iterator iterator = this.animations.iterator();
         while (iterator.hasNext()) {
-            AnimationStatistics$AnimationInfo animationStatistics$AnimationInfo = (AnimationStatistics$AnimationInfo)iterator.next();
-            int n = (int)(AnimationStatistics$AnimationInfo.access$400(animationStatistics$AnimationInfo) - AnimationStatistics$AnimationInfo.access$500(animationStatistics$AnimationInfo));
-            Buffer buffer = new Buffer(64).append(AnimationStatistics$AnimationInfo.access$200(animationStatistics$AnimationInfo)).append(";").append(this.animationController.getAnimationName(AnimationStatistics$AnimationInfo.access$200(animationStatistics$AnimationInfo))).append(";").append(AnimationStatistics$AnimationInfo.access$500(animationStatistics$AnimationInfo)).append(";").append(AnimationStatistics$AnimationInfo.access$400(animationStatistics$AnimationInfo)).append(";").append(AnimationStatistics$AnimationInfo.access$400(animationStatistics$AnimationInfo) - AnimationStatistics$AnimationInfo.access$500(animationStatistics$AnimationInfo)).append(";").append(AnimationStatistics$AnimationInfo.access$300(animationStatistics$AnimationInfo)).append(";").append(AnimationStatistics$AnimationInfo.access$600(animationStatistics$AnimationInfo)).append(";").append((float)AnimationStatistics$AnimationInfo.access$300(animationStatistics$AnimationInfo) / ((float)(n + AnimationStatistics$AnimationInfo.access$700(animationStatistics$AnimationInfo)) / 31300)).append(";").append(AnimationStatistics$AnimationInfo.access$800(animationStatistics$AnimationInfo));
+            AnimationInfo animationInfo = (AnimationInfo)iterator.next();
+            int n = (int)(animationInfo.end - animationInfo.start);
+            Buffer buffer = new Buffer(64).append(animationInfo.type).append(";").append(this.animationController.getAnimationName(animationInfo.type)).append(";").append(animationInfo.start).append(";").append(animationInfo.end).append(";").append(animationInfo.end - animationInfo.start).append(";").append(animationInfo.steps).append(";").append(animationInfo.plannedTime).append(";").append((float)animationInfo.steps / ((float)(n + animationInfo.timerInterval) / 1000.0f)).append(";").append(animationInfo.e);
             printStream.println(buffer);
         }
     }
 
-    static {
-        NULL_OBJECT = IStatisticsManager.INSTRUMENTATION_ENABLED ? new AnimationStatistics$NullAnimationStatistics(null) : null;
+    private static class AnimationInfo {
+        private int type = 0;
+        private long start = 0L;
+        private int steps = 0;
+        private long end = 0L;
+        private long plannedTime = 0L;
+        private int timerInterval = 0;
+        private Exception e = null;
+
+        private AnimationInfo() {
+        }
+    }
+
+    private static final class NullAnimationStatistics
+    implements IAnimationStatistics {
+        private NullAnimationStatistics() {
+        }
+
+        public String getName() {
+            return "AnimationStatistics.csv";
+        }
+
+        public void dump(PrintStream printStream, String string) {
+        }
+
+        public void reset() {
+        }
+
+        public void registerAnimation(int n, int n2, long l, long l2, long l3, int n3, Exception exception) {
+        }
     }
 }
 

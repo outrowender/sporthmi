@@ -20,9 +20,8 @@ extends AbstractADBCommand {
         this.listener = iTelADBGetSpeedDialListFavoritesListener;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "TelADBGetSpeedDialFavoritesListCommand#execute()");
+        this.logger.log(1000000, "TelADBGetSpeedDialFavoritesListCommand#execute()");
         boolean bl = this.adbDSIAccess.getEntries(new long[0], 4, 1);
         if (!bl) {
             this.logger.log(10000, "TelADBGetSpeedDialFavoritesListCommand#execute(): dsi call was not successful, finishing command.");
@@ -30,9 +29,8 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public void getEntriesResult(int n, AdbEntry[] adbEntryArray) {
-        this.logger.log(1078071040, "TelADBGetSpeedDialFavoritesListCommand#getEntriesResult(): success: %2, entryList: %1", (Object)adbEntryArray, (Object)ADBDbgUtils.dbgSuccessFlag(n));
+        this.logger.log(1000000, "TelADBGetSpeedDialFavoritesListCommand#getEntriesResult(): success: %2, entryList: %1", (Object)adbEntryArray, (Object)ADBDbgUtils.dbgSuccessFlag(n));
         if (n == 0 && this.listener != null) {
             this.listener.resultGetADBSpeedDialFavoritesList(adbEntryArray);
         }

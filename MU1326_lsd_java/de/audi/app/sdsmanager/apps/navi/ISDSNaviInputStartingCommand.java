@@ -4,7 +4,6 @@
 package de.audi.app.sdsmanager.apps.navi;
 
 public interface ISDSNaviInputStartingCommand {
-    default public void responseStartDestinationInput(byte by) {
-    }
+    public void responseStartDestinationInput(byte var1);
 }
 

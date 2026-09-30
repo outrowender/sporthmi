@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  de.audi.app.terminalmode.TerminalModeUtils
  */
 package de.audi.app.terminalmode.smartphone.carlife;
 
@@ -16,7 +13,7 @@ import org.dsi.ifc.carlife.TouchEvent;
 
 public final class CarlifeKeyEventsController
 implements ITerminalModeDSIKeyEventsController {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "CarlifeKeyEventsController";
     private volatile Key lastJoystickkey;
     private final DSICarlife dsi;
     private final LogChannel lc;
@@ -26,32 +23,30 @@ implements ITerminalModeDSIKeyEventsController {
         this.lc = logChannel;
     }
 
-    @Override
     public void updateKey(Key key, KeyState keyState) {
-        if (TerminalModeUtils.isJoystickMiddleposition((Key)key)) {
+        if (TerminalModeUtils.isJoystickMiddleposition(key)) {
             if (null == this.lastJoystickkey) {
                 return;
             }
-            this.lc.log(1078071040, "[%1.updateKey] joystick middle position, release button %2", (Object)"CarlifeKeyEventsController", (Object)this.lastJoystickkey);
+            this.lc.log(1000000, "[%1.updateKey] joystick middle position, release button %2", (Object)LOGCLASS, (Object)this.lastJoystickkey);
             this.dsi.postButtonEvent(this.getKeyId(this.lastJoystickkey), 1);
             this.lastJoystickkey = null;
             return;
         }
         int n = this.getKeyId(key);
         if (0 == n) {
-            this.lc.log(1078071040, "[%1.updateKey] unknown key id", (Object)"CarlifeKeyEventsController");
+            this.lc.log(1000000, "[%1.updateKey] unknown key id", (Object)LOGCLASS);
             return;
         }
-        this.lc.log(1078071040, "[%1.updateKey] %2", (Object)"CarlifeKeyEventsController", (long)n);
-        if (TerminalModeUtils.isJoystick((Key)key)) {
+        this.lc.log(1000000, "[%1.updateKey] %2", (Object)LOGCLASS, (long)n);
+        if (TerminalModeUtils.isJoystick(key)) {
             this.lastJoystickkey = key;
         }
         this.dsi.postButtonEvent(n, this.getKeyState(keyState));
     }
 
-    @Override
     public void updateTouchEvents(de.audi.app.terminalmode.keyevents.TouchEvent[] touchEventArray) {
-        this.lc.log(1078071040, "[%1.updateTouchEvents] %2 %3", (Object)"CarlifeKeyEventsController", (Object)Integer.toString(touchEventArray.length), (Object)touchEventArray[0]);
+        this.lc.log(1000000, "[%1.updateTouchEvents] %2 %3", (Object)LOGCLASS, (Object)Integer.toString(touchEventArray.length), (Object)touchEventArray[0]);
         TouchEvent[] touchEventArray2 = new TouchEvent[touchEventArray.length];
         int n = 0;
         for (int i2 = 0; i2 < touchEventArray.length; ++i2) {
@@ -74,7 +69,6 @@ implements ITerminalModeDSIKeyEventsController {
         this.dsi.postTouchEvent(touchEventArray[0].isTouchScreen() ? 1 : 0, touchEventArray2, n);
     }
 
-    @Override
     public void updateRotary(int n) {
         this.dsi.postRotaryEvent(n);
     }
@@ -86,7 +80,7 @@ implements ITerminalModeDSIKeyEventsController {
         if (keyState.is(KeyState.RELEASED)) {
             return 1;
         }
-        this.lc.log(1078071040, "[%1.getKeyState] Unsupported key state %2", (Object)"CarlifeKeyEventsController", (Object)keyState);
+        this.lc.log(1000000, "[%1.getKeyState] Unsupported key state %2", (Object)LOGCLASS, (Object)keyState);
         return -1;
     }
 
@@ -115,13 +109,12 @@ implements ITerminalModeDSIKeyEventsController {
         if (key.is(Key.SOFTKEY_WEST)) {
             return 12;
         }
-        this.lc.log(1078071040, "[%1.getKeyId] Unsupport %2", (Object)"CarlifeKeyEventsController", (Object)key);
+        this.lc.log(1000000, "[%1.getKeyId] Unsupport %2", (Object)LOGCLASS, (Object)key);
         return 0;
     }
 
-    @Override
     public void updateCharacterEvent(String[] stringArray, int[] nArray) {
-        this.lc.log(1078071040, "[%1.updateCharacterEvent]", (Object)"CarlifeKeyEventsController");
+        this.lc.log(1000000, "[%1.updateCharacterEvent]", (Object)LOGCLASS);
         this.dsi.postCharacterEvent(stringArray.length, stringArray);
     }
 }

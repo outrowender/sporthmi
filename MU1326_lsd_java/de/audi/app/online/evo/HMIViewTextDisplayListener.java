@@ -30,7 +30,6 @@ extends AbstractHMIViewListenerEvo {
         return (HMIViewTextDisplayScreenAccess)this.screenAccess;
     }
 
-    @Override
     public void updateViewProperties(HMIProperties hMIProperties, boolean bl, RemoteHMIContext remoteHMIContext) {
         this.handleScreenType(hMIProperties);
         super.updateViewProperties(hMIProperties, bl, remoteHMIContext);
@@ -48,9 +47,8 @@ extends AbstractHMIViewListenerEvo {
         this.setSelectedIds(hMIProperties.getStringArray("buttonTextId"));
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
-        this.logChannel.log(1078071040, "HMIViewTextDisplayListener#keyPressed: modelID=%1, keyID=%2.", (long)n, (long)n2);
+        this.logChannel.log(1000000, "HMIViewTextDisplayListener#keyPressed: modelID=%1, keyID=%2.", (long)n, (long)n2);
         super.keyPressed(n, n2, n3);
         HMIViewTextDisplayScreenAccess hMIViewTextDisplayScreenAccess = this.getScreenAccess();
         if (n == hMIViewTextDisplayScreenAccess.getAction1Button().getID()) {

@@ -7,7 +7,6 @@ import de.audi.app.bluetooth.core.connectivity.trusted.ITrustedDeviceList;
 
 public interface IEvoTrustedDeviceList
 extends ITrustedDeviceList {
-    default public void showTrustedDevices(int n, boolean bl) {
-    }
+    public void showTrustedDevices(int var1, boolean var2);
 }
 

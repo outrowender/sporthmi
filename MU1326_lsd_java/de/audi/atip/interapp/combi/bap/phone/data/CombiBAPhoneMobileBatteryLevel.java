@@ -3,56 +3,81 @@
  */
 package de.audi.atip.interapp.combi.bap.phone.data;
 
-import de.audi.atip.interapp.combi.bap.phone.data.CombiBAPhoneMobileBatteryLevel$ChargeLevel;
 import de.esolutions.fw.util.commons.Buffer;
 
 public final class CombiBAPhoneMobileBatteryLevel {
-    public static final int BATTERY_LEVEL_UNKNOWN_DEVICE_NOT_CONNECTED;
-    public static final int BATTERY_LEVEL_UNKNOWN_LEVEL_NOT_RECEIVED;
-    public static final int BATTERY_LEVEL_CHARGE_LEVEL_0;
-    public static final int BATTERY_LEVEL_CHARGE_LEVEL_0_19;
-    public static final int BATTERY_LEVEL_CHARGE_LEVEL_20_39;
-    public static final int BATTERY_LEVEL_CHARGE_LEVEL_40_59;
-    public static final int BATTERY_LEVEL_CHARGE_LEVEL_60_79;
-    public static final int BATTERY_LEVEL_CHARGE_LEVEL_80_100;
-    private final CombiBAPhoneMobileBatteryLevel$ChargeLevel mobileChargeLevel1;
-    private final CombiBAPhoneMobileBatteryLevel$ChargeLevel mobileChargeLevel2;
-    private final CombiBAPhoneMobileBatteryLevel$ChargeLevel handsetChargeLevel1;
-    private final CombiBAPhoneMobileBatteryLevel$ChargeLevel handsetChargeLevel2;
+    public static final int BATTERY_LEVEL_UNKNOWN_DEVICE_NOT_CONNECTED = 255;
+    public static final int BATTERY_LEVEL_UNKNOWN_LEVEL_NOT_RECEIVED = 254;
+    public static final int BATTERY_LEVEL_CHARGE_LEVEL_0 = 0;
+    public static final int BATTERY_LEVEL_CHARGE_LEVEL_0_19 = 19;
+    public static final int BATTERY_LEVEL_CHARGE_LEVEL_20_39 = 39;
+    public static final int BATTERY_LEVEL_CHARGE_LEVEL_40_59 = 59;
+    public static final int BATTERY_LEVEL_CHARGE_LEVEL_60_79 = 79;
+    public static final int BATTERY_LEVEL_CHARGE_LEVEL_80_100 = 100;
+    private final ChargeLevel mobileChargeLevel1;
+    private final ChargeLevel mobileChargeLevel2;
+    private final ChargeLevel handsetChargeLevel1;
+    private final ChargeLevel handsetChargeLevel2;
 
-    public CombiBAPhoneMobileBatteryLevel(CombiBAPhoneMobileBatteryLevel$ChargeLevel combiBAPhoneMobileBatteryLevel$ChargeLevel, CombiBAPhoneMobileBatteryLevel$ChargeLevel combiBAPhoneMobileBatteryLevel$ChargeLevel2, CombiBAPhoneMobileBatteryLevel$ChargeLevel combiBAPhoneMobileBatteryLevel$ChargeLevel3, CombiBAPhoneMobileBatteryLevel$ChargeLevel combiBAPhoneMobileBatteryLevel$ChargeLevel4) {
-        this.mobileChargeLevel1 = combiBAPhoneMobileBatteryLevel$ChargeLevel;
-        this.mobileChargeLevel2 = combiBAPhoneMobileBatteryLevel$ChargeLevel2;
-        this.handsetChargeLevel1 = combiBAPhoneMobileBatteryLevel$ChargeLevel3;
-        this.handsetChargeLevel2 = combiBAPhoneMobileBatteryLevel$ChargeLevel4;
+    public CombiBAPhoneMobileBatteryLevel(ChargeLevel chargeLevel, ChargeLevel chargeLevel2, ChargeLevel chargeLevel3, ChargeLevel chargeLevel4) {
+        this.mobileChargeLevel1 = chargeLevel;
+        this.mobileChargeLevel2 = chargeLevel2;
+        this.handsetChargeLevel1 = chargeLevel3;
+        this.handsetChargeLevel2 = chargeLevel4;
     }
 
-    public static CombiBAPhoneMobileBatteryLevel create(CombiBAPhoneMobileBatteryLevel$ChargeLevel combiBAPhoneMobileBatteryLevel$ChargeLevel, CombiBAPhoneMobileBatteryLevel$ChargeLevel combiBAPhoneMobileBatteryLevel$ChargeLevel2, CombiBAPhoneMobileBatteryLevel$ChargeLevel combiBAPhoneMobileBatteryLevel$ChargeLevel3, CombiBAPhoneMobileBatteryLevel$ChargeLevel combiBAPhoneMobileBatteryLevel$ChargeLevel4) {
-        return new CombiBAPhoneMobileBatteryLevel(combiBAPhoneMobileBatteryLevel$ChargeLevel, combiBAPhoneMobileBatteryLevel$ChargeLevel2, combiBAPhoneMobileBatteryLevel$ChargeLevel3, combiBAPhoneMobileBatteryLevel$ChargeLevel4);
+    public static CombiBAPhoneMobileBatteryLevel create(ChargeLevel chargeLevel, ChargeLevel chargeLevel2, ChargeLevel chargeLevel3, ChargeLevel chargeLevel4) {
+        return new CombiBAPhoneMobileBatteryLevel(chargeLevel, chargeLevel2, chargeLevel3, chargeLevel4);
     }
 
-    public static CombiBAPhoneMobileBatteryLevel createOnlyMobileChargeLevel1(CombiBAPhoneMobileBatteryLevel$ChargeLevel combiBAPhoneMobileBatteryLevel$ChargeLevel) {
-        return new CombiBAPhoneMobileBatteryLevel(combiBAPhoneMobileBatteryLevel$ChargeLevel, CombiBAPhoneMobileBatteryLevel$ChargeLevel.createDefaultChargeLevel(), CombiBAPhoneMobileBatteryLevel$ChargeLevel.createDefaultChargeLevel(), CombiBAPhoneMobileBatteryLevel$ChargeLevel.createDefaultChargeLevel());
+    public static CombiBAPhoneMobileBatteryLevel createOnlyMobileChargeLevel1(ChargeLevel chargeLevel) {
+        return new CombiBAPhoneMobileBatteryLevel(chargeLevel, ChargeLevel.createDefaultChargeLevel(), ChargeLevel.createDefaultChargeLevel(), ChargeLevel.createDefaultChargeLevel());
     }
 
-    public CombiBAPhoneMobileBatteryLevel$ChargeLevel getMobileChargeLevel1() {
+    public ChargeLevel getMobileChargeLevel1() {
         return this.mobileChargeLevel1;
     }
 
-    public CombiBAPhoneMobileBatteryLevel$ChargeLevel getMobileChargeLevel2() {
+    public ChargeLevel getMobileChargeLevel2() {
         return this.mobileChargeLevel2;
     }
 
-    public CombiBAPhoneMobileBatteryLevel$ChargeLevel getHandsetChargeLevel1() {
+    public ChargeLevel getHandsetChargeLevel1() {
         return this.handsetChargeLevel1;
     }
 
-    public CombiBAPhoneMobileBatteryLevel$ChargeLevel getHandsetChargeLevel2() {
+    public ChargeLevel getHandsetChargeLevel2() {
         return this.handsetChargeLevel2;
     }
 
     public String toString() {
         return new Buffer("CombiBAPhoneMobileBatteryLevel [mobileChargeLevel1=").append(this.mobileChargeLevel1).append(", mobileChargeLevel2=").append(this.mobileChargeLevel2).append(", handsetChargeLevel1=").append(this.handsetChargeLevel1).append(", handsetChargeLevel2=").append(this.handsetChargeLevel2).append("]").toString();
+    }
+
+    public static final class ChargeLevel {
+        private final int chargeLevelPercent;
+        private final boolean isCritical;
+
+        public ChargeLevel(int n, boolean bl) {
+            this.chargeLevelPercent = n;
+            this.isCritical = bl;
+        }
+
+        public int getChargeLevelPercent() {
+            return this.chargeLevelPercent;
+        }
+
+        public boolean isCritical() {
+            return this.isCritical;
+        }
+
+        static ChargeLevel createDefaultChargeLevel() {
+            return new ChargeLevel(255, false);
+        }
+
+        public String toString() {
+            return new Buffer().append(this.chargeLevelPercent).append(" ").append(this.isCritical).toString();
+        }
     }
 }
 

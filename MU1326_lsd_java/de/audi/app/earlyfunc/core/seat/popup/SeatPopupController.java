@@ -15,11 +15,9 @@ extends AbstractSeatPopupController {
         super(iSeatMainController, abstractSeatPopupFactory);
     }
 
-    @Override
     public void showPartialPopinAfterUpdate(MemorySeatPopin memorySeatPopin) {
     }
 
-    @Override
     public void showPartialPopinAfterUpdate(SeatPopin seatPopin) {
     }
 }

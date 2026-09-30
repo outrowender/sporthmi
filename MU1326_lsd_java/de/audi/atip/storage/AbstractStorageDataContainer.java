@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.zip.CRC32;
 
 public abstract class AbstractStorageDataContainer {
-    private static final int MAX_ARRAY_CAPACITY;
+    private static final int MAX_ARRAY_CAPACITY = 1024;
     private final IStorageAccess storageAccess;
     private final int namespace;
     private final int key;
@@ -23,7 +23,7 @@ public abstract class AbstractStorageDataContainer {
 
     public AbstractStorageDataContainer(IStorageAccess iStorageAccess, int n, int n2, int n3) {
         if (iStorageAccess == null || n2 < 1 || n3 < 1) {
-            throw new IllegalArgumentException(new StringBuffer().append("IStorageAccess=").append(iStorageAccess).append(", namespace=").append(n2).append(", key=").append(n3).toString());
+            throw new IllegalArgumentException("IStorageAccess=" + iStorageAccess + ", namespace=" + n2 + ", key=" + n3);
         }
         this.storageAccess = iStorageAccess;
         this.containerVersion = n;
@@ -35,20 +35,15 @@ public abstract class AbstractStorageDataContainer {
         return this.storageAccess;
     }
 
-    protected abstract void handleCRC32Error() {
-    }
+    protected abstract void handleCRC32Error();
 
-    protected abstract void handleStorageReadError(Exception exception) {
-    }
+    protected abstract void handleStorageReadError(Exception var1);
 
-    protected abstract void convertContainer(int n, int n2, DataInputStream dataInputStream) {
-    }
+    protected abstract void convertContainer(int var1, int var2, DataInputStream var3) throws IOException;
 
-    protected abstract void serialize(DataOutputStream dataOutputStream) {
-    }
+    protected abstract void serialize(DataOutputStream var1) throws IOException;
 
-    protected abstract void deserialize(DataInputStream dataInputStream) {
-    }
+    protected abstract void deserialize(DataInputStream var1) throws IOException;
 
     public final void readAndDeserialize() {
         byte[] byArray = this.storageAccess.getByteArray(this.namespace, this.key, null);
@@ -132,7 +127,7 @@ public abstract class AbstractStorageDataContainer {
         return this.key;
     }
 
-    protected final void serializeBooleanArray(boolean[] blArray, DataOutputStream dataOutputStream) {
+    protected final void serializeBooleanArray(boolean[] blArray, DataOutputStream dataOutputStream) throws IOException {
         if (blArray == null) {
             dataOutputStream.writeInt(-1);
             return;
@@ -145,7 +140,7 @@ public abstract class AbstractStorageDataContainer {
         dataOutputStream.write(byArray);
     }
 
-    protected boolean[] deserializeBooleanArray(DataInputStream dataInputStream) {
+    protected boolean[] deserializeBooleanArray(DataInputStream dataInputStream) throws IOException {
         int n = dataInputStream.readInt();
         if (n > 1024) {
             this.handleStorageReadError(new ArrayIndexOutOfBoundsException(n));
@@ -163,7 +158,7 @@ public abstract class AbstractStorageDataContainer {
         return blArray;
     }
 
-    protected void serializeIntArray(int[] nArray, DataOutputStream dataOutputStream) {
+    protected void serializeIntArray(int[] nArray, DataOutputStream dataOutputStream) throws IOException {
         if (nArray == null) {
             dataOutputStream.writeInt(-1);
             return;
@@ -174,7 +169,7 @@ public abstract class AbstractStorageDataContainer {
         }
     }
 
-    protected int[] deserializeIntArray(DataInputStream dataInputStream) {
+    protected int[] deserializeIntArray(DataInputStream dataInputStream) throws IOException {
         int n = dataInputStream.readInt();
         if (n > 1024) {
             this.handleStorageReadError(new ArrayIndexOutOfBoundsException(n));
@@ -190,7 +185,7 @@ public abstract class AbstractStorageDataContainer {
         return nArray;
     }
 
-    protected void serializeLongArray(long[] lArray, DataOutputStream dataOutputStream) {
+    protected void serializeLongArray(long[] lArray, DataOutputStream dataOutputStream) throws IOException {
         if (lArray == null) {
             dataOutputStream.writeInt(-1);
             return;
@@ -201,7 +196,7 @@ public abstract class AbstractStorageDataContainer {
         }
     }
 
-    protected long[] deserializeLongArray(DataInputStream dataInputStream) {
+    protected long[] deserializeLongArray(DataInputStream dataInputStream) throws IOException {
         int n = dataInputStream.readInt();
         if (n > 1024) {
             this.handleStorageReadError(new ArrayIndexOutOfBoundsException(n));
@@ -217,7 +212,7 @@ public abstract class AbstractStorageDataContainer {
         return lArray;
     }
 
-    protected void serializeStringArray(String[] stringArray, DataOutputStream dataOutputStream) {
+    protected void serializeStringArray(String[] stringArray, DataOutputStream dataOutputStream) throws IOException {
         if (stringArray == null) {
             dataOutputStream.writeInt(-1);
             return;
@@ -228,7 +223,7 @@ public abstract class AbstractStorageDataContainer {
         }
     }
 
-    protected String[] deserializeStringArray(DataInputStream dataInputStream) {
+    protected String[] deserializeStringArray(DataInputStream dataInputStream) throws IOException {
         int n = dataInputStream.readInt();
         if (n > 1024) {
             this.handleStorageReadError(new ArrayIndexOutOfBoundsException(n));

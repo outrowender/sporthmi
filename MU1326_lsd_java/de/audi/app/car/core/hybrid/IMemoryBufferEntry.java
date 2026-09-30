@@ -7,16 +7,12 @@ import java.io.Serializable;
 
 public interface IMemoryBufferEntry
 extends Serializable {
-    default public void setDefaultValues() {
-    }
+    public void setDefaultValues();
 
-    default public IMemoryBufferEntry copy() {
-    }
+    public IMemoryBufferEntry copy();
 
-    default public String[] getFields() {
-    }
+    public String[] getFields();
 
-    default public String[] getValuesAsString() {
-    }
+    public String[] getValuesAsString();
 }
 

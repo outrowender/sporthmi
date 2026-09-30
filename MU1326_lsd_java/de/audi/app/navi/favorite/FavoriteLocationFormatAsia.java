@@ -17,7 +17,6 @@ extends FavoriteLocationFormatEU {
         this.env = navigationEnv;
     }
 
-    @Override
     public String formatAddress(NavLocation navLocation) {
         return AddressFormatter.formatOneLine(navLocation, this.env).getFirstLineAsText();
     }

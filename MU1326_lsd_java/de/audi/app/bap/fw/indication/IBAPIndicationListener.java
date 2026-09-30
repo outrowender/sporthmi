@@ -4,19 +4,14 @@
 package de.audi.app.bap.fw.indication;
 
 public interface IBAPIndicationListener {
-    default public void processAcknowledge(int n, int n2) {
-    }
+    public void processAcknowledge(int var1, int var2);
 
-    default public void processIndication(int n, int n2, int n3, int n4) {
-    }
+    public void processIndication(int var1, int var2, int var3, int var4);
 
-    default public void processIndicationByteSequence(int n, int n2, byte[] byArray) {
-    }
+    public void processIndicationByteSequence(int var1, int var2, byte[] var3);
 
-    default public void processIndicationVoid(int n, int n2) {
-    }
+    public void processIndicationVoid(int var1, int var2);
 
-    default public void processIndicationError(int n, int n2) {
-    }
+    public void processIndicationError(int var1, int var2);
 }
 

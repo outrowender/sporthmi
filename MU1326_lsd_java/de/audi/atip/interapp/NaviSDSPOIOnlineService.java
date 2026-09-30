@@ -4,63 +4,53 @@
 package de.audi.atip.interapp;
 
 public interface NaviSDSPOIOnlineService {
-    public static final byte OK;
-    public static final byte NOK;
-    public static final byte INVALID;
-    public static final byte LIST_HISTORY;
-    public static final byte LIST_RESULTS;
-    public static final byte PARTIAL_POPUP;
-    public static final byte AUDIO_TYPE_PCM;
-    public static final byte AUDIO_TYPE_SPEEX_NO_HEADER;
-    public static final byte AUDIO_TYPE_SPEEX_WITH_HEADER;
-    public static final int POI_ONLINE_BY_INDEX;
-    public static final byte STATUS_DATA_AVAILABLE_OK;
-    public static final byte STATUS_DATA_AVAILABLE_ERROR_GENERIC;
-    public static final byte STATUS_DATA_AVAILABLE_ERROR_PROXY;
-    public static final byte STATUS_DATA_AVAILABLE_TIMEOUT;
-    public static final byte STATUS_DATA_AVAILABLE_NO_RESULTS;
-    public static final byte STATUS_DATA_AVAILABLE_RECOGNITION_FAILED;
-    public static final byte STATUS_DATA_AVAILABLE_LANGUAGE_NOT_SUPPORTED;
-    public static final byte STATUS_DATA_AVAILABLE_SPELLING_SUGGESTIONS;
-    public static final byte STATUS_DATA_AVAILABLE_SAFE_SEARCH;
-    public static final byte STATUS_DATA_AVAILABLE_ERROR_CONNECTION;
-    public static final byte SEARCH_AREA_CURRENT_POSITION;
-    public static final byte SEARCH_AREA_TARGET_POSITION;
-    public static final byte SEARCH_AREA_OTHER_TOWN;
-    public static final byte SEARCH_AREA_STOPOVER_POSITION;
-    public static final byte USETYPE_UNDEFINED;
-    public static final byte USETYPE_TELEPHONE;
-    public static final byte USETYPE_NAVIGATION;
-    public static final byte USETYPE_ADDRESS_BOOK;
+    public static final byte OK = 0;
+    public static final byte NOK = 1;
+    public static final byte INVALID = 2;
+    public static final byte LIST_HISTORY = 0;
+    public static final byte LIST_RESULTS = 1;
+    public static final byte PARTIAL_POPUP = 2;
+    public static final byte AUDIO_TYPE_PCM = 0;
+    public static final byte AUDIO_TYPE_SPEEX_NO_HEADER = 1;
+    public static final byte AUDIO_TYPE_SPEEX_WITH_HEADER = 2;
+    public static final int POI_ONLINE_BY_INDEX = -1;
+    public static final byte STATUS_DATA_AVAILABLE_OK = 0;
+    public static final byte STATUS_DATA_AVAILABLE_ERROR_GENERIC = 1;
+    public static final byte STATUS_DATA_AVAILABLE_ERROR_PROXY = 2;
+    public static final byte STATUS_DATA_AVAILABLE_TIMEOUT = 3;
+    public static final byte STATUS_DATA_AVAILABLE_NO_RESULTS = 4;
+    public static final byte STATUS_DATA_AVAILABLE_RECOGNITION_FAILED = 5;
+    public static final byte STATUS_DATA_AVAILABLE_LANGUAGE_NOT_SUPPORTED = 6;
+    public static final byte STATUS_DATA_AVAILABLE_SPELLING_SUGGESTIONS = 7;
+    public static final byte STATUS_DATA_AVAILABLE_SAFE_SEARCH = 8;
+    public static final byte STATUS_DATA_AVAILABLE_ERROR_CONNECTION = 9;
+    public static final byte SEARCH_AREA_CURRENT_POSITION = 0;
+    public static final byte SEARCH_AREA_TARGET_POSITION = 1;
+    public static final byte SEARCH_AREA_OTHER_TOWN = 2;
+    public static final byte SEARCH_AREA_STOPOVER_POSITION = 6;
+    public static final byte USETYPE_UNDEFINED = 0;
+    public static final byte USETYPE_TELEPHONE = 1;
+    public static final byte USETYPE_NAVIGATION = 2;
+    public static final byte USETYPE_ADDRESS_BOOK = 3;
 
-    default public byte poiOnlineSearchInit(boolean bl, int n, String string) {
-    }
+    public byte poiOnlineSearchInit(boolean var1, int var2, String var3);
 
-    default public byte poiOnlineSearchCancel() {
-    }
+    public byte poiOnlineSearchCancel();
 
-    default public void poiOnlineSearchDidYouMean() {
-    }
+    public void poiOnlineSearchDidYouMean();
 
-    default public byte poiOnlineVoiceDataAvailable(String string, int n) {
-    }
+    public byte poiOnlineVoiceDataAvailable(String var1, int var2);
 
-    default public void poiOnlineSetSearchArea(byte by) {
-    }
+    public void poiOnlineSetSearchArea(byte var1);
 
-    default public void markCurrentPOIUsedFor(byte by) {
-    }
+    public void markCurrentPOIUsedFor(byte var1);
 
-    default public int getCurrentPOIOnlineListSize() {
-    }
+    public int getCurrentPOIOnlineListSize();
 
-    default public void resetCurrentPOIOnlineList() {
-    }
+    public void resetCurrentPOIOnlineList();
 
-    default public void poiOnlineShowList(byte by) {
-    }
+    public void poiOnlineShowList(byte var1);
 
-    default public void selectDestination(int n) {
-    }
+    public void selectDestination(int var1);
 }
 

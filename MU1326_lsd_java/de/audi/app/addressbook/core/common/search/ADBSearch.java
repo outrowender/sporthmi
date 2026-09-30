@@ -8,19 +8,14 @@ import de.audi.app.addressbook.core.common.search.ADBSearchListRow;
 import org.osgi.framework.BundleContext;
 
 public interface ADBSearch {
-    default public void init() {
-    }
+    public void init();
 
-    default public void deinit(BundleContext bundleContext) {
-    }
+    public void deinit(BundleContext var1);
 
-    default public void startSearch() {
-    }
+    public void startSearch();
 
-    default public void enableFiltering(boolean bl) {
-    }
+    public void enableFiltering(boolean var1);
 
-    default public void setSearchResultDetails(ADBEntryDetailsListRow[] aDBEntryDetailsListRowArray, ADBSearchListRow aDBSearchListRow) {
-    }
+    public void setSearchResultDetails(ADBEntryDetailsListRow[] var1, ADBSearchListRow var2);
 }
 

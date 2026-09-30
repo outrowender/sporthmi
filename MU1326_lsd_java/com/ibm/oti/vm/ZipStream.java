@@ -4,11 +4,11 @@
 package com.ibm.oti.vm;
 
 import com.ibm.oti.util.Msg;
-import com.ibm.oti.vm.ZipStream$1;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.zip.ZipFile;
 
 public class ZipStream
@@ -24,10 +24,34 @@ extends InputStream {
     static /* synthetic */ Class class$0;
 
     static {
-        AccessController.doPrivileged(new ZipStream$1());
+        AccessController.doPrivileged(new PrivilegedAction(){
+
+            public Object run() {
+                Class clazz = class$0;
+                if (clazz == null) {
+                    try {
+                        clazz = class$0 = Class.forName("java.util.zip.ZipFile");
+                    }
+                    catch (ClassNotFoundException classNotFoundException) {
+                        throw new NoClassDefFoundError(classNotFoundException.getMessage());
+                    }
+                }
+                Class clazz2 = clazz;
+                try {
+                    descriptorField = clazz2.getDeclaredField("descriptor");
+                    descriptorField.setAccessible(true);
+                    lockField = clazz2.getDeclaredField("lock");
+                    lockField.setAccessible(true);
+                    return null;
+                }
+                catch (NoSuchFieldException noSuchFieldException) {
+                    throw new Error();
+                }
+            }
+        });
     }
 
-    ZipStream(long l) {
+    ZipStream(long l) throws IOException {
         this.streamHandle = l;
         this.uncompressedSize = this.streamSizeImpl(this.streamHandle);
     }
@@ -35,7 +59,7 @@ extends InputStream {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    public static InputStream getZipStream(ZipFile zipFile, String string) {
+    public static InputStream getZipStream(ZipFile zipFile, String string) throws IOException {
         Object object;
         try {
             object = lockField.get(zipFile);
@@ -80,7 +104,6 @@ extends InputStream {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void close() {
         Object object = this.lock;
         synchronized (object) {
@@ -91,16 +114,14 @@ extends InputStream {
         }
     }
 
-    @Override
-    public int available() {
+    public int available() throws IOException {
         return (int)(this.uncompressedSize - this.pos);
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public int read(byte[] byArray, int n, int n2) {
+    public int read(byte[] byArray, int n, int n2) throws IOException {
         if (n <= byArray.length && n >= 0 && n2 >= 0 && n2 <= byArray.length - n) {
             Object object = this.lock;
             synchronized (object) {
@@ -124,8 +145,7 @@ extends InputStream {
         throw new ArrayIndexOutOfBoundsException();
     }
 
-    @Override
-    public int read() {
+    public int read() throws IOException {
         byte[] byArray = new byte[1];
         if (this.read(byArray, 0, 1) == -1) {
             return -1;
@@ -133,7 +153,6 @@ extends InputStream {
         return byArray[0] & 0xFF;
     }
 
-    @Override
     public boolean markSupported() {
         return true;
     }
@@ -141,7 +160,6 @@ extends InputStream {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void mark(int n) {
         Object object = this.lock;
         synchronized (object) {
@@ -158,8 +176,7 @@ extends InputStream {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void reset() {
+    public void reset() throws IOException {
         Object object = this.lock;
         synchronized (object) {
             ZipStream.checkDescriptor(this.zipFile);
@@ -171,38 +188,16 @@ extends InputStream {
         }
     }
 
-    private static native long openZipFileImpl(long l, String string) {
-    }
+    private static native long openZipFileImpl(long var0, String var2);
 
-    private native long streamSizeImpl(long l) {
-    }
+    private native long streamSizeImpl(long var1);
 
-    private native void readStreamImpl(long l, byte[] byArray, int n, int n2) {
-    }
+    private native void readStreamImpl(long var1, byte[] var3, int var4, int var5);
 
-    private native void markStreamImpl(long l) {
-    }
+    private native void markStreamImpl(long var1);
 
-    private native void resetStreamImpl(long l) {
-    }
+    private native void resetStreamImpl(long var1);
 
-    private native void closeStreamImpl(long l) {
-    }
-
-    static /* synthetic */ void access$0(Field field) {
-        descriptorField = field;
-    }
-
-    static /* synthetic */ Field access$1() {
-        return descriptorField;
-    }
-
-    static /* synthetic */ void access$2(Field field) {
-        lockField = field;
-    }
-
-    static /* synthetic */ Field access$3() {
-        return lockField;
-    }
+    private native void closeStreamImpl(long var1);
 }
 

@@ -11,15 +11,12 @@ import de.audi.app.connectivity.core.common.PhoneProxy;
 import de.mib.swdiagnosis.connectivity.ConnectivityDiag;
 
 public interface IConnectivity {
-    public static final String LOG_CHANNEL_NAME;
+    public static final String LOG_CHANNEL_NAME = "App.Connectivity.Main";
 
-    default public ConnectivityDiag getDiagnosis() {
-    }
+    public ConnectivityDiag getDiagnosis();
 
-    default public PhoneProxy getPhone() {
-    }
+    public PhoneProxy getPhone();
 
-    default public IClampStateProvider getClampStateProvider() {
-    }
+    public IClampStateProvider getClampStateProvider();
 }
 

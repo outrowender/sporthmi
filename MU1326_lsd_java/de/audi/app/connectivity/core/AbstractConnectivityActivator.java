@@ -24,10 +24,9 @@ implements IConnectivity {
     private ClampStateHandler clampStateHandler;
     static /* synthetic */ Class class$de$audi$atip$power$PowerEventListener;
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
-        this.clampStateHandler = new ClampStateHandler(this.framework.getLogChannel("App.Connectivity.Main"), this.framework.getHmiServiceApp().getChoiceModel(-2044320256));
+        this.clampStateHandler = new ClampStateHandler(this.framework.getLogChannel("App.Connectivity.Main"), this.framework.getHmiServiceApp().getChoiceModel(0x262686));
         this.serviceRegistration = this.bundleContext.registerService((class$de$audi$atip$power$PowerEventListener == null ? (class$de$audi$atip$power$PowerEventListener = AbstractConnectivityActivator.class$("de.audi.atip.power.PowerEventListener")) : class$de$audi$atip$power$PowerEventListener).getName(), (Object)this.clampStateHandler, null);
         this.diag = new ConnectivityDiag(bundleContext);
         this.diag.init();
@@ -35,12 +34,10 @@ implements IConnectivity {
         this.phone.init();
     }
 
-    @Override
     public IClampStateProvider getClampStateProvider() {
         return this.clampStateHandler;
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         if (this.serviceRegistration != null) {
             this.serviceRegistration.unregister();
@@ -57,12 +54,10 @@ implements IConnectivity {
         super.stop(bundleContext);
     }
 
-    @Override
     public ConnectivityDiag getDiagnosis() {
         return this.diag;
     }
 
-    @Override
     public PhoneProxy getPhone() {
         return this.phone;
     }

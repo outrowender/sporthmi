@@ -6,9 +6,9 @@ package de.audi.app.bap.fw.arrays;
 import de.vw.mib.bap.datatypes.ArrayHeader;
 
 public final class ArrayHeaderConfigurator {
-    public static final int POS_ID_FIRST_ELEMENT;
-    public static final boolean DO_TRANSMIT_POS;
-    public static final boolean DO_NOT_TRANSMIT_POS;
+    public static final int POS_ID_FIRST_ELEMENT = 0;
+    public static final boolean DO_TRANSMIT_POS = true;
+    public static final boolean DO_NOT_TRANSMIT_POS = false;
     private final ArrayHeader arrayHeader;
 
     public static ArrayHeaderConfigurator forThis(ArrayHeader arrayHeader) {

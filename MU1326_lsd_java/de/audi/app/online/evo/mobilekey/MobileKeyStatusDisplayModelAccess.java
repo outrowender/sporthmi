@@ -9,20 +9,20 @@ import de.audi.atip.hmi.modelaccess.LabelModelApp;
 import de.audi.atip.log.LogChannel;
 
 public class MobileKeyStatusDisplayModelAccess {
-    public static final int CHOICE_VALUE_SERVICE_INACTIVE;
-    public static final int CHOICE_VALUE_SERVICE_ACTIVE;
-    private static final int CHOICE_VALUE_SERVICE_CAN_BE_ACTIVATED;
-    private static final int CHOICE_VALUE_SERVICE_DISABLED;
-    public static final int CHOICE_VALUE_FLEET_MODE_INACTIVE;
-    public static final int CHOICE_VALUE_FLEET_MODE_ACTIVE;
-    public static final int CHOICE_VALUE_BACKEND_STATE_KEYS_AVAILABLE;
-    public static final int CHOICE_VALUE_BACKEND_STATE_NO_INFORMATION;
-    public static final int CHOICE_VALUE_BACKEND_STATE_DELETION_IN_PROGRESS;
-    public static final int CHOICE_VALUE_SMART_CARD_DISABLED;
-    public static final int CHOICE_VALUE_SMART_CARD_ENABLED;
-    public static final int CHOICE_VALUE_KEY_TYPE_SMARTCARD;
-    public static final int CHOICE_VALUE_KEY_TYPE_MOBILE_KEY;
-    public static final int CHOICE_VALUE_KEY_TYPE_PHYSICAL;
+    public static final int CHOICE_VALUE_SERVICE_INACTIVE = 0;
+    public static final int CHOICE_VALUE_SERVICE_ACTIVE = 1;
+    private static final int CHOICE_VALUE_SERVICE_CAN_BE_ACTIVATED = 0;
+    private static final int CHOICE_VALUE_SERVICE_DISABLED = 1;
+    public static final int CHOICE_VALUE_FLEET_MODE_INACTIVE = 0;
+    public static final int CHOICE_VALUE_FLEET_MODE_ACTIVE = 1;
+    public static final int CHOICE_VALUE_BACKEND_STATE_KEYS_AVAILABLE = 0;
+    public static final int CHOICE_VALUE_BACKEND_STATE_NO_INFORMATION = 1;
+    public static final int CHOICE_VALUE_BACKEND_STATE_DELETION_IN_PROGRESS = 2;
+    public static final int CHOICE_VALUE_SMART_CARD_DISABLED = 0;
+    public static final int CHOICE_VALUE_SMART_CARD_ENABLED = 1;
+    public static final int CHOICE_VALUE_KEY_TYPE_SMARTCARD = 0;
+    public static final int CHOICE_VALUE_KEY_TYPE_MOBILE_KEY = 1;
+    public static final int CHOICE_VALUE_KEY_TYPE_PHYSICAL = 2;
     private ChoiceModelApp serviceActiveChoice;
     private ChoiceModelApp serviceActiveStateCanBeModifiedChoice;
     private ButtonModelApp serviceActivateButton;
@@ -170,10 +170,10 @@ public class MobileKeyStatusDisplayModelAccess {
 
     public void updatecarKeyTypeChoice(int n) {
         if (this.carKeyTypeChoice != null) {
-            this.log.log(1078071040, "MobileKeyStatusDisplayModelAccess#updatecarKeyTypeChoice new keyType: %1", (long)n);
+            this.log.log(1000000, "MobileKeyStatusDisplayModelAccess#updatecarKeyTypeChoice new keyType: %1", (long)n);
             this.carKeyTypeChoice.setValue(n);
         } else {
-            this.log.log(-1601830656, "MobileKeyStatusDisplayModelAccess#updatecarKeyTypeChoice model is null! keyType: %1", (long)n);
+            this.log.log(100000, "MobileKeyStatusDisplayModelAccess#updatecarKeyTypeChoice model is null! keyType: %1", (long)n);
         }
     }
 }

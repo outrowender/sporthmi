@@ -4,10 +4,8 @@
 package de.audi.atip.odp;
 
 public interface SDSODPTelService {
-    default public void dialNumber(String string) {
-    }
+    public void dialNumber(String var1);
 
-    default public String getIncomingCallNumber() {
-    }
+    public String getIncomingCallNumber();
 }
 

@@ -10,30 +10,22 @@ import de.audi.atip.interapp.TunerService;
 
 public interface TunerSDSHandler
 extends ISDSApplication {
-    public static final int INVALID_STATION;
+    public static final int INVALID_STATION = -1;
 
-    default public void setTunerService(TunerService tunerService) {
-    }
+    public void setTunerService(TunerService var1);
 
-    default public TunerService getTunerService() {
-    }
+    public TunerService getTunerService();
 
-    default public void unsetTunerService() {
-    }
+    public void unsetTunerService();
 
-    default public void setTTSASR(ITTSASR iTTSASR) {
-    }
+    public void setTTSASR(ITTSASR var1);
 
-    default public SDSListEntry getGenreById(long l) {
-    }
+    public SDSListEntry getGenreById(long var1);
 
-    default public long getSelectedStationID() {
-    }
+    public long getSelectedStationID();
 
-    default public void setSelectedStationID(long l) {
-    }
+    public void setSelectedStationID(long var1);
 
-    default public SDSListEntry[] getFavoritesList() {
-    }
+    public SDSListEntry[] getFavoritesList();
 }
 

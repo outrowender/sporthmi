@@ -17,12 +17,10 @@ extends AbstractTelDSISearchManager {
         super(iTelApplication);
     }
 
-    @Override
     protected int[] getSources() {
         return this.sources;
     }
 
-    @Override
     protected TelSearchFilterRequestStruct[] getSearchFilters() {
         return this.searchFilters;
     }

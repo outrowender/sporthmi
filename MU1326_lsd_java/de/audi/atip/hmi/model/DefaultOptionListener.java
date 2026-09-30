@@ -10,19 +10,15 @@ implements OptionModelListener {
     protected DefaultOptionListener() {
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3, int n4, int n5) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3, int n4, int n5) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3, int n4, int n5) {
     }
 
-    @Override
     public void customAction(int n, int n2, int n3, int n4, int n5) {
     }
 }

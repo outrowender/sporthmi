@@ -5,13 +5,14 @@ package de.audi.app.messaging.evo.compose;
 
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
 import de.audi.app.messaging.core.component.AbstractMessagingComponent;
+import de.audi.app.messaging.core.compose.INewMessageObserver;
 import de.audi.app.messaging.core.dictation.MessagingDictationService;
+import de.audi.app.messaging.core.guide.IActionProxySubscriber;
 import de.audi.app.messaging.core.osgi.MessagingBundleContext;
-import de.audi.app.messaging.evo.compose.MessageLengthPopup$EvoActionProxy;
-import de.audi.app.messaging.evo.compose.MessageLengthPopup$MessagingDictationServiceListener;
-import de.audi.app.messaging.evo.compose.MessageLengthPopup$MyButtonListener;
-import de.audi.app.messaging.evo.compose.MessageLengthPopup$NewMessageObserver;
-import de.audi.atip.log.LogChannel;
+import de.audi.app.messaging.evo.guide.DefaultEvoActionProxy;
+import de.audi.atip.hmi.model.DefaultButtonListener;
+import de.audi.atip.interapp.IMessagingDictationService;
+import de.audi.atip.interapp.IMessagingDictationServiceListener;
 
 public final class MessageLengthPopup
 extends AbstractMessagingComponent {
@@ -26,17 +27,16 @@ extends AbstractMessagingComponent {
         super(messagingBundleContext, "App.Messaging.Main");
     }
 
-    @Override
     public void init(AbstractMsgApplication abstractMsgApplication) {
         super.init(abstractMsgApplication);
-        MessageLengthPopup$MyButtonListener messageLengthPopup$MyButtonListener = new MessageLengthPopup$MyButtonListener(this, null);
-        this.framework.getHmiServiceApp().getButtonModel(1620254976).setButtonListener(messageLengthPopup$MyButtonListener);
-        this.framework.getHmiServiceApp().getButtonModel(1603477760).setButtonListener(messageLengthPopup$MyButtonListener);
-        abstractMsgApplication.getNewMessage().addObserver(new MessageLengthPopup$NewMessageObserver(this, null));
-        abstractMsgApplication.getActionProxyService().addSubscriber(new MessageLengthPopup$EvoActionProxy(this, null));
+        MyButtonListener myButtonListener = new MyButtonListener();
+        this.framework.getHmiServiceApp().getButtonModel(2200416).setButtonListener(myButtonListener);
+        this.framework.getHmiServiceApp().getButtonModel(2200415).setButtonListener(myButtonListener);
+        abstractMsgApplication.getNewMessage().addObserver(new NewMessageObserver());
+        abstractMsgApplication.getActionProxyService().addSubscriber(new EvoActionProxy());
         MessagingDictationService messagingDictationService = abstractMsgApplication.getMessagingDictationService();
         if (messagingDictationService != null) {
-            messagingDictationService.addListener(new MessageLengthPopup$MessagingDictationServiceListener(this, null));
+            messagingDictationService.addListener(new MessagingDictationServiceListener());
         }
     }
 
@@ -49,7 +49,7 @@ extends AbstractMessagingComponent {
     }
 
     private void setIsInEditView(boolean bl, int n) {
-        this.log.log(-2137614336, "[MessageLengthPopup#setIsInEditView] isInEditView = %1, editViewTerminalId = %2", bl, (long)n);
+        this.log.log(10000000, "[MessageLengthPopup#setIsInEditView] isInEditView = %1, editViewTerminalId = %2", bl, (long)n);
         this.editViewTerminalId = n;
         this.isInEditView = bl;
         this.setPopupVisibility();
@@ -64,7 +64,7 @@ extends AbstractMessagingComponent {
     }
 
     private void setMessageLength(boolean bl, boolean bl2) {
-        this.log.log(-2137614336, "[MessageLengthPopup#setMessageLength] isSubjectLengthExceeded = %1, isBodyLengthExceeded = %2", bl, bl2);
+        this.log.log(10000000, "[MessageLengthPopup#setMessageLength] isSubjectLengthExceeded = %1, isBodyLengthExceeded = %2", bl, bl2);
         this.isSubjectLengthExceeded = bl;
         this.isBodyLengthExceeded = bl2;
         if (!bl2) {
@@ -78,7 +78,7 @@ extends AbstractMessagingComponent {
     }
 
     private void setDictationDialogActive(boolean bl) {
-        this.log.log(-2137614336, "[MessageLengthPopup#setDictationDialogActive] isDictationDialogActive = %1", bl);
+        this.log.log(10000000, "[MessageLengthPopup#setDictationDialogActive] isDictationDialogActive = %1", bl);
         this.isDictationDialogActive = bl;
         this.setPopupVisibility();
     }
@@ -88,15 +88,15 @@ extends AbstractMessagingComponent {
     }
 
     private void setConfirmed(boolean bl) {
-        this.log.log(-2137614336, "[MessageLengthPopup#setConfirmed] isConfirmed = %1", bl);
+        this.log.log(10000000, "[MessageLengthPopup#setConfirmed] isConfirmed = %1", bl);
         this.isConfirmed = bl;
         this.setPopupVisibility();
     }
 
     private void setPopupVisibility() {
-        this.log.log(-2137614336, "[MessageLengthPopup#showPopupOnViolation] isSubjectLengthExceeded = %1, isBodyLengthExceeded = %2", this.isSubjectLengthExceeded(), this.isBodyLengthExceeded());
+        this.log.log(10000000, "[MessageLengthPopup#showPopupOnViolation] isSubjectLengthExceeded = %1, isBodyLengthExceeded = %2", this.isSubjectLengthExceeded(), this.isBodyLengthExceeded());
         if (this.isInEditView() && this.isBodyLengthExceeded() && !this.isDictationDialogActive() && !this.isConfirmed()) {
-            int n = this.msgApp.getAccountManager().isEmailMode() ? 1536303360 : 1519526144;
+            int n = this.msgApp.getAccountManager().isEmailMode() ? 2200155 : 2200154;
             this.framework.getHmiServiceApp().showPartialPopup(this.getEditViewTerminalId(), n);
         } else {
             this.removePopups();
@@ -104,47 +104,65 @@ extends AbstractMessagingComponent {
     }
 
     private void removePopups() {
-        this.log.log(-2137614336, "[MessageLengthPopup#removePopups]");
-        this.framework.getHmiServiceApp().removePartialPopup(this.getEditViewTerminalId(), 1519526144);
-        this.framework.getHmiServiceApp().removePartialPopup(this.getEditViewTerminalId(), 1536303360);
+        this.log.log(10000000, "[MessageLengthPopup#removePopups]");
+        this.framework.getHmiServiceApp().removePartialPopup(this.getEditViewTerminalId(), 2200154);
+        this.framework.getHmiServiceApp().removePartialPopup(this.getEditViewTerminalId(), 2200155);
     }
 
     private void bodyLengthExceededOkButton(int n, int n2) {
-        this.log.log(1078071040, "[MessageLengthPopup#bodyLengthExceededOkButton]");
+        this.log.log(1000000, "[MessageLengthPopup#bodyLengthExceededOkButton]");
         this.setConfirmed(true);
         this.framework.getHmiServiceApp().getModelApp(n).fireEvent(n2);
     }
 
-    static /* synthetic */ LogChannel access$400(MessageLengthPopup messageLengthPopup) {
-        return messageLengthPopup.log;
+    private final class EvoActionProxy
+    extends DefaultEvoActionProxy
+    implements IActionProxySubscriber {
+        private EvoActionProxy() {
+        }
+
+        public void editViewTransition(int n, int n2) {
+            MessageLengthPopup.this.log.log(10000000, "[MessageLengthPopup#editViewTransition]");
+            MessageLengthPopup.this.setIsInEditView(n2 == 0, n);
+        }
     }
 
-    static /* synthetic */ void access$500(MessageLengthPopup messageLengthPopup, boolean bl, boolean bl2) {
-        messageLengthPopup.setMessageLength(bl, bl2);
+    private final class MyButtonListener
+    extends DefaultButtonListener {
+        private MyButtonListener() {
+        }
+
+        public void keyTyped(int n, int n2, int n3) {
+            if (n == 2200416 || n == 2200415) {
+                MessageLengthPopup.this.bodyLengthExceededOkButton(n, n3);
+            } else {
+                MessageLengthPopup.this.log.log(10000, "[MessageLengthPopup#keyTyped] Unexpected modelID = %1", (long)n);
+            }
+        }
     }
 
-    static /* synthetic */ LogChannel access$600(MessageLengthPopup messageLengthPopup) {
-        return messageLengthPopup.log;
+    private final class NewMessageObserver
+    extends INewMessageObserver.DefaultNewMessageObserver {
+        private NewMessageObserver() {
+        }
+
+        public void indicateMessageLength(int n, int n2) {
+            boolean bl = n < 0;
+            boolean bl2 = n2 < 0;
+            MessageLengthPopup.this.log.log(10000000, "[MessageLengthPopup#indicateMessageLength] maxSubjectLengthExceeded = %1, maxBodyLengthExceeded = %2", bl, bl2);
+            MessageLengthPopup.this.setMessageLength(bl, bl2);
+        }
     }
 
-    static /* synthetic */ void access$700(MessageLengthPopup messageLengthPopup, boolean bl, int n) {
-        messageLengthPopup.setIsInEditView(bl, n);
-    }
+    private final class MessagingDictationServiceListener
+    extends IMessagingDictationServiceListener.EmptyImplementation {
+        private MessagingDictationServiceListener() {
+        }
 
-    static /* synthetic */ LogChannel access$800(MessageLengthPopup messageLengthPopup) {
-        return messageLengthPopup.log;
-    }
-
-    static /* synthetic */ void access$900(MessageLengthPopup messageLengthPopup, boolean bl) {
-        messageLengthPopup.setDictationDialogActive(bl);
-    }
-
-    static /* synthetic */ void access$1000(MessageLengthPopup messageLengthPopup, int n, int n2) {
-        messageLengthPopup.bodyLengthExceededOkButton(n, n2);
-    }
-
-    static /* synthetic */ LogChannel access$1100(MessageLengthPopup messageLengthPopup) {
-        return messageLengthPopup.log;
+        public void updateCompositionState(IMessagingDictationService.CompositionState compositionState) {
+            MessageLengthPopup.this.log.log(10000000, "[MessageLengthPopup#updateCompositionState] compositionState.isDialogActive() = %1", compositionState.isDialogActive());
+            MessageLengthPopup.this.setDictationDialogActive(compositionState.isDialogActive());
+        }
     }
 }
 

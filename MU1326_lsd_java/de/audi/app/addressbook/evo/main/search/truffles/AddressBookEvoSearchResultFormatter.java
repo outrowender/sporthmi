@@ -20,14 +20,13 @@ extends AbstractSearchResultFormatter {
         this.appAdr = addressBookEvoApplication;
     }
 
-    @Override
     public SearchResultListRow formatResult(SearchResult searchResult) {
         if (searchResult == null) {
             this.log.log(10000, "AddressBookEvoSearchResultFormatter#formatResult(): result is null");
             return null;
         }
-        this.log.log(-2137614336, "AddressBookEvoSearchResultFormatter#formatResult(): result: %1", (Object)searchResult);
-        return new ADBEvoTruffleSearchListRow(searchResult, this.appAdr.getAdbMode(), 387465769);
+        this.log.log(10000000, "AddressBookEvoSearchResultFormatter#formatResult(): result: %1", (Object)searchResult);
+        return new ADBEvoTruffleSearchListRow(searchResult, this.appAdr.getAdbMode(), 692197399);
     }
 }
 

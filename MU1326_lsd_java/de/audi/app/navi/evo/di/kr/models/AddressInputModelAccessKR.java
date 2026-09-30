@@ -32,15 +32,13 @@ extends AbstractAddressInputModelAccessEvo {
         this.logChannel = navigationEnv.getAddressInputLogChannel();
         this.matchSpellerModelApp = navigationEnv.getMatchSpellerModel(n);
         this.previewListModelApp = navigationEnv.getTiledListModel(n2);
-        this.reInitNDFScreenModel = navigationEnv.getChoiceModel(-64879104);
+        this.reInitNDFScreenModel = navigationEnv.getChoiceModel(402172);
     }
 
-    @Override
     public void onInputChanged() {
         this.previewListModelApp.removeAll();
     }
 
-    @Override
     public void onStart(NavLocation navLocation) {
         Util.setModelStatus(this.matchSpellerModelApp, 1);
         this.matchSpellerModelApp.clear();
@@ -49,9 +47,8 @@ extends AbstractAddressInputModelAccessEvo {
         this.reInitNDFScreenModel.setValue(0);
     }
 
-    @Override
     public void onUpdateSpeller(String string, String string2, boolean bl, boolean bl2) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#onUpdateSpeller(%1, %2, %3, %4)").toString(), (Object)string, (Object)string2, (Object)new StringBuffer().append(bl).append("").toString(), (Object)new StringBuffer().append(bl2).append("").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#onUpdateSpeller(%1, %2, %3, %4)", (Object)string, (Object)string2, (Object)(bl + ""), (Object)(bl2 + ""));
         int n = bl2 ? 1 : 0;
         this.matchSpellerModelApp.setText(string2);
         this.matchSpellerModelApp.setValidChars(string, n);
@@ -59,50 +56,43 @@ extends AbstractAddressInputModelAccessEvo {
         Util.setModelStatus(this.matchSpellerModelApp, 1);
     }
 
-    @Override
     public void onUpdateResultList(LIValueList lIValueList, long l, String string, boolean bl, int n, int n2) {
         int n3;
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#onUpdateResultList with matchCount = %1, currentInput = %2, valueList = %3").toString(), (Object)Long.toString(l), (Object)string, (Object)lIValueList);
+        this.logChannel.log(10000000, this.CLASS_NAME + "#onUpdateResultList with matchCount = %1, currentInput = %2, valueList = %3", (Object)Long.toString(l), (Object)string, (Object)lIValueList);
         if (Util.isEmpty(string)) {
             this.matchSpellerModelApp.setCompletionText("");
         }
         LIValueListElement[] lIValueListElementArray = Util.isListValid(lIValueList) ? lIValueList.getList() : new LIValueListElement[]{};
         EvoListRow[] evoListRowArray = new AddressInputLIValueListElementListRow[lIValueListElementArray.length];
         for (n3 = 0; n3 < lIValueListElementArray.length; ++n3) {
-            evoListRowArray[n3] = new AddressInputLIValueListElementListRow(lIValueListElementArray[n3], 160082217, new int[0]);
+            evoListRowArray[n3] = new AddressInputLIValueListElementListRow(lIValueListElementArray[n3], 698976777, new int[0]);
         }
         this.previewListModelApp.setLength((int)l);
         this.previewListModelApp.setRows(n, n2, evoListRowArray);
-        if (l > 0L && l <= 0) {
-            this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#onUpdateResultList automatically select first item when the amount of result list is less than 5").toString());
+        if (l > 0L && l <= 5L) {
+            this.logChannel.log(10000000, this.CLASS_NAME + "#onUpdateResultList automatically select first item when the amount of result list is less than 5");
             n3 = Util.isEmpty(string) ? 0 : 1;
             this.matchSpellerModelApp.setMatchCount((int)l, n3);
         }
     }
 
-    @Override
     public void onUpdateLocation(NavLocation navLocation, Map map) {
         this.modelAccessHelper.onUpdateLocation(this.env, this.logChannel, navLocation, map);
     }
 
-    @Override
     public void unrequestItems(int n, int n2) {
         this.previewListModelApp.clearRows(n, n2);
     }
 
-    @Override
     public void onUpdateResultList(LIValueList lIValueList, long l, String string, boolean bl) {
     }
 
-    @Override
     public void onElementSelected(NavLocation navLocation) {
     }
 
-    @Override
     public void onAmbiguousElementSelected() {
     }
 
-    @Override
     public void onRestore() {
     }
 }

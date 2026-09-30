@@ -5,10 +5,11 @@ package de.audi.app.phone.core.search.cmd;
 
 import de.audi.app.phone.core.AbstractPhoneComponent;
 import de.audi.app.phone.core.ITelApplication;
-import de.audi.app.phone.core.search.cmd.AbstractTelSearchModelHandler$ResultListListener;
-import de.audi.app.phone.core.search.cmd.AbstractTelSearchModelHandler$SearchSpellerListener;
+import de.audi.app.phone.core.model.TelDefaultBaseListListener;
+import de.audi.app.phone.core.model.TelDefaultSpellerListener;
 import de.audi.app.phone.core.search.cmd.ITelDSISearchAccess;
 import de.audi.app.phone.core.search.cmd.ITelSearchQueryListener;
+import de.audi.app.phone.core.util.TelLoggingUtils;
 import de.audi.atip.hmi.model.list.BaseListModelApp;
 import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
@@ -22,8 +23,8 @@ import org.dsi.ifc.search.Suggestion;
 public abstract class AbstractTelSearchModelHandler
 extends AbstractPhoneComponent
 implements ITelSearchQueryListener {
-    private static final int SEARCH_NOT_ACTIVE;
-    protected static final int SEARCH_ACTIVE;
+    private static final int SEARCH_NOT_ACTIVE = 0;
+    protected static final int SEARCH_ACTIVE = 1;
     private final ITelDSISearchAccess dsiSearchAccess;
     private volatile Suggestion suggestion;
     private volatile SearchResultListRow currentOpenRow;
@@ -62,10 +63,9 @@ implements ITelSearchQueryListener {
         this.dsiSearchAccess = iTelDSISearchAccess;
     }
 
-    @Override
     public void init() {
-        this.addSubPhoneComponent(new AbstractTelSearchModelHandler$SearchSpellerListener(this, this.getApplication()));
-        this.addSubPhoneComponent(new AbstractTelSearchModelHandler$ResultListListener(this, this.getApplication()));
+        this.addSubPhoneComponent(new SearchSpellerListener(this.getApplication()));
+        this.addSubPhoneComponent(new ResultListListener(this.getApplication()));
         super.init();
     }
 
@@ -73,23 +73,18 @@ implements ITelSearchQueryListener {
         return this.dsiSearchAccess;
     }
 
-    protected abstract SpellerModelApp getSearchSpellerModel() {
-    }
+    protected abstract SpellerModelApp getSearchSpellerModel();
 
-    protected abstract BaseListModelApp getSearchResultListModel() {
-    }
+    protected abstract BaseListModelApp getSearchResultListModel();
 
-    protected abstract ChoiceModelApp getSearchIsActiveChoiceModel() {
-    }
+    protected abstract ChoiceModelApp getSearchIsActiveChoiceModel();
 
-    protected abstract SearchResultListRow getSearchResultListRow(SearchResult searchResult) {
-    }
+    protected abstract SearchResultListRow getSearchResultListRow(SearchResult var1);
 
-    protected abstract int[] getSources() {
-    }
+    protected abstract int[] getSources();
 
     private void scheduleQuery(String string) {
-        this.log.log(1078071040, "[AbstractTelSearchModelHandler#scheduleQuery] text=%1", (Object)string);
+        this.log.log(1000000, "[AbstractTelSearchModelHandler#scheduleQuery] text=%1", (Object)string);
         this.dsiSearchAccess.scheduleQuery(string, this.getSources(), this);
     }
 
@@ -102,22 +97,21 @@ implements ITelSearchQueryListener {
         this.scheduleQuery(string);
     }
 
-    @Override
     public void updateSuggestion(Suggestion[] suggestionArray) {
         if (suggestionArray == null || suggestionArray.length == 0) {
-            this.log.log(1078071040, "[IntellicallSearchModelHandler#updateSuggestion] no suggestions --> NOP!");
+            this.log.log(1000000, "[IntellicallSearchModelHandler#updateSuggestion] no suggestions --> NOP!");
             return;
         }
         this.updateSuggestion(suggestionArray[0]);
     }
 
     private void updateSuggestion(Suggestion suggestion) {
-        this.log.log(1078071040, "[AbstractTelSearchModelHandler#updateSuggestion] suggestion=%1", (Object)suggestion);
+        this.log.log(1000000, "[AbstractTelSearchModelHandler#updateSuggestion] suggestion=%1", (Object)suggestion);
         if (suggestion == null) {
             this.log.log(10000, "[AbstractTelSearchModelHandler#updateSuggestion] suggestion is null");
             return;
         }
-        this.getSearchSpellerModel().setSuggestions(new StringBuffer().append(this.getSearchSpellerModel().getText()).append(suggestion.getSuggestion()).toString(), AbstractTelSearchModelHandler.extractSuggestionFromQueryField(suggestion.getQuery(), 0));
+        this.getSearchSpellerModel().setSuggestions(this.getSearchSpellerModel().getText() + suggestion.getSuggestion(), AbstractTelSearchModelHandler.extractSuggestionFromQueryField(suggestion.getQuery(), 0));
         this.getSearchSpellerModel().setCompletionText(AbstractTelSearchModelHandler.extractSuggestionFromQueryField(suggestion.getQuery(), 0));
     }
 
@@ -126,9 +120,8 @@ implements ITelSearchQueryListener {
         this.getSearchSpellerModel().setCompletionText(null);
     }
 
-    @Override
     public void searchStarted(int n) {
-        this.log.log(1078071040, "[AbstractTelSearchModelHandler#searchStarted] queryID=%1", (long)n);
+        this.log.log(1000000, "[AbstractTelSearchModelHandler#searchStarted] queryID=%1", (long)n);
         this.getSearchResultListModel().removeAll();
         this.currentOpenRow = null;
         this.updateSearchInProgressChoice(true);
@@ -139,20 +132,17 @@ implements ITelSearchQueryListener {
         this.getSearchIsActiveChoiceModel().setValue(bl ? 1 : 0);
     }
 
-    @Override
     public void searchEnded(int n) {
-        this.log.log(1078071040, "[AbstractTelSearchModelHandler#searchEnded] queryID=%1", (long)n);
+        this.log.log(1000000, "[AbstractTelSearchModelHandler#searchEnded] queryID=%1", (long)n);
         this.updateSearchInProgressChoice(false);
     }
 
-    @Override
     public void searchCanceled(int n) {
-        this.log.log(1078071040, "[AbstractTelSearchModelHandler#searchCanceled] queryID=%1", (long)n);
+        this.log.log(1000000, "[AbstractTelSearchModelHandler#searchCanceled] queryID=%1", (long)n);
         this.getSearchResultListModel().removeAll();
         this.resetSuggestion();
     }
 
-    @Override
     public void updateSearchResult(int n, SearchResult searchResult) {
         if (searchResult != null) {
             this.getSearchResultListModel().append(this.getSearchResultListRow(searchResult));
@@ -160,29 +150,24 @@ implements ITelSearchQueryListener {
                 this.updateSuggestion(searchResult.getSuggestion());
             }
         } else {
-            this.log.log(-1601830656, "[AbstractTelSearchModelHandler#updateSearchResult] searchResult is null --> NOP!");
+            this.log.log(100000, "[AbstractTelSearchModelHandler#updateSearchResult] searchResult is null --> NOP!");
         }
     }
 
-    @Override
     public void dataInvalidated(int n, int[] nArray) {
-        this.log.log(1078071040, "[AbstractTelSearchModelHandler#dataInvalidated] queryID=%2, sources=%1", (Object)Converter.intArrayToString(nArray), (long)n);
+        this.log.log(1000000, "[AbstractTelSearchModelHandler#dataInvalidated] queryID=%2, sources=%1", (Object)Converter.intArrayToString(nArray), (long)n);
     }
 
-    public abstract void searchResultSelected(SearchResultListRow searchResultListRow, int n, int n2) {
-    }
+    public abstract void searchResultSelected(SearchResultListRow var1, int var2, int var3);
 
-    public abstract void childNodeSelected(EvoListRow evoListRow, int n, int n2) {
-    }
+    public abstract void childNodeSelected(EvoListRow var1, int var2, int var3);
 
-    public abstract void requestChildrenNodes(SearchResultListRow searchResultListRow, int n) {
-    }
+    public abstract void requestChildrenNodes(SearchResultListRow var1, int var2);
 
-    public abstract void spellerSelected(String string, int n) {
-    }
+    public abstract void spellerSelected(String var1, int var2);
 
     protected void parentNodeSelected(SearchResultListRow searchResultListRow, int n, int n2) {
-        this.log.log(-2137614336, "AbstractTelSearchModelHandler#parentNodeSelected, currentOpenRow - %1", (Object)this.currentOpenRow);
+        this.log.log(10000000, "AbstractTelSearchModelHandler#parentNodeSelected, currentOpenRow - %1", (Object)this.currentOpenRow);
         if (!searchResultListRow.equals(this.currentOpenRow)) {
             this.requestChildrenNodes(searchResultListRow, n2);
         } else {
@@ -194,7 +179,7 @@ implements ITelSearchQueryListener {
     }
 
     public void setChildrenNodes(EvoListRow[] evoListRowArray, SearchResultListRow searchResultListRow) {
-        this.log.log(-2137614336, "AbstractTelSearchModelHandler#setChildrenNodes children.length=%1", (long)evoListRowArray.length);
+        this.log.log(10000000, "AbstractTelSearchModelHandler#setChildrenNodes children.length=%1", (long)evoListRowArray.length);
         if (this.getSearchResultListModel().getIndexForUniqueID(searchResultListRow.getUniqueID()) == -1) {
             this.log.log(10000, "AbstractTelSearchModelHandler#setChildrenNodes parent already gone from list, parent=%1", (Object)searchResultListRow);
             return;
@@ -211,12 +196,50 @@ implements ITelSearchQueryListener {
             baseListModelApp.setRow(baseListModelApp.getIndexForUniqueID(searchResultListRow.getUniqueID()), searchResultListRow);
             this.getSearchResultListModel().update(baseListModelApp);
         } else {
-            this.log.log(-2137614336, "AbstractTelSearchModelHandler#parentNodeSelected - no children available");
+            this.log.log(10000000, "AbstractTelSearchModelHandler#parentNodeSelected - no children available");
         }
     }
 
     protected void clearSearchSpeller() {
         this.getSearchSpellerModel().clear();
+    }
+
+    private class ResultListListener
+    extends TelDefaultBaseListListener {
+        public ResultListListener(ITelApplication iTelApplication) {
+            super(iTelApplication, "App.Phone.Search", AbstractTelSearchModelHandler.this.getSearchResultListModel().getID());
+        }
+
+        public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
+            if (evoListRow instanceof SearchResultListRow && ((SearchResultListRow)evoListRow).getNodeType() == 1) {
+                AbstractTelSearchModelHandler.this.parentNodeSelected((SearchResultListRow)evoListRow, n, n4);
+            } else if (evoListRow instanceof SearchResultListRow && ((SearchResultListRow)evoListRow).getNodeType() == 0) {
+                AbstractTelSearchModelHandler.this.searchResultSelected((SearchResultListRow)evoListRow, n4, n);
+            } else {
+                AbstractTelSearchModelHandler.this.childNodeSelected(evoListRow, n4, n);
+            }
+        }
+    }
+
+    private class SearchSpellerListener
+    extends TelDefaultSpellerListener {
+        public SearchSpellerListener(ITelApplication iTelApplication) {
+            super(iTelApplication, "App.Phone.Search", AbstractTelSearchModelHandler.this.getSearchSpellerModel().getID());
+        }
+
+        public void textChanged(int n, String string, char c2, int n2) {
+            this.log.log(1000000, "[AbstractTelSearchModelHandler.SearchSpellerListener#textChanged] %1", (Object)TelLoggingUtils.textChanged(n, string, c2, n2));
+            AbstractTelSearchModelHandler.this.searchSpellerTextChanged(string, c2);
+        }
+
+        public void focusedCharacter(int n, char c2, int n2) {
+            this.log.log(1000000, "[AbstractTelSearchModelHandler.SearchSpellerListener#focusedCharacter] %1", (Object)TelLoggingUtils.focusedCharacter(n, c2, n2));
+        }
+
+        public void keyTyped(int n, int n2, int n3) {
+            this.log.log(1000000, "[AbstractTelSearchModelHandler.SearchSpellerListener#keyTyped] %1", (Object)TelLoggingUtils.keyTyped(n, n2, n3));
+            AbstractTelSearchModelHandler.this.spellerSelected(AbstractTelSearchModelHandler.this.getSearchSpellerModel().getText(), n3);
+        }
     }
 }
 

@@ -18,11 +18,11 @@ extends CharacterConverter_UNICODELITTLE {
         }
         if (this.readTag) {
             int n3 = ((byArray[n] & 0xFF) << 8) + (byArray[n + 1] & 0xFF);
-            if (n3 == -131072) {
+            if (n3 == 65279) {
                 blArray[0] = true;
                 return n2 / 2 - 1;
             }
-            if (n3 == -16842752) {
+            if (n3 == 65534) {
                 blArray[0] = false;
                 return n2 / 2 - 1;
             }
@@ -58,7 +58,6 @@ extends CharacterConverter_UNICODELITTLE {
         return n4;
     }
 
-    @Override
     public char[] convert(byte[] byArray, int n, int n2) {
         boolean[] blArray = new boolean[1];
         int n3 = this.countChars(byArray, n, n2, blArray);
@@ -70,7 +69,6 @@ extends CharacterConverter_UNICODELITTLE {
         return cArray;
     }
 
-    @Override
     public int countChars(byte[] byArray, int n, int n2) {
         if (!this.isModal) {
             throw new RuntimeException("IllegalStateException");
@@ -81,7 +79,6 @@ extends CharacterConverter_UNICODELITTLE {
         return n3;
     }
 
-    @Override
     public int convert(byte[] byArray, int n, char[] cArray, int n2, int n3) {
         if (!this.isModal) {
             throw new RuntimeException("IllegalStateException");

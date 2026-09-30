@@ -11,7 +11,7 @@ import de.audi.atip.log.LogChannel;
 
 class JobBrowseListSetBrowseMode
 extends AbstractJobBrowseList {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "JobBrowseListSetBrowseMode";
     private final int browseModeToSet;
     private volatile int currentListSize;
     private volatile MediaListEntry[] activeBrowsingFolder;
@@ -23,21 +23,18 @@ extends AbstractJobBrowseList {
         this.currentListSize = -1;
     }
 
-    @Override
     public int getType() {
         return 1;
     }
 
-    @Override
     public String getName() {
         return "setBrowseMode";
     }
 
-    @Override
     public void start() {
-        this.logChannel.log(14808325, "[%1.start]", (Object)"JobBrowseListSetBrowseMode");
+        this.logChannel.log(100000000, "[%1.start]", (Object)LOGCLASS);
         if (this.browseModeToSet == this.browseListContext.getBrowseMode()) {
-            this.logChannel.log(1078071040, "[%1.start] Browse mode already set. Not changing.", (Object)"JobBrowseListSetBrowseMode");
+            this.logChannel.log(1000000, "[%1.start] Browse mode already set. Not changing.", (Object)LOGCLASS);
             this.setBrowseMode = this.browseModeToSet;
             this.currentListSize = this.browseListContext.getListSize();
             this.activeBrowsingFolder = this.browseListContext.getBrowseFolder();
@@ -47,16 +44,14 @@ extends AbstractJobBrowseList {
         }
     }
 
-    @Override
     public void updateBrowseMode(int n) {
         this.setBrowseMode = JobBrowseListSetBrowseMode.getBrowseModeOfDSI(n);
-        this.logChannel.log(1078071040, "[%1.updateBrowseMode] '%2'", (Object)"JobBrowseListSetBrowseMode", (Object)(this.setBrowseMode == 0 ? "RAW" : "DATABASE"));
+        this.logChannel.log(1000000, "[%1.updateBrowseMode] '%2'", (Object)LOGCLASS, (Object)(this.setBrowseMode == 0 ? "RAW" : "DATABASE"));
         this.dsiMediaBrowser.setContentFilter(7);
     }
 
-    @Override
     public void updateListSize(int n, int n2) {
-        this.logChannel.log(1078071040, "[%1.updateListSize]", (Object)"JobBrowseListSetBrowseMode");
+        this.logChannel.log(1000000, "[%1.updateListSize]", (Object)LOGCLASS);
         this.currentListSize = n;
         this.dsiMediaBrowser.enableRecurseSubdirectories(true);
         if (this.activeBrowsingFolder != null) {
@@ -64,21 +59,19 @@ extends AbstractJobBrowseList {
         }
     }
 
-    @Override
     public void updateBrowseFolder(MediaListEntry[] mediaListEntryArray) {
-        this.logChannel.log(1078071040, "[%1.updateBrowseFolder]", (Object)"JobBrowseListSetBrowseMode");
+        this.logChannel.log(1000000, "[%1.updateBrowseFolder]", (Object)LOGCLASS);
         this.activeBrowsingFolder = mediaListEntryArray;
     }
 
-    @Override
     public void errorBrowseMode() {
-        this.logChannel.log(10000, "[%1.errorBrowseMode]", (Object)"JobBrowseListSetBrowseMode");
+        this.logChannel.log(10000, "[%1.errorBrowseMode]", (Object)LOGCLASS);
         this.browseListContext.notifyBrowseModeChanged(true, -1);
         this.getExecutionContext().jobFinished();
     }
 
     private void finishJob() {
-        this.logChannel.log(14808325, "[%1.finishJob]", (Object)"JobBrowseListSetBrowseMode");
+        this.logChannel.log(100000000, "[%1.finishJob]", (Object)LOGCLASS);
         this.browseListContext.getState().setCurrentListSize(this.currentListSize);
         this.browseListContext.getState().setCurrentBrowseFolder(this.activeBrowsingFolder);
         this.browseListContext.getState().setCurrentBrowseMode(this.setBrowseMode);

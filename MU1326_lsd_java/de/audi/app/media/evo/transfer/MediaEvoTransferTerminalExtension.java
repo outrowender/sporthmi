@@ -12,32 +12,29 @@ import de.audi.app.media.transfer.TransferLogger;
 
 public class MediaEvoTransferTerminalExtension
 implements IMediaTerminalExtension {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "MediaEvoTransferTerminalExtension";
     private volatile TransferLogger logger;
     private AbstractTransferHMIHandler transferHMIHandler;
 
-    @Override
     public void initExtension(IMediaTerminal iMediaTerminal) {
         this.logger = new TransferLogger(iMediaTerminal.getFramework());
-        this.logger.main().log(1078071040, "[%1.initExtension]", (Object)"MediaEvoTransferTerminalExtension");
+        this.logger.main().log(1000000, "[%1.initExtension]", (Object)LOGCLASS);
         if (iMediaTerminal.getConfiguration().isImportEnabled() || iMediaTerminal.getConfiguration().isRippingEnabled()) {
             this.transferHMIHandler = new EvoTransferController(iMediaTerminal);
             this.transferHMIHandler.init();
         } else {
-            this.logger.main().log(1078071040, "[%1.initExtension] Import disabled.", (Object)"MediaEvoTransferTerminalExtension");
+            this.logger.main().log(1000000, "[%1.initExtension] Import disabled.", (Object)LOGCLASS);
             this.transferHMIHandler = null;
         }
     }
 
-    @Override
     public void deinitExtension() {
-        this.logger.main().log(1078071040, "[%1.deinitExtension]", (Object)"MediaEvoTransferTerminalExtension");
+        this.logger.main().log(1000000, "[%1.deinitExtension]", (Object)LOGCLASS);
         if (this.transferHMIHandler != null) {
             this.transferHMIHandler.deinit();
         }
     }
 
-    @Override
     public IContentProvider getContentProvider() {
         return null;
     }

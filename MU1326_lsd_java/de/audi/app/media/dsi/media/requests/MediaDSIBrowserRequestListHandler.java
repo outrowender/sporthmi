@@ -12,27 +12,25 @@ import org.dsi.ifc.media.DSIMediaBrowser;
 
 public class MediaDSIBrowserRequestListHandler
 extends AbstractQueuedRequestHandler {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "MediaDSIBrowserRequestListHandler";
 
     public MediaDSIBrowserRequestListHandler(LogChannel logChannel, int n) {
         super(logChannel, true, n);
     }
 
-    @Override
     protected String getLogClass() {
-        return "MediaDSIBrowserRequestListHandler";
+        return LOGCLASS;
     }
 
-    @Override
     protected final boolean sendRequest(IRequestParameter iRequestParameter, DSIBase dSIBase, int n) {
         try {
             RequestParameterList requestParameterList = (RequestParameterList)iRequestParameter;
-            this.getLogChannel().log(1078071040, "[%1.sendRequest] [%3] dsiMediaBrowser.requestList('%2').", (Object)"MediaDSIBrowserRequestListHandler", (Object)requestParameterList, (long)n);
+            this.getLogChannel().log(1000000, "[%1.sendRequest] [%3] dsiMediaBrowser.requestList('%2').", (Object)LOGCLASS, (Object)requestParameterList, (long)n);
             ((DSIMediaBrowser)dSIBase).requestList(requestParameterList.getEntryID(), requestParameterList.getContentType(), requestParameterList.getIndex(), requestParameterList.getCount());
             return true;
         }
         catch (Exception exception) {
-            this.getLogChannel().log(-1601830656, "[%1.sendRequest] Error on requesting list: %2", (Object)"MediaDSIBrowserRequestListHandler", (Throwable)exception);
+            this.getLogChannel().log(100000, "[%1.sendRequest] Error on requesting list: %2", (Object)LOGCLASS, (Throwable)exception);
             return false;
         }
     }

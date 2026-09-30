@@ -4,10 +4,8 @@
 package de.audi.app.navi.evo.search;
 
 public interface IIntelliDestSearchTimer {
-    default public void restart() {
-    }
+    public void restart();
 
-    default public void stop() {
-    }
+    public void stop();
 }
 

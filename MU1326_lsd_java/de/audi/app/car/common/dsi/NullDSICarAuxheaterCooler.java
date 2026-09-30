@@ -17,112 +17,90 @@ implements DSICarAuxHeaterCooler {
         this.logChan = logChannel;
     }
 
-    @Override
     public void setNotification(int[] nArray, DSIListener dSIListener) {
         this.logChan.log(1000, "null-call at NullDSICarAuxheaterCooler");
     }
 
-    @Override
     public void setNotification(int n, DSIListener dSIListener) {
         this.logChan.log(1000, "null-call at NullDSICarAuxheaterCooler");
     }
 
-    @Override
     public void setNotification(DSIListener dSIListener) {
         this.logChan.log(1000, "null-call at NullDSICarAuxheaterCooler");
     }
 
-    @Override
     public void clearNotification(int[] nArray, DSIListener dSIListener) {
         this.logChan.log(1000, "null-call at NullDSICarAuxheaterCooler");
     }
 
-    @Override
     public void clearNotification(int n, DSIListener dSIListener) {
         this.logChan.log(1000, "null-call at NullDSICarAuxheaterCooler");
     }
 
-    @Override
     public void clearNotification(DSIListener dSIListener) {
         this.logChan.log(1000, "null-call at NullDSICarAuxheaterCooler");
     }
 
-    @Override
     public void setAuxHeaterCoolerOnOff(boolean bl) {
         this.logChan.log(1000, "null-call at NullDSICarAuxheaterCooler");
     }
 
-    @Override
     public void setAuxHeaterCoolerRunningTime(short s) {
         this.logChan.log(1000, "null-call at NullDSICarAuxheaterCooler");
     }
 
-    @Override
     public void setAuxHeaterCoolerMode(int n) {
         this.logChan.log(1000, "null-call at NullDSICarAuxheaterCooler");
     }
 
-    @Override
     public void setAuxHeaterCoolerDefaultStartMode(int n) {
         this.logChan.log(1000, "null-call at NullDSICarAuxheaterCooler");
     }
 
-    @Override
     public void setAuxHeaterCoolerEngineHeater(boolean bl) {
         this.logChan.log(1000, "null-call at NullDSICarAuxheaterCooler");
     }
 
-    @Override
     public void setAuxHeaterCoolerActiveTimer(int n) {
         this.logChan.log(1000, "null-call at NullDSICarAuxheaterCooler");
     }
 
-    @Override
     public void setAuxHeaterCoolerTimer1(AuxHeaterCoolerTimer auxHeaterCoolerTimer) {
         this.logChan.log(1000, "null-call at NullDSICarAuxheaterCooler");
     }
 
-    @Override
     public void setAuxHeaterCoolerTimer2(AuxHeaterCoolerTimer auxHeaterCoolerTimer) {
         this.logChan.log(1000, "null-call at NullDSICarAuxheaterCooler");
     }
 
-    @Override
     public void setAuxHeaterCoolerTimer3(AuxHeaterCoolerTimer auxHeaterCoolerTimer) {
         this.logChan.log(1000, "null-call at NullDSICarAuxheaterCooler");
     }
 
-    @Override
     public void setAuxHeaterSetFactoryDefault() {
         this.logChan.log(1000, "null-call at NullDSICarAuxheaterCooler");
     }
 
-    @Override
     public void setAuxHeaterCoolerPopup(int n) {
         this.logChan.log(1000, "null-call at NullDSICarAuxheaterCooler");
     }
 
-    @Override
     public void setAuxHeaterCoolerExtendedConditioning(AuxHeaterCoolerExtendedConditioning auxHeaterCoolerExtendedConditioning) {
         this.logChan.log(1000, "null-call at NullDSICarAuxheaterCooler");
     }
 
-    @Override
     public void setAuxHeaterCoolerWindowHeating(boolean bl) {
         this.logChan.log(1000, "null-call at NullDSICarAuxheaterCooler");
     }
 
-    @Override
     public void setAuxHeaterCoolerUnlockClimating(int n) {
         this.logChan.log(1000, "null-call at NullDSICarAuxheaterCooler");
     }
 
-    @Override
     public void setAuxHeaterCoolerTargetTemperature(float f2) {
         this.logChan.log(1000, "null-call at NullDSICarAuxheaterCooler");
     }
 
-    @Override
     public void setAuxHeaterCoolerAirQuality(boolean bl) {
         this.logChan.log(1000, "null-call at NullDSICarAuxheaterCooler");
     }

@@ -27,37 +27,30 @@ extends AbstractDSIController {
         this.dsiProxy = dSIAndroidAuto2Proxy;
     }
 
-    @Override
     public void init() {
         this.startDSI();
     }
 
-    @Override
     public void deinit() {
         this.stopDSI();
     }
 
-    @Override
     protected Class getDSIServiceClass() {
         return class$org$dsi$ifc$androidauto2$DSIAndroidAuto2 == null ? (class$org$dsi$ifc$androidauto2$DSIAndroidAuto2 = DSIAndroidAuto2DSIController.class$("org.dsi.ifc.androidauto2.DSIAndroidAuto2")) : class$org$dsi$ifc$androidauto2$DSIAndroidAuto2;
     }
 
-    @Override
     protected DSIListener getDSIListener() {
         return this.listener;
     }
 
-    @Override
     protected Class getDSIListenerClass() {
         return class$org$dsi$ifc$androidauto2$DSIAndroidAuto2Listener == null ? (class$org$dsi$ifc$androidauto2$DSIAndroidAuto2Listener = DSIAndroidAuto2DSIController.class$("org.dsi.ifc.androidauto2.DSIAndroidAuto2Listener")) : class$org$dsi$ifc$androidauto2$DSIAndroidAuto2Listener;
     }
 
-    @Override
     protected synchronized void addDSIService(DSIBase dSIBase) {
         this.dsiProxy.addDSIService((DSIAndroidAuto2)dSIBase);
     }
 
-    @Override
     protected synchronized void removeDSIService() {
         this.dsiProxy.removeDSIService();
     }

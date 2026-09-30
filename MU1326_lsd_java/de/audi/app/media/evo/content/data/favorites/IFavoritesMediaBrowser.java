@@ -8,16 +8,12 @@ import de.audi.app.media.source.ISourceSlot;
 
 public interface IFavoritesMediaBrowser
 extends IFavoriteSelectionListener {
-    default public void init() {
-    }
+    public void init();
 
-    default public void deinit() {
-    }
+    public void deinit();
 
-    default public void activate(ISourceSlot iSourceSlot) {
-    }
+    public void activate(ISourceSlot var1);
 
-    default public void deactivate() {
-    }
+    public void deactivate();
 }
 

@@ -11,8 +11,8 @@ import org.dsi.ifc.networking.DSIWLAN;
 
 final class CommandNetworkSearch
 extends AbstractWlanCommand {
-    private static final int INQUIRY_LENGTH;
-    private static final int NUM_RESPONSES;
+    private static final int INQUIRY_LENGTH = 5;
+    private static final int NUM_RESPONSES = 50;
     private final ChoiceModelApp inquiryState;
     static /* synthetic */ Class class$de$audi$app$wlan$core$client$CommandNetworkSearch;
 
@@ -26,21 +26,19 @@ extends AbstractWlanCommand {
         this.inquiryState = choiceModelApp;
     }
 
-    @Override
     public void execute() {
         this.dsiWlan.requestNetworkSearch(5, 50);
-        this.logger.log(-2137614336, "CommandNetworkSearch#requestNetworkSearch(): INQUIRY_LENGTH=%1, NUM_RESPONSES=%2", (long)0, (long)0);
+        this.logger.log(10000000, "CommandNetworkSearch#requestNetworkSearch(): INQUIRY_LENGTH=%1, NUM_RESPONSES=%2", 5L, 50L);
     }
 
-    @Override
     public void responseNetworkSearch(int n, int n2) {
-        this.logger.log(-2137614336, "CommandNetworkSearch#responseNetworkSearch(): Found %1 networks, result=%2", (long)n, (long)n2);
+        this.logger.log(10000000, "CommandNetworkSearch#responseNetworkSearch(): Found %1 networks, result=%2", (long)n, (long)n2);
         this.inquiryState.setValue(0);
         this.commandList.commandFinished();
     }
 
     void abortSearch() {
-        this.logger.log(-2137614336, "CommandNetworkSearch#abortSearch()");
+        this.logger.log(10000000, "CommandNetworkSearch#abortSearch()");
         this.dsiWlan.requestAbortSearch();
     }
 

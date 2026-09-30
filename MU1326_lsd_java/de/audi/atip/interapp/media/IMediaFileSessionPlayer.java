@@ -7,10 +7,8 @@ import de.audi.atip.interapp.media.IMediaSessionPlayer;
 
 public interface IMediaFileSessionPlayer
 extends IMediaSessionPlayer {
-    default public void play(String string, boolean bl) {
-    }
+    public void play(String var1, boolean var2);
 
-    default public void setVideoScaling(int n, int n2, int n3, int n4) {
-    }
+    public void setVideoScaling(int var1, int var2, int var3, int var4);
 }
 

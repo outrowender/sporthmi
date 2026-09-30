@@ -24,7 +24,7 @@ extends URLConnection {
     private int length = -1;
     private boolean isDir = false;
     private FilePermission permission;
-    static final String encoding;
+    static final String encoding = "UTF8";
 
     public FileURLConnection(URL uRL) {
         super(uRL);
@@ -34,13 +34,12 @@ extends URLConnection {
             this.fileName = "";
         }
         if ((string = uRL.getHost()) != null && string.length() > 0) {
-            this.fileName = new StringBuffer("//").append(string).append(this.fileName).toString();
+            this.fileName = "//" + string + this.fileName;
         }
-        this.fileName = Util.decode(this.fileName, false, "UTF8");
+        this.fileName = Util.decode(this.fileName, false, encoding);
     }
 
-    @Override
-    public void connect() {
+    public void connect() throws IOException {
         File file = new File(this.fileName);
         if (file.isDirectory()) {
             this.isDir = true;
@@ -52,7 +51,6 @@ extends URLConnection {
         this.connected = true;
     }
 
-    @Override
     public int getContentLength() {
         try {
             if (!this.connected) {
@@ -63,7 +61,6 @@ extends URLConnection {
         return this.length;
     }
 
-    @Override
     public String getContentType() {
         try {
             if (!this.connected) {
@@ -89,23 +86,21 @@ extends URLConnection {
         PrintStream printStream = new PrintStream(byteArrayOutputStream);
         int n = 0;
         while (n < stringArray.length) {
-            printStream.print(new StringBuffer(String.valueOf(stringArray[n])).append("\n").toString());
+            printStream.print(String.valueOf(stringArray[n]) + "\n");
             ++n;
         }
         printStream.close();
         return new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
     }
 
-    @Override
-    public InputStream getInputStream() {
+    public InputStream getInputStream() throws IOException {
         if (!this.connected) {
             this.connect();
         }
         return this.is;
     }
 
-    @Override
-    public Permission getPermission() {
+    public Permission getPermission() throws IOException {
         if (this.permission == null) {
             String string = this.fileName;
             if (File.separatorChar != '/') {
@@ -116,7 +111,6 @@ extends URLConnection {
         return this.permission;
     }
 
-    @Override
     public String getHeaderField(String string) {
         if (string == null) {
             return null;

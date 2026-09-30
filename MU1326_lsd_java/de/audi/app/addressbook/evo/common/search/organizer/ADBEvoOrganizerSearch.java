@@ -26,17 +26,15 @@ extends AbstractADBOrganizerSearch {
         this.entryDrawerCategory = n;
     }
 
-    @Override
     public void setRowOpenState(EvoListRow evoListRow, boolean bl, BaseListModelApp baseListModelApp) {
         if (evoListRow != null && evoListRow instanceof ADBEvoOrganizerSearchListRow) {
             ((ADBEvoOrganizerSearchListRow)evoListRow).setOpen(bl);
             baseListModelApp.setRow(baseListModelApp.getIndexForUniqueID(evoListRow.getUniqueID()), evoListRow);
         } else {
-            this.log.log(-1601830656, "ADBEvoOrganizerSearch#setRowOpenState null row passed to the method");
+            this.log.log(100000, "ADBEvoOrganizerSearch#setRowOpenState null row passed to the method");
         }
     }
 
-    @Override
     public EvoListRow[] createSearchListRows(DataSet[] dataSetArray) {
         return ADBEvoOrganizerSearchListRow.createFromDataSets(dataSetArray, this.appAdr.getAdbMode(), this.entryDrawerCategory);
     }

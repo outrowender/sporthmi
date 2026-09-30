@@ -20,18 +20,17 @@ import de.audi.atip.timer.TimerListener;
 import de.audi.kbd.KeyMap;
 import de.audi.kbd.hmi.FocusManager;
 import de.audi.kbd.hmi.VirtualButtonHandler;
-import de.audi.kbd.hmi.VirtualGUIManager$DefaultVirtualButtonHandler;
 
 public class VirtualGUIManager
 implements IVirtualGUIManager,
 TimerListener,
 PowerEventListener {
-    private static final int PTT_TIMER_PRIORITY;
-    private static final long PTT_DURATION_DEFAULT;
+    private static final int PTT_TIMER_PRIORITY = 5;
+    private static final long PTT_DURATION_DEFAULT = 3000L;
     private final IFrameworkAccess framework;
     private final FocusManager focusManager;
     private final LogChannel logGUIManager;
-    private final VirtualGUIManager$DefaultVirtualButtonHandler defaultVirtualButtonHandler;
+    private final DefaultVirtualButtonHandler defaultVirtualButtonHandler;
     private final Timer pttTimer;
     private int[] powerState = new int[8];
     private final VirtualButtonHandler[] virtualButtonHandler = new VirtualButtonHandler[55];
@@ -44,53 +43,45 @@ PowerEventListener {
         this.framework = iFrameworkAccess;
         this.focusManager = new FocusManager(this.framework);
         this.logGUIManager = this.framework.getLogChannel("Fw.Kbd.VirtualGUIManager");
-        this.defaultVirtualButtonHandler = new VirtualGUIManager$DefaultVirtualButtonHandler(this, null);
+        this.defaultVirtualButtonHandler = new DefaultVirtualButtonHandler();
         this.pttTimer = new Timer("pttTimer", 5, null, this, this.getPttDuration(), true);
         for (int i2 = 0; i2 < 55; ++i2) {
             this.virtualButtonHandler[i2] = new VirtualButtonHandler(this.framework, i2);
         }
     }
 
-    @Override
     public void fireTimer(Timer timer) {
         if (this.pttTimer.equals(timer)) {
-            this.logGUIManager.log(1078071040, "VirtualGUIManager.fireTimer: Reset SDS status!");
+            this.logGUIManager.log(1000000, "VirtualGUIManager.fireTimer: Reset SDS status!");
             ChoiceModelApp choiceModelApp = this.framework.getHMIService().getChoiceModel(335);
             choiceModelApp.setValue(0);
         }
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 
-    @Override
     public void notifyPowerListenerOnEnterState(int n, int n2) {
-        this.logGUIManager.log(1078071040, "VirtualGUIManager.notifyPowerListenerOnEnterState(%1, %2)", (long)n, (long)n2);
+        this.logGUIManager.log(1000000, "VirtualGUIManager.notifyPowerListenerOnEnterState(%1, %2)", (long)n, (long)n2);
         this.focusManager.setPowerState(n, n2);
         this.setPowerState(n, n2);
     }
 
-    @Override
     public void notifyPowerListenerOnExitState(int n, int n2) {
     }
 
-    @Override
     public void notifyPowerTriggerAction(int n, int n2) {
     }
 
-    @Override
     public void updateClampState(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
     }
 
-    @Override
     public IFocusManager getFocusManager() {
         return this.focusManager;
     }
 
-    @Override
     public void connectService(HMIApplication hMIApplication) {
-        this.logGUIManager.log(-2137614336, "VirtualGUIManager.connectService(%1)", (Object)hMIApplication);
+        this.logGUIManager.log(10000000, "VirtualGUIManager.connectService(%1)", (Object)hMIApplication);
         if (hMIApplication == null) {
             return;
         }
@@ -99,15 +90,14 @@ PowerEventListener {
             int n = this.virtualButtonHandler[i2].getVirtualButtonID();
             ButtonModelGUI buttonModelGUI = (ButtonModelGUI)((Object)hMIApplication.getVirtualButton(this.virtualButtonHandler[i2].getVirtualButtonID()));
             if (buttonModelGUI == null) continue;
-            this.logGUIManager.log(1078071040, "VirtualGUIManager.connectService: viewID=%1, modelID=%2", (long)n, (long)buttonModelGUI.getID());
+            this.logGUIManager.log(1000000, "VirtualGUIManager.connectService: viewID=%1, modelID=%2", (long)n, (long)buttonModelGUI.getID());
             this.virtualButtonHandler[i2].addModel(buttonModelGUI);
             buttonModelGUI.addReference();
         }
     }
 
-    @Override
     public void disconnectService(HMIApplication hMIApplication) {
-        this.logGUIManager.log(-2137614336, "VirtualGUIManager.disconnectService(%1)", (Object)hMIApplication);
+        this.logGUIManager.log(10000000, "VirtualGUIManager.disconnectService(%1)", (Object)hMIApplication);
         if (hMIApplication == null) {
             return;
         }
@@ -116,15 +106,14 @@ PowerEventListener {
             int n = this.virtualButtonHandler[i2].getVirtualButtonID();
             ButtonModelGUI buttonModelGUI = (ButtonModelGUI)((Object)hMIApplication.getVirtualButton(this.virtualButtonHandler[i2].getVirtualButtonID()));
             if (buttonModelGUI == null) continue;
-            this.logGUIManager.log(1078071040, "VirtualGUIManager.disconnectService: viewID=%1, modelID=%2", (long)n, (long)buttonModelGUI.getID());
+            this.logGUIManager.log(1000000, "VirtualGUIManager.disconnectService: viewID=%1, modelID=%2", (long)n, (long)buttonModelGUI.getID());
             this.virtualButtonHandler[i2].removeModel(buttonModelGUI);
             buttonModelGUI.removeReference();
         }
     }
 
-    @Override
     public void keyPressed(KeyEvent keyEvent) {
-        this.logGUIManager.log(-2137614336, "VirtualGUIManager.keyPressed(%1)", (Object)keyEvent);
+        this.logGUIManager.log(10000000, "VirtualGUIManager.keyPressed(%1)", (Object)keyEvent);
         int n = keyEvent.getKeyCode();
         if (!(this.framework.isBentley() || n != 9 && n != 11)) {
             int n2;
@@ -189,9 +178,8 @@ PowerEventListener {
         }
     }
 
-    @Override
     public void keyMoved(JoystickEvent joystickEvent) {
-        this.logGUIManager.log(-2137614336, "VirtualGUIManager.keyMoved(%1)", (Object)joystickEvent);
+        this.logGUIManager.log(10000000, "VirtualGUIManager.keyMoved(%1)", (Object)joystickEvent);
         int n = joystickEvent.getKeyCode();
         if (n == 22) {
             int n2;
@@ -202,13 +190,12 @@ PowerEventListener {
                 this.framework.getSysApp().getVariantAppSystem().fireHKSelection(joystickEvent.getTerminalID());
                 return;
             }
-            this.logGUIManager.log(-2137614336, "VirtualGUIManager.keyMoved(%1) nothing is done for direction", (long)n3);
+            this.logGUIManager.log(10000000, "VirtualGUIManager.keyMoved(%1) nothing is done for direction", (long)n3);
         }
     }
 
-    @Override
     public void keyReleased(KeyEvent keyEvent) {
-        this.logGUIManager.log(-2137614336, "VirtualGUIManager.keyReleased(%1)", (Object)keyEvent);
+        this.logGUIManager.log(10000000, "VirtualGUIManager.keyReleased(%1)", (Object)keyEvent);
         int n = keyEvent.getKeyCode();
         switch (n) {
             case 21: {
@@ -246,9 +233,8 @@ PowerEventListener {
         }
     }
 
-    @Override
     public void keyTurned(WheelButtonEvent wheelButtonEvent) {
-        this.logGUIManager.log(-2137614336, "VirtualGUIManager.keyTurned(%1)", (Object)wheelButtonEvent);
+        this.logGUIManager.log(10000000, "VirtualGUIManager.keyTurned(%1)", (Object)wheelButtonEvent);
         int n = wheelButtonEvent.getKeyCode();
         switch (wheelButtonEvent.getKeyCode()) {
             default: 
@@ -284,11 +270,11 @@ PowerEventListener {
             this.sdsStatusChoiceLongPress = false;
         } else if (bl) {
             if (this.framework.getSysConst(460) == 0) {
-                this.logGUIManager.log(1078071040, "VirtualGUIManager.setSDSStatusChoice: Set SDS status to NOT_PRESENT!");
+                this.logGUIManager.log(1000000, "VirtualGUIManager.setSDSStatusChoice: Set SDS status to NOT_PRESENT!");
                 choiceModelApp.setValue(5);
                 this.pttTimer.restart();
             } else if (choiceModelApp2.getValue() == 0) {
-                this.logGUIManager.log(1078071040, "VirtualGUIManager.setSDSStatusChoice: Set SDS status to NOT_INITIALIZED!");
+                this.logGUIManager.log(1000000, "VirtualGUIManager.setSDSStatusChoice: Set SDS status to NOT_INITIALIZED!");
                 choiceModelApp.setValue(1);
                 this.pttTimer.restart();
             }
@@ -309,7 +295,7 @@ PowerEventListener {
                 if (this.isTerminalModeCoded()) {
                     this.surpressSDSUnavailablePopup = true;
                 } else {
-                    this.logGUIManager.log(1078071040, "VirtualGUIManager.handlePorschePopups: No terminalmode provider coded, showing error popup.");
+                    this.logGUIManager.log(1000000, "VirtualGUIManager.handlePorschePopups: No terminalmode provider coded, showing error popup.");
                     this.surpressSDSUnavailablePopup = false;
                     ChoiceModelApp choiceModelApp = this.framework.getHMIService().getChoiceModel(335);
                     choiceModelApp.setValue(13);
@@ -323,7 +309,7 @@ PowerEventListener {
                     } else if (this.framework.getHMIService().getChoiceModel(371).getValue() == 0) {
                         this.framework.getSysApp().getVariantAppSystem().showSdsStatusPopup(0);
                     } else {
-                        this.logGUIManager.log(1078071040, "VirtualGUIManager.handlePorschePopups: Normal workflow or smartphone voice abort, not showing 'SDS not shored' popup.");
+                        this.logGUIManager.log(1000000, "VirtualGUIManager.handlePorschePopups: Normal workflow or smartphone voice abort, not showing 'SDS not shored' popup.");
                     }
                     this.surpressSDSUnavailablePopup = false;
                 } else if (this.isPTTLong && this.isTerminalModeCoded() && this.framework.getSysConst(460) == 0) {
@@ -345,11 +331,29 @@ PowerEventListener {
     }
 
     private long getPttDuration() {
-        return 0;
+        return 3000L;
     }
 
-    static /* synthetic */ LogChannel access$100(VirtualGUIManager virtualGUIManager) {
-        return virtualGUIManager.logGUIManager;
+    private class DefaultVirtualButtonHandler
+    implements KeyListener {
+        private DefaultVirtualButtonHandler() {
+        }
+
+        public void keyPressed(KeyEvent keyEvent) {
+            VirtualGUIManager.this.logGUIManager.log(1000000, "DefaultVirtualButtonHandler.keyPressed: No virtual button! (evenz=%1)", (Object)keyEvent);
+        }
+
+        public void keyReleased(KeyEvent keyEvent) {
+            VirtualGUIManager.this.logGUIManager.log(1000000, "DefaultVirtualButtonHandler.keyReleased: No virtual button! (evenz=%1)", (Object)keyEvent);
+        }
+
+        public void keyTurned(WheelButtonEvent wheelButtonEvent) {
+            VirtualGUIManager.this.logGUIManager.log(1000000, "DefaultVirtualButtonHandler.keyTurned: No virtual button! (evenz=%1)", (Object)wheelButtonEvent);
+        }
+
+        public void keyMoved(JoystickEvent joystickEvent) {
+            VirtualGUIManager.this.logGUIManager.log(1000000, "DefaultVirtualButtonHandler.keyMoved: No virtual button! (evenz=%1)", (Object)joystickEvent);
+        }
     }
 }
 

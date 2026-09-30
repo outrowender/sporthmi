@@ -26,7 +26,6 @@ implements Request {
         this.serializer = bAPDataType;
     }
 
-    @Override
     public final boolean send() {
         return this.bapFunction.sendRequest(this.bapRequestType, this.serializer);
     }

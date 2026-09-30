@@ -7,13 +7,10 @@ import de.audi.atip.statemachine.ActionProxy;
 
 public interface FrameworkActionProxy
 extends ActionProxy {
-    default public void activeApplication(int n, int n2) {
-    }
+    public void activeApplication(int var1, int var2);
 
-    default public void hkSetupDuringPowerPopup(int n) {
-    }
+    public void hkSetupDuringPowerPopup(int var1);
 
-    default public void mainApplicationWizardLastApplication(int n, int n2) {
-    }
+    public void mainApplicationWizardLastApplication(int var1, int var2);
 }
 

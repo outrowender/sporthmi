@@ -3,9 +3,6 @@
  */
 package com.ibm.oti.util;
 
-import com.ibm.oti.util.DefaultPolicy$1;
-import com.ibm.oti.util.DefaultPolicy$GrantHolder;
-import com.ibm.oti.util.DefaultPolicy$PolicyTokenizer;
 import com.ibm.oti.util.Msg;
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -28,6 +25,7 @@ import java.security.Permission;
 import java.security.PermissionCollection;
 import java.security.Permissions;
 import java.security.Policy;
+import java.security.PrivilegedAction;
 import java.security.Security;
 import java.security.UnresolvedPermission;
 import java.security.cert.Certificate;
@@ -46,13 +44,17 @@ extends Policy {
     private Map cache = Collections.synchronizedMap(new WeakHashMap());
     static /* synthetic */ Class class$0;
 
-    @Override
-    public PermissionCollection getPermissions(CodeSource codeSource) {
+    public PermissionCollection getPermissions(final CodeSource codeSource) {
         PermissionCollection permissionCollection = (PermissionCollection)this.cache.get(codeSource);
         if (permissionCollection != null) {
             return this.copyCollection(permissionCollection);
         }
-        PermissionCollection permissionCollection2 = (PermissionCollection)AccessController.doPrivileged(new DefaultPolicy$1(this, codeSource));
+        PermissionCollection permissionCollection2 = (PermissionCollection)AccessController.doPrivileged(new PrivilegedAction(){
+
+            public Object run() {
+                return DefaultPolicy.this.getPermissionsImpl(codeSource);
+            }
+        });
         this.cache.put(codeSource, this.copyCollection(permissionCollection2));
         return permissionCollection2;
     }
@@ -73,9 +75,9 @@ extends Policy {
         CodeSource codeSource2 = new CodeSource(uRL, codeSource.getCertificates());
         int n = 0;
         while (n < this.grantList.size()) {
-            DefaultPolicy$GrantHolder defaultPolicy$GrantHolder = (DefaultPolicy$GrantHolder)this.grantList.elementAt(n);
-            if (defaultPolicy$GrantHolder.getCodeSource() == null || defaultPolicy$GrantHolder.getCodeSource().implies(codeSource2)) {
-                Permissions permissions2 = defaultPolicy$GrantHolder.getPermissions();
+            GrantHolder grantHolder = (GrantHolder)this.grantList.elementAt(n);
+            if (grantHolder.getCodeSource() == null || grantHolder.getCodeSource().implies(codeSource2)) {
+                Permissions permissions2 = grantHolder.getPermissions();
                 Enumeration enumeration = permissions2.elements();
                 while (enumeration.hasMoreElements()) {
                     ((PermissionCollection)permissions).add((Permission)enumeration.nextElement());
@@ -157,7 +159,7 @@ extends Policy {
         int n;
         Certificate[] certificateArray2;
         Object[] objectArray;
-        DefaultPolicy$GrantHolder defaultPolicy$GrantHolder;
+        GrantHolder grantHolder;
         if (inputStream == null) {
             return;
         }
@@ -168,27 +170,27 @@ extends Policy {
         catch (UnsupportedEncodingException unsupportedEncodingException) {
             return;
         }
-        DefaultPolicy$PolicyTokenizer defaultPolicy$PolicyTokenizer = new DefaultPolicy$PolicyTokenizer(inputStreamReader);
+        PolicyTokenizer policyTokenizer = new PolicyTokenizer(inputStreamReader);
         String[] stringArray = null;
         Vector vector = new Vector();
         Vector vector2 = new Vector();
-        int n2 = defaultPolicy$PolicyTokenizer.nextToken();
-        while (!defaultPolicy$PolicyTokenizer.isAtEOF()) {
+        int n2 = policyTokenizer.nextToken();
+        while (!policyTokenizer.isAtEOF()) {
             block32: {
                 block35: {
                     block36: {
                         if (n2 != 1) break block35;
-                        if (!defaultPolicy$PolicyTokenizer.sval.equalsIgnoreCase("grant")) break block36;
-                        this.parseGrant(defaultPolicy$PolicyTokenizer, uRL, vector, vector2, bl);
+                        if (!policyTokenizer.sval.equalsIgnoreCase("grant")) break block36;
+                        this.parseGrant(policyTokenizer, uRL, vector, vector2, bl);
                         break block32;
                     }
-                    if (defaultPolicy$PolicyTokenizer.sval.equalsIgnoreCase("keystore")) {
+                    if (policyTokenizer.sval.equalsIgnoreCase("keystore")) {
                         if (stringArray != null) {
-                            defaultPolicy$PolicyTokenizer.skipTokens(';');
+                            policyTokenizer.skipTokens(';');
                             break block32;
                         } else {
                             stringArray = new String[2];
-                            this.parseKeystore(defaultPolicy$PolicyTokenizer, stringArray, bl);
+                            this.parseKeystore(policyTokenizer, stringArray, bl);
                         }
                         break block32;
                     } else {
@@ -199,13 +201,13 @@ extends Policy {
                 this.grantList.removeAllElements();
                 break;
             }
-            n2 = defaultPolicy$PolicyTokenizer.nextToken();
+            n2 = policyTokenizer.nextToken();
         }
         n2 = 0;
         KeyStore keyStore = null;
         int n3 = 0;
         while (n3 < vector2.size()) {
-            defaultPolicy$GrantHolder = (DefaultPolicy$GrantHolder)((Object[])vector2.get(n3))[0];
+            grantHolder = (GrantHolder)((Object[])vector2.get(n3))[0];
             objectArray = (String[])((Object[])vector2.get(n3))[1];
             certificateArray2 = null;
             Object object2 = objectArray[3];
@@ -251,15 +253,15 @@ extends Policy {
                 Object object3 = objectArray[0];
                 Object object4 = objectArray[1];
                 Object object5 = objectArray[2];
-                defaultPolicy$GrantHolder.addPermission(new UnresolvedPermission((String)object3, (String)object4, (String)object5, certificateArray2));
+                grantHolder.addPermission(new UnresolvedPermission((String)object3, (String)object4, (String)object5, certificateArray2));
             }
             ++n3;
         }
         Enumeration enumeration = vector.elements();
         while (enumeration.hasMoreElements()) {
-            defaultPolicy$GrantHolder = (DefaultPolicy$GrantHolder)enumeration.nextElement();
+            grantHolder = (GrantHolder)enumeration.nextElement();
             objectArray = null;
-            certificateArray2 = defaultPolicy$GrantHolder.getSigner();
+            certificateArray2 = grantHolder.getSigner();
             if (certificateArray2 != null && n2 == 0) {
                 n2 = 1;
                 keyStore = this.loadKeystore(uRL, stringArray);
@@ -299,50 +301,50 @@ extends Policy {
                 }
             }
             if (objectArray != null) {
-                CodeSource codeSource = new CodeSource(defaultPolicy$GrantHolder.getCodeSource().getLocation(), (Certificate[])objectArray);
-                defaultPolicy$GrantHolder.setCodeSource(codeSource);
+                CodeSource codeSource = new CodeSource(grantHolder.getCodeSource().getLocation(), (Certificate[])objectArray);
+                grantHolder.setCodeSource(codeSource);
             }
             if (certificateArray2 != null && objectArray == null) continue;
-            this.addGrant(defaultPolicy$GrantHolder);
+            this.addGrant(grantHolder);
         }
         this.policyRead = true;
     }
 
-    private void addGrant(DefaultPolicy$GrantHolder defaultPolicy$GrantHolder) {
-        defaultPolicy$GrantHolder.setSigner(null);
+    private void addGrant(GrantHolder grantHolder) {
+        grantHolder.setSigner(null);
         int n = 0;
         while (n < this.grantList.size()) {
-            DefaultPolicy$GrantHolder defaultPolicy$GrantHolder2 = (DefaultPolicy$GrantHolder)this.grantList.elementAt(n);
-            if (defaultPolicy$GrantHolder2.getCodeSource().equals(defaultPolicy$GrantHolder.getCodeSource())) {
-                Enumeration enumeration = defaultPolicy$GrantHolder.getPermissions().elements();
+            GrantHolder grantHolder2 = (GrantHolder)this.grantList.elementAt(n);
+            if (grantHolder2.getCodeSource().equals(grantHolder.getCodeSource())) {
+                Enumeration enumeration = grantHolder.getPermissions().elements();
                 while (enumeration.hasMoreElements()) {
-                    defaultPolicy$GrantHolder2.addPermission((Permission)enumeration.nextElement());
+                    grantHolder2.addPermission((Permission)enumeration.nextElement());
                 }
                 return;
             }
             ++n;
         }
-        this.grantList.addElement(defaultPolicy$GrantHolder);
+        this.grantList.addElement(grantHolder);
     }
 
-    private void parseKeystore(DefaultPolicy$PolicyTokenizer defaultPolicy$PolicyTokenizer, String[] stringArray, boolean bl) {
+    private void parseKeystore(PolicyTokenizer policyTokenizer, String[] stringArray, boolean bl) {
         int n = 1;
-        while (!defaultPolicy$PolicyTokenizer.isAtEOF()) {
-            switch (defaultPolicy$PolicyTokenizer.nextToken()) {
+        while (!policyTokenizer.isAtEOF()) {
+            switch (policyTokenizer.nextToken()) {
                 case 0: {
-                    if (defaultPolicy$PolicyTokenizer.cval != ';') break;
+                    if (policyTokenizer.cval != ';') break;
                     return;
                 }
                 case 2: {
                     if (n == 1) {
                         n = 2;
-                        String string = this.expandTags(defaultPolicy$PolicyTokenizer.sval, true, bl);
+                        String string = this.expandTags(policyTokenizer.sval, true, bl);
                         stringArray[0] = string.replace('\\', '/');
                         break;
                     }
                     if (n != 2) break;
                     n = 3;
-                    stringArray[1] = defaultPolicy$PolicyTokenizer.sval;
+                    stringArray[1] = policyTokenizer.sval;
                     break;
                 }
             }
@@ -354,24 +356,24 @@ extends Policy {
      * Enabled unnecessary exception pruning
      * Enabled aggressive exception aggregation
      */
-    private void parseGrant(DefaultPolicy$PolicyTokenizer defaultPolicy$PolicyTokenizer, URL uRL, Vector vector, Vector vector2, boolean bl) {
+    private void parseGrant(PolicyTokenizer policyTokenizer, URL uRL, Vector vector, Vector vector2, boolean bl) {
         Object object;
         boolean bl2 = false;
         String string = null;
         String string2 = null;
-        while (!defaultPolicy$PolicyTokenizer.isAtEOF()) {
-            if (defaultPolicy$PolicyTokenizer.nextToken() == 0) {
-                if (defaultPolicy$PolicyTokenizer.cval == '{') break;
-                if (defaultPolicy$PolicyTokenizer.cval == ',' && (string != null || string2 != null)) continue;
-                defaultPolicy$PolicyTokenizer.sval = String.valueOf(defaultPolicy$PolicyTokenizer.cval);
+        while (!policyTokenizer.isAtEOF()) {
+            if (policyTokenizer.nextToken() == 0) {
+                if (policyTokenizer.cval == '{') break;
+                if (policyTokenizer.cval == ',' && (string != null || string2 != null)) continue;
+                policyTokenizer.sval = String.valueOf(policyTokenizer.cval);
             }
-            if (defaultPolicy$PolicyTokenizer.sval.equalsIgnoreCase("codeBase")) {
-                if (defaultPolicy$PolicyTokenizer.nextToken() != 2) {
-                    System.out.println(Msg.getString("K00a2", new Object[]{uRL, "codeBase", defaultPolicy$PolicyTokenizer.sval}));
+            if (policyTokenizer.sval.equalsIgnoreCase("codeBase")) {
+                if (policyTokenizer.nextToken() != 2) {
+                    System.out.println(Msg.getString("K00a2", new Object[]{uRL, "codeBase", policyTokenizer.sval}));
                     bl2 = true;
                     break;
                 }
-                string = this.expandTags(defaultPolicy$PolicyTokenizer.sval, false, bl);
+                string = this.expandTags(policyTokenizer.sval, false, bl);
                 if (string == null) {
                     bl2 = true;
                     break;
@@ -379,20 +381,20 @@ extends Policy {
                 string = string.replace('\\', '/');
                 continue;
             }
-            if (defaultPolicy$PolicyTokenizer.sval.equalsIgnoreCase("signedBy")) {
-                if (defaultPolicy$PolicyTokenizer.nextToken() != 2) {
-                    System.out.println(Msg.getString("K00a2", new Object[]{uRL, "signedBy", defaultPolicy$PolicyTokenizer.sval}));
+            if (policyTokenizer.sval.equalsIgnoreCase("signedBy")) {
+                if (policyTokenizer.nextToken() != 2) {
+                    System.out.println(Msg.getString("K00a2", new Object[]{uRL, "signedBy", policyTokenizer.sval}));
                     bl2 = true;
                     continue;
                 }
-                string2 = defaultPolicy$PolicyTokenizer.sval;
+                string2 = policyTokenizer.sval;
                 continue;
             }
-            System.out.println(Msg.getString("K00a3", uRL, defaultPolicy$PolicyTokenizer.sval));
+            System.out.println(Msg.getString("K00a3", uRL, policyTokenizer.sval));
             bl2 = true;
             break;
         }
-        DefaultPolicy$GrantHolder defaultPolicy$GrantHolder = null;
+        GrantHolder grantHolder = null;
         try {
             CodeSource codeSource = null;
             object = null;
@@ -400,46 +402,46 @@ extends Policy {
                 object = DefaultPolicy.toCanonicalURL(new URL(string));
             }
             codeSource = new CodeSource((URL)object, null);
-            if (defaultPolicy$GrantHolder == null) {
-                defaultPolicy$GrantHolder = new DefaultPolicy$GrantHolder();
+            if (grantHolder == null) {
+                grantHolder = new GrantHolder();
             }
-            defaultPolicy$GrantHolder.setCodeSource(codeSource);
+            grantHolder.setCodeSource(codeSource);
         }
         catch (MalformedURLException malformedURLException) {
             bl2 = true;
             System.out.println(Msg.getString("K00a8", uRL, string));
         }
         if (bl2) {
-            defaultPolicy$PolicyTokenizer.skipTokens('}');
-            defaultPolicy$PolicyTokenizer.skipTokens(';');
+            policyTokenizer.skipTokens('}');
+            policyTokenizer.skipTokens(';');
             return;
         }
-        defaultPolicy$GrantHolder.setSigner(string2);
+        grantHolder.setSigner(string2);
         int n = 2;
         object = null;
         String string3 = null;
         String string4 = null;
         String string5 = null;
-        block13: while (!defaultPolicy$PolicyTokenizer.isAtEOF()) {
-            int n2 = defaultPolicy$PolicyTokenizer.nextToken();
+        block13: while (!policyTokenizer.isAtEOF()) {
+            int n2 = policyTokenizer.nextToken();
             if (n2 == 0) {
-                if (defaultPolicy$PolicyTokenizer.cval == '}') {
-                    if (defaultPolicy$PolicyTokenizer.nextToken() == 0) {
-                        if (defaultPolicy$PolicyTokenizer.cval == ';') break;
-                        defaultPolicy$PolicyTokenizer.sval = String.valueOf(defaultPolicy$PolicyTokenizer.cval);
+                if (policyTokenizer.cval == '}') {
+                    if (policyTokenizer.nextToken() == 0) {
+                        if (policyTokenizer.cval == ';') break;
+                        policyTokenizer.sval = String.valueOf(policyTokenizer.cval);
                     }
                     n2 = -1;
                 } else {
-                    if (defaultPolicy$PolicyTokenizer.cval == ';') {
+                    if (policyTokenizer.cval == ';') {
                         if (!(string3 != null && (string3 = this.expandTags(string3, false, bl)) == null || string4 != null && (string4 = this.expandTags(string4, false, bl)) == null)) {
                             Permission permission = this.createPermission((String)object, string3, string4);
                             if (permission != null) {
-                                defaultPolicy$GrantHolder.addPermission(permission);
+                                grantHolder.addPermission(permission);
                             } else if (string5 == null) {
-                                defaultPolicy$GrantHolder.addPermission(new UnresolvedPermission((String)object, string3, string4, null));
+                                grantHolder.addPermission(new UnresolvedPermission((String)object, string3, string4, null));
                             } else if (!string5.equals("")) {
                                 String[] stringArray = new String[]{object, string3, string4, string5};
-                                Object[] objectArray = new Object[]{defaultPolicy$GrantHolder, stringArray};
+                                Object[] objectArray = new Object[]{grantHolder, stringArray};
                                 vector2.add(objectArray);
                             }
                         }
@@ -449,24 +451,24 @@ extends Policy {
                         n = 2;
                         continue;
                     }
-                    if (defaultPolicy$PolicyTokenizer.cval == ',') continue;
-                    defaultPolicy$PolicyTokenizer.sval = String.valueOf(defaultPolicy$PolicyTokenizer.cval);
+                    if (policyTokenizer.cval == ',') continue;
+                    policyTokenizer.sval = String.valueOf(policyTokenizer.cval);
                 }
             }
             if (n2 == 2) {
                 switch (n) {
                     case 4: {
-                        string3 = defaultPolicy$PolicyTokenizer.sval;
+                        string3 = policyTokenizer.sval;
                         n = 5;
                         continue block13;
                     }
                     case 5: {
-                        string4 = defaultPolicy$PolicyTokenizer.sval;
+                        string4 = policyTokenizer.sval;
                         n = 3;
                         continue block13;
                     }
                     case 6: {
-                        string5 = defaultPolicy$PolicyTokenizer.sval;
+                        string5 = policyTokenizer.sval;
                         n = 0;
                         continue block13;
                     }
@@ -474,30 +476,30 @@ extends Policy {
             } else if (n2 == 1) {
                 switch (n) {
                     case 1: {
-                        object = defaultPolicy$PolicyTokenizer.sval;
+                        object = policyTokenizer.sval;
                         n = 4;
                         continue block13;
                     }
                     case 2: {
-                        if (!defaultPolicy$PolicyTokenizer.sval.equalsIgnoreCase("permission")) break;
+                        if (!policyTokenizer.sval.equalsIgnoreCase("permission")) break;
                         n = 1;
                         continue block13;
                     }
                     case 3: 
                     case 4: 
                     case 5: {
-                        if (!defaultPolicy$PolicyTokenizer.sval.equalsIgnoreCase("signedBy")) break;
+                        if (!policyTokenizer.sval.equalsIgnoreCase("signedBy")) break;
                         n = 6;
                         continue block13;
                     }
                 }
             }
-            System.out.println(Msg.getString("K00a3", new Object[]{uRL, defaultPolicy$PolicyTokenizer.sval}));
+            System.out.println(Msg.getString("K00a3", new Object[]{uRL, policyTokenizer.sval}));
             bl2 = true;
             break;
         }
-        if (!bl2 || defaultPolicy$GrantHolder.getPermissions() == null) {
-            vector.addElement(defaultPolicy$GrantHolder);
+        if (!bl2 || grantHolder.getPermissions() == null) {
+            vector.addElement(grantHolder);
         }
     }
 
@@ -578,11 +580,11 @@ extends Policy {
         }
         if (!this.policyRead) {
             this.grantList.removeAllElements();
-            object2 = new DefaultPolicy$GrantHolder();
+            object2 = new GrantHolder();
             object = DefaultPolicy.defaultSystemPermissionList();
             int n2 = 0;
             while (n2 < ((Permission[])object).length) {
-                ((DefaultPolicy$GrantHolder)object2).addPermission(object[n2]);
+                ((GrantHolder)object2).addPermission(object[n2]);
                 ++n2;
             }
             this.policyRead = true;
@@ -590,16 +592,15 @@ extends Policy {
             try {
                 String string3 = System.getProperty("java.home");
                 CodeSource codeSource = new CodeSource(new File(string3, "lib/ext/*").toURL(), null);
-                DefaultPolicy$GrantHolder defaultPolicy$GrantHolder = new DefaultPolicy$GrantHolder();
-                defaultPolicy$GrantHolder.setCodeSource(codeSource);
-                defaultPolicy$GrantHolder.addPermission(new AllPermission());
-                this.grantList.addElement(defaultPolicy$GrantHolder);
+                GrantHolder grantHolder = new GrantHolder();
+                grantHolder.setCodeSource(codeSource);
+                grantHolder.addPermission(new AllPermission());
+                this.grantList.addElement(grantHolder);
             }
             catch (MalformedURLException malformedURLException) {}
         }
     }
 
-    @Override
     public void refresh() {
         this.policyRead = false;
         this.cache.clear();
@@ -686,6 +687,184 @@ extends Policy {
             catch (MalformedURLException malformedURLException) {}
         }
         return uRL;
+    }
+
+    static class GrantHolder {
+        private CodeSource codeSource;
+        private String signedBy;
+        private Permissions permissions;
+
+        GrantHolder() {
+        }
+
+        void setCodeSource(CodeSource codeSource) {
+            this.codeSource = codeSource;
+        }
+
+        CodeSource getCodeSource() {
+            return this.codeSource;
+        }
+
+        Permissions getPermissions() {
+            return this.permissions;
+        }
+
+        void setSigner(String string) {
+            this.signedBy = string;
+        }
+
+        String getSigner() {
+            return this.signedBy;
+        }
+
+        void addPermission(Permission permission) {
+            if (this.permissions == null) {
+                this.permissions = new Permissions();
+            }
+            this.permissions.add(permission);
+        }
+    }
+
+    static class PolicyTokenizer {
+        private static final int EOL = 10;
+        static final int TOK_CHAR = 0;
+        static final int TOK_STRING = 1;
+        static final int TOK_QUOTEDSTRING = 2;
+        private InputStreamReader policyData;
+        private char[] inbuf = new char[1024];
+        private int inbufCount = 0;
+        private int inbufPos = 0;
+        private boolean endOfFile = false;
+        String sval;
+        char cval;
+        private char[] buf = new char[120];
+
+        PolicyTokenizer(InputStreamReader inputStreamReader) {
+            this.policyData = inputStreamReader;
+        }
+
+        private void ignoreToEOL() throws IOException {
+            do {
+                if (this.inbufPos != this.inbufCount) continue;
+                this.inbufCount = this.policyData.read(this.inbuf);
+                if (this.inbufCount == -1) {
+                    this.inbufPos = -1;
+                    this.endOfFile = true;
+                    break;
+                }
+                this.inbufPos = 0;
+            } while (this.inbuf[this.inbufPos++] != '\n');
+        }
+
+        private void findEndOfComment() throws IOException {
+            char c2 = '\u0000';
+            while (true) {
+                char c3;
+                if (this.inbufPos == this.inbufCount) {
+                    this.inbufCount = this.policyData.read(this.inbuf);
+                    if (this.inbufCount == -1) {
+                        this.inbufPos = -1;
+                        this.endOfFile = true;
+                        break;
+                    }
+                    this.inbufPos = 0;
+                }
+                if ((c3 = this.inbuf[this.inbufPos++]) == '/' && c2 == '*') break;
+                c2 = c3;
+            }
+        }
+
+        boolean isAtEOF() {
+            return this.endOfFile;
+        }
+
+        int nextToken() {
+            boolean bl = false;
+            int n = 32;
+            int n2 = 0;
+            try {
+                while (true) {
+                    int n3;
+                    if (this.inbufPos == this.inbufCount) {
+                        this.inbufCount = this.policyData.read(this.inbuf);
+                        if (this.inbufCount == -1) {
+                            this.inbufPos = -1;
+                            this.endOfFile = true;
+                            break;
+                        }
+                        this.inbufPos = 0;
+                    }
+                    if ((n3 = this.inbuf[this.inbufPos++]) == 10 || n3 == 13 || n3 == 9) {
+                        n3 = 32;
+                    }
+                    if (n3 == 92 && n == 92) {
+                        n = 32;
+                        continue;
+                    }
+                    if (bl) {
+                        if (n3 == 34 && n != 92) {
+                            break;
+                        }
+                    } else {
+                        if (n3 == 32) {
+                            if (n2 == 0) {
+                                continue;
+                            }
+                            break;
+                        }
+                        if (n3 == 59 || n3 == 44 || n3 == 123 || n3 == 125) {
+                            if (n2 == 0) {
+                                this.cval = (char)n3;
+                                return 0;
+                            }
+                            --this.inbufPos;
+                            break;
+                        }
+                        if (n3 == 34 && n != 92) {
+                            if (n2 > 0) {
+                                --this.inbufPos;
+                                break;
+                            }
+                            bl = true;
+                            continue;
+                        }
+                        if (n3 == 47 && n == 47) {
+                            n2 = 0;
+                            this.ignoreToEOL();
+                            n = 32;
+                            continue;
+                        }
+                        if (n3 == 42 && n == 47) {
+                            --n2;
+                            n = n3;
+                            this.findEndOfComment();
+                            continue;
+                        }
+                    }
+                    if (n2 == this.buf.length) {
+                        char[] cArray = new char[this.buf.length * 2];
+                        System.arraycopy((Object)this.buf, 0, (Object)cArray, 0, n2);
+                        this.buf = cArray;
+                    }
+                    this.buf[n2++] = n3;
+                    n = n3;
+                }
+            }
+            catch (IOException iOException) {
+                this.endOfFile = true;
+            }
+            this.sval = new String(this.buf, 0, n2);
+            if (bl) {
+                return 2;
+            }
+            return 1;
+        }
+
+        void skipTokens(char c2) {
+            while (!this.endOfFile) {
+                if (this.nextToken() == 0 && this.cval == c2) break;
+            }
+        }
     }
 }
 

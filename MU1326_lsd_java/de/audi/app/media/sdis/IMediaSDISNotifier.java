@@ -11,43 +11,30 @@ import java.util.Map;
 import org.dsi.ifc.media.Capabilities;
 
 public interface IMediaSDISNotifier {
-    default public void updateSourceList(Map map) {
-    }
+    public void updateSourceList(Map var1);
 
-    default public void updateActiveSourceState(ActiveSourceState activeSourceState) {
-    }
+    public void updateActiveSourceState(ActiveSourceState var1);
 
-    default public void updatePlaybackState(int n) {
-    }
+    public void updatePlaybackState(int var1);
 
-    default public void updatePlayingPosition(PlayingTrack playingTrack, PlayTime playTime) {
-    }
+    public void updatePlayingPosition(PlayingTrack var1, PlayTime var2);
 
-    default public void updatePlayingTrack(MediaDetailInfo mediaDetailInfo, String string) {
-    }
+    public void updatePlayingTrack(MediaDetailInfo var1, String var2);
 
-    default public void updateMix(boolean bl) {
-    }
+    public void updateMix(boolean var1);
 
-    default public void updateRepeatTitle(boolean bl) {
-    }
+    public void updateRepeatTitle(boolean var1);
 
-    default public void updateRepeatMode(int n) {
-    }
+    public void updateRepeatMode(int var1);
 
-    default public void updatePlayListState(boolean bl, long l, int n, int n2) {
-    }
+    public void updatePlayListState(boolean var1, long var2, int var4, int var5);
 
-    default public void updatePlayListInvalidState() {
-    }
+    public void updatePlayListInvalidState();
 
-    default public void updatePlaybackPossible(boolean bl) {
-    }
+    public void updatePlaybackPossible(boolean var1);
 
-    default public void updatePlayerCapabilities(Capabilities capabilities) {
-    }
+    public void updatePlayerCapabilities(Capabilities var1);
 
-    default public void enableTemporalChildLock(boolean bl) {
-    }
+    public void enableTemporalChildLock(boolean var1);
 }
 

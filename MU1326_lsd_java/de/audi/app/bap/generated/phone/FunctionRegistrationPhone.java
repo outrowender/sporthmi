@@ -165,16 +165,16 @@ implements IFunctionRegistrationFSG {
     }
 
     private void initialize(AbstractBAPModuleFSG abstractBAPModuleFSG) {
-        this.logChannel.log(-2137614336, "[FunctionRegistrationPhone#initialize] start initialization");
+        this.logChannel.log(10000000, "[FunctionRegistrationPhone#initialize] start initialization");
         this.initializeProperties(abstractBAPModuleFSG);
         this.initializeMethods(abstractBAPModuleFSG);
         this.initializeArrays(abstractBAPModuleFSG);
         this.initialized = true;
-        this.logChannel.log(-2137614336, "[FunctionRegistrationPhone#initialize] initialization completed");
+        this.logChannel.log(10000000, "[FunctionRegistrationPhone#initialize] initialization completed");
     }
 
     private void initializeProperties(AbstractBAPModuleFSG abstractBAPModuleFSG) {
-        this.logChannel.log(-2137614336, "[FunctionRegistrationPhone#initializeProperties] initialize properties");
+        this.logChannel.log(10000000, "[FunctionRegistrationPhone#initializeProperties] initialize properties");
         this.bapConfig = abstractBAPModuleFSG.createBAPFunctionPropertyFSG(2);
         this.bapConfig.setResetSerializer(new BAP_Config_Reset());
         this.allProperties.add(this.bapConfig);
@@ -237,7 +237,7 @@ implements IFunctionRegistrationFSG {
     }
 
     private void initializeMethods(AbstractBAPModuleFSG abstractBAPModuleFSG) {
-        this.logChannel.log(-2137614336, "[FunctionRegistrationPhone#initializeMethods] initialize methods");
+        this.logChannel.log(10000000, "[FunctionRegistrationPhone#initializeMethods] initialize methods");
         this.dialNumber = abstractBAPModuleFSG.createBAPFunctionMethodFSG(26);
         this.dialNumber.setStartResultSerializer(new DialNumber_StartResult());
         this.allMethods.add(this.dialNumber);
@@ -283,7 +283,7 @@ implements IFunctionRegistrationFSG {
     }
 
     private void initializeArrays(AbstractBAPModuleFSG abstractBAPModuleFSG) {
-        this.logChannel.log(-2137614336, "[FunctionRegistrationPhone#initializeArrays] initialize arrays");
+        this.logChannel.log(10000000, "[FunctionRegistrationPhone#initializeArrays] initialize arrays");
         this.missedCalls = abstractBAPModuleFSG.createBAPFunctionArrayFSG(46);
         this.missedCalls.setGetArraySerializer(new MissedCalls_GetArray());
         this.missedCalls.setSetGetArraySerializer(new MissedCalls_SetGetArray());
@@ -309,7 +309,6 @@ implements IFunctionRegistrationFSG {
         this.allArrays.add(this.favoriteList);
     }
 
-    @Override
     public BAPFunctionMethodFSG getBAPFunctionMethodFSG(int n) {
         try {
             return (BAPFunctionMethodFSG)this.getBAPFunction(n);
@@ -320,7 +319,6 @@ implements IFunctionRegistrationFSG {
         }
     }
 
-    @Override
     public BAPFunctionPropertyFSG getBAPFunctionPropertyFSG(int n) {
         try {
             return (BAPFunctionPropertyFSG)this.getBAPFunction(n);
@@ -331,7 +329,6 @@ implements IFunctionRegistrationFSG {
         }
     }
 
-    @Override
     public BAPFunctionArrayFSG getBAPFunctionArrayFSG(int n) {
         try {
             return (BAPFunctionArrayFSG)this.getBAPFunction(n);
@@ -342,7 +339,6 @@ implements IFunctionRegistrationFSG {
         }
     }
 
-    @Override
     public IBAPFunction getBAPFunction(int n) {
         if (!this.initialized) {
             this.logChannel.log(10000, "[FunctionRegistrationPhone#getBAPFunction] function registration not initialized yet for lsgID=%1", (Object)LSGIDs.getDescription(40), (long)n);
@@ -500,24 +496,20 @@ implements IFunctionRegistrationFSG {
         return null;
     }
 
-    @Override
     public List getAllProperties() {
         return this.allProperties;
     }
 
-    @Override
     public List getAllMethods() {
         return this.allMethods;
     }
 
-    @Override
     public List getAllArrays() {
         return this.allArrays;
     }
 
-    @Override
     public void resetBAPFunctions() {
-        this.logChannel.log(-2137614336, "[FunctionRegistrationPhone#resetBAPFunctions]");
+        this.logChannel.log(10000000, "[FunctionRegistrationPhone#resetBAPFunctions]");
         Iterator iterator = this.allArrays.iterator();
         while (iterator.hasNext()) {
             ((IBAPFunction)iterator.next()).reset();
@@ -532,7 +524,6 @@ implements IFunctionRegistrationFSG {
         }
     }
 
-    @Override
     public ResultMethod createResultForMethodFSG(int n) {
         switch (n) {
             case 26: {
@@ -591,7 +582,6 @@ implements IFunctionRegistrationFSG {
         return null;
     }
 
-    @Override
     public StatusProperty createStatusForPropertyFSG(int n) {
         switch (n) {
             case 2: {
@@ -677,7 +667,6 @@ implements IFunctionRegistrationFSG {
         return null;
     }
 
-    @Override
     public StatusAckProperty createStatusAckForPropertyFSG(int n) {
         switch (n) {
             default: 
@@ -686,7 +675,6 @@ implements IFunctionRegistrationFSG {
         return null;
     }
 
-    @Override
     public StatusArray createStatusArrayForArrayFSG(int n) {
         switch (n) {
             case 46: {
@@ -712,7 +700,6 @@ implements IFunctionRegistrationFSG {
         return null;
     }
 
-    @Override
     public ChangedArray createChangedArrayForArrayFSG(int n) {
         switch (n) {
             case 46: {

@@ -7,19 +7,14 @@ import de.audi.atip.hmi.modelaccess.HMIModelGUI;
 
 public interface ButtonModelGUI
 extends HMIModelGUI {
-    default public boolean getPressed() {
-    }
+    public boolean getPressed();
 
-    default public void keyPressed(int n, int n2) {
-    }
+    public void keyPressed(int var1, int var2);
 
-    default public void keyReleased(int n, int n2) {
-    }
+    public void keyReleased(int var1, int var2);
 
-    default public void keyTyped(int n, int n2) {
-    }
+    public void keyTyped(int var1, int var2);
 
-    default public void keyLongTyped(int n, int n2) {
-    }
+    public void keyLongTyped(int var1, int var2);
 }
 

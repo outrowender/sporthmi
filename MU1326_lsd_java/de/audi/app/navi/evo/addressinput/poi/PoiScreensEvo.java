@@ -31,9 +31,9 @@ import de.audi.tghu.navi.app.rows.LiValueListRow;
 import org.dsi.ifc.navigation.LIValueListElement;
 
 public class PoiScreensEvo {
-    private static final int ACTIVE_POI_CONTEXT_DESTINATION;
-    private static final int ACTIVE_POI_CONTEXT_MAP;
-    private static final int ACTIVE_POI_CONTEXT_TPEG;
+    private static final int ACTIVE_POI_CONTEXT_DESTINATION = 0;
+    private static final int ACTIVE_POI_CONTEXT_MAP = 1;
+    private static final int ACTIVE_POI_CONTEXT_TPEG = 2;
 
     public static LIValueListElement getLiValueListElementFromRow(EvoListRow evoListRow, int n) {
         if (evoListRow instanceof LiValueListRow) {
@@ -47,23 +47,23 @@ public class PoiScreensEvo {
     }
 
     public static int getPoiMainScreenSearchByNameButtonModel() {
-        return 1209730560;
+        return 400200;
     }
 
     public static int getPoiMainScreenAllClassesButtonModel() {
-        return 941295104;
+        return 400184;
     }
 
     public static int getPoiMainScreenPersonalPoiButtonModel() {
-        return -2128345600;
+        return 402561;
     }
 
     public static int getPoiMainScreenListModel() {
-        return -1960901120;
+        return 401291;
     }
 
     public static int getPoiMainScreenMenuModel() {
-        return -1977678336;
+        return 401290;
     }
 
     public static PoiResultScreenWithSpellerModelAccess getPoiResultScreenWithSpellerModelAccess(NavigationEnv navigationEnv, IconHandler iconHandler, IRouteManager iRouteManager, IVehicle iVehicle, PoiSearchArea poiSearchArea, IPreviewMap iPreviewMap) {
@@ -71,15 +71,15 @@ public class PoiScreensEvo {
     }
 
     public static int getPoiResultScreenWithSpellerSpellerModel() {
-        return -82049536;
+        return 400635;
     }
 
     public static int getPoiResultScreenWithSpellerListModel() {
-        return -1792801280;
+        return 402581;
     }
 
     public static int getPoiResultScreenWithSpellerMenuModel() {
-        return -2011232768;
+        return 401288;
     }
 
     public static PoiResultScreenNoSpellerModelAccess getPoiResultScreenNoSpellerModelAccess(NavigationEnv navigationEnv, IconHandler iconHandler, IRouteManager iRouteManager, IVehicle iVehicle, PoiSearchArea poiSearchArea) {
@@ -87,19 +87,19 @@ public class PoiScreensEvo {
     }
 
     public static int getPoiResultScreenNoSpellerSearchByNameButtonModel() {
-        return -1289746944;
+        return 401587;
     }
 
     public static int getPoiResultScreenNoSpellerBrandsButtonModel() {
-        return -1608841728;
+        return 400288;
     }
 
     public static int getPoiResultScreeNoSpellerListModel() {
-        return -1876687360;
+        return 402576;
     }
 
     public static int getPoiResultScreenNoSpellerMenuModel() {
-        return -2044787200;
+        return 401286;
     }
 
     public static PoiResultScreenWithMatchSpellerModelAccess getPoiResultScreenWithMatchSpellerModelAccess(NavigationEnv navigationEnv, IconHandler iconHandler, IRouteManager iRouteManager, IVehicle iVehicle, PoiSearchArea poiSearchArea) {
@@ -107,15 +107,15 @@ public class PoiScreensEvo {
     }
 
     public static int getPoiResultScreenWithMatchSpellerSpellerModel() {
-        return 1327367680;
+        return 400975;
     }
 
     public static int getPoiResultScreenWithMatchSpellerTiledListModel() {
-        return -199227904;
+        return 401652;
     }
 
     public static int getPoiResultScreenWithMatchSpellerMenuModel() {
-        return -216005120;
+        return 401651;
     }
 
     public static PoiClassScreenModelAccess getPoiClassScreenModelAccess(NavigationEnv navigationEnv) {
@@ -123,15 +123,15 @@ public class PoiScreensEvo {
     }
 
     public static int getPoiClassScreenBaseListModel() {
-        return 2116290048;
+        return 402558;
     }
 
     public static int getPoiClassScreenSearchByNameButtonModel() {
-        return -1306524160;
+        return 401586;
     }
 
     public static int getPoiClassScreenMenuModel() {
-        return 2032076288;
+        return 401273;
     }
 
     public static PoiCategoryScreenModelAccess getPoiCategoryScreenModelAccess(NavigationEnv navigationEnv, IconHandler iconHandler) {
@@ -139,19 +139,19 @@ public class PoiScreensEvo {
     }
 
     public static int getPoiCategoryScreenSearchByNameButtonModel() {
-        return 2099512832;
+        return 402557;
     }
 
     public static int getPoiCategoryScreenAllCategoriesButtonModel() {
-        return 1327171072;
+        return 400207;
     }
 
     public static int getPoiCategoryScreenBaseListModel() {
-        return 2015299072;
+        return 401272;
     }
 
     public static int getPoiCategoryScreenMenuModel() {
-        return 1998521856;
+        return 401271;
     }
 
     public static PoiBrandScreenModelAccess getPoiBrandScreenModelAccess(NavigationEnv navigationEnv, IconHandler iconHandler) {
@@ -159,11 +159,11 @@ public class PoiScreensEvo {
     }
 
     public static int getPoiBrandScreenBaseListModel() {
-        return -1977350656;
+        return 402570;
     }
 
     public static int getPoiBrandScreenMenuModel() {
-        return -1860237824;
+        return 401297;
     }
 
     public static PoiBrandResultScreenNoSpellerModelAccess getPoiBrandResultScreenNoSpellerModelAccess(NavigationEnv navigationEnv, IconHandler iconHandler, IRouteManager iRouteManager, IVehicle iVehicle, PoiSearchArea poiSearchArea) {
@@ -171,15 +171,15 @@ public class PoiScreensEvo {
     }
 
     public static int getPoiBrandResultScreenNoSpellerListModel() {
-        return -1708915200;
+        return 402586;
     }
 
     public static int getPoiBrandResultScreenNoSpellerSearchByNameButtonModel() {
-        return -819984896;
+        return 401615;
     }
 
     public static int getPoiBrandResultScreenNoSpellerMenuModel() {
-        return 1897858560;
+        return 401265;
     }
 
     public static PoiParentChildCategoryScreenModelAccess getPoiParentChildCategoryScreenModelAccess(NavigationEnv navigationEnv, IconHandler iconHandler, IRouteManager iRouteManager, IVehicle iVehicle) {
@@ -188,11 +188,11 @@ public class PoiScreensEvo {
     }
 
     public static int getPoiParentChildCategoryScreenBaseListModel() {
-        return 1948190208;
+        return 401268;
     }
 
     public static int getPoiParentChildCategoryScreenMenuModel() {
-        return 1931412992;
+        return 401267;
     }
 
     public static PoiParentChildResultScreenModelAccess getPoiParentChildResultScreenModelAccess(NavigationEnv navigationEnv, IconHandler iconHandler, IRouteManager iRouteManager, IVehicle iVehicle) {
@@ -200,11 +200,11 @@ public class PoiScreensEvo {
     }
 
     public static int getPoiParentChildResultScreenListModel() {
-        return 1981744640;
+        return 401270;
     }
 
     public static int getPoiParentChildResultScreenMenuModel() {
-        return 1964967424;
+        return 401269;
     }
 
     public static PoiParkingNearDestinationScreenModelAccess getPoiParkingNearDestinationModelAccess(NavigationEnv navigationEnv, IconHandler iconHandler, IRouteManager iRouteManager) {
@@ -212,36 +212,36 @@ public class PoiScreensEvo {
     }
 
     public static int getPoiParkingNearDestinationScreenListModel() {
-        return -1625356800;
+        return 401311;
     }
 
     public static int getPoiParkingNearDestinationScreenSpellerModel() {
-        return -1558182400;
+        return 401571;
     }
 
     public static int getPoiParkingNearDestinationScreenMenuModel() {
-        return -1608579584;
+        return 401312;
     }
 
     public static int getDiAsiaTelephoneNumberScreenMatchSpellerModel() {
-        return 2099316224;
+        return 401789;
     }
 
     public static int getDiAsiaTelephoneNumberScreenTiledListModel() {
-        return 2065761792;
+        return 401787;
     }
 
     public static int getDiAsiaTelephoneNumberScreenMenuModel() {
-        return 186779136;
+        return 401931;
     }
 
     public static int getMapViewStackMenuModel() {
-        return -635566592;
+        return 401114;
     }
 
     public static PoiIconedResultsListRowBuilder createPoiIconedResultsListRowBuilder(PoiSearchArea poiSearchArea, NavigationEnv navigationEnv, IconHandler iconHandler, IVehicle iVehicle, IRouteManager iRouteManager) {
         if (poiSearchArea == null) {
-            navigationEnv.getPOILogChannel().log(-1601830656, "PoiScreensEvo#createPoiIconedResultsListRowBuilder poiSearchArea is null");
+            navigationEnv.getPOILogChannel().log(100000, "PoiScreensEvo#createPoiIconedResultsListRowBuilder poiSearchArea is null");
             return null;
         }
         int n = poiSearchArea.getSearchContext();
@@ -250,7 +250,7 @@ public class PoiScreensEvo {
             case 3: 
             case 4: {
                 if (navigationEnv.getPOILogChannel().isDebug2()) {
-                    navigationEnv.getPOILogChannel().log(14808325, "PoiScreensEvo#createPoiIconedResultsListRowBuilder return RowBuilder createPoiIconedResultsListRowBuilderDistanceFromNavLocation SearchContext: %1", (long)n);
+                    navigationEnv.getPOILogChannel().log(100000000, "PoiScreensEvo#createPoiIconedResultsListRowBuilder return RowBuilder createPoiIconedResultsListRowBuilderDistanceFromNavLocation SearchContext: %1", (long)n);
                 }
                 return PoiIconedResultsListRowBuilder.createPoiIconedResultsListRowBuilderDistanceFromNavLocation(iconHandler, navigationEnv, poiSearchArea.getLocation());
             }
@@ -258,27 +258,27 @@ public class PoiScreensEvo {
             case 1: 
             case 5: {
                 if (navigationEnv.getPOILogChannel().isDebug2()) {
-                    navigationEnv.getPOILogChannel().log(14808325, "PoiScreensEvo#createPoiIconedResultsListRowBuilder return RowBuilder createPoiIconedResultsListRowBuilderDistanceFromCCP SearchContext: %1", (long)n);
+                    navigationEnv.getPOILogChannel().log(100000000, "PoiScreensEvo#createPoiIconedResultsListRowBuilder return RowBuilder createPoiIconedResultsListRowBuilderDistanceFromCCP SearchContext: %1", (long)n);
                 }
                 return PoiIconedResultsListRowBuilder.createPoiIconedResultsListRowBuilderDistanceFromCCP(iconHandler, iRouteManager, navigationEnv, iVehicle);
             }
         }
-        navigationEnv.getPOILogChannel().log(1078071040, "PoiScreensEvo#createPoiIconedResultsListRowBuilder no valid searchContext : %1", (long)n);
+        navigationEnv.getPOILogChannel().log(1000000, "PoiScreensEvo#createPoiIconedResultsListRowBuilder no valid searchContext : %1", (long)n);
         return null;
     }
 
     public static int getCategoryPropertyForActivePoiContext(NavigationEnv navigationEnv) {
-        int n = navigationEnv.getChoiceModel(-434043392).getValue();
+        int n = navigationEnv.getChoiceModel(401894).getValue();
         if (n == 0) {
-            return 819717694;
+            return 1055316784;
         }
         if (n == 1) {
-            return -1929349558;
+            return 1249247373;
         }
         if (n == 2) {
-            return 1798631723;
+            return 737227883;
         }
-        navigationEnv.getPOILogChannel().log(-1601830656, "PoiScreensEvo#getCategoryPropertyForActivePoiContext - choice model has an unknown value! value=%1", (long)n);
+        navigationEnv.getPOILogChannel().log(100000, "PoiScreensEvo#getCategoryPropertyForActivePoiContext - choice model has an unknown value! value=%1", (long)n);
         return -1;
     }
 }

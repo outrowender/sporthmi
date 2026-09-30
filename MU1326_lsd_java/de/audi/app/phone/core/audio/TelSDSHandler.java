@@ -6,8 +6,8 @@ package de.audi.app.phone.core.audio;
 import de.audi.app.phone.core.AbstractPhoneComponent;
 import de.audi.app.phone.core.ITelApplication;
 import de.audi.app.phone.core.PhoneServiceTracker;
-import de.audi.app.phone.core.audio.TelSDSHandler$SDSServiceTracker;
 import de.audi.app.phone.core.state.CallStateStruct;
+import de.audi.app.phone.core.util.AbstractTelServiceTracker;
 import de.audi.atip.interapp.PhoneServiceListener;
 import de.audi.atip.interapp.SDSService;
 import org.osgi.framework.ServiceReference;
@@ -24,17 +24,15 @@ implements ServiceTrackerCustomizer {
 
     public TelSDSHandler(ITelApplication iTelApplication) {
         super(iTelApplication, "App.Phone.Audio");
-        this.addSubPhoneComponent(new TelSDSHandler$SDSServiceTracker(this, iTelApplication));
+        this.addSubPhoneComponent(new SDSServiceTracker(iTelApplication));
     }
 
-    @Override
     public void init() {
         super.init();
         this.sdsPhoneServiceListenerTracker = new PhoneServiceTracker(this.getApplication().getBundleContext(), (class$de$audi$atip$interapp$PhoneServiceListener == null ? (class$de$audi$atip$interapp$PhoneServiceListener = TelSDSHandler.class$("de.audi.atip.interapp.PhoneServiceListener")) : class$de$audi$atip$interapp$PhoneServiceListener).getName(), (ServiceTrackerCustomizer)this, this.log);
         this.sdsPhoneServiceListenerTracker.openTracker();
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         if (this.sdsPhoneServiceListenerTracker != null) {
@@ -54,17 +52,17 @@ implements ServiceTrackerCustomizer {
         if (callStateStruct != null) {
             int n = callStateStruct.getMpCallState();
             if (n == 15 || n == 27) {
-                this.log.log(1078071040, "TelSDSHandler#checkPauseResumeSDS(): mpCallState=%1, pausing SDS.", (long)n);
+                this.log.log(1000000, "TelSDSHandler#checkPauseResumeSDS(): mpCallState=%1, pausing SDS.", (long)n);
                 this.pauseSDSAndBlockPTT();
             } else if (callStateStruct.isIdle()) {
-                this.log.log(1078071040, "TelSDSHandler#checkPauseResumeSDS(): call state IDLE, resuming SDS");
+                this.log.log(1000000, "TelSDSHandler#checkPauseResumeSDS(): call state IDLE, resuming SDS");
                 this.resumeSDSAndRemovePTTLock();
             } else {
-                this.log.log(1078071040, "TelSDSHandler#checkPauseResumeSDS(): blocking PTT");
+                this.log.log(1000000, "TelSDSHandler#checkPauseResumeSDS(): blocking PTT");
                 this.blockPTT();
             }
         } else {
-            this.log.log(-1601830656, "TelSDSHandler#checkPauseResumeSDS(): callState is null --> NOP!");
+            this.log.log(100000, "TelSDSHandler#checkPauseResumeSDS(): callState is null --> NOP!");
         }
     }
 
@@ -81,10 +79,10 @@ implements ServiceTrackerCustomizer {
     private void pauseSDS() {
         PhoneServiceListener phoneServiceListener = this.sdsPhoneServiceListener;
         if (phoneServiceListener != null) {
-            this.log.log(1078071040, "TelSDSHandler#pauseSDS(): called");
+            this.log.log(1000000, "TelSDSHandler#pauseSDS(): called");
             phoneServiceListener.pauseSDS();
         } else {
-            this.log.log(-1601830656, "TelSDSHandler#pauseSDS(): PhoneServiceListener is null --> NOP");
+            this.log.log(100000, "TelSDSHandler#pauseSDS(): PhoneServiceListener is null --> NOP");
         }
     }
 
@@ -93,17 +91,17 @@ implements ServiceTrackerCustomizer {
         if (sDSService != null) {
             sDSService.disablePTT(true, false, (byte)3);
         } else {
-            this.log.log(-1601830656, "TelSDSHandler#blockPTT(): SDSService is null --> NOP");
+            this.log.log(100000, "TelSDSHandler#blockPTT(): SDSService is null --> NOP");
         }
     }
 
     private void resumeSDS() {
         PhoneServiceListener phoneServiceListener = this.sdsPhoneServiceListener;
         if (phoneServiceListener != null) {
-            this.log.log(1078071040, "TelSDSHandler#resumeSDS(): ");
+            this.log.log(1000000, "TelSDSHandler#resumeSDS(): ");
             phoneServiceListener.resumeSDS(true);
         } else {
-            this.log.log(-1601830656, "TelSDSHandler#resumeSDS(): PhoneServiceListener is null --> NOP");
+            this.log.log(100000, "TelSDSHandler#resumeSDS(): PhoneServiceListener is null --> NOP");
         }
     }
 
@@ -112,11 +110,10 @@ implements ServiceTrackerCustomizer {
         if (sDSService != null) {
             sDSService.disablePTT(false, false, (byte)3);
         } else {
-            this.log.log(-1601830656, "TelSDSHandler#unblockPTT(): SDSService is null --> NOP");
+            this.log.log(100000, "TelSDSHandler#unblockPTT(): SDSService is null --> NOP");
         }
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         if (serviceReference == null) {
             this.log.log(10000, "TelSDSHandler#addingService reference is null");
@@ -135,11 +132,9 @@ implements ServiceTrackerCustomizer {
         return null;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (serviceReference == null) {
             this.log.log(10000, "TelSDSHandler#removedService reference is null");
@@ -164,9 +159,19 @@ implements ServiceTrackerCustomizer {
         }
     }
 
-    static /* synthetic */ SDSService access$002(TelSDSHandler telSDSHandler, SDSService sDSService) {
-        telSDSHandler.sdsService = sDSService;
-        return telSDSHandler.sdsService;
+    private class SDSServiceTracker
+    extends AbstractTelServiceTracker {
+        public SDSServiceTracker(ITelApplication iTelApplication) {
+            super(iTelApplication, "App.Phone.Audio", class$de$audi$atip$interapp$SDSService == null ? (class$de$audi$atip$interapp$SDSService = TelSDSHandler.class$("de.audi.atip.interapp.SDSService")) : class$de$audi$atip$interapp$SDSService);
+        }
+
+        protected void serviceAvailable(Object object) {
+            TelSDSHandler.this.sdsService = (SDSService)object;
+        }
+
+        protected void serviceRemoved(Object object) {
+            TelSDSHandler.this.sdsService = null;
+        }
     }
 }
 

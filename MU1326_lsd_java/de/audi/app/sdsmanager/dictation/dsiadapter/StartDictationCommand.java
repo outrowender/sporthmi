@@ -4,15 +4,15 @@
 package de.audi.app.sdsmanager.dictation.dsiadapter;
 
 import de.audi.app.sdsmanager.dictation.DictationComponentManager;
+import de.audi.app.sdsmanager.dictation.command.AbstractCommand;
 import de.audi.app.sdsmanager.dictation.dsi.AbstractDsiOnlineDictationCommand;
-import de.audi.app.sdsmanager.dictation.dsiadapter.StartDictationCommand$1;
 import de.audi.tghu.command.Command;
 import de.audi.tghu.command.Monitor;
 
 final class StartDictationCommand
 extends AbstractDsiOnlineDictationCommand {
     private static final String DICT_TYPE = StartDictationCommand.getDictType();
-    private static final String SERVICE_NAME;
+    private static final String SERVICE_NAME = "";
     private final String customGrammar;
     private final String userID;
 
@@ -27,11 +27,10 @@ extends AbstractDsiOnlineDictationCommand {
         startDictationCommand.schedule(monitor);
     }
 
-    @Override
     public void execute() {
         try {
-            this.logger.log(-2137614336, "[StartDictationCommand#execute]");
-            this.dsiOnlineDictationAccess.startDictation(DICT_TYPE, "", this.customGrammar, this.userID);
+            this.logger.log(10000000, "[StartDictationCommand#execute]");
+            this.dsiOnlineDictationAccess.startDictation(DICT_TYPE, SERVICE_NAME, this.customGrammar, this.userID);
         }
         catch (Exception exception) {
             this.logException("[StartDictationCommand#execute]", exception);
@@ -39,14 +38,12 @@ extends AbstractDsiOnlineDictationCommand {
         }
     }
 
-    @Override
     public long getTimeout() {
-        return 0;
+        return 300000L;
     }
 
-    @Override
     public void dictationResult(int n) {
-        this.logger.log(-2137614336, "[StartDictationCommand#dictationResult] returnCode = %1", (long)n);
+        this.logger.log(10000000, "[StartDictationCommand#dictationResult] returnCode = %1", (long)n);
         boolean bl = n == 10;
         int n2 = bl ? 0 : AbstractDsiOnlineDictationCommand.mapDsiErrorCode(n);
         this.signalResult(n2);
@@ -61,7 +58,7 @@ extends AbstractDsiOnlineDictationCommand {
      */
     private void signalResult(int n) {
         try {
-            this.logger.log(-2137614336, "[StartDictationCommand#signalResult] result = %1", (long)n);
+            this.logger.log(10000000, "[StartDictationCommand#signalResult] result = %1", (long)n);
             this.dictationComponentManager.getDsiDictationAdapter().handleStartDictationResult(n);
         }
         catch (Exception exception) {
@@ -72,13 +69,14 @@ extends AbstractDsiOnlineDictationCommand {
         }
     }
 
-    @Override
     protected Command getErrorCommand() {
-        return new StartDictationCommand$1(this, this.dictationComponentManager);
-    }
+        return new AbstractCommand(this.dictationComponentManager){
 
-    static /* synthetic */ void access$000(StartDictationCommand startDictationCommand, int n) {
-        startDictationCommand.signalResult(n);
+            public void execute() {
+                this.logger.log(10000000, "[StartDictationErrorCommand#execute]");
+                StartDictationCommand.this.signalResult(1);
+            }
+        };
     }
 }
 

@@ -11,43 +11,30 @@ import de.audi.app.earlyfunc.core.seat.SeatPopinContent;
 import de.audi.atip.log.LogChannel;
 
 public interface ISeatPopupController {
-    default public void createPopups() {
-    }
+    public void createPopups();
 
-    default public void createPneumaticPopups() {
-    }
+    public void createPneumaticPopups();
 
-    default public boolean arePneumaticSeatPopinsCreated() {
-    }
+    public boolean arePneumaticSeatPopinsCreated();
 
-    default public boolean areSeatPopinsCreated() {
-    }
+    public boolean areSeatPopinsCreated();
 
-    default public LogChannel getLogChannel() {
-    }
+    public LogChannel getLogChannel();
 
-    default public void cancelPopup(SeatPopinContent seatPopinContent, AbstractSeatPopin abstractSeatPopin) {
-    }
+    public void cancelPopup(SeatPopinContent var1, AbstractSeatPopin var2);
 
-    default public void sendShowPopupResponse(SeatPopinContent seatPopinContent, SeatPopinContent seatPopinContent2, AbstractSeatPopin abstractSeatPopin) {
-    }
+    public void sendShowPopupResponse(SeatPopinContent var1, SeatPopinContent var2, AbstractSeatPopin var3);
 
-    default public void showPartialPopinAfterUpdate(MemorySeatPopin memorySeatPopin) {
-    }
+    public void showPartialPopinAfterUpdate(MemorySeatPopin var1);
 
-    default public void showPartialPopinAfterUpdate(SeatPopin seatPopin) {
-    }
+    public void showPartialPopinAfterUpdate(SeatPopin var1);
 
-    default public boolean isSeatContentShown(boolean bl) {
-    }
+    public boolean isSeatContentShown(boolean var1);
 
-    default public void performActionOnPopins(SeatPopinContent seatPopinContent, PopinAction popinAction, int n) {
-    }
+    public void performActionOnPopins(SeatPopinContent var1, PopinAction var2, int var3);
 
-    default public void hideSeatPopup(AbstractSeatPopin abstractSeatPopin) {
-    }
+    public void hideSeatPopup(AbstractSeatPopin var1);
 
-    default public void displaySeatPopup(AbstractSeatPopin abstractSeatPopin) {
-    }
+    public void displaySeatPopup(AbstractSeatPopin var1);
 }
 

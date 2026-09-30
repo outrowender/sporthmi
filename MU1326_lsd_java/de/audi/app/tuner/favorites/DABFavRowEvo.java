@@ -13,10 +13,10 @@ import de.audi.tuner.app.memory.DABMemoryRow;
 
 public class DABFavRowEvo
 extends DABMemoryRow {
-    private static final int INDEX_PROPERTIES;
-    private static final int INDEX_DEFAULT_IMAGE_ID;
-    private static final int INDEX_PRESET_POS;
-    public static final int NUM_COLS;
+    private static final int INDEX_PROPERTIES = 14;
+    private static final int INDEX_DEFAULT_IMAGE_ID = 15;
+    private static final int INDEX_PRESET_POS = 16;
+    public static final int NUM_COLS = 17;
     private final RadioRowProperties props;
 
     public DABFavRowEvo(TunerObjectContainer tunerObjectContainer, int n) {
@@ -24,7 +24,7 @@ extends DABMemoryRow {
         DabStation dabStation = tunerObjectContainer.getDABStation();
         this.setText(0, dabStation.getFullName());
         this.props = new RadioRowProperties();
-        this.props.setCategory(181330000);
+        this.props.setCategory(1356910090);
         this.setPropertyCell(14, new PropertyListCell(this.props.getCategory(), this.props.toArray()));
         this.setInteger(15, 5);
         this.setInteger(16, 0);
@@ -35,12 +35,10 @@ extends DABMemoryRow {
         this.props = dABFavRowEvo.props;
     }
 
-    @Override
     public EvoListRow copy() {
         return new DABFavRowEvo(this);
     }
 
-    @Override
     public void setStationActive(boolean bl) {
         this.props.setActive(bl);
         this.setPropertyCell(14, new PropertyListCell(this.props.getCategory(), this.props.toArray()));
@@ -49,7 +47,6 @@ extends DABMemoryRow {
         }
     }
 
-    @Override
     public void setProgramData(TunerObjectContainer tunerObjectContainer, int n) {
         super.setProgramData(tunerObjectContainer, n);
         if (tunerObjectContainer.getReceptionStatus() == 2) {
@@ -59,7 +56,6 @@ extends DABMemoryRow {
         }
     }
 
-    @Override
     public void setSLSAvailability(HMIResourceLocator hMIResourceLocator) {
         if (hMIResourceLocator.containsResourceURI()) {
             this.setInteger(12, 2);
@@ -70,7 +66,6 @@ extends DABMemoryRow {
         }
     }
 
-    @Override
     protected void resetOverwrite() {
         super.resetOverwrite();
         this.setText(0, this.station.getFullName());

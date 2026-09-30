@@ -6,8 +6,8 @@ package de.audi.app.phone.core.dsi.cmd;
 import de.audi.app.phone.core.dsi.ITelDSIMobileEquipmentRequestWrapper;
 import de.audi.app.phone.core.dsi.ITelDSIResponseListener;
 import de.audi.app.phone.core.dsi.cmd.AbstractTelDSIMECommand;
-import de.audi.app.phone.core.dsi.cmd.TelDecreaseMicGainLevelCmd$1;
 import de.audi.atip.log.LogChannel;
+import de.audi.tghu.command.Command;
 import de.audi.tghu.command.CommandListManager;
 import de.audi.tghu.command.Monitor;
 
@@ -21,17 +21,22 @@ extends AbstractTelDSIMECommand {
     }
 
     public void schedule(CommandListManager commandListManager, Monitor monitor) {
-        TelDecreaseMicGainLevelCmd.schedule(commandListManager, this, "TelDecreaseMicGainLevelCmd", new TelDecreaseMicGainLevelCmd$1(this, this.logger, "TelDecreaseMicGainLevelCmdError"), monitor);
+        TelDecreaseMicGainLevelCmd.schedule(commandListManager, this, "TelDecreaseMicGainLevelCmd", new Command(this.logger, "TelDecreaseMicGainLevelCmdError"){
+
+            public void execute() {
+                this.logger.log(100000, "[TelDecreaseMicGainLevelCmd.schedule().new Command() {...}#execute] Error.");
+                this.getCommandList().commandFinished();
+            }
+        }, monitor);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "[TelDecreaseMicGainLevelCmd#execute] steps=%1", (long)this.steps);
+        this.logger.log(1000000, "[TelDecreaseMicGainLevelCmd#execute] steps=%1", (long)this.steps);
         if (this.isDSIAvailable()) {
             this.dsi.requestDecreaseMicGainLevel(this.steps);
             this.getCommandList().commandFinished();
         } else {
-            this.logger.log(-1601830656, "[TelDecreaseMicGainLevelCmd#execute] dsi is null!");
+            this.logger.log(100000, "[TelDecreaseMicGainLevelCmd#execute] dsi is null!");
             this.getCommandList().commandFinished();
         }
     }

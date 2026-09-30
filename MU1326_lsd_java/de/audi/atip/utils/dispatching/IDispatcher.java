@@ -3,16 +3,21 @@
  */
 package de.audi.atip.utils.dispatching;
 
-import de.audi.atip.utils.dispatching.IDispatcher$ICancelable;
-
 public interface IDispatcher {
-    default public void execute(Runnable runnable) {
-    }
+    public void execute(Runnable var1);
 
-    default public IDispatcher$ICancelable execute(Runnable runnable, long l) {
-    }
+    public ICancelable execute(Runnable var1, long var2);
 
-    default public boolean isDispatchThread() {
+    public boolean isDispatchThread();
+
+    public static interface ICancelable {
+        public void cancel();
+
+        public static class Stub
+        implements ICancelable {
+            public void cancel() {
+            }
+        }
     }
 }
 

@@ -15,8 +15,8 @@ import de.audi.atip.log.LogChannel;
 
 public class CommandSpeechDSIInit
 extends AbstractSpeechCommand {
-    private static final String LOGCLASS;
-    private static final int COMMAND_TIMEOUT_SPEECH_DSI_INIT;
+    private static final String LOGCLASS = "CommandSpeechDSIInit";
+    private static final int COMMAND_TIMEOUT_SPEECH_DSI_INIT = -1;
     private final SpeechRecognitionHandler srHandler;
     private final IFrameworkAccess framework;
     private final SDSAdapter sdsAdapter;
@@ -33,31 +33,29 @@ extends AbstractSpeechCommand {
     }
 
     private void processingFinished() {
-        this.logger.log(-2137614336, "%1#processingFinished: called", (Object)"CommandSpeechDSIInit");
+        this.logger.log(10000000, "%1#processingFinished: called", (Object)LOGCLASS);
         this.commandList.commandFinished();
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: called", (Object)"CommandSpeechDSIInit");
+        this.logger.log(10000000, "%1#execute: called", (Object)LOGCLASS);
         this.sdsAdapter.setSDSReady(false);
         this.timeout.startInitTimer();
         this.sdsAdapter.setInitializationStep((byte)0);
         if (!this.srHandler.init()) {
-            this.logger.log(-1601830656, "%1#execute: Initialization failed1", (Object)"CommandSpeechDSIInit");
+            this.logger.log(100000, "%1#execute: Initialization failed1", (Object)LOGCLASS);
             this.processingFinished();
             return;
         }
     }
 
-    @Override
     public void responseInit(int n) {
-        this.logger.log(-2137614336, "%1#responseInit: replyCode=%2", (Object)"CommandSpeechDSIInit", (long)n);
+        this.logger.log(10000000, "%1#responseInit: replyCode=%2", (Object)LOGCLASS, (long)n);
         this.sdsAdapter.setInitializationStep((byte)1);
         String string = this.framework.getLanguageMgr().getCurrentLanguage("LANG_COMPONENT_SDS").getLanguageCode();
-        this.logger.log(-2137614336, "%1#responseInit: localeString=%2!", (Object)"CommandSpeechDSIInit", (Object)string);
+        this.logger.log(10000000, "%1#responseInit: localeString=%2!", (Object)LOGCLASS, (Object)string);
         if (!this.srHandler.setLanguage(string)) {
-            this.logger.log(-1601830656, "%1#responseInit: setLanguage failed!", (Object)"CommandSpeechDSIInit");
+            this.logger.log(100000, "%1#responseInit: setLanguage failed!", (Object)LOGCLASS);
             this.sdsAdapter.updateSDSState((byte)2);
             this.sdsAdapter.sendSpeechSMEvent(2001, false, false);
             this.processingFinished();
@@ -65,15 +63,14 @@ extends AbstractSpeechCommand {
         }
     }
 
-    @Override
     public void responseSetLanguage(int n) {
-        this.logger.log(-2137614336, "%1#responseSetLanguage: replyCode=%2, requesting DSISpeechRec version!", (Object)"CommandSpeechDSIInit", (long)n);
+        this.logger.log(10000000, "%1#responseSetLanguage: replyCode=%2, requesting DSISpeechRec version!", (Object)LOGCLASS, (long)n);
         this.timeout.cancelInitTimer();
         this.srHandler.getVersion();
         boolean bl = SDSModelAccess.isSDSDisabledForLanguage();
-        this.logger.log(-2137614336, "%1#responseSetLanguage: disabled=%2!", (Object)"CommandSpeechDSIInit", (Object)bl);
+        this.logger.log(10000000, "%1#responseSetLanguage: disabled=%2!", (Object)LOGCLASS, (Object)bl);
         if (SDSUtils.checkReplyCodeForError(n, this.logger) || bl) {
-            this.logger.log(-1601830656, "%1#responseSetLanguage: FAILED or language disabled!", (Object)"CommandSpeechDSIInit");
+            this.logger.log(100000, "%1#responseSetLanguage: FAILED or language disabled!", (Object)LOGCLASS);
             this.sdsAdapter.updateSDSState((byte)2);
             this.framework.getLanguageMgr().responseSetLanguage("LANG_COMPONENT_SDS", false);
             this.sdsAdapter.sendSpeechSMEvent(2001, false, false);
@@ -87,29 +84,25 @@ extends AbstractSpeechCommand {
         this.srHandler.setMaxSlotNBestListSize(20);
     }
 
-    @Override
     public void responseSetMaxSlotNBestListSize(int n) {
-        this.logger.log(-2137614336, "%1#responseSetMaxSlotNBestListSize: replyCode=%2", (Object)"CommandSpeechDSIInit", (long)n);
+        this.logger.log(10000000, "%1#responseSetMaxSlotNBestListSize: replyCode=%2", (Object)LOGCLASS, (long)n);
         this.sdsAdapter.setInitializationStep((byte)3);
         this.srHandler.setMaxCommandNBestListSize(2);
     }
 
-    @Override
     public void responseSetMaxCommandNBestListSize(int n) {
-        this.logger.log(-2137614336, "%1#responseSetMaxCommandNBestListSize: replyCode=%2", (Object)"CommandSpeechDSIInit", (long)n);
+        this.logger.log(10000000, "%1#responseSetMaxCommandNBestListSize: replyCode=%2", (Object)LOGCLASS, (long)n);
         this.sdsAdapter.setInitializationStep((byte)9);
         this.sdsAdapter.setSDSReady(true);
         this.processingFinished();
     }
 
-    @Override
     public void responseRequestSDSAvailability(int n, int n2) {
-        this.logger.log(-2137614336, "%1#responseRequestSDSAvailability: sdsAvailability=%2, replyCode=%3 -> NOP", (Object)"CommandSpeechDSIInit", (long)n, (long)n2);
+        this.logger.log(10000000, "%1#responseRequestSDSAvailability: sdsAvailability=%2, replyCode=%3 -> NOP", (Object)LOGCLASS, (long)n, (long)n2);
     }
 
-    @Override
     public void responseCheckDbPartition(int n) {
-        this.logger.log(-2137614336, "%1#responseCheckDbPartition: replyCode=%2", (Object)"CommandSpeechDSIInit", (long)n);
+        this.logger.log(10000000, "%1#responseCheckDbPartition: replyCode=%2", (Object)LOGCLASS, (long)n);
         if (n == 0) {
             this.sdsAdapter.setInitializationStep((byte)9);
             this.sdsAdapter.setSDSReady(true);
@@ -117,14 +110,12 @@ extends AbstractSpeechCommand {
         this.processingFinished();
     }
 
-    @Override
     public long getTimeout() {
         return -1L;
     }
 
-    @Override
     public String toString() {
-        return new StringBuffer().append("CommandSpeechDSIInit").append(this.hashCode()).toString();
+        return LOGCLASS + this.hashCode();
     }
 }
 

@@ -29,16 +29,13 @@ DSIDataConnectionListener {
         this.dataApplication = iDataApplication;
     }
 
-    protected abstract int[] getAttributeNotifications() {
-    }
+    protected abstract int[] getAttributeNotifications();
 
-    @Override
     public void init() {
         this.serviceTracker = new ServiceTracker(this.bundleContext, new String[]{(class$org$dsi$ifc$networking$DSIDataConnection == null ? (class$org$dsi$ifc$networking$DSIDataConnection = AbstractDataConnectionComponent.class$("org.dsi.ifc.networking.DSIDataConnection")) : class$org$dsi$ifc$networking$DSIDataConnection).getName()}, (ServiceTrackerCustomizer)this);
         this.serviceTracker.open();
     }
 
-    @Override
     public void deinit() {
         if (this.dsiDataConnection != null) {
             this.dsiDataConnection.clearNotification(this);
@@ -48,7 +45,6 @@ DSIDataConnectionListener {
         this.serviceTracker = null;
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof DSIDataConnection) {
@@ -59,7 +55,6 @@ DSIDataConnectionListener {
         return null;
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof DSIDataConnection) {
             this.dsiDataConnection = null;
@@ -67,34 +62,27 @@ DSIDataConnectionListener {
         }
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
         if (object instanceof DSIDataConnection) {
             this.dsiDataConnection = (DSIDataConnection)object;
         }
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
     }
 
-    @Override
     public void updateStateDataConnection(DataConnectionStateStruct dataConnectionStateStruct, int n) {
     }
 
-    @Override
     public void updateConnectionStateInformation(ConnectionStateInformationStruct connectionStateInformationStruct, int n) {
     }
 
-    @Override
     public void updateErrorState(ApplicationErrorStruct applicationErrorStruct, int n) {
     }
 
-    @Override
     public void forceDisconnectResponse(int n) {
     }
 
-    @Override
     public void updateRoamingState(int n, int n2) {
     }
 

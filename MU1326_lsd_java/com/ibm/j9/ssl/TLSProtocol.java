@@ -9,7 +9,7 @@ import com.ibm.j9.ssl.Util;
 
 public class TLSProtocol {
     public static final byte[] TLS_PROTOCOL_VERSION = new byte[]{3, 1};
-    public static final String TLS_PROTOCOL_NAME;
+    public static final String TLS_PROTOCOL_NAME = "TLSv1";
 
     public static byte[] PRF(byte[] byArray, String string, byte[] byArray2, int n) {
         int n2 = 0;

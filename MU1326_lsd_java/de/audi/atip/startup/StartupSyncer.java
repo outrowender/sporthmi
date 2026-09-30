@@ -59,14 +59,14 @@ final class StartupSyncer {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     void waitForTrigger() {
-        this.logStartup.log(1078071040, "StartupSyncer[%1]: waitForTrigger()", (Object)this.name);
+        this.logStartup.log(1000000, "StartupSyncer[%1]: waitForTrigger()", (Object)this.name);
         StartupSyncer startupSyncer = this;
         synchronized (startupSyncer) {
             if (this.waiting) {
                 if (!this.triggered && this.timeleft > 0L) {
                     long l = this.getMonotonicTime();
                     try {
-                        super.wait(this.timeleft);
+                        this.wait(this.timeleft);
                     }
                     catch (InterruptedException interruptedException) {
                         Thread.interrupted();
@@ -77,9 +77,9 @@ final class StartupSyncer {
                     this.waiting = false;
                 }
                 String string = this.triggered ? "was triggered" : (this.timeleft <= 0L ? "timed out" : "wake up to early");
-                this.logStartup.log(1078071040, "StartupSyncer[%1]: %2", (Object)this.name, (Object)string);
+                this.logStartup.log(1000000, "StartupSyncer[%1]: %2", (Object)this.name, (Object)string);
             } else {
-                this.logStartup.log(-2137614336, "StartupSyncer[%1]: no waiting initialized!", (Object)this.name);
+                this.logStartup.log(10000000, "StartupSyncer[%1]: no waiting initialized!", (Object)this.name);
             }
         }
     }
@@ -88,12 +88,12 @@ final class StartupSyncer {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     void trigger() {
-        this.logStartup.log(1078071040, "StartupSyncer[%1]: trigger()", (Object)this.name);
+        this.logStartup.log(1000000, "StartupSyncer[%1]: trigger()", (Object)this.name);
         StartupSyncer startupSyncer = this;
         synchronized (startupSyncer) {
             this.triggered = true;
             if (this.waiting) {
-                super.notifyAll();
+                this.notifyAll();
                 this.waiting = false;
             }
         }
@@ -103,11 +103,11 @@ final class StartupSyncer {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     void cancel() {
-        this.logStartup.log(1078071040, "StartupSyncer[%1]: cancel()", (Object)this.name);
+        this.logStartup.log(1000000, "StartupSyncer[%1]: cancel()", (Object)this.name);
         StartupSyncer startupSyncer = this;
         synchronized (startupSyncer) {
             if (this.waiting) {
-                super.notifyAll();
+                this.notifyAll();
                 this.waiting = false;
             }
         }

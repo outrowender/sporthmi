@@ -4,16 +4,15 @@
 package de.audi.app.messaging.core.folderbrowsing;
 
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
+import de.audi.app.messaging.core.commands.AbstractMessagingCommand;
 import de.audi.app.messaging.core.dsi.messaging.AbstractDsiMessagingCommand;
-import de.audi.app.messaging.core.folderbrowsing.ChangeFolderCommand$1;
-import de.audi.app.messaging.core.folderbrowsing.ChangeFolderCommand$ResultHandler;
 import de.audi.tghu.command.Command;
 import org.dsi.ifc.messaging.FolderEntry;
 
 final class ChangeFolderCommand
 extends AbstractDsiMessagingCommand {
-    static final long TIMEOUT;
-    private final ChangeFolderCommand$ResultHandler resultHandler;
+    static final long TIMEOUT = 60000L;
+    private final ResultHandler resultHandler;
     private final int folderChangeType;
     private final int hmiFolderType;
     private final int folderLevel;
@@ -23,9 +22,9 @@ extends AbstractDsiMessagingCommand {
     private final int sortCriteria;
     private final int order;
 
-    ChangeFolderCommand(AbstractMsgApplication abstractMsgApplication, ChangeFolderCommand$ResultHandler changeFolderCommand$ResultHandler, int n, int n2, int n3, int n4, int n5, int n6, int n7, int n8) {
+    ChangeFolderCommand(AbstractMsgApplication abstractMsgApplication, ResultHandler resultHandler, int n, int n2, int n3, int n4, int n5, int n6, int n7, int n8) {
         super(abstractMsgApplication);
-        this.resultHandler = changeFolderCommand$ResultHandler;
+        this.resultHandler = resultHandler;
         this.folderChangeType = n;
         this.hmiFolderType = n2;
         this.folderLevel = n3;
@@ -36,15 +35,13 @@ extends AbstractDsiMessagingCommand {
         this.order = n8;
     }
 
-    @Override
     public long getTimeout() {
-        return 0;
+        return 60000L;
     }
 
-    @Override
     public void execute() {
         try {
-            this.logger.log(-2137614336, "[ChangeFolderCommand#execute]");
+            this.logger.log(10000000, "[ChangeFolderCommand#execute]");
             this.dsiMessagingAccess.changeFolderRequest(this.folderID, this.filter, this.accountID, this.sortCriteria, this.order);
         }
         catch (Exception exception) {
@@ -53,9 +50,8 @@ extends AbstractDsiMessagingCommand {
         }
     }
 
-    @Override
     public void changeFolderResponse(FolderEntry folderEntry, int n) {
-        this.logger.log(-2137614336, "[ChangeFolderCommand#changeFolderResponse] result = %1", (long)n);
+        this.logger.log(10000000, "[ChangeFolderCommand#changeFolderResponse] result = %1", (long)n);
         this.signalResult(n == 0, folderEntry);
     }
 
@@ -64,7 +60,7 @@ extends AbstractDsiMessagingCommand {
      */
     private void signalResult(boolean bl, FolderEntry folderEntry) {
         try {
-            this.logger.log(-2137614336, "[ChangeFolderCommand#signalResult] isResultOk = %1", bl);
+            this.logger.log(10000000, "[ChangeFolderCommand#signalResult] isResultOk = %1", bl);
             this.resultHandler.handleResult(bl, this.folderChangeType, folderEntry, this.folderID, this.hmiFolderType, this.folderLevel);
         }
         catch (Exception exception) {
@@ -75,13 +71,18 @@ extends AbstractDsiMessagingCommand {
         }
     }
 
-    @Override
     public Command getErrorCommand() {
-        return new ChangeFolderCommand$1(this, this.msgApp);
+        return new AbstractMessagingCommand(this.msgApp){
+
+            public void execute() {
+                this.logger.log(10000000, "[ChangeFolderErrorCommand#execute]");
+                ChangeFolderCommand.this.signalResult(false, null);
+            }
+        };
     }
 
-    static /* synthetic */ void access$000(ChangeFolderCommand changeFolderCommand, boolean bl, FolderEntry folderEntry) {
-        changeFolderCommand.signalResult(bl, folderEntry);
+    static interface ResultHandler {
+        public void handleResult(boolean var1, int var2, FolderEntry var3, int var4, int var5, int var6);
     }
 }
 

@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  de.audi.app.terminalmode.statemachine.TMState
  */
 package de.audi.app.terminalmode.commands;
 
@@ -15,17 +12,16 @@ import de.audi.app.terminalmode.statemachine.commands.AbstractStateHandlerComman
 
 public class PhoneStateUpdate
 extends AbstractStateHandlerCommand {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "PhoneStateUpdate";
     private final boolean callActive;
 
     public PhoneStateUpdate(IContext iContext, boolean bl, IStateHandler iStateHandler) {
-        super(iContext.getLogger().main(), "PhoneStateUpdate", iContext, iStateHandler);
+        super(iContext.getLogger().main(), LOGCLASS, iContext, iStateHandler);
         this.callActive = bl;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "[%1.execute]", (Object)"PhoneStateUpdate");
+        this.logger.log(1000000, "[%1.execute]", (Object)LOGCLASS);
         TMState tMState = this.stateHandler.getCurrentState();
         tMState.setOwnerForApplication(Application.PHONE, this.callActive ? ApplicationOwner.MAINUNIT : ApplicationOwner.NOBODY);
         this.stateHandler.updateState(tMState);

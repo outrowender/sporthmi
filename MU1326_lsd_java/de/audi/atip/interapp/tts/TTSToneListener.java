@@ -7,10 +7,8 @@ import de.audi.atip.interapp.tts.TTSListener;
 
 public interface TTSToneListener
 extends TTSListener {
-    default public void toneStarted() {
-    }
+    public void toneStarted();
 
-    default public void toneFinished() {
-    }
+    public void toneFinished();
 }
 

@@ -19,36 +19,33 @@ extends AbstractExtendetAuxACComponent {
         super(iCarApplication);
     }
 
-    @Override
     protected void initVisibility() {
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-332789504, (short)46);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-316012288, (short)46);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-299235072, (short)46);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-282457856, (short)46);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-248903424, (short)46);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-232126208, (short)46);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-215348992, (short)46);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-198571776, (short)46);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600812, (short)46);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600813, (short)46);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600814, (short)46);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600815, (short)46);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600817, (short)46);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600818, (short)46);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600819, (short)46);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600820, (short)46);
     }
 
-    @Override
     protected void deinitVisibility() {
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-332789504);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-316012288);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-299235072);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-282457856);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-248903424);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-232126208);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-215348992);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-198571776);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600812);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600813);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600814);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600815);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600817);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600818);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600819);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600820);
     }
 
-    @Override
     protected void updateMenuEntryVisibility(AuxHeaterCoolerViewOptions auxHeaterCoolerViewOptions) {
         if (auxHeaterCoolerViewOptions.auxHeaterCoolerExtendedConditioning != null) {
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-332789504, this.getMenuEntryVisibilityState(auxHeaterCoolerViewOptions.auxHeaterCoolerExtendedConditioning));
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-299235072, this.getMenuEntryVisibilityState(auxHeaterCoolerViewOptions.auxHeaterCoolerWindowHeating));
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-282457856, this.getMenuEntryVisibilityState(auxHeaterCoolerViewOptions.auxHeaterCoolerUnlockClimating));
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600812, this.getMenuEntryVisibilityState(auxHeaterCoolerViewOptions.auxHeaterCoolerExtendedConditioning));
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600814, this.getMenuEntryVisibilityState(auxHeaterCoolerViewOptions.auxHeaterCoolerWindowHeating));
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600815, this.getMenuEntryVisibilityState(auxHeaterCoolerViewOptions.auxHeaterCoolerUnlockClimating));
             this.configureAuxHeaterCoolerClimatingZonesVisibility(auxHeaterCoolerViewOptions);
         } else {
             this.removeExtendetOptionsMenuEntry();
@@ -64,34 +61,33 @@ extends AbstractExtendetAuxACComponent {
             auxHeaterCoolerExtendedConditioning = auxHeaterCoolerConfiguration.getExtendedConditioning();
         }
         if (auxHeaterCoolerExtendedConditioning != null && carViewOption.getState() == 2) {
-            iMenuEntryRegistry.updateMenuEntryVisibility(-248903424, auxHeaterCoolerExtendedConditioning.isZ1rl() ? 0 : 1);
-            iMenuEntryRegistry.updateMenuEntryVisibility(-232126208, auxHeaterCoolerExtendedConditioning.isZ1rr() ? 0 : 1);
-            iMenuEntryRegistry.updateMenuEntryVisibility(-215348992, auxHeaterCoolerExtendedConditioning.isZ2rl() ? 0 : 1);
-            iMenuEntryRegistry.updateMenuEntryVisibility(-198571776, auxHeaterCoolerExtendedConditioning.isZ2rr() ? 0 : 1);
+            iMenuEntryRegistry.updateMenuEntryVisibility(600817, auxHeaterCoolerExtendedConditioning.isZ1rl() ? 0 : 1);
+            iMenuEntryRegistry.updateMenuEntryVisibility(600818, auxHeaterCoolerExtendedConditioning.isZ1rr() ? 0 : 1);
+            iMenuEntryRegistry.updateMenuEntryVisibility(600819, auxHeaterCoolerExtendedConditioning.isZ2rl() ? 0 : 1);
+            iMenuEntryRegistry.updateMenuEntryVisibility(600820, auxHeaterCoolerExtendedConditioning.isZ2rr() ? 0 : 1);
         } else if (auxHeaterCoolerExtendedConditioning != null && carViewOption.getState() == 1) {
-            iMenuEntryRegistry.updateMenuEntryVisibility(-248903424, auxHeaterCoolerExtendedConditioning.isZ1rl() ? this.getMenuEntryVisibilityState(carViewOption) : 1);
-            iMenuEntryRegistry.updateMenuEntryVisibility(-232126208, auxHeaterCoolerExtendedConditioning.isZ1rr() ? this.getMenuEntryVisibilityState(carViewOption) : 1);
-            iMenuEntryRegistry.updateMenuEntryVisibility(-215348992, auxHeaterCoolerExtendedConditioning.isZ2rl() ? this.getMenuEntryVisibilityState(carViewOption) : 1);
-            iMenuEntryRegistry.updateMenuEntryVisibility(-198571776, auxHeaterCoolerExtendedConditioning.isZ2rr() ? this.getMenuEntryVisibilityState(carViewOption) : 1);
+            iMenuEntryRegistry.updateMenuEntryVisibility(600817, auxHeaterCoolerExtendedConditioning.isZ1rl() ? this.getMenuEntryVisibilityState(carViewOption) : 1);
+            iMenuEntryRegistry.updateMenuEntryVisibility(600818, auxHeaterCoolerExtendedConditioning.isZ1rr() ? this.getMenuEntryVisibilityState(carViewOption) : 1);
+            iMenuEntryRegistry.updateMenuEntryVisibility(600819, auxHeaterCoolerExtendedConditioning.isZ2rl() ? this.getMenuEntryVisibilityState(carViewOption) : 1);
+            iMenuEntryRegistry.updateMenuEntryVisibility(600820, auxHeaterCoolerExtendedConditioning.isZ2rr() ? this.getMenuEntryVisibilityState(carViewOption) : 1);
         } else {
-            iMenuEntryRegistry.updateMenuEntryVisibility(-248903424, 1);
-            iMenuEntryRegistry.updateMenuEntryVisibility(-232126208, 1);
-            iMenuEntryRegistry.updateMenuEntryVisibility(-215348992, 1);
-            iMenuEntryRegistry.updateMenuEntryVisibility(-198571776, 1);
+            iMenuEntryRegistry.updateMenuEntryVisibility(600817, 1);
+            iMenuEntryRegistry.updateMenuEntryVisibility(600818, 1);
+            iMenuEntryRegistry.updateMenuEntryVisibility(600819, 1);
+            iMenuEntryRegistry.updateMenuEntryVisibility(600820, 1);
         }
     }
 
     private void removeExtendetOptionsMenuEntry() {
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-332789504, 1);
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-299235072, 1);
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-282457856, 1);
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-248903424, 1);
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-232126208, 1);
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-215348992, 1);
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-198571776, 1);
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600812, 1);
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600814, 1);
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600815, 1);
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600817, 1);
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600818, 1);
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600819, 1);
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600820, 1);
     }
 
-    @Override
     public int getID() {
         return 56;
     }

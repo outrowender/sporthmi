@@ -6,16 +6,12 @@ package de.audi.app.car.common.sdis;
 import de.audi.app.car.common.sdis.interapp.ISDISCarInfoDistributor;
 
 public interface ISDISConnector {
-    default public void init() {
-    }
+    public void init();
 
-    default public void deinit() {
-    }
+    public void deinit();
 
-    default public void storeValue(int n, Object object) {
-    }
+    public void storeValue(int var1, Object var2);
 
-    default public ISDISCarInfoDistributor getSDISCarInfoDistributor() {
-    }
+    public ISDISCarInfoDistributor getSDISCarInfoDistributor();
 }
 

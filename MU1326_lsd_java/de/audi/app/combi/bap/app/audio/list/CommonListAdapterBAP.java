@@ -24,7 +24,6 @@ extends AbstractListAdapterBAP {
         super(abstractCombiModule, 50, arrayHandler);
     }
 
-    @Override
     protected int getCommonRecordAddress(boolean[] blArray) {
         boolean bl = blArray[0] || blArray[15];
         boolean bl2 = blArray[0] || blArray[1];
@@ -36,7 +35,6 @@ extends AbstractListAdapterBAP {
         return CombiBAPCommonListEntry.getRecordAddress(bl, bl2, bl3, bl4, bl5, bl6, bl7);
     }
 
-    @Override
     protected BAPArrayElement convertArrayElement(CombiBAPArrayElement combiBAPArrayElement, ArrayHeader arrayHeader) {
         CommonList_Data commonList_Data = new CommonList_Data(arrayHeader);
         if (combiBAPArrayElement instanceof CombiBAPCommonListEntry) {
@@ -58,24 +56,21 @@ extends AbstractListAdapterBAP {
             commonList_Data.name.setContent(combiBAPCommonListEntry.getName());
             commonList_Data.frequency.setContent(combiBAPCommonListEntry.getFrequency());
         } else {
-            this.logChannel.log(10000, "[CommonListAdapterBAP#convertArrayElement] wrong dataType (expected: %1, is: %2)", (Object)(class$de$audi$atip$interapp$combi$bap$audio$data$CombiBAPCommonListEntry == null ? (class$de$audi$atip$interapp$combi$bap$audio$data$CombiBAPCommonListEntry = CommonListAdapterBAP.class$("de.audi.atip.interapp.combi.bap.audio.data.CombiBAPCommonListEntry")) : class$de$audi$atip$interapp$combi$bap$audio$data$CombiBAPCommonListEntry).getName(), (Object)super.getClass().getName());
+            this.logChannel.log(10000, "[CommonListAdapterBAP#convertArrayElement] wrong dataType (expected: %1, is: %2)", (Object)(class$de$audi$atip$interapp$combi$bap$audio$data$CombiBAPCommonListEntry == null ? (class$de$audi$atip$interapp$combi$bap$audio$data$CombiBAPCommonListEntry = CommonListAdapterBAP.class$("de.audi.atip.interapp.combi.bap.audio.data.CombiBAPCommonListEntry")) : class$de$audi$atip$interapp$combi$bap$audio$data$CombiBAPCommonListEntry).getName(), (Object)combiBAPArrayElement.getClass().getName());
         }
         return commonList_Data;
     }
 
-    @Override
     protected BAPArrayElement createArrayElement(ArrayHeader arrayHeader, int n) {
         CommonList_Data commonList_Data = new CommonList_Data(arrayHeader);
         commonList_Data.setPos(n);
         return commonList_Data;
     }
 
-    @Override
     protected ChangedArray createChangedArraySerializer() {
         return new CommonList_ChangedArray();
     }
 
-    @Override
     protected StatusArray createStatusArraySerializer() {
         return new CommonList_StatusArray();
     }

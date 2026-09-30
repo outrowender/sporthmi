@@ -7,22 +7,16 @@ import de.esolutions.fw.comm.asi.hmisync.audio.A2LSState;
 import de.esolutions.fw.comm.asi.hmisync.audio.ASIHMISyncAudioReply;
 
 public interface AudioContextListener {
-    default public void updateAudioContext(int n) {
-    }
+    public void updateAudioContext(int var1);
 
-    default public void updateA2LSStateDeclined(A2LSState a2LSState) {
-    }
+    public void updateA2LSStateDeclined(A2LSState var1);
 
-    default public void updateA2LSStateAccepted(A2LSState a2LSState) {
-    }
+    public void updateA2LSStateAccepted(A2LSState var1);
 
-    default public void updateA2LSStatePending(A2LSState a2LSState) {
-    }
+    public void updateA2LSStatePending(A2LSState var1);
 
-    default public void updateA2LSStateDisabled(A2LSState a2LSState) {
-    }
+    public void updateA2LSStateDisabled(A2LSState var1);
 
-    default public void triggerA2LSStealing(ASIHMISyncAudioReply aSIHMISyncAudioReply) {
-    }
+    public void triggerA2LSStealing(ASIHMISyncAudioReply var1);
 }
 

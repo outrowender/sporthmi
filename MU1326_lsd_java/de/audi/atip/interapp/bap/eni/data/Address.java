@@ -3,8 +3,6 @@
  */
 package de.audi.atip.interapp.bap.eni.data;
 
-import de.audi.atip.interapp.bap.eni.data.Address$Builder;
-
 public final class Address {
     private final String street;
     private final String number;
@@ -13,8 +11,8 @@ public final class Address {
     private final String postalCode;
     private final String country;
 
-    public static Address$Builder builder() {
-        return new Address$Builder();
+    public static Builder builder() {
+        return new Builder();
     }
 
     private Address(String string, String string2, String string3, String string4, String string5, String string6) {
@@ -68,7 +66,7 @@ public final class Address {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         Address address = (Address)object;
@@ -92,6 +90,49 @@ public final class Address {
 
     public String toString() {
         return new StringBuffer().append("Address [street=").append(this.street).append(", number=").append(this.number).append(", city=").append(this.city).append(", state=").append(this.state).append(", postalCode=").append(this.postalCode).append(", country=").append(this.country).append("]").toString();
+    }
+
+    public static final class Builder {
+        private String street;
+        private String number;
+        private String city;
+        private String state;
+        private String postalCode;
+        private String country;
+
+        public Builder setStreet(String string) {
+            this.street = string;
+            return this;
+        }
+
+        public Builder setNumber(String string) {
+            this.number = string;
+            return this;
+        }
+
+        public Builder setCity(String string) {
+            this.city = string;
+            return this;
+        }
+
+        public Builder setState(String string) {
+            this.state = string;
+            return this;
+        }
+
+        public Builder setPostalCode(String string) {
+            this.postalCode = string;
+            return this;
+        }
+
+        public Builder setCountry(String string) {
+            this.country = string;
+            return this;
+        }
+
+        public Address build() {
+            return new Address(this.street, this.number, this.city, this.state, this.postalCode, this.country);
+        }
     }
 }
 

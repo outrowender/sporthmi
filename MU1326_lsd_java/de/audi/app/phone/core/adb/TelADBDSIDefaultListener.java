@@ -18,12 +18,10 @@ extends ADBDSIDefaultListener {
         this.adbHandler = telAddressbookHandlerImpl;
     }
 
-    @Override
     public void profileDeleted(int n) {
         this.adbHandler.profileDeleted(n);
     }
 
-    @Override
     public void updateSortOrder(int n, int n2) {
         this.adbHandler.updateSortOrder(n, n2);
     }

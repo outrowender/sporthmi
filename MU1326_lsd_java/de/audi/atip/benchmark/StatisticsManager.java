@@ -14,16 +14,14 @@ import de.audi.atip.benchmark.IStatisticsManager;
 import de.audi.atip.benchmark.ImageLoaderStatistics;
 import de.audi.atip.benchmark.KZBStatistics;
 import de.audi.atip.benchmark.ScreenStatistics;
-import de.audi.atip.benchmark.StatisticsManager$1;
-import de.audi.atip.benchmark.StatisticsManager$2;
-import de.audi.atip.benchmark.StatisticsManager$3;
-import de.audi.atip.benchmark.StatisticsManager$NullStatisticsManager;
 import de.audi.atip.hmi.HMITerminal;
 import de.audi.atip.hmi.event.RunnableEvent;
 import de.esolutions.fw.util.commons.timeout.ITimeSource;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Arrays;
@@ -34,12 +32,12 @@ import java.util.zip.ZipOutputStream;
 
 public class StatisticsManager
 implements IStatisticsManager {
-    private static final String DUMP_DIR_QNX;
-    private static final int DEFAULT_MAX_LOGS;
-    private static final int DISCARD_OLDEST;
-    private static final int DISCARD_NONE;
-    private static final int DISCARD_NEWEST;
-    private static final int DISCARD_CURRENT;
+    private static final String DUMP_DIR_QNX = "/eso/hmi/errlog/";
+    private static final int DEFAULT_MAX_LOGS = 10;
+    private static final int DISCARD_OLDEST = 0;
+    private static final int DISCARD_NONE = 1;
+    private static final int DISCARD_NEWEST = 2;
+    private static final int DISCARD_CURRENT = 3;
     static final IStatisticsManager NULL_OBJECT;
     private volatile boolean isGathering = false;
     private static IStatisticsManager instance;
@@ -54,7 +52,7 @@ implements IStatisticsManager {
 
     private StatisticsManager(IFrameworkAccess iFrameworkAccess) {
         this.framework = iFrameworkAccess;
-        this.dumpdir = System.getProperty("ErrorDumpDir", iFrameworkAccess.isTarget() ? "/eso/hmi/errlog/" : new StringBuffer().append(System.getProperty("java.io.tmpdir")).append("errlog\\").toString());
+        this.dumpdir = System.getProperty("ErrorDumpDir", iFrameworkAccess.isTarget() ? DUMP_DIR_QNX : new StringBuffer().append(System.getProperty("java.io.tmpdir")).append("errlog\\").toString());
         this.maxStatsLogs = Integer.getInteger("MaxStatsLogs", 10);
         this.maxLogsExceededStrategy = Integer.getInteger("MaxLogsExceededStrategy", 1);
     }
@@ -75,21 +73,37 @@ implements IStatisticsManager {
         return instance;
     }
 
-    @Override
-    public void stopGathering(String string) {
+    public void stopGathering(final String string) {
         if (INSTRUMENT_RES_LOADING_ON_DEMAND && !this.isGathering) {
             return;
         }
-        this.framework.getHMIService().getEventDispatcher().postEvent(new RunnableEvent(new StatisticsManager$1(this, string)));
+        this.framework.getHMIService().getEventDispatcher().postEvent(new RunnableEvent(new Runnable(){
+
+            public void run() {
+                StatisticsManager.this.dumpStatistics(string);
+            }
+
+            public String toString() {
+                return "[DumpingGatheredStatistics]";
+            }
+        }));
     }
 
-    @Override
-    public void startGathering(int n) {
+    public void startGathering(final int n) {
         if (0 == (n & 0xF)) {
             System.out.println(new StringBuffer().append("-------------------------- No statistics flags enabled: ").append(n).toString());
             return;
         }
-        this.framework.getHMIService().getEventDispatcher().postEvent(new RunnableEvent(new StatisticsManager$2(this, n)));
+        this.framework.getHMIService().getEventDispatcher().postEvent(new RunnableEvent(new Runnable(){
+
+            public void run() {
+                StatisticsManager.this.doStartGathering(n);
+            }
+
+            public String toString() {
+                return "[EnablingStatistics]";
+            }
+        }));
     }
 
     public void doStartGathering(int n) {
@@ -127,7 +141,7 @@ implements IStatisticsManager {
         }
         if (this.isGathering) {
             System.out.println("-------------------------- Start gathering statistics!");
-            this.framework.getHMIService().showVisualFeedback(0, "Gathering statistics!", 0);
+            this.framework.getHMIService().showVisualFeedback(3000L, "Gathering statistics!", 0);
         }
     }
 
@@ -139,22 +153,18 @@ implements IStatisticsManager {
         return this.framework.getHMITerminalRegistry().getTerminal(n);
     }
 
-    @Override
     public IScreenStatistics getScreenStatistics() {
         return this.screenStatistics;
     }
 
-    @Override
     public IAnimationStatistics getAnimationStatistics() {
         return this.animationStatistics;
     }
 
-    @Override
     public IKZBStatistics getResourceLoaderStatistics() {
         return this.resourceLoaderStatistics;
     }
 
-    @Override
     public IImageLoaderStatistics getImageLoaderStatistics() {
         return this.imageLoaderStatistics;
     }
@@ -176,7 +186,7 @@ implements IStatisticsManager {
             }
             fileOutputStream = new FileOutputStream(file, false);
             this.dumpStatistics(fileOutputStream);
-            this.framework.getHMIService().showVisualFeedback(0, new StringBuffer().append("Wrote: ").append(string2).toString(), 0);
+            this.framework.getHMIService().showVisualFeedback(3000L, new StringBuffer().append("Wrote: ").append(string2).toString(), 0);
             System.out.println(new StringBuffer().append("-------------------------- Statistics written to: ").append(file).toString());
         }
         catch (Exception exception) {
@@ -256,7 +266,7 @@ implements IStatisticsManager {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    private void dumpStatistics(IStatisticsInfoProvider iStatisticsInfoProvider, ZipOutputStream zipOutputStream, PrintStream printStream) {
+    private void dumpStatistics(IStatisticsInfoProvider iStatisticsInfoProvider, ZipOutputStream zipOutputStream, PrintStream printStream) throws IOException {
         long l = this.framework.getMonotonicTime();
         boolean bl = false;
         try {
@@ -266,7 +276,7 @@ implements IStatisticsManager {
         }
         catch (ZipException zipException) {
             try {
-                Thread.sleep(0);
+                Thread.sleep(2L);
                 String string = new StringBuffer().append(new Random(System.currentTimeMillis()).nextInt()).append(iStatisticsInfoProvider.getName()).toString();
                 zipOutputStream.putNextEntry(new ZipEntry(string));
                 bl = true;
@@ -285,7 +295,7 @@ implements IStatisticsManager {
             if (bl) {
                 zipOutputStream.closeEntry();
             }
-            if ((l2 = this.framework.getMonotonicTime() - l) > 0) {
+            if ((l2 = this.framework.getMonotonicTime() - l) > 1000L) {
                 System.out.println(new StringBuffer().append("!!!! Writing statistics took: ").append(l2).toString());
             }
         }
@@ -293,7 +303,12 @@ implements IStatisticsManager {
 
     private boolean ensureMaxStatsCapacity() {
         new File(this.dumpdir).mkdirs();
-        Object[] objectArray = new File(this.dumpdir).list(new StatisticsManager$3(this));
+        Object[] objectArray = new File(this.dumpdir).list(new FilenameFilter(){
+
+            public boolean accept(File file, String string) {
+                return null != string && string.startsWith("stats_") && string.endsWith(".zip");
+            }
+        });
         if (objectArray == null) {
             return true;
         }
@@ -317,12 +332,36 @@ implements IStatisticsManager {
         return true;
     }
 
-    static /* synthetic */ void access$100(StatisticsManager statisticsManager, String string) {
-        statisticsManager.dumpStatistics(string);
+    static {
+        instance = NULL_OBJECT = INSTRUMENTATION_ENABLED ? new NullStatisticsManager() : null;
     }
 
-    static {
-        instance = NULL_OBJECT = INSTRUMENTATION_ENABLED ? new StatisticsManager$NullStatisticsManager(null) : null;
+    private static final class NullStatisticsManager
+    implements IStatisticsManager {
+        private NullStatisticsManager() {
+        }
+
+        public void stopGathering(String string) {
+        }
+
+        public void startGathering(int n) {
+        }
+
+        public IScreenStatistics getScreenStatistics() {
+            return ScreenStatistics.NULL_OBJECT;
+        }
+
+        public IAnimationStatistics getAnimationStatistics() {
+            return AnimationStatistics.NULL_OBJECT;
+        }
+
+        public IKZBStatistics getResourceLoaderStatistics() {
+            return KZBStatistics.NULL_OBJECT;
+        }
+
+        public IImageLoaderStatistics getImageLoaderStatistics() {
+            return null;
+        }
     }
 }
 

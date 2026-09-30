@@ -4,16 +4,12 @@
 package de.audi.app.earlyfunc.core.seat;
 
 public interface ISeatPopupHandler {
-    default public void hideSeatPopup(int n) {
-    }
+    public void hideSeatPopup(int var1);
 
-    default public void showSeatPopup(int n) {
-    }
+    public void showSeatPopup(int var1);
 
-    default public void init(int[] nArray) {
-    }
+    public void init(int[] var1);
 
-    default public void deinit() {
-    }
+    public void deinit();
 }
 

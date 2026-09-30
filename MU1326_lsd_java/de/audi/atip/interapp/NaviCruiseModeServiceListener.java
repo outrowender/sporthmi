@@ -4,7 +4,6 @@
 package de.audi.atip.interapp;
 
 public interface NaviCruiseModeServiceListener {
-    default public void updateCruiseMode(boolean bl) {
-    }
+    public void updateCruiseMode(boolean var1);
 }
 

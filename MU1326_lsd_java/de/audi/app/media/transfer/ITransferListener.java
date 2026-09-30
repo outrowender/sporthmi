@@ -10,61 +10,42 @@ import org.dsi.ifc.media.ListEntry;
 
 public interface ITransferListener
 extends ITransferLockListener {
-    default public void readyForTransfer() {
-    }
+    public void readyForTransfer();
 
-    default public void activationSuccessful(ISourceSlot iSourceSlot, IBrowseListContext iBrowseListContext) {
-    }
+    public void activationSuccessful(ISourceSlot var1, IBrowseListContext var2);
 
-    default public void activationFailed(ISourceSlot iSourceSlot) {
-    }
+    public void activationFailed(ISourceSlot var1);
 
-    default public void jukeboxSpaceChanged(long l, long l2, long l3, long l4, long l5, long l6) {
-    }
+    public void jukeboxSpaceChanged(long var1, long var3, long var5, long var7, long var9, long var11);
 
-    default public void importStarted() {
-    }
+    public void importStarted();
 
-    default public void importAborted(long l, long l2, long l3, boolean bl) {
-    }
+    public void importAborted(long var1, long var3, long var5, boolean var7);
 
-    default public void importFinished(long l, long l2, long l3, boolean bl) {
-    }
+    public void importFinished(long var1, long var3, long var5, boolean var7);
 
-    default public void importWillBeResumed() {
-    }
+    public void importWillBeResumed();
 
-    default public void importIsSuspended() {
-    }
+    public void importIsSuspended();
 
-    default public void deletionPostprocessing() {
-    }
+    public void deletionPostprocessing();
 
-    default public void deletionStarted() {
-    }
+    public void deletionStarted();
 
-    default public void deletionFinished() {
-    }
+    public void deletionFinished();
 
-    default public void deletionAborted() {
-    }
+    public void deletionAborted();
 
-    default public void deletionProgressChanged(long l) {
-    }
+    public void deletionProgressChanged(long var1);
 
-    default public void importProgressChanged(long l, ListEntry listEntry) {
-    }
+    public void importProgressChanged(long var1, ListEntry var3);
 
-    default public void encodingQualityChanged(boolean bl, int n) {
-    }
+    public void encodingQualityChanged(boolean var1, int var2);
 
-    default public void startFailed() {
-    }
+    public void startFailed();
 
-    default public void sourceRemoved(ISourceSlot iSourceSlot) {
-    }
+    public void sourceRemoved(ISourceSlot var1);
 
-    default public void unreadyToTransfer() {
-    }
+    public void unreadyToTransfer();
 }
 

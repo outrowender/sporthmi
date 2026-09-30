@@ -32,7 +32,7 @@ class ProxyCharArrayCache {
             n = 13;
         }
         this.elementSize = 0;
-        this.threshold = (int)((float)n * -1007343553);
+        this.threshold = (int)((float)n * 0.66f);
         this.keyTable = new char[n][];
         this.valueTable = new int[n];
     }
@@ -57,7 +57,7 @@ class ProxyCharArrayCache {
             n2 += cArray[n4];
             n4 += n3;
         }
-        return (n2 & 0xFFFFFF7F) % this.keyTable.length;
+        return (n2 & Integer.MAX_VALUE) % this.keyTable.length;
     }
 
     int put(char[] cArray, int n) {

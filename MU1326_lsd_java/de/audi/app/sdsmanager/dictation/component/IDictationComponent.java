@@ -7,19 +7,14 @@ import de.audi.app.sdsmanager.dictation.DictationComponentManager;
 import de.audi.app.sdsmanager.dictation.osgi.IServiceRegistry;
 
 public interface IDictationComponent {
-    default public void addComponent(IDictationComponent iDictationComponent) {
-    }
+    public void addComponent(IDictationComponent var1);
 
-    default public void init(DictationComponentManager dictationComponentManager) {
-    }
+    public void init(DictationComponentManager var1);
 
-    default public void dispose() {
-    }
+    public void dispose();
 
-    default public void connect(IServiceRegistry iServiceRegistry) {
-    }
+    public void connect(IServiceRegistry var1);
 
-    default public void disconnect() {
-    }
+    public void disconnect();
 }
 

@@ -17,9 +17,9 @@ extends AbstractMediaTerminalComponent
 implements ChoiceListener,
 IImplicitRepeatHandler,
 IResetSettingsListener {
-    private static final String LOGCLASS;
-    public static final String GLOBAL_KEY_REPEAT_MEDIUM;
-    public static final int DEFAULT_REPEAT_MEDIUM;
+    private static final String LOGCLASS = "ImplicitRepeatHandler";
+    public static final String GLOBAL_KEY_REPEAT_MEDIUM = "GLOBAL_KEY_REPEAT_MEDIUM";
+    public static final int DEFAULT_REPEAT_MEDIUM = 0;
     private IMediaLogger logger;
     private ChoiceModelApp repeatMediumChoice;
 
@@ -29,8 +29,8 @@ IResetSettingsListener {
     }
 
     public void init() {
-        this.logger.main().log(1078071040, "[%1.init]", (Object)"ImplicitRepeatHandler");
-        this.repeatMediumChoice = this.getChoiceModel(-1391525120);
+        this.logger.main().log(1000000, "[%1.init]", (Object)LOGCLASS);
+        this.repeatMediumChoice = this.getChoiceModel(200621);
         this.repeatMediumChoice.setValue(0);
         this.repeatMediumChoice.setStatus(3);
         this.repeatMediumChoice.setChoiceListener(this);
@@ -39,23 +39,22 @@ IResetSettingsListener {
     }
 
     public void deinit() {
-        this.logger.main().log(1078071040, "[%1.deinit]", (Object)"ImplicitRepeatHandler");
+        this.logger.main().log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         this.repeatMediumChoice.setChoiceListener(null);
     }
 
     private void readFromPersistence() {
-        this.logger.main().log(1078071040, "[%1.readFromPersistence '%2']", (Object)"ImplicitRepeatHandler");
+        this.logger.main().log(1000000, "[%1.readFromPersistence '%2']", (Object)LOGCLASS);
         this.repeatMediumChoice.setValue(0);
         this.repeatMediumChoice.setStatus(1);
     }
 
     private void storeToPersistence() {
-        this.logger.main().log(1078071040, "[%1.storeToPersistence '%2']", (Object)"ImplicitRepeatHandler", (long)this.repeatMediumChoice.getValue());
+        this.logger.main().log(1000000, "[%1.storeToPersistence '%2']", (Object)LOGCLASS, (long)this.repeatMediumChoice.getValue());
     }
 
-    @Override
     public boolean isImplicitRepeatByCategory(int n) {
-        this.logger.main().log(1078071040, "[%1.isImplicitRepeatByCategory]", (Object)"ImplicitRepeatHandler");
+        this.logger.main().log(1000000, "[%1.isImplicitRepeatByCategory]", (Object)LOGCLASS);
         ISourceSlot iSourceSlot = this.getTerminal().getSourceController().getSelectedSlot();
         if (iSourceSlot.getSource().getType() == 11) {
             return false;
@@ -66,9 +65,8 @@ IResetSettingsListener {
         return this.repeatMediumChoice.getValue() == 0;
     }
 
-    @Override
     public boolean isImplicitRepeatByContentType(int n) {
-        this.logger.main().log(1078071040, "[%1.isImplicitRepeatByContentType]", (Object)"ImplicitRepeatHandler");
+        this.logger.main().log(1000000, "[%1.isImplicitRepeatByContentType]", (Object)LOGCLASS);
         ISourceSlot iSourceSlot = this.getTerminal().getSourceController().getSelectedSlot();
         if (iSourceSlot.getSource().getType() == 11) {
             return false;
@@ -79,15 +77,13 @@ IResetSettingsListener {
         return this.repeatMediumChoice.getValue() == 0;
     }
 
-    @Override
     public void onResetSettings(int n) {
         this.repeatMediumChoice.setValue(0);
         this.storeToPersistence();
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
-        this.logger.hmi().log(1078071040, "[%1.itemSelected]", (Object)"ImplicitRepeatHandler");
+        this.logger.hmi().log(1000000, "[%1.itemSelected]", (Object)LOGCLASS);
         switch (n) {
             case 200621: {
                 int n5 = this.repeatMediumChoice.getValue() == 1 ? 0 : 1;
@@ -98,23 +94,18 @@ IResetSettingsListener {
         }
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 }

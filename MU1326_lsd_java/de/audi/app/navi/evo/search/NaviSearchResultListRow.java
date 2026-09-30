@@ -16,43 +16,43 @@ public class NaviSearchResultListRow
 extends SearchResultListRow
 implements IntelliDestDistanceRow {
     private static long id_counter = 0L;
-    public static final int MAX_COLUMNS;
-    public static final int COL_IDX_LAYOUT;
-    public static final int COL_IDX_ICONID;
-    public static final int COL_IDX_TEXTLINE1;
-    public static final int COL_IDX_TEXTLINE2;
-    public static final int COL_IDX_PROPERTIES;
-    public static final int COL_IDX_DISTANCE;
-    public static final int COL_IDX_ARROW;
-    public static final int COL_IDX_MISSING_PRIMARY_FUEL;
-    public static final int COL_IDX_MISSING_SECONDARY_FUEL;
-    public static final int LAYOUT_CITY_PART;
-    public static final int LAYOUT_DB_ADDRESS;
-    public static final int LAYOUT_POI_DYNAMIC_ICON;
-    public static final int LAYOUT_ADB_CONTACT;
-    public static final int LAYOUT_POI_LAST_DEST;
-    public static final int LAYOUT_POI_GENERIC_ICON;
-    public static final int LAYOUT_CITY_PART_WITH_DIRECTION;
-    public static final int LAYOUT_DB_ADDRESS_WITH_DIRECTION;
-    public static final int ICON_ADB_CONTACT;
-    public static final int ICON_DB_ADDRESS;
-    public static final int ICON_LAST_DEST;
-    public static final int ICON_CITY_PART;
-    public static final int ICON_FAVORITE;
-    public static final int ICON_PRESSROUTE;
-    public static final int ICON_INTERSECTION;
-    public static final int ICON_POI_CALL;
-    private static final int ADB_ARROW_STATE_CLOSED;
-    private static final int ADB_ARROW_STATE_OPEN;
-    public static final int ICON_FUELTYPE_MISSING_NON;
-    public static final int ICON_FUELTYPE_MISSING_PETROL;
-    public static final int ICON_FUELTYPE_MISSING_DIESEL;
-    public static final int ICON_FUELTYPE_MISSING_LPG;
-    public static final int ICON_FUELTYPE_MISSING_CNG;
-    public static final int ICON_FUELTYPE_MISSING_E85;
-    public static final int ICON_FUELTYPE_MISSING_HYDROGEN;
-    public static final int ICON_FUELTYPE_MISSING_ADBLUE;
-    public static final int ICON_FUELTYPE_MISSING_ELECTRIC;
+    public static final int MAX_COLUMNS = 9;
+    public static final int COL_IDX_LAYOUT = 0;
+    public static final int COL_IDX_ICONID = 1;
+    public static final int COL_IDX_TEXTLINE1 = 2;
+    public static final int COL_IDX_TEXTLINE2 = 3;
+    public static final int COL_IDX_PROPERTIES = 4;
+    public static final int COL_IDX_DISTANCE = 5;
+    public static final int COL_IDX_ARROW = 6;
+    public static final int COL_IDX_MISSING_PRIMARY_FUEL = 7;
+    public static final int COL_IDX_MISSING_SECONDARY_FUEL = 8;
+    public static final int LAYOUT_CITY_PART = 0;
+    public static final int LAYOUT_DB_ADDRESS = 1;
+    public static final int LAYOUT_POI_DYNAMIC_ICON = 2;
+    public static final int LAYOUT_ADB_CONTACT = 3;
+    public static final int LAYOUT_POI_LAST_DEST = 4;
+    public static final int LAYOUT_POI_GENERIC_ICON = 5;
+    public static final int LAYOUT_CITY_PART_WITH_DIRECTION = 7;
+    public static final int LAYOUT_DB_ADDRESS_WITH_DIRECTION = 8;
+    public static final int ICON_ADB_CONTACT = 0;
+    public static final int ICON_DB_ADDRESS = 1;
+    public static final int ICON_LAST_DEST = 2;
+    public static final int ICON_CITY_PART = 3;
+    public static final int ICON_FAVORITE = 4;
+    public static final int ICON_PRESSROUTE = 5;
+    public static final int ICON_INTERSECTION = 6;
+    public static final int ICON_POI_CALL = 7;
+    private static final int ADB_ARROW_STATE_CLOSED = 0;
+    private static final int ADB_ARROW_STATE_OPEN = 1;
+    public static final int ICON_FUELTYPE_MISSING_NON = 0;
+    public static final int ICON_FUELTYPE_MISSING_PETROL = 1;
+    public static final int ICON_FUELTYPE_MISSING_DIESEL = 2;
+    public static final int ICON_FUELTYPE_MISSING_LPG = 3;
+    public static final int ICON_FUELTYPE_MISSING_CNG = 4;
+    public static final int ICON_FUELTYPE_MISSING_E85 = 5;
+    public static final int ICON_FUELTYPE_MISSING_HYDROGEN = 6;
+    public static final int ICON_FUELTYPE_MISSING_ADBLUE = 7;
+    public static final int ICON_FUELTYPE_MISSING_ELECTRIC = 8;
     private boolean hasGeoCoordinates;
     private boolean showsRRD;
     private int latitude;
@@ -70,7 +70,6 @@ implements IntelliDestDistanceRow {
         this.showsRRD = naviSearchResultListRow.showsRRD;
     }
 
-    @Override
     public EvoListRow copy() {
         return new NaviSearchResultListRow(this);
     }
@@ -79,7 +78,6 @@ implements IntelliDestDistanceRow {
         return id_counter++;
     }
 
-    @Override
     public void setOpen(boolean bl) {
         super.setOpen(bl);
         this.setInteger(1, bl ? 1 : 0);
@@ -109,57 +107,46 @@ implements IntelliDestDistanceRow {
         this.setPropertyCell(4, propertyListCell);
     }
 
-    @Override
     public boolean hasGeoCoordinates() {
         return this.hasGeoCoordinates;
     }
 
-    @Override
     public void setHasGeoCoordinates(boolean bl) {
         this.hasGeoCoordinates = bl;
     }
 
-    @Override
     public boolean hasRRD() {
         return this.showsRRD;
     }
 
-    @Override
     public void setHasRRD(boolean bl) {
         this.showsRRD = bl;
     }
 
-    @Override
     public int getLongitude() {
         return this.longitude;
     }
 
-    @Override
     public int getLatitude() {
         return this.latitude;
     }
 
-    @Override
     public void setLongitude(int n) {
         this.longitude = n;
     }
 
-    @Override
     public void setLatitude(int n) {
         this.latitude = n;
     }
 
-    @Override
     public void setDistanceColumn(Distance distance) {
         this.setMetrics(5, distance);
     }
 
-    @Override
     public void setArrowColumn(int n) {
         this.setInteger(6, n);
     }
 
-    @Override
     public void setLayoutWithDirection() {
         this.setLayout(8);
     }

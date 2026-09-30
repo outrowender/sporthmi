@@ -7,48 +7,39 @@ import de.audi.app.media.persistence.MediaStorage;
 import de.audi.app.media.source.ISourceSlot;
 
 public interface IMediaPersistence {
-    public static final int SCOPE_GLOBAL;
-    public static final int SCOPE_SOURCE;
-    public static final int SCOPE_MEDIATYPE;
-    public static final int SCOPE_SOURCESLOT;
-    public static final String GLOBAL_KEY_DVDV_PM_LEVEL;
-    public static final String GLOBAL_KEY_DVDV_PM_PASSWORD;
-    public static final String GLOBAL_KEY_DVDV_REGIONCODE_CHANGES_LEFT;
-    public static final String GLOBAL_KEY_LAST_ACTIVE_SOURCE;
-    public static final String GLOBAL_KEY_LAST_ACTIVE_SLOT;
-    public static final String GLOBAL_KEY_IOS_AUTOSTART;
-    public static final String GLOBAL_KEY_RIPPING_ENCODING_QUALITY;
-    public static final String GLOBAL_KEY_BROWSER_LAST_SELECTION;
-    public static final String GLOBAL_KEY_DVDC_REPEAT_SCOPE;
-    public static final String DEFAULT_PML_PASSWORD;
-    public static final int DEFAULT_PML_LEVEL;
-    public static final String DEFAULT_IOS_AUTOSTART;
+    public static final int SCOPE_GLOBAL = 0;
+    public static final int SCOPE_SOURCE = 1;
+    public static final int SCOPE_MEDIATYPE = 2;
+    public static final int SCOPE_SOURCESLOT = 3;
+    public static final String GLOBAL_KEY_DVDV_PM_LEVEL = "GLOBAL_KEY_DVDV_PM_LEVEL";
+    public static final String GLOBAL_KEY_DVDV_PM_PASSWORD = "GLOBAL_KEY_DVDV_PM_PASSWORD";
+    public static final String GLOBAL_KEY_DVDV_REGIONCODE_CHANGES_LEFT = "GLOBAL_KEY_DVDV_REGIONCODE_CHANGES_LEFT";
+    public static final String GLOBAL_KEY_LAST_ACTIVE_SOURCE = "GLOBAL_KEY_LAST_ACTIVE_SOURCE";
+    public static final String GLOBAL_KEY_LAST_ACTIVE_SLOT = "GLOBAL_KEY_LAST_ACTIVE_SLOT";
+    public static final String GLOBAL_KEY_IOS_AUTOSTART = "GLOBAL_KEY_IOS_AUTOSTART";
+    public static final String GLOBAL_KEY_RIPPING_ENCODING_QUALITY = "GLOBAL_KEY_RIPPING_ENCODING_QUALITY";
+    public static final String GLOBAL_KEY_BROWSER_LAST_SELECTION = "GLOBAL_KEY_BROWSER_LAST_SELECTION";
+    public static final String GLOBAL_KEY_DVDC_REPEAT_SCOPE = "GLOBAL_KEY_DVDC_REPEAT_SCOPE";
+    public static final String DEFAULT_PML_PASSWORD = "1234";
+    public static final int DEFAULT_PML_LEVEL = 0;
+    public static final String DEFAULT_IOS_AUTOSTART = "";
 
-    default public void setGlobalStringProperty(String string, String string2) {
-    }
+    public void setGlobalStringProperty(String var1, String var2);
 
-    default public void setGlobalIntProperty(String string, int n) {
-    }
+    public void setGlobalIntProperty(String var1, int var2);
 
-    default public String getGlobalStringProperty(String string) {
-    }
+    public String getGlobalStringProperty(String var1);
 
-    default public int getGlobalIntProperty(String string) {
-    }
+    public int getGlobalIntProperty(String var1);
 
-    default public void setLocalProperty(int n, ISourceSlot iSourceSlot, int n2, Object object) {
-    }
+    public void setLocalProperty(int var1, ISourceSlot var2, int var3, Object var4);
 
-    default public Object getLocalProperty(int n, ISourceSlot iSourceSlot, int n2, Object object) {
-    }
+    public Object getLocalProperty(int var1, ISourceSlot var2, int var3, Object var4);
 
-    default public void registerIntProperty(String string, int n, int n2, int n3) {
-    }
+    public void registerIntProperty(String var1, int var2, int var3, int var4);
 
-    default public void registerStringProperty(String string, String string2) {
-    }
+    public void registerStringProperty(String var1, String var2);
 
-    default public MediaStorage getStorage() {
-    }
+    public MediaStorage getStorage();
 }
 

@@ -8,12 +8,12 @@ import de.audi.atip.hmi.model.list.EvoListRow;
 
 public class PresetListRow
 extends EvoListRow {
-    public static final int LAYOUT_TYPE;
-    public static final int MAIN_ICON;
-    public static final int MAIN_LABEL;
-    public static final int SUB_ICON;
-    public static final int SUB_LABEL;
-    public static final int MAIN_ICON_RL;
+    public static final int LAYOUT_TYPE = 0;
+    public static final int MAIN_ICON = 1;
+    public static final int MAIN_LABEL = 2;
+    public static final int SUB_ICON = 3;
+    public static final int SUB_LABEL = 4;
+    public static final int MAIN_ICON_RL = 5;
 
     public PresetListRow() {
         super(0L, 6);
@@ -63,9 +63,8 @@ extends EvoListRow {
         return this.getText(4);
     }
 
-    @Override
     public String toString() {
-        return new StringBuffer().append(this.getText(2)).append(" | ").append(this.getText(4)).toString();
+        return this.getText(2) + " | " + this.getText(4);
     }
 }
 

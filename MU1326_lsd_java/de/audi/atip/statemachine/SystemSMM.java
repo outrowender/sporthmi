@@ -8,10 +8,8 @@ import de.audi.atip.statemachine.SMModule;
 
 public interface SystemSMM
 extends SMModule {
-    default public void registerSMM(ApplicationSMM applicationSMM) {
-    }
+    public void registerSMM(ApplicationSMM var1);
 
-    default public void deregisterSMM(ApplicationSMM applicationSMM) {
-    }
+    public void deregisterSMM(ApplicationSMM var1);
 }
 

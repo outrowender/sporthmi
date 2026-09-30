@@ -15,9 +15,7 @@ extends AbstractMessagingComponent {
     }
 
     public synchronized long getNextId() {
-        long l = this.nextId;
-        long l2 = l;
-        this.nextId = l + 1L;
+        return this.nextId++;
     }
 }
 

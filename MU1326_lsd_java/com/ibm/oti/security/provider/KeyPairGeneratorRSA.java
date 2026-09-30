@@ -26,8 +26,7 @@ extends KeyPairGenerator {
         super("RSA");
     }
 
-    @Override
-    public void initialize(AlgorithmParameterSpec algorithmParameterSpec, SecureRandom secureRandom) {
+    public void initialize(AlgorithmParameterSpec algorithmParameterSpec, SecureRandom secureRandom) throws InvalidParameterException {
         if (algorithmParameterSpec == null) {
             throw new InvalidParameterException();
         }
@@ -40,15 +39,14 @@ extends KeyPairGenerator {
         this.validate();
     }
 
-    @Override
-    public void initialize(int n, SecureRandom secureRandom) {
+    public void initialize(int n, SecureRandom secureRandom) throws InvalidParameterException {
         this.random = secureRandom;
         this.keySize = n;
         this.publicExponent = RSAKeyGenParameterSpec.F4;
         this.validate();
     }
 
-    private void validate() {
+    private void validate() throws InvalidParameterException {
         if (this.keySize % 8 != 0) {
             throw new InvalidParameterException(Msg.getString("K01ec"));
         }
@@ -57,7 +55,6 @@ extends KeyPairGenerator {
         }
     }
 
-    @Override
     public KeyPair generateKeyPair() {
         BigInteger bigInteger;
         CL3 cL3 = RSACipher.rsaKeyGen(this.keySize, this.publicExponent.toByteArray(), this.random);

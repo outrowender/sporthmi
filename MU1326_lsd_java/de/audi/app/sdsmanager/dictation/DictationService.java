@@ -20,7 +20,7 @@ public final class DictationService {
 
     public void start(BundleContext bundleContext, IFrameworkAccess iFrameworkAccess) {
         this.log = iFrameworkAccess.getLogChannel("App.SDS.Dictation");
-        this.log.log(1078071040, "[DictationService#start]");
+        this.log.log(1000000, "[DictationService#start]");
         BundleEnvironment bundleEnvironment = new BundleEnvironment(bundleContext, iFrameworkAccess);
         this.serviceManager = new ServiceManager(bundleEnvironment);
         this.dictationComponentManager = new DictationComponentManager(bundleEnvironment);
@@ -29,7 +29,7 @@ public final class DictationService {
     }
 
     public void stop() {
-        this.log.log(1078071040, "[DictationComponentManager#stop]");
+        this.log.log(1000000, "[DictationComponentManager#stop]");
         this.serviceManager.disconnect();
         this.dictationComponentManager.disconnect();
         this.dictationComponentManager.dispose();

@@ -10,23 +10,20 @@ import de.audi.atip.log.LogChannel;
 
 public class JobDefault
 extends AbstractFilePlayerJob {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "JobDefault";
 
     public JobDefault(LogChannel logChannel, IFilePlayer iFilePlayer) {
         super(logChannel, "", iFilePlayer);
     }
 
-    @Override
     public void start() {
     }
 
-    @Override
     public void onPlaybackStateChanged() {
-        this.logger.log(14808325, "[%1.onPlaybackStateChanged]", (Object)"JobDefault");
+        this.logger.log(100000000, "[%1.onPlaybackStateChanged]", (Object)LOGCLASS);
         this.setSessionPlaybackState();
     }
 
-    @Override
     public void onUpdatePlayPosition(int n, int n2) {
         FilePlayerSession filePlayerSession = this.getPlayer().getState().getActiveSession();
         if (filePlayerSession == null) {

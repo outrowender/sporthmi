@@ -31,23 +31,23 @@ implements SMModule,
 MediatorManager,
 SyncTargetManager {
     private final IFrameworkAccess framework;
-    protected static final int INVALID_TLS;
-    protected static final int INVALID_ID;
-    protected static final int INIT_ERROR;
-    protected static final int INIT_INFO;
-    protected static final int BINDING_ERROR;
-    protected static final int BINDING_INFO;
-    protected static final int HISTORY_INFO;
-    protected static final int ACTION_PROXY_MISSING;
-    protected static final int EXEC_ACTION_ERROR;
-    protected static final int EXEC_ACTION_INFO;
-    protected static final int CHECK_GUARD_ERROR;
-    protected static final int CHECK_GUARD_INFO;
-    protected static final int CHECK_GUARD_MODEL_MISSING;
-    protected static final boolean DEBUG_MODE;
-    protected static final int[] EMPTY_INT_LIST;
-    protected static final String[] EMPTY_STRING_LIST;
-    protected static final EventMediator[] EMPTY_MEDIATOR_LIST;
+    protected static final int INVALID_TLS = 1000;
+    protected static final int INVALID_ID = 10000;
+    protected static final int INIT_ERROR = 10000;
+    protected static final int INIT_INFO = 10000000;
+    protected static final int BINDING_ERROR = 10000;
+    protected static final int BINDING_INFO = 1000000;
+    protected static final int HISTORY_INFO = 10000000;
+    protected static final int ACTION_PROXY_MISSING = 100000;
+    protected static final int EXEC_ACTION_ERROR = 10000;
+    protected static final int EXEC_ACTION_INFO = 10000000;
+    protected static final int CHECK_GUARD_ERROR = 10000;
+    protected static final int CHECK_GUARD_INFO = 10000000;
+    protected static final int CHECK_GUARD_MODEL_MISSING = 100000;
+    protected static final boolean DEBUG_MODE = false;
+    protected static final int[] EMPTY_INT_LIST = new int[0];
+    protected static final String[] EMPTY_STRING_LIST = new String[0];
+    protected static final EventMediator[] EMPTY_MEDIATOR_LIST = new EventMediator[0];
     protected HMIService hmiService;
     protected MediatorRegistry mediatorRegistry;
     protected SyncTargetProcessor syncTargetProcessor;
@@ -133,35 +133,30 @@ SyncTargetManager {
         }
         if (this.stateFlagList.length <= this.id2ArrayIdx(this.topLevelStateID)) {
             this.logChannel.log(1000, "SMM has no valid top-level state!");
-            throw new IllegalStateException(new StringBuffer().append("SMM-").append(n3).append(" ").append(this.smmName).append(" has no valid top-level state!").toString());
+            throw new IllegalStateException("SMM-" + n3 + " " + this.smmName + " has no valid top-level state!");
         }
         this.hmiService = this.getFramework().getHMIService();
     }
 
-    @Override
     public IFrameworkAccess getFramework() {
         return this.framework;
     }
 
-    protected abstract void init() {
-    }
+    protected abstract void init();
 
-    @Override
     public ActionProxy addActionProxy(int n, ActionProxy actionProxy) {
         return null;
     }
 
-    @Override
     public void removeActionProxy(int n, ActionProxy actionProxy) {
     }
 
-    @Override
     public void setMediatorRegistry(MediatorRegistry mediatorRegistry) {
         if (mediatorRegistry != null) {
             this.mediatorRegistry = mediatorRegistry;
-            this.logChannel.log(-2137614336, "[AbstractSMM#setMediatorRegistry] [%1] Mediator registry set.", (Object)this.terminalName);
+            this.logChannel.log(10000000, "[AbstractSMM#setMediatorRegistry] [%1] Mediator registry set.", (Object)this.terminalName);
         } else {
-            this.logChannel.log(-2137614336, "[AbstractSMM#setMediatorRegistry] [%1] deinitialzing - killing all mediators", (Object)this.terminalName);
+            this.logChannel.log(10000000, "[AbstractSMM#setMediatorRegistry] [%1] deinitialzing - killing all mediators", (Object)this.terminalName);
             if (this.mediatorList != null) {
                 for (int i2 = 0; i2 < this.mediatorList.length; ++i2) {
                     EventMediator eventMediator = this.mediatorList[i2];
@@ -170,66 +165,57 @@ SyncTargetManager {
                 }
             }
             this.mediatorRegistry = mediatorRegistry;
-            this.logChannel.log(-2137614336, "[AbstractSMM#setMediatorRegistry] [%1] Mediator registry removed.", (Object)this.terminalName);
+            this.logChannel.log(10000000, "[AbstractSMM#setMediatorRegistry] [%1] Mediator registry removed.", (Object)this.terminalName);
         }
     }
 
-    @Override
     public void setSyncTargetProcessor(SyncTargetProcessor syncTargetProcessor) {
         this.syncTargetProcessor = syncTargetProcessor;
         if (syncTargetProcessor != null) {
-            this.logChannel.log(-2137614336, "[AbstractSMM#setSyncTargetProcessor] [%1] SyncTarget processor set.", (Object)this.terminalName);
+            this.logChannel.log(10000000, "[AbstractSMM#setSyncTargetProcessor] [%1] SyncTarget processor set.", (Object)this.terminalName);
         } else {
-            this.logChannel.log(-2137614336, "[AbstractSMM#setSyncTargetProcessor] [%1] SyncTarget processor removed.", (Object)this.terminalName);
+            this.logChannel.log(10000000, "[AbstractSMM#setSyncTargetProcessor] [%1] SyncTarget processor removed.", (Object)this.terminalName);
         }
     }
 
-    @Override
     public int getTerminalID() {
         return this.terminalID;
     }
 
-    @Override
     public final String getTerminalName() {
         return this.terminalName;
     }
 
-    @Override
     public int getSubterminalID() {
         return this.subterminalID;
     }
 
-    @Override
     public int getModuleID() {
         return this.moduleID;
     }
 
-    @Override
     public String getSMMName() {
         return this.smmName;
     }
 
-    @Override
     public void registerExternalState(String string, int n) {
         for (int i2 = 0; i2 < this.reqExtStateLabelList.length; ++i2) {
             if (!string.equals(this.reqExtStateLabelList[i2])) continue;
             this.reqExtStateIDList[i2] = n;
-            this.logChannel.log(1078071040, "[AbstractSMM#registerExternalState] [%1] required External State (idx %3) '%2' bound.", (Object)this.terminalName, (Object)this.reqExtStateLabelList[i2], (long)i2);
+            this.logChannel.log(1000000, "[AbstractSMM#registerExternalState] [%1] required External State (idx %3) '%2' bound.", (Object)this.terminalName, (Object)this.reqExtStateLabelList[i2], (long)i2);
             break;
         }
     }
 
-    @Override
     public void deregisterExternalState(String string) {
         for (int i2 = 0; i2 < this.reqExtStateLabelList.length; ++i2) {
             if (!string.equals(this.reqExtStateLabelList[i2])) continue;
             this.reqExtStateIDList[i2] = -10;
-            this.logChannel.log(1078071040, "[AbstractSMM#deregisterExternalState] [%1] required External State (idx %3) '%2' unbound.", (Object)this.terminalName, (Object)this.reqExtStateLabelList[i2], (long)i2);
+            this.logChannel.log(1000000, "[AbstractSMM#deregisterExternalState] [%1] required External State (idx %3) '%2' unbound.", (Object)this.terminalName, (Object)this.reqExtStateLabelList[i2], (long)i2);
             break;
         }
     }
 
-    @Override
     public boolean bindIncludeState(int n, int n2) {
         if (!this.responsibleFor(n)) {
             this.logChannel.log(10000, "[AbstractSMM#bindIncludeState] [%4] SMM-%2 %1 not responsible for state (STATEID#%3).", (Object)this.smmName, (Object)Integer.toString(this.moduleID), (Object)Integer.toString(n), (Object)this.terminalName);
@@ -237,7 +223,7 @@ SyncTargetManager {
         }
         int n3 = this.id2ArrayIdx(n);
         if (!this.isInclude(n3)) {
-            this.logChannel.log(1078071040, "[AbstractSMM#bindIncludeState] [%1] state (STATEID#%2) is no include state.", (Object)this.terminalName, (long)n);
+            this.logChannel.log(1000000, "[AbstractSMM#bindIncludeState] [%1] state (STATEID#%2) is no include state.", (Object)this.terminalName, (long)n);
             return false;
         }
         boolean bl = false;
@@ -253,23 +239,21 @@ SyncTargetManager {
                 break;
             }
             bl = true;
-            this.logChannel.log(1078071040, "[AbstractSMM#bindIncludeState] [%1] include state (STATEID#%2) bound to slot (STATEID#%3).", (Object)this.terminalName, (long)n, (long)n2);
+            this.logChannel.log(1000000, "[AbstractSMM#bindIncludeState] [%1] include state (STATEID#%2) bound to slot (STATEID#%3).", (Object)this.terminalName, (long)n, (long)n2);
         } else {
-            this.logChannel.log(1078071040, "[AbstractSMM#bindIncludeState] [%1] include state (STATEID#%2) was already bound to slot (STATEID#%3).", (Object)this.terminalName, (long)n, (long)n2);
+            this.logChannel.log(1000000, "[AbstractSMM#bindIncludeState] [%1] include state (STATEID#%2) was already bound to slot (STATEID#%3).", (Object)this.terminalName, (long)n, (long)n2);
         }
         return bl;
     }
 
-    @Override
     public void resetJumpBackPoint(int n, int n2) {
-        this.logChannel.log(1078071040, "[AbstractSMM#resetJumpBackPoint] [%1] reset transition (TRANSID#%2) back to state (STATEID#%3).", (Object)this.terminalName, (long)n, (long)n2);
+        this.logChannel.log(1000000, "[AbstractSMM#resetJumpBackPoint] [%1] reset transition (TRANSID#%2) back to state (STATEID#%3).", (Object)this.terminalName, (long)n, (long)n2);
         int n3 = this.id2ArrayIdx(n);
         this.transTrgtStateList[n3][0] = n2;
     }
 
-    @Override
     public void setJumpBackPoint(int n, int n2) {
-        this.logChannel.log(1078071040, "[AbstractSMM#setJumpBackPoint] [%1] called for stateID (STATEID#%2), jumpPointStateID (STATEID#%3).", (Object)this.terminalName, (long)n, (long)n2);
+        this.logChannel.log(1000000, "[AbstractSMM#setJumpBackPoint] [%1] called for stateID (STATEID#%2), jumpPointStateID (STATEID#%3).", (Object)this.terminalName, (long)n, (long)n2);
         if (!this.responsibleFor(n)) {
             this.logChannel.log(10000, "[AbstractSMM#setJumpBackPoint] [%1] SMM-%3 module '%2' not responsible for state (STATEID#%4)", (Object)this.terminalName, (Object)this.smmName, (Object)Integer.toString(this.moduleID), (Object)Integer.toString(n));
             return;
@@ -289,19 +273,17 @@ SyncTargetManager {
                     int n6 = this.id2ArrayIdx(n5);
                     this.transTrgtStateList[n6][0] = n2;
                     if (!this.logChannel.isInfo()) continue;
-                    this.logChannel.log(1078071040, "[AbstractSMM#setJumpBackPoint] [%1] set target transition (TRANSID#%4) of JumpBack-mediator at state (STATEID#%2) to state (STATEID#%3).", (Object)this.terminalName, (Object)Integer.toString(n), (Object)Integer.toString(n2), (Object)Integer.toString(n5));
-                    this.logChannel.log(1078071040, "[AbstractSMM#setJumpBackPoint] [%1] EventID is (EVENTID#%2).", (Object)this.terminalName, (long)n4);
+                    this.logChannel.log(1000000, "[AbstractSMM#setJumpBackPoint] [%1] set target transition (TRANSID#%4) of JumpBack-mediator at state (STATEID#%2) to state (STATEID#%3).", (Object)this.terminalName, (Object)Integer.toString(n), (Object)Integer.toString(n2), (Object)Integer.toString(n5));
+                    this.logChannel.log(1000000, "[AbstractSMM#setJumpBackPoint] [%1] EventID is (EVENTID#%2).", (Object)this.terminalName, (long)n4);
                 }
             }
         }
     }
 
-    @Override
     public int getTopLevelState() {
         return this.topLevelStateID;
     }
 
-    @Override
     public Popup getPopup(int n) {
         for (int i2 = 0; i2 < this.popupIDList.length; ++i2) {
             if (n != this.popupIDList[i2]) continue;
@@ -310,12 +292,10 @@ SyncTargetManager {
         return null;
     }
 
-    @Override
     public int externalStates() {
         return this.extStateLabelList.length;
     }
 
-    @Override
     public String getExternalStateLabel(int n) {
         if (n > this.extStateLabelList.length) {
             return null;
@@ -323,7 +303,6 @@ SyncTargetManager {
         return this.extStateLabelList[n];
     }
 
-    @Override
     public int getExternalStateID(int n) {
         if (n > this.extStateIDList.length) {
             return -1;
@@ -331,7 +310,6 @@ SyncTargetManager {
         return this.extStateIDList[n];
     }
 
-    @Override
     public State getState(int n) {
         if (!this.responsibleFor(n)) {
             return null;
@@ -349,7 +327,6 @@ SyncTargetManager {
         return State.newSimpleState(n, this.getSuperstateID(n2), this.getStateFlags(n2), this.getScreenID(n2), this.getTriggerEventList(n2), this.getOutTransList(n2), this.getMediatorIDList(n2), this.getSyncTriggerEventList(n2), this.getSyncExitTriggerEventList(n2), this.getSyncTargetIDList(n2));
     }
 
-    @Override
     public int getHistory(int n) {
         if (!this.responsibleFor(n)) {
             return -1;
@@ -364,7 +341,6 @@ SyncTargetManager {
         return this.stateHistoryList[n2];
     }
 
-    @Override
     public void setHistory(int n, int n2) {
         if (!this.responsibleFor(n)) {
             return;
@@ -377,10 +353,9 @@ SyncTargetManager {
             return;
         }
         this.stateHistoryList[n3] = n2;
-        this.logChannel.log(-2137614336, "[AbstractSMM#setHistory] [%1] history of state (STATEID#%2) set to (STATEID#%3).", (Object)this.terminalName, (long)n, (long)n2);
+        this.logChannel.log(10000000, "[AbstractSMM#setHistory] [%1] history of state (STATEID#%2) set to (STATEID#%3).", (Object)this.terminalName, (long)n, (long)n2);
     }
 
-    @Override
     public void resetHistory(int n) {
         if (!this.responsibleFor(n)) {
             return;
@@ -393,10 +368,9 @@ SyncTargetManager {
             return;
         }
         this.stateHistoryList[n2] = this.stateDHSList[n2];
-        this.logChannel.log(-2137614336, "[AbstractSMM#resetHistory] [%1] history of state (STATEID#%2) reset to (STATEID#%3).", (Object)this.terminalName, (long)n, (long)this.stateDHSList[n2]);
+        this.logChannel.log(10000000, "[AbstractSMM#resetHistory] [%1] history of state (STATEID#%2) reset to (STATEID#%3).", (Object)this.terminalName, (long)n, (long)this.stateDHSList[n2]);
     }
 
-    @Override
     public Transition getTransition(int n) {
         if (!this.responsibleFor(n)) {
             return null;
@@ -408,7 +382,6 @@ SyncTargetManager {
         return Transition.newTransition(n, this.getTransFlags(n2), this.getTrgtStates(n2), this.getTrgtExtStateLabels(n2), this.getTrgtStateFlagList(n2));
     }
 
-    @Override
     public EventMediator getEventMediator(int n) {
         int n2 = this.id2ArrayIdx(n);
         if (n2 >= this.mediatorList.length) {
@@ -417,7 +390,6 @@ SyncTargetManager {
         return this.mediatorList[this.id2ArrayIdx(n)];
     }
 
-    @Override
     public SMSyncTarget getSyncTarget(int n) {
         int n2 = this.id2ArrayIdx(n);
         if (n2 >= this.syncTargetList.length) {
@@ -426,7 +398,6 @@ SyncTargetManager {
         return this.syncTargetList[this.id2ArrayIdx(n)];
     }
 
-    @Override
     public int getTransIncludeJumpEvent(int n) {
         if (!this.responsibleFor(n)) {
             return -1;
@@ -595,53 +566,45 @@ SyncTargetManager {
     }
 
     protected final int id2ArrayIdx(int n) {
-        return n - this.moduleID * -1601830656;
+        return n - this.moduleID * 100000;
     }
 
     protected boolean responsibleFor(int n) {
-        return n / -1601830656 == this.moduleID;
+        return n / 100000 == this.moduleID;
     }
 
-    @Override
     public void lockScreen() {
         this.hmiService.lockCurrentScreen(this.terminalID, true);
     }
 
-    @Override
     public void unlockScreen() {
         this.hmiService.lockCurrentScreen(this.terminalID, false);
     }
 
-    @Override
-    public HMIModel getModel(int n) {
+    public HMIModel getModel(int n) throws NoSuchElementException {
         HMIModel hMIModel = this.hmiService.getModel(this.terminalID == 6 ? 0 : this.terminalID, n);
         if (hMIModel == null) {
-            throw new NoSuchElementException(new StringBuffer().append("model ").append(n).append(" could not be retrieved").toString());
+            throw new NoSuchElementException("model " + n + " could not be retrieved");
         }
         return hMIModel;
     }
 
-    @Override
     public LogChannel getLogChannel() {
         return this.logChannel;
     }
 
-    @Override
     public LogChannel getEventLogChannel() {
         return this.eventLogChannel;
     }
 
-    @Override
     public void fireEvent(int n) {
         this.hmiService.fireSMEvent(this.terminalID, n);
     }
 
-    @Override
     public void registerMediator(EventMediator eventMediator, int[] nArray) {
         this.mediatorRegistry.registerMediator(eventMediator, nArray);
     }
 
-    @Override
     public void unregisterMediator(EventMediator eventMediator, int[] nArray) {
         if (this.mediatorRegistry != null) {
             this.mediatorRegistry.unregisterMediator(eventMediator, nArray);
@@ -655,20 +618,16 @@ SyncTargetManager {
         return false;
     }
 
-    @Override
     public boolean checkGuard(SMServices sMServices, int n, int n2) {
         return this.checkGuard(n, n2);
     }
 
-    @Override
     public void execFocusLostAction(SMServices sMServices, int n) {
     }
 
-    @Override
     public void execFocusGainedAction(SMServices sMServices, int n) {
     }
 
-    @Override
     public void execSDForState(TTSASR tTSASR, ITTSASRContext iTTSASRContext, int n) {
     }
 
@@ -730,12 +689,6 @@ SyncTargetManager {
 
     public void setTransIncludeJumpTransition(HashMap hashMap) {
         this.transIncludeJumpEvents = hashMap;
-    }
-
-    static {
-        EMPTY_INT_LIST = new int[0];
-        EMPTY_STRING_LIST = new String[0];
-        EMPTY_MEDIATOR_LIST = new EventMediator[0];
     }
 }
 

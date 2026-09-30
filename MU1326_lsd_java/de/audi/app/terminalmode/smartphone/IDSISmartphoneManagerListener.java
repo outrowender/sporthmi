@@ -7,28 +7,20 @@ import de.audi.app.terminalmode.dsi.IAppState;
 import de.audi.app.terminalmode.dsi.IResource;
 
 public interface IDSISmartphoneManagerListener {
-    default public void updateDSIState(boolean bl) {
-    }
+    public void updateDSIState(boolean var1);
 
-    default public void updateMode(long l, IAppState[] iAppStateArray, IResource[] iResourceArray) {
-    }
+    public void updateMode(long var1, IAppState[] var3, IResource[] var4);
 
-    default public void updateTextInputState(boolean bl) {
-    }
+    public void updateTextInputState(boolean var1);
 
-    default public void duckAudio(int n, double d2) {
-    }
+    public void duckAudio(int var1, double var2);
 
-    default public void duckAudioCompletely() {
-    }
+    public void duckAudioCompletely();
 
-    default public void unduckAudio(int n) {
-    }
+    public void unduckAudio(int var1);
 
-    default public void releaseDuckAudioCompletely() {
-    }
+    public void releaseDuckAudioCompletely();
 
-    default public void ignoreUpdateMode(long l) {
-    }
+    public void ignoreUpdateMode(long var1);
 }
 

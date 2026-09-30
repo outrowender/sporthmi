@@ -4,13 +4,10 @@
 package de.audi.atip.hmi.view;
 
 public interface AnimationListener {
-    default public void animate(int n, float f2, int n2) {
-    }
+    public void animate(int var1, float var2, int var3);
 
-    default public void animationStarted(int n, int n2) {
-    }
+    public void animationStarted(int var1, int var2);
 
-    default public void animationFinished(int n, int n2) {
-    }
+    public void animationFinished(int var1, int var2);
 }
 

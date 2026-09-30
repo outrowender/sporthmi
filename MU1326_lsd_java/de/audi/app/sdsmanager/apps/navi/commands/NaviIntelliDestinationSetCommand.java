@@ -15,8 +15,8 @@ import de.audi.atip.log.LogChannel;
 
 public class NaviIntelliDestinationSetCommand
 extends AbstractSystemCallCommand {
-    private static final int LINE_SELECTION;
-    private static final int FIRST_ENTRY;
+    private static final int LINE_SELECTION = 0;
+    private static final int FIRST_ENTRY = 1;
     private final NaviSDSHandler sdsHandler;
     private final NaviService naviService;
     private final int selection;
@@ -28,9 +28,8 @@ extends AbstractSystemCallCommand {
         this.selection = SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: selection=%2!", (Object)this.getName(), (long)this.selection);
+        this.logger.log(10000000, "%1#execute: selection=%2!", (Object)this.getName(), (long)this.selection);
         this.sdsHandler.setSDSAddressInputMode((byte)8);
         int n = -1;
         switch (this.selection) {
@@ -42,12 +41,12 @@ extends AbstractSystemCallCommand {
                 n = SDSModelAccess.getEnumerationNumberStatus();
             }
         }
-        this.logger.log(-2137614336, "%1#execute: index of selected destination=%2", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "%1#execute: index of selected destination=%2", (Object)this.getName(), (long)n);
         this.naviService.setIntelliDestinationByIndex(n);
     }
 
     public void responseIntelliDestinationSet(byte by) {
-        this.logger.log(-2137614336, "%1#responseIntelliDestinationSet: result=%2", (Object)this.getName(), (long)by);
+        this.logger.log(10000000, "%1#responseIntelliDestinationSet: result=%2", (Object)this.getName(), (long)by);
         int n = NaviSDSUtils.getSDSResult(by);
         this.sendResult(n);
     }

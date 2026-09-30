@@ -3,59 +3,50 @@
  */
 package de.audi.remotehmi;
 
-import de.audi.remotehmi.IRemoteHMIListener$LogLevel;
 import de.audi.remotehmi.IRemoteHMISpeechCommandSDS;
 import de.audi.remotehmi.IRemoteHMISpeechContext;
-import de.audi.remotehmi.IRemoteHMISpeechContext$CommandDisplay;
 import de.audi.remotehmi.IRemoteHMISpeechHelpContext;
 import de.audi.remotehmi.IRemoteHMISpeechHelpIntroPrompt;
 import de.audi.remotehmi.IRemoteHMISpeechTopicContext;
 import de.audi.remotehmi.RemoteHMIView;
 
 public interface IRemoteHMIListener {
-    default public void setContextResult(int n) {
-    }
+    public void setContextResult(int var1);
 
-    default public void stopResult(int n) {
-    }
+    public void stopResult(int var1);
 
-    default public void indicateContext(String string, int n) {
-    }
+    public void indicateContext(String var1, int var2);
 
-    default public void indicateView(String string, RemoteHMIView remoteHMIView) {
-    }
+    public void indicateView(String var1, RemoteHMIView var2);
 
-    default public void indicateViewProperties(String string, RemoteHMIView remoteHMIView) {
-    }
+    public void indicateViewProperties(String var1, RemoteHMIView var2);
 
-    default public void indicateSpeechContext(String string, IRemoteHMISpeechContext iRemoteHMISpeechContext) {
-    }
+    public void indicateSpeechContext(String var1, IRemoteHMISpeechContext var2);
 
-    default public void indicateSpeechHelpContexts(IRemoteHMISpeechHelpContext[] iRemoteHMISpeechHelpContextArray, IRemoteHMISpeechTopicContext[] iRemoteHMISpeechTopicContextArray, IRemoteHMISpeechHelpIntroPrompt iRemoteHMISpeechHelpIntroPrompt) {
-    }
+    public void indicateSpeechHelpContexts(IRemoteHMISpeechHelpContext[] var1, IRemoteHMISpeechTopicContext[] var2, IRemoteHMISpeechHelpIntroPrompt var3);
 
-    default public void indicateSpeechGlobalCommands(IRemoteHMISpeechCommandSDS[] iRemoteHMISpeechCommandSDSArray) {
-    }
+    public void indicateSpeechGlobalCommands(IRemoteHMISpeechCommandSDS[] var1);
 
-    default public void indicateCommand(int n, Object object) {
-    }
+    public void indicateCommand(int var1, Object var2);
 
-    default public void indicateCurrentSpeechHelpContext(String string) {
-    }
+    public void indicateCurrentSpeechHelpContext(String var1);
 
-    default public void indicateLogMessage(LogLevel logLevel, String string, String string2, Object object, Object object2, Object object3, Object object4) {
-    }
+    public void indicateLogMessage(LogLevel var1, String var2, String var3, Object var4, Object var5, Object var6, Object var7);
 
-    default public void indicateContextRemoved(String string) {
-    }
+    public void indicateContextRemoved(String var1);
 
-    default public void indicateContextCreated(String string, int n) {
-    }
+    public void indicateContextCreated(String var1, int var2);
 
-    default public void indicateContextSuspended(String string) {
-    }
+    public void indicateContextSuspended(String var1);
 
-    default public void indicateContextsCommandDisplay(IRemoteHMISpeechContext.CommandDisplay commandDisplay) {
+    public void indicateContextsCommandDisplay(IRemoteHMISpeechContext.CommandDisplay var1);
+
+    public static final class LogLevel {
+        public static final LogLevel TRACE = new LogLevel();
+        public static final LogLevel DEBUG = new LogLevel();
+        public static final LogLevel INFO = new LogLevel();
+        public static final LogLevel WARN = new LogLevel();
+        public static final LogLevel ERROR = new LogLevel();
     }
 }
 

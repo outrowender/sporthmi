@@ -4,7 +4,7 @@
 package de.audi.atip.interapp.bap.data;
 
 public final class TimeStamp {
-    public static final int UNKNOWN;
+    public static final int UNKNOWN = 65535;
     private final int timeSeconds;
 
     public static TimeStamp getInstanceFromSeconds(int n) {
@@ -26,7 +26,7 @@ public final class TimeStamp {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         TimeStamp timeStamp = (TimeStamp)object;
@@ -40,7 +40,7 @@ public final class TimeStamp {
     }
 
     public String toString() {
-        return new StringBuffer().append("Time [timeSeconds=").append(this.timeSeconds).append("]").toString();
+        return "Time [timeSeconds=" + this.timeSeconds + "]";
     }
 }
 

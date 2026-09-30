@@ -8,43 +8,30 @@ import de.audi.atip.interapp.combi.bap.audio.data.CombiBAPCurrentStationInfo;
 
 public interface CombiBAPServiceAudio
 extends CombiBAPService {
-    default public void updateActiveSource(int n, int n2, int n3, boolean bl, boolean bl2, int n4) {
-    }
+    public void updateActiveSource(int var1, int var2, int var3, boolean var4, boolean var5, int var6);
 
-    default public void updateActiveSourceState(int n, int n2) {
-    }
+    public void updateActiveSourceState(int var1, int var2);
 
-    default public void updateCurrentStation(CombiBAPCurrentStationInfo combiBAPCurrentStationInfo) {
-    }
+    public void updateCurrentStation(CombiBAPCurrentStationInfo var1);
 
-    default public void updateActiveInfoState(int n) {
-    }
+    public void updateActiveInfoState(int var1);
 
-    default public void switchSourceResult(int n) {
-    }
+    public void switchSourceResult(int var1);
 
-    default public void selectListEntryResult(int n) {
-    }
+    public void selectListEntryResult(int var1);
 
-    default public void skipResult(boolean bl) {
-    }
+    public void skipResult(boolean var1);
 
-    default public void updateSeekStatus(boolean bl) {
-    }
+    public void updateSeekStatus(boolean var1);
 
-    default public void updatePreferredList(int n) {
-    }
+    public void updatePreferredList(int var1);
 
-    default public void getNextListPosResult(int n, int n2, int n3, int n4) {
-    }
+    public void getNextListPosResult(int var1, int var2, int var3, int var4);
 
-    default public void restoreInfoState(int n) {
-    }
+    public void restoreInfoState(int var1);
 
-    default public void activateSourceResult(int n) {
-    }
+    public void activateSourceResult(int var1);
 
-    default public void updateOnlineMusicState(int n, int n2) {
-    }
+    public void updateOnlineMusicState(int var1, int var2);
 }
 

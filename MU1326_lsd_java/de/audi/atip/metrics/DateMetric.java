@@ -12,80 +12,80 @@ import java.util.GregorianCalendar;
 
 public class DateMetric
 extends AbstractMetrics {
-    public static final int DECORATION_24;
-    public static final int DECORATION_AM;
-    public static final int DECORATION_PM;
-    public static final int TYPE_DATE;
-    public static final int TYPE_TIME;
-    public static final int TYPE_DATE_AND_TIME;
-    public static final int TYPE_DURATION;
-    public static final int TYPE_DATE_AND_TIME_LONG;
-    public static final int TYPE_DURATION_HOUR_MIN;
-    public static final int TYPE_TIME_LONG;
-    public static final int TYPE_DURATION_TRAFFIC_OFFSET;
-    public static final int TYPE_DAY_OF_WEEK;
-    public static final int TYPE_DATE_DAY_AND_MONTH;
-    public static final int TYPE_SECONDS_ONLY;
-    public static final int TYPE_DURATION_HOUR_MIN_0;
-    public static final int TYPE_DATE_AND_TIME_SHORT;
-    public static final int TYPE_DATE_SHORT;
-    public static final int TYPE_DURATION_LONG;
-    public static final int TYPE_DURATION_HOUR_ONLY;
-    public static final int TYPE_DURATION_MINUTE_ONLY;
-    public static final int TYPE_DURATION_IN_MINUTES;
-    public static final int TYPE_DATE_AND_TIME_SHORTYEAR;
-    public static final int TYPE_DURATION_DAYS_ONLY;
-    public static final int TYPE_DURATION_DAYS_HOUR_MIN_0;
-    public static final int TYPE_DURATION_DAYS_HOUR_MIN;
-    public static final int TYPE_DURATION_WITHOUT_APPEND_ZERO_HOUR;
-    public static final int TYPE_DURATION_DELAY_ON_ROUTE;
-    public static final int TYPE_DURATION_TRAFFIC_OFFSET0;
-    public static final int TYPE_DURATION_WITH_UNIT;
-    public static final int TYPE_COUNT;
-    public static final int FORMAT_TIME_24;
-    public static final int FORMAT_TIME_AM_PM;
-    public static final int FORMAT_DATE_DAYS_FIRST;
-    public static final int FORMAT_DATE_DAYS_FIRST_WEEKDAY_SHORT;
-    public static final int FORMAT_DATE_DAYS_FIRST_WEEKDAY_FULL;
-    public static final int FORMAT_DATE_MONTH_FIRST;
-    public static final int FORMAT_DATE_MONTH_FIRST_WEEKDAY_SHORT;
-    public static final int FORMAT_DATE_MONTH_FIRST_WEEKDAY_FULL;
-    public static final int FORMAT_DATE_YEARS_FIRST;
-    public static final int FORMAT_DATE_YEARS_FIRST_WEEKDAY_SHORT;
-    public static final int FORMAT_DATE_YEARS_FIRST_WEEKDAY_FULL;
-    public static final int UNIT_AMPM;
-    public static final int UNIT_NO_AMPM;
-    public static final int UNIT_AMPM_ONLY;
-    public static int timeFormat;
-    public static int dateFormat;
-    private static final String TEXT_DATE_PM;
-    private static final String TEXT_DATE_AM;
-    private static final String TEXT_UNIT_DAYS;
-    private static final String TEXT_UNIT_MINUTES;
-    private static final String TEXT_UNIT_HOURS;
-    private static final String TEXT_UNIT_SECONDS;
-    private static final String TEXT_SEPARATOR_SLASH;
-    private static final String TEXT_SEPARATOR_MINUS;
-    public static final String TEXT_TIME_NOT_APPLICABLE;
+    public static final int DECORATION_24 = 0;
+    public static final int DECORATION_AM = 1;
+    public static final int DECORATION_PM = 2;
+    public static final int TYPE_DATE = 0;
+    public static final int TYPE_TIME = 1;
+    public static final int TYPE_DATE_AND_TIME = 2;
+    public static final int TYPE_DURATION = 3;
+    public static final int TYPE_DATE_AND_TIME_LONG = 4;
+    public static final int TYPE_DURATION_HOUR_MIN = 5;
+    public static final int TYPE_TIME_LONG = 6;
+    public static final int TYPE_DURATION_TRAFFIC_OFFSET = 7;
+    public static final int TYPE_DAY_OF_WEEK = 8;
+    public static final int TYPE_DATE_DAY_AND_MONTH = 9;
+    public static final int TYPE_SECONDS_ONLY = 10;
+    public static final int TYPE_DURATION_HOUR_MIN_0 = 11;
+    public static final int TYPE_DATE_AND_TIME_SHORT = 12;
+    public static final int TYPE_DATE_SHORT = 13;
+    public static final int TYPE_DURATION_LONG = 14;
+    public static final int TYPE_DURATION_HOUR_ONLY = 15;
+    public static final int TYPE_DURATION_MINUTE_ONLY = 16;
+    public static final int TYPE_DURATION_IN_MINUTES = 17;
+    public static final int TYPE_DATE_AND_TIME_SHORTYEAR = 21;
+    public static final int TYPE_DURATION_DAYS_ONLY = 18;
+    public static final int TYPE_DURATION_DAYS_HOUR_MIN_0 = 19;
+    public static final int TYPE_DURATION_DAYS_HOUR_MIN = 20;
+    public static final int TYPE_DURATION_WITHOUT_APPEND_ZERO_HOUR = 22;
+    public static final int TYPE_DURATION_DELAY_ON_ROUTE = 23;
+    public static final int TYPE_DURATION_TRAFFIC_OFFSET0 = 24;
+    public static final int TYPE_DURATION_WITH_UNIT = 25;
+    public static final int TYPE_COUNT = 26;
+    public static final int FORMAT_TIME_24 = 10;
+    public static final int FORMAT_TIME_AM_PM = 11;
+    public static final int FORMAT_DATE_DAYS_FIRST = 20;
+    public static final int FORMAT_DATE_DAYS_FIRST_WEEKDAY_SHORT = 21;
+    public static final int FORMAT_DATE_DAYS_FIRST_WEEKDAY_FULL = 22;
+    public static final int FORMAT_DATE_MONTH_FIRST = 23;
+    public static final int FORMAT_DATE_MONTH_FIRST_WEEKDAY_SHORT = 24;
+    public static final int FORMAT_DATE_MONTH_FIRST_WEEKDAY_FULL = 25;
+    public static final int FORMAT_DATE_YEARS_FIRST = 26;
+    public static final int FORMAT_DATE_YEARS_FIRST_WEEKDAY_SHORT = 27;
+    public static final int FORMAT_DATE_YEARS_FIRST_WEEKDAY_FULL = 28;
+    public static final int UNIT_AMPM = 0;
+    public static final int UNIT_NO_AMPM = 1;
+    public static final int UNIT_AMPM_ONLY = 2;
+    public static int timeFormat = 10;
+    public static int dateFormat = 20;
+    private static final String TEXT_DATE_PM = " PM";
+    private static final String TEXT_DATE_AM = " AM";
+    private static final String TEXT_UNIT_DAYS = " d";
+    private static final String TEXT_UNIT_MINUTES = " min";
+    private static final String TEXT_UNIT_HOURS = " h";
+    private static final String TEXT_UNIT_SECONDS = "s";
+    private static final String TEXT_SEPARATOR_SLASH = "/";
+    private static final String TEXT_SEPARATOR_MINUS = "-";
+    public static final String TEXT_TIME_NOT_APPLICABLE = "--:--";
     private Calendar cal;
     private Date date;
     private Buffer sb;
     private int type;
     private long[] hoursAndMinutesAndSeconds;
 
-    public DateMetric(Date date, int n) {
-        super(32959, -1);
+    public DateMetric(Date date, int n) throws IllegalArgumentException {
+        super(-1.0f, -1);
         if (date == null) {
             throw new IllegalArgumentException("Given Date object is null!");
         }
         if (n < 0 || n >= 26) {
-            throw new IllegalArgumentException(new StringBuffer().append("Type [").append(n).append("] is not valid!").toString());
+            throw new IllegalArgumentException("Type [" + n + "] is not valid!");
         }
         if (!(n != 0 && n != 2 && n != 4 && n != 12 && n != 21 || dateFormat >= 20 && dateFormat <= 28)) {
-            throw new IllegalArgumentException(new StringBuffer().append("Date format [").append(dateFormat).append("] is not valid!").toString());
+            throw new IllegalArgumentException("Date format [" + dateFormat + "] is not valid!");
         }
         if (!(n != 1 && n != 2 && n != 4 && n != 6 && n != 12 || timeFormat >= 10 && timeFormat <= 11)) {
-            throw new IllegalArgumentException(new StringBuffer().append("Time format [").append(timeFormat).append("] is not valid!").toString());
+            throw new IllegalArgumentException("Time format [" + timeFormat + "] is not valid!");
         }
         this.date = date;
         this.type = n;
@@ -98,17 +98,14 @@ extends AbstractMetrics {
         this.isMetricValid = this.date.getTime() >= 0L;
     }
 
-    @Override
     public void setValue(float f2) {
         throw new UnsupportedOperationException("setValue(float) unsupported for DateMetric! Use setDate(long)");
     }
 
-    @Override
     public float getValue() {
         return this.date.getTime();
     }
 
-    @Override
     public float getValue(int n) {
         return this.getValue();
     }
@@ -162,12 +159,10 @@ extends AbstractMetrics {
         return timeFormat;
     }
 
-    @Override
     public String format() {
         return this.format(0);
     }
 
-    @Override
     public String format(int n) {
         return this.format(n, 0);
     }
@@ -431,7 +426,7 @@ extends AbstractMetrics {
             this.sb.append(n2);
             this.appendSeconds();
         } else {
-            this.sb.append("--:--");
+            this.sb.append(TEXT_TIME_NOT_APPLICABLE);
         }
     }
 
@@ -447,7 +442,7 @@ extends AbstractMetrics {
             stringBuffer.append(n2);
             this.appendSeconds(stringBuffer, stringBuffer2);
         } else {
-            stringBuffer.append("--:--");
+            stringBuffer.append(TEXT_TIME_NOT_APPLICABLE);
         }
     }
 
@@ -529,8 +524,8 @@ extends AbstractMetrics {
 
     private void appendSecondsOnly(int n) {
         long l = this.cal.getTimeInMillis();
-        long l2 = l / 0;
-        long l3 = (l - l2 * 0) / 0;
+        long l2 = l / 1000L;
+        long l3 = (l - l2 * 1000L) / 100L;
         this.sb.append(l2);
         this.sb.append(this.getText(68, n));
         this.sb.append(l3);
@@ -543,7 +538,7 @@ extends AbstractMetrics {
         long l2 = this.hoursAndMinutesAndSeconds[1];
         this.sb.append(l);
         this.sb.append(this.getText(16, n));
-        if (l2 < 0) {
+        if (l2 < 10L) {
             this.sb.append(0);
         }
         this.sb.append(l2);
@@ -556,7 +551,7 @@ extends AbstractMetrics {
         long l2 = this.hoursAndMinutesAndSeconds[1];
         stringBuffer.append(l);
         stringBuffer.append(this.getText(16, n));
-        if (l2 < 0) {
+        if (l2 < 10L) {
             stringBuffer.append(0);
         }
         stringBuffer.append(l2);
@@ -565,7 +560,7 @@ extends AbstractMetrics {
 
     private void appendDurationDelayOnRoute(int n) {
         long l = this.getRoundedUpMinutesForDelayOnRoute();
-        if (l > 0) {
+        if (l > 90L) {
             this.sb.append("> 90 ");
         } else {
             this.sb.append("+ ");
@@ -577,7 +572,7 @@ extends AbstractMetrics {
 
     private void appendDurationDelayOnRoute(StringBuffer stringBuffer, StringBuffer stringBuffer2, int n) {
         long l = this.getRoundedUpMinutesForDelayOnRoute();
-        if (l > 0) {
+        if (l > 90L) {
             stringBuffer.append("> 90 ");
         } else {
             stringBuffer.append("+ ");
@@ -591,12 +586,12 @@ extends AbstractMetrics {
         this.getHoursAndMinutes(this.getTotalMinutes());
         long l = this.hoursAndMinutesAndSeconds[0];
         long l2 = this.hoursAndMinutesAndSeconds[1];
-        if (l < 0) {
+        if (l < 10L) {
             this.sb.append(0);
         }
         this.sb.append(l);
         this.sb.append(DateMetric.getText(16));
-        if (l2 < 0) {
+        if (l2 < 10L) {
             this.sb.append(0);
         }
         this.sb.append(l2);
@@ -612,7 +607,7 @@ extends AbstractMetrics {
         } else {
             this.sb.append(l);
             this.sb.append(DateMetric.getText(16));
-            if (l2 < 0) {
+            if (l2 < 10L) {
                 this.sb.append(0);
             }
             this.sb.append(l2);
@@ -625,17 +620,17 @@ extends AbstractMetrics {
         long l = this.hoursAndMinutesAndSeconds[0];
         long l2 = this.hoursAndMinutesAndSeconds[1];
         long l3 = this.hoursAndMinutesAndSeconds[2];
-        if (l < 0) {
+        if (l < 10L) {
             this.sb.append(0);
         }
         this.sb.append(l);
         this.sb.append(DateMetric.getText(16));
-        if (l2 < 0) {
+        if (l2 < 10L) {
             this.sb.append(0);
         }
         this.sb.append(l2);
         this.sb.append(DateMetric.getText(17));
-        if (l3 < 0) {
+        if (l3 < 10L) {
             this.sb.append(0);
         }
         this.sb.append(l3);
@@ -701,7 +696,7 @@ extends AbstractMetrics {
 
     private void appendDurationBelow1Min(int n) {
         if (!this.isMetricValid) {
-            this.sb.append("--:--");
+            this.sb.append(TEXT_TIME_NOT_APPLICABLE);
         } else {
             this.sb.append(0);
             this.sb.append(this.getText(14, n));
@@ -716,18 +711,18 @@ extends AbstractMetrics {
         if (l < 1L && !bl) {
             this.sb.append("--");
             this.sb.append(this.getText(14, n));
-        } else if (l < 0) {
+        } else if (l < 60L) {
             this.sb.append(l);
             this.sb.append(this.getText(14, n));
-        } else if (l < 0) {
+        } else if (l < 600L) {
             this.sb.append(l2);
             this.sb.append(this.getText(16, n));
-            if (l3 < 0) {
+            if (l3 < 10L) {
                 this.sb.append(0);
             }
             this.sb.append(l3);
             this.sb.append(this.getText(15, n));
-        } else if (l < 0) {
+        } else if (l < 5940L) {
             this.sb.append("> 10");
             this.sb.append(this.getText(15, n));
         } else {
@@ -744,18 +739,18 @@ extends AbstractMetrics {
         if (l < 1L && !bl) {
             stringBuffer.append("--");
             stringBuffer2.append(this.getText(14, n));
-        } else if (l < 0) {
+        } else if (l < 60L) {
             stringBuffer.append(l);
             stringBuffer2.append(this.getText(14, n));
-        } else if (l < 0) {
+        } else if (l < 600L) {
             stringBuffer.append(l2);
             stringBuffer.append(this.getText(16, n));
-            if (l3 < 0) {
+            if (l3 < 10L) {
                 stringBuffer.append(0);
             }
             stringBuffer.append(l3);
             stringBuffer2.append(this.getText(15, n));
-        } else if (l < 0) {
+        } else if (l < 5940L) {
             stringBuffer.append("> 10");
             stringBuffer2.append(this.getText(15, n));
         } else {
@@ -781,43 +776,43 @@ extends AbstractMetrics {
     }
 
     private long getTotalMinutes() {
-        return this.date.getTime() / 0;
+        return this.date.getTime() / 60000L;
     }
 
     private long getTotalSeconds() {
-        return this.date.getTime() / 0;
+        return this.date.getTime() / 1000L;
     }
 
     private long getTotalDays() {
-        return this.date.getTime() / 0;
+        return this.date.getTime() / 86400000L;
     }
 
     private long getRoundedUpMinutesForDelayOnRoute() {
         long l = this.getTotalMinutes();
         long l2 = this.getTotalSeconds();
-        return l2 % 0 == 0L ? l : l + 1L;
+        return l2 % 60L == 0L ? l : l + 1L;
     }
 
     private void getHoursAndMinutes(long l) {
         long l2;
-        this.hoursAndMinutesAndSeconds[0] = l2 = l / 0;
-        this.hoursAndMinutesAndSeconds[1] = l - l2 * 0;
+        this.hoursAndMinutesAndSeconds[0] = l2 = l / 60L;
+        this.hoursAndMinutesAndSeconds[1] = l - l2 * 60L;
     }
 
     private void getDaysHoursAndMinutes(long l) {
-        long l2 = l / 0 / 0;
-        long l3 = (l - l2 * 0 * 0) / 0;
+        long l2 = l / 60L / 24L;
+        long l3 = (l - l2 * 60L * 24L) / 60L;
         this.hoursAndMinutesAndSeconds[0] = l2;
         this.hoursAndMinutesAndSeconds[1] = l3;
-        this.hoursAndMinutesAndSeconds[2] = l - l2 * 0 * 0 - l3 * 0;
+        this.hoursAndMinutesAndSeconds[2] = l - l2 * 60L * 24L - l3 * 60L;
     }
 
     private void getHoursAndMinutesandSeconds(long l) {
-        long l2 = l / 0;
-        long l3 = (l - l2 * 0) / 0;
+        long l2 = l / 3600L;
+        long l3 = (l - l2 * 3600L) / 60L;
         this.hoursAndMinutesAndSeconds[0] = l2;
         this.hoursAndMinutesAndSeconds[1] = l3;
-        this.hoursAndMinutesAndSeconds[2] = l - l2 * 0 - l3 * 0;
+        this.hoursAndMinutesAndSeconds[2] = l - l2 * 3600L - l3 * 60L;
     }
 
     private void initBuffer() {
@@ -836,7 +831,7 @@ extends AbstractMetrics {
     }
 
     public String toString() {
-        return new StringBuffer().append("DateMetric(").append(this.cal).append(",").append(this.date).append(",").append(this.type).append(",").append(this.sb).append(")").toString();
+        return "DateMetric(" + this.cal + "," + this.date + "," + this.type + "," + this.sb + ")";
     }
 
     public String getTextClusterMIB2(int n) {
@@ -890,11 +885,11 @@ extends AbstractMetrics {
                     break;
                 }
                 case 23: {
-                    string = "/";
+                    string = TEXT_SEPARATOR_SLASH;
                     break;
                 }
                 case 22: {
-                    string = "-";
+                    string = TEXT_SEPARATOR_MINUS;
                     break;
                 }
                 case 21: {
@@ -914,23 +909,23 @@ extends AbstractMetrics {
                     break;
                 }
                 case 18: {
-                    string = " AM";
+                    string = TEXT_DATE_AM;
                     break;
                 }
                 case 19: {
-                    string = " PM";
+                    string = TEXT_DATE_PM;
                     break;
                 }
                 case 15: {
-                    string = " h";
+                    string = TEXT_UNIT_HOURS;
                     break;
                 }
                 case 14: {
-                    string = " min";
+                    string = TEXT_UNIT_MINUTES;
                     break;
                 }
                 case 94: {
-                    string = " d";
+                    string = TEXT_UNIT_DAYS;
                     break;
                 }
                 case 68: {
@@ -938,7 +933,7 @@ extends AbstractMetrics {
                     break;
                 }
                 case 69: {
-                    string = "s";
+                    string = TEXT_UNIT_SECONDS;
                     break;
                 }
                 default: {
@@ -956,12 +951,10 @@ extends AbstractMetrics {
         return DateMetric.getText(n);
     }
 
-    @Override
     public String[] getStringValueAndUnit() {
         return this.getStringValueAndUnit(0);
     }
 
-    @Override
     public String[] getStringValueAndUnit(int n) {
         return this.getStringValueAndUnit(n, 0);
     }
@@ -1043,12 +1036,10 @@ extends AbstractMetrics {
         }
     }
 
-    @Override
     public String getFormattedMetricUnit() {
         return this.getFormattedUnit(0);
     }
 
-    @Override
     public String getFormattedUnit(int n) {
         if (7 == this.type || 1 == this.type || 6 == this.type || 3 == this.type || 14 == this.type) {
             StringBuffer stringBuffer = new StringBuffer(20);
@@ -1062,12 +1053,10 @@ extends AbstractMetrics {
         return this.format(n);
     }
 
-    @Override
     public String getFormattedValue() {
         return this.getFormattedValue(0);
     }
 
-    @Override
     public String getFormattedValue(int n) {
         if (7 == this.type || 1 == this.type || 6 == this.type) {
             StringBuffer stringBuffer = new StringBuffer(20);
@@ -1078,14 +1067,8 @@ extends AbstractMetrics {
         return this.isMetricvalid() ? this.format(n) : this.getInvalidText();
     }
 
-    @Override
     public String getInvalidText() {
-        return "--:--";
-    }
-
-    static {
-        timeFormat = 10;
-        dateFormat = 20;
+        return TEXT_TIME_NOT_APPLICABLE;
     }
 }
 

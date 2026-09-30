@@ -25,7 +25,6 @@ implements GeoCoordinates {
         this.env = navigationEnv;
     }
 
-    @Override
     public NavLocation extractGeoCoordinates(int n, int n2, NavigationEnv navigationEnv) {
         EvoListRow evoListRow = this.env.getBaseListModel(n).getRow(n2);
         return this.navlocationExtractor.extractNavLocationFromRow(evoListRow);

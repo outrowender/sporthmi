@@ -3,19 +3,18 @@
  */
 package de.audi.app.car.core.light;
 
-import de.audi.app.car.core.light.IntLightSetEvaluator$SingleZoneIdentity;
 import de.audi.atip.log.LogChannel;
 import org.dsi.ifc.carlight.IntLightViewOptions;
 import org.dsi.ifc.global.CarViewOption;
 
 public class IntLightSetEvaluator {
-    public static final int NO_SINGLE_SET_MODE;
-    public static final int BRIGHTNESS_COCKPIT;
-    public static final int BRIGHTNESS_CONTOUR;
-    public static final int BRIGHTNESS_DOORS;
-    public static final int BRIGHTNESS_FOOTWELL;
-    public static final int BRIGHTNESS_SUNROOF;
-    public static final int BRIGHTNESS_SURFACE;
+    public static final int NO_SINGLE_SET_MODE = 0;
+    public static final int BRIGHTNESS_COCKPIT = 1;
+    public static final int BRIGHTNESS_CONTOUR = 2;
+    public static final int BRIGHTNESS_DOORS = 3;
+    public static final int BRIGHTNESS_FOOTWELL = 4;
+    public static final int BRIGHTNESS_SUNROOF = 5;
+    public static final int BRIGHTNESS_SURFACE = 6;
     private IntLightViewOptions viewOptions;
     private int footwellFrontRearSetNumber = 0;
     private int cockpitSetNumber = 0;
@@ -31,91 +30,91 @@ public class IntLightSetEvaluator {
         this.viewOptions = intLightViewOptions;
         this.logChan = logChannel;
         if (logChannel.isInfo()) {
-            logChannel.log(1078071040, "[IntLightSetEvaluator#IntLightSetEvaluator] get IlluminationsetNumber for DSICarLight.SETUPILLUMINATIONSET_FOOTWELL_FRONTREAR");
+            logChannel.log(1000000, "[IntLightSetEvaluator#IntLightSetEvaluator] get IlluminationsetNumber for DSICarLight.SETUPILLUMINATIONSET_FOOTWELL_FRONTREAR");
         }
         this.footwellFrontRearSetNumber = this.getIlluminationSetNumber(5);
         if (logChannel.isInfo()) {
-            logChannel.log(1078071040, "[IntLightSetEvaluator#IntLightSetEvaluator] get IlluminationsetNumber for DSICarLight.SETUPILLUMINATIONSET_COCKPIT");
+            logChannel.log(1000000, "[IntLightSetEvaluator#IntLightSetEvaluator] get IlluminationsetNumber for DSICarLight.SETUPILLUMINATIONSET_COCKPIT");
         }
         this.cockpitSetNumber = this.getIlluminationSetNumber(6);
         if (logChannel.isInfo()) {
-            logChannel.log(1078071040, "[IntLightSetEvaluator#IntLightSetEvaluator] get IlluminationsetNumber for DSICarLight.SETUPILLUMINATIONSET_DOORS_FRONTREAR");
+            logChannel.log(1000000, "[IntLightSetEvaluator#IntLightSetEvaluator] get IlluminationsetNumber for DSICarLight.SETUPILLUMINATIONSET_DOORS_FRONTREAR");
         }
         this.doorsFrontRearSetNumber = this.getIlluminationSetNumber(7);
         if (logChannel.isInfo()) {
-            logChannel.log(1078071040, "[IntLightSetEvaluator#IntLightSetEvaluator] get IlluminationsetNumber for DSICarLight.SETUPILLUMINATIONSET_SUNROOF");
+            logChannel.log(1000000, "[IntLightSetEvaluator#IntLightSetEvaluator] get IlluminationsetNumber for DSICarLight.SETUPILLUMINATIONSET_SUNROOF");
         }
         this.sunRoofSetNumber = this.getIlluminationSetNumber(12);
         if (logChannel.isInfo()) {
-            logChannel.log(1078071040, "[IntLightSetEvaluator#IntLightSetEvaluator] get IlluminationsetNumber for DSICarLight.SETUPILLUMINATIONSET_CONTOUR");
+            logChannel.log(1000000, "[IntLightSetEvaluator#IntLightSetEvaluator] get IlluminationsetNumber for DSICarLight.SETUPILLUMINATIONSET_CONTOUR");
         }
         this.contourSetNumber = this.getIlluminationSetNumber(13);
         if (logChannel.isInfo()) {
-            logChannel.log(1078071040, "[IntLightSetEvaluator#SETUPILLUMINATIONSET_SURFACE] get IlluminationsetNumber for DSICarLight.SETUPILLUMINATIONSET_SURFACE");
+            logChannel.log(1000000, "[IntLightSetEvaluator#SETUPILLUMINATIONSET_SURFACE] get IlluminationsetNumber for DSICarLight.SETUPILLUMINATIONSET_SURFACE");
         }
         this.surfaceSetSetNumber = this.getIlluminationSetNumber(17);
         if (logChannel.isInfo()) {
-            logChannel.log(1078071040, "[IntLightSetEvaluator#IntLightSetEvaluator] get IlluminationsetNumber for DSICarLight.SETUPILLUMINATIONSET_STANDARDSET");
+            logChannel.log(1000000, "[IntLightSetEvaluator#IntLightSetEvaluator] get IlluminationsetNumber for DSICarLight.SETUPILLUMINATIONSET_STANDARDSET");
         }
         this.standardSetSetNumber = this.getIlluminationSetNumber(11);
         if (logChannel.isInfo()) {
-            logChannel.log(1078071040, "[IntLightSetEvaluator#SETUPILLUMINATIONSET_ALLSETSSYNC] get IlluminationsetNumber for DSICarLight.SETUPILLUMINATIONSET_ALLSETSSYNC");
+            logChannel.log(1000000, "[IntLightSetEvaluator#SETUPILLUMINATIONSET_ALLSETSSYNC] get IlluminationsetNumber for DSICarLight.SETUPILLUMINATIONSET_ALLSETSSYNC");
         }
         this.allSetsSyncSetNumber = this.getIlluminationSetNumber(10);
     }
 
     public int getFootwellFrontRearSetNumber() {
         if (this.logChan.isInfo()) {
-            this.logChan.log(1078071040, "[IntLightSetEvaluator#getFootwellFrontRearSetNumber] returning footwellFrontRearSetNumber = %1", (long)this.footwellFrontRearSetNumber);
+            this.logChan.log(1000000, "[IntLightSetEvaluator#getFootwellFrontRearSetNumber] returning footwellFrontRearSetNumber = %1", (long)this.footwellFrontRearSetNumber);
         }
         return this.footwellFrontRearSetNumber;
     }
 
     public int getCockpitSetNumber() {
         if (this.logChan.isInfo()) {
-            this.logChan.log(1078071040, "[IntLightSetEvaluator#getCockpitSetNumber] returning cockpitSetNumber = %1", (long)this.cockpitSetNumber);
+            this.logChan.log(1000000, "[IntLightSetEvaluator#getCockpitSetNumber] returning cockpitSetNumber = %1", (long)this.cockpitSetNumber);
         }
         return this.cockpitSetNumber;
     }
 
     public int getDoorsFrontRearSetNumber() {
         if (this.logChan.isInfo()) {
-            this.logChan.log(1078071040, "[IntLightSetEvaluator#getDoorsFrontRearSetNumber] returning doorsFrontRearSetNumber = %1", (long)this.doorsFrontRearSetNumber);
+            this.logChan.log(1000000, "[IntLightSetEvaluator#getDoorsFrontRearSetNumber] returning doorsFrontRearSetNumber = %1", (long)this.doorsFrontRearSetNumber);
         }
         return this.doorsFrontRearSetNumber;
     }
 
     public int getSunRoofSetNumber() {
         if (this.logChan.isInfo()) {
-            this.logChan.log(1078071040, "[IntLightSetEvaluator#getSunRoofSetNumber] returning sunRoofSetNumber = %1", (long)this.sunRoofSetNumber);
+            this.logChan.log(1000000, "[IntLightSetEvaluator#getSunRoofSetNumber] returning sunRoofSetNumber = %1", (long)this.sunRoofSetNumber);
         }
         return this.sunRoofSetNumber;
     }
 
     public int getContourSetNumber() {
         if (this.logChan.isInfo()) {
-            this.logChan.log(1078071040, "[IntLightSetEvaluator#getContourSetNumber] returning contourSetNumber = %1", (long)this.contourSetNumber);
+            this.logChan.log(1000000, "[IntLightSetEvaluator#getContourSetNumber] returning contourSetNumber = %1", (long)this.contourSetNumber);
         }
         return this.contourSetNumber;
     }
 
     public int getSurfaceSetSetNumber() {
         if (this.logChan.isInfo()) {
-            this.logChan.log(1078071040, "[IntLightSetEvaluator#getSurfaceSetSetNumber] returning surfaceSetSetNumber = %1", (long)this.surfaceSetSetNumber);
+            this.logChan.log(1000000, "[IntLightSetEvaluator#getSurfaceSetSetNumber] returning surfaceSetSetNumber = %1", (long)this.surfaceSetSetNumber);
         }
         return this.surfaceSetSetNumber;
     }
 
     public int getAllSetsSyncSetNumber() {
         if (this.logChan.isInfo()) {
-            this.logChan.log(1078071040, "[IntLightSetEvaluator#getAllSetSyncSetNumber] returning allSetSyncSetNumber = %1", (long)this.allSetsSyncSetNumber);
+            this.logChan.log(1000000, "[IntLightSetEvaluator#getAllSetSyncSetNumber] returning allSetSyncSetNumber = %1", (long)this.allSetsSyncSetNumber);
         }
         return this.allSetsSyncSetNumber;
     }
 
     public int getStandardSetSetNumber() {
         if (this.logChan.isInfo()) {
-            this.logChan.log(1078071040, "[IntLightSetEvaluator#getStandardSetSetNumber] returning standardSetSetNumber = %1", (long)this.standardSetSetNumber);
+            this.logChan.log(1000000, "[IntLightSetEvaluator#getStandardSetSetNumber] returning standardSetSetNumber = %1", (long)this.standardSetSetNumber);
         }
         return this.standardSetSetNumber;
     }
@@ -128,45 +127,45 @@ public class IntLightSetEvaluator {
         return this.standardSetSetNumber > 0;
     }
 
-    public IntLightSetEvaluator$SingleZoneIdentity getSingleIlluminatinSetId() {
+    public SingleZoneIdentity getSingleIlluminatinSetId() {
         int n = 0;
         boolean bl = false;
-        IntLightSetEvaluator$SingleZoneIdentity intLightSetEvaluator$SingleZoneIdentity = new IntLightSetEvaluator$SingleZoneIdentity(this);
+        SingleZoneIdentity singleZoneIdentity = new SingleZoneIdentity();
         if (this.getCockpitSetNumber() != 0) {
             ++n;
-            intLightSetEvaluator$SingleZoneIdentity.setZoneIdentifier(1);
-            intLightSetEvaluator$SingleZoneIdentity.setSetNumber(this.getCockpitSetNumber());
+            singleZoneIdentity.setZoneIdentifier(1);
+            singleZoneIdentity.setSetNumber(this.getCockpitSetNumber());
         }
         if (this.getContourSetNumber() != 0) {
             ++n;
-            intLightSetEvaluator$SingleZoneIdentity.setZoneIdentifier(2);
-            intLightSetEvaluator$SingleZoneIdentity.setSetNumber(this.getContourSetNumber());
+            singleZoneIdentity.setZoneIdentifier(2);
+            singleZoneIdentity.setSetNumber(this.getContourSetNumber());
         }
         if (this.getDoorsFrontRearSetNumber() != 0) {
             ++n;
-            intLightSetEvaluator$SingleZoneIdentity.setZoneIdentifier(3);
-            intLightSetEvaluator$SingleZoneIdentity.setSetNumber(this.getDoorsFrontRearSetNumber());
+            singleZoneIdentity.setZoneIdentifier(3);
+            singleZoneIdentity.setSetNumber(this.getDoorsFrontRearSetNumber());
         }
         if (this.getFootwellFrontRearSetNumber() != 0) {
             ++n;
-            intLightSetEvaluator$SingleZoneIdentity.setZoneIdentifier(4);
-            intLightSetEvaluator$SingleZoneIdentity.setSetNumber(this.getFootwellFrontRearSetNumber());
+            singleZoneIdentity.setZoneIdentifier(4);
+            singleZoneIdentity.setSetNumber(this.getFootwellFrontRearSetNumber());
         }
         if (this.getSunRoofSetNumber() != 0) {
             ++n;
-            intLightSetEvaluator$SingleZoneIdentity.setZoneIdentifier(5);
-            intLightSetEvaluator$SingleZoneIdentity.setSetNumber(this.getSunRoofSetNumber());
+            singleZoneIdentity.setZoneIdentifier(5);
+            singleZoneIdentity.setSetNumber(this.getSunRoofSetNumber());
         }
         if (this.getSurfaceSetSetNumber() != 0) {
             ++n;
-            intLightSetEvaluator$SingleZoneIdentity.setZoneIdentifier(6);
-            intLightSetEvaluator$SingleZoneIdentity.setSetNumber(this.getSurfaceSetSetNumber());
+            singleZoneIdentity.setZoneIdentifier(6);
+            singleZoneIdentity.setSetNumber(this.getSurfaceSetSetNumber());
         }
         if (n == 1) {
-            return intLightSetEvaluator$SingleZoneIdentity;
+            return singleZoneIdentity;
         }
-        intLightSetEvaluator$SingleZoneIdentity.setZoneIdentifier(0);
-        return intLightSetEvaluator$SingleZoneIdentity;
+        singleZoneIdentity.setZoneIdentifier(0);
+        return singleZoneIdentity;
     }
 
     public IntLightViewOptions getIntLightViewOptions() {
@@ -175,56 +174,56 @@ public class IntLightSetEvaluator {
 
     public CarViewOption getFootwellFrontRearBrightnessViewOption() {
         if (this.logChan.isInfo()) {
-            this.logChan.log(1078071040, "[IntLightSetEvaluator#getFootwellFrontRearBrightnessViewOption] from Set configured as DSICarLight.SETUPILLUMINATIONSET_FOOTWELL_FRONTREAR");
+            this.logChan.log(1000000, "[IntLightSetEvaluator#getFootwellFrontRearBrightnessViewOption] from Set configured as DSICarLight.SETUPILLUMINATIONSET_FOOTWELL_FRONTREAR");
         }
         return this.getVo(5);
     }
 
     public CarViewOption getCockpitBrightnessViewOption() {
         if (this.logChan.isInfo()) {
-            this.logChan.log(1078071040, "[IntLightSetEvaluator#getFootwellFrontRearBrightnessViewOption] from Set configured as DSICarLight.SETUPILLUMINATIONSET_COCKPIT");
+            this.logChan.log(1000000, "[IntLightSetEvaluator#getFootwellFrontRearBrightnessViewOption] from Set configured as DSICarLight.SETUPILLUMINATIONSET_COCKPIT");
         }
         return this.getVo(6);
     }
 
     public CarViewOption getDoorsFrontRearBrightnessViewOption() {
         if (this.logChan.isInfo()) {
-            this.logChan.log(1078071040, "[IntLightSetEvaluator#getFootwellFrontRearBrightnessViewOption] from Set configured as DSICarLight.SETUPILLUMINATIONSET_DOORS_FRONTREAR");
+            this.logChan.log(1000000, "[IntLightSetEvaluator#getFootwellFrontRearBrightnessViewOption] from Set configured as DSICarLight.SETUPILLUMINATIONSET_DOORS_FRONTREAR");
         }
         return this.getVo(7);
     }
 
     public CarViewOption getRoofBrightnessViewOption() {
         if (this.logChan.isInfo()) {
-            this.logChan.log(1078071040, "[IntLightSetEvaluator#getFootwellFrontRearBrightnessViewOption] from Set configured as DSICarLight.SETUPILLUMINATIONSET_SUNROOF");
+            this.logChan.log(1000000, "[IntLightSetEvaluator#getFootwellFrontRearBrightnessViewOption] from Set configured as DSICarLight.SETUPILLUMINATIONSET_SUNROOF");
         }
         return this.getVo(12);
     }
 
     public CarViewOption getContourBrightnessViewOption() {
         if (this.logChan.isInfo()) {
-            this.logChan.log(1078071040, "[IntLightSetEvaluator#getFootwellFrontRearBrightnessViewOption] from Set configured as DSICarLight.SETUPILLUMINATIONSET_CONTOUR");
+            this.logChan.log(1000000, "[IntLightSetEvaluator#getFootwellFrontRearBrightnessViewOption] from Set configured as DSICarLight.SETUPILLUMINATIONSET_CONTOUR");
         }
         return this.getVo(13);
     }
 
     public CarViewOption getSurfaceBrighnessViewOption() {
         if (this.logChan.isInfo()) {
-            this.logChan.log(1078071040, "[IntLightSetEvaluator#getSurfaceBrighnessViewOption] from Set configured as DSICarLight.SETUPILLUMINATIONSET_SURFACE");
+            this.logChan.log(1000000, "[IntLightSetEvaluator#getSurfaceBrighnessViewOption] from Set configured as DSICarLight.SETUPILLUMINATIONSET_SURFACE");
         }
         return this.getVo(17);
     }
 
     public CarViewOption getAllSetsSyncViewOption() {
         if (this.logChan.isInfo()) {
-            this.logChan.log(1078071040, "[IntLightSetEvaluator#getAllSetSyncViewOption] from Set configured as DSICarLight.SETUPILLUMINATIONSET_ALLSETSSYNC");
+            this.logChan.log(1000000, "[IntLightSetEvaluator#getAllSetSyncViewOption] from Set configured as DSICarLight.SETUPILLUMINATIONSET_ALLSETSSYNC");
         }
         return this.getVo(10);
     }
 
     public CarViewOption getStandardSetViewOption() {
         if (this.logChan.isInfo()) {
-            this.logChan.log(1078071040, "[IntLightSetEvaluator#getStandardSetViewOption] from Set configured as DSICarLight.SETUPILLUMINATIONSET_STANDARDSET");
+            this.logChan.log(1000000, "[IntLightSetEvaluator#getStandardSetViewOption] from Set configured as DSICarLight.SETUPILLUMINATIONSET_STANDARDSET");
         }
         return this.getVo(11);
     }
@@ -233,7 +232,7 @@ public class IntLightSetEvaluator {
         CarViewOption carViewOption;
         CarViewOption carViewOption2 = this.viewOptions.getIntLightConfig().getSetupIlluminationSet1() == n ? this.viewOptions.getIntLightIlluminationSet1() : (this.viewOptions.getIntLightConfig().getSetupIlluminationSet2() == n ? this.viewOptions.getIntLightIlluminationSet2() : (this.viewOptions.getIntLightConfig().getSetupIlluminationSet3() == n ? this.viewOptions.getIntLightIlluminationSet3() : (this.viewOptions.getIntLightConfig().getSetupIlluminationSet4() == n ? this.viewOptions.getIntLightIlluminationSet4() : (this.viewOptions.getIntLightConfig().getSetupIlluminationSet5() == n ? this.viewOptions.getIntLightIlluminationSet5() : (this.viewOptions.getIntLightConfig().getSetupIlluminationSet6() == n ? this.viewOptions.getIntLightIlluminationSet6() : (this.viewOptions.getIntLightConfig().getSetupIlluminationSet7() == n ? this.viewOptions.getIntLightIlluminationSet7() : (carViewOption = this.viewOptions.getIntLightConfig().getSetupIlluminationSet8() == n ? this.viewOptions.getIntLightIlluminationSet8() : new CarViewOption(0, 0))))))));
         if (this.logChan.isInfo()) {
-            this.logChan.log(1078071040, "IntLightSetEvaluator: param = %2 resolved to CarViewOption = %1", (Object)carViewOption, (long)n);
+            this.logChan.log(1000000, "IntLightSetEvaluator: param = %2 resolved to CarViewOption = %1", (Object)carViewOption, (long)n);
         }
         return carViewOption;
     }
@@ -242,7 +241,7 @@ public class IntLightSetEvaluator {
         int n2;
         int n3 = this.viewOptions.getIntLightConfig().getSetupIlluminationSet1() == n ? 1 : (this.viewOptions.getIntLightConfig().getSetupIlluminationSet2() == n ? 2 : (this.viewOptions.getIntLightConfig().getSetupIlluminationSet3() == n ? 3 : (this.viewOptions.getIntLightConfig().getSetupIlluminationSet4() == n ? 4 : (this.viewOptions.getIntLightConfig().getSetupIlluminationSet5() == n ? 5 : (this.viewOptions.getIntLightConfig().getSetupIlluminationSet6() == n ? 6 : (this.viewOptions.getIntLightConfig().getSetupIlluminationSet7() == n ? 7 : (n2 = this.viewOptions.getIntLightConfig().getSetupIlluminationSet8() == n ? 8 : 0)))))));
         if (this.logChan.isInfo()) {
-            this.logChan.log(1078071040, "IntLightSetEvaluator: param = %1 resolved to SetupIlluminationSet %2", (long)n, (long)n2);
+            this.logChan.log(1000000, "IntLightSetEvaluator: param = %1 resolved to SetupIlluminationSet %2", (long)n, (long)n2);
         }
         return n2;
     }
@@ -265,6 +264,27 @@ public class IntLightSetEvaluator {
         stringBuffer.append(this.standardSetSetNumber);
         stringBuffer.append(" )");
         return stringBuffer.toString();
+    }
+
+    public class SingleZoneIdentity {
+        private int setNumber;
+        private int zoneIdentifier;
+
+        public int getSetNumber() {
+            return this.setNumber;
+        }
+
+        public void setSetNumber(int n) {
+            this.setNumber = n;
+        }
+
+        public int getZoneIdentifier() {
+            return this.zoneIdentifier;
+        }
+
+        public void setZoneIdentifier(int n) {
+            this.zoneIdentifier = n;
+        }
     }
 }
 

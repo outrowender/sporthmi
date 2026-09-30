@@ -3,19 +3,16 @@
  */
 package de.audi.atip.sysapp;
 
+import de.audi.atip.audio.DefaultHMIAudioServiceListener;
 import de.audi.atip.audio.HMIAudioService;
 import de.audi.atip.audio.HMIAudioServiceListener;
 import de.audi.atip.hmi.HMIService;
 import de.audi.atip.hmi.KbdService;
+import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.interapp.SDSService;
 import de.audi.atip.interapp.def.NullHMIAudioService;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.power.PowerEventListener;
-import de.audi.atip.sysapp.GeneralVehicleStateHandler$AudioListener;
-import de.audi.atip.sysapp.GeneralVehicleStateHandler$SpeedHandler;
-import de.audi.atip.sysapp.GeneralVehicleStateHandler$SpeedListener3DWizard;
-import de.audi.atip.sysapp.GeneralVehicleStateHandler$SpeedListenerSperrKonzept;
-import de.audi.atip.sysapp.GeneralVehicleStateHandler$SpeedListenerTV;
 import de.audi.atip.sysapp.IStandStillListener;
 import de.audi.atip.sysapp.SpeedThresholdListener;
 import de.audi.atip.sysapp.SysApp;
@@ -31,7 +28,7 @@ import org.osgi.framework.ServiceReference;
 public final class GeneralVehicleStateHandler
 implements DSIGeneralVehicleStatesListener,
 PowerEventListener {
-    private static final int SIZE_SPEED_THRESHHOLD_ARRY;
+    private static final int SIZE_SPEED_THRESHHOLD_ARRY = 16;
     private final SysApp sysApp;
     private final List[] speedHandlers;
     private final boolean[] currentThresholdValues;
@@ -52,10 +49,10 @@ PowerEventListener {
         this.speedHandlers = new List[16];
         this.currentThresholdValues = new boolean[16];
         this.audioService = new NullHMIAudioService(this.lc);
-        this.audioListener = new GeneralVehicleStateHandler$AudioListener(this, null);
-        this.registerThreshold(new GeneralVehicleStateHandler$SpeedListener3DWizard(this, null), 1);
-        this.registerThreshold(new GeneralVehicleStateHandler$SpeedListenerTV(this, null), 2);
-        this.registerThreshold(new GeneralVehicleStateHandler$SpeedListenerSperrKonzept(this, null), 12);
+        this.audioListener = new AudioListener();
+        this.registerThreshold(new SpeedListener3DWizard(), 1);
+        this.registerThreshold(new SpeedListenerTV(), 2);
+        this.registerThreshold(new SpeedListenerSperrKonzept(), 12);
     }
 
     private final HMIService getHMIService() {
@@ -91,28 +88,28 @@ PowerEventListener {
         }
     }
 
-    private GeneralVehicleStateHandler$SpeedHandler findSpeedHandler(List list, SpeedThresholdListener speedThresholdListener) {
+    private SpeedHandler findSpeedHandler(List list, SpeedThresholdListener speedThresholdListener) {
         for (int i2 = 0; i2 < list.size(); ++i2) {
-            GeneralVehicleStateHandler$SpeedHandler generalVehicleStateHandler$SpeedHandler = (GeneralVehicleStateHandler$SpeedHandler)list.get(i2);
-            if (speedThresholdListener == null || generalVehicleStateHandler$SpeedHandler.listener != speedThresholdListener) continue;
-            return generalVehicleStateHandler$SpeedHandler;
+            SpeedHandler speedHandler = (SpeedHandler)list.get(i2);
+            if (speedThresholdListener == null || speedHandler.listener != speedThresholdListener) continue;
+            return speedHandler;
         }
         return null;
     }
 
     private void removeSpeedHandler(List list, SpeedThresholdListener speedThresholdListener) {
-        GeneralVehicleStateHandler$SpeedHandler generalVehicleStateHandler$SpeedHandler = this.findSpeedHandler(list, speedThresholdListener);
-        if (generalVehicleStateHandler$SpeedHandler != null) {
-            list.remove(generalVehicleStateHandler$SpeedHandler);
+        SpeedHandler speedHandler = this.findSpeedHandler(list, speedThresholdListener);
+        if (speedHandler != null) {
+            list.remove(speedHandler);
         }
     }
 
     synchronized void registerThreshold(SpeedThresholdListener speedThresholdListener, int n) {
-        GeneralVehicleStateHandler$SpeedHandler generalVehicleStateHandler$SpeedHandler = new GeneralVehicleStateHandler$SpeedHandler(speedThresholdListener);
+        SpeedHandler speedHandler = new SpeedHandler(speedThresholdListener);
         List list = this.getSpeedManagerList(n);
         this.removeSpeedHandler(list, speedThresholdListener);
-        list.add(generalVehicleStateHandler$SpeedHandler);
-        generalVehicleStateHandler$SpeedHandler.fireThreshold(n, this.currentThresholdValues[n]);
+        list.add(speedHandler);
+        speedHandler.fireThreshold(n, this.currentThresholdValues[n]);
     }
 
     synchronized void unregisterThreshold(SpeedThresholdListener speedThresholdListener) {
@@ -146,20 +143,20 @@ PowerEventListener {
 
     private synchronized void updateVelocityThreshold(String string, int n, boolean bl, int n2) {
         if (n2 == 1) {
-            this.lc.log(-2137614336, "threshold update for %1", (Object)string);
+            this.lc.log(10000000, "threshold update for %1", (Object)string);
             List list = this.getSpeedManagerList(n);
             this.currentThresholdValues[n] = bl;
             for (int i2 = 0; i2 < list.size(); ++i2) {
-                GeneralVehicleStateHandler$SpeedHandler generalVehicleStateHandler$SpeedHandler = (GeneralVehicleStateHandler$SpeedHandler)list.get(i2);
-                generalVehicleStateHandler$SpeedHandler.fireThreshold(n, bl);
+                SpeedHandler speedHandler = (SpeedHandler)list.get(i2);
+                speedHandler.fireThreshold(n, bl);
             }
         } else {
-            this.lc.log(-2137614336, "invalid threshold update for %1", (Object)string);
+            this.lc.log(10000000, "invalid threshold update for %1", (Object)string);
         }
     }
 
     void registerAudioService(HMIAudioService hMIAudioService) {
-        this.lc.log(-2137614336, "[GeneralVehicleStateHandler.registerAudioService] %1", (Object)hMIAudioService);
+        this.lc.log(10000000, "[GeneralVehicleStateHandler.registerAudioService] %1", (Object)hMIAudioService);
         this.audioService = hMIAudioService;
     }
 
@@ -167,37 +164,30 @@ PowerEventListener {
         this.audioService = new NullHMIAudioService(this.lc);
     }
 
-    @Override
     public void updateBrowserBordBookVelocityThreshold(boolean bl, int n) {
         this.updateVelocityThreshold("BrowserBordBookVelocityThreshold", 5, bl, n);
     }
 
-    @Override
     public void updateBrowserSlideShowVelocityThreshold(boolean bl, int n) {
         this.updateVelocityThreshold("BrowserSlideShowVelocityThreshold", 4, bl, n);
     }
 
-    @Override
     public void updateBrowserTravelAgentVelocityThreshold(boolean bl, int n) {
         this.updateVelocityThreshold("BrowserTravelAgentVelocityThreshold", 6, bl, n);
     }
 
-    @Override
     public void updateBrowserWebVelocityThreshold(boolean bl, int n) {
         this.updateVelocityThreshold("BrowserWebVelocityThreshold", 7, bl, n);
     }
 
-    @Override
     public void updateCarVelocityThreshold(boolean bl, int n) {
         this.updateVelocityThreshold("CarVelocityThreshold", 1, bl, n);
     }
 
-    @Override
     public void updateHDDVelocityThreshold(boolean bl, int n) {
         this.updateVelocityThreshold("HDDVelocityThreshold", 3, bl, n);
     }
 
-    @Override
     public void updateTVVelocityThreshold(boolean bl, int n) {
         this.updateVelocityThreshold("TVVelocityThreshold", 2, bl, n);
     }
@@ -210,17 +200,16 @@ PowerEventListener {
     }
 
     private final void updateBlockPTT() {
-        this.lc.log(1078071040, "[GeneralVehicleStateHandler.updateBlockPTT] block:%1", this.acousticParkingSystemActive);
+        this.lc.log(1000000, "[GeneralVehicleStateHandler.updateBlockPTT] block:%1", this.acousticParkingSystemActive);
         if (this.sdsService != null) {
             this.sdsService.disablePTT(this.acousticParkingSystemActive, true, (byte)9);
         } else {
-            this.lc.log(-1601830656, "[GeneralVehicleStateHandler.updateBlockPTT] blockPTT: No SDS service available!");
+            this.lc.log(100000, "[GeneralVehicleStateHandler.updateBlockPTT] blockPTT: No SDS service available!");
         }
     }
 
-    @Override
     public void updateAcousticParkingSystem(boolean bl, int n) {
-        int n2 = n == 1 ? -2137614336 : -1601830656;
+        int n2 = n == 1 ? 10000000 : 100000;
         this.lc.log(n2, "[GeneralVehicleStateHandler.updateAcousticParkingSystem] active:%1 valid:%2", bl, (long)n);
         if (n == 1) {
             if (!this.apsStatusKnown) {
@@ -241,61 +230,49 @@ PowerEventListener {
         }
     }
 
-    @Override
     public void updateAirbagData(AirbagData airbagData, int n) {
     }
 
-    @Override
     public void updateDimmedHeadlight(boolean bl, int n) {
     }
 
-    @Override
     public void updateTankInfo(TankInfo tankInfo, int n) {
     }
 
-    @Override
     public void updateDisplayDayNightDesign(boolean bl, int n) {
     }
 
-    @Override
     public void updateBTBondingVelocityThreshold(boolean bl, int n) {
         this.updateVelocityThreshold("BTBondingThreshold", 10, bl, n);
     }
 
-    @Override
     public void updateMessagingVelocityThreshold(boolean bl, int n) {
         this.updateVelocityThreshold("MessagingThreshold", 11, bl, n);
     }
 
-    @Override
     public void updateDestinationInputVelocityThreshold(boolean bl, int n) {
         this.updateVelocityThreshold("DestinationInputThreshold", 12, bl, n);
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
     }
 
-    @Override
     public void updateBWSVelocityThreshold(boolean bl, int n) {
         this.updateVelocityThreshold("BWSVelocityThreshold", 8, bl, n);
     }
 
-    @Override
     public void updateRadiotextVelocityThreshold(boolean bl, int n) {
         this.updateVelocityThreshold("RadiotextVelocityThreshold", 9, bl, n);
     }
 
-    @Override
     public void updateReverseGear(boolean bl, int n) {
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateVehicleStandstill(boolean bl, int n) {
-        this.lc.log(-2137614336, "[GeneralVehicleStateHandler.updateVehicleStandstill] standstill=%1, valid=%2", bl, (long)n);
+        this.lc.log(10000000, "[GeneralVehicleStateHandler.updateVehicleStandstill] standstill=%1, valid=%2", bl, (long)n);
         if (n == 1) {
             Object object;
             if (this.kbdService == null) {
@@ -319,61 +296,47 @@ PowerEventListener {
         }
     }
 
-    @Override
     public void updateDSSSViewOption(CarViewOption carViewOption, int n) {
     }
 
-    @Override
     public void notifyPowerListenerOnEnterState(int n, int n2) {
         this.sysApp.setPowerState(n);
     }
 
-    @Override
     public void notifyPowerListenerOnExitState(int n, int n2) {
     }
 
-    @Override
     public void notifyPowerTriggerAction(int n, int n2) {
     }
 
-    @Override
     public void updateClampState(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
         this.updateClampAll(bl, bl2);
     }
 
-    @Override
     public void updateServiceKeyData(byte[] byArray, int n) {
     }
 
-    @Override
     public void updateServiceKeyViewOption(CarViewOption carViewOption, int n) {
     }
 
-    @Override
     public void updatePersonalizationStatus(boolean bl, int n, int n2) {
     }
 
-    @Override
     public void updateTLOViewOptions(TLOViewOptions tLOViewOptions, int n) {
     }
 
-    @Override
     public void updateEmergencyAssistVolLowering(int n, int n2) {
     }
 
-    @Override
     public void updateParkingBrake(boolean bl, int n) {
     }
 
-    @Override
     public void updateSTPState(int n, int n2) {
     }
 
-    @Override
     public void updateAutomaticGearShiftTransMode(int n, int n2) {
     }
 
-    @Override
     public void updateAppConnectTrigger(int n, int n2) {
     }
 
@@ -386,16 +349,104 @@ PowerEventListener {
         }
     }
 
-    static /* synthetic */ void access$400(GeneralVehicleStateHandler generalVehicleStateHandler) {
-        generalVehicleStateHandler.updateAudioConnection();
+    private static class SpeedHandler {
+        final SpeedThresholdListener listener;
+
+        SpeedHandler(SpeedThresholdListener speedThresholdListener) {
+            this.listener = speedThresholdListener;
+            if (speedThresholdListener == null) {
+                throw new IllegalArgumentException();
+            }
+        }
+
+        private final void fireThresholdExceeded(int n) {
+            if (this.listener != null) {
+                this.listener.exceedsUpperThreshold(n);
+            }
+        }
+
+        private final void fireThresholdOk(int n) {
+            if (this.listener != null) {
+                this.listener.belowLowerThreshold(n);
+            }
+        }
+
+        final void fireThreshold(int n, boolean bl) {
+            if (bl) {
+                this.fireThresholdExceeded(n);
+            } else {
+                this.fireThresholdOk(n);
+            }
+        }
     }
 
-    static /* synthetic */ SysApp access$500(GeneralVehicleStateHandler generalVehicleStateHandler) {
-        return generalVehicleStateHandler.sysApp;
+    private class AudioListener
+    extends DefaultHMIAudioServiceListener {
+        private AudioListener() {
+        }
+
+        public void updateAMAvailable(boolean bl) {
+            if (bl) {
+                GeneralVehicleStateHandler.this.updateAudioConnection();
+            }
+        }
     }
 
-    static /* synthetic */ LogChannel access$600(GeneralVehicleStateHandler generalVehicleStateHandler) {
-        return generalVehicleStateHandler.lc;
+    private final class SpeedListenerTV
+    implements SpeedThresholdListener {
+        private final ChoiceModelApp TVThresholdChoice;
+
+        private SpeedListenerTV() {
+            this.TVThresholdChoice = GeneralVehicleStateHandler.this.sysApp.getFramework().getHMIService().getChoiceModel(4594);
+        }
+
+        public void exceedsUpperThreshold(int n) {
+            GeneralVehicleStateHandler.this.lc.log(10000000, "SpeedListenerTV.exceedsUpperLimit()");
+            this.TVThresholdChoice.setValue(1);
+        }
+
+        public void belowLowerThreshold(int n) {
+            GeneralVehicleStateHandler.this.lc.log(10000000, "SpeedListenerTV.belowLowerThreshold()");
+            this.TVThresholdChoice.setValue(0);
+        }
+    }
+
+    private final class SpeedListener3DWizard
+    implements SpeedThresholdListener {
+        private final ChoiceModelApp Wizard3DThresholdChoice;
+
+        private SpeedListener3DWizard() {
+            this.Wizard3DThresholdChoice = GeneralVehicleStateHandler.this.sysApp.getFramework().getHMIService().getChoiceModel(139);
+        }
+
+        public void exceedsUpperThreshold(int n) {
+            GeneralVehicleStateHandler.this.lc.log(10000000, "SpeedListener3DWizard.exceedsUpperLimit()");
+            this.Wizard3DThresholdChoice.setValue(1);
+        }
+
+        public void belowLowerThreshold(int n) {
+            GeneralVehicleStateHandler.this.lc.log(10000000, "SpeedListener3DWizard.belowLowerThreshold()");
+            this.Wizard3DThresholdChoice.setValue(0);
+        }
+    }
+
+    private final class SpeedListenerSperrKonzept
+    implements SpeedThresholdListener {
+        private final ChoiceModelApp SperrKonzeptThresholdChoice;
+
+        private SpeedListenerSperrKonzept() {
+            this.SperrKonzeptThresholdChoice = GeneralVehicleStateHandler.this.sysApp.getFramework().getHMIService().getChoiceModel(5556);
+        }
+
+        public void exceedsUpperThreshold(int n) {
+            GeneralVehicleStateHandler.this.lc.log(10000000, "SpeedListenerSperrKonzept.exceedsUpperLimit()");
+            this.SperrKonzeptThresholdChoice.setValue(1);
+        }
+
+        public void belowLowerThreshold(int n) {
+            GeneralVehicleStateHandler.this.lc.log(10000000, "SpeedListenerSperrKonzept.belowLowerThreshold()");
+            this.SperrKonzeptThresholdChoice.setValue(0);
+        }
     }
 }
 

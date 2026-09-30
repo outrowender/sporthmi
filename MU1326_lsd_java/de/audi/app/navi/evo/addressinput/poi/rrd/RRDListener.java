@@ -35,7 +35,6 @@ implements IRRDListener {
         this.rrdListProviderFactory = new RRDListProviderFactory(navigationEnv.getPOILogChannel(), navigation);
     }
 
-    @Override
     public void cleanUp() {
         this.currentRRDListProvider = null;
         this.rrdListProviderFactory.cleanUp();
@@ -47,13 +46,12 @@ implements IRRDListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void enterRRD(int n) {
-        this.poiLogChannel.log(-2137614336, "RRDListener#enterRRD called with type = %1", (long)n);
+        this.poiLogChannel.log(10000000, "RRDListener#enterRRD called with type = %1", (long)n);
         Object object = this;
         synchronized (object) {
             if (this.currentPoiDistanceCalculator != null) {
-                this.poiLogChannel.log(-1601830656, "RRDListener#enterRRD removes lingering poiDistanceCalculator %1", (long)n);
+                this.poiLogChannel.log(100000, "RRDListener#enterRRD removes lingering poiDistanceCalculator %1", (long)n);
                 this.currentPoiDistanceCalculator.nameListLeft(n);
                 this.currentPoiDistanceCalculator = null;
             }
@@ -68,9 +66,8 @@ implements IRRDListener {
         }
     }
 
-    @Override
     public synchronized void exitRRD(int n) {
-        this.poiLogChannel.log(-2137614336, "RRDListener#exitRRD(%1)", (long)n);
+        this.poiLogChannel.log(10000000, "RRDListener#exitRRD(%1)", (long)n);
         if (this.currentRRDListProvider != null) {
             this.currentPoiDistanceCalculator.nameListLeft(n);
         } else {
@@ -78,12 +75,11 @@ implements IRRDListener {
         }
     }
 
-    @Override
     public void updateRrdCalculationInfo(RrdCalculationInfo[] rrdCalculationInfoArray) {
         if (this.currentPoiDistanceCalculator != null) {
             this.currentPoiDistanceCalculator.updateRRDCalculationInfo(rrdCalculationInfoArray);
         } else {
-            this.poiLogChannel.log(-1601830656, "RRDListener#updateRrdCalculationInfo no PoiDistanceCalculator set");
+            this.poiLogChannel.log(100000, "RRDListener#updateRrdCalculationInfo no PoiDistanceCalculator set");
         }
     }
 }

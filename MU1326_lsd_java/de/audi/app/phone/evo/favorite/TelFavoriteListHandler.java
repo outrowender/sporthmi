@@ -20,7 +20,7 @@ extends AbstractFavoriteListHandler {
     private final TelFavoriteHandler favoritesHandler;
 
     public TelFavoriteListHandler(ITelEvoApplication iTelEvoApplication, FavoritePersistenceHandlerBase favoritePersistenceHandlerBase, BaseListModelApp baseListModelApp, LogChannel logChannel, TelFavoriteHandler telFavoriteHandler) {
-        super(favoritePersistenceHandlerBase, baseListModelApp, iTelEvoApplication.getFrameworkAccess().getHMIService().getOptionModel(-426376192), logChannel);
+        super(favoritePersistenceHandlerBase, baseListModelApp, iTelEvoApplication.getFrameworkAccess().getHMIService().getOptionModel(300774), logChannel);
         this.log = logChannel;
         this.application = iTelEvoApplication;
         this.favoritesHandler = telFavoriteHandler;
@@ -41,10 +41,9 @@ extends AbstractFavoriteListHandler {
         return this.favoriteListModel.getCopy();
     }
 
-    @Override
     protected void capacityReached(boolean bl) {
-        this.log.log(1078071040, "[TelFavoriteListHandler#capacityReached] reached=%1", bl);
-        this.application.getFrameworkAccess().getHmiServiceApp().getChoiceModel(-1684667392).setValue(bl ? 1 : 0);
+        this.log.log(1000000, "[TelFavoriteListHandler#capacityReached] reached=%1", bl);
+        this.application.getFrameworkAccess().getHmiServiceApp().getChoiceModel(300699).setValue(bl ? 1 : 0);
     }
 
     void addToFavorites(String string, String string2, int n) {
@@ -71,39 +70,33 @@ extends AbstractFavoriteListHandler {
         this.removeAllFavorites(true);
     }
 
-    @Override
     public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.log.log(-2137614336, "[TelFavoriteListHandler#itemReleased] %1", (Object)TelLoggingUtils.itemReleased(evoListRow, n, n2, n3, n4));
+        this.log.log(10000000, "[TelFavoriteListHandler#itemReleased] %1", (Object)TelLoggingUtils.itemReleased(evoListRow, n, n2, n3, n4));
     }
 
-    @Override
     public void favoriteSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.log.log(1078071040, "[TelFavoriteListHandler#favoriteSelected] %1", (Object)TelLoggingUtils.itemSelectedBaseList(evoListRow, n, n2, n3, n4));
+        this.log.log(1000000, "[TelFavoriteListHandler#favoriteSelected] %1", (Object)TelLoggingUtils.itemSelectedBaseList(evoListRow, n, n2, n3, n4));
         if (evoListRow instanceof TelEvoFavoriteListRow) {
             TelEvoFavoriteListRow telEvoFavoriteListRow = (TelEvoFavoriteListRow)evoListRow;
             this.application.getTelephoneDSIAccess().dialNumberFromDBEntry(telEvoFavoriteListRow.getNumber(), 0L, telEvoFavoriteListRow.getName(), (short)telEvoFavoriteListRow.getPhoneNumberType(), (short)0, null, 0, 0, n4);
         } else {
-            this.log.log(-1601830656, "[TelFavoriteListHandler#favoriteSelected] row not a TelEvoFavoriteListRow: %1", (Object)evoListRow);
+            this.log.log(100000, "[TelFavoriteListHandler#favoriteSelected] row not a TelEvoFavoriteListRow: %1", (Object)evoListRow);
         }
     }
 
-    @Override
     public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.log.log(-2137614336, "[TelFavoriteListHandler#itemLongSelected] %1", (Object)TelLoggingUtils.itemLongSelected(evoListRow, n, n2, n3, n4));
+        this.log.log(10000000, "[TelFavoriteListHandler#itemLongSelected] %1", (Object)TelLoggingUtils.itemLongSelected(evoListRow, n, n2, n3, n4));
     }
 
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.log.log(-2137614336, "[TelFavoriteListHandler#itemFocused] %1", (Object)TelLoggingUtils.itemLongSelected(evoListRow, n, n2, n3, n4));
+        this.log.log(10000000, "[TelFavoriteListHandler#itemFocused] %1", (Object)TelLoggingUtils.itemLongSelected(evoListRow, n, n2, n3, n4));
     }
 
-    @Override
     protected void updatePersistence() {
         super.updatePersistence();
         this.favoritesHandler.favoritesListUpdated();
     }
 
-    @Override
     protected void loadFavoritesFromPersistence() {
         super.loadFavoritesFromPersistence();
         this.favoritesHandler.favoritesListUpdated();
@@ -113,14 +106,12 @@ extends AbstractFavoriteListHandler {
         return this.favoriteListModel.getIndexForUniqueID(l);
     }
 
-    @Override
     public void moveModeActivated() {
-        this.application.getFrameworkAccess().getHmiServiceApp().getChoiceModel(1217856512).setValue(1);
+        this.application.getFrameworkAccess().getHmiServiceApp().getChoiceModel(300872).setValue(1);
     }
 
-    @Override
     public void moveModeDeactivated() {
-        this.application.getFrameworkAccess().getHmiServiceApp().getChoiceModel(1217856512).setValue(0);
+        this.application.getFrameworkAccess().getHmiServiceApp().getChoiceModel(300872).setValue(0);
     }
 }
 

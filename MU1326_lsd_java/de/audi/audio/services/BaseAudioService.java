@@ -13,9 +13,9 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class BaseAudioService
 implements HMIAudioService {
-    private static final int DEFAULT_HMI_TERMINAL;
-    private static final int DEFAULT_GROUP_ID;
-    public static final String[] CONN_STATUS;
+    private static final int DEFAULT_HMI_TERMINAL = 0;
+    private static final int DEFAULT_GROUP_ID = 0;
+    public static final String[] CONN_STATUS = new String[7];
     protected final AudioEnv env;
     public final String name;
 
@@ -27,28 +27,26 @@ implements HMIAudioService {
     public void setService(Object object) {
     }
 
-    @Override
     public void fadeToConnection(int n) {
         this.fadeToConnection(n, 0);
     }
 
-    @Override
     public void fadeToConnection(int n, int n2) {
         int n3 = TerminalMapper.toAudioTerminal(n2);
         if (AudioConnection.contains(AudioConnection.SDIS_ENT_CONNECTIONS, n)) {
-            this.env.lcMain.log(-2137614336, "[%1] [BaseAudioService.fadeToConnection] AC: %2 is not fadeable", (Object)this.name, (long)n);
+            this.env.lcMain.log(10000000, "[%1] [BaseAudioService.fadeToConnection] AC: %2 is not fadeable", (Object)this.name, (long)n);
             return;
         }
         if (this.env.lcMain.isDebug()) {
             Buffer buffer = this.toDebug(n, n3, n, n2);
-            this.env.lcMain.log(-2137614336, "[%1] [BaseAudioService.fadeToConnection] %2", (Object)this.name, (Object)buffer);
+            this.env.lcMain.log(10000000, "[%1] [BaseAudioService.fadeToConnection] %2", (Object)this.name, (Object)buffer);
         }
         try {
             int n4 = ConnectionStore.INSTANCE.getStatus(n, n3);
             switch (n4) {
                 case 2: 
                 case 3: {
-                    this.env.lcDSI.log(-2137614336, "-> [%1] [DSIAudioManagement.fadeToConnection] AC:%2 AT:%3", (Object)this.name, (long)n, (long)n3);
+                    this.env.lcDSI.log(10000000, "-> [%1] [DSIAudioManagement.fadeToConnection] AC:%2 AT:%3", (Object)this.name, (long)n, (long)n3);
                     ConnectionStore.INSTANCE.setStatus(n, 1, n3);
                     DumpAudioProvider.INSTANCE.putCall("fadeToConnection", n, n3);
                     this.env.getDSIAudio().fadeToConnection(n, n3);
@@ -58,13 +56,13 @@ implements HMIAudioService {
                 case 1: {
                     if (this.env.lcMain.isDebug()) {
                         Buffer buffer = this.toDebug(n, n3, n, n2);
-                        this.env.lcMain.log(-2137614336, "[%1] [DSIAudioManagement.fadeToConnection] IGNORED status:%3 %2", (Object)this.name, (Object)buffer, (Object)CONN_STATUS[n4]);
+                        this.env.lcMain.log(10000000, "[%1] [DSIAudioManagement.fadeToConnection] IGNORED status:%3 %2", (Object)this.name, (Object)buffer, (Object)CONN_STATUS[n4]);
                     }
                     break;
                 }
                 default: {
                     Buffer buffer = this.toDebug(n, n3, n, n2);
-                    this.env.lcMain.log(1078071040, "[%1] [DSIAudioManagement.fadeToConnection] IGNORED status:%3 %2", (Object)this.name, (Object)buffer, (Object)CONN_STATUS[n4]);
+                    this.env.lcMain.log(1000000, "[%1] [DSIAudioManagement.fadeToConnection] IGNORED status:%3 %2", (Object)this.name, (Object)buffer, (Object)CONN_STATUS[n4]);
                     break;
                 }
             }
@@ -75,17 +73,15 @@ implements HMIAudioService {
         }
     }
 
-    @Override
     public void releaseConnection(int n) {
         this.releaseConnection(n, 0);
     }
 
-    @Override
     public void releaseConnection(int n, int n2) {
         int n3 = TerminalMapper.toAudioTerminal(n2);
         if (this.env.lcMain.isDebug()) {
             Buffer buffer = this.toDebug(n, n3, n, n2);
-            this.env.lcMain.log(-2137614336, "[%1] [BaseAudioService.releaseConnection] %2", (Object)this.name, (Object)buffer);
+            this.env.lcMain.log(10000000, "[%1] [BaseAudioService.releaseConnection] %2", (Object)this.name, (Object)buffer);
         }
         if (AudioConnection.contains(AudioConnection.MUTE_RELEASE_CONNECTIONS, n)) {
             this.callReleaseConnection(n, n3);
@@ -97,7 +93,7 @@ implements HMIAudioService {
             case 6: {
                 if (!this.env.lcMain.isDebug()) break;
                 Buffer buffer = this.toDebug(n, n3, n, n2);
-                this.env.lcMain.log(-2137614336, "[%1] [DSIAudioManagement.releaseConnection] IGNORED status:%3 %2", (Object)this.name, (Object)buffer, (long)n4);
+                this.env.lcMain.log(10000000, "[%1] [DSIAudioManagement.releaseConnection] IGNORED status:%3 %2", (Object)this.name, (Object)buffer, (long)n4);
                 break;
             }
             default: {
@@ -106,31 +102,27 @@ implements HMIAudioService {
         }
     }
 
-    @Override
     public void releaseA2LSConnection() {
         if (ConnectionStore.INSTANCE.isInUse(308, 0)) {
-            this.env.lcMain.log(-2137614336, "[%1] [BaseAudioService.releaseA2LSConnection] A2LS connection: %2 released", (Object)this.name, (long)0);
+            this.env.lcMain.log(10000000, "[%1] [BaseAudioService.releaseA2LSConnection] A2LS connection: %2 released", (Object)this.name, 308L);
             int n = TerminalMapper.toAudioTerminal(0);
             this.callReleaseConnection(308, n);
         }
     }
 
-    @Override
     public void requestConnection(int n) {
         this.requestConnection(n, 0, 0);
     }
 
-    @Override
     public void requestConnection(int n, int n2) {
         this.requestConnection(n, n2, 0);
     }
 
-    @Override
     public void requestConnection(int n, int n2, int n3) {
         int n4 = TerminalMapper.toAudioTerminal(n2);
         if (this.env.lcMain.isDebug()) {
             Buffer buffer = this.toDebug(n, n4, n, n2);
-            this.env.lcMain.log(-2137614336, "[%1] [BaseAudioService.requestConnection] %2", (Object)this.name, (Object)buffer);
+            this.env.lcMain.log(10000000, "[%1] [BaseAudioService.requestConnection] %2", (Object)this.name, (Object)buffer);
         }
         int n5 = ConnectionStore.INSTANCE.getStatus(n, n4);
         switch (n5) {
@@ -143,23 +135,21 @@ implements HMIAudioService {
             default: {
                 if (!this.env.lcMain.isDebug()) break;
                 Buffer buffer = this.toDebug(n, n4, n3);
-                this.env.lcMain.log(1078071040, "[%1] DSIAudioManagement.requestConnection() --> IGNORED status:%3 %2", (Object)this.name, (Object)buffer, (long)n5);
+                this.env.lcMain.log(1000000, "[%1] DSIAudioManagement.requestConnection() --> IGNORED status:%3 %2", (Object)this.name, (Object)buffer, (long)n5);
             }
         }
     }
 
-    @Override
     public void requestAndFadeToConnection(int n) {
         this.requestAndFadeToConnection(n, 0);
     }
 
-    @Override
     public void requestAndFadeToConnection(int n, int n2) {
         int n3;
         int n4 = TerminalMapper.toAudioTerminal(n2);
         if (this.env.lcMain.isDebug()) {
             Buffer buffer = this.toDebug(n, n4, n, n2);
-            this.env.lcMain.log(-2137614336, "[%1] [BaseAudioService.requestAndFadeToConnection] %2", (Object)this.name, (Object)buffer);
+            this.env.lcMain.log(10000000, "[%1] [BaseAudioService.requestAndFadeToConnection] %2", (Object)this.name, (Object)buffer);
         }
         if ((n3 = ConnectionStore.INSTANCE.getStatus(n, n4)) == 5 || n3 == 6) {
             ConnectionStore.INSTANCE.addAutoFadeToConnection(n, n4);
@@ -167,55 +157,48 @@ implements HMIAudioService {
         this.requestConnection(n, n2);
     }
 
-    @Override
     public int getActiveConnection(int n) {
         int n2 = TerminalMapper.toAudioTerminal(n);
         return ConnectionStore.INSTANCE.getActiveConnection(n2);
     }
 
-    @Override
     public int getActiveEntertainmentConnection(int n) {
         int n2 = TerminalMapper.toAudioTerminal(n);
         return ConnectionStore.INSTANCE.getActiveEntertainmentConnection(n2);
     }
 
-    @Override
     public int getStatus(int n) {
         return this.getStatus(n, 0);
     }
 
-    @Override
     public int getStatus(int n, int n2) {
         int n3 = TerminalMapper.toAudioTerminal(n2);
         return ConnectionStore.INSTANCE.getStatus(n, n3);
     }
 
-    @Override
     public boolean isActive(int n) {
         return this.isActive(n, 0);
     }
 
-    @Override
     public boolean isActive(int n, int n2) {
         int n3 = TerminalMapper.toAudioTerminal(n2);
         return ConnectionStore.INSTANCE.isActive(n, n3);
     }
 
-    @Override
     public void setVolumelock(int n, int n2, boolean bl, Object object) {
         int n3 = TerminalMapper.toAudioTerminal(n2);
         Buffer buffer = new Buffer();
         buffer.append("active:").append(bl);
         buffer.append(" AC:").append(n);
         buffer.append(" - ").append(object);
-        this.env.lcDSI.log(-2137614336, "-> [%1] [DSIAudioManagement.setVolumelock] %2", (Object)this.name, (Object)buffer);
+        this.env.lcDSI.log(10000000, "-> [%1] [DSIAudioManagement.setVolumelock] %2", (Object)this.name, (Object)buffer);
         this.env.getDSIAudio().setVolumelock(n, n3, bl);
     }
 
     public final void callRequestConnection(int n, int n2, int n3) {
         if (this.env.lcDSI.isDebug()) {
             Buffer buffer = this.toDebug(n, n2, n3);
-            this.env.lcDSI.log(-2137614336, "-> [%1] [DSIAudioManagement.requestConnection] %2", (Object)this.name, (Object)buffer);
+            this.env.lcDSI.log(10000000, "-> [%1] [DSIAudioManagement.requestConnection] %2", (Object)this.name, (Object)buffer);
         }
         ConnectionStore.INSTANCE.setStatus(n, 3, n2);
         DumpAudioProvider.INSTANCE.putCall("requestConnection", n, n2);
@@ -223,7 +206,7 @@ implements HMIAudioService {
     }
 
     public void callReleaseConnection(int n, int n2) {
-        this.env.lcDSI.log(-2137614336, "-> [%1] [DSIAudioManagement.releaseConnection] AC:%2 AT:%3", (Object)this.name, (long)n, (long)n2);
+        this.env.lcDSI.log(10000000, "-> [%1] [DSIAudioManagement.releaseConnection] AC:%2 AT:%3", (Object)this.name, (long)n, (long)n2);
         ConnectionStore.INSTANCE.setStatus(n, 6, n2);
         DumpAudioProvider.INSTANCE.putCall("releaseConnection", n, n2);
         this.env.getDSIAudio().releaseConnection(n, n2);
@@ -257,7 +240,6 @@ implements HMIAudioService {
     }
 
     static {
-        CONN_STATUS = new String[7];
         BaseAudioService.CONN_STATUS[0] = "FADEDIN";
         BaseAudioService.CONN_STATUS[1] = "FADEIN_REQUESTED";
         BaseAudioService.CONN_STATUS[2] = "STARTED";

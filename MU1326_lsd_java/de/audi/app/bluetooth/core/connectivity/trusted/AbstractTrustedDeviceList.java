@@ -42,44 +42,39 @@ IDiagComponent {
     protected AbstractTrustedDeviceList(IBluetoothApplication iBluetoothApplication) {
         super(iBluetoothApplication);
         this.map = new HashMap();
-        this.phoneNameLabel = this.getLabelModel(2015766016);
+        this.phoneNameLabel = this.getLabelModel(2500216);
     }
 
-    @Override
     protected int[] getAttributeNotifications() {
         return this.attributeNotifications;
     }
 
-    @Override
     public boolean isConnected(String string) {
         TrustedDevice trustedDevice = (TrustedDevice)this.map.get(string);
         return trustedDevice != null && trustedDevice.getActiveServiceTypes() != 0;
     }
 
-    @Override
     public void removeAuthentication(String string) {
         ChoiceModelApp choiceModelApp = this.getRemoveAuthenticationCommandMonitor();
         CommandRemoveAuthentication.schedule(this.bluetoothApplication, this.dsiBluetooth, string, choiceModelApp);
     }
 
     protected ChoiceModelApp getRemoveAuthenticationCommandMonitor() {
-        return this.getChoiceModel(1428563456);
+        return this.getChoiceModel(0x262655);
     }
 
-    @Override
     public TrustedDevice get(String string) {
         return (TrustedDevice)this.map.get(string);
     }
 
-    @Override
     public void updateTrustedDevices(TrustedDevice[] trustedDeviceArray, int n) {
         if (n == 1 && trustedDeviceArray != null) {
-            this.log.log(1078071040, "AbstractTrustedDeviceList#updateTrustedDevices(): List updated (%1 devices)", (long)trustedDeviceArray.length);
+            this.log.log(1000000, "AbstractTrustedDeviceList#updateTrustedDevices(): List updated (%1 devices)", (long)trustedDeviceArray.length);
             this.map.clear();
             boolean bl = false;
             boolean bl2 = false;
             String string = "";
-            this.log.log(-2137614336, "AbstractTrustedDeviceList#updateTrustedDevices(): %1", (Object)Converter.array2String(trustedDeviceArray));
+            this.log.log(10000000, "AbstractTrustedDeviceList#updateTrustedDevices(): %1", (Object)Converter.array2String(trustedDeviceArray));
             for (int i2 = 0; i2 < trustedDeviceArray.length; ++i2) {
                 TrustedDevice trustedDevice = trustedDeviceArray[i2];
                 String string2 = trustedDevice.getDeviceAddress();
@@ -102,7 +97,6 @@ IDiagComponent {
         }
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof IDataBluetoothStateListener) {
@@ -113,7 +107,6 @@ IDiagComponent {
         return super.addingService(serviceReference);
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof IDataBluetoothStateListener) {
             this.online = null;
@@ -122,7 +115,6 @@ IDiagComponent {
         super.removedService(serviceReference, object);
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
         if (object instanceof IDataBluetoothStateListener) {
             this.online = (IDataBluetoothStateListener)object;
@@ -130,14 +122,12 @@ IDiagComponent {
         super.modifiedService(serviceReference, object);
     }
 
-    @Override
     public void init() {
         super.init();
         this.tracker.open();
         this.bluetoothApplication.getDiag().addDiagnosisComponent((IDiagComponent)new TrustedDevicesDiag((ITrustedDeviceList)this));
     }
 
-    @Override
     public void deinit() {
         this.map.clear();
         this.tracker.close();

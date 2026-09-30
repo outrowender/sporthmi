@@ -33,9 +33,8 @@ extends AbstractADBCommand {
         this.sdsHandler = aDBSDSHandler;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "GetPickListDataSetsCommand#execute()");
+        this.logger.log(10000000, "GetPickListDataSetsCommand#execute()");
         long[] lArray = GetPickListDataSetsCommand.stripInvalidEntryIDs(this.sdsEntryIDs);
         if (lArray.length == 0) {
             this.fillPickListModel(new DataSet[0]);
@@ -64,10 +63,9 @@ extends AbstractADBCommand {
         return lArray2;
     }
 
-    @Override
     public void getEntryDataSetsResult(int n, DataSet[] dataSetArray) {
         if (this.logger.isDebug()) {
-            this.logger.log(-2137614336, "GetPickListDataSetsCommand#getEntryDataSetsResult(): entryDataSetList: %1, success: %2", (Object)ADBDbgUtils.dbg(dataSetArray), (Object)ADBDbgUtils.dbgSuccessFlag(n));
+            this.logger.log(10000000, "GetPickListDataSetsCommand#getEntryDataSetsResult(): entryDataSetList: %1, success: %2", (Object)ADBDbgUtils.dbg(dataSetArray), (Object)ADBDbgUtils.dbgSuccessFlag(n));
         }
         if (n == 0 && dataSetArray != null && dataSetArray.length > 0) {
             this.fillPickListModel(dataSetArray);

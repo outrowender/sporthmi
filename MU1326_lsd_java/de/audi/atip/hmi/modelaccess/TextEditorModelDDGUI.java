@@ -6,16 +6,12 @@ package de.audi.atip.hmi.modelaccess;
 import de.audi.atip.log.LogChannel;
 
 public interface TextEditorModelDDGUI {
-    default public void notifyTextChanged(int n) {
-    }
+    public void notifyTextChanged(int var1);
 
-    default public void notifyMaxTextLengthChanged() {
-    }
+    public void notifyMaxTextLengthChanged();
 
-    default public void notifyAlternativeSelected(int n) {
-    }
+    public void notifyAlternativeSelected(int var1);
 
-    default public LogChannel getModelLogChannel() {
-    }
+    public LogChannel getModelLogChannel();
 }
 

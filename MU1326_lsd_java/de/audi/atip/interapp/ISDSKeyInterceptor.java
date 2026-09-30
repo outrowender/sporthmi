@@ -4,16 +4,12 @@
 package de.audi.atip.interapp;
 
 public interface ISDSKeyInterceptor {
-    default public void pttPressed() {
-    }
+    public void pttPressed();
 
-    default public void pttReleasedAfterShortPress() {
-    }
+    public void pttReleasedAfterShortPress();
 
-    default public void pttLongDetected() {
-    }
+    public void pttLongDetected();
 
-    default public void pttReleasedAfterLongPress() {
-    }
+    public void pttReleasedAfterLongPress();
 }
 

@@ -21,11 +21,11 @@ implements ChoiceListener,
 IPowerEventListener,
 ITelStateListener {
     public static final short[] CODING_ID = new short[]{14, 48};
-    private static final String LOGCHANNEL_NAME;
+    private static final String LOGCHANNEL_NAME = "App.Car.Seat";
     protected volatile SeatViewOptions currentViewOptions;
     protected volatile SeatPneumaticViewOptions currentPneumaticViewOptions;
-    public static final int ACTIVE;
-    public static final int INACTIVE;
+    public static final int ACTIVE = 1;
+    public static final int INACTIVE = 0;
     private boolean easyEntryRearLeftActive;
     private boolean easyEntryRearRightActive;
     protected volatile SeatSpecialPosition currentSeatSpecialPosition = new SeatSpecialPosition();
@@ -33,50 +33,45 @@ ITelStateListener {
     private boolean isDriverSideLeft;
     protected boolean seatCoDriverFromDriver;
     protected boolean seatPneumaticCoDriverFromDriver;
-    public static final int DRIVER_SIDE_LEFT;
-    public static final int DRIVER_SIDE_RIGHT;
-    protected static final Object mutex;
+    public static final int DRIVER_SIDE_LEFT = 0;
+    public static final int DRIVER_SIDE_RIGHT = 1;
+    protected static final Object mutex = new Object();
     private volatile boolean moveToSpecialPositionBlocked = false;
 
     public AbstractSeatComponent(ICarApplication iCarApplication) {
-        super(iCarApplication, "App.Car.Seat");
+        super(iCarApplication, LOGCHANNEL_NAME);
     }
 
-    @Override
     public void init() {
         super.init();
         this.getApplication().getPowerEventDispatcher().addPowerEventListener(this);
     }
 
-    @Override
     public void deinit() {
         this.getApplication().getPowerEventDispatcher().removePowerEventListener(this);
         super.deinit();
     }
 
-    @Override
     protected void initModels() {
-        this.getChoiceModel(1143539968).setChoiceListener(this);
-        this.getChoiceModel(958990592).setChoiceListener(this);
-        this.getChoiceModel(1126762752).setChoiceListener(this);
-        this.getChoiceModel(-64026368).setChoiceListener(this);
-        this.getButtonModel(875104512).setButtonListener(this);
-        this.getButtonModel(1076431104).setButtonListener(this);
-        this.getButtonModel(-332855040).setButtonListener(this);
+        this.getChoiceModel(600388).setChoiceListener(this);
+        this.getChoiceModel(600377).setChoiceListener(this);
+        this.getChoiceModel(600387).setChoiceListener(this);
+        this.getChoiceModel(602108).setChoiceListener(this);
+        this.getButtonModel(600372).setButtonListener(this);
+        this.getButtonModel(600384).setButtonListener(this);
+        this.getButtonModel(600556).setButtonListener(this);
     }
 
-    @Override
     protected void deinitModels() {
-        this.getChoiceModel(1143539968).resetListener();
-        this.getChoiceModel(958990592).resetListener();
-        this.getChoiceModel(1126762752).resetListener();
-        this.getChoiceModel(-64026368).resetListener();
-        this.getButtonModel(875104512).resetListener();
-        this.getButtonModel(1076431104).resetListener();
-        this.getButtonModel(-332855040).resetListener();
+        this.getChoiceModel(600388).resetListener();
+        this.getChoiceModel(600377).resetListener();
+        this.getChoiceModel(600387).resetListener();
+        this.getChoiceModel(602108).resetListener();
+        this.getButtonModel(600372).resetListener();
+        this.getButtonModel(600384).resetListener();
+        this.getButtonModel(600556).resetListener();
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
         this.logModelData("[AbstractSeatComponent#keyPressed]", n, n2, true);
         switch (n) {
@@ -89,7 +84,7 @@ ITelStateListener {
                 break;
             }
             case 600556: {
-                this.getButtonModel(-332855040).fireEvent(n3);
+                this.getButtonModel(600556).fireEvent(n3);
                 break;
             }
             default: {
@@ -98,7 +93,6 @@ ITelStateListener {
         }
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
         this.logModelData("[AbstractSeatComponent#keyReleased]", n, n2, true);
         switch (n) {
@@ -116,18 +110,15 @@ ITelStateListener {
         }
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
         this.logModelData("[AbstractSeatComponent#itemSelected]", n, n2, true);
         switch (n) {
@@ -164,23 +155,22 @@ ITelStateListener {
         }
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 
     private void itemSelectedEasyEntryRear(boolean bl) {
-        this.getLogChannel().log(1078071040, "[AbstractSeatComponent#itemSelectedEasyEntryRear] dsi.setSeatEasyEntryRearLeft/Right: state=%1", bl);
+        this.getLogChannel().log(1000000, "[AbstractSeatComponent#itemSelectedEasyEntryRear] dsi.setSeatEasyEntryRearLeft/Right: state=%1", bl);
         this.getDSI().setSeatEasyEntryRearLeft(bl);
         this.getDSI().setSeatEasyEntryRearRight(bl);
     }
 
     private void itemSelectedDriverRadioKey(boolean bl) {
-        this.getLogChannel().log(1078071040, "[AbstractSeatComponent#itemSelectedDriverRadioKey] dsi.setSeatRadioKeyAutomatic: state=%1", bl);
+        this.getLogChannel().log(1000000, "[AbstractSeatComponent#itemSelectedDriverRadioKey] dsi.setSeatRadioKeyAutomatic: state=%1", bl);
         this.getDSI().setSeatRadioKeyAutomatic(bl);
     }
 
     private void itemSelectedRearCodriverPosition(boolean bl) {
-        this.getLogChannel().log(1078071040, "[AbstractSeatComponent#itemSelectedRearCodriverPosition] dsi.setSeatCodriverSettingsFromRear: state=%1", bl);
+        this.getLogChannel().log(1000000, "[AbstractSeatComponent#itemSelectedRearCodriverPosition] dsi.setSeatCodriverSettingsFromRear: state=%1", bl);
         this.getDSI().setSeatCodriverSettingsFromRear(bl);
     }
 
@@ -189,7 +179,7 @@ ITelStateListener {
     }
 
     private void updateEasyEntryRear() {
-        this.applyActivityStateToModel(1143539968, this.easyEntryRearRightActive && this.easyEntryRearLeftActive);
+        this.applyActivityStateToModel(600388, this.easyEntryRearRightActive && this.easyEntryRearLeftActive);
     }
 
     /*
@@ -226,11 +216,11 @@ ITelStateListener {
 
     private void startSeatMovement(String string) {
         if (this.moveToSpecialPositionBlocked) {
-            this.getLogChannel().log(1078071040, "[AbstractSeatComponent#startSeatMovement] (called by %1) dsi.setSeatSpecialPosition call is blocked because clamp15 is OFF", (Object)string);
+            this.getLogChannel().log(1000000, "[AbstractSeatComponent#startSeatMovement] (called by %1) dsi.setSeatSpecialPosition call is blocked because clamp15 is OFF", (Object)string);
             return;
         }
         if (this.getLogChannel().isInfo() || !this.seatMoving) {
-            this.getLogChannel().log(1078071040, "[AbstractSeatComponent#startSeatMovement] (called by %1) dsi.setSeatSpecialPosition : seatSpecialPosition=%2", (Object)string, (Object)this.currentSeatSpecialPosition);
+            this.getLogChannel().log(1000000, "[AbstractSeatComponent#startSeatMovement] (called by %1) dsi.setSeatSpecialPosition : seatSpecialPosition=%2", (Object)string, (Object)this.currentSeatSpecialPosition);
         }
         this.getDSI().setSeatSpecialPosition(this.currentSeatSpecialPosition);
         this.seatMoving = true;
@@ -259,11 +249,11 @@ ITelStateListener {
     protected void stopSeatMovement(String string) {
         if (this.seatMoving) {
             SeatSpecialPosition seatSpecialPosition = new SeatSpecialPosition();
-            this.getLogChannel().log(1078071040, "[AbstractSeatComponent#stopSeatMovement] (called by '%1') dsi.setSeatSpecialPosition:  seatSpecialPosition=%2", (Object)string, (Object)seatSpecialPosition);
+            this.getLogChannel().log(1000000, "[AbstractSeatComponent#stopSeatMovement] (called by '%1') dsi.setSeatSpecialPosition:  seatSpecialPosition=%2", (Object)string, (Object)seatSpecialPosition);
             this.getDSI().setSeatSpecialPosition(seatSpecialPosition);
             this.seatMoving = false;
         } else {
-            this.getLogChannel().log(-2137614336, "[AbstractSeatComponent#stopSeatMovement] (called by '%1') seat already stopped", (Object)string);
+            this.getLogChannel().log(10000000, "[AbstractSeatComponent#stopSeatMovement] (called by '%1') seat already stopped", (Object)string);
         }
     }
 
@@ -271,25 +261,24 @@ ITelStateListener {
         if (this.seatCoDriverFromDriver) {
             this.getDSI().setSeatCodriverSettingsFromDriver(bl);
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "[AbstractSeatComponent#startMappingSettingsFromDriverToCodriver] dsi.setSeatCodriverSettingsFromDriver:  state='%1'", (Object)bl);
+                this.getLogChannel().log(1000000, "[AbstractSeatComponent#startMappingSettingsFromDriverToCodriver] dsi.setSeatCodriverSettingsFromDriver:  state='%1'", (Object)bl);
             }
         }
         if (this.seatPneumaticCoDriverFromDriver) {
             this.getDSI().setSeatPneumaticCodriverSettingsFromDriver(bl);
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "[AbstractSeatComponent#startMappingSettingsFromDriverToCodriver] dsi.setSeatPneumaticCodriverSettingsFromDriver:  state='%1'", (Object)bl);
+                this.getLogChannel().log(1000000, "[AbstractSeatComponent#startMappingSettingsFromDriverToCodriver] dsi.setSeatPneumaticCodriverSettingsFromDriver:  state='%1'", (Object)bl);
             }
         }
     }
 
     private void setDriverSide() {
-        this.getChoiceModel(1026099456).setValue(this.isDriverSideLeft ? 0 : 1);
+        this.getChoiceModel(600381).setValue(this.isDriverSideLeft ? 0 : 1);
     }
 
-    @Override
     public void updateSeatViewOptions(SeatViewOptions seatViewOptions, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractSeatComponent#updateSeatViewOptions] viewOptions='%1', valid='%2'", (Object)(seatViewOptions != null ? this.formatViewOptionsLog(seatViewOptions.toString()) : "null"), (long)n);
+            this.getLogChannel().log(1000000, "[AbstractSeatComponent#updateSeatViewOptions] viewOptions='%1', valid='%2'", (Object)(seatViewOptions != null ? this.formatViewOptionsLog(seatViewOptions.toString()) : "null"), (long)n);
         }
         if (n == 1 && seatViewOptions != null) {
             this.currentViewOptions = seatViewOptions;
@@ -301,10 +290,9 @@ ITelStateListener {
         }
     }
 
-    @Override
     public void updateSeatPneumaticViewOptions(SeatPneumaticViewOptions seatPneumaticViewOptions, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractSeatComponent#updateSeatPneumaticViewOptions] viewOptions='%1', valid='%2'", (Object)(seatPneumaticViewOptions != null ? this.formatViewOptionsLog(seatPneumaticViewOptions.toString()) : "null"), (long)n);
+            this.getLogChannel().log(1000000, "[AbstractSeatComponent#updateSeatPneumaticViewOptions] viewOptions='%1', valid='%2'", (Object)(seatPneumaticViewOptions != null ? this.formatViewOptionsLog(seatPneumaticViewOptions.toString()) : "null"), (long)n);
         }
         if (n == 1 && seatPneumaticViewOptions != null) {
             this.currentPneumaticViewOptions = seatPneumaticViewOptions;
@@ -316,46 +304,41 @@ ITelStateListener {
         }
     }
 
-    @Override
     public void updateSeatRadioKeyAutomatic(boolean bl, int n) {
-        this.getLogChannel().log(1078071040, "[AbstractSeatComponent#updateSeatRadioKeyAutomatic] seatRadioKeyAutomatic='%1', valid='%2'", bl, (long)n);
+        this.getLogChannel().log(1000000, "[AbstractSeatComponent#updateSeatRadioKeyAutomatic] seatRadioKeyAutomatic='%1', valid='%2'", bl, (long)n);
         if (n == 1) {
-            this.applyActivityStateToModel(958990592, bl);
+            this.applyActivityStateToModel(600377, bl);
         }
     }
 
-    @Override
     public void updateSeatEasyEntryRearLeft(boolean bl, int n) {
-        this.getLogChannel().log(1078071040, "[AbstractSeatComponent#updateSeatEasyEntryRearLeft] seatEasyEntryRearLeft='%1', valid='%2'", bl, (long)n);
+        this.getLogChannel().log(1000000, "[AbstractSeatComponent#updateSeatEasyEntryRearLeft] seatEasyEntryRearLeft='%1', valid='%2'", bl, (long)n);
         if (n == 1) {
             this.easyEntryRearLeftActive = bl;
             this.updateEasyEntryRear();
         }
     }
 
-    @Override
     public void updateSeatEasyEntryRearRight(boolean bl, int n) {
-        this.getLogChannel().log(1078071040, "[AbstractSeatComponent#updateSeatEasyEntryRearRight] seatEasyEntryRearRight='%1', valid='%2'", bl, (long)n);
+        this.getLogChannel().log(1000000, "[AbstractSeatComponent#updateSeatEasyEntryRearRight] seatEasyEntryRearRight='%1', valid='%2'", bl, (long)n);
         if (n == 1) {
             this.easyEntryRearRightActive = bl;
             this.updateEasyEntryRear();
         }
     }
 
-    @Override
     public void updateSeatCodriverSettingsFromRear(boolean bl, int n) {
-        this.getLogChannel().log(1078071040, "[AbstractSeatComponent#updateSeatCodriverSettingsFromRear] seatCodriverSettingsFromRear='%1', valid='%2'", bl, (long)n);
+        this.getLogChannel().log(1000000, "[AbstractSeatComponent#updateSeatCodriverSettingsFromRear] seatCodriverSettingsFromRear='%1', valid='%2'", bl, (long)n);
         if (n == 1) {
-            this.applyActivityStateToModel(1126762752, bl);
+            this.applyActivityStateToModel(600387, bl);
         }
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateSeatSpecialPosition(SeatSpecialPosition seatSpecialPosition, int n) {
-        this.getLogChannel().log(1078071040, "[AbstractSeatComponent#updateSeatSpecialPosition] seatSpecialPosition='%1', valid='%2'", (Object)seatSpecialPosition, (long)n);
+        this.getLogChannel().log(1000000, "[AbstractSeatComponent#updateSeatSpecialPosition] seatSpecialPosition='%1', valid='%2'", (Object)seatSpecialPosition, (long)n);
         if (n == 1) {
             Object object = mutex;
             synchronized (object) {
@@ -364,15 +347,12 @@ ITelStateListener {
         }
     }
 
-    @Override
     public CarDSIAttributesSet[] getDSIAttributesSets() {
         return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{1, 23}, new int[]{2, 21, 22, 3, 7, 6, 24})};
     }
 
-    protected abstract void updateMenuEntryVisibility() {
-    }
+    protected abstract void updateMenuEntryVisibility();
 
-    @Override
     public String getCurrentViewOptions() {
         if (this.seatPneumaticCoDriverFromDriver) {
             return this.getCurrentSeatPneumaticViewOptions();
@@ -394,31 +374,26 @@ ITelStateListener {
         return this.currentViewOptions.toString();
     }
 
-    @Override
     public String getName() {
         return "Car Seat Settings";
     }
 
-    @Override
     public void notifyPowerListenerOnEnterState(int n) {
     }
 
-    @Override
     public void notifyPowerListenerOnExitState(int n) {
     }
 
-    @Override
     public void notifyPowerTriggerAction(int n) {
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateClampState(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
         Object object = mutex;
         synchronized (object) {
-            this.getLogChannel().log(1078071040, "[AbstractSeatComponent#updateClampState] clamp15='%1' , seatMoving='%2'", bl2, this.seatMoving);
+            this.getLogChannel().log(1000000, "[AbstractSeatComponent#updateClampState] clamp15='%1' , seatMoving='%2'", bl2, this.seatMoving);
             boolean bl5 = this.moveToSpecialPositionBlocked = !bl2;
             if (this.moveToSpecialPositionBlocked) {
                 this.stopSeatMovement("updateClampState");
@@ -426,15 +401,10 @@ ITelStateListener {
         }
     }
 
-    @Override
     public void updateTelState(int n, ITelState iTelState) {
         if (iTelState.isIncomingCallPresent()) {
             this.stopCoDriverSymmetryMovement();
         }
-    }
-
-    static {
-        mutex = new Object();
     }
 }
 

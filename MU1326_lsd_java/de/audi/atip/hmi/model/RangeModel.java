@@ -32,7 +32,6 @@ RangeModelApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public String dumpContent() {
         Buffer buffer = new Buffer(100);
         buffer.append(super.dumpContent());
@@ -57,7 +56,6 @@ RangeModelApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     protected void copy(AbstractModel abstractModel) {
         try {
             Object object = this.mutex;
@@ -77,22 +75,18 @@ RangeModelApp {
         }
     }
 
-    @Override
     public int getModelType() {
         return 5;
     }
 
-    @Override
     public boolean isEmpty() {
         return false;
     }
 
-    @Override
     public int getMaximum() {
         return this.maximum;
     }
 
-    @Override
     public int getMinimum() {
         return this.minimum;
     }
@@ -100,7 +94,6 @@ RangeModelApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int getStep() {
         Object object = this.mutex;
         synchronized (object) {
@@ -108,7 +101,6 @@ RangeModelApp {
         }
     }
 
-    @Override
     public int getValue() {
         return this.value;
     }
@@ -116,10 +108,9 @@ RangeModelApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setLimits(int n, int n2, int n3) {
         boolean bl;
-        this.lc.log(-2137614336, "(%1) RangeModel.setLimits() min:%2 max:%3", (long)this.id, (long)n, (long)n2);
+        this.lc.log(10000000, "(%1) RangeModel.setLimits() min:%2 max:%3", (long)this.id, (long)n, (long)n2);
         Object object = this.mutex;
         synchronized (object) {
             this.step = n3;
@@ -131,18 +122,15 @@ RangeModelApp {
         this.fireModelUpdateEvent(4, n, n2);
     }
 
-    @Override
     public void setLimits(int n, int n2, int n3, int n4) {
         this.medialPosition = n4;
         this.setLimits(n, n2, n3);
     }
 
-    @Override
     public void setMedialPosition(int n) {
         this.medialPosition = n;
     }
 
-    @Override
     public void setRangeListener(RangeListener rangeListener2) {
         this.setButtonListener(rangeListener2);
     }
@@ -150,9 +138,8 @@ RangeModelApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setValue(int n) {
-        this.lc.log(-2137614336, "(%1) RangeModel.setValue( %2 )", (long)this.id, (long)n);
+        this.lc.log(10000000, "(%1) RangeModel.setValue( %2 )", (long)this.id, (long)n);
         Object object = this.mutex;
         synchronized (object) {
             this.updateData(n);
@@ -169,11 +156,11 @@ RangeModelApp {
         this.maximum = n3;
         boolean bl = false;
         if (n < n2) {
-            this.lc.log(1078071040, "(%1) RangeModel.updateData() --> correct value:%2 to min:%3", (long)this.id, (long)n, (long)n2);
+            this.lc.log(1000000, "(%1) RangeModel.updateData() --> correct value:%2 to min:%3", (long)this.id, (long)n, (long)n2);
             n = n2;
             bl = true;
         } else if (n > n3) {
-            this.lc.log(1078071040, "(%1) RangeModel.updateData() --> correct value:%2 to max:%3", (long)this.id, (long)n, (long)n3);
+            this.lc.log(1000000, "(%1) RangeModel.updateData() --> correct value:%2 to max:%3", (long)this.id, (long)n, (long)n3);
             n = n3;
             bl = true;
         }
@@ -184,7 +171,6 @@ RangeModelApp {
         return bl;
     }
 
-    @Override
     public void decrement(int n, int n2) {
         try {
             ((RangeListener)this.buttonListener).decrement(this.id, n, n2);
@@ -194,7 +180,6 @@ RangeModelApp {
         }
     }
 
-    @Override
     public void increment(int n, int n2) {
         try {
             ((RangeListener)this.buttonListener).increment(this.id, n, n2);
@@ -204,17 +189,14 @@ RangeModelApp {
         }
     }
 
-    @Override
     public int getMedialPosition() {
         return this.medialPosition;
     }
 
-    @Override
     public void forceUpdate(boolean bl) {
         this.forceUpdate = bl;
     }
 
-    @Override
     public boolean isForceUpdateEnabled() {
         return this.forceUpdate;
     }

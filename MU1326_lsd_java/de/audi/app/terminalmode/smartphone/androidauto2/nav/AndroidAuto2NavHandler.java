@@ -15,7 +15,7 @@ import org.dsi.ifc.androidauto2.DSIAndroidAuto2;
 public class AndroidAuto2NavHandler
 extends AbstractAndroidAuto2Handler
 implements IAndroidAuto2NavHandler {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "AndroidAuto2NavHandler";
     private volatile ApplicationOwner appNaviOwnerCurrent = ApplicationOwner.NOBODY;
     private volatile boolean hasNavFocusRequested;
     private volatile ApplicationOwner expectedAppNavOwner = ApplicationOwner.NOBODY;
@@ -24,35 +24,33 @@ implements IAndroidAuto2NavHandler {
         super(logChannel, dSIAndroidAuto2, iStateHandler, iContext);
     }
 
-    @Override
     public void updateNavFocus(ApplicationOwner applicationOwner) {
         if (this.hasNavFocusRequested) {
             if (this.expectedAppNavOwner.equals(applicationOwner)) {
-                this.logger.log(1078071040, "[%1.updateNavFocus] responding to requested navFocusNotification: %2", (Object)"AndroidAuto2NavHandler", (Object)(ApplicationOwner.DEVICE.equals(applicationOwner) ? "PROJECTED" : "NATIVE"));
+                this.logger.log(1000000, "[%1.updateNavFocus] responding to requested navFocusNotification: %2", (Object)LOGCLASS, (Object)(ApplicationOwner.DEVICE.equals(applicationOwner) ? "PROJECTED" : "NATIVE"));
                 this.dsi.navFocusNotification(ApplicationOwner.DEVICE.equals(applicationOwner) ? 2 : 1, false);
                 this.hasNavFocusRequested = false;
                 this.expectedAppNavOwner = ApplicationOwner.NOBODY;
             }
         } else {
             if (this.appNaviOwnerCurrent.equals(applicationOwner)) {
-                this.logger.log(1078071040, "[%1.updateNavFocus] %2 -> %3, do nothing", (Object)"AndroidAuto2NavHandler", (Object)this.appNaviOwnerCurrent, (Object)applicationOwner);
+                this.logger.log(1000000, "[%1.updateNavFocus] %2 -> %3, do nothing", (Object)LOGCLASS, (Object)this.appNaviOwnerCurrent, (Object)applicationOwner);
                 return;
             }
             if (ApplicationOwner.DEVICE.equals(applicationOwner)) {
-                this.logger.log(1078071040, "[%1.updateNavFocus] %2 -> %3, navFocusNotification: PROJECTED", (Object)"AndroidAuto2NavHandler", (Object)this.appNaviOwnerCurrent, (Object)applicationOwner);
+                this.logger.log(1000000, "[%1.updateNavFocus] %2 -> %3, navFocusNotification: PROJECTED", (Object)LOGCLASS, (Object)this.appNaviOwnerCurrent, (Object)applicationOwner);
                 this.dsi.navFocusNotification(2, true);
             } else {
-                this.logger.log(1078071040, "[%1.updateNavFocus] %2 -> %3, navFocusNotification: NATIVE", (Object)"AndroidAuto2NavHandler", (Object)this.appNaviOwnerCurrent, (Object)applicationOwner);
+                this.logger.log(1000000, "[%1.updateNavFocus] %2 -> %3, navFocusNotification: NATIVE", (Object)LOGCLASS, (Object)this.appNaviOwnerCurrent, (Object)applicationOwner);
                 this.dsi.navFocusNotification(1, true);
             }
         }
         this.appNaviOwnerCurrent = applicationOwner;
     }
 
-    @Override
     public void navFocusRequestNotification(int n, int n2) {
         if (this.isValid(n2)) {
-            this.logger.log(1078071040, "<- [%1.navFocusRequestNotification] %2", (Object)"AndroidAuto2NavHandler", (Object)this.getNavState(n));
+            this.logger.log(1000000, "<- [%1.navFocusRequestNotification] %2", (Object)LOGCLASS, (Object)this.getNavState(n));
             if (1 == n) {
                 this.requestDSIUpdate(Application.NAVI, ApplicationOwner.NOBODY);
                 this.hasNavFocusRequested = true;
@@ -74,12 +72,11 @@ implements IAndroidAuto2NavHandler {
                 return "NAV_PROJECTED";
             }
         }
-        return new StringBuffer().append("NAV_UNKNOWN ").append(n).toString();
+        return "NAV_UNKNOWN " + n;
     }
 
-    @Override
     protected String getLogClass() {
-        return "AndroidAuto2NavHandler";
+        return LOGCLASS;
     }
 }
 

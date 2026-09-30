@@ -7,10 +7,8 @@ import org.dsi.ifc.androidauto2.BluetoothServiceAnnouncement;
 import org.dsi.ifc.androidauto2.ServiceConfiguration;
 
 public interface IDSIAndroidAuto2TransferObjectFactory {
-    default public ServiceConfiguration createServiceConfiguration() {
-    }
+    public ServiceConfiguration createServiceConfiguration();
 
-    default public BluetoothServiceAnnouncement createBluetoothServiceAnnouncement() {
-    }
+    public BluetoothServiceAnnouncement createBluetoothServiceAnnouncement();
 }
 

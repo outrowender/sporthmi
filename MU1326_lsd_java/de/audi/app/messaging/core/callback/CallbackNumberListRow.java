@@ -12,9 +12,9 @@ import org.dsi.ifc.organizer.PhoneData;
 
 final class CallbackNumberListRow
 extends ListRow {
-    public static final int COLUMN_COUNT;
-    private static final int CELL_ID_ICON;
-    private static final int CELL_ID_NUMBER;
+    public static final int COLUMN_COUNT = 2;
+    private static final int CELL_ID_ICON = 0;
+    private static final int CELL_ID_NUMBER = 1;
 
     CallbackNumberListRow(PhoneData phoneData) {
         ListCell[] listCellArray = new ListCell[]{IntegerListCell.create(ADBModelUtils.getIconTypeForPhoneNumber(phoneData.getNumberType())), TextListCell.create(phoneData.getNumber())};
@@ -29,7 +29,6 @@ extends ListRow {
         return ((TextListCell)this.getCell(1)).getText();
     }
 
-    @Override
     public boolean equals(Object object) {
         boolean bl = false;
         try {
@@ -43,7 +42,6 @@ extends ListRow {
         return bl;
     }
 
-    @Override
     public int hashCode() {
         return this.getNumber().hashCode();
     }

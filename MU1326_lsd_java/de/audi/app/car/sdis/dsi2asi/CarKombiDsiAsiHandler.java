@@ -40,7 +40,7 @@ public class CarKombiDsiAsiHandler {
     protected void updateSIAOilInspectionVisibilityState(CarViewOption carViewOption) {
         try {
             int n = this.sdisBase.updateVisibility(carViewOption, (short)13);
-            this.logChannel.log(1078071040, "[SDISCarStatusDistributor#updateVinDataVisibilityState] %1 -> %2", (Object)carViewOption, (long)n);
+            this.logChannel.log(1000000, "[SDISCarStatusDistributor#updateVinDataVisibilityState] %1 -> %2", (Object)carViewOption, (long)n);
             this.asiUpdater.updateSIAOilInspectionVisibilityState(new int[]{n, n});
         }
         catch (MethodException methodException) {

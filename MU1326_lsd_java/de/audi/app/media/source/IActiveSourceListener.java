@@ -6,10 +6,8 @@ package de.audi.app.media.source;
 import de.audi.app.media.source.ActiveSourceState;
 
 public interface IActiveSourceListener {
-    default public void activeSourceChanged(boolean bl, ActiveSourceState activeSourceState) {
-    }
+    public void activeSourceChanged(boolean var1, ActiveSourceState var2);
 
-    default public void sourceDeactivated() {
-    }
+    public void sourceDeactivated();
 }
 

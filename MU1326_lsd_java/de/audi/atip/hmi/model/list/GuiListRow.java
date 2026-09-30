@@ -6,25 +6,18 @@ package de.audi.atip.hmi.model.list;
 import de.audi.atip.metrics.AbstractMetrics;
 
 public interface GuiListRow {
-    default public long getUniqueID() {
-    }
+    public long getUniqueID();
 
-    default public int getColumnCount() {
-    }
+    public int getColumnCount();
 
-    default public int getInteger(int n) {
-    }
+    public int getInteger(int var1);
 
-    default public long getLong(int n) {
-    }
+    public long getLong(int var1);
 
-    default public String getText(int n) {
-    }
+    public String getText(int var1);
 
-    default public AbstractMetrics getMetrics(int n) {
-    }
+    public AbstractMetrics getMetrics(int var1);
 
-    default public Object getCell(int n) {
-    }
+    public Object getCell(int var1);
 }
 

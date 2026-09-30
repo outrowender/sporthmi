@@ -16,39 +16,32 @@ implements IMessagingReadoutService {
         super(logChannel, class$de$audi$atip$interapp$IMessagingReadoutService == null ? (class$de$audi$atip$interapp$IMessagingReadoutService = NullMessagingReadoutService.class$("de.audi.atip.interapp.IMessagingReadoutService")) : class$de$audi$atip$interapp$IMessagingReadoutService);
     }
 
-    @Override
     public byte freezeDynamicLists() {
         super.log();
         return 0;
     }
 
-    @Override
     public byte unfreezeDynamicLists() {
         super.log();
         return 0;
     }
 
-    @Override
     public void requestBeginDialog(boolean bl, int n, int n2) {
         super.log();
     }
 
-    @Override
     public void requestEndDialog() {
         super.log();
     }
 
-    @Override
     public void requestReadoutMessage() {
         super.log();
     }
 
-    @Override
     public String requestReadoutText() {
         return null;
     }
 
-    @Override
     public void requestBeginLastSelectedEntry() {
     }
 

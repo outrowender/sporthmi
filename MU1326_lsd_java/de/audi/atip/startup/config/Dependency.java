@@ -7,7 +7,7 @@ import de.audi.atip.startup.config.Component;
 import de.esolutions.fw.util.commons.Buffer;
 
 public class Dependency {
-    static final int ATTRIBUTE_UNDEFINED;
+    static final int ATTRIBUTE_UNDEFINED = -1;
     private final String dependentComponentName;
     private final int domain;
     private final int state;

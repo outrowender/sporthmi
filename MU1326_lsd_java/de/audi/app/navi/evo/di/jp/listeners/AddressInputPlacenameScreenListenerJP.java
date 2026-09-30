@@ -19,7 +19,6 @@ extends AbstractAddressInputListenerJP {
         this.initListeners();
     }
 
-    @Override
     protected void initListeners() {
         this.tiledListModel = this.env.getTiledListModel(this.tiledListModelId);
         this.tiledListModel.setListener(this);
@@ -29,12 +28,11 @@ extends AbstractAddressInputListenerJP {
         this.matchspellerModel.setSpellerListenerAsia(this);
     }
 
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.logChannel.log(-2137614336, "%1#itemSelected - item selected was called with model = %2, index = %3", (Object)this.CLASS_NAME, (long)n, (long)n2);
+        this.logChannel.log(10000000, "%1#itemSelected - item selected was called with model = %2, index = %3", (Object)this.CLASS_NAME, (long)n, (long)n2);
         this.inputManager.getMainScreenListener().resetPreviousLocation();
         if (evoListRow instanceof AddressInputLIValueListElementListRow) {
-            this.logChannel.log(-2137614336, "%1#itemSelected row is instanceOf AILIVLELR", (Object)this.CLASS_NAME);
+            this.logChannel.log(10000000, "%1#itemSelected row is instanceOf AILIVLELR", (Object)this.CLASS_NAME);
             AddressInputLIValueListElementListRow addressInputLIValueListElementListRow = (AddressInputLIValueListElementListRow)evoListRow;
             this.inputManager.executeAddressInputEvent(this.inputSequence.getSelectListElementCommandList(addressInputLIValueListElementListRow.getElement()), 20402);
         }

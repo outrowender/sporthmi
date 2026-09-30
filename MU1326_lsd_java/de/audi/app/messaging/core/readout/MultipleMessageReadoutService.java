@@ -3,35 +3,28 @@
  */
 package de.audi.app.messaging.core.readout;
 
-import de.audi.app.messaging.core.accounts.AccountFilter$Builder;
+import de.audi.app.messaging.core.accounts.AccountFilter;
 import de.audi.app.messaging.core.accounts.AccountList;
 import de.audi.app.messaging.core.accounts.IAccountFilter;
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
 import de.audi.app.messaging.core.component.AbstractMessagingComponent;
 import de.audi.app.messaging.core.folderbrowsing.EntryList;
+import de.audi.app.messaging.core.folderbrowsing.IEntryListObserver;
 import de.audi.app.messaging.core.indication.NewMessageIndicationManager;
+import de.audi.app.messaging.core.osgi.AbstractMessagingTrackerCustomizer;
 import de.audi.app.messaging.core.osgi.IServiceRegistry;
 import de.audi.app.messaging.core.osgi.MessagingBundleContext;
 import de.audi.app.messaging.core.osgi.ServiceFilterBuilder;
 import de.audi.app.messaging.core.osgi.ServiceProperties;
-import de.audi.app.messaging.core.readout.MultipleMessageReadoutService$1;
-import de.audi.app.messaging.core.readout.MultipleMessageReadoutService$2;
-import de.audi.app.messaging.core.readout.MultipleMessageReadoutService$3;
-import de.audi.app.messaging.core.readout.MultipleMessageReadoutService$4;
-import de.audi.app.messaging.core.readout.MultipleMessageReadoutService$5;
-import de.audi.app.messaging.core.readout.MultipleMessageReadoutService$6;
-import de.audi.app.messaging.core.readout.MultipleMessageReadoutService$7;
-import de.audi.app.messaging.core.readout.MultipleMessageReadoutService$8;
-import de.audi.app.messaging.core.readout.MultipleMessageReadoutService$DiagPlugIn;
-import de.audi.app.messaging.core.readout.MultipleMessageReadoutService$EntryListObserver;
-import de.audi.app.messaging.core.readout.MultipleMessageReadoutService$SetMessageHandler;
+import de.audi.app.messaging.core.readout.IReadable;
 import de.audi.app.messaging.core.swdiagnosis.IDiagPlugIn;
 import de.audi.app.messaging.core.swdiagnosis.IDiagProvider;
 import de.audi.app.messaging.core.util.ListEntries;
-import de.audi.app.messaging.core.viewmessage.SelectedMessage$ISetMessageResultHandler;
+import de.audi.app.messaging.core.util.Logs;
+import de.audi.app.messaging.core.viewmessage.SelectedMessage;
 import de.audi.atip.interapp.messaging.IMultipleMessageReadoutService;
 import de.audi.atip.interapp.messaging.IMultipleMessageReadoutServiceListener;
-import de.audi.atip.log.LogChannel;
+import de.esolutions.fw.util.commons.Buffer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -39,9 +32,12 @@ import java.util.Iterator;
 import java.util.Set;
 import org.dsi.ifc.messaging.ListEntry;
 import org.dsi.ifc.messaging.MatchedAddress;
+import org.dsi.ifc.messaging.MessageDetails;
 import org.dsi.ifc.messaging.MessageListEntry;
 import org.dsi.ifc.messaging.MessagingAccount;
 import org.osgi.framework.Filter;
+import org.osgi.framework.InvalidSyntaxException;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
@@ -49,14 +45,14 @@ public class MultipleMessageReadoutService
 extends AbstractMessagingComponent
 implements IDiagProvider,
 IMultipleMessageReadoutService {
-    public static final int STATE_IDLE;
-    public static final int STATE_ACTIVE;
+    public static final int STATE_IDLE = 0;
+    public static final int STATE_ACTIVE = 1;
     private volatile int messageType = 0;
     private volatile int state = 0;
     private volatile Collection currentMessages = new ArrayList(25);
     private volatile Iterator iter;
     private volatile IMultipleMessageReadoutServiceListener multipleMessageReadoutServiceListener;
-    private volatile SelectedMessage$ISetMessageResultHandler setMessageResultHandler = new MultipleMessageReadoutService$SetMessageHandler(this, null);
+    private volatile SelectedMessage.ISetMessageResultHandler setMessageResultHandler = new SetMessageHandler();
     private boolean newMessageMode = false;
     private volatile IAccountFilter dialogAccountFilter = null;
     static /* synthetic */ Class class$de$audi$atip$interapp$messaging$IMultipleMessageReadoutService;
@@ -66,15 +62,26 @@ IMultipleMessageReadoutService {
         super(messagingBundleContext, "App.Messaging.Main");
     }
 
-    @Override
     public void init(AbstractMsgApplication abstractMsgApplication) {
         super.init(abstractMsgApplication);
         abstractMsgApplication.getMessagingSwDiagnosis().registerDiagProvider(this);
-        abstractMsgApplication.getEntryList().addObserver(new MultipleMessageReadoutService$EntryListObserver(this, null));
-        this.multipleMessageReadoutServiceListener = new MultipleMessageReadoutService$1(this);
+        abstractMsgApplication.getEntryList().addObserver(new EntryListObserver());
+        this.multipleMessageReadoutServiceListener = new IMultipleMessageReadoutServiceListener(){
+
+            public void responseNextMessage(int n, String string) {
+                MultipleMessageReadoutService.this.log.log(1000000, "[IMultipleMessageReadoutServiceListener#responseNextMessage] result = %2, message = %1", (Object)string, (long)n);
+            }
+
+            public void responseEndDialog(int n) {
+                MultipleMessageReadoutService.this.log.log(1000000, "[IMultipleMessageReadoutServiceListener#responseEndDialog] result = %1", (long)n);
+            }
+
+            public void responseBeginDialog(int n) {
+                MultipleMessageReadoutService.this.log.log(1000000, "[IMultipleMessageReadoutServiceListener#responseBeginDialog] result = %1", (long)n);
+            }
+        };
     }
 
-    @Override
     public void connect(IServiceRegistry iServiceRegistry) {
         try {
             super.connect(iServiceRegistry);
@@ -86,48 +93,140 @@ IMultipleMessageReadoutService {
         }
     }
 
-    private ServiceTracker createServiceTracker() {
+    private ServiceTracker createServiceTracker() throws InvalidSyntaxException {
         String string = ServiceFilterBuilder.createFilterString("objectClass", (class$de$audi$atip$interapp$messaging$IMultipleMessageReadoutServiceListener == null ? (class$de$audi$atip$interapp$messaging$IMultipleMessageReadoutServiceListener = MultipleMessageReadoutService.class$("de.audi.atip.interapp.messaging.IMultipleMessageReadoutServiceListener")) : class$de$audi$atip$interapp$messaging$IMultipleMessageReadoutServiceListener).getName());
         Filter filter = this.bundleContext.createFilter(string);
-        MultipleMessageReadoutService$2 multipleMessageReadoutService$2 = new MultipleMessageReadoutService$2(this, this.log, this.bundleContext);
-        return new ServiceTracker(this.bundleContext, filter, (ServiceTrackerCustomizer)multipleMessageReadoutService$2);
+        AbstractMessagingTrackerCustomizer abstractMessagingTrackerCustomizer = new AbstractMessagingTrackerCustomizer(this.log, this.bundleContext){
+
+            public void addService(ServiceReference serviceReference, Object object) {
+                MultipleMessageReadoutService.this.state = 0;
+                MultipleMessageReadoutService.this.multipleMessageReadoutServiceListener = (IMultipleMessageReadoutServiceListener)object;
+            }
+
+            public void removeService(ServiceReference serviceReference, Object object) {
+                MultipleMessageReadoutService.this.state = 0;
+                MultipleMessageReadoutService.this.multipleMessageReadoutServiceListener = null;
+            }
+        };
+        return new ServiceTracker(this.bundleContext, filter, (ServiceTrackerCustomizer)abstractMessagingTrackerCustomizer);
     }
 
     public int getDialogState() {
         return this.state;
     }
 
-    @Override
-    public void requestBeginDialog(boolean bl, int n) {
-        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new MultipleMessageReadoutService$3(this, bl, n));
+    public void requestBeginDialog(final boolean bl, final int n) {
+        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new Runnable(){
+
+            /*
+             * WARNING - Removed try catching itself - possible behaviour change.
+             */
+            public void run() {
+                int n2 = 0;
+                try {
+                    MultipleMessageReadoutService.this.log.log(10000000, "MultipleMessageReadoutService#requestBeginDialog()");
+                    if (MultipleMessageReadoutService.this.state != 0) {
+                        n2 = 3;
+                    }
+                    MultipleMessageReadoutService.this.state = 1;
+                    MultipleMessageReadoutService.this.newMessageMode = bl;
+                    MultipleMessageReadoutService.this.messageType = n;
+                    AccountList accountList = MultipleMessageReadoutService.this.msgApp.getAccountManager().getDialogAccountList();
+                    accountList.removeAccountFilter(MultipleMessageReadoutService.this.dialogAccountFilter);
+                    MultipleMessageReadoutService.this.dialogAccountFilter = MultipleMessageReadoutService.this.getAccountFilter(bl, MultipleMessageReadoutService.this.messageType);
+                    accountList.addAccountFilter(MultipleMessageReadoutService.this.dialogAccountFilter);
+                    MultipleMessageReadoutService.this.log.log(1000000, "MultipleMessageReadoutService#requestBeginDialog(): filter type %1 matched to %2 accounts.", (long)n, (long)accountList.getLength());
+                    MultipleMessageReadoutService.this.attemptAutoSelectAccount();
+                    MultipleMessageReadoutService.this.msgApp.getEntryList().signalListReady(false);
+                }
+                catch (Exception exception) {
+                    Logs.logException(MultipleMessageReadoutService.this.log, exception, "[MultipleMessageReadoutService#requestBeginDialog]");
+                    n2 = 1;
+                    MultipleMessageReadoutService.this.emitResponseBeginDialog(n2);
+                }
+                finally {
+                    MultipleMessageReadoutService.this.emitResponseBeginDialog(n2);
+                }
+            }
+        });
     }
 
-    @Override
     public void requestEndDialog() {
-        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new MultipleMessageReadoutService$4(this));
+        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new Runnable(){
+
+            /*
+             * WARNING - Removed try catching itself - possible behaviour change.
+             */
+            public void run() {
+                int n = 0;
+                try {
+                    MultipleMessageReadoutService.this.log.log(1000000, "[MultipleMessageReadoutService#requestEndDialog]");
+                    AccountList accountList = MultipleMessageReadoutService.this.msgApp.getAccountManager().getDialogAccountList();
+                    accountList.removeAccountFilter(MultipleMessageReadoutService.this.dialogAccountFilter);
+                    MultipleMessageReadoutService.this.state = 0;
+                }
+                catch (Exception exception) {
+                    Logs.logException(MultipleMessageReadoutService.this.log, exception, "[MultipleMessageReadoutService#requestEndDialog]");
+                    n = 1;
+                }
+                finally {
+                    MultipleMessageReadoutService.this.msgApp.getEntryList().signalListReady(true);
+                    MultipleMessageReadoutService.this.emitResponseEndDialog(n);
+                }
+            }
+        });
     }
 
-    @Override
     public boolean isMessageAvailable() {
         boolean bl = this.iter != null && this.iter.hasNext();
-        this.log.log(-2137614336, "MultipleMessageReadoutService#isMessageAvailable(): %1 ", bl);
+        this.log.log(10000000, "MultipleMessageReadoutService#isMessageAvailable(): %1 ", bl);
         return bl;
     }
 
-    @Override
     public void requestNextMessage() {
-        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new MultipleMessageReadoutService$5(this));
+        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new Runnable(){
+
+            public void run() {
+                int n = 1;
+                try {
+                    if (MultipleMessageReadoutService.this.state == 0) {
+                        n = 3;
+                        MultipleMessageReadoutService.this.emitResponseNextMessage(n);
+                    } else if (MultipleMessageReadoutService.this.iter != null && MultipleMessageReadoutService.this.iter.hasNext()) {
+                        if (!MultipleMessageReadoutService.this.newMessageMode) {
+                            MessageListEntry messageListEntry = (MessageListEntry)MultipleMessageReadoutService.this.iter.next();
+                            MultipleMessageReadoutService.this.log.log(1000000, "[MultipleMessageReadoutService#requestNextMessage] Requesting old message %1.", (Object)messageListEntry.getMessageID());
+                            MultipleMessageReadoutService.this.msgApp.getMessageOptionsManager().setFocusedMessageListEntry(messageListEntry);
+                            MultipleMessageReadoutService.this.msgApp.getSelectedMessage().requestSetMessage(messageListEntry, 0, MultipleMessageReadoutService.this.setMessageResultHandler);
+                        } else {
+                            String string = (String)MultipleMessageReadoutService.this.iter.next();
+                            MessageListEntry messageListEntry = MultipleMessageReadoutService.this.buildEntryFromId(string);
+                            MultipleMessageReadoutService.this.log.log(1000000, "[MultipleMessageReadoutService#requestNextMessage] Requesting new message %1.", (Object)string);
+                            MultipleMessageReadoutService.this.msgApp.getMessageOptionsManager().setFocusedMessageListEntry(messageListEntry);
+                            MultipleMessageReadoutService.this.msgApp.getSelectedMessage().requestSetMessage(messageListEntry, 0, MultipleMessageReadoutService.this.setMessageResultHandler);
+                        }
+                    } else {
+                        n = 4;
+                        MultipleMessageReadoutService.this.emitResponseNextMessage(n);
+                    }
+                }
+                catch (Exception exception) {
+                    Logs.logException(MultipleMessageReadoutService.this.log, exception, "[MultipleMessageReadoutService#requestNextMessage]");
+                    MultipleMessageReadoutService.this.emitResponseNextMessage(n);
+                }
+            }
+        });
     }
 
     public void triggerGetNewMessagesFromCurrentSelectedAccount() {
         if (this.state == 1 && this.newMessageMode) {
             this.currentMessages = this.getNewMessages();
-            this.log.log(-2137614336, "[MultipleMessageReadoutService$updateCurrentFolder] copied %1 messages", (long)this.currentMessages.size());
+            this.log.log(10000000, "[MultipleMessageReadoutService$updateCurrentFolder] copied %1 messages", (long)this.currentMessages.size());
         }
     }
 
     private Collection getNewMessages() {
-        this.log.log(-2137614336, "[MultipleMessageReadoutService#getNewMessages] Copying new messages.");
+        this.log.log(10000000, "[MultipleMessageReadoutService#getNewMessages] Copying new messages.");
         Collection collection = Collections.EMPTY_SET;
         MessagingAccount messagingAccount = this.msgApp.getAccountManager().getSelectedAccount();
         if (messagingAccount != null) {
@@ -139,7 +238,7 @@ IMultipleMessageReadoutService {
     }
 
     private Collection getOldMessages() {
-        this.log.log(-2137614336, "[MultipleMessageReadoutService#getOldMessages] Copying inbox messages.");
+        this.log.log(10000000, "[MultipleMessageReadoutService#getOldMessages] Copying inbox messages.");
         ArrayList arrayList = new ArrayList();
         EntryList entryList = this.msgApp.getEntryList();
         for (int i2 = 0; i2 < entryList.getLength(); ++i2) {
@@ -155,9 +254,9 @@ IMultipleMessageReadoutService {
         boolean bl = false;
         AccountList accountList = this.msgApp.getAccountManager().getDialogAccountList();
         if (accountList.getLength() == 0) {
-            this.log.log(1078071040, "[MultipleMessageReadoutService#attemptAutoSelectAccount] No account for current filter available.");
+            this.log.log(1000000, "[MultipleMessageReadoutService#attemptAutoSelectAccount] No account for current filter available.");
         } else if (accountList.getLength() == 1) {
-            this.log.log(1078071040, "[MultipleMessageReadoutService#attemptAutoSelectAccount] Auto-selecting the only available account.");
+            this.log.log(1000000, "[MultipleMessageReadoutService#attemptAutoSelectAccount] Auto-selecting the only available account.");
             accountList.selectAccount(0);
             bl = true;
         }
@@ -165,14 +264,14 @@ IMultipleMessageReadoutService {
     }
 
     private IAccountFilter getAccountFilter(boolean bl, int n) {
-        AccountFilter$Builder accountFilter$Builder = new AccountFilter$Builder();
+        AccountFilter.Builder builder = new AccountFilter.Builder();
         int n2 = n == 1 ? 1 : (n == 2 ? 2 : 0);
-        accountFilter$Builder.accountType(n2);
+        builder.accountType(n2);
         if (bl) {
             Set set = this.msgApp.getNewMessageIndicationManager().getNewMessageAccountSet();
-            accountFilter$Builder.newMessagesOnly(true, set);
+            builder.newMessagesOnly(true, set);
         }
-        return accountFilter$Builder.build();
+        return builder.build();
     }
 
     private MessageListEntry buildEntryFromId(String string) {
@@ -184,45 +283,64 @@ IMultipleMessageReadoutService {
         return messageListEntry;
     }
 
-    @Override
     public IDiagPlugIn[] createDiagPlugIns() {
-        return new IDiagPlugIn[]{new MultipleMessageReadoutService$DiagPlugIn(this)};
+        return new IDiagPlugIn[]{new DiagPlugIn()};
     }
 
-    private void emitResponseBeginDialog(int n) {
-        this.msgApp.getExecutorManager().getExternalTaskDispatcher().execute(new MultipleMessageReadoutService$6(this, n));
+    private void emitResponseBeginDialog(final int n) {
+        this.msgApp.getExecutorManager().getExternalTaskDispatcher().execute(new Runnable(){
+
+            public void run() {
+                try {
+                    MultipleMessageReadoutService.this.log.log(1000000, "[MultipleMessageReadoutService#emitResponseBeginDialog] result = %1", (long)n);
+                    MultipleMessageReadoutService.this.multipleMessageReadoutServiceListener.responseBeginDialog(n);
+                }
+                catch (Exception exception) {
+                    Logs.logException(MultipleMessageReadoutService.this.log, exception, "[MultipleMessageReadoutService#emitResponseBeginDialog]");
+                }
+            }
+        });
     }
 
-    private void emitResponseNextMessage(int n) {
-        this.msgApp.getExecutorManager().getExternalTaskDispatcher().execute(new MultipleMessageReadoutService$7(this, n));
+    private void emitResponseNextMessage(final int n) {
+        this.msgApp.getExecutorManager().getExternalTaskDispatcher().execute(new Runnable(){
+
+            public void run() {
+                try {
+                    Buffer buffer = new Buffer();
+                    MultipleMessageReadoutService.this.log.log(1000000, "[MultipleMessageReadoutService#emitResponseNextMessage] result = %1", (long)n);
+                    if (n == 0) {
+                        IReadable iReadable = MultipleMessageReadoutService.this.msgApp.getMessageReader().getReadableProvider().getReadable();
+                        if (iReadable != null) {
+                            while (iReadable.hasNextSpeakTask()) {
+                                buffer.append(iReadable.nextSpeakTask());
+                            }
+                        } else {
+                            MultipleMessageReadoutService.this.log.log(100000, "[MultipleMessageReadoutService#emitResponseNextMessage] readable is NULL");
+                        }
+                    }
+                    MultipleMessageReadoutService.this.multipleMessageReadoutServiceListener.responseNextMessage(n, buffer.toString());
+                }
+                catch (Exception exception) {
+                    Logs.logException(MultipleMessageReadoutService.this.log, exception, "[MultipleMessageReadoutService#emitResponseNextMessage]");
+                }
+            }
+        });
     }
 
-    private void emitResponseEndDialog(int n) {
-        this.msgApp.getExecutorManager().getExternalTaskDispatcher().execute(new MultipleMessageReadoutService$8(this, n));
-    }
+    private void emitResponseEndDialog(final int n) {
+        this.msgApp.getExecutorManager().getExternalTaskDispatcher().execute(new Runnable(){
 
-    static /* synthetic */ LogChannel access$000(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.log;
-    }
-
-    static /* synthetic */ void access$100(MultipleMessageReadoutService multipleMessageReadoutService, int n) {
-        multipleMessageReadoutService.emitResponseNextMessage(n);
-    }
-
-    static /* synthetic */ LogChannel access$200(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.log;
-    }
-
-    static /* synthetic */ LogChannel access$500(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.log;
-    }
-
-    static /* synthetic */ LogChannel access$600(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.log;
-    }
-
-    static /* synthetic */ LogChannel access$700(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.log;
+            public void run() {
+                try {
+                    MultipleMessageReadoutService.this.log.log(1000000, "[MultipleMessageReadoutService#emitResponseEndDialog] result = %1", (long)n);
+                    MultipleMessageReadoutService.this.multipleMessageReadoutServiceListener.responseEndDialog(n);
+                }
+                catch (Exception exception) {
+                    Logs.logException(MultipleMessageReadoutService.this.log, exception, "[MultipleMessageReadoutService#emitResponseEndDialog]");
+                }
+            }
+        });
     }
 
     static /* synthetic */ Class class$(String string) {
@@ -234,210 +352,65 @@ IMultipleMessageReadoutService {
         }
     }
 
-    static /* synthetic */ int access$802(MultipleMessageReadoutService multipleMessageReadoutService, int n) {
-        multipleMessageReadoutService.state = n;
-        return multipleMessageReadoutService.state;
+    final class DiagPlugIn
+    implements IDiagPlugIn {
+        DiagPlugIn() {
+        }
+
+        public void cmdMultipleMessageBeginDialog(boolean bl, int n) {
+            MultipleMessageReadoutService.this.requestBeginDialog(bl, n);
+        }
+
+        public void cmdMultipleMessageRequestNextMessage() {
+            MultipleMessageReadoutService.this.requestNextMessage();
+        }
+
+        public void cmdMultipleMessageEndDialog() {
+            MultipleMessageReadoutService.this.requestNextMessage();
+        }
     }
 
-    static /* synthetic */ IMultipleMessageReadoutServiceListener access$902(MultipleMessageReadoutService multipleMessageReadoutService, IMultipleMessageReadoutServiceListener iMultipleMessageReadoutServiceListener) {
-        multipleMessageReadoutService.multipleMessageReadoutServiceListener = iMultipleMessageReadoutServiceListener;
-        return multipleMessageReadoutService.multipleMessageReadoutServiceListener;
+    private final class EntryListObserver
+    extends IEntryListObserver.EmptyImplementation {
+        private EntryListObserver() {
+        }
+
+        public void indicateListDataResponseOnFolderChange() {
+            MultipleMessageReadoutService.this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new Runnable(){
+
+                public void run() {
+                    if (MultipleMessageReadoutService.this.state == 1) {
+                        if (MultipleMessageReadoutService.this.msgApp.getFolderNavigator().getCurrentFolder().isValid() && MultipleMessageReadoutService.this.msgApp.getFolderNavigator().getCurrentFolder().getHmiFolderType() == 4) {
+                            if (!MultipleMessageReadoutService.this.newMessageMode) {
+                                MultipleMessageReadoutService.this.currentMessages = MultipleMessageReadoutService.this.getOldMessages();
+                                MultipleMessageReadoutService.this.log.log(10000000, "[MultipleMessageReadoutService$EntryListObserver#indicateListDataResponseOnFolderChange] copied %1 messages", (long)MultipleMessageReadoutService.this.currentMessages.size());
+                            }
+                            MultipleMessageReadoutService.this.emitResponseBeginDialog(0);
+                        } else {
+                            MultipleMessageReadoutService.this.log.log(100000, "[MultipleMessageReadoutService$EntryListObserver#indicateListDataResponseOnFolderChange] folder change failed", (long)MultipleMessageReadoutService.this.currentMessages.size());
+                            MultipleMessageReadoutService.this.emitResponseBeginDialog(1);
+                        }
+                    }
+                    MultipleMessageReadoutService.this.msgApp.getEntryList().signalListReady(true);
+                }
+            });
+        }
     }
 
-    static /* synthetic */ LogChannel access$1000(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.log;
-    }
+    private class SetMessageHandler
+    implements SelectedMessage.ISetMessageResultHandler {
+        private SetMessageHandler() {
+        }
 
-    static /* synthetic */ int access$800(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.state;
-    }
-
-    static /* synthetic */ boolean access$1102(MultipleMessageReadoutService multipleMessageReadoutService, boolean bl) {
-        multipleMessageReadoutService.newMessageMode = bl;
-        return multipleMessageReadoutService.newMessageMode;
-    }
-
-    static /* synthetic */ int access$1202(MultipleMessageReadoutService multipleMessageReadoutService, int n) {
-        multipleMessageReadoutService.messageType = n;
-        return multipleMessageReadoutService.messageType;
-    }
-
-    static /* synthetic */ AbstractMsgApplication access$1300(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.msgApp;
-    }
-
-    static /* synthetic */ IAccountFilter access$1400(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.dialogAccountFilter;
-    }
-
-    static /* synthetic */ IAccountFilter access$1402(MultipleMessageReadoutService multipleMessageReadoutService, IAccountFilter iAccountFilter) {
-        multipleMessageReadoutService.dialogAccountFilter = iAccountFilter;
-        return multipleMessageReadoutService.dialogAccountFilter;
-    }
-
-    static /* synthetic */ int access$1200(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.messageType;
-    }
-
-    static /* synthetic */ IAccountFilter access$1500(MultipleMessageReadoutService multipleMessageReadoutService, boolean bl, int n) {
-        return multipleMessageReadoutService.getAccountFilter(bl, n);
-    }
-
-    static /* synthetic */ LogChannel access$1600(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.log;
-    }
-
-    static /* synthetic */ boolean access$1700(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.attemptAutoSelectAccount();
-    }
-
-    static /* synthetic */ AbstractMsgApplication access$1800(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.msgApp;
-    }
-
-    static /* synthetic */ LogChannel access$1900(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.log;
-    }
-
-    static /* synthetic */ void access$2000(MultipleMessageReadoutService multipleMessageReadoutService, int n) {
-        multipleMessageReadoutService.emitResponseBeginDialog(n);
-    }
-
-    static /* synthetic */ LogChannel access$2100(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.log;
-    }
-
-    static /* synthetic */ AbstractMsgApplication access$2200(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.msgApp;
-    }
-
-    static /* synthetic */ LogChannel access$2300(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.log;
-    }
-
-    static /* synthetic */ AbstractMsgApplication access$2400(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.msgApp;
-    }
-
-    static /* synthetic */ void access$2500(MultipleMessageReadoutService multipleMessageReadoutService, int n) {
-        multipleMessageReadoutService.emitResponseEndDialog(n);
-    }
-
-    static /* synthetic */ Iterator access$2600(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.iter;
-    }
-
-    static /* synthetic */ boolean access$1100(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.newMessageMode;
-    }
-
-    static /* synthetic */ LogChannel access$2700(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.log;
-    }
-
-    static /* synthetic */ AbstractMsgApplication access$2800(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.msgApp;
-    }
-
-    static /* synthetic */ SelectedMessage$ISetMessageResultHandler access$2900(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.setMessageResultHandler;
-    }
-
-    static /* synthetic */ AbstractMsgApplication access$3000(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.msgApp;
-    }
-
-    static /* synthetic */ MessageListEntry access$3100(MultipleMessageReadoutService multipleMessageReadoutService, String string) {
-        return multipleMessageReadoutService.buildEntryFromId(string);
-    }
-
-    static /* synthetic */ LogChannel access$3200(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.log;
-    }
-
-    static /* synthetic */ AbstractMsgApplication access$3300(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.msgApp;
-    }
-
-    static /* synthetic */ AbstractMsgApplication access$3400(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.msgApp;
-    }
-
-    static /* synthetic */ LogChannel access$3500(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.log;
-    }
-
-    static /* synthetic */ AbstractMsgApplication access$3700(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.msgApp;
-    }
-
-    static /* synthetic */ AbstractMsgApplication access$3800(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.msgApp;
-    }
-
-    static /* synthetic */ Collection access$3902(MultipleMessageReadoutService multipleMessageReadoutService, Collection collection) {
-        multipleMessageReadoutService.currentMessages = collection;
-        return multipleMessageReadoutService.currentMessages;
-    }
-
-    static /* synthetic */ Collection access$4000(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.getOldMessages();
-    }
-
-    static /* synthetic */ Collection access$3900(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.currentMessages;
-    }
-
-    static /* synthetic */ LogChannel access$4100(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.log;
-    }
-
-    static /* synthetic */ LogChannel access$4200(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.log;
-    }
-
-    static /* synthetic */ AbstractMsgApplication access$4300(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.msgApp;
-    }
-
-    static /* synthetic */ AbstractMsgApplication access$4400(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.msgApp;
-    }
-
-    static /* synthetic */ LogChannel access$4500(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.log;
-    }
-
-    static /* synthetic */ IMultipleMessageReadoutServiceListener access$900(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.multipleMessageReadoutServiceListener;
-    }
-
-    static /* synthetic */ LogChannel access$4600(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.log;
-    }
-
-    static /* synthetic */ LogChannel access$4700(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.log;
-    }
-
-    static /* synthetic */ AbstractMsgApplication access$4800(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.msgApp;
-    }
-
-    static /* synthetic */ LogChannel access$4900(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.log;
-    }
-
-    static /* synthetic */ LogChannel access$5000(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.log;
-    }
-
-    static /* synthetic */ LogChannel access$5100(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.log;
-    }
-
-    static /* synthetic */ LogChannel access$5200(MultipleMessageReadoutService multipleMessageReadoutService) {
-        return multipleMessageReadoutService.log;
+        public void responseSetMessage(boolean bl, MessageDetails messageDetails) {
+            if (bl) {
+                MultipleMessageReadoutService.this.log.log(10000000, "[MultipleMessageReadoutService#responseSetMessage] Message set.");
+                MultipleMessageReadoutService.this.emitResponseNextMessage(0);
+            } else {
+                MultipleMessageReadoutService.this.log.log(100000, "[MultipleMessageReadoutService#responseSetMessage] Message could not be loaded.");
+                MultipleMessageReadoutService.this.emitResponseNextMessage(1);
+            }
+        }
     }
 }
 

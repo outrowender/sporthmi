@@ -18,7 +18,6 @@ implements PopupStrategy {
         this.show = bl;
     }
 
-    @Override
     public void triggerPopup() {
         this.popupHelper.triggerHapticalPopup(this.popupMappingID, this.show);
     }

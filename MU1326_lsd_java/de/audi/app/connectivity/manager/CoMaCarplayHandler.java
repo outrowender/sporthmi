@@ -24,8 +24,8 @@ implements ButtonListener {
         this.log = iFrameworkAccess.getLogChannel("App.Connectivity.Main");
         this.hmiService = iFrameworkAccess.getHmiServiceApp();
         this.smartphoneProxy = terminalModeProxy;
-        this.carplayDisconnectButton = this.hmiService.getButtonModel(1327965696);
-        this.carplaySwitchButton = this.hmiService.getButtonModel(1344742912);
+        this.carplayDisconnectButton = this.hmiService.getButtonModel(2500431);
+        this.carplaySwitchButton = this.hmiService.getButtonModel(2500432);
     }
 
     public void init() {
@@ -38,15 +38,14 @@ implements ButtonListener {
         this.carplaySwitchButton.resetListener();
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.log.log(-2137614336, "[CoMaCarplayHandler#keyTyped] id=%1, keyID=%2, terminalId = %3", (long)n, (long)n2, (long)n3);
+        this.log.log(10000000, "[CoMaCarplayHandler#keyTyped] id=%1, keyID=%2, terminalId = %3", (long)n, (long)n2, (long)n3);
         if (n == this.carplayDisconnectButton.getID()) {
-            this.log.log(1078071040, "CoMaCarplayHandler#keyTyped(): Disconnecting carplay service");
+            this.log.log(1000000, "CoMaCarplayHandler#keyTyped(): Disconnecting carplay service");
             this.carplayDisconnectButton.fireEvent(n3);
             this.disconnectCarplayService();
         } else if (n == this.carplaySwitchButton.getID()) {
-            this.log.log(1078071040, "CoMaCarplayHandler#keyTyped(): switch to carplay");
+            this.log.log(1000000, "CoMaCarplayHandler#keyTyped(): switch to carplay");
             ChoiceModelApp choiceModelApp = this.hmiService.getChoiceModel(4095);
             choiceModelApp.setValue(choiceModelApp.getValue() == 0 ? 1 : 0);
         }
@@ -57,19 +56,16 @@ implements ButtonListener {
         if (terminalModeDevice != null) {
             this.smartphoneProxy.deactivateSmartphone(terminalModeDevice.getDeviceUniqueId());
         } else {
-            this.log.log(-1601830656, "CoMaCarplayHandler#disconnectCarplayService: carplayActiveDevice is null.");
+            this.log.log(100000, "CoMaCarplayHandler#disconnectCarplayService: carplayActiveDevice is null.");
         }
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 }

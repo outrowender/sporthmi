@@ -4,7 +4,6 @@
 package de.audi.atip.interapp;
 
 public interface IBluetoothA2LSService {
-    default public void updateA2LSActive(boolean bl) {
-    }
+    public void updateA2LSActive(boolean var1);
 }
 

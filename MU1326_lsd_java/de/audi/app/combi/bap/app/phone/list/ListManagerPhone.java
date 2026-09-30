@@ -51,7 +51,6 @@ extends AbstractListManager {
         combiModulePhone.getBAPFunctionArrayFSG(52).setArrayHandler((ArrayHandler)object);
     }
 
-    @Override
     protected int convertMostOperationState(int n) {
         switch (n) {
             case 0: {

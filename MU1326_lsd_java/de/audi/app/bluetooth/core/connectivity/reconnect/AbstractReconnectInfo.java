@@ -19,27 +19,24 @@ implements IReconnect {
         super(iBluetoothApplication);
     }
 
-    @Override
     protected int[] getAttributeNotifications() {
         return ATTRIBUTE_NOTIFICATIONS;
     }
 
     private void setReconnectName(String string) {
-        this.getLabelModel(472262144).setText(string);
+        this.getLabelModel(2500124).setText(string);
     }
 
-    @Override
     public void setAutomaticReconnect(boolean bl) {
-        this.log.log(-2137614336, "AbstractReconnectInfo#setAutomaticReconnect %1", bl);
+        this.log.log(10000000, "AbstractReconnectInfo#setAutomaticReconnect %1", bl);
         CommandRequestReconnectSuspend.schedule(this.bluetoothApplication, this.dsiBluetooth, !bl);
     }
 
-    @Override
     public void updateReconnectIndicator(ReconnectInfo reconnectInfo, int n) {
         if (n != 1 || reconnectInfo == null) {
             return;
         }
-        this.log.log(1078071040, "AbstractReconnectInfo#updateReconnectIndicator(): %1", (Object)reconnectInfo);
+        this.log.log(1000000, "AbstractReconnectInfo#updateReconnectIndicator(): %1", (Object)reconnectInfo);
         this.setReconnecting(reconnectInfo);
         if (this.isPhoneReconnecting) {
             for (int i2 = 0; i2 < reconnectInfo.serviceTypeList.length; ++i2) {

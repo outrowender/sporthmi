@@ -14,7 +14,6 @@ implements IOnlineDestinationService {
         super(logChannel, "OnlineDestinationService");
     }
 
-    @Override
     public void enterOnlineDestinationHandling() {
         super.log();
     }

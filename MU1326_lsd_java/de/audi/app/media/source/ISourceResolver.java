@@ -6,10 +6,8 @@ package de.audi.app.media.source;
 import de.audi.app.media.source.MediaSourceSlot;
 
 public interface ISourceResolver {
-    default public MediaSourceSlot getSourceSlot(long l, long l2) {
-    }
+    public MediaSourceSlot getSourceSlot(long var1, long var3);
 
-    default public MediaSourceSlot getSourceSlot(long l, String string) {
-    }
+    public MediaSourceSlot getSourceSlot(long var1, String var3);
 }
 

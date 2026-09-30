@@ -7,13 +7,13 @@ import de.audi.atip.hmi.model.list.EvoListRow;
 
 class TrustedDeviceListRow
 extends EvoListRow {
-    private static final int DISCONNECTED;
-    private static final int CONNECTED;
-    private static final int MAX_COLUMN;
-    private static final int COLUMN_ID;
-    private static final int COLUMN_NAME;
-    private static final int COLUMN_ADDRESS;
-    private static final int COLUMN_CONNECTED;
+    private static final int DISCONNECTED = 0;
+    private static final int CONNECTED = 1;
+    private static final int MAX_COLUMN = 4;
+    private static final int COLUMN_ID = 0;
+    private static final int COLUMN_NAME = 1;
+    private static final int COLUMN_ADDRESS = 2;
+    private static final int COLUMN_CONNECTED = 3;
 
     TrustedDeviceListRow(int n, String string, String string2, boolean bl) {
         super(n, 4);
@@ -27,7 +27,6 @@ extends EvoListRow {
         return this.getText(2);
     }
 
-    @Override
     public EvoListRow copy() {
         return new TrustedDeviceListRow(this.getInteger(0), this.getText(1), this.getText(2), this.getInteger(3) == 1);
     }

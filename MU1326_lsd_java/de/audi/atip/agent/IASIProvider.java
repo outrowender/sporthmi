@@ -7,13 +7,10 @@ import de.esolutions.fw.comm.core.IService;
 import de.esolutions.fw.comm.core.IStub;
 
 public interface IASIProvider {
-    default public IService getService() {
-    }
+    public IService getService();
 
-    default public void attachStub(IStub iStub) {
-    }
+    public void attachStub(IStub var1);
 
-    default public void detachStub(IStub iStub) {
-    }
+    public void detachStub(IStub var1);
 }
 

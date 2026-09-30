@@ -8,13 +8,13 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class Volume
 extends AbstractMetrics {
-    private static final String TEXT_VOLUME_QUARTS;
-    private static final String TEXT_VOLUME_LITER;
-    private static String TEXT_INVALID;
-    public static final int LITER;
-    public static final int GAL_US;
-    public static final int GAL_UK;
-    private static int systemUnit;
+    private static final String TEXT_VOLUME_QUARTS = " qt";
+    private static final String TEXT_VOLUME_LITER = " l";
+    private static String TEXT_INVALID = "---";
+    public static final int LITER = 1;
+    public static final int GAL_US = 2;
+    public static final int GAL_UK = 3;
+    private static int systemUnit = 1;
 
     public Volume(float f2, int n) {
         super(f2, n);
@@ -47,18 +47,15 @@ extends AbstractMetrics {
         return systemUnit;
     }
 
-    @Override
     public void setValue(float f2) {
         this.value = f2;
         this.importValue();
     }
 
-    @Override
     public float getValue() {
         return this.getValueInUnit(systemUnit);
     }
 
-    @Override
     public float getValue(int n) {
         if (!Volume.unitIsValid(n)) {
             throw new IllegalArgumentException();
@@ -73,7 +70,6 @@ extends AbstractMetrics {
         return this.value;
     }
 
-    @Override
     public String format() {
         if (this.useInstanceUnit) {
             return this.format(this.unit);
@@ -81,7 +77,6 @@ extends AbstractMetrics {
         return this.format(systemUnit);
     }
 
-    @Override
     public String format(int n) {
         if (!Volume.unitIsValid(n)) {
             throw new IllegalArgumentException();
@@ -106,7 +101,6 @@ extends AbstractMetrics {
         return this.lastFormat;
     }
 
-    @Override
     public String[] getStringValueAndUnit(int n) {
         return new String[]{this.getFormattedValue(n), this.getFormattedUnit(n)};
     }
@@ -116,11 +110,11 @@ extends AbstractMetrics {
         if (string == null) {
             switch (n) {
                 case 37: {
-                    string = " qt";
+                    string = TEXT_VOLUME_QUARTS;
                     break;
                 }
                 case 38: {
-                    string = " l";
+                    string = TEXT_VOLUME_LITER;
                     break;
                 }
                 case 39: {
@@ -154,7 +148,6 @@ extends AbstractMetrics {
         }
     }
 
-    @Override
     public String getFormattedUnit(int n) {
         if (!Volume.unitIsValid(n)) {
             throw new IllegalArgumentException();
@@ -172,17 +165,14 @@ extends AbstractMetrics {
         return null != string ? string.trim() : "";
     }
 
-    @Override
     public String getFormattedMetricUnit() {
         return this.getFormattedUnit(this.useInstanceUnit ? this.unit : systemUnit);
     }
 
-    @Override
     public String getFormattedValue() {
         return this.getFormattedValue(this.useInstanceUnit ? this.unit : systemUnit);
     }
 
-    @Override
     public String getFormattedValue(int n) {
         if (!Volume.unitIsValid(n)) {
             throw new IllegalArgumentException();
@@ -202,14 +192,8 @@ extends AbstractMetrics {
         return this.isMetricvalid() ? buffer.toString().trim() : this.getInvalidText();
     }
 
-    @Override
     public String getInvalidText() {
         return TEXT_INVALID;
-    }
-
-    static {
-        TEXT_INVALID = "---";
-        systemUnit = 1;
     }
 }
 

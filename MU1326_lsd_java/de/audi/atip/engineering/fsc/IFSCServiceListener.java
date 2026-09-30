@@ -4,7 +4,6 @@
 package de.audi.atip.engineering.fsc;
 
 public interface IFSCServiceListener {
-    default public void importFSCDone(int n) {
-    }
+    public void importFSCDone(int var1);
 }
 

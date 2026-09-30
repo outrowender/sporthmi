@@ -4,10 +4,8 @@
 package de.audi.atip.interapp.phone;
 
 public interface ITelCallControl {
-    default public void hangupCall() {
-    }
+    public void hangupCall();
 
-    default public void muteMicrophone(boolean bl) {
-    }
+    public void muteMicrophone(boolean var1);
 }
 

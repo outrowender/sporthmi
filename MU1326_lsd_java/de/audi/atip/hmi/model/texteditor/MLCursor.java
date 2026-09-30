@@ -10,11 +10,11 @@ import de.audi.atip.log.LogChannel;
 public class MLCursor
 implements ICopyTo {
     private static LogChannel lc;
-    public static final boolean DEBUG_CPOS;
-    public static final int CURSOR_MODE_WORD;
-    public static final int CURSOR_MODE_CHAR;
+    public static final boolean DEBUG_CPOS = false;
+    public static final int CURSOR_MODE_WORD = 0;
+    public static final int CURSOR_MODE_CHAR = 1;
     public static final String[] CURSOR_MODE_TO_STRING;
-    public static final String NO_VALUE_TO_STRING_MAPPING;
+    public static final String NO_VALUE_TO_STRING_MAPPING = "NO_VALUE_TO_STRING_MAPPING";
     public static final int[] EMPTY;
     private int cursorWordMode = 0;
     private int position = 0;
@@ -27,21 +27,21 @@ implements ICopyTo {
     private boolean isDirty = false;
 
     public static String valueToString(int n, String[] stringArray) {
-        return new StringBuffer().append(n >= 0 && stringArray != null && n < stringArray.length ? stringArray[n] : "NO_VALUE_TO_STRING_MAPPING").append(" ( ").append(n).append(" )").toString();
+        return (n >= 0 && stringArray != null && n < stringArray.length ? stringArray[n] : NO_VALUE_TO_STRING_MAPPING) + " ( " + n + " )";
     }
 
     public int getCursorMode() {
-        lc.log(-2137614336, "MLCursor#getCursorMode");
+        lc.log(10000000, "MLCursor#getCursorMode");
         return this.cursorWordMode;
     }
 
     public int getLength() {
-        lc.log(-2137614336, "MLCursor#getLength");
+        lc.log(10000000, "MLCursor#getLength");
         return this.length;
     }
 
     public void replace(String string) {
-        lc.log(-2137614336, "MLCursor#replace    replace with:%1", (Object)string);
+        lc.log(10000000, "MLCursor#replace    replace with:%1", (Object)string);
         int[] nArray = this.getCurrentWord();
         if (nArray[0] != -1) {
             this.remove();
@@ -50,7 +50,7 @@ implements ICopyTo {
     }
 
     public void clear() {
-        lc.log(-2137614336, "MLCursor#clear");
+        lc.log(10000000, "MLCursor#clear");
         this.sb.delete(0, this.sb.length());
         this.position = 0;
         this.currentWord = null;
@@ -62,7 +62,7 @@ implements ICopyTo {
     }
 
     public MLCursor(String string) {
-        lc.log(-2137614336, "MLCursor#MLCursor(String)   String:%1", (Object)string);
+        lc.log(10000000, "MLCursor#MLCursor(String)   String:%1", (Object)string);
         this.sb = string != null ? new StringBuffer(string) : new StringBuffer();
         this.length = string != null ? string.length() : 0;
     }
@@ -72,12 +72,12 @@ implements ICopyTo {
     }
 
     public void setCursorMode(int n) {
-        lc.log(-2137614336, "MLCursor#setCursorMode   wordmode:%1", (long)n);
+        lc.log(10000000, "MLCursor#setCursorMode   wordmode:%1", (long)n);
         this.cursorWordMode = n;
     }
 
     public int[] remove() {
-        lc.log(-2137614336, "MLCursor#remove");
+        lc.log(10000000, "MLCursor#remove");
         if (this.cursorWordMode == 0) {
             return this.removeWord();
         }
@@ -85,44 +85,44 @@ implements ICopyTo {
     }
 
     public int[] next() {
-        lc.log(-2137614336, "MLCursor#next");
+        lc.log(10000000, "MLCursor#next");
         int[] nArray = null;
         nArray = this.cursorWordMode == 0 ? this.getNextWord() : new int[]{this.getNextChar()};
         return nArray;
     }
 
     public int[] prev() {
-        lc.log(-2137614336, "MLCursor#prev");
+        lc.log(10000000, "MLCursor#prev");
         int[] nArray = null;
         nArray = this.cursorWordMode == 0 ? this.getPrevWord() : new int[]{this.getPrevChar()};
         return nArray;
     }
 
     public int[] current() {
-        lc.log(-2137614336, "MLCursor#current");
+        lc.log(10000000, "MLCursor#current");
         int[] nArray = null;
         nArray = this.cursorWordMode == 0 ? this.getCurrentWord() : new int[]{this.getCurrentChar()};
         return nArray;
     }
 
     public int getCursorPos() {
-        lc.log(-2137614336, "MLCursor#getCursorPos");
+        lc.log(10000000, "MLCursor#getCursorPos");
         return this.position;
     }
 
     public void setCursorPos(int n) {
-        lc.log(-2137614336, "MLCursor#setCursorPos   newpos:%1", (long)n);
+        lc.log(10000000, "MLCursor#setCursorPos   newpos:%1", (long)n);
         this.position = this.clampCursor(n);
         this.invalidateCurrentWord();
     }
 
     public int getCurrentChar() {
-        lc.log(-2137614336, "MLCursor#getCurrentChar");
+        lc.log(10000000, "MLCursor#getCurrentChar");
         return this.position - 1;
     }
 
     public int getNextChar() {
-        lc.log(-2137614336, "MLCursor#getNextChar");
+        lc.log(10000000, "MLCursor#getNextChar");
         int n = -1;
         if (this.length > 0 && this.position < this.length) {
             n = this.position++;
@@ -132,7 +132,7 @@ implements ICopyTo {
     }
 
     public int getPrevChar() {
-        lc.log(-2137614336, "MLCursor#getPrevChar");
+        lc.log(10000000, "MLCursor#getPrevChar");
         int n = -1;
         if (this.length > 0 && this.position > 0) {
             --this.position;
@@ -145,12 +145,12 @@ implements ICopyTo {
     }
 
     public String getString() {
-        lc.log(-2137614336, "MLCursor#getString");
+        lc.log(10000000, "MLCursor#getString");
         return this.sb.toString();
     }
 
     public char[] getCharArray() {
-        lc.log(-2137614336, "MLCursor#getCharArray");
+        lc.log(10000000, "MLCursor#getCharArray");
         if (this.charArray == null) {
             if (this.sb.length() > 0) {
                 this.charArray = this.sb.toString().toCharArray();
@@ -165,7 +165,7 @@ implements ICopyTo {
     }
 
     public void addChar(char c2) {
-        lc.log(-2137614336, "MLCursor#addChar   char:%1", c2);
+        lc.log(10000000, "MLCursor#addChar   char:%1", c2);
         this.lastSequenceWord = EMPTY;
         this.sb.insert(this.position, c2);
         this.invalidataCharArray(this.position - 1);
@@ -174,12 +174,12 @@ implements ICopyTo {
     }
 
     public int[] getLastAddedWord() {
-        lc.log(-2137614336, "MLCursor#getLastAddedWord");
+        lc.log(10000000, "MLCursor#getLastAddedWord");
         return this.lastSequenceWord;
     }
 
     public void addWord(String string) {
-        lc.log(-2137614336, "MLCursor#addWord   word:%1", (Object)string);
+        lc.log(10000000, "MLCursor#addWord   word:%1", (Object)string);
         if (string == null || string.length() == 0) {
             return;
         }
@@ -193,7 +193,7 @@ implements ICopyTo {
     }
 
     public int removeChar() {
-        lc.log(-2137614336, "MLCursor#removeChar");
+        lc.log(10000000, "MLCursor#removeChar");
         this.lastSequenceWord = EMPTY;
         int n = this.getCurrentChar();
         if (n >= 0) {
@@ -207,7 +207,7 @@ implements ICopyTo {
     }
 
     public int[] removeWord() {
-        lc.log(-2137614336, "MLCursor#removeWord");
+        lc.log(10000000, "MLCursor#removeWord");
         this.lastSequenceWord = EMPTY;
         int[] nArray = this.getCurrentWord();
         if (nArray[0] >= 0) {
@@ -224,7 +224,7 @@ implements ICopyTo {
     }
 
     public void remove(int n, int n2) {
-        lc.log(-2137614336, "MLCursor#remove  start:%1   end:%2", (long)n, (long)n2);
+        lc.log(10000000, "MLCursor#remove  start:%1   end:%2", (long)n, (long)n2);
         if (this.length > 0) {
             this.lastSequenceWord = EMPTY;
             n = this.clampCursor(n);
@@ -242,7 +242,7 @@ implements ICopyTo {
     }
 
     public int[] getCurrentWord() {
-        lc.log(-2137614336, "MLCursor#getCurrentWord");
+        lc.log(10000000, "MLCursor#getCurrentWord");
         int[] nArray = this.currentWord;
         if (nArray == null) {
             nArray = new int[]{-1, -1};
@@ -259,7 +259,7 @@ implements ICopyTo {
     }
 
     public int[] getNextWord() {
-        lc.log(-2137614336, "MLCursor#getNextWord");
+        lc.log(10000000, "MLCursor#getNextWord");
         int[] nArray = new int[]{-1, -1};
         char[] cArray = this.getCharArray();
         if (cArray != null && this.position < this.length) {
@@ -279,7 +279,7 @@ implements ICopyTo {
     }
 
     public int[] getPrevWord() {
-        lc.log(-2137614336, "MLCursor#getPrevWord");
+        lc.log(10000000, "MLCursor#getPrevWord");
         int[] nArray = new int[]{-1, -1};
         char[] cArray = this.getCharArray();
         if (cArray != null && this.position > 0) {
@@ -298,19 +298,19 @@ implements ICopyTo {
     }
 
     public int getLastFixedChar() {
-        lc.log(-2137614336, "MLCursor#getLastFixedChar");
+        lc.log(10000000, "MLCursor#getLastFixedChar");
         return this.lastFixedChar;
     }
 
     public int clamp(int n) {
-        lc.log(-2137614336, "MLCursor#clamp  value:%1", (long)n);
+        lc.log(10000000, "MLCursor#clamp  value:%1", (long)n);
         n = Math.max(0, n);
         n = Math.min(n, this.sb.length());
         return n;
     }
 
     public String toSB(int[] nArray) {
-        lc.log(-2137614336, "MLCursor#toSB");
+        lc.log(10000000, "MLCursor#toSB");
         String string = null;
         if (nArray != null) {
             if (nArray.length == 1) {
@@ -325,12 +325,12 @@ implements ICopyTo {
     }
 
     public String toString() {
-        lc.log(-2137614336, "MLCursor#toString");
+        lc.log(10000000, "MLCursor#toString");
         return this.print2SB(new StringBuffer()).toString();
     }
 
     public StringBuffer print2SB(StringBuffer stringBuffer) {
-        lc.log(-2137614336, "MLCursor#print2SB  buffer:%1", (Object)stringBuffer);
+        lc.log(10000000, "MLCursor#print2SB  buffer:%1", (Object)stringBuffer);
         if (stringBuffer != null) {
             stringBuffer.append('[').append(this.position).append(',').append(this.length).append("] = \"").append(this.sb).append('\"');
         }
@@ -338,19 +338,18 @@ implements ICopyTo {
     }
 
     public boolean isDirty() {
-        lc.log(-2137614336, "MLCursor#isDirty");
+        lc.log(10000000, "MLCursor#isDirty");
         return this.isDirty;
     }
 
     public void resetDirty() {
-        lc.log(-2137614336, "MLCursor#resetDirty");
+        lc.log(10000000, "MLCursor#resetDirty");
         this.lastFixedChar = this.length;
         this.isDirty = false;
     }
 
-    @Override
     public boolean copyTo(ICopyTo iCopyTo) {
-        lc.log(-2137614336, "MLCursor#copyTo");
+        lc.log(10000000, "MLCursor#copyTo");
         boolean bl = false;
         try {
             if (iCopyTo instanceof MLCursor) {
@@ -375,7 +374,7 @@ implements ICopyTo {
     }
 
     protected int searchUntilTypeDiff(int n, boolean bl, char[] cArray, int n2) {
-        lc.log(-2137614336, "MLCursor#searchUntilTypeDiff  typeValue:%1  startindex:%2", (long)n, (long)n2);
+        lc.log(10000000, "MLCursor#searchUntilTypeDiff  typeValue:%1  startindex:%2", (long)n, (long)n2);
         int n3 = -1;
         int n4 = cArray.length;
         if (bl) {
@@ -397,14 +396,14 @@ implements ICopyTo {
     }
 
     protected void invalidateCurrentWord() {
-        lc.log(-2137614336, "MLCursor#invalidateCurrentWord");
+        lc.log(10000000, "MLCursor#invalidateCurrentWord");
         if (this.currentWord != null && (this.position - 1 < this.currentWord[0] || this.position - 1 > this.currentWord[1])) {
             this.currentWord = null;
         }
     }
 
     protected void invalidataCharArray(int n) {
-        lc.log(-2137614336, "MLCursor#invalidataCharArray  lastFixedChar:%1", (long)n);
+        lc.log(10000000, "MLCursor#invalidataCharArray  lastFixedChar:%1", (long)n);
         this.charArray = null;
         this.lastFixedChar = Math.max(Math.min(this.lastFixedChar, n), 0);
         this.isDirty = true;
@@ -412,7 +411,7 @@ implements ICopyTo {
     }
 
     protected int clampCursor(int n) {
-        lc.log(-2137614336, "MLCursor#clampCursor   value:%1", (long)n);
+        lc.log(10000000, "MLCursor#clampCursor   value:%1", (long)n);
         int n2 = n < 0 ? 0 : n;
         n2 = n2 > this.length ? this.length : n2;
         return n2;

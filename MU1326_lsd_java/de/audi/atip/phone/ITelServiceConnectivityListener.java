@@ -4,16 +4,12 @@
 package de.audi.atip.phone;
 
 public interface ITelServiceConnectivityListener {
-    default public void responseSetNadMode(int n) {
-    }
+    public void responseSetNadMode(int var1);
 
-    default public void responseChangePhoneModulePowerState(int n) {
-    }
+    public void responseChangePhoneModulePowerState(int var1);
 
-    default public void responseTogglePhones(int n) {
-    }
+    public void responseTogglePhones(int var1);
 
-    default public void responseSetNadRole(int n) {
-    }
+    public void responseSetNadRole(int var1);
 }
 

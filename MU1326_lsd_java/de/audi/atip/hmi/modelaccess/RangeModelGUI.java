@@ -7,31 +7,22 @@ import de.audi.atip.hmi.modelaccess.ButtonModelGUI;
 
 public interface RangeModelGUI
 extends ButtonModelGUI {
-    default public int getMaximum() {
-    }
+    public int getMaximum();
 
-    default public int getMinimum() {
-    }
+    public int getMinimum();
 
-    default public int getStep() {
-    }
+    public int getStep();
 
-    default public int getValue() {
-    }
+    public int getValue();
 
-    default public int getMedialPosition() {
-    }
+    public int getMedialPosition();
 
-    default public void decrement(int n, int n2) {
-    }
+    public void decrement(int var1, int var2);
 
-    default public void increment(int n, int n2) {
-    }
+    public void increment(int var1, int var2);
 
-    default public void forceUpdate(boolean bl) {
-    }
+    public void forceUpdate(boolean var1);
 
-    default public boolean isForceUpdateEnabled() {
-    }
+    public boolean isForceUpdateEnabled();
 }
 

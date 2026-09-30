@@ -20,7 +20,7 @@ implements TimerListener {
     public LockingBitReader(IFrameworkAccess iFrameworkAccess) {
         this.fw = iFrameworkAccess;
         this.logChannel = iFrameworkAccess.getLogChannel("App.System.Locking");
-        this.retryReadTimer = new Timer("LockingBitReader#LockingBitReader()", 0, true, this);
+        this.retryReadTimer = new Timer("LockingBitReader#LockingBitReader()", 5000L, true, this);
         this.retryReadTimer.restart();
         if (this.logChannel.isDebug()) {
             LockingBitLogger.start(iFrameworkAccess);
@@ -30,18 +30,18 @@ implements TimerListener {
     }
 
     private void loadBits() {
-        this.logChannel.log(-2137614336, "LockingBitReader#loadBits() --> Entered");
-        byte[] byArray = this.fw.getStorageMgr().getByteArray(-536825343, 105, new byte[0]);
+        this.logChannel.log(10000000, "LockingBitReader#loadBits() --> Entered");
+        byte[] byArray = this.fw.getStorageMgr().getByteArray(28442848, 105, new byte[0]);
         if ((byArray == null || byArray.length == 0) && readIterationCounter < 3) {
-            this.logChannel.log(-1601830656, "LockingBitReader#loadBits() - Persistence was not able to provide data in try %1. Retry in 2 seconds", (long)readIterationCounter);
+            this.logChannel.log(100000, "LockingBitReader#loadBits() - Persistence was not able to provide data in try %1. Retry in 2 seconds", (long)readIterationCounter);
             ++readIterationCounter;
-            this.retryReadTimer = new Timer("LockingBitReader#loadBits()", 0, true, this);
+            this.retryReadTimer = new Timer("LockingBitReader#loadBits()", 2000L, true, this);
             this.retryReadTimer.restart();
             return;
         }
         if (byArray != null && byArray.length > 0) {
             int[] nArray = this.convertByteArrayToBitStream(byArray);
-            this.logChannel.log(-2137614336, "LockingBitReader#loadBits() - Persistence provided data");
+            this.logChannel.log(10000000, "LockingBitReader#loadBits() - Persistence provided data");
             for (int i2 = 0; i2 < nArray.length; ++i2) {
                 int n;
                 int[] nArray2 = LockingBitWrapper.getModelsForBitId(i2);
@@ -60,7 +60,7 @@ implements TimerListener {
             this.fw.getStartupMgr().logStartupEvent("LockingBitReader#loadBits() - The persistence was not able to provide locking bits after 3 tries! No defaults are defined! No locking will take place!");
         }
         LockingBitWrapper.setReady(true);
-        this.logChannel.log(-2137614336, "LockingBitReader#loadBits() <-- Exit");
+        this.logChannel.log(10000000, "LockingBitReader#loadBits() <-- Exit");
     }
 
     private int[] convertByteArrayToBitStream(byte[] byArray) {
@@ -77,14 +77,12 @@ implements TimerListener {
         return nArray;
     }
 
-    @Override
     public void fireTimer(Timer timer) {
         if (timer.equals(this.retryReadTimer)) {
             this.loadBits();
         }
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 }

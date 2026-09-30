@@ -9,10 +9,8 @@ import de.audi.app.car.common.handler.business.ModelEventBusiness;
 
 public interface MenuModelEventBusiness
 extends ModelEventBusiness {
-    default public boolean processItemFocused(int n, MenuModelHandler menuModelHandler) {
-    }
+    public boolean processItemFocused(int var1, MenuModelHandler var2);
 
-    default public boolean processItemFocused(HandlerTransactionData handlerTransactionData, MenuModelHandler menuModelHandler) {
-    }
+    public boolean processItemFocused(HandlerTransactionData var1, MenuModelHandler var2);
 }
 

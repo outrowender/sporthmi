@@ -5,17 +5,19 @@ package de.audi.app.sdsmanager;
 
 import de.audi.app.sdsmanager.SDSHMIListener;
 import de.audi.app.sdsmanager.SDSManagerBaseActivator;
-import de.audi.app.sdsmanager.SDSModelAccess$1;
-import de.audi.app.sdsmanager.SDSModelAccess$SDSModelBank;
 import de.audi.app.sdsmanager.common.ISDSMapping;
 import de.audi.app.sdsmanager.common.Logger;
 import de.audi.app.sdsmanager.common.SDSUtils;
+import de.audi.app.sdsmanager.testsupport.ISDSSettingEnumStateListener;
 import de.audi.app.sdsmanager.testsupport.SDSSettingsEnum;
 import de.audi.atip.base.IFrameworkAccess;
 import de.audi.atip.hmi.IHMIServiceApp;
+import de.audi.atip.hmi.model.AbstractModelBank;
+import de.audi.atip.hmi.model.ButtonModel;
 import de.audi.atip.hmi.model.HMIModel;
 import de.audi.atip.hmi.model.list.BaseListModelApp;
 import de.audi.atip.hmi.model.sysconst.SysConstModel;
+import de.audi.atip.hmi.modelaccess.ButtonModelApp;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.hmi.modelaccess.HMIModelApp;
 import de.audi.atip.interapp.SDSListEntry;
@@ -25,7 +27,7 @@ public class SDSModelAccess {
     private static LogChannel lc = Logger.getHMILog();
     private static final int[] mappedButtonModels = new int[]{21, 22, 23};
     private static IHMIServiceApp hmi;
-    private final SDSModelAccess$SDSModelBank models;
+    private final SDSModelBank models;
     private SDSHMIListener hmiListener;
     private static IFrameworkAccess frameworkAccess;
 
@@ -33,13 +35,18 @@ public class SDSModelAccess {
         hmi = iFrameworkAccess.getHmiServiceApp();
         frameworkAccess = iFrameworkAccess;
         this.hmiListener = sDSHMIListener;
-        this.models = new SDSModelAccess$SDSModelBank(this);
+        this.models = new SDSModelBank();
         hmi.getChoiceModel(335).forceUpdate(true);
         SDSModelAccess.setNLUActiveModelValue(Boolean.getBoolean("enableNLU") && iFrameworkAccess.getSysConst(523) != 0);
         SDSModelAccess.setProgressIconVisible(0);
         SDSModelAccess.setNavVDEMediumState(1);
-        SDSSettingsEnum.NLU.registerSDSSettingStateListener(new SDSModelAccess$1(this));
-        lc.log(-2137614336, "SDSModelAccess started!");
+        SDSSettingsEnum.NLU.registerSDSSettingStateListener(new ISDSSettingEnumStateListener(){
+
+            public void updateSDSSettingsEnumState(SDSSettingsEnum sDSSettingsEnum) {
+                SDSModelAccess.setNLUActiveModelValue(SDSSettingsEnum.NLU.isActive());
+            }
+        });
+        lc.log(10000000, "SDSModelAccess started!");
     }
 
     void registerModelListeners() {
@@ -63,7 +70,7 @@ public class SDSModelAccess {
         for (int i2 = 0; i2 < mappedButtonModels.length; ++i2) {
             int n = iSDSMapping.getModelID(mappedButtonModels[i2]);
             if (n == -1) {
-                lc.log(1078071040, "SDSModelAccess#registerModelListeners: No model mapped to %1 => NOP", (long)mappedButtonModels[i2]);
+                lc.log(1000000, "SDSModelAccess#registerModelListeners: No model mapped to %1 => NOP", (long)mappedButtonModels[i2]);
                 return;
             }
             hmi.getButtonModel(n).setButtonListener(this.hmiListener);
@@ -78,7 +85,7 @@ public class SDSModelAccess {
         SDSModelAccess.setVoiceBargeIn(bl5 ? 1 : 0);
     }
 
-    SDSModelAccess$SDSModelBank getModels() {
+    SDSModelBank getModels() {
         return this.models;
     }
 
@@ -91,19 +98,19 @@ public class SDSModelAccess {
     }
 
     public static void setSDSDisabledForLanguage(String string, String string2, String[] stringArray) {
-        lc.log(-2137614336, "SDSModelAccess#setSDSDisabledForLanguage: sdsLanguage=%1, ttsLanguage=%2, languages=%3", (Object)string, (Object)string2, (Object)SDSUtils.toString(stringArray, false));
+        lc.log(10000000, "SDSModelAccess#setSDSDisabledForLanguage: sdsLanguage=%1, ttsLanguage=%2, languages=%3", (Object)string, (Object)string2, (Object)SDSUtils.toString(stringArray, false));
         boolean bl = SDSUtils.isSupported(string, stringArray);
         boolean bl2 = SDSUtils.isSupported(string2, stringArray);
-        lc.log(-2137614336, "SDSModelAccess#setSDSDisabledForLanguage: sdsSupported=%1, ttsSupported=%2!", bl, bl2);
+        lc.log(10000000, "SDSModelAccess#setSDSDisabledForLanguage: sdsSupported=%1, ttsSupported=%2!", bl, bl2);
         ChoiceModelApp choiceModelApp = hmi.getChoiceModel(241);
         if (!bl || !bl2) {
-            lc.log(-2137614336, "SDSModelAccess#setSDSDisabledForLanguage: SDS language %1 or TTS language %2 not supported, disabling SDS menu items!", (Object)string, (Object)string2);
+            lc.log(10000000, "SDSModelAccess#setSDSDisabledForLanguage: SDS language %1 or TTS language %2 not supported, disabling SDS menu items!", (Object)string, (Object)string2);
             choiceModelApp.setValue(1);
         } else {
-            lc.log(-2137614336, "SDSModelAccess#setSDSDisabledForLanguage: SDS language %1 and TTS language %2 supported, enabling SDS menu items!", (Object)string, (Object)string2);
+            lc.log(10000000, "SDSModelAccess#setSDSDisabledForLanguage: SDS language %1 and TTS language %2 supported, enabling SDS menu items!", (Object)string, (Object)string2);
             choiceModelApp.setValue(0);
         }
-        lc.log(-2137614336, "SDSModelAccess#setSDSDisabledForLanguage: sdsDisabledForLanguageChoice.value=%1!", (long)choiceModelApp.getValue());
+        lc.log(10000000, "SDSModelAccess#setSDSDisabledForLanguage: sdsDisabledForLanguageChoice.value=%1!", (long)choiceModelApp.getValue());
     }
 
     public static boolean isSDSDisabledForLanguage() {
@@ -119,27 +126,27 @@ public class SDSModelAccess {
     }
 
     public static void setSDSReady(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setSDSReady: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setSDSReady: value=%1", (long)n);
         hmi.getChoiceModel(323).setValue(n);
     }
 
     public static int getCallsCombinedListID() {
-        lc.log(-2137614336, "SDSModelAccess#getCallsCombinedListID: ID=%1", (long)0);
-        return 412484608;
+        lc.log(10000000, "SDSModelAccess#getCallsCombinedListID: ID=%1", 300568L);
+        return 300568;
     }
 
     public static int getMsgTemplateListID() {
-        lc.log(-2137614336, "SDSModelAccess#getMsgTemplateListID: ID=%1", (long)0);
-        return -1248648960;
+        lc.log(10000000, "SDSModelAccess#getMsgTemplateListID: ID=%1", 2200501L);
+        return 2200501;
     }
 
     public static int getMsgAccountListID() {
-        lc.log(-2137614336, "SDSModelAccess#getMsgAccountListID: ID=%1", (long)0);
-        return -829218560;
+        lc.log(10000000, "SDSModelAccess#getMsgAccountListID: ID=%1", 2200526L);
+        return 2200526;
     }
 
     public static int getADRSDSPopupBaseListID() {
-        lc.log(-2137614336, "SDSModelAccess#getADRSDSPopupBaseListID: ID=%1", (long)0);
+        lc.log(10000000, "SDSModelAccess#getADRSDSPopupBaseListID: ID=%1", 3867L);
         return 3867;
     }
 
@@ -176,7 +183,7 @@ public class SDSModelAccess {
     }
 
     protected static void setCombiSDSSign(int n) {
-        lc.log(-2137614336, "setCombiSDSSign: value=%1", (long)n);
+        lc.log(10000000, "setCombiSDSSign: value=%1", (long)n);
         hmi.getChoiceModel(79).setValue(n);
     }
 
@@ -189,22 +196,22 @@ public class SDSModelAccess {
     }
 
     public static void setSDSStatus(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setSDSStatus: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setSDSStatus: value=%1", (long)n);
         hmi.getChoiceModel(335).setValue(n);
     }
 
     public static void setSDSSystemStatus(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setSDSSystemStatus: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setSDSSystemStatus: value=%1", (long)n);
         hmi.getChoiceModel(4040).setValue(n);
     }
 
     public static void setSDSLogicalPopup(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setSDSLogicalPopup: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setSDSLogicalPopup: value=%1", (long)n);
         hmi.getChoiceModel(4642).setValue(n);
     }
 
     public static void setSDSAborterType(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setSDSAborterType: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setSDSAborterType: value=%1", (long)n);
         hmi.getChoiceModel(4275).setValue(n);
     }
 
@@ -213,12 +220,12 @@ public class SDSModelAccess {
     }
 
     public static void setSDSNumber(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setSDSNumber: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setSDSNumber: value=%1", (long)n);
         hmi.getChoiceModel(310).setValue(n);
     }
 
     static void setRecognizer(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setRecognizer: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setRecognizer: value=%1", (long)n);
         hmi.getChoiceModel(324).setValue(n);
     }
 
@@ -227,35 +234,35 @@ public class SDSModelAccess {
     }
 
     public static void setSDSDisabled(boolean bl) {
-        lc.log(-2137614336, "SDSModelAccess#setSDSDisabled: flag=%1", bl);
+        lc.log(10000000, "SDSModelAccess#setSDSDisabled: flag=%1", bl);
         hmi.getChoiceModel(4088).setValue(bl ? 1 : 0);
     }
 
     public static boolean isSDSDisabled() {
         int n = hmi.getChoiceModel(4088).getValue();
-        lc.log(-2137614336, "SDSModelAccess#isSDSDisabled: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#isSDSDisabled: value=%1", (long)n);
         return n == 1;
     }
 
     public static void setADBCategoryLocationModel(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setADBCategoryLocationModel: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setADBCategoryLocationModel: value=%1", (long)n);
         hmi.getChoiceModel(225).setValue(n);
     }
 
     public static void setADBCategoryLocationsCountModel(int n, int n2) {
-        lc.log(-2137614336, "SDSModelAccess#setADBCategoryLocationsCountModel: privateAdrCount=%1, businessAdrCount=%2", (long)n, (long)n2);
+        lc.log(10000000, "SDSModelAccess#setADBCategoryLocationsCountModel: privateAdrCount=%1, businessAdrCount=%2", (long)n, (long)n2);
         hmi.getChoiceModel(4069).setValue(n);
         hmi.getChoiceModel(4068).setValue(n2);
     }
 
     public static int getADBCategoryLocationModel() {
-        lc.log(-2137614336, "SDSModelAccess#getADBCategoryLocationModel: called");
+        lc.log(10000000, "SDSModelAccess#getADBCategoryLocationModel: called");
         return hmi.getChoiceModel(225).getValue();
     }
 
     public static void setADBCategoryPhoneCountModel(int n, int n2, int n3, int n4) {
-        lc.log(-2137614336, "SDSModelAccess#setADBCategoryPhoneCountModel: privateCount=%1, businessAdrCount=%2", (long)n, (long)n2);
-        lc.log(-2137614336, "SDSModelAccess#setADBCategoryPhoneCountModel: mobileCount=%1, landlineCount=%2", (long)n3, (long)n4);
+        lc.log(10000000, "SDSModelAccess#setADBCategoryPhoneCountModel: privateCount=%1, businessAdrCount=%2", (long)n, (long)n2);
+        lc.log(10000000, "SDSModelAccess#setADBCategoryPhoneCountModel: mobileCount=%1, landlineCount=%2", (long)n3, (long)n4);
         hmi.getChoiceModel(4069).setValue(n);
         hmi.getChoiceModel(4068).setValue(n2);
         hmi.getChoiceModel(4341).setValue(n3);
@@ -263,32 +270,32 @@ public class SDSModelAccess {
     }
 
     public static void setADBCategoryPhoneModel(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setADBCategoryPhoneModel: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setADBCategoryPhoneModel: value=%1", (long)n);
         hmi.getChoiceModel(226).setValue(n);
     }
 
     public static void setADBSelectedNumberTypeModel(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setADBCategoryPhoneModel: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setADBCategoryPhoneModel: value=%1", (long)n);
         hmi.getChoiceModel(4261).setValue(n);
     }
 
     public static void setMediaXYZAvailableChoice(int n, int n2) {
-        lc.log(-2137614336, "SDSModelAccess#setMediaXYZAvailableChoice: modelID=%1, value=%2", (long)n, (long)n2);
+        lc.log(10000000, "SDSModelAccess#setMediaXYZAvailableChoice: modelID=%1, value=%2", (long)n, (long)n2);
         hmi.getChoiceModel(n).setValue(n2);
     }
 
     public static void setMediaDynamicDeviceType(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setMediaDynamicDeviceType: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setMediaDynamicDeviceType: value=%1", (long)n);
         hmi.getChoiceModel(508).setValue(n);
     }
 
     public static void setPhoneCompleteNumberModel(String string) {
-        lc.log(-2137614336, "SDSModelAccess#setPhoneCompleteNumberModel: value=%1", (Object)string);
+        lc.log(10000000, "SDSModelAccess#setPhoneCompleteNumberModel: value=%1", (Object)string);
         hmi.getLabelModel(314).setText(string);
     }
 
     public static void setPhoneLastSequenceModel(String string) {
-        lc.log(-2137614336, "SDSModelAccess#setPhoneLastSequenceModel: value=%1", (Object)string);
+        lc.log(10000000, "SDSModelAccess#setPhoneLastSequenceModel: value=%1", (Object)string);
         hmi.getLabelModel(315).setText(string);
     }
 
@@ -305,7 +312,7 @@ public class SDSModelAccess {
     }
 
     public static void setNaviDestinationTypeModel(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setNaviDestinationTypeModel: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setNaviDestinationTypeModel: value=%1", (long)n);
         hmi.getChoiceModel(293).setValue(n);
     }
 
@@ -318,12 +325,12 @@ public class SDSModelAccess {
     }
 
     public static void setNaviCurrentCountryLabel(String string) {
-        lc.log(-2137614336, "SDSModelAccess#setNaviCurrentCountryLabel: country=%1", (Object)string);
+        lc.log(10000000, "SDSModelAccess#setNaviCurrentCountryLabel: country=%1", (Object)string);
         hmi.getLabelModel(4418).setText(string);
     }
 
     public static void setNaviMapCodeModel(String string) {
-        lc.log(-2137614336, "SDSModelAccess#setNaviMapCodeModel: value=%1", (Object)string);
+        lc.log(10000000, "SDSModelAccess#setNaviMapCodeModel: value=%1", (Object)string);
         hmi.getLabelModel(4327).setText(string);
     }
 
@@ -332,7 +339,7 @@ public class SDSModelAccess {
     }
 
     public static void setNaviMapCodeLastSequenceModel(String string) {
-        lc.log(-2137614336, "SDSModelAccess#setNaviMapCodeLastSequenceModel: value=%1", (Object)string);
+        lc.log(10000000, "SDSModelAccess#setNaviMapCodeLastSequenceModel: value=%1", (Object)string);
         hmi.getLabelModel(4340).setText(string);
     }
 
@@ -341,17 +348,17 @@ public class SDSModelAccess {
     }
 
     public static void setNaviMapCodeAfterStarModel(String string) {
-        lc.log(-2137614336, "SDSModelAccess#setNaviMapCodeAfterStarModel: value=%1", (Object)string);
+        lc.log(10000000, "SDSModelAccess#setNaviMapCodeAfterStarModel: value=%1", (Object)string);
         hmi.getLabelModel(4339).setText(string);
     }
 
     public static void setNaviMapCodeDestTypeModel(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setNaviMapCodeDestTypeModel: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setNaviMapCodeDestTypeModel: value=%1", (long)n);
         hmi.getChoiceModel(4562).setValue(n);
     }
 
     public static void setNaviPhoneNumberChoiceModel(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setNaviPhoneNumberChoiceModel: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setNaviPhoneNumberChoiceModel: value=%1", (long)n);
         hmi.getChoiceModel(4353).setValue(n);
     }
 
@@ -360,7 +367,7 @@ public class SDSModelAccess {
     }
 
     public static void setNaviLastPhoneNumberSequenceLabelModel(String string) {
-        lc.log(-2137614336, "SDSModelAccess#setNaviLastPhoneNumberSequenceLabelModel: value=%1", (Object)string);
+        lc.log(10000000, "SDSModelAccess#setNaviLastPhoneNumberSequenceLabelModel: value=%1", (Object)string);
         hmi.getLabelModel(4352).setText(string);
     }
 
@@ -369,7 +376,7 @@ public class SDSModelAccess {
     }
 
     public static void setTagModel(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setTagModel: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setTagModel: value=%1", (long)n);
         hmi.getChoiceModel(336).setValue(n);
     }
 
@@ -378,7 +385,7 @@ public class SDSModelAccess {
     }
 
     public static void setSlotModel(int n, String string) {
-        lc.log(-2137614336, "SDSModelAccess#setSlotModel: value=%1 at slot %2", (Object)string, (long)n);
+        lc.log(10000000, "SDSModelAccess#setSlotModel: value=%1 at slot %2", (Object)string, (long)n);
         switch (n) {
             case 1: {
                 hmi.getLabelModel(325).setText(string);
@@ -401,19 +408,19 @@ public class SDSModelAccess {
                 break;
             }
             default: {
-                lc.log(-1601830656, "SDSModelAccess#setSlotModel: Unhandled slot %1!", (long)n);
+                lc.log(100000, "SDSModelAccess#setSlotModel: Unhandled slot %1!", (long)n);
             }
         }
     }
 
     public static String[] getSlotModelStrings() {
-        lc.log(-2137614336, "SDSModelAccess#getSlotModelStrings: called");
+        lc.log(10000000, "SDSModelAccess#getSlotModelStrings: called");
         String[] stringArray = new String[]{hmi.getLabelModel(325).getText(), hmi.getLabelModel(327).getText(), hmi.getLabelModel(329).getText(), hmi.getLabelModel(331).getText(), hmi.getLabelModel(333).getText()};
         return stringArray;
     }
 
     public static void setSlotModelStringID(int n, String string) {
-        lc.log(-2137614336, "SDSModelAccess#setSlotModelStringID: value=%1 at slot %2", (Object)string, (long)n);
+        lc.log(10000000, "SDSModelAccess#setSlotModelStringID: value=%1 at slot %2", (Object)string, (long)n);
         switch (n) {
             case 1: {
                 hmi.getLabelModel(326).setText(string);
@@ -436,48 +443,48 @@ public class SDSModelAccess {
                 break;
             }
             default: {
-                lc.log(-1601830656, "SDSModelAccess#setSlotModelStringID: Unhandled slot %1!", (long)n);
+                lc.log(100000, "SDSModelAccess#setSlotModelStringID: Unhandled slot %1!", (long)n);
             }
         }
     }
 
     public static void setListLineDataGetModel(String string) {
-        lc.log(-2137614336, "SDSModelAccess#setListLineDataGetModel: value=%1 ", (Object)string);
+        lc.log(10000000, "SDSModelAccess#setListLineDataGetModel: value=%1 ", (Object)string);
         hmi.getLabelModel(253).setText(string);
     }
 
     public static void setListLineDataGetAdditionalModel(String string) {
-        lc.log(-2137614336, "SDSModelAccess#setListLineDataGetAdditionalModel: value=%1 ", (Object)string);
+        lc.log(10000000, "SDSModelAccess#setListLineDataGetAdditionalModel: value=%1 ", (Object)string);
         hmi.getLabelModel(4602).setText(string);
     }
 
     public static String getListLineDataGetModel() {
-        lc.log(-2137614336, "SDSModelAccess#getListLineDataGetModel called");
+        lc.log(10000000, "SDSModelAccess#getListLineDataGetModel called");
         return hmi.getLabelModel(253).getText();
     }
 
     public static String getListLineDataGetAdditionalModel() {
-        lc.log(-2137614336, "SDSModelAccess#getListLineDataGetAdditionalModel called");
+        lc.log(10000000, "SDSModelAccess#getListLineDataGetAdditionalModel called");
         return hmi.getLabelModel(4602).getText();
     }
 
     public static void setNaviHousenrMatchesNewLabelModel(String string) {
-        lc.log(-2137614336, "SDSModelAccess#setNaviHousenrMatchesNewLabelModel: value=%1 ", (Object)string);
+        lc.log(10000000, "SDSModelAccess#setNaviHousenrMatchesNewLabelModel: value=%1 ", (Object)string);
         hmi.getLabelModel(3950).setText(string);
     }
 
     public static String getNaviHousenrMatchesNewLabelModel() {
-        lc.log(-2137614336, "SDSModelAccess#getNaviHousenrMatchesNewLabelModel called");
+        lc.log(10000000, "SDSModelAccess#getNaviHousenrMatchesNewLabelModel called");
         return hmi.getLabelModel(3950).getText();
     }
 
     public static BaseListModelApp getDisambiguationListModel() {
-        lc.log(-2137614336, "SDSModelAccess#getDisambiguationListModel called");
+        lc.log(10000000, "SDSModelAccess#getDisambiguationListModel called");
         return hmi.getBaseListModel(3868);
     }
 
     public static String getSlotModelID(int n) {
-        lc.log(-2137614336, "SDSModelAccess#getSlotModelID: slot=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#getSlotModelID: slot=%1", (long)n);
         switch (n) {
             case 1: {
                 return hmi.getLabelModel(326).getText();
@@ -495,7 +502,7 @@ public class SDSModelAccess {
                 return hmi.getLabelModel(334).getText();
             }
         }
-        lc.log(-1601830656, "SDSModelAccess#getSlotModelID: Unhandled slot %1!", (long)n);
+        lc.log(100000, "SDSModelAccess#getSlotModelID: Unhandled slot %1!", (long)n);
         return "";
     }
 
@@ -504,12 +511,12 @@ public class SDSModelAccess {
     }
 
     public static void setADBEntryNameModel(String string) {
-        lc.log(-2137614336, "SDSModelAccess#setADBEntryNameModel: text=%1", (Object)string);
+        lc.log(10000000, "SDSModelAccess#setADBEntryNameModel: text=%1", (Object)string);
         hmi.getLabelModel(227).setText(string);
     }
 
     public static void setTelSDSNumLabel(String string) {
-        lc.log(-2137614336, "SDSModelAccess#setTelSDSNumLabel: text=%1", (Object)string);
+        lc.log(10000000, "SDSModelAccess#setTelSDSNumLabel: text=%1", (Object)string);
         hmi.getLabelModel(4043).setText(string);
     }
 
@@ -518,17 +525,17 @@ public class SDSModelAccess {
     }
 
     public static void setPhoneNumScreenTitle(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setPhoneNumScreenTitle: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setPhoneNumScreenTitle: value=%1", (long)n);
         hmi.getChoiceModel(3917).setValue(n);
     }
 
     public static void setNBestListModel(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setNBestListModel: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setNBestListModel: value=%1", (long)n);
         hmi.getChoiceModel(305).setValue(n);
     }
 
     public static void setNBestListSlotXModel(int n, int n2) {
-        lc.log(-2137614336, "SDSModelAccess#setNBestListSlotXModel: value=%1 at slot %2", (long)n, (long)(n2 + 1));
+        lc.log(10000000, "SDSModelAccess#setNBestListSlotXModel: value=%1 at slot %2", (long)n, (long)(n2 + 1));
         switch (n2) {
             case 0: {
                 hmi.getChoiceModel(306).setValue(n);
@@ -551,7 +558,7 @@ public class SDSModelAccess {
                 break;
             }
             default: {
-                lc.log(-1601830656, "SDSModelAccess#setNBestListSlotXModel: Illegal slot number %1!", (long)(n2 + 1));
+                lc.log(100000, "SDSModelAccess#setNBestListSlotXModel: Illegal slot number %1!", (long)(n2 + 1));
             }
         }
     }
@@ -569,7 +576,7 @@ public class SDSModelAccess {
     }
 
     public static void setCommandType(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setCommandType: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setCommandType: value=%1", (long)n);
         hmi.getChoiceModel(233).setValue(n);
     }
 
@@ -578,17 +585,17 @@ public class SDSModelAccess {
     }
 
     public static void setCommandModeBig(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setCommandModeBig: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setCommandModeBig: value=%1", (long)n);
         hmi.getChoiceModel(514).setValue(n);
     }
 
     public static void setCommandModeSmall(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setCommandModeSmall: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setCommandModeSmall: value=%1", (long)n);
         hmi.getChoiceModel(516).setValue(n);
     }
 
     public static void setSmallCommandDisplayVisible(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setSmallCommandDisplayVisible: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setSmallCommandDisplayVisible: value=%1", (long)n);
         hmi.getChoiceModel(3929).setValue(n);
     }
 
@@ -597,7 +604,7 @@ public class SDSModelAccess {
     }
 
     public static void setCommandModeFurther(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setCommandModeFurther: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setCommandModeFurther: value=%1", (long)n);
         hmi.getChoiceModel(515).setValue(n);
     }
 
@@ -606,7 +613,7 @@ public class SDSModelAccess {
     }
 
     public static void setPosttrainingShowTextValue(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setPosttrainingShowTextValue: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setPosttrainingShowTextValue: value=%1", (long)n);
         hmi.getChoiceModel(321).setValue(n);
         hmi.getLabelModel(319).setText(String.valueOf(n + 1));
     }
@@ -616,12 +623,12 @@ public class SDSModelAccess {
     }
 
     public static void setPosttrainingRecordCountValue(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setPosttrainingRecordCountValue: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setPosttrainingRecordCountValue: value=%1", (long)n);
         hmi.getChoiceModel(320).setValue(n);
     }
 
     public static void setPosttrainingActiveValue(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setPosttrainingActiveValue: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setPosttrainingActiveValue: value=%1", (long)n);
         hmi.getChoiceModel(318).setValue(n);
     }
 
@@ -652,12 +659,12 @@ public class SDSModelAccess {
     }
 
     public static void setHelpMode(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setHelpMode: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setHelpMode: value=%1", (long)n);
         hmi.getChoiceModel(248).setValue(n);
     }
 
     public static void setContextChoice(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setContext: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setContext: value=%1", (long)n);
         hmi.getChoiceModel(447).setValue(n);
     }
 
@@ -674,7 +681,7 @@ public class SDSModelAccess {
     }
 
     public static void setNavInfoForLevel(String string, int n) {
-        lc.log(-2137614336, "SDSModelAccess#setNavInfoForLevel: value=%1 level=%2", (Object)string, (long)n);
+        lc.log(10000000, "SDSModelAccess#setNavInfoForLevel: value=%1 level=%2", (Object)string, (long)n);
         switch (n) {
             case 1: {
                 hmi.getLabelModel(279).setText(string);
@@ -693,28 +700,28 @@ public class SDSModelAccess {
                 break;
             }
             default: {
-                lc.log(-1601830656, "SDSModelAccess#setNavInfoForLevel: Illegal level %1!", (long)n);
+                lc.log(100000, "SDSModelAccess#setNavInfoForLevel: Illegal level %1!", (long)n);
             }
         }
     }
 
     public static void setNavInfoTime(String string) {
-        lc.log(-2137614336, "SDSModelAccess#setNavInfoTime: value=%1", (Object)string);
+        lc.log(10000000, "SDSModelAccess#setNavInfoTime: value=%1", (Object)string);
         hmi.getLabelModel(287).setText(string);
     }
 
     public static void setNavInfoDistance(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setNavInfoDistance: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setNavInfoDistance: value=%1", (long)n);
         hmi.getChoiceModel(281).setValue(n);
     }
 
     public static void setNavInfoScaleUnit(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setNavInfoScaleUnit: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setNavInfoScaleUnit: value=%1", (long)n);
         hmi.getChoiceModel(284).setValue(n);
     }
 
     public static void setNavTrafficInfoScaleUnit(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setNavTrafficInfoScaleUnit: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setNavTrafficInfoScaleUnit: value=%1", (long)n);
         hmi.getChoiceModel(4520).setValue(n);
     }
 
@@ -723,63 +730,63 @@ public class SDSModelAccess {
     }
 
     public static void setNaviScaleUnits(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setNaviScaleUnits: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setNaviScaleUnits: value=%1", (long)n);
         hmi.getChoiceModel(4070).setValue(n);
     }
 
     public static void setNavInfoPOIName(String string) {
-        lc.log(-2137614336, "SDSModelAccess#sdsNavInfoPOIName: value=%1", (Object)string);
+        lc.log(10000000, "SDSModelAccess#sdsNavInfoPOIName: value=%1", (Object)string);
         hmi.getLabelModel(283).setText(string);
     }
 
     public static void setNavRouteSavingTimeLabel(String string) {
-        lc.log(-2137614336, "SDSModelAccess#setNavRouteSavingTimeLabel: value=%1", (Object)string);
+        lc.log(10000000, "SDSModelAccess#setNavRouteSavingTimeLabel: value=%1", (Object)string);
         hmi.getLabelModel(4092).setText(string);
     }
 
     public static void setNavTrafficDelayTime(String string) {
-        lc.log(-2137614336, "SDSModelAccess#setNavTrafficDelayTime: value=%1", (Object)string);
+        lc.log(10000000, "SDSModelAccess#setNavTrafficDelayTime: value=%1", (Object)string);
         hmi.getLabelModel(3920).setText(string);
     }
 
     public static void setNavTrafficDistance(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setNavTrafficDistance: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setNavTrafficDistance: value=%1", (long)n);
         hmi.getChoiceModel(3921).setValue(n);
     }
 
     public static void setNavTrafficEventsOnRoute(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setNavTrafficEventsOnRoute: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setNavTrafficEventsOnRoute: value=%1", (long)n);
         hmi.getChoiceModel(3925).setValue(n);
     }
 
     public static void setSpeedLimitValue(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setSpeedLimitValue: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setSpeedLimitValue: value=%1", (long)n);
         hmi.getChoiceModel(533).setValue(n);
     }
 
     public static void setSpeedLimitUnit(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setSpeedLimitUnit: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setSpeedLimitUnit: value=%1", (long)n);
         hmi.getChoiceModel(537).setValue(n);
     }
 
     public static void setPOIOnlineRecogModel(boolean bl) {
-        lc.log(-2137614336, "SDSModelAccess#setPOIOnlineRecogModel: value=%1", bl);
+        lc.log(10000000, "SDSModelAccess#setPOIOnlineRecogModel: value=%1", bl);
         hmi.getChoiceModel(316).setValue(bl ? 1 : 0);
     }
 
     public static void setNaviPOIOnlineRecognitionStatus(int n, int n2) {
         if (n >= 0) {
-            lc.log(-2137614336, "SDSModelAccess#setNaviPOIOnlineRecognitionStatus: value=%1", (long)n);
+            lc.log(10000000, "SDSModelAccess#setNaviPOIOnlineRecognitionStatus: value=%1", (long)n);
             hmi.getChoiceModel(299).setValue(n);
         }
         if (n2 >= 0) {
-            lc.log(-2137614336, "SDSModelAccess#setNaviPOIOnlineRecognitionStatus: status=%1", (long)n2);
+            lc.log(10000000, "SDSModelAccess#setNaviPOIOnlineRecognitionStatus: status=%1", (long)n2);
             hmi.getChoiceModel(299).setStatus(n2);
         }
     }
 
     public static void setPOIOnlineRecogSize(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setPOIOnlineRecogSize: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setPOIOnlineRecogSize: value=%1", (long)n);
         hmi.getChoiceModel(317).setValue(n);
     }
 
@@ -787,32 +794,32 @@ public class SDSModelAccess {
         ChoiceModelApp choiceModelApp = hmi.getChoiceModel(251);
         int n = choiceModelApp.getValue();
         int n2 = n == 0 ? 1 : 0;
-        lc.log(-2137614336, "SDSModelAccess#changeJumpPointAction: oldValue=%1, newValue=%2!", (long)n, (long)n2);
+        lc.log(10000000, "SDSModelAccess#changeJumpPointAction: oldValue=%1, newValue=%2!", (long)n, (long)n2);
         choiceModelApp.setValue(n2);
     }
 
     public static void setNavSpellingModel(boolean bl) {
-        lc.log(-2137614336, "SDSModelAccess#setNavSpellingModel: value=%1", bl);
+        lc.log(10000000, "SDSModelAccess#setNavSpellingModel: value=%1", bl);
         hmi.getChoiceModel(302).setValue(bl ? 1 : 0);
     }
 
     public static void setNavSpellingCityModel(boolean bl) {
-        lc.log(-2137614336, "SDSModelAccess#setNavSpellingCityModel: value=%1", bl);
+        lc.log(10000000, "SDSModelAccess#setNavSpellingCityModel: value=%1", bl);
         hmi.getChoiceModel(291).setValue(bl ? 1 : 0);
     }
 
     public static void setNavSpellingStreetModel(boolean bl) {
-        lc.log(-2137614336, "SDSModelAccess#setNavSpellingStreetModel: value=%1", bl);
+        lc.log(10000000, "SDSModelAccess#setNavSpellingStreetModel: value=%1", bl);
         hmi.getChoiceModel(303).setValue(bl ? 1 : 0);
     }
 
     public static void setNavVDECapabilities(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setNavVDECapabilities: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setNavVDECapabilities: value=%1", (long)n);
         hmi.getChoiceModel(304).setValue(n);
     }
 
     public static void setNavVDEMediumState(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setNavVDEMediumState: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setNavVDEMediumState: value=%1", (long)n);
         hmi.getChoiceModel(4461).setValue(n);
     }
 
@@ -821,7 +828,7 @@ public class SDSModelAccess {
     }
 
     public static void setNaviTrufflesAvailable(boolean bl) {
-        lc.log(-2137614336, "SDSModelAccess#setNaviTrufflesAvailable: value=%1", bl);
+        lc.log(10000000, "SDSModelAccess#setNaviTrufflesAvailable: value=%1", bl);
         hmi.getChoiceModel(4406).setValue(bl ? 1 : 0);
     }
 
@@ -830,7 +837,7 @@ public class SDSModelAccess {
     }
 
     public static void setDestinationCountrySystemLanguage(boolean bl) {
-        lc.log(-2137614336, "SDSModelAccess#setDestinationCountrySystemLanguage: ldcIsSL=%1", bl);
+        lc.log(10000000, "SDSModelAccess#setDestinationCountrySystemLanguage: ldcIsSL=%1", bl);
         int n = bl ? 1 : 0;
         hmi.getChoiceModel(527).setValue(n);
     }
@@ -842,12 +849,12 @@ public class SDSModelAccess {
     public static void setDisambiguationLineLabel(String string, int n) {
         switch (n) {
             case 0: {
-                lc.log(-2137614336, "SDSModelAccess#setDisambiguationLine%2Label to %1", (Object)string, (long)(n + 1));
+                lc.log(10000000, "SDSModelAccess#setDisambiguationLine%2Label to %1", (Object)string, (long)(n + 1));
                 hmi.getLabelModel(520).setText(string);
                 return;
             }
             case 1: {
-                lc.log(-2137614336, "SDSModelAccess#setDisambiguationLine%2Label to %1", (Object)string, (long)(n + 1));
+                lc.log(10000000, "SDSModelAccess#setDisambiguationLine%2Label to %1", (Object)string, (long)(n + 1));
                 hmi.getLabelModel(521).setText(string);
                 return;
             }
@@ -856,7 +863,7 @@ public class SDSModelAccess {
 
     public static void setDisambiguationLabel(SDSListEntry[] sDSListEntryArray) {
         if (sDSListEntryArray != null && sDSListEntryArray.length > 1 && sDSListEntryArray[0] != null && sDSListEntryArray[1] != null) {
-            lc.log(-2137614336, "SDSModelAccess#setDisambiguationLabels to %1, %2", (Object)sDSListEntryArray[0].getName(), (Object)sDSListEntryArray[1].getName());
+            lc.log(10000000, "SDSModelAccess#setDisambiguationLabels to %1, %2", (Object)sDSListEntryArray[0].getName(), (Object)sDSListEntryArray[1].getName());
             hmi.getLabelModel(520).setText(sDSListEntryArray[0].getName());
             hmi.getLabelModel(521).setText(sDSListEntryArray[1].getName());
         } else {
@@ -866,7 +873,7 @@ public class SDSModelAccess {
 
     public static void setDisambiguationLabel(String[] stringArray) {
         if (stringArray != null && stringArray.length > 1) {
-            lc.log(-2137614336, "SDSModelAccess#setDisambiguationLabels to %1, %2", (Object)stringArray[0], (Object)stringArray[1]);
+            lc.log(10000000, "SDSModelAccess#setDisambiguationLabels to %1, %2", (Object)stringArray[0], (Object)stringArray[1]);
             hmi.getLabelModel(520).setText(stringArray[0]);
             hmi.getLabelModel(521).setText(stringArray[1]);
         } else {
@@ -875,17 +882,17 @@ public class SDSModelAccess {
     }
 
     public static void setVDEOneshotPLType(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setVDEOneshotPLType: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setVDEOneshotPLType: value=%1", (long)n);
         hmi.getChoiceModel(298).setValue(n);
     }
 
     public static void setFavoritesStatus(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setFavoritesStatus: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setFavoritesStatus: value=%1", (long)n);
         hmi.getChoiceModel(172).setValue(n);
     }
 
     public static void setMsgDictateModel(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setMsgDicateModel: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setMsgDicateModel: value=%1", (long)n);
         hmi.getChoiceModel(268).setValue(n);
     }
 
@@ -894,42 +901,42 @@ public class SDSModelAccess {
     }
 
     public static void setMsgTextStateChoiceModel(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setMsgTextStateChoiceModel: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setMsgTextStateChoiceModel: value=%1", (long)n);
         hmi.getChoiceModel(4009).setValue(n);
     }
 
     public static void setMsgSubjectStateChoiceModel(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setMsgSubjectStateChoiceModel: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setMsgSubjectStateChoiceModel: value=%1", (long)n);
         hmi.getChoiceModel(4293).setValue(n);
     }
 
     public static void setMsgTemplatesAvailableModel(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setMsgTemplatesAvailableModel: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setMsgTemplatesAvailableModel: value=%1", (long)n);
         hmi.getChoiceModel(4157).setValue(n);
     }
 
     public static void setMsgAccountSelectedModel(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setMsgAccountSelectedModel: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setMsgAccountSelectedModel: value=%1", (long)n);
         hmi.getChoiceModel(4315).setValue(n);
     }
 
     public static void setAdbTitlePicklistChoiceModel(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setAdbTitlePicklistChoiceModel: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setAdbTitlePicklistChoiceModel: value=%1", (long)n);
         hmi.getChoiceModel(4022).setValue(n);
     }
 
     public static void setMsgTextChangedChoiceModel(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setMsgTextChangedChoiceModel: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setMsgTextChangedChoiceModel: value=%1", (long)n);
         hmi.getChoiceModel(4023).setValue(n);
     }
 
     public static void setDictationRecognitionStatusChoice(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setDictationRecognitionStatusChoice: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setDictationRecognitionStatusChoice: value=%1", (long)n);
         hmi.getChoiceModel(3884).setValue(n);
     }
 
     public static void setDictationPromptLabel(String string) {
-        lc.log(-2137614336, "SDSModelAccess#setDictationPromptLabel: text=%1", (Object)string);
+        lc.log(10000000, "SDSModelAccess#setDictationPromptLabel: text=%1", (Object)string);
         hmi.getLabelModel(271).setText(string);
     }
 
@@ -938,7 +945,7 @@ public class SDSModelAccess {
     }
 
     public static void setMsgReadoutActiveModel(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setMsgReadoutActiveModel: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setMsgReadoutActiveModel: value=%1", (long)n);
         hmi.getChoiceModel(276).setValue(n);
     }
 
@@ -947,7 +954,7 @@ public class SDSModelAccess {
     }
 
     public static void setMsgReadoutModel(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setMsgReadoutModel: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setMsgReadoutModel: value=%1", (long)n);
         hmi.getChoiceModel(275).setValue(n);
     }
 
@@ -956,7 +963,7 @@ public class SDSModelAccess {
     }
 
     public static void setADBSelectionInterrupt(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setADBSelectionInterrupt: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setADBSelectionInterrupt: value=%1", (long)n);
         hmi.getChoiceModel(228).setValue(n);
     }
 
@@ -965,12 +972,12 @@ public class SDSModelAccess {
     }
 
     public static void setADBGrammarAvailableModel(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setADBGrammarAvailableModel: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setADBGrammarAvailableModel: value=%1", (long)n);
         hmi.getChoiceModel(229).setValue(n);
     }
 
     public static void setAllMediaGrammarsAvailable(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setAllMediaGrammarsAvailable: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setAllMediaGrammarsAvailable: value=%1", (long)n);
         hmi.getChoiceModel(262).setValue(n);
         hmi.getChoiceModel(4104).setValue(n);
         hmi.getChoiceModel(4103).setValue(n);
@@ -978,27 +985,27 @@ public class SDSModelAccess {
     }
 
     public static void setMediaGrammarAvailableModel(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setMediaGrammarAvailableModel: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setMediaGrammarAvailableModel: value=%1", (long)n);
         hmi.getChoiceModel(262).setValue(n);
     }
 
     public static void setMediaTitleGrammarAvailableChoice(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setMediaTitleGrammarAvailableChoice: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setMediaTitleGrammarAvailableChoice: value=%1", (long)n);
         hmi.getChoiceModel(4104).setValue(n);
     }
 
     public static void setMediaArtistGrammarAvailableChoice(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setMediaArtistGrammarAvailableChoice: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setMediaArtistGrammarAvailableChoice: value=%1", (long)n);
         hmi.getChoiceModel(4103).setValue(n);
     }
 
     public static void setMediaAlbumGrammarAvailableChoice(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setMediaAlbumGrammarAvailableChoice: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setMediaAlbumGrammarAvailableChoice: value=%1", (long)n);
         hmi.getChoiceModel(4102).setValue(n);
     }
 
     public static void setMediumSyncState(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setMediumSyncState: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setMediumSyncState: value=%1", (long)n);
         hmi.getChoiceModel(4301).setValue(n);
     }
 
@@ -1007,22 +1014,22 @@ public class SDSModelAccess {
     }
 
     public static void setMyAudiGrammarAvailableModel(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setMyAudiGrammarAvailableModel: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setMyAudiGrammarAvailableModel: value=%1", (long)n);
         hmi.getChoiceModel(3961).setValue(n);
     }
 
     public static void setDebugActionProxyLabel(String string) {
-        lc.log(-2137614336, "SDSModelAccess#setDebugActionProxyLabel: value=%1", (Object)string);
+        lc.log(10000000, "SDSModelAccess#setDebugActionProxyLabel: value=%1", (Object)string);
         hmi.getLabelModel(239).setText(string);
     }
 
     public static void setDebugTimeoutLabel(String string) {
-        lc.log(-2137614336, "SDSModelAccess#setDebugTimeoutLabel: value=%1", (Object)string);
+        lc.log(10000000, "SDSModelAccess#setDebugTimeoutLabel: value=%1", (Object)string);
         hmi.getLabelModel(240).setText(string);
     }
 
     public static void setDetailedMessageLabel(String string) {
-        lc.log(-2137614336, "SDSModelAccess#sdsDebugDetailedMessageLabel: value=%1", (Object)string);
+        lc.log(10000000, "SDSModelAccess#sdsDebugDetailedMessageLabel: value=%1", (Object)string);
         hmi.getLabelModel(3978).setText(string);
     }
 
@@ -1047,47 +1054,47 @@ public class SDSModelAccess {
     }
 
     public static void setMsgWordPromptLabel(String string) {
-        lc.log(-2137614336, "SDSModelAccess#setMsgWordPromptLabel: value=%1", (Object)string);
+        lc.log(10000000, "SDSModelAccess#setMsgWordPromptLabel: value=%1", (Object)string);
         hmi.getLabelModel(277).setText(string);
     }
 
     public static void setOneShotCountryLabel(String string) {
-        lc.log(-2137614336, "SDSModelAccess#setOneShotCountryLabel: value=%1", (Object)string);
+        lc.log(10000000, "SDSModelAccess#setOneShotCountryLabel: value=%1", (Object)string);
         hmi.getLabelModel(4250).setText(string);
     }
 
     public static void setOneShotStateLabel(String string) {
-        lc.log(-2137614336, "SDSModelAccess#setOneShotStateLabel: value=%1", (Object)string);
+        lc.log(10000000, "SDSModelAccess#setOneShotStateLabel: value=%1", (Object)string);
         hmi.getLabelModel(448).setText(string);
     }
 
     public static void setOneshotCityLabel(String string) {
-        lc.log(-2137614336, "SDSModelAccess#setOneShotCityLabel: value=%1", (Object)string);
+        lc.log(10000000, "SDSModelAccess#setOneShotCityLabel: value=%1", (Object)string);
         hmi.getLabelModel(295).setText(string);
     }
 
     public static void setOneshotPoiLabel(String string) {
-        lc.log(-2137614336, "SDSModelAccess#setOneShotPoiLabel: value=%1", (Object)string);
+        lc.log(10000000, "SDSModelAccess#setOneShotPoiLabel: value=%1", (Object)string);
         hmi.getLabelModel(3936).setText(string);
     }
 
     public static void setOneshotStreetLabel(String string) {
-        lc.log(-2137614336, "SDSModelAccess#setOneshotStreetLabel: value=%1", (Object)string);
+        lc.log(10000000, "SDSModelAccess#setOneshotStreetLabel: value=%1", (Object)string);
         hmi.getLabelModel(297).setText(string);
     }
 
     public static void setOneshotHouseNRLabel(String string) {
-        lc.log(-2137614336, "SDSModelAccess#setOneShotHouseNRLabel: value=%1", (Object)string);
+        lc.log(10000000, "SDSModelAccess#setOneShotHouseNRLabel: value=%1", (Object)string);
         hmi.getLabelModel(296).setText(string);
     }
 
     public static void setMsgOnlineLicenceStatusModel(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setMsgOnlineLicenceStatusModel: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setMsgOnlineLicenceStatusModel: value=%1", (long)n);
         hmi.getChoiceModel(272).setValue(n);
     }
 
     public static void setDialogJumpingModel(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setDialogJumpingModel: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setDialogJumpingModel: value=%1", (long)n);
         hmi.getChoiceModel(497).setValue(n);
     }
 
@@ -1097,7 +1104,7 @@ public class SDSModelAccess {
 
     public static void setNLUActiveModelValue(boolean bl) {
         int n = bl ? 1 : 0;
-        lc.log(-2137614336, "SDSModelAccess#setNLUActiveModel: active=%1, value=%2", bl, (long)n);
+        lc.log(10000000, "SDSModelAccess#setNLUActiveModel: active=%1, value=%2", bl, (long)n);
         hmi.getChoiceModel(3832).setValue(n);
     }
 
@@ -1107,7 +1114,7 @@ public class SDSModelAccess {
 
     public static void setVBISysConstModelValue(boolean bl) {
         int n = bl ? 1 : 0;
-        lc.log(-2137614336, "SDSModelAccess#setVBISysConstModelValue: active=%1, value=%2", bl, (long)n);
+        lc.log(10000000, "SDSModelAccess#setVBISysConstModelValue: active=%1, value=%2", bl, (long)n);
         try {
             ((SysConstModel)hmi.getModelApp(4603)).setValue(n);
         }
@@ -1121,18 +1128,18 @@ public class SDSModelAccess {
     }
 
     public static void setTunerPicklistTitle(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setTunerPicklistTitle: listMode=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setTunerPicklistTitle: listMode=%1", (long)n);
         hmi.getChoiceModel(551).setValue(n);
     }
 
     public static void setMediaPicklistTitle(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setMediaPicklistTitle: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setMediaPicklistTitle: value=%1", (long)n);
         ChoiceModelApp choiceModelApp = hmi.getChoiceModel(554);
         choiceModelApp.setValue(n);
     }
 
     public static void setPhonePicklistTitle(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setPhonePicklistTitle: listMode=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setPhonePicklistTitle: listMode=%1", (long)n);
         hmi.getChoiceModel(3906).setValue(n);
     }
 
@@ -1142,48 +1149,48 @@ public class SDSModelAccess {
     }
 
     public static void setPhoneCallStackContentModel(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setPhoneCallStackContentModel: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setPhoneCallStackContentModel: value=%1", (long)n);
         hmi.getChoiceModel(553).setValue(n);
     }
 
     public static void setPhoneFavoritesChoice(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setPhoneFavoritesChoice: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setPhoneFavoritesChoice: value=%1", (long)n);
         hmi.getChoiceModel(3909).setValue(n);
     }
 
     public static void setNaviRangeValue(int n, int n2) {
-        lc.log(-2137614336, "SDSModelAccess#setNaviRangeValue: value=%1, status=%2", (long)n, (long)n2);
+        lc.log(10000000, "SDSModelAccess#setNaviRangeValue: value=%1, status=%2", (long)n, (long)n2);
         hmi.getChoiceModel(3958).setValue(n);
         hmi.getChoiceModel(3958).setStatus(n2);
     }
 
     public static void setNaviRangeScaleUnit(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setNaviRangeScaleUnit: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setNaviRangeScaleUnit: value=%1", (long)n);
         hmi.getChoiceModel(3957).setValue(n);
     }
 
     public static void setVZEAvailableChoice(boolean bl) {
-        lc.log(-2137614336, "SDSModelAccess#setVZEAvailableChoice: value=%1", bl);
+        lc.log(10000000, "SDSModelAccess#setVZEAvailableChoice: value=%1", bl);
         hmi.getChoiceModel(4093).setValue(bl ? 1 : 0);
     }
 
     public static void setNaviGoogleMapAvailableModel(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setNaviGoogleMapAvailableModel: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setNaviGoogleMapAvailableModel: value=%1", (long)n);
         hmi.getChoiceModel(3977).setValue(n);
     }
 
     public static void setExternalSDSPossible(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setExternalSDSPossible: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setExternalSDSPossible: value=%1", (long)n);
         hmi.getChoiceModel(3991).setValue(n);
     }
 
     public static void setExternalSDSStatus(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setExternalSDSStatus: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setExternalSDSStatus: value=%1", (long)n);
         hmi.getChoiceModel(3992).setValue(n);
     }
 
     public static void setProgressIconVisible(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setProgressIconVisible: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setProgressIconVisible: value=%1", (long)n);
         hmi.getChoiceModel(4007).setValue(n);
         hmi.getChoiceModel(4007).setStatus(n);
     }
@@ -1193,32 +1200,32 @@ public class SDSModelAccess {
     }
 
     static void setPosttrainingSpeed(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setPosttrainingSpeed: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setPosttrainingSpeed: value=%1", (long)n);
         hmi.getChoiceModel(4013).setValue(n);
     }
 
     static void setRepeatCommand(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setRepeatCommand: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setRepeatCommand: value=%1", (long)n);
         hmi.getChoiceModel(3987).setValue(n);
     }
 
     static void setPrompt(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setPrompt: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setPrompt: value=%1", (long)n);
         hmi.getChoiceModel(3986).setValue(n);
     }
 
     static void setExpertMode(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setExpertMode: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setExpertMode: value=%1", (long)n);
         hmi.getChoiceModel(3982).setValue(n);
     }
 
     static void setCommandScreen(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setCommandScreen: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setCommandScreen: value=%1", (long)n);
         hmi.getChoiceModel(3981).setValue(n);
     }
 
     public static void setVoiceBargeIn(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setVoiceBargeIn: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setVoiceBargeIn: value=%1", (long)n);
         hmi.getChoiceModel(337).setValue(n);
     }
 
@@ -1227,27 +1234,27 @@ public class SDSModelAccess {
     }
 
     public static void ignoreMediaDeviceUpdates(int n) {
-        lc.log(-2137614336, "SDSModelAccess#ignoreMediaDeviceUpdates: ignore=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#ignoreMediaDeviceUpdates: ignore=%1", (long)n);
         hmi.getChoiceModel(4041).setValue(n);
     }
 
     public static int getIgnoreMediaDeviceUpdates() {
-        lc.log(-2137614336, "SDSModelAccess#getIgnoreMediaDeviceUpdates");
+        lc.log(10000000, "SDSModelAccess#getIgnoreMediaDeviceUpdates");
         return hmi.getChoiceModel(4041).getValue();
     }
 
     public static void setNBestGGContent(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setNBestGGContent: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setNBestGGContent: value=%1", (long)n);
         hmi.getChoiceModel(4089).setValue(n);
     }
 
     public static void setMediaPicklistIsPlayMusic(boolean bl) {
-        lc.log(-2137614336, "SDSModelAccess#setMediaPicklistIsPlayMusic: value=%1", bl);
+        lc.log(10000000, "SDSModelAccess#setMediaPicklistIsPlayMusic: value=%1", bl);
         hmi.getChoiceModel(SDSManagerBaseActivator.getMapping().getModelID(20)).setValue(bl ? 1 : 0);
     }
 
     public static void setMediaPicklistPlayMusicSelectedType(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setMediaPlayMusicSelectedTypeChoice: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setMediaPlayMusicSelectedTypeChoice: value=%1", (long)n);
         hmi.getChoiceModel(SDSManagerBaseActivator.getMapping().getModelID(24)).setValue(n);
     }
 
@@ -1284,7 +1291,7 @@ public class SDSModelAccess {
     }
 
     public static void setMediaGrammarCompiling(int n) {
-        lc.log(-2137614336, "SDSModelAccess#setMediaGrammarCompiling: value=%1", (long)n);
+        lc.log(10000000, "SDSModelAccess#setMediaGrammarCompiling: value=%1", (long)n);
         int n2 = SDSManagerBaseActivator.getMapping().getModelID(28);
         if (n2 != -1) {
             hmi.getChoiceModel(n2).setValue(n);
@@ -1292,7 +1299,7 @@ public class SDSModelAccess {
     }
 
     public static int getSDSPromptTypeUnchanging() {
-        lc.log(-2137614336, "SDSModelAccess#getSDSPromptTypeUnchanging");
+        lc.log(10000000, "SDSModelAccess#getSDSPromptTypeUnchanging");
         return hmi.getChoiceModel(SDSManagerBaseActivator.getMapping().getModelID(32)).getValue();
     }
 
@@ -1305,23 +1312,47 @@ public class SDSModelAccess {
     }
 
     public static void doHintSubjectTextEditorModel(int n) {
-        HMIModelApp hMIModelApp = hmi.getModelApp(-1349312256);
+        HMIModelApp hMIModelApp = hmi.getModelApp(2200495);
         hMIModelApp.addHint(n);
         hMIModelApp.publishHints();
     }
 
     public static void doHintBodyTextEditorModel(int n) {
-        HMIModelApp hMIModelApp = hmi.getModelApp(-1198317312);
+        HMIModelApp hMIModelApp = hmi.getModelApp(2200504);
         hMIModelApp.addHint(n);
         hMIModelApp.publishHints();
     }
 
-    static /* synthetic */ SDSHMIListener access$000(SDSModelAccess sDSModelAccess) {
-        return sDSModelAccess.hmiListener;
-    }
+    public class SDSModelBank
+    extends AbstractModelBank {
+        public static final int PTT_BUTTON = 0x155CC1;
+        public static final int PTT_LONG_BUTTON = 1400002;
+        public static final int PTT_DOUBLECLICK_BUTTON = 1400003;
+        static final int PTT_OFF_BUTTON = 1400004;
+        private ButtonModelApp pttButton;
+        private ButtonModelApp pttLongButton;
+        private ButtonModelApp pttDoubleClickButton;
+        private ButtonModelApp pttOffButton;
 
-    static /* synthetic */ LogChannel access$100() {
-        return lc;
+        SDSModelBank() {
+            super(14, 5, 4);
+            this.pttButton = new ButtonModel(0x155CC1);
+            this.pttLongButton = new ButtonModel(1400002);
+            this.pttDoubleClickButton = new ButtonModel(1400003);
+            this.pttOffButton = new ButtonModel(1400004);
+            this.pttButton.setButtonListener(SDSModelAccess.this.hmiListener);
+            this.pttLongButton.setButtonListener(SDSModelAccess.this.hmiListener);
+            this.pttDoubleClickButton.setButtonListener(SDSModelAccess.this.hmiListener);
+            this.pttOffButton.setButtonListener(SDSModelAccess.this.hmiListener);
+            this.models[1] = (HMIModel)((Object)this.pttButton);
+            this.models[2] = (HMIModel)((Object)this.pttLongButton);
+            this.models[3] = (HMIModel)((Object)this.pttDoubleClickButton);
+            this.models[4] = (HMIModel)((Object)this.pttOffButton);
+        }
+
+        protected void createModel(int n) {
+            lc.log(10000000, "SDSModelAccess#createModel: modelIdx=%1", (long)n);
+        }
     }
 }
 

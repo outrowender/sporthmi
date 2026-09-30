@@ -17,9 +17,8 @@ extends AbstractAddressInputScreenWorkFlowManagerKR {
         super(navigationEnv, iCommandListFactory, spellerStack);
     }
 
-    @Override
     public CommandList handleWorkFlow(CommandList commandList, int n) {
-        this.logChannel.log(-2137614336, "%1#handleWorkFlow - screenEventId=%2", (Object)this.CLASS_NAME, (long)n);
+        this.logChannel.log(10000000, "%1#handleWorkFlow - screenEventId=%2", (Object)this.CLASS_NAME, (long)n);
         switch (n) {
             case 40302: {
                 this.createKRWardScreenSelectListElementWorkFlow(commandList);
@@ -37,13 +36,13 @@ extends AbstractAddressInputScreenWorkFlowManagerKR {
     }
 
     private void createKRWardScreenSelectListElementWorkFlow(CommandList commandList) {
-        this.logChannel.log(-2137614336, "%1#createKRWardScreenSelectListElementWorkFlow", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#createKRWardScreenSelectListElementWorkFlow", (Object)this.CLASS_NAME);
         this.spellerStack.pop();
         this.spellerStack.pop();
     }
 
     private void createKRWardScreenEnteredWorkFlow(CommandList commandList) {
-        this.logChannel.log(-2137614336, "%1#createKRWardScreenEnteredWorkFlow", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#createKRWardScreenEnteredWorkFlow", (Object)this.CLASS_NAME);
         SpellerContext spellerContext = this.getSpellerContext(43);
         commandList.add(new LIGetStateCommand(this.spellerStack, spellerContext));
         commandList.add(this.inputManager.getWardScreenListener().getStartCommandList());

@@ -6,23 +6,18 @@ package de.audi.atip.phone;
 import de.audi.atip.phone.ITelServiceConnectivityListener;
 
 public interface ITelServiceConnectivity {
-    public static final int NAD_ROLE_PRIMARY;
-    public static final int NAD_ROLE_ASSOCIATED;
-    public static final int NAD_ROLE_DATA;
+    public static final int NAD_ROLE_PRIMARY = 0;
+    public static final int NAD_ROLE_ASSOCIATED = 1;
+    public static final int NAD_ROLE_DATA = 2;
 
-    default public void setNadMode(int n, ITelServiceConnectivityListener iTelServiceConnectivityListener) {
-    }
+    public void setNadMode(int var1, ITelServiceConnectivityListener var2);
 
-    default public void changePhoneModulePowerState(boolean bl, ITelServiceConnectivityListener iTelServiceConnectivityListener) {
-    }
+    public void changePhoneModulePowerState(boolean var1, ITelServiceConnectivityListener var2);
 
-    default public void togglePhones(ITelServiceConnectivityListener iTelServiceConnectivityListener) {
-    }
+    public void togglePhones(ITelServiceConnectivityListener var1);
 
-    default public void setNadRole(int n, ITelServiceConnectivityListener iTelServiceConnectivityListener) {
-    }
+    public void setNadRole(int var1, ITelServiceConnectivityListener var2);
 
-    default public void requestCurrentNadModulePowerState() {
-    }
+    public void requestCurrentNadModulePowerState();
 }
 

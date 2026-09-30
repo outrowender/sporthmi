@@ -16,7 +16,7 @@ import org.osgi.util.tracker.ServiceTrackerCustomizer;
 public class DiagnosisServiceTracker
 implements ITerminalModeComponent,
 ServiceTrackerCustomizer {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "DiagnosisServiceTracker";
     private volatile IServiceTracker swDiagManagerTracker;
     private volatile TerminalModeDiagnosis diag;
     private ITerminalLogger logger;
@@ -28,7 +28,6 @@ ServiceTrackerCustomizer {
         this.context = iContext;
     }
 
-    @Override
     public void init() {
         this.logger = this.context.getLogger();
         this.serviceManager = this.context.getServiceManager();
@@ -36,14 +35,12 @@ ServiceTrackerCustomizer {
         this.swDiagManagerTracker.open();
     }
 
-    @Override
     public void deinit() {
         this.swDiagManagerTracker.close();
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
-        this.logger.main().log(1078071040, "[%1.addingService] SwDiagnosisManager found.", (Object)"DiagnosisServiceTracker");
+        this.logger.main().log(1000000, "[%1.addingService] SwDiagnosisManager found.", (Object)LOGCLASS);
         SwDiagnosisManager swDiagnosisManager = (SwDiagnosisManager)this.serviceManager.getService(serviceReference);
         this.diag = new TerminalModeDiagnosis(this.context);
         this.diag.init();
@@ -51,14 +48,12 @@ ServiceTrackerCustomizer {
         return swDiagnosisManager;
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         ((SwDiagnosisManager)object).removeDiagGateway(this.diag);
         this.diag.deinit();
         this.serviceManager.releaseService(serviceReference);
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 

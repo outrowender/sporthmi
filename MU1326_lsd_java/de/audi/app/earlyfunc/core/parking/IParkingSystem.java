@@ -8,32 +8,25 @@ import de.audi.app.earlyfunc.core.parking.ParkingPopupIdentifier;
 import org.dsi.ifc.carparkingsystem.DisplayContent;
 
 public interface IParkingSystem {
-    public static final int PARKING_SYSTEM_APS;
-    public static final int PARKING_SYSTEM_OPS;
-    public static final int PARKING_SYSTEM_VPS;
-    public static final int PARKING_SYSTEM_ARA;
-    public static final int PARKING_SYSTEM_PLA;
-    public static final int PARKING_SYSTEM_SETTINGS;
+    public static final int PARKING_SYSTEM_APS = 1;
+    public static final int PARKING_SYSTEM_OPS = 2;
+    public static final int PARKING_SYSTEM_VPS = 4;
+    public static final int PARKING_SYSTEM_ARA = 8;
+    public static final int PARKING_SYSTEM_PLA = 16;
+    public static final int PARKING_SYSTEM_SETTINGS = 32;
 
-    default public void setActive(boolean bl, DisplayContent displayContent) {
-    }
+    public void setActive(boolean var1, DisplayContent var2);
 
-    default public int[] getSupportedDSIPopupIDs() {
-    }
+    public int[] getSupportedDSIPopupIDs();
 
-    default public int getParkingSystemID() {
-    }
+    public int getParkingSystemID();
 
-    default public ParkingPopupIdentifier getHMIPopupID(int n) {
-    }
+    public ParkingPopupIdentifier getHMIPopupID(int var1);
 
-    default public int getHMIPopupPrio(int n) {
-    }
+    public int getHMIPopupPrio(int var1);
 
-    default public String getName() {
-    }
+    public String getName();
 
-    default public IParkingFocusPropertyConfig createFocusPropertyDecorator(IParkingFocusPropertyConfig iParkingFocusPropertyConfig) {
-    }
+    public IParkingFocusPropertyConfig createFocusPropertyDecorator(IParkingFocusPropertyConfig var1);
 }
 

@@ -6,67 +6,140 @@ package de.audi.atip.interapp;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.hmi.modelaccess.TextEditorModelDDApp;
 import de.audi.atip.interapp.AbstractSDSApplicationService;
+import de.esolutions.fw.util.commons.Buffer;
 
 public interface IMessagingDictationService
 extends AbstractSDSApplicationService {
-    public static final int COMPOSITION_MODE_NEW;
-    public static final int COMPOSITION_MODE_CONTINUE;
-    public static final int COMPOSITION_MODE_EDIT;
-    public static final int COMPOSITION_MODE_REPLY;
-    public static final int COMPOSITION_MODE_REPLY_ALL;
-    public static final int COMPOSITION_MODE_FORWARD;
-    public static final int MSG_TYPE_ANY;
-    public static final int MSG_TYPE_SMS;
-    public static final int MSG_TYPE_MAIL;
-    public static final int DIALOG_STEP_RECIPIENTS;
-    public static final int DIALOG_STEP_SUBJECT;
-    public static final int DIALOG_STEP_BODY;
-    public static final int DIALOG_STEP_SEND;
-    public static final int RECIPIENT_TYPE_ANY;
-    public static final int RECIPIENT_TYPE_TO;
-    public static final int RECIPIENT_TYPE_CC;
-    public static final int RECIPIENT_TYPE_BCC;
-    public static final int EDITOR_INPUT_MODE_REGULAR;
-    public static final int EDITOR_INPUT_MODE_ALTERNATIVES;
-    public static final int RESULT_OK;
-    public static final int RESULT_ERROR_GENERAL;
-    public static final int RESULT_ERROR_ILLEGAL_ARGUMENT;
-    public static final int RESULT_ERROR_ILLEGAL_STATE;
+    public static final int COMPOSITION_MODE_NEW = 0;
+    public static final int COMPOSITION_MODE_CONTINUE = 1;
+    public static final int COMPOSITION_MODE_EDIT = 2;
+    public static final int COMPOSITION_MODE_REPLY = 3;
+    public static final int COMPOSITION_MODE_REPLY_ALL = 4;
+    public static final int COMPOSITION_MODE_FORWARD = 5;
+    public static final int MSG_TYPE_ANY = 0;
+    public static final int MSG_TYPE_SMS = 1;
+    public static final int MSG_TYPE_MAIL = 2;
+    public static final int DIALOG_STEP_RECIPIENTS = 0;
+    public static final int DIALOG_STEP_SUBJECT = 1;
+    public static final int DIALOG_STEP_BODY = 2;
+    public static final int DIALOG_STEP_SEND = 3;
+    public static final int RECIPIENT_TYPE_ANY = 0;
+    public static final int RECIPIENT_TYPE_TO = 1;
+    public static final int RECIPIENT_TYPE_CC = 2;
+    public static final int RECIPIENT_TYPE_BCC = 3;
+    public static final int EDITOR_INPUT_MODE_REGULAR = 0;
+    public static final int EDITOR_INPUT_MODE_ALTERNATIVES = 1;
+    public static final int RESULT_OK = 0;
+    public static final int RESULT_ERROR_GENERAL = 1;
+    public static final int RESULT_ERROR_ILLEGAL_ARGUMENT = 2;
+    public static final int RESULT_ERROR_ILLEGAL_STATE = 3;
 
-    default public TextEditorModelDDApp getSubjectEditorModel() {
-    }
+    public TextEditorModelDDApp getSubjectEditorModel();
 
-    default public TextEditorModelDDApp getBodyEditorModel() {
-    }
+    public TextEditorModelDDApp getBodyEditorModel();
 
-    default public ChoiceModelApp getSubjectEditorInputModeModel() {
-    }
+    public ChoiceModelApp getSubjectEditorInputModeModel();
 
-    default public ChoiceModelApp getBodyEditorInputModeModel() {
-    }
+    public ChoiceModelApp getBodyEditorInputModeModel();
 
-    default public void indicateSubjectEditorModelWrite() {
-    }
+    public void indicateSubjectEditorModelWrite();
 
-    default public void indicateBodyEditorModelWrite() {
-    }
+    public void indicateBodyEditorModelWrite();
 
-    default public void requestBeginDialog(int n, int n2, boolean bl) {
-    }
+    public void requestBeginDialog(int var1, int var2, boolean var3);
 
-    default public void requestEndDialog() {
-    }
+    public void requestEndDialog();
 
-    default public void requestDialogStep(int n) {
-    }
+    public void requestDialogStep(int var1);
 
-    default public void requestAddRecipient(int n, String string, long l, String string2) {
-    }
+    public void requestAddRecipient(int var1, String var2, long var3, String var5);
 
-    default public void requestClearRecipients(int n) {
-    }
+    public void requestClearRecipients(int var1);
 
-    default public void requestSendMessage() {
+    public void requestSendMessage();
+
+    public static final class CompositionState {
+        private final boolean isDialogActive;
+        private final boolean hasFailed;
+        private final boolean hasAccount;
+        private final int accountType;
+        private final int templateCount;
+        private final boolean hasRecipients;
+        private final String primaryRecipientName;
+        private final boolean hasSubject;
+        private final boolean hasBody;
+
+        public CompositionState(boolean bl, boolean bl2, boolean bl3, int n, int n2, boolean bl4, String string, boolean bl5, boolean bl6) {
+            this.isDialogActive = bl;
+            this.hasFailed = bl2;
+            this.hasAccount = bl3;
+            this.accountType = n;
+            this.templateCount = n2;
+            this.hasRecipients = bl4;
+            this.primaryRecipientName = string != null ? string : "";
+            this.hasSubject = bl5;
+            this.hasBody = bl6;
+        }
+
+        public boolean isDialogActive() {
+            return this.isDialogActive;
+        }
+
+        public boolean hasDialogFailed() {
+            return this.hasFailed;
+        }
+
+        public boolean hasAccount() {
+            return this.hasAccount;
+        }
+
+        public int getAccountType() {
+            return this.hasAccount() ? this.accountType : 0;
+        }
+
+        public int getTemplateCount() {
+            return this.templateCount;
+        }
+
+        public boolean hasRecipients() {
+            return this.hasRecipients;
+        }
+
+        public String getPrimaryRecipientName() {
+            return this.primaryRecipientName;
+        }
+
+        public boolean hasSubject() {
+            return this.hasSubject;
+        }
+
+        public boolean hasBody() {
+            return this.hasBody;
+        }
+
+        public String toString() {
+            Buffer buffer = new Buffer(256);
+            buffer.append("CompositionState {isDialogActive = ");
+            buffer.append(this.isDialogActive);
+            buffer.append(", hasFailed = ");
+            buffer.append(this.hasFailed);
+            buffer.append(", hasAccount = ");
+            buffer.append(this.hasAccount);
+            buffer.append(", accountType = ");
+            buffer.append(this.accountType);
+            buffer.append(", templateCount = ");
+            buffer.append(this.templateCount);
+            buffer.append(", hasRecipients = ");
+            buffer.append(this.hasRecipients);
+            buffer.append(", primaryRecipientName = ");
+            buffer.append(this.primaryRecipientName);
+            buffer.append(", hasSubject = ");
+            buffer.append(this.hasSubject);
+            buffer.append(", hasBody = ");
+            buffer.append(this.hasBody);
+            buffer.append('}');
+            return buffer.toString();
+        }
     }
 }
 

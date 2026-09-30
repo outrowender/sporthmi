@@ -40,38 +40,38 @@ final class BundleHandler {
         return (Bundle)this.bundleMap.get(string);
     }
 
-    void startBundle(Bundle bundle) {
+    void startBundle(Bundle bundle) throws BundleException {
         if (bundle == null) {
             return;
         }
         if (bundle.getState() < 4) {
-            throw new BundleException(new StringBuffer().append("Bundle ").append(this.getBundleName(bundle)).append(" is not (yet) resolved!").toString());
+            throw new BundleException("Bundle " + this.getBundleName(bundle) + " is not (yet) resolved!");
         }
         if (bundle.getState() != 32) {
-            this.log.log(-2137614336, "BundleHandler: startBundle: %1 ", (Object)this.getBundleName(bundle));
+            this.log.log(10000000, "BundleHandler: startBundle: %1 ", (Object)this.getBundleName(bundle));
             try {
                 bundle.start();
             }
             catch (NoClassDefFoundError noClassDefFoundError) {
-                throw new BundleException(new StringBuffer().append("Start of bundle ").append(this.getBundleName(bundle)).append(" failed due to undefined class!").toString(), noClassDefFoundError);
+                throw new BundleException("Start of bundle " + this.getBundleName(bundle) + " failed due to undefined class!", noClassDefFoundError);
             }
         }
     }
 
-    void stopBundle(Bundle bundle) {
+    void stopBundle(Bundle bundle) throws BundleException {
         if (bundle == null) {
             return;
         }
         if (bundle.getState() < 4) {
-            throw new BundleException(new StringBuffer().append("Bundle ").append(bundle.getBundleId()).append(" is not (yet) resolved!").toString());
+            throw new BundleException("Bundle " + bundle.getBundleId() + " is not (yet) resolved!");
         }
         if (bundle.getState() != 4) {
-            this.log.log(-2137614336, "BundleHandler: stopBundle: %1", (Object)this.getBundleName(bundle));
+            this.log.log(10000000, "BundleHandler: stopBundle: %1", (Object)this.getBundleName(bundle));
             try {
                 bundle.stop();
             }
             catch (NoClassDefFoundError noClassDefFoundError) {
-                throw new BundleException(new StringBuffer().append("Stop of bundle ").append(this.getBundleName(bundle)).append(" failed due to undefined class!").toString(), noClassDefFoundError);
+                throw new BundleException("Stop of bundle " + this.getBundleName(bundle) + " failed due to undefined class!", noClassDefFoundError);
             }
         }
     }

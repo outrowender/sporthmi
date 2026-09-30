@@ -21,27 +21,22 @@ implements IPicklistSlot {
         this.slotIndex = n;
     }
 
-    @Override
     public String getText() {
         return this.text;
     }
 
-    @Override
     public void setText(String string) {
         this.text = string;
     }
 
-    @Override
     public String getObjectStringID() {
         return this.objectStringID;
     }
 
-    @Override
     public long getObjID() {
         return this.objID;
     }
 
-    @Override
     public int getIndex() {
         return this.slotIndex;
     }
@@ -60,7 +55,7 @@ implements IPicklistSlot {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         PicklistSlot picklistSlot = (PicklistSlot)object;
@@ -70,7 +65,6 @@ implements IPicklistSlot {
         return !(this.text == null ? picklistSlot.text != null : !this.text.equals(picklistSlot.getText()));
     }
 
-    @Override
     public boolean isDuplicateSlot(IPicklistSlot iPicklistSlot) {
         if (iPicklistSlot == null || this.objID != iPicklistSlot.getObjID()) {
             return false;

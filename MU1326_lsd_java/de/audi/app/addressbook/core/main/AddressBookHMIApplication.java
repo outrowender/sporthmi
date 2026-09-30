@@ -19,47 +19,37 @@ I18NTarget {
         this.appAdr = abstractAddressBookApplication;
     }
 
-    @Override
     public int getId() {
         return 7;
     }
 
-    @Override
     public ButtonModelApp getVirtualButton(int n) {
         return null;
     }
 
-    @Override
     public void popupVisible(int n, int n2) {
     }
 
-    @Override
     public void popupHidden(int n, int n2) {
     }
 
-    @Override
     public void popupRemoved(int n, int n2) {
     }
 
-    @Override
     public void screenVisible(int n, int n2) {
     }
 
-    @Override
     public void screenHidden(int n, int n2) {
     }
 
-    @Override
     public void screenFadedOut(int n, int n2) {
     }
 
-    @Override
     public void screenConnected(int n, int n2) {
     }
 
-    @Override
     public void setLanguage(Language language) {
-        this.appAdr.getLog().log(1078071040, "AddressBookHMIApplication#setLanguage(): languageCode: %1", (Object)language.getLanguageCode());
+        this.appAdr.getLog().log(1000000, "AddressBookHMIApplication#setLanguage(): languageCode: %1", (Object)language.getLanguageCode());
         this.appAdr.setCurrentLanguageCode(language.getLanguageCode());
         if (this.appAdr.getAdbStateHandler().isAdbReady()) {
             SetLanguageCommand.createSetLanguageCommand(this.appAdr, language.getLanguageCode());

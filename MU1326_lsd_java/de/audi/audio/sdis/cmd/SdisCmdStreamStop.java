@@ -26,12 +26,11 @@ extends Command {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[SdisCmdStreamStop.execute] -> DSIMediaRouter.stopStreaming()");
-        this.logger.log(-2137614336, "[SdisCmdStreamStop.execute] -> clientID:%1, force:%2", (Object)String.valueOf(this.clientID), (Object)String.valueOf(this.force));
+        this.logger.log(10000000, "[SdisCmdStreamStop.execute] -> DSIMediaRouter.stopStreaming()");
+        this.logger.log(10000000, "[SdisCmdStreamStop.execute] -> clientID:%1, force:%2", (Object)String.valueOf(this.clientID), (Object)String.valueOf(this.force));
         if (!this.streamState.reconfigureMediaRouterNecessary() && !this.force) {
-            this.logger.log(-2137614336, "[SdisCmdStreamStop.execute] reconfigure: %1. Nothing to do.", this.streamState.reconfigureMediaRouterNecessary());
+            this.logger.log(10000000, "[SdisCmdStreamStop.execute] reconfigure: %1. Nothing to do.", this.streamState.reconfigureMediaRouterNecessary());
             this.commandList.commandFinished();
             return;
         }
@@ -40,7 +39,7 @@ extends Command {
         SdisCmdStreamStop sdisCmdStreamStop = this;
         synchronized (sdisCmdStreamStop) {
             try {
-                super.wait(0);
+                this.wait(100L);
             }
             catch (InterruptedException interruptedException) {
                 this.logger.log(10000, "[SdisCmdStreamStop.execute] -> clientID:%1 interrupted exception %2", (long)this.clientID, (Throwable)interruptedException);
@@ -54,13 +53,13 @@ extends Command {
      */
     public void updateStreamingStatus(int n, int n2) {
         if (n != this.clientID) {
-            this.logger.log(-1601830656, "[SdisCmdStreamStop.updateStreamingStatus] ClientID mismatch %1 vs. %2", (long)this.clientID, (long)n);
+            this.logger.log(100000, "[SdisCmdStreamStop.updateStreamingStatus] ClientID mismatch %1 vs. %2", (long)this.clientID, (long)n);
             return;
         }
-        this.logger.log(-2137614336, "[SdisCmdStreamStop.updateStreamingStatus] finish stopStreamingCommand");
+        this.logger.log(10000000, "[SdisCmdStreamStop.updateStreamingStatus] finish stopStreamingCommand");
         SdisCmdStreamStop sdisCmdStreamStop = this;
         synchronized (sdisCmdStreamStop) {
-            super.notifyAll();
+            this.notifyAll();
         }
     }
 }

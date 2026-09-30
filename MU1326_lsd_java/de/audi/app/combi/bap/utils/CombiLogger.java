@@ -10,23 +10,23 @@ import de.audi.atip.log.NullLogChannel;
 
 public class CombiLogger
 extends AbstractBAPLogger {
-    private static final String LOG_CH_PREFIX;
-    private static final String LOG_CH_COMBI_AUDIO;
-    private static final String LOG_CH_COMBI_AUDIO_BAPDATA;
-    private static final String LOG_CH_COMBI_NAVI;
-    private static final String LOG_CH_COMBI_NAVI_BAPDATA;
-    private static final String LOG_CH_COMBI_NAVI_FREQUENT;
-    private static final String LOG_CH_COMBI_PHONE;
-    private static final String LOG_CH_COMBI_PHONE_BAPDATA;
-    private static final String LOG_CH_COMBI_PHONE2;
-    private static final String LOG_CH_COMBI_PHONE2_BAPDATA;
-    private static final String LOG_CH_COMBI_MFL;
-    private static final String LOG_CH_COMBI_MFL_BAPDATA;
-    private static final String LOG_CH_COMBI_STATISTICS;
-    private static final String LOG_CH_COMBI_PICTURE_SERVER;
-    private static final String LOG_CH_COMBI_PICTURE_SERVER_DSI;
-    private static final String LOG_CH_COMBI_FASTLIST;
-    private static final String LOG_CH_COMBI_FASTLIST_DSI;
+    private static final String LOG_CH_PREFIX = "App.CombiBAP";
+    private static final String LOG_CH_COMBI_AUDIO = "Audio";
+    private static final String LOG_CH_COMBI_AUDIO_BAPDATA = "Audio.BAPData";
+    private static final String LOG_CH_COMBI_NAVI = "Navi";
+    private static final String LOG_CH_COMBI_NAVI_BAPDATA = "Navi.BAPData";
+    private static final String LOG_CH_COMBI_NAVI_FREQUENT = "Navi.Frequent";
+    private static final String LOG_CH_COMBI_PHONE = "Phone";
+    private static final String LOG_CH_COMBI_PHONE_BAPDATA = "Phone.BAPData";
+    private static final String LOG_CH_COMBI_PHONE2 = "Phone2";
+    private static final String LOG_CH_COMBI_PHONE2_BAPDATA = "Phone2.BAPData";
+    private static final String LOG_CH_COMBI_MFL = "MFL";
+    private static final String LOG_CH_COMBI_MFL_BAPDATA = "MFL.BAPData";
+    private static final String LOG_CH_COMBI_STATISTICS = "Statistics";
+    private static final String LOG_CH_COMBI_PICTURE_SERVER = "PictureServer";
+    private static final String LOG_CH_COMBI_PICTURE_SERVER_DSI = "PictureServer.DSI";
+    private static final String LOG_CH_COMBI_FASTLIST = "FastList";
+    private static final String LOG_CH_COMBI_FASTLIST_DSI = "FastList.DSI";
     private static LogChannel logAudio;
     private static LogChannel logAudioBAPData;
     private static LogChannel logNavi;
@@ -46,26 +46,25 @@ extends AbstractBAPLogger {
     private static boolean advancedLoggingEnabled;
 
     public CombiLogger(IFrameworkAccess iFrameworkAccess) {
-        AbstractBAPLogger.init(iFrameworkAccess, "App.CombiBAP");
-        logAudio = iFrameworkAccess.getLogChannel(CombiLogger.createLogChannelName("Audio"));
-        logAudioBAPData = iFrameworkAccess.getLogChannel(CombiLogger.createLogChannelName("Audio.BAPData"));
-        logNavi = iFrameworkAccess.getLogChannel(CombiLogger.createLogChannelName("Navi"));
-        logNaviBAPData = iFrameworkAccess.getLogChannel(CombiLogger.createLogChannelName("Navi.BAPData"));
-        logNaviFrequent = iFrameworkAccess.getLogChannel(CombiLogger.createLogChannelName("Navi.Frequent"));
-        logPhone = iFrameworkAccess.getLogChannel(CombiLogger.createLogChannelName("Phone"));
-        logPhoneBAPData = iFrameworkAccess.getLogChannel(CombiLogger.createLogChannelName("Phone.BAPData"));
-        logPhone2 = iFrameworkAccess.getLogChannel(CombiLogger.createLogChannelName("Phone2"));
-        logPhone2BAPData = iFrameworkAccess.getLogChannel(CombiLogger.createLogChannelName("Phone2.BAPData"));
-        logMFL = iFrameworkAccess.getLogChannel(CombiLogger.createLogChannelName("MFL"));
-        logMFLBAPData = iFrameworkAccess.getLogChannel(CombiLogger.createLogChannelName("MFL.BAPData"));
-        logStatistics = iFrameworkAccess.getLogChannel(CombiLogger.createLogChannelName("Statistics"));
-        logPicServer = iFrameworkAccess.getLogChannel(CombiLogger.createLogChannelName("PictureServer"));
-        logPicServerDSI = iFrameworkAccess.getLogChannel(CombiLogger.createLogChannelName("PictureServer.DSI"));
-        logFastList = iFrameworkAccess.getLogChannel(CombiLogger.createLogChannelName("FastList"));
-        logFastListDSI = iFrameworkAccess.getLogChannel(CombiLogger.createLogChannelName("FastList.DSI"));
+        AbstractBAPLogger.init(iFrameworkAccess, LOG_CH_PREFIX);
+        logAudio = iFrameworkAccess.getLogChannel(CombiLogger.createLogChannelName(LOG_CH_COMBI_AUDIO));
+        logAudioBAPData = iFrameworkAccess.getLogChannel(CombiLogger.createLogChannelName(LOG_CH_COMBI_AUDIO_BAPDATA));
+        logNavi = iFrameworkAccess.getLogChannel(CombiLogger.createLogChannelName(LOG_CH_COMBI_NAVI));
+        logNaviBAPData = iFrameworkAccess.getLogChannel(CombiLogger.createLogChannelName(LOG_CH_COMBI_NAVI_BAPDATA));
+        logNaviFrequent = iFrameworkAccess.getLogChannel(CombiLogger.createLogChannelName(LOG_CH_COMBI_NAVI_FREQUENT));
+        logPhone = iFrameworkAccess.getLogChannel(CombiLogger.createLogChannelName(LOG_CH_COMBI_PHONE));
+        logPhoneBAPData = iFrameworkAccess.getLogChannel(CombiLogger.createLogChannelName(LOG_CH_COMBI_PHONE_BAPDATA));
+        logPhone2 = iFrameworkAccess.getLogChannel(CombiLogger.createLogChannelName(LOG_CH_COMBI_PHONE2));
+        logPhone2BAPData = iFrameworkAccess.getLogChannel(CombiLogger.createLogChannelName(LOG_CH_COMBI_PHONE2_BAPDATA));
+        logMFL = iFrameworkAccess.getLogChannel(CombiLogger.createLogChannelName(LOG_CH_COMBI_MFL));
+        logMFLBAPData = iFrameworkAccess.getLogChannel(CombiLogger.createLogChannelName(LOG_CH_COMBI_MFL_BAPDATA));
+        logStatistics = iFrameworkAccess.getLogChannel(CombiLogger.createLogChannelName(LOG_CH_COMBI_STATISTICS));
+        logPicServer = iFrameworkAccess.getLogChannel(CombiLogger.createLogChannelName(LOG_CH_COMBI_PICTURE_SERVER));
+        logPicServerDSI = iFrameworkAccess.getLogChannel(CombiLogger.createLogChannelName(LOG_CH_COMBI_PICTURE_SERVER_DSI));
+        logFastList = iFrameworkAccess.getLogChannel(CombiLogger.createLogChannelName(LOG_CH_COMBI_FASTLIST));
+        logFastListDSI = iFrameworkAccess.getLogChannel(CombiLogger.createLogChannelName(LOG_CH_COMBI_FASTLIST_DSI));
     }
 
-    @Override
     public LogChannel getLog(int n) {
         LogChannel logChannel;
         switch (n) {
@@ -99,7 +98,6 @@ extends AbstractBAPLogger {
         return logChannel;
     }
 
-    @Override
     public LogChannel getLogBAPData(int n) {
         LogChannel logChannel;
         switch (n) {

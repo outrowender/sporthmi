@@ -7,10 +7,8 @@ import de.audi.app.terminalmode.events.IEventListener;
 
 public interface IEventBus
 extends IEventListener {
-    default public boolean registerListener(IEventListener iEventListener) {
-    }
+    public boolean registerListener(IEventListener var1);
 
-    default public boolean unregisterListener(IEventListener iEventListener) {
-    }
+    public boolean unregisterListener(IEventListener var1);
 }
 

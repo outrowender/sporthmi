@@ -19,22 +19,16 @@ extends AbstractMediaListRow {
         super(abstractMediaPlayViewListRow);
     }
 
-    public abstract void setTime(PlayTime playTime) {
-    }
+    public abstract void setTime(PlayTime var1);
 
-    public abstract void setPlaying(boolean bl) {
-    }
+    public abstract void setPlaying(boolean var1);
 
-    public abstract void setDetailInfos(MediaDetailInfo mediaDetailInfo) {
-    }
+    public abstract void setDetailInfos(MediaDetailInfo var1);
 
-    public abstract void setCoverArt(ResourceLocator resourceLocator) {
-    }
+    public abstract void setCoverArt(ResourceLocator var1);
 
-    public abstract I18NString getTitle() {
-    }
+    public abstract I18NString getTitle();
 
-    @Override
     public boolean isEnabled() {
         return false;
     }

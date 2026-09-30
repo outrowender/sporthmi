@@ -20,9 +20,8 @@ extends AbstractAddressInputScreenWorkFlowManagerNAR {
         super(navigationEnv, iCommandListFactory, spellerStack);
     }
 
-    @Override
     public CommandList handleWorkFlow(CommandList commandList, int n) {
-        this.logChannel.log(-2137614336, "%1#handleWorkFlow - screenEventId=%2", (Object)this.CLASS_NAME, (long)n);
+        this.logChannel.log(10000000, "%1#handleWorkFlow - screenEventId=%2", (Object)this.CLASS_NAME, (long)n);
         switch (n) {
             case 30603: {
                 this.createNarHousenumberFirstScreenListElementSelectedWorkFlow(commandList);
@@ -37,21 +36,21 @@ extends AbstractAddressInputScreenWorkFlowManagerNAR {
                 break;
             }
             default: {
-                this.logChannel.log(-2137614336, "%1#handleWorkFlow - screenEventId %2 is in range of housenumber matchspeller screen but not known as valid id.", (Object)this.CLASS_NAME, (long)n);
+                this.logChannel.log(10000000, "%1#handleWorkFlow - screenEventId %2 is in range of housenumber matchspeller screen but not known as valid id.", (Object)this.CLASS_NAME, (long)n);
             }
         }
         return commandList;
     }
 
     private void createNarHousenumberScreenIgnoreHousenumberSelectedWorkFlow(CommandList commandList) {
-        this.logChannel.log(-2137614336, "%1#createNarHousenumberScreenIgnoreHousenumberSelectedWorkFlow()", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#createNarHousenumberScreenIgnoreHousenumberSelectedWorkFlow()", (Object)this.CLASS_NAME);
         while (this.spellerStack.getActiveSC().getContextID() == 70) {
             this.spellerStack.pop();
         }
     }
 
     private void createNarHousenumberScreenListElementSelectedWorkFlow(CommandList commandList) {
-        this.logChannel.log(-2137614336, "%1#createNarHousenumberScreenListElementSelectedWorkFlow()", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#createNarHousenumberScreenListElementSelectedWorkFlow()", (Object)this.CLASS_NAME);
         commandList.add(0, new LIGetStateCommand(this.spellerStack, new SpellerContext(70)));
     }
 
@@ -61,7 +60,7 @@ extends AbstractAddressInputScreenWorkFlowManagerNAR {
         SpellerContext spellerContext = SpellerContextManager.getSpellerContext(65);
         commandList.add(new LIGetStateCommand(this.spellerStack, null, -1, new IAdditionalStateInfo[]{saveHousenumberFirstValueStateInfo}, spellerContext, null));
         commandList.add(this.inputManager.getStreetScreenListener().getStartCommandList());
-        this.logChannel.log(-2137614336, "%1#createNarHousenumberFirstScreenListElementSelectedWorkFlow", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#createNarHousenumberFirstScreenListElementSelectedWorkFlow", (Object)this.CLASS_NAME);
     }
 }
 

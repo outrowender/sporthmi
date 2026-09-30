@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package de.audi.atip.data.exchange;
 
@@ -12,31 +9,31 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class ExchangeRecord
 implements ExchangeRecordComparable {
-    public static final int TYPE_UNDEF;
-    public static final int TYPE_BOOLEAN;
-    public static final int TYPE_BYTE;
-    public static final int TYPE_SHORT;
-    public static final int TYPE_INTEGER;
-    public static final int TYPE_LONG;
-    public static final int TYPE_FLOAT;
-    public static final int TYPE_DOUBLE;
-    public static final int TYPE_STRING;
-    public static final int TYPE_STRING_NULL;
-    static final int COL_COUNT;
-    static final int COL_APP;
-    static final int COL_KEY;
-    static final int COL_VERSION;
-    static final int COL_TYPE;
-    static final int COL_VALUE;
+    public static final int TYPE_UNDEF = -1;
+    public static final int TYPE_BOOLEAN = 0;
+    public static final int TYPE_BYTE = 1;
+    public static final int TYPE_SHORT = 2;
+    public static final int TYPE_INTEGER = 3;
+    public static final int TYPE_LONG = 4;
+    public static final int TYPE_FLOAT = 5;
+    public static final int TYPE_DOUBLE = 6;
+    public static final int TYPE_STRING = 7;
+    public static final int TYPE_STRING_NULL = 8;
+    static final int COL_COUNT = 5;
+    static final int COL_APP = 0;
+    static final int COL_KEY = 1;
+    static final int COL_VERSION = 2;
+    static final int COL_TYPE = 3;
+    static final int COL_VALUE = 4;
     private final int app;
     final int key;
     private final int version;
     private final int datatype;
     private final Object value;
 
-    public ExchangeRecord(String[] stringArray) {
+    public ExchangeRecord(String[] stringArray) throws IllegalArgumentException, WrongDataTypeException {
         if (stringArray.length != 5) {
-            throw new IllegalArgumentException(new StringBuffer().append("Expected 5 numer of values, but was ").append(stringArray.length).toString());
+            throw new IllegalArgumentException("Expected 5 numer of values, but was " + stringArray.length);
         }
         this.app = Integer.parseInt(stringArray[0]);
         this.key = Integer.parseInt(stringArray[1]);
@@ -70,7 +67,7 @@ implements ExchangeRecordComparable {
                     break;
                 }
                 case 6: {
-                    this.value = Double.valueOf((String)string);
+                    this.value = Double.valueOf(string);
                     break;
                 }
                 case 7: {
@@ -82,7 +79,7 @@ implements ExchangeRecordComparable {
                     break;
                 }
                 default: {
-                    throw new WrongDataTypeException(new StringBuffer().append("Unknown data type ").append(this.getDatatype()).toString());
+                    throw new WrongDataTypeException("Unknown data type " + this.getDatatype());
                 }
             }
         }
@@ -207,13 +204,11 @@ implements ExchangeRecordComparable {
         return this.key;
     }
 
-    @Override
     public int compareTo(Object object) {
         int n = ((ExchangeRecordComparable)object).getKey();
         return this.key - n;
     }
 
-    @Override
     public int getKey() {
         return this.key;
     }

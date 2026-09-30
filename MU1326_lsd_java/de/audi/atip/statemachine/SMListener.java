@@ -4,10 +4,8 @@
 package de.audi.atip.statemachine;
 
 public interface SMListener {
-    default public void smModuleRegistered(int n, int n2, int n3) {
-    }
+    public void smModuleRegistered(int var1, int var2, int var3);
 
-    default public void smModuleUnregistered(int n, int n2, int n3) {
-    }
+    public void smModuleUnregistered(int var1, int var2, int var3);
 }
 

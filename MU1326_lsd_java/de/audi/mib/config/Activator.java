@@ -15,7 +15,6 @@ extends AbstractActivator {
     private LogChannel lc;
     static /* synthetic */ Class class$de$audi$atip$sysapp$carcoding$ISysConstManager;
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         this.lc = this.framework.getLogChannel("Fw.Config.Mngr");
@@ -24,8 +23,8 @@ extends AbstractActivator {
     }
 
     private boolean isScale() {
-        String string = this.readString(-1945800920, 12, "FMU-HS-TND-EU-AU-MQB");
-        this.lc.log(-2137614336, "ATIPConfigEvoHighScaleActivator#readVersionInfo: %1 )", (Object)string);
+        String string = this.readString(678364556, 12, "FMU-HS-TND-EU-AU-MQB");
+        this.lc.log(10000000, "ATIPConfigEvoHighScaleActivator#readVersionInfo: %1 )", (Object)string);
         return string.indexOf("-HS-") >= 0;
     }
 

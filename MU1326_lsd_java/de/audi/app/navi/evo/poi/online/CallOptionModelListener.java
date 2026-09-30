@@ -21,18 +21,17 @@ extends AbstractOnlineSearchOptionModelListener {
         super(logChannel, navigationEnv, onlineSearchSequence, onlineSearchForm);
         this.onlineSearchForm = onlineSearchForm;
         this.sdsController = iSDSController;
-        navigationEnv.getHMIService().getOptionModel(1830684160).setListener(this, -367262208);
+        navigationEnv.getHMIService().getOptionModel(401005).setListener(this, 400618);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3, int n4, int n5) {
-        this.logChannel.log(1078071040, "CallOptionModelListener#keyPressed(NAV_ONLINE_INPUT_COMPLETED_CALL_NUMBER_OPTION): selected");
-        ListModelApp listModelApp = this.env.getListModel(-367262208);
+        this.logChannel.log(1000000, "CallOptionModelListener#keyPressed(NAV_ONLINE_INPUT_COMPLETED_CALL_NUMBER_OPTION): selected");
+        ListModelApp listModelApp = this.env.getListModel(400618);
         String string = ((TextListCell)listModelApp.getCell(n3, 0)).getText();
         String string2 = ((TextListCell)listModelApp.getCell(n3, 11)).getText();
         this.sdsController.abortSDSSession(true);
         if (this.onlineSearchForm.dialNumber(string, string2)) {
-            this.logChannel.log(-2137614336, "CallOptionModelListener#keyPressed(): Fire model event, modelID: %1", (long)n);
+            this.logChannel.log(10000000, "CallOptionModelListener#keyPressed(): Fire model event, modelID: %1", (long)n);
             this.env.fireModelEvent(n, n5);
         }
     }

@@ -30,7 +30,6 @@ extends GetArrayIndicationBAP {
         this.bapFunction.finishGetArrayIndicationWithError(n);
     }
 
-    @Override
     public int hashCode() {
         int n = super.hashCode();
         n = 31 * n + this.elementType;
@@ -38,7 +37,6 @@ extends GetArrayIndicationBAP {
         return n;
     }
 
-    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -46,7 +44,7 @@ extends GetArrayIndicationBAP {
         if (!super.equals(object)) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         GetArrayIndicationReceptionList getArrayIndicationReceptionList = (GetArrayIndicationReceptionList)object;

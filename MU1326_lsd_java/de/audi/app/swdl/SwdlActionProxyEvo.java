@@ -20,7 +20,6 @@ implements SWDLActionProxy {
         super(swdlEnv, hMISwitcher, abstractSwdlJoinedDownloadState, abstractPopupManager, swdlDSIHandlerDeviceInfo, swdlDSIHandlerProgress, abstractSwdlTextFactory);
     }
 
-    @Override
     public void interruptRSUDownload(int n) {
     }
 }

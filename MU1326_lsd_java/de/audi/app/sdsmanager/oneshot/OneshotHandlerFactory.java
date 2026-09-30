@@ -5,6 +5,7 @@ package de.audi.app.sdsmanager.oneshot;
 
 import de.audi.app.sdsmanager.common.Logger;
 import de.audi.app.sdsmanager.nbest.IPicklist;
+import de.audi.app.sdsmanager.oneshot.IOneshotPicklistHandling;
 import de.audi.app.sdsmanager.oneshot.MediaG2POneshotHandler;
 import de.audi.app.sdsmanager.oneshot.NaviOneshotHandler;
 import de.audi.app.sdsmanager.oneshot.OneshotDestinationTypeMapperJP;
@@ -13,7 +14,6 @@ import de.audi.app.sdsmanager.oneshot.OneshotDestinationTypeMapperMediaG2P;
 import de.audi.app.sdsmanager.oneshot.OneshotDestinationTypeMapperVDE;
 import de.audi.app.sdsmanager.oneshot.OneshotFilterStrategy;
 import de.audi.app.sdsmanager.oneshot.OneshotHandler;
-import de.audi.app.sdsmanager.oneshot.OneshotHandlerFactory$1;
 import de.audi.app.sdsmanager.oneshot.OneshotListModeMapperMediaG2P;
 import de.audi.app.sdsmanager.oneshot.OneshotListModeMapperPoiCity;
 import de.audi.app.sdsmanager.oneshot.OneshotListModeMapperVDE;
@@ -34,7 +34,15 @@ public class OneshotHandlerFactory {
         HMIService hMIService = iFrameworkAccess.getHMIService();
         this.usecases[0] = iFrameworkAccess.isCn() || iFrameworkAccess.isTaiwan() ? new NaviOneshotHandler(hMIService, 3, new OneshotPicklistHandlingCN(hMIService), new OneshotListModeMapperVDEEUNAR(), new OneshotDestinationTypeMapperVDE(), new OneshotFilterStrategy(Logger.getAppNaviLog()), new String[]{"SDS_ONE_SHOT_CITY", "SDS_ONE_SHOT_STREET", "SDS_ONE_SHOT_HOUSENUMBER"}, new int[]{295, 297, 296}) : (iFrameworkAccess.isJp() ? new NaviOneshotHandler(hMIService, 5, new OneshotPicklistHandlingJP(hMIService), new OneshotListModeMapperVDE(), new OneshotDestinationTypeMapperJP(), new OneshotFilterStrategy(Logger.getAppNaviLog()), new String[]{"SDS_ONE_SHOT_PREFECTURE", "SDS_ONE_SHOT_CITY", "SDS_ONE_SHOT_PLACENAME", "SDS_ONE_SHOT_CHOME", "SDS_ONE_SHOT_HOUSENUMBER"}, new int[]{4279, 4278, 4280, 4281, 4282}) : (iFrameworkAccess.isKorea() ? new NaviOneshotHandler(hMIService, 5, new OneshotPicklistHandlingKR(hMIService), new OneshotListModeMapperVDE(), new OneshotDestinationTypeMapperKR(), new OneshotFilterStrategy(Logger.getAppNaviLog()), new String[]{"SDS_ONE_SHOT_PROVINCE", "SDS_ONE_SHOT_CITY", "SDS_ONE_SHOT_SUBMUNICIPALTOWN_AND_STREET", "SDS_ONE_SHOT_VILLAGE_AND_STREET", "SDS_ONE_SHOT_HOUSENUMBER"}, new int[]{4279, 4278, 4280, 4281, 4282}) : new NaviOneshotHandler(hMIService, 3, new OneshotPicklistHandlingVDE(hMIService), new OneshotListModeMapperVDEEUNAR(), new OneshotDestinationTypeMapperVDE(), new OneshotVDEEUNARFilterStrategy(Logger.getAppNaviLog()), new String[]{"SDS_ONE_SHOT_CITY", "SDS_ONE_SHOT_STREET", "SDS_ONE_SHOT_HOUSENUMBER"}, new int[]{295, 297, 296})));
         this.usecases[1] = new NaviOneshotHandler(hMIService, 2, new OneshotPicklistHandlingPOICity(hMIService), new OneshotListModeMapperPoiCity(), new OneshotDestinationTypeMapperVDE(), new OneshotFilterStrategy(Logger.getAppNaviLog()), new String[]{"SDS_ONE_SHOT_CITY", "SDS_ONE_SHOT_STREET", "SDS_ONE_SHOT_HOUSENUMBER"}, new int[]{3936, 295});
-        this.usecases[2] = new MediaG2POneshotHandler(hMIService, 3, new OneshotHandlerFactory$1(this), new OneshotListModeMapperMediaG2P(), new OneshotDestinationTypeMapperMediaG2P(), new OneshotFilterStrategy(Logger.getAppMediaLog()), new int[]{4279, 4278, 4280});
+        this.usecases[2] = new MediaG2POneshotHandler(hMIService, 3, new IOneshotPicklistHandling(){
+
+            public void handlePicklistTitle(int n) {
+            }
+
+            public int getSlotLevelOffset() {
+                return 0;
+            }
+        }, new OneshotListModeMapperMediaG2P(), new OneshotDestinationTypeMapperMediaG2P(), new OneshotFilterStrategy(Logger.getAppMediaLog()), new int[]{4279, 4278, 4280});
         this.usecases[3] = this.usecases[2];
     }
 

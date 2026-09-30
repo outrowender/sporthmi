@@ -21,14 +21,12 @@ implements ServiceTrackerCustomizer {
         super(iTelApplication, "App.Phone.BAP");
     }
 
-    @Override
     public void init() {
         this.bapServiceTracker = new PhoneServiceTracker(this.getApplication().getBundleContext(), this.getBAPServiceClazz().getName(), (ServiceTrackerCustomizer)this, this.log);
         this.bapServiceTracker.openTracker();
         this.getApplication().getGlobalTelephoneStateManager().registerListener(this);
     }
 
-    @Override
     public void deinit() {
         if (this.bapServiceTracker != null) {
             this.bapServiceTracker.closeTracker();
@@ -37,7 +35,6 @@ implements ServiceTrackerCustomizer {
         this.getApplication().getGlobalTelephoneStateManager().removeListener(this);
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         if (serviceReference == null) {
             this.log.log(10000, "AbstractTelBAPPropertyHandler#addingService reference is null");
@@ -56,11 +53,9 @@ implements ServiceTrackerCustomizer {
         return null;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (serviceReference == null) {
             this.log.log(10000, "AbstractTelBAPPropertyHandler#removedService reference is null");
@@ -76,7 +71,6 @@ implements ServiceTrackerCustomizer {
         }
     }
 
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         if (iGlobalTelephoneStateStruct == null) {
             this.log.log(10000, "AbstractTelBAPPropertyHandler#updateGlobalTelephoneStateProperty stateStruct is null");
@@ -103,14 +97,11 @@ implements ServiceTrackerCustomizer {
         return this.combiService;
     }
 
-    protected abstract Class getBAPServiceClazz() {
-    }
+    protected abstract Class getBAPServiceClazz();
 
-    protected abstract boolean doProcessGlobalTelephoneStateUpdate(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
-    }
+    protected abstract boolean doProcessGlobalTelephoneStateUpdate(int var1, IGlobalTelephoneStateStruct var2);
 
-    protected abstract void update() {
-    }
+    protected abstract void update();
 
     public void setTelephoneState(IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         this.telephoneState = iGlobalTelephoneStateStruct;

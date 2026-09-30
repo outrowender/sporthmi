@@ -14,11 +14,9 @@ extends AbstractBAPModuleServiceManager {
         super(abstractBAPModule, bundleContext);
     }
 
-    @Override
     public void registerServices(AbstractActivator abstractActivator) {
     }
 
-    @Override
     public void trackServices() {
     }
 }

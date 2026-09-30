@@ -29,9 +29,8 @@ extends AbstractSystemCallCommand {
         this.source = (byte)Math.max(SDSUtils.retrieveInteger(iSystemCallParameterArray, 0), 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[%1#execute] source=%2", (Object)this.getName(), (long)this.source);
+        this.logger.log(10000000, "[%1#execute] source=%2", (Object)this.getName(), (long)this.source);
         switch (this.source) {
             case 0: {
                 this.selectFavoriteFromNBest();
@@ -42,36 +41,36 @@ extends AbstractSystemCallCommand {
                 return;
             }
         }
-        this.logger.log(-2137614336, "[%1#execute] Unhandled source %2!", (Object)this.getName(), (long)this.source);
-        this.sendResult(1100742656);
+        this.logger.log(10000000, "[%1#execute] Unhandled source %2!", (Object)this.getName(), (long)this.source);
+        this.sendResult(40001);
     }
 
     private void selectFavoriteFromLine() {
-        this.logger.log(-2137614336, "[%1#selectFavoriteFromLine] called", (Object)this.getName());
+        this.logger.log(10000000, "[%1#selectFavoriteFromLine] called", (Object)this.getName());
         int n = SDSModelAccess.getEnumerationNumberStatus();
         if (n == -1) {
-            this.sendResult(1201405952);
+            this.sendResult(40007);
             return;
         }
-        this.logger.log(-2137614336, "[%1#selectFavoriteFromLine] index of selected favorite=%2", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "[%1#selectFavoriteFromLine] index of selected favorite=%2", (Object)this.getName(), (long)n);
         SDSModelAccess.setListLineDataGetModel(this.sdsHandler.getFavoriteDestinationByIndex(n));
         this.sdsHandler.setSDSAddressInputMode((byte)3);
         this.naviService.setFavoriteDestinationByIndex(n);
     }
 
     private void selectFavoriteFromNBest() {
-        this.logger.log(-2137614336, "[%1#selectFavoriteFromNBest] called", (Object)this.getName());
+        this.logger.log(10000000, "[%1#selectFavoriteFromNBest] called", (Object)this.getName());
         long l = SDSUtils.getSelectedObjectId(this.nBestStorage, this.logger, 0);
-        this.logger.log(-2137614336, "[%1#selectFavoriteFromNBest] id of selected favorite=%2", (Object)this.getName(), l);
+        this.logger.log(10000000, "[%1#selectFavoriteFromNBest] id of selected favorite=%2", (Object)this.getName(), l);
         SDSModelAccess.setListLineDataGetModel(this.sdsHandler.getFavoriteDestination(l));
         this.sdsHandler.setSDSAddressInputMode((byte)3);
         this.naviService.setFavoriteDestinationById(l);
     }
 
     public void responseFavoriteDestinationSet(byte by) {
-        this.logger.log(-2137614336, "[%1#responseFavoriteDestinationSet] result=%2", (Object)this.getName(), (long)by);
+        this.logger.log(10000000, "[%1#responseFavoriteDestinationSet] result=%2", (Object)this.getName(), (long)by);
         int n = NaviSDSUtils.getSDSResult(by);
-        this.logger.log(-2137614336, "[%1#responseFavoriteDestinationSet] sdsRes=%2!", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "[%1#responseFavoriteDestinationSet] sdsRes=%2!", (Object)this.getName(), (long)n);
         this.sendResult(n);
     }
 }

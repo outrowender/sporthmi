@@ -50,7 +50,7 @@ implements ServiceTrackerCustomizer {
                 this.service.activateDevice(terminalModeDevice);
             }
         } else {
-            this.log.log(-1601830656, "TerminalModeProxy#activateSmartphone(): no ITerminalModeUpdateService available");
+            this.log.log(100000, "TerminalModeProxy#activateSmartphone(): no ITerminalModeUpdateService available");
         }
     }
 
@@ -65,7 +65,7 @@ implements ServiceTrackerCustomizer {
                 this.service.deactivateDevice(terminalModeDevice);
             }
         } else {
-            this.log.log(-1601830656, "TerminalModeProxy#deactivateSmartphone(): no ITerminalModeUpdateService available");
+            this.log.log(100000, "TerminalModeProxy#deactivateSmartphone(): no ITerminalModeUpdateService available");
         }
     }
 
@@ -83,16 +83,15 @@ implements ServiceTrackerCustomizer {
                 }
             }
         } else {
-            this.log.log(-1601830656, "TerminalModeProxy#deleteSmartphone(): no ITerminalModeUpdateService available");
+            this.log.log(100000, "TerminalModeProxy#deleteSmartphone(): no ITerminalModeUpdateService available");
         }
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateDeviceList(TerminalModeDevice[] terminalModeDeviceArray) {
-        this.log.log(1078071040, "TerminalModeProxy#updateDeviceList(): pDeviceList=%1", (Object)StringUtils.toString(terminalModeDeviceArray));
+        this.log.log(1000000, "TerminalModeProxy#updateDeviceList(): pDeviceList=%1", (Object)StringUtils.toString(terminalModeDeviceArray));
         if (terminalModeDeviceArray != null) {
             Map map = this.smartphones;
             synchronized (map) {
@@ -111,7 +110,6 @@ implements ServiceTrackerCustomizer {
         }
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof ITerminalModeUpdateService) {
@@ -121,7 +119,6 @@ implements ServiceTrackerCustomizer {
         return null;
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof ITerminalModeUpdateService) {
             this.service = null;
@@ -129,7 +126,6 @@ implements ServiceTrackerCustomizer {
         }
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
         if (object instanceof ITerminalModeUpdateService) {
             this.service = (ITerminalModeUpdateService)object;

@@ -9,67 +9,46 @@ import de.audi.atip.interapp.bap.ecall.data.PhoneCall;
 import de.audi.atip.interapp.phone.ITelState;
 
 public interface IEcallStateStruct {
-    default public int getBapAudioSource() {
-    }
+    public int getBapAudioSource();
 
-    default public PendingServiceRequests getPendingServiceCalls() {
-    }
+    public PendingServiceRequests getPendingServiceCalls();
 
-    default public int getServiceCallKind() {
-    }
+    public int getServiceCallKind();
 
-    default public int getServiceState() {
-    }
+    public int getServiceState();
 
-    default public PhoneCall[] getPhoneCalls() {
-    }
+    public PhoneCall[] getPhoneCalls();
 
-    default public PhoneCall getCurrentPhoneCall() {
-    }
+    public PhoneCall getCurrentPhoneCall();
 
-    default public PhoneCall getCurrentPhoneCallByKind(int n) {
-    }
+    public PhoneCall getCurrentPhoneCallByKind(int var1);
 
-    default public PhoneCall getCurrentHighPriorityPhoneCall() {
-    }
+    public PhoneCall getCurrentHighPriorityPhoneCall();
 
-    default public ITelState getCustomerTelState() {
-    }
+    public ITelState getCustomerTelState();
 
-    default public String getEmergencyNumberToBeDialed() {
-    }
+    public String getEmergencyNumberToBeDialed();
 
-    default public EmergencyNumber[] getAllowedEmergencyNumbersList() {
-    }
+    public EmergencyNumber[] getAllowedEmergencyNumbersList();
 
-    default public boolean isUSMRequestPresent() {
-    }
+    public boolean isUSMRequestPresent();
 
-    default public boolean getCustomerCallActive() {
-    }
+    public boolean getCustomerCallActive();
 
-    default public boolean isActiveCustomerCallPresent() {
-    }
+    public boolean isActiveCustomerCallPresent();
 
-    default public boolean isCallActive() {
-    }
+    public boolean isCallActive();
 
-    default public boolean isCallActive(int n) {
-    }
+    public boolean isCallActive(int var1);
 
-    default public boolean isServiceActive() {
-    }
+    public boolean isServiceActive();
 
-    default public boolean isEmergencyConnecting() {
-    }
+    public boolean isEmergencyConnecting();
 
-    default public boolean isEmergencyConnected() {
-    }
+    public boolean isEmergencyConnected();
 
-    default public boolean isEmergencyCallBackIncoming() {
-    }
+    public boolean isEmergencyCallBackIncoming();
 
-    default public boolean isServiceIDLE() {
-    }
+    public boolean isServiceIDLE();
 }
 

@@ -15,9 +15,8 @@ extends AbstractAddressInputScreenWorkFlowManagerEU {
         super(navigationEnv, iCommandListFactory, spellerStack);
     }
 
-    @Override
     public CommandList handleWorkFlow(CommandList commandList, int n) {
-        this.logChannel.log(-2137614336, "%1#handleWorkFlow - screenEventId=%2", (Object)this.CLASS_NAME, (long)n);
+        this.logChannel.log(10000000, "%1#handleWorkFlow - screenEventId=%2", (Object)this.CLASS_NAME, (long)n);
         switch (n) {
             case 102: {
                 this.createEuCountryScreenListElementSelectedWorkFlow(commandList);
@@ -31,7 +30,7 @@ extends AbstractAddressInputScreenWorkFlowManagerEU {
     }
 
     private void createEuCountryScreenListElementSelectedWorkFlow(CommandList commandList) {
-        this.logChannel.log(-2137614336, "%1#createEuCountryScreenListElementSelectedWorkFlow", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#createEuCountryScreenListElementSelectedWorkFlow", (Object)this.CLASS_NAME);
         this.spellerStack.pop();
     }
 }

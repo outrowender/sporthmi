@@ -18,9 +18,8 @@ extends AbstractADBCommand {
         this.limit = n;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "SetMaxLocalEntriesCommand#execute()");
+        this.logger.log(10000000, "SetMaxLocalEntriesCommand#execute()");
         boolean bl = this.adbDSIAccess.setMaxLocalEntries(this.limit);
         if (!bl) {
             this.logger.log(10000, "SetMaxLocalEntriesCommand#execute(): dsi call was not successful, finishing command.");
@@ -28,9 +27,8 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public void setMaxLocalEntriesResult(int n) {
-        this.logger.log(-2137614336, "SetMaxLocalEntriesCommand#setMaxLocalEntriesResult(): %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
+        this.logger.log(10000000, "SetMaxLocalEntriesCommand#setMaxLocalEntriesResult(): %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
         this.commandList.commandFinished();
     }
 

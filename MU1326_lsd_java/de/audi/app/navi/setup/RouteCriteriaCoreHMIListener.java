@@ -26,65 +26,59 @@ ListListener {
 
     protected void setListeners() {
         this.configureWayChoiceBitMask();
-        this.env.getChoiceModel(874317312).setChoiceListener(this);
-        this.env.getChoiceModel(907871744).setChoiceListener(this);
-        this.env.getChoiceModel(823985664).setChoiceListener(this);
-        this.env.getChoiceModel(891094528).setChoiceListener(this);
-        this.env.getChoiceModel(790431232).setChoiceListener(this);
-        this.env.getChoiceModel(1042089472).setChoiceListener(this);
-        this.env.getChoiceModel(924648960).setChoiceListener(this);
-        this.env.getChoiceModel(1025312256).setChoiceListener(this);
-        this.env.getChoiceModel(857540096).setChoiceListener(this);
+        this.env.getChoiceModel(400692).setChoiceListener(this);
+        this.env.getChoiceModel(400694).setChoiceListener(this);
+        this.env.getChoiceModel(400689).setChoiceListener(this);
+        this.env.getChoiceModel(400693).setChoiceListener(this);
+        this.env.getChoiceModel(400687).setChoiceListener(this);
+        this.env.getChoiceModel(400702).setChoiceListener(this);
+        this.env.getChoiceModel(400695).setChoiceListener(this);
+        this.env.getChoiceModel(400701).setChoiceListener(this);
+        this.env.getChoiceModel(400691).setChoiceListener(this);
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
-        this.env.getLogChannel().log(-2137614336, "RouteCriteriaCoreHMIListener#itemSelected(%1,%2)", (long)n, (long)n2);
-        if (n == 874317312) {
+        this.env.getLogChannel().log(10000000, "RouteCriteriaCoreHMIListener#itemSelected(%1,%2)", (long)n, (long)n2);
+        if (n == 400692) {
             this.tollSelected(n2);
-        } else if (n == 924648960) {
+        } else if (n == 400695) {
             this.vignetteSelected(n2);
-        } else if (n == 857540096) {
+        } else if (n == 400691) {
             this.hovLanesSelected(n2);
-        } else if (n == 1025312256) {
+        } else if (n == 400701) {
             this.routeOptionSelected(n2);
-        } else if (n == 907871744) {
+        } else if (n == 400694) {
             this.tunnelSelected(n2);
-        } else if (n == 823985664) {
+        } else if (n == 400689) {
             this.ferrySelected(n2);
-        } else if (n == 891094528) {
+        } else if (n == 400693) {
             this.railSelected(n2);
-        } else if (n == 790431232) {
+        } else if (n == 400687) {
             this.timerestrictedSelected(n2);
-        } else if (n == 1042089472) {
+        } else if (n == 400702) {
             this.seasonalRestrictedSelected(n2);
         }
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
-        this.env.getLogChannel().log(-2137614336, "RouteCriteriaHMIListener#keyPressed - modelID - %1 for keyID - %2", (long)n, (long)n2);
+        this.env.getLogChannel().log(10000000, "RouteCriteriaHMIListener#keyPressed - modelID - %1 for keyID - %2", (long)n, (long)n2);
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
-        this.env.getLogChannel().log(-2137614336, "RouteCriteriaHMIListener#keyReleased - modelID - %1 for keyID - %2", (long)n, (long)n2);
+        this.env.getLogChannel().log(10000000, "RouteCriteriaHMIListener#keyReleased - modelID - %1 for keyID - %2", (long)n, (long)n2);
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void itemReleased(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 
     protected void seasonalRestrictedSelected(int n) {
-        this.env.getChoiceModel(1042089472).setValue(n);
+        this.env.getChoiceModel(400702).setValue(n);
     }
 
     protected void routeOptionSelected(int n) {
@@ -101,9 +95,9 @@ ListListener {
             this.sequence.setTollRoads(1);
             this.sequence.setRouteOption(5);
         } else {
-            this.env.getLogChannel().log(-2137614336, "RouteCriteriaHMIListener#routeOptionSelected - invalid itemID - %1", (long)n);
+            this.env.getLogChannel().log(10000000, "RouteCriteriaHMIListener#routeOptionSelected - invalid itemID - %1", (long)n);
         }
-        this.env.getChoiceModel(1025312256).setValue(n);
+        this.env.getChoiceModel(400701).setValue(n);
     }
 
     protected void timerestrictedSelected(int n) {
@@ -114,9 +108,9 @@ ListListener {
         } else if (n == 0) {
             this.sequence.setTimeRestrictedRoads(3);
         } else {
-            this.env.getLogChannel().log(-2137614336, "RouteCriteriaHMIListener#timerestrictedSelected - invalid itemID - %1", (long)n);
+            this.env.getLogChannel().log(10000000, "RouteCriteriaHMIListener#timerestrictedSelected - invalid itemID - %1", (long)n);
         }
-        this.env.getChoiceModel(790431232).setValue(n);
+        this.env.getChoiceModel(400687).setValue(n);
     }
 
     protected void railSelected(int n) {
@@ -125,9 +119,9 @@ ListListener {
         } else if (n == 1) {
             this.sequence.setMotorrail(2);
         } else {
-            this.env.getLogChannel().log(-2137614336, "RouteCriteriaHMIListener#railSelected - invalid itemID - %1", (long)n);
+            this.env.getLogChannel().log(10000000, "RouteCriteriaHMIListener#railSelected - invalid itemID - %1", (long)n);
         }
-        this.env.getChoiceModel(891094528).setValue(n);
+        this.env.getChoiceModel(400693).setValue(n);
     }
 
     protected void ferrySelected(int n) {
@@ -136,9 +130,9 @@ ListListener {
         } else if (n == 1) {
             this.sequence.setFerries(2);
         } else {
-            this.env.getLogChannel().log(-2137614336, "RouteCriteriaHMIListener#ferrySelected - invalid itemID - %1", (long)n);
+            this.env.getLogChannel().log(10000000, "RouteCriteriaHMIListener#ferrySelected - invalid itemID - %1", (long)n);
         }
-        this.env.getChoiceModel(823985664).setValue(n);
+        this.env.getChoiceModel(400689).setValue(n);
     }
 
     protected void ferryRailSelected(int n) {
@@ -149,10 +143,10 @@ ListListener {
             this.sequence.setFerries(2);
             this.sequence.setMotorrail(2);
         } else {
-            this.env.getLogChannel().log(-2137614336, "RouteCriteriaHMIListener#ferrySelected - invalid itemID - %1", (long)n);
+            this.env.getLogChannel().log(10000000, "RouteCriteriaHMIListener#ferrySelected - invalid itemID - %1", (long)n);
         }
-        this.env.getChoiceModel(891094528).setValue(n);
-        this.env.getChoiceModel(823985664).setValue(n);
+        this.env.getChoiceModel(400693).setValue(n);
+        this.env.getChoiceModel(400689).setValue(n);
     }
 
     protected void tunnelSelected(int n) {
@@ -161,9 +155,9 @@ ListListener {
         } else if (n == 1) {
             this.sequence.setTunnels(2);
         } else {
-            this.env.getLogChannel().log(-2137614336, "RouteCriteriaHMIListener#itemSelected - invalid itemID - %1", (long)n);
+            this.env.getLogChannel().log(10000000, "RouteCriteriaHMIListener#itemSelected - invalid itemID - %1", (long)n);
         }
-        this.env.getChoiceModel(907871744).setValue(n);
+        this.env.getChoiceModel(400694).setValue(n);
     }
 
     protected void vignetteSelected(int n) {
@@ -172,9 +166,9 @@ ListListener {
         } else if (n == 1) {
             this.sequence.setVignettes(2);
         } else {
-            this.env.getLogChannel().log(-2137614336, "RouteCriteriaHMIListener#vignetteSelected - invalid itemID - %1", (long)n);
+            this.env.getLogChannel().log(10000000, "RouteCriteriaHMIListener#vignetteSelected - invalid itemID - %1", (long)n);
         }
-        this.env.getChoiceModel(924648960).setValue(n);
+        this.env.getChoiceModel(400695).setValue(n);
     }
 
     protected void hovLanesSelected(int n) {
@@ -183,9 +177,9 @@ ListListener {
         } else if (n == 1) {
             this.sequence.setHovLanes(2);
         } else {
-            this.env.getLogChannel().log(-2137614336, "RouteCriteriaHMIListener#hovLanesSelected - invalid itemID - %1", (long)n);
+            this.env.getLogChannel().log(10000000, "RouteCriteriaHMIListener#hovLanesSelected - invalid itemID - %1", (long)n);
         }
-        this.env.getChoiceModel(857540096).setValue(n);
+        this.env.getChoiceModel(400691).setValue(n);
     }
 
     protected void tollSelected(int n) {
@@ -194,19 +188,19 @@ ListListener {
         } else if (n == 1) {
             this.sequence.setTollRoads(2);
         } else {
-            this.env.getLogChannel().log(-2137614336, "RouteCriteriaHMIListener#tollSelected - invalid itemID - %1", (long)n);
+            this.env.getLogChannel().log(10000000, "RouteCriteriaHMIListener#tollSelected - invalid itemID - %1", (long)n);
         }
         if (this.isTollalsoTogglingVignettes()) {
             this.vignetteSelected(n);
         }
-        this.env.getChoiceModel(874317312).setValue(n);
+        this.env.getChoiceModel(400692).setValue(n);
     }
 
     protected void configureWayChoiceBitMask() {
         if (!Util.isHURegionAsia()) {
             return;
         }
-        ChoiceModelApp choiceModelApp = this.env.getChoiceModel(1025312256);
+        ChoiceModelApp choiceModelApp = this.env.getChoiceModel(400701);
         choiceModelApp.resetHints();
         if (Util.isHURegionJP() || Util.isHURegionKR()) {
             choiceModelApp.addHint(56);
@@ -217,11 +211,10 @@ ListListener {
 
     private void initTrailerModeAvailableModel() {
         int n = this.isTrailerModeAvailable() ? 1 : 0;
-        this.env.getChoiceModel(0x66220600).setValue(n);
+        this.env.getChoiceModel(402022).setValue(n);
     }
 
-    protected abstract boolean isTrailerModeAvailable() {
-    }
+    protected abstract boolean isTrailerModeAvailable();
 
     protected boolean isTollalsoTogglingVignettes() {
         return false;

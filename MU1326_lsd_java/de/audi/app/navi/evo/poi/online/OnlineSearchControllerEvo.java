@@ -57,7 +57,7 @@ extends OnlineSearchController {
     public OnlineSearchControllerEvo(NavigationEnv navigationEnv, IconHandler iconHandler, LogChannel logChannel, IStartGuidanceToDestinationSequence iStartGuidanceToDestinationSequence, ISDSController iSDSController, NavigationBrowser navigationBrowser, NaviADBHandler naviADBHandler, ICommandListFactory iCommandListFactory, IAddressInputForm iAddressInputForm) {
         super(logChannel);
         this.naviCommandListFactory = iCommandListFactory;
-        logChannel.log(1078071040, "OnlineSearchControllerEvo()");
+        logChannel.log(1000000, "OnlineSearchControllerEvo()");
         this.env = navigationEnv;
         this.iconHandler = iconHandler;
         this.sdsController = iSDSController;
@@ -67,9 +67,8 @@ extends OnlineSearchController {
         this.inputForm = iAddressInputForm;
     }
 
-    @Override
     public void init(IPreviewMap iPreviewMap, IVehicle iVehicle, ITelServiceController iTelServiceController, IRouteManager iRouteManager, IRRDListener iRRDListener, NaviFavoriteHandler naviFavoriteHandler, IPoiService iPoiService, HomeAddressHandler homeAddressHandler) {
-        this.logger.log(1078071040, "OnlineSearchControllerEvo#init()");
+        this.logger.log(1000000, "OnlineSearchControllerEvo#init()");
         PoiOnlineSearchArea poiOnlineSearchArea = new PoiOnlineSearchArea(this.logger);
         this.sequence = new OnlineSearchSequence(iVehicle, this.logger, this.env.getFramework(), poiOnlineSearchArea, iPreviewMap, this.naviCommandListFactory, iRouteManager, this.env);
         this.form = new OnlineSearchForm(this.env, this.sequence, this.iconHandler, iVehicle, this.startGuidanceToDestinationSequence, this.sdsController, iTelServiceController, iPreviewMap, this.navigationBrowser, this.naviAdbHandler, this.inputForm, iRRDListener, iRouteManager, homeAddressHandler);
@@ -93,16 +92,14 @@ extends OnlineSearchController {
         this.form.startSearch(string, true);
     }
 
-    @Override
     public OnlineSDSSearchSequence getSDS() {
         return this.sdsSequence;
     }
 
-    @Override
     public void updateRgActive(boolean bl) {
         Object object;
         int n;
-        this.logger.log(1078071040, new StringBuffer().append("OnlineSearchController#updateRGActive() rgActive: ").append(bl).toString());
+        this.logger.log(1000000, "OnlineSearchController#updateRGActive() rgActive: " + bl);
         if (!(bl || (n = ((PoiOnlineSearchArea)(object = this.sequence.getSearchContext().getSearchArea())).getSearchContext()) != 1 && n != 2)) {
             this.sequence.setSearchArea(0);
         }
@@ -113,7 +110,6 @@ extends OnlineSearchController {
         this.form.updateRGActiveModels(bl, RouteUtil.getNumberOfDestinations((Route)object, 1));
     }
 
-    @Override
     public void resetMemorySettings() {
         this.form.resetMemory();
     }

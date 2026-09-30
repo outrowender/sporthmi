@@ -12,17 +12,13 @@ abstract class Semaphore {
     private String name = null;
     private static long semaphoreHandle = 0L;
 
-    private static native long init(String string, int n) {
-    }
+    private static native long init(String var0, int var1);
 
-    private static native void closeSemaphore(long l) {
-    }
+    private static native void closeSemaphore(long var0);
 
-    private static native boolean waitOnSemaphore(long l) {
-    }
+    private static native boolean waitOnSemaphore(long var0);
 
-    private static native boolean postOnSemaphore(long l) {
-    }
+    private static native boolean postOnSemaphore(long var0);
 
     Semaphore(String string, int n) {
         this.initializeSemaphore(string, n);
@@ -97,7 +93,7 @@ abstract class Semaphore {
         }
     }
 
-    protected void finalize() {
+    protected void finalize() throws Throwable {
         this.close();
     }
 }

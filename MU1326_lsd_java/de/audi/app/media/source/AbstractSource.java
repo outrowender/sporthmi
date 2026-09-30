@@ -19,13 +19,13 @@ import java.util.List;
 public abstract class AbstractSource
 extends AbstractMediaTerminalComponent
 implements ISource {
-    private static final String LOGCLASS;
-    protected static final int STATE_INACTIVE;
-    protected static final int STATE_ACTIVE;
-    protected static final int STATE_DEVICE_ACTIVATED;
-    protected static final int CLAMP_S_STATE_UNDEFINED;
-    protected static final int CLAMP_S_STATE_OFF;
-    protected static final int CLAMP_S_STATE_ON;
+    private static final String LOGCLASS = "AbstractSource";
+    protected static final int STATE_INACTIVE = 0;
+    protected static final int STATE_ACTIVE = 1;
+    protected static final int STATE_DEVICE_ACTIVATED = 2;
+    protected static final int CLAMP_S_STATE_UNDEFINED = 0;
+    protected static final int CLAMP_S_STATE_OFF = 1;
+    protected static final int CLAMP_S_STATE_ON = 2;
     private final Object mutexSourceChangeListener = new Object();
     private final int source;
     private final String srcName;
@@ -42,22 +42,19 @@ implements ISource {
         this.updateTypes = new ArrayList(1);
     }
 
-    protected abstract ISourceSlot getDefaultEmptySlot(int n) {
-    }
+    protected abstract ISourceSlot getDefaultEmptySlot(int var1);
 
-    @Override
     public int getType() {
         return this.source;
     }
 
-    @Override
     public final String getName() {
         return this.srcName;
     }
 
     protected final void setActiveState(int n) {
         if (this.logger.main().isInfo()) {
-            this.logger.main().log(1078071040, "[%1.setActiveState] [%2] '%3'", (Object)"AbstractSource", (Object)this.srcName, (Object)AbstractSource.getActiveSourceStateStr(n));
+            this.logger.main().log(1000000, "[%1.setActiveState] [%2] '%3'", (Object)LOGCLASS, (Object)this.srcName, (Object)AbstractSource.getActiveSourceStateStr(n));
         }
         this.activeState = n;
     }
@@ -66,50 +63,44 @@ implements ISource {
         return this.activeState;
     }
 
-    @Override
     public final boolean isActive() {
         return this.activeState > 0;
     }
 
-    @Override
     public final boolean isDeviceActivated() {
         return this.activeState == 2;
     }
 
-    @Override
     public void deinit() {
     }
 
-    @Override
     public void deactivate(boolean bl) {
-        this.logger.main().log(1078071040, "[%1.deactivate] [%2]", (Object)"AbstractSource", (Object)this);
+        this.logger.main().log(1000000, "[%1.deactivate] [%2]", (Object)LOGCLASS, (Object)this);
         this.setActiveState(0);
     }
 
-    @Override
     public ISourceSlot getSlot(int n) {
         try {
             return (ISourceSlot)this.getSlots().get(n);
         }
         catch (Exception exception) {
-            this.logger.main().log(-1601830656, "[%1.getSlot] [%2] %3", (Object)"AbstractSource", (Object)this, (Object)exception);
-            this.logger.main().log(1078071040, "[%1.getSlot] [%2] Slot '%3' not found: %2", (Object)"AbstractSource", (Object)this, (long)n);
+            this.logger.main().log(100000, "[%1.getSlot] [%2] %3", (Object)LOGCLASS, (Object)this, (Object)exception);
+            this.logger.main().log(1000000, "[%1.getSlot] [%2] Slot '%3' not found: %2", (Object)LOGCLASS, (Object)this, (long)n);
             return this.getDefaultEmptySlot(n);
         }
     }
 
-    @Override
     public ISourceSlot getSlot(ISourceSlot iSourceSlot) {
         try {
             if (iSourceSlot.getSource().getType() != this.getType()) {
-                this.logger.main().log(1078071040, "[%1.getSlot] [%2] Wrong source type", (Object)"AbstractSource", (Object)this);
+                this.logger.main().log(1000000, "[%1.getSlot] [%2] Wrong source type", (Object)LOGCLASS, (Object)this);
                 return null;
             }
             return this.getSlot(iSourceSlot.getIndex());
         }
         catch (Exception exception) {
-            this.logger.main().log(-1601830656, "[%1.getSlot] [%2] %3", (Object)"AbstractSource", (Object)this, (Object)exception);
-            this.logger.main().log(1078071040, "[%1.getSlot] [%2] Slot '%3' not found", (Object)"AbstractSource", (Object)this, (long)iSourceSlot.getIndex());
+            this.logger.main().log(100000, "[%1.getSlot] [%2] %3", (Object)LOGCLASS, (Object)this, (Object)exception);
+            this.logger.main().log(1000000, "[%1.getSlot] [%2] Slot '%3' not found", (Object)LOGCLASS, (Object)this, (long)iSourceSlot.getIndex());
             return this.getDefaultEmptySlot(iSourceSlot.getIndex());
         }
     }
@@ -118,7 +109,6 @@ implements ISource {
         return n >= 0 && list.size() > n;
     }
 
-    @Override
     public final boolean isEmpty() {
         Iterator iterator = this.getSlots().iterator();
         while (iterator.hasNext()) {
@@ -129,7 +119,6 @@ implements ISource {
         return true;
     }
 
-    @Override
     public boolean isAvailable() {
         return this.available;
     }
@@ -149,16 +138,15 @@ implements ISource {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public final void addSourceListener(ISourceListener iSourceListener) {
-        this.logger.main().log(1078071040, "[%1.addSourceListener] [%2] '%3'", (Object)"AbstractSource", (Object)this.getName(), (Object)iSourceListener);
+        this.logger.main().log(1000000, "[%1.addSourceListener] [%2] '%3'", (Object)LOGCLASS, (Object)this.getName(), (Object)iSourceListener);
         if (iSourceListener == null) {
             throw new IllegalArgumentException();
         }
         Object object = this.mutexSourceChangeListener;
         synchronized (object) {
             if (this.registeredSourceListener.contains(iSourceListener)) {
-                this.logger.main().log(1078071040, "[%1.addSourceListener] [%2] Already added.", (Object)"AbstractSource", (Object)this);
+                this.logger.main().log(1000000, "[%1.addSourceListener] [%2] Already added.", (Object)LOGCLASS, (Object)this);
                 return;
             }
             LinkedList linkedList = new LinkedList(this.registeredSourceListener);
@@ -170,9 +158,8 @@ implements ISource {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public final void removeSourceListener(ISourceListener iSourceListener) {
-        this.logger.main().log(1078071040, "[%1.removeSourceListener] [%2] '%3'", (Object)"AbstractSource", (Object)this.getName(), (Object)iSourceListener);
+        this.logger.main().log(1000000, "[%1.removeSourceListener] [%2] '%3'", (Object)LOGCLASS, (Object)this.getName(), (Object)iSourceListener);
         Object object = this.mutexSourceChangeListener;
         synchronized (object) {
             LinkedList linkedList = new LinkedList(this.registeredSourceListener);
@@ -186,21 +173,18 @@ implements ISource {
         return this.registeredSourceListener;
     }
 
-    @Override
     public void addSlotListener(ISourceSlotListener iSourceSlotListener, boolean bl) {
         this.getTerminal().getSourceController().addSourceSlotListener(this, iSourceSlotListener, bl);
     }
 
-    @Override
     public void removeSlotListener(ISourceSlotListener iSourceSlotListener) {
         this.getTerminal().getSourceController().removeSlotListener(this, iSourceSlotListener);
     }
 
-    @Override
     public boolean processSourceStateUpdate(SourceStateUpdate sourceStateUpdate) {
         switch (sourceStateUpdate.getType()) {
             case 2: {
-                this.logger.main().log(-2137614336, "[%1.processSourceStateUpdate] [%2] UPDATE_TYPE_AVAILABILITY available=%3", (Object)"AbstractSource", (Object)this, (Object)((Boolean)sourceStateUpdate.getUpdate()).toString());
+                this.logger.main().log(10000000, "[%1.processSourceStateUpdate] [%2] UPDATE_TYPE_AVAILABILITY available=%3", (Object)LOGCLASS, (Object)this, (Object)((Boolean)sourceStateUpdate.getUpdate()).toString());
                 this.setAvailable((Boolean)sourceStateUpdate.getUpdate());
                 return true;
             }
@@ -208,7 +192,6 @@ implements ISource {
         throw new RuntimeException("Override this method if source specific handling is required");
     }
 
-    @Override
     public Collection getUpdateTypes() {
         return this.updateTypes;
     }
@@ -245,22 +228,18 @@ implements ISource {
         return "UNKNOWN";
     }
 
-    @Override
     public int getSlotNumberByPartition(int n, int n2) {
         return n;
     }
 
-    @Override
     public ISourceSlot getActivatableSlot(ISourceSlot iSourceSlot) {
         return iSourceSlot;
     }
 
-    @Override
     public boolean isLastSelectedSlot(ISourceSlot iSourceSlot) {
         return true;
     }
 
-    @Override
     public int getNumberOfSlots() {
         return this.getSlots().size();
     }

@@ -6,13 +6,10 @@ package de.audi.app.bap.fw.arrays;
 import org.osgi.framework.BundleContext;
 
 public interface IListManager {
-    default public void init(BundleContext bundleContext) {
-    }
+    public void init(BundleContext var1);
 
-    default public void deinit() {
-    }
+    public void deinit();
 
-    default public void setOperationState(int n) {
-    }
+    public void setOperationState(int var1);
 }
 

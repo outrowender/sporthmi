@@ -16,24 +16,24 @@ import org.dsi.ifc.telephoneng.CallStackEntry;
 
 public abstract class AbstractCallStackEntryRow
 extends BaseListRow {
-    protected static final int COL_ID;
-    protected static final int COL_IDX_LLD;
-    protected static final int COL_IDX_ICONID;
-    protected static final int COL_NAME;
-    protected static final int COL_NUMBER;
-    protected static final int COL_DATE;
-    protected static final int COL_TIME;
-    protected static final int COL_IDX_PROPERTIES;
-    protected static final int COL_PHONENUMBERTYPE_ICON;
-    protected static final int COL_TIMESTAMP_AVAILABLE;
-    private static final int LLD_ADBMATCH;
-    private static final int LLD_ADBMATCH_SAME_NAME_NUMBER;
-    private static final int LLD_NO_ADBMATCH;
-    private static final int LLD_NO_ADBMATCH_UNKNOWN_NUMBER;
-    private static final int ICONID_UNDEFINED;
-    private static final int ICONID_CALLSTACK_LD;
-    private static final int ICONID_CALLSTACK_MC;
-    private static final int ICONID_CALLSTACK_RC;
+    protected static final int COL_ID = 0;
+    protected static final int COL_IDX_LLD = 1;
+    protected static final int COL_IDX_ICONID = 2;
+    protected static final int COL_NAME = 3;
+    protected static final int COL_NUMBER = 4;
+    protected static final int COL_DATE = 5;
+    protected static final int COL_TIME = 6;
+    protected static final int COL_IDX_PROPERTIES = 7;
+    protected static final int COL_PHONENUMBERTYPE_ICON = 8;
+    protected static final int COL_TIMESTAMP_AVAILABLE = 9;
+    private static final int LLD_ADBMATCH = 0;
+    private static final int LLD_ADBMATCH_SAME_NAME_NUMBER = 1;
+    private static final int LLD_NO_ADBMATCH = 2;
+    private static final int LLD_NO_ADBMATCH_UNKNOWN_NUMBER = 3;
+    private static final int ICONID_UNDEFINED = -1;
+    private static final int ICONID_CALLSTACK_LD = 0;
+    private static final int ICONID_CALLSTACK_MC = 1;
+    private static final int ICONID_CALLSTACK_RC = 2;
     protected final CallStackEntry callStackEntry;
     protected final LogChannel log;
     private final String displayName;
@@ -94,7 +94,7 @@ extends BaseListRow {
                 break;
             }
             default: {
-                this.log.log(-1601830656, "[TelEvoCallStackRow#setIconID] no call stack type found for %1", (long)n);
+                this.log.log(100000, "[TelEvoCallStackRow#setIconID] no call stack type found for %1", (long)n);
                 n2 = -1;
             }
         }

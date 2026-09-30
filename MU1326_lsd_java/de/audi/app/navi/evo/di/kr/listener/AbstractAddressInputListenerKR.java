@@ -43,47 +43,38 @@ MenuModelListener {
         this.tiledListModelId = n3;
     }
 
-    @Override
-    protected abstract void initListeners() {
-    }
+    protected abstract void initListeners();
 
-    @Override
     public void nonAlphaNumTPCharsChanged(int n, int n2, String string) {
-        this.logChannel.log(-2137614336, "%1#nonAlphaNumTPCharsChanged - modelId=%2, recognizedChars=%3", (Object)this.CLASS_NAME, (Object)Integer.toString(n), (Object)string);
+        this.logChannel.log(10000000, "%1#nonAlphaNumTPCharsChanged - modelId=%2, recognizedChars=%3", (Object)this.CLASS_NAME, (Object)Integer.toString(n), (Object)string);
         this.inputSequence.nonAlphaNumTPCharsChanged(n, n2, string, this.matchspellerModel);
     }
 
-    @Override
     public void inputModeTPChanged(int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "%1#inputModeTPChanged - modelId=%2, mode=%3", (Object)this.CLASS_NAME, (long)n, (long)n2);
+        this.logChannel.log(10000000, "%1#inputModeTPChanged - modelId=%2, mode=%3", (Object)this.CLASS_NAME, (long)n, (long)n2);
         if (!AddressInputUtil.getCurrentLanguageCode(this.env).equals("en_US")) {
             this.inputSequence.touchPadInputModeChanged(n2);
         }
     }
 
-    @Override
     public void strokesChanged(int n, int n2, String string, char c2) {
-        this.logChannel.log(-2137614336, "%1#strokesChanged - modelId=%2, strokes=%3, lastStroke=%4", (Object)this.CLASS_NAME, (Object)String.valueOf(n), (Object)string, (long)c2);
+        this.logChannel.log(10000000, "%1#strokesChanged - modelId=%2, strokes=%3, lastStroke=%4", (Object)this.CLASS_NAME, (Object)String.valueOf(n), (Object)string, (long)c2);
     }
 
-    @Override
     public void requestValidHanziCharsWindow(int n, int n2, int n3, int n4) {
-        this.logChannel.log(-2137614336, "%1#getValidHanziCharsWindow - modelId=%2, offset=%3, windowSize=%4", (Object)this.CLASS_NAME, (Object)String.valueOf(n), (Object)String.valueOf(n3), (Object)String.valueOf(n4));
+        this.logChannel.log(10000000, "%1#getValidHanziCharsWindow - modelId=%2, offset=%3, windowSize=%4", (Object)this.CLASS_NAME, (Object)String.valueOf(n), (Object)String.valueOf(n3), (Object)String.valueOf(n4));
     }
 
-    @Override
     public CommandList getStartCommandList() {
         return this.inputSequence.getStartCommandList();
     }
 
-    @Override
     public CommandList getStartCommandList(String string) {
         return this.inputSequence.getStartCommandList(string);
     }
 
-    @Override
     public void textChanged(int n, String string, char c2, int n2) {
-        this.logChannel.log(-2137614336, "%1#textChanged(%2, %3, %4)", (Object)this.CLASS_NAME, (Object)Integer.toString(n), (Object)string, (long)c2);
+        this.logChannel.log(10000000, "%1#textChanged(%2, %3, %4)", (Object)this.CLASS_NAME, (Object)Integer.toString(n), (Object)string, (long)c2);
         this.setSpellerStatusWaiting(n);
         if ("".equals(string)) {
             this.inputSequence.deleteAllCharacters();
@@ -94,51 +85,46 @@ MenuModelListener {
         }
     }
 
-    @Override
     public void requestItems(int n, int n2, int n3, int n4, int n5) {
-        this.logChannel.log(-2137614336, "%1#requestItems - was called with requestID = %2, startIndex = %3, model = %4", (Object)this.CLASS_NAME, (Object)Integer.toString(n3), (Object)Integer.toString(n), (long)n4);
+        this.logChannel.log(10000000, "%1#requestItems - was called with requestID = %2, startIndex = %3, model = %4", (Object)this.CLASS_NAME, (Object)Integer.toString(n3), (Object)Integer.toString(n), (long)n4);
         this.inputSequence.requestNextResultListWindow(n, n3);
     }
 
-    @Override
     public void unrequestItems(int n, int n2, int n3, int n4) {
         this.inputSequence.unrequestItems(n, n2);
     }
 
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.logChannel.log(-2137614336, "%1#itemFocused - item focused was called with model = %2, index = %3", (Object)this.CLASS_NAME, (long)n, (long)n2);
+        this.logChannel.log(10000000, "%1#itemFocused - item focused was called with model = %2, index = %3", (Object)this.CLASS_NAME, (long)n, (long)n2);
         if (evoListRow instanceof AddressInputLIValueListElementListRow && this.previewMap != null && !this.isSpellerOpen) {
             AddressInputLIValueListElementListRow addressInputLIValueListElementListRow = (AddressInputLIValueListElementListRow)evoListRow;
             this.inputSequence.showLocationInPreviewMap(this.previewMap, addressInputLIValueListElementListRow.getElement());
         }
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "%1#keyTyped - keyTyped was called with model = %2, index = %3", (Object)this.CLASS_NAME, (long)n, (long)n2);
+        this.logChannel.log(10000000, "%1#keyTyped - keyTyped was called with model = %2, index = %3", (Object)this.CLASS_NAME, (long)n, (long)n2);
         long l = this.env.getContainer().getLispValueListCount();
-        this.logChannel.log(-2137614336, "%1#keyTyped - valueListCount = %2 ", (Object)this.CLASS_NAME, l);
+        this.logChannel.log(10000000, "%1#keyTyped - valueListCount = %2 ", (Object)this.CLASS_NAME, l);
         if (l == 1L && null != this.menuModel) {
             if (this.tiledListModel == null) {
-                this.logChannel.log(-2137614336, "%1#keyTyped - tiledListModel is null", (Object)this.CLASS_NAME);
+                this.logChannel.log(10000000, "%1#keyTyped - tiledListModel is null", (Object)this.CLASS_NAME);
                 return;
             }
             if (this.tiledListModel.getRow(0) == null) {
-                this.logChannel.log(-2137614336, "%1#keyTyped - tiledListModel.getRow(0) is null", (Object)this.CLASS_NAME);
+                this.logChannel.log(10000000, "%1#keyTyped - tiledListModel.getRow(0) is null", (Object)this.CLASS_NAME);
                 return;
             }
             EvoListRow evoListRow = this.tiledListModel.getRow(0);
             this.menuModel.setFocusedItem(this.tiledListModel.getID(), FocusAdvice.VIEWPORT_FIRST_POSITION, evoListRow.getUniqueID());
             AddressInputLIValueListElementListRow addressInputLIValueListElementListRow = (AddressInputLIValueListElementListRow)evoListRow;
-            this.inputManager.executeAddressInputEvent(this.inputSequence.getSelectListElementCommandList(addressInputLIValueListElementListRow.getElement()), -1700921344);
+            this.inputManager.executeAddressInputEvent(this.inputSequence.getSelectListElementCommandList(addressInputLIValueListElementListRow.getElement()), 40602);
             this.env.fireModelEvent(this.tiledListModel.getID(), n3);
         }
     }
 
-    @Override
     public void itemFocused(int n, int n2, long l, int n3) {
-        this.logChannel.log(-2137614336, "%1#itemFocused() was called with menuItemID = %2 , model = %3, uniqueListRowID = %4, ", (Object)this.CLASS_NAME, (Object)Integer.toString(n), (Object)Integer.toString(n2), (Object)Long.toString(l));
+        this.logChannel.log(10000000, "%1#itemFocused() was called with menuItemID = %2 , model = %3, uniqueListRowID = %4, ", (Object)this.CLASS_NAME, (Object)Integer.toString(n), (Object)Integer.toString(n2), (Object)Long.toString(l));
         if (n == this.matchSpellerModelId) {
             if (this.isSpellerOpen) {
                 this.inputSequence.hidePreviewMap(this.previewMap);
@@ -150,9 +136,8 @@ MenuModelListener {
         }
     }
 
-    @Override
     public void commandPressed(int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#commandPressed(%1, %2, %3)").toString(), (Object)Integer.toString(n), (Object)Integer.toString(n2), (Object)Integer.toString(n3));
+        this.logChannel.log(10000000, this.CLASS_NAME + "#commandPressed(%1, %2, %3)", (Object)Integer.toString(n), (Object)Integer.toString(n2), (Object)Integer.toString(n3));
         if (n == this.matchSpellerModelId) {
             this.isSpellerOpen = false;
             if (n2 == 4712) {
@@ -164,23 +149,18 @@ MenuModelListener {
         }
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void focusedCharacter(int n, char c2, int n2) {
     }
 
-    @Override
     public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 }

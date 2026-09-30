@@ -5,7 +5,6 @@ package de.audi.app.bap.fw.arrays;
 
 import de.audi.app.bap.fw.arrays.IArrayHeader;
 import de.vw.mib.bap.datatypes.ArrayHeader;
-import de.vw.mib.bap.datatypes.ArrayHeader$Mode;
 
 public class ArrayHeaderBAP
 implements IArrayHeader {
@@ -23,62 +22,50 @@ implements IArrayHeader {
         return this.arrayHeader;
     }
 
-    @Override
     public void setStart(int n) {
         this.arrayHeader.start = n;
     }
 
-    @Override
     public int getStart() {
         return this.arrayHeader.start;
     }
 
-    @Override
     public int getStartOffset() {
         return 0;
     }
 
-    @Override
     public int getNumberOfElements() {
         return this.arrayHeader.elements;
     }
 
-    @Override
     public boolean isModeShift() {
         return this.arrayHeader.mode.shift;
     }
 
-    @Override
     public boolean isModeArrayDirectionBackward() {
         return this.arrayHeader.mode.arrayDirectionIsBackward;
     }
 
-    @Override
     public boolean isModePositionTransmitted() {
         return this.arrayHeader.mode.arrayPositionIsTransmitted;
     }
 
-    @Override
     public boolean isModeIndexSize16Bit() {
         return this.arrayHeader.mode.indexSize16BitForStartElements;
     }
 
-    @Override
     public int getRecordAddress() {
         return this.arrayHeader.getRecordAddress();
     }
 
-    @Override
     public void setRecordAddress(int n) {
         this.arrayHeader.setRecordAddress(n);
     }
 
-    @Override
     public int getJobID() {
         return -1;
     }
 
-    @Override
     public int hashCode() {
         int n = 1;
         n = 31 * n + this.arrayHeader.elements;
@@ -89,7 +76,6 @@ implements IArrayHeader {
         return n;
     }
 
-    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -97,7 +83,7 @@ implements IArrayHeader {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         ArrayHeader arrayHeader = ((ArrayHeaderBAP)object).arrayHeader;
@@ -116,36 +102,36 @@ implements IArrayHeader {
         return this.arrayHeader.start == arrayHeader.start;
     }
 
-    private static int modeHashCode(ArrayHeader$Mode arrayHeader$Mode) {
+    private static int modeHashCode(ArrayHeader.Mode mode) {
         int n = 1;
-        n = 31 * n + (arrayHeader$Mode.arrayDirectionIsBackward ? 1231 : 1237);
-        n = 31 * n + (arrayHeader$Mode.arrayPositionIsTransmitted ? 1231 : 1237);
-        n = 31 * n + (arrayHeader$Mode.indexSize16BitForStartElements ? 1231 : 1237);
-        n = 31 * n + (arrayHeader$Mode.shift ? 1231 : 1237);
+        n = 31 * n + (mode.arrayDirectionIsBackward ? 1231 : 1237);
+        n = 31 * n + (mode.arrayPositionIsTransmitted ? 1231 : 1237);
+        n = 31 * n + (mode.indexSize16BitForStartElements ? 1231 : 1237);
+        n = 31 * n + (mode.shift ? 1231 : 1237);
         return n;
     }
 
-    private boolean modeEquals(ArrayHeader$Mode arrayHeader$Mode, ArrayHeader$Mode arrayHeader$Mode2) {
-        if (arrayHeader$Mode.equals(arrayHeader$Mode2)) {
+    private boolean modeEquals(ArrayHeader.Mode mode, ArrayHeader.Mode mode2) {
+        if (mode.equals(mode2)) {
             return true;
         }
-        if (arrayHeader$Mode2 == null) {
+        if (mode2 == null) {
             return false;
         }
-        if (super.getClass() != super.getClass()) {
+        if (mode.getClass() != mode2.getClass()) {
             return false;
         }
-        ArrayHeader$Mode arrayHeader$Mode3 = arrayHeader$Mode2;
-        if (arrayHeader$Mode.arrayDirectionIsBackward != arrayHeader$Mode3.arrayDirectionIsBackward) {
+        ArrayHeader.Mode mode3 = mode2;
+        if (mode.arrayDirectionIsBackward != mode3.arrayDirectionIsBackward) {
             return false;
         }
-        if (arrayHeader$Mode.arrayPositionIsTransmitted != arrayHeader$Mode3.arrayPositionIsTransmitted) {
+        if (mode.arrayPositionIsTransmitted != mode3.arrayPositionIsTransmitted) {
             return false;
         }
-        if (arrayHeader$Mode.indexSize16BitForStartElements != arrayHeader$Mode3.indexSize16BitForStartElements) {
+        if (mode.indexSize16BitForStartElements != mode3.indexSize16BitForStartElements) {
             return false;
         }
-        return arrayHeader$Mode.shift == arrayHeader$Mode3.shift;
+        return mode.shift == mode3.shift;
     }
 }
 

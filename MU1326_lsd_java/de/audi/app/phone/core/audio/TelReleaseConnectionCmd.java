@@ -13,11 +13,10 @@ extends AbstractTelAudioCmd {
     private final int connection;
 
     TelReleaseConnectionCmd(LogChannel logChannel, int n, HMIAudioService hMIAudioService) {
-        super(logChannel, new StringBuffer().append("TelReleaseConnectionCmd: ").append(n).toString(), hMIAudioService);
+        super(logChannel, "TelReleaseConnectionCmd: " + n, hMIAudioService);
         this.connection = n;
     }
 
-    @Override
     public void execute() {
         boolean bl;
         int n = this.getConnectionStatus(this.connection);
@@ -32,7 +31,7 @@ extends AbstractTelAudioCmd {
             if (!bl) {
                 buffer.append(" --> waiting for stopConnection");
             }
-            this.logger.log(1078071040, "[TelReleaseConnectionCmd#execute] %1", (Object)buffer);
+            this.logger.log(1000000, "[TelReleaseConnectionCmd#execute] %1", (Object)buffer);
         }
         this.audioService.releaseConnection(this.connection);
         if (bl) {
@@ -40,19 +39,17 @@ extends AbstractTelAudioCmd {
         }
     }
 
-    @Override
     public void stopConnection(int n, int n2) {
         if (n == this.connection) {
-            this.logger.log(1078071040, "[TelReleaseConnectionCmd#stopConnection] AC:%1", (long)n);
+            this.logger.log(1000000, "[TelReleaseConnectionCmd#stopConnection] AC:%1", (long)n);
             this.checkDisableVolumeLockForBTDownlink(n, n2);
             this.getCommandList().commandFinished();
         }
     }
 
-    @Override
     public void errorConnection(int n, int n2, int n3) {
         if (n == this.connection) {
-            this.logger.log(1078071040, "[TelReleaseConnectionCmd#stopConnection] AC:%1, errorCode:%2", (long)n, (long)n3);
+            this.logger.log(1000000, "[TelReleaseConnectionCmd#stopConnection] AC:%1, errorCode:%2", (long)n, (long)n3);
             this.checkDisableVolumeLockForBTDownlink(n, n2);
             this.getCommandList().commandFinished();
         }

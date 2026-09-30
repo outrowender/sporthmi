@@ -23,19 +23,17 @@ extends AbstractDataCommand {
         this.connectionMode = n;
     }
 
-    @Override
     public void execute() {
         if (this.dsi != null) {
             this.dsi.setConnectionMode(this.connectionMode);
         } else {
-            this.logger.log(-1601830656, "CommandSetConnectionMode#execute(): dsi is NULL");
+            this.logger.log(100000, "CommandSetConnectionMode#execute(): dsi is NULL");
             this.commandList.commandFinished();
         }
     }
 
-    @Override
     public void setConnectionModeResponse(int n) {
-        this.logger.log(1078071040, "CommandSetConnectionMode#setConnectionModeResponse(): result=%1", (long)n);
+        this.logger.log(1000000, "CommandSetConnectionMode#setConnectionModeResponse(): result=%1", (long)n);
         this.commandList.commandFinished();
     }
 

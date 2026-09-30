@@ -18,8 +18,8 @@ extends BaseListRow {
         super(listCellArray);
     }
 
-    Class getColumnType(int n) {
-        return ListRow.getColumnType(super.getClass());
+    Class getColumnType(int n) throws IndexOutOfBoundsException, NegativeArraySizeException {
+        return ListRow.getColumnType(this.cells[n].getClass());
     }
 
     static Class getColumnType(Class clazz) {
@@ -30,8 +30,7 @@ extends BaseListRow {
         return clazz2;
     }
 
-    public abstract boolean equals(Object object) {
-    }
+    public abstract boolean equals(Object var1);
 
     public int hashCode() {
         return super.hashCode();

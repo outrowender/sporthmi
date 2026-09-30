@@ -8,13 +8,10 @@ import org.dsi.ifc.kombifastlist.DataCombinedNumbers;
 
 public interface IDSIFastListCombinedNumbers
 extends IDSIFastListPhone {
-    default public void pushCombinedNumbers(DataCombinedNumbers[] dataCombinedNumbersArray) {
-    }
+    public void pushCombinedNumbers(DataCombinedNumbers[] var1);
 
-    default public void pushCurrentListSizeCombinedNumbers(int n) {
-    }
+    public void pushCurrentListSizeCombinedNumbers(int var1);
 
-    default public void responseNotifyCombinedNumbersPush(boolean bl) {
-    }
+    public void responseNotifyCombinedNumbersPush(boolean var1);
 }
 

@@ -23,9 +23,8 @@ implements CombiBAPServiceConnectivity {
         super(combiModulePhone);
     }
 
-    @Override
     public void updateMobileServiceSupportConnectionIndication(boolean bl, boolean bl2) {
-        this.logChannel.log(1078071040, "[AppConnectorConnectivity#updateMobileServiceSupportConnectionIndication] dataConnectionIndicationSupported=%1, dataConnectionIndication2Supported=%2", bl, bl2);
+        this.logChannel.log(1000000, "[AppConnectorConnectivity#updateMobileServiceSupportConnectionIndication] dataConnectionIndicationSupported=%1, dataConnectionIndication2Supported=%2", bl, bl2);
         MobileServiceSupport_Status mobileServiceSupport_Status = this.getMobileServiceSupportStatusCopy();
         mobileServiceSupport_Status.fctList.fctDataConnectionIndicationSupported = bl && this.moduleFsg.getFunctionList().isFunctionSupported(44);
         this.sendPropertyStatus(16, mobileServiceSupport_Status);
@@ -37,16 +36,14 @@ implements CombiBAPServiceConnectivity {
         }
     }
 
-    @Override
     public void updateMobileServiceSupportWLAN(boolean bl) {
-        this.logChannel.log(1078071040, "[AppConnectorConnectivity#updateMobileServiceSupportWLAN] connectionStateSupported=%1", bl);
+        this.logChannel.log(1000000, "[AppConnectorConnectivity#updateMobileServiceSupportWLAN] connectionStateSupported=%1", bl);
         this.connectionStateWLANSupported = bl;
         this.updateMobileServiceSupportConnectionState();
     }
 
-    @Override
     public void updateMobileServiceSupportBluetooth(boolean bl) {
-        this.logChannel.log(1078071040, "[AppConnectorConnectivity#updateMobileServiceSupportBluetooth] connectionStateSupported=%1", bl);
+        this.logChannel.log(1000000, "[AppConnectorConnectivity#updateMobileServiceSupportBluetooth] connectionStateSupported=%1", bl);
         this.connectionStateBluetoothSupported = bl;
         this.updateMobileServiceSupportConnectionState();
     }
@@ -57,9 +54,8 @@ implements CombiBAPServiceConnectivity {
         this.sendPhone2PropertyStatus(16, mobileServiceSupport_Status);
     }
 
-    @Override
     public void updateDataConnectionActive(boolean bl) {
-        this.logChannel.log(1078071040, "[AppConnectorConnectivity#updateDataConnectionActive] connectionActive=%1", bl);
+        this.logChannel.log(1000000, "[AppConnectorConnectivity#updateDataConnectionActive] connectionActive=%1", bl);
         DataConnectionIndication_Status dataConnectionIndication_Status = (DataConnectionIndication_Status)this.moduleFsg.getBAPFunctionPropertyFSG(44).getLastStatus();
         DataConnectionIndication_Status dataConnectionIndication_Status2 = new DataConnectionIndication_Status();
         dataConnectionIndication_Status2.connectionIndication = bl ? 1 : 0;
@@ -68,9 +64,8 @@ implements CombiBAPServiceConnectivity {
         this.sendPropertyStatus(44, dataConnectionIndication_Status2);
     }
 
-    @Override
     public void updateDataConnectionPacketCount(long l, long l2) {
-        this.logChannel.log(1078071040, "[AppConnectorConnectivity#updateDataConnectionPacketCount] dataVolumeUplink=%1, dataVolumeDownlink=%2", l, l2);
+        this.logChannel.log(1000000, "[AppConnectorConnectivity#updateDataConnectionPacketCount] dataVolumeUplink=%1, dataVolumeDownlink=%2", l, l2);
         DataConnectionIndication_Status dataConnectionIndication_Status = (DataConnectionIndication_Status)this.moduleFsg.getBAPFunctionPropertyFSG(44).getLastStatus();
         DataConnectionIndication_Status dataConnectionIndication_Status2 = new DataConnectionIndication_Status();
         dataConnectionIndication_Status2.connectionIndication = dataConnectionIndication_Status.connectionIndication;
@@ -79,9 +74,8 @@ implements CombiBAPServiceConnectivity {
         this.sendPropertyStatus(44, dataConnectionIndication_Status2);
     }
 
-    @Override
     public void updateDataConnection2Active(boolean bl) {
-        this.logChannel.log(1078071040, "[AppConnectorConnectivity#updateDataConnection2Active] connectionActive=%1", bl);
+        this.logChannel.log(1000000, "[AppConnectorConnectivity#updateDataConnection2Active] connectionActive=%1", bl);
         DataConnectionIndication2_Status dataConnectionIndication2_Status = (DataConnectionIndication2_Status)this.getPhone2Property(21).getLastStatus();
         DataConnectionIndication2_Status dataConnectionIndication2_Status2 = new DataConnectionIndication2_Status();
         dataConnectionIndication2_Status2.connectionIndication = bl ? 1 : 0;
@@ -90,9 +84,8 @@ implements CombiBAPServiceConnectivity {
         this.sendPhone2PropertyStatus(21, dataConnectionIndication2_Status2);
     }
 
-    @Override
     public void updateDataConnection2PacketCount(long l, long l2) {
-        this.logChannel.log(1078071040, "[AppConnectorConnectivity#updateDataConnection2PacketCount] dataVolumeUplink=%1, dataVolumeDownlink=%2", l, l2);
+        this.logChannel.log(1000000, "[AppConnectorConnectivity#updateDataConnection2PacketCount] dataVolumeUplink=%1, dataVolumeDownlink=%2", l, l2);
         DataConnectionIndication2_Status dataConnectionIndication2_Status = (DataConnectionIndication2_Status)this.getPhone2Property(21).getLastStatus();
         DataConnectionIndication2_Status dataConnectionIndication2_Status2 = new DataConnectionIndication2_Status();
         dataConnectionIndication2_Status2.connectionIndication = dataConnectionIndication2_Status.connectionIndication;
@@ -102,8 +95,8 @@ implements CombiBAPServiceConnectivity {
     }
 
     public void updateConnectionState(int n, int n2, CombiBAPBluetoothConnections combiBAPBluetoothConnections, int n3, int n4, int n5) {
-        this.logChannel.log(1078071040, "[AppConnectorConnectivity#updateConnectionState] bluetoothState=%2, bluetoothVisibility=%3, bluetoothConnections=%1, ...", (Object)combiBAPBluetoothConnections, (long)n, (long)n2);
-        this.logChannel.log(1078071040, "[AppConnectorConnectivity#updateConnectionState] ..., wLANState=%1, wLANVisibility=%2, wLANConnections=%3", (long)n3, (long)n4, (long)n5);
+        this.logChannel.log(1000000, "[AppConnectorConnectivity#updateConnectionState] bluetoothState=%2, bluetoothVisibility=%3, bluetoothConnections=%1, ...", (Object)combiBAPBluetoothConnections, (long)n, (long)n2);
+        this.logChannel.log(1000000, "[AppConnectorConnectivity#updateConnectionState] ..., wLANState=%1, wLANVisibility=%2, wLANConnections=%3", (long)n3, (long)n4, (long)n5);
         ConnectionState_Status connectionState_Status = new ConnectionState_Status();
         connectionState_Status.bluetoothState = n;
         connectionState_Status.bluetoothVisibility = n2;
@@ -117,9 +110,8 @@ implements CombiBAPServiceConnectivity {
         this.sendPhone2PropertyStatus(24, connectionState_Status);
     }
 
-    @Override
     public void updateBluetoothConnectionState(int n, int n2, CombiBAPBluetoothConnections combiBAPBluetoothConnections) {
-        this.logChannel.log(1078071040, "[AppConnectorConnectivity#updateBluetoothConnectionState] bluetoothState=%2, bluetoothVisibility=%3, bluetoothConnections=%1", (Object)combiBAPBluetoothConnections, (long)n, (long)n2);
+        this.logChannel.log(1000000, "[AppConnectorConnectivity#updateBluetoothConnectionState] bluetoothState=%2, bluetoothVisibility=%3, bluetoothConnections=%1", (Object)combiBAPBluetoothConnections, (long)n, (long)n2);
         ConnectionState_Status connectionState_Status = (ConnectionState_Status)this.getPhone2Property(24).getLastStatus();
         ConnectionState_Status connectionState_Status2 = new ConnectionState_Status();
         connectionState_Status2.bluetoothState = n;
@@ -134,9 +126,8 @@ implements CombiBAPServiceConnectivity {
         this.sendPhone2PropertyStatus(24, connectionState_Status2);
     }
 
-    @Override
     public void updateWLANConnectionState(int n, int n2, int n3) {
-        this.logChannel.log(1078071040, "[AppConnectorConnectivity#updateWLANConnectionState] wLANState=%1, wLANVisibility=%2, wLANConnections=%3", (long)n, (long)n2, (long)n3);
+        this.logChannel.log(1000000, "[AppConnectorConnectivity#updateWLANConnectionState] wLANState=%1, wLANVisibility=%2, wLANConnections=%3", (long)n, (long)n2, (long)n3);
         ConnectionState_Status connectionState_Status = (ConnectionState_Status)this.getPhone2Property(24).getLastStatus();
         ConnectionState_Status connectionState_Status2 = new ConnectionState_Status();
         connectionState_Status2.bluetoothState = connectionState_Status.bluetoothState;

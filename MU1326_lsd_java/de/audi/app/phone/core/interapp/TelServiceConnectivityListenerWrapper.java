@@ -14,21 +14,18 @@ extends TelDefaultDSIResponseListener {
         this.listener = iTelServiceConnectivityListener;
     }
 
-    @Override
     public void responseSetNADMode(int n, int n2, int n3) {
         if (this.listener != null) {
             this.listener.responseSetNadMode(n2);
         }
     }
 
-    @Override
     public void responseTelPower(int n, int n2) {
         if (this.listener != null) {
             this.listener.responseChangePhoneModulePowerState(n);
         }
     }
 
-    @Override
     public void responseChangeTopology(int n, int n2) {
         if (this.listener != null) {
             this.listener.responseTogglePhones(n);

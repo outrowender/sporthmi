@@ -6,19 +6,14 @@ package de.audi.app.media.content.media.online;
 import de.audi.app.media.content.media.online.OnlinePlayerSession;
 
 public interface IOnlinePlayerController {
-    default public OnlinePlayerSession getActiveSession() {
-    }
+    public OnlinePlayerSession getActiveSession();
 
-    default public boolean isActiveSession(OnlinePlayerSession onlinePlayerSession) {
-    }
+    public boolean isActiveSession(OnlinePlayerSession var1);
 
-    default public void addSessionToPendingList(OnlinePlayerSession onlinePlayerSession) {
-    }
+    public void addSessionToPendingList(OnlinePlayerSession var1);
 
-    default public void attachSession(OnlinePlayerSession onlinePlayerSession) {
-    }
+    public void attachSession(OnlinePlayerSession var1);
 
-    default public void detachActiveSession() {
-    }
+    public void detachActiveSession();
 }
 

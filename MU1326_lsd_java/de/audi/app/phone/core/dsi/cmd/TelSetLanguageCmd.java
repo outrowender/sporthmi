@@ -6,8 +6,8 @@ package de.audi.app.phone.core.dsi.cmd;
 import de.audi.app.phone.core.dsi.ITelDSIMobileEquipmentRequestWrapper;
 import de.audi.app.phone.core.dsi.ITelDSIResponseListener;
 import de.audi.app.phone.core.dsi.cmd.AbstractTelDSIMECommand;
-import de.audi.app.phone.core.dsi.cmd.TelSetLanguageCmd$1;
 import de.audi.atip.log.LogChannel;
+import de.audi.tghu.command.Command;
 import de.audi.tghu.command.CommandListManager;
 import de.audi.tghu.command.Monitor;
 
@@ -21,16 +21,21 @@ extends AbstractTelDSIMECommand {
     }
 
     public void schedule(CommandListManager commandListManager, Monitor monitor) {
-        TelSetLanguageCmd.schedule(commandListManager, this, "TelSetLanguageCmd", new TelSetLanguageCmd$1(this, this.logger, "TelSetLanguageCmdError"), monitor);
+        TelSetLanguageCmd.schedule(commandListManager, this, "TelSetLanguageCmd", new Command(this.logger, "TelSetLanguageCmdError"){
+
+            public void execute() {
+                this.logger.log(100000, "[TelSetLanguageCmd.schedule().new Command() {...}#execute] Error.");
+                this.getCommandList().commandFinished();
+            }
+        }, monitor);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "[TelSetLanguageCmd#execute] language=%1", (Object)this.language);
+        this.logger.log(1000000, "[TelSetLanguageCmd#execute] language=%1", (Object)this.language);
         if (this.isDSIAvailable()) {
             this.dsi.requestSetLanguage(this.language);
         } else {
-            this.logger.log(-1601830656, "[TelSetLanguageCmd#execute] dsi is null!");
+            this.logger.log(100000, "[TelSetLanguageCmd#execute] dsi is null!");
         }
         this.getCommandList().commandFinished();
     }

@@ -4,8 +4,8 @@
 package de.audi.app.messaging.core.templates;
 
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
+import de.audi.app.messaging.core.commands.AbstractMessagingCommand;
 import de.audi.app.messaging.core.dsi.messaging.AbstractDsiMessagingCommand;
-import de.audi.app.messaging.core.templates.GetTemplatesCommand$1;
 import de.audi.tghu.command.Command;
 import org.dsi.ifc.messaging.Template;
 
@@ -15,10 +15,9 @@ extends AbstractDsiMessagingCommand {
         super(abstractMsgApplication);
     }
 
-    @Override
     public void execute() {
         try {
-            this.logger.log(-2137614336, "[GetTemplatesCommand#execute]");
+            this.logger.log(10000000, "[GetTemplatesCommand#execute]");
             this.dsiMessagingAccess.getTemplatesRequest();
         }
         catch (Exception exception) {
@@ -27,11 +26,10 @@ extends AbstractDsiMessagingCommand {
         }
     }
 
-    @Override
     public void getTemplatesResponse(int n, Template[] templateArray) {
         try {
             boolean bl;
-            this.logger.log(-2137614336, "[GetTemplatesCommand#getTemplatesResponse] result = %2, templates = %1", (Object)String.valueOf(templateArray), (long)n);
+            this.logger.log(10000000, "[GetTemplatesCommand#getTemplatesResponse] result = %2, templates = %1", (Object)String.valueOf(templateArray), (long)n);
             super.getTemplatesResponse(n, templateArray);
             boolean bl2 = bl = n == 0;
             if (bl && templateArray == null) {
@@ -50,7 +48,7 @@ extends AbstractDsiMessagingCommand {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     private void signalResult(boolean bl, Template[] templateArray) {
-        this.logger.log(-2137614336, "[GetTemplatesCommand#signalResult] isResultOk = %1", bl);
+        this.logger.log(10000000, "[GetTemplatesCommand#signalResult] isResultOk = %1", bl);
         try {
             if (bl) {
                 this.msgApp.getTemplateList().getTemplatesResponse(templateArray);
@@ -64,13 +62,14 @@ extends AbstractDsiMessagingCommand {
         }
     }
 
-    @Override
     public Command getErrorCommand() {
-        return new GetTemplatesCommand$1(this, this.msgApp);
-    }
+        return new AbstractMessagingCommand(this.msgApp){
 
-    static /* synthetic */ void access$000(GetTemplatesCommand getTemplatesCommand, boolean bl, Template[] templateArray) {
-        getTemplatesCommand.signalResult(bl, templateArray);
+            public void execute() {
+                this.logger.log(10000000, "[GetMessageContentsCommand#execute]");
+                GetTemplatesCommand.this.signalResult(false, null);
+            }
+        };
     }
 }
 

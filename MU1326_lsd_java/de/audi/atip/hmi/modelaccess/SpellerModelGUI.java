@@ -8,95 +8,73 @@ import de.audi.atip.hmi.modelaccess.HMIModelGUI;
 
 public interface SpellerModelGUI
 extends HMIModelGUI {
-    public static final int BUTTON_DEFAULT;
-    public static final int BUTTON_OFF;
-    public static final int BUTTON_ON;
-    public static final int EXIT_DEFAULT;
-    public static final int EXIT_OK;
-    public static final int EXIT_LIST;
-    public static final int EXIT_IMPORT;
-    public static final int EXIT_OPTIONS;
-    public static final int EXIT_SEARCH;
-    public static final int EXIT_MAX;
-    public static final int EXIT_DTMF;
-    public static final int COMMAND_SPELLER_OPENED;
-    public static final int COMMAND_SPELLER_CLOSED;
-    public static final int BUTTON_OK_AVAILABLE;
-    public static final int BUTTON_CLOSE_AVAILABLE;
-    public static final int COMMAND_INDEX_OK;
-    public static final int COMMAND_INDEX_DIAL;
-    public static final int COMMAND_INDEX_HANGUP;
-    public static final int COMMAND_INDEX_MUTE;
-    public static final int COMMAND_INDEX_ADD_CALL;
-    public static final int COMMAND_INDEX_MERGE_CALLS;
-    public static final int COMMAND_INDEX_SPLIT_CONFERENCE;
-    public static final int COMMAND_INDEX_MAIL_BOX;
-    public static final int COMMAND_COUNT;
+    public static final int BUTTON_DEFAULT = -1;
+    public static final int BUTTON_OFF = 0;
+    public static final int BUTTON_ON = 1;
+    public static final int EXIT_DEFAULT = -1;
+    public static final int EXIT_OK = 0;
+    public static final int EXIT_LIST = 1;
+    public static final int EXIT_IMPORT = 2;
+    public static final int EXIT_OPTIONS = 3;
+    public static final int EXIT_SEARCH = 4;
+    public static final int EXIT_MAX = 5;
+    public static final int EXIT_DTMF = 6;
+    public static final int COMMAND_SPELLER_OPENED = 4711;
+    public static final int COMMAND_SPELLER_CLOSED = 4712;
+    public static final int BUTTON_OK_AVAILABLE = 7;
+    public static final int BUTTON_CLOSE_AVAILABLE = -1;
+    public static final int COMMAND_INDEX_OK = 7;
+    public static final int COMMAND_INDEX_DIAL = 10;
+    public static final int COMMAND_INDEX_HANGUP = 11;
+    public static final int COMMAND_INDEX_MUTE = 12;
+    public static final int COMMAND_INDEX_ADD_CALL = 13;
+    public static final int COMMAND_INDEX_MERGE_CALLS = 14;
+    public static final int COMMAND_INDEX_SPLIT_CONFERENCE = 15;
+    public static final int COMMAND_INDEX_MAIL_BOX = 16;
+    public static final int COMMAND_COUNT = 17;
 
-    default public void textChanged(String string, char c2, int n) {
-    }
+    public void textChanged(String var1, char var2, int var3);
 
-    default public boolean isEmpty() {
-    }
+    public boolean isEmpty();
 
-    default public int getMaxLength() {
-    }
+    public int getMaxLength();
 
-    default public int getMinLength() {
-    }
+    public int getMinLength();
 
-    default public String getText() {
-    }
+    public String getText();
 
-    default public int getDeleteButtonState() {
-    }
+    public int getDeleteButtonState();
 
-    default public int getExitButtonState() {
-    }
+    public int getExitButtonState();
 
-    default public int getExitButtonText() {
-    }
+    public int getExitButtonText();
 
-    default public String getCountryAbbreviation() {
-    }
+    public String getCountryAbbreviation();
 
-    default public void keyPressed(int n, int n2) {
-    }
+    public void keyPressed(int var1, int var2);
 
-    default public void keyReleased(int n, int n2) {
-    }
+    public void keyReleased(int var1, int var2);
 
-    default public void keyTyped(int n, int n2) {
-    }
+    public void keyTyped(int var1, int var2);
 
-    default public boolean getCommandAvailable(int n) {
-    }
+    public boolean getCommandAvailable(int var1);
 
-    default public void commandPressed(int n, int n2) {
-    }
+    public void commandPressed(int var1, int var2);
 
-    default public void focusedCharacter(char c2, int n) {
-    }
+    public void focusedCharacter(char var1, int var2);
 
-    default public String getCompletionText() {
-    }
+    public String getCompletionText();
 
-    default public String getTruffleSuggestion() {
-    }
+    public String getTruffleSuggestion();
 
-    default public String getSuggestedNewSearchString() {
-    }
+    public String getSuggestedNewSearchString();
 
-    default public boolean shallSpellerBeInitiallyOpen() {
-    }
+    public boolean shallSpellerBeInitiallyOpen();
 
-    default public void setSpellerInitiallyOpen(boolean bl) {
-    }
+    public void setSpellerInitiallyOpen(boolean var1);
 
-    default public TouchEvent getTouchEventForFollowUpScreen() {
-    }
+    public TouchEvent getTouchEventForFollowUpScreen();
 
-    default public void setTouchEventForFollowUpScreen(TouchEvent touchEvent) {
-    }
+    public void setTouchEventForFollowUpScreen(TouchEvent var1);
 }
 

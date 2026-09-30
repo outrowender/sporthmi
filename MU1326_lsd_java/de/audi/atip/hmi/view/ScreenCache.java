@@ -6,19 +6,14 @@ package de.audi.atip.hmi.view;
 import de.audi.atip.hmi.view.Screen;
 
 public interface ScreenCache {
-    default public void putScreen(Screen screen) {
-    }
+    public void putScreen(Screen var1);
 
-    default public Screen getScreen(int n) {
-    }
+    public Screen getScreen(int var1);
 
-    default public void setCachingDisabled(boolean bl) {
-    }
+    public void setCachingDisabled(boolean var1);
 
-    default public void clear() {
-    }
+    public void clear();
 
-    default public void clear(int n) {
-    }
+    public void clear(int var1);
 }
 

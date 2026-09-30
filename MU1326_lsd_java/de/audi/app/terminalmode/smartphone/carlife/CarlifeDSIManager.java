@@ -1,24 +1,17 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  de.audi.app.terminalmode.statemachine.TMState
  */
 package de.audi.app.terminalmode.smartphone.carlife;
 
 import de.audi.app.terminalmode.IContext;
 import de.audi.app.terminalmode.INightDayModeHandler;
 import de.audi.app.terminalmode.ITerminalModeConfiguration;
-import de.audi.app.terminalmode.SmartphoneManager$SmartphoneType;
+import de.audi.app.terminalmode.SmartphoneManager;
 import de.audi.app.terminalmode.dsi.IDSIAppState;
 import de.audi.app.terminalmode.smartphone.AbstractDSISmartphoneManager;
-import de.audi.app.terminalmode.smartphone.IDSISmartphoneManager$ISmartphoneProperties;
-import de.audi.app.terminalmode.smartphone.IDSISmartphoneManager$RequestModeChangeCallback;
+import de.audi.app.terminalmode.smartphone.IDSISmartphoneManager;
 import de.audi.app.terminalmode.smartphone.IPhoneCallController;
 import de.audi.app.terminalmode.smartphone.ISpeechRequestHandler;
-import de.audi.app.terminalmode.smartphone.carlife.CarlifeDSIManager$1;
-import de.audi.app.terminalmode.smartphone.carlife.CarlifeDSIManager$2;
-import de.audi.app.terminalmode.smartphone.carlife.CarlifeDSIManager$3;
 import de.audi.app.terminalmode.smartphone.carlife.CarlifeHMISetModeHandler;
 import de.audi.app.terminalmode.smartphone.carlife.DSIMHIConstantsMapper;
 import de.audi.app.terminalmode.statemachine.Resource;
@@ -28,62 +21,56 @@ import org.dsi.ifc.carlife.ServiceConfiguration;
 
 public class CarlifeDSIManager
 extends AbstractDSISmartphoneManager {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "CarlifeDSIManager";
     private final DSICarlife dsiCarlife;
     private final ITerminalModeConfiguration configuration;
     private final INightDayModeHandler nightModeHandler;
     private volatile TMState currentState;
     private final DSIMHIConstantsMapper mapper;
     private final CarlifeHMISetModeHandler handler;
-    private final IDSISmartphoneManager$ISmartphoneProperties smartphoneProperties;
+    private final IDSISmartphoneManager.ISmartphoneProperties smartphoneProperties;
 
-    public CarlifeDSIManager(IContext iContext, DSICarlife dSICarlife, INightDayModeHandler iNightDayModeHandler, DSIMHIConstantsMapper dSIMHIConstantsMapper, CarlifeHMISetModeHandler carlifeHMISetModeHandler, IDSISmartphoneManager$ISmartphoneProperties iDSISmartphoneManager$ISmartphoneProperties) {
-        super(iContext, SmartphoneManager$SmartphoneType.CARLIFE);
+    public CarlifeDSIManager(IContext iContext, DSICarlife dSICarlife, INightDayModeHandler iNightDayModeHandler, DSIMHIConstantsMapper dSIMHIConstantsMapper, CarlifeHMISetModeHandler carlifeHMISetModeHandler, IDSISmartphoneManager.ISmartphoneProperties iSmartphoneProperties) {
+        super(iContext, SmartphoneManager.SmartphoneType.CARLIFE);
         this.dsiCarlife = dSICarlife;
         this.configuration = iContext.getConfiguration();
-        this.smartphoneProperties = iDSISmartphoneManager$ISmartphoneProperties;
+        this.smartphoneProperties = iSmartphoneProperties;
         this.nightModeHandler = iNightDayModeHandler;
         this.mapper = dSIMHIConstantsMapper;
         this.handler = carlifeHMISetModeHandler;
     }
 
-    @Override
     public void startService(TMState tMState) {
-        this.logger.log(-2137614336, "[%1.startService]", (Object)"CarlifeDSIManager");
+        this.logger.log(10000000, "[%1.startService]", (Object)LOGCLASS);
         ServiceConfiguration serviceConfiguration = new ServiceConfiguration(this.mapper.createAppStates(tMState), this.mapper.createResources(tMState), this.configuration.getScreenResolutionX(), this.configuration.getScreenResolutionY(), this.configuration.getScreenOffsetX(), this.configuration.getScreenOffsetY(), this.configuration.getScreenName(), this.configuration.isRightHandDrive(), this.configuration.hasTouchscreen(), this.configuration.getScreenResolutionX(), this.configuration.getScreenResolutionY(), this.configuration.hasTouchpad(), this.configuration.getTouchPadResolutionX(), this.configuration.getTouchPadResolutionY(), this.nightModeHandler.getRequestedNightMode(), this.configuration.getPhysicalDisplayHeight(), this.configuration.getPhysicalDisplayWidth());
         this.dsiCarlife.startService(serviceConfiguration);
         this.currentState = tMState;
     }
 
-    @Override
     public void responseUpdateMode(TMState tMState, long l) {
         if (this.logger.isDebug()) {
-            this.logger.log(-2137614336, "[%1.responseUpdateMode]", (Object)"CarlifeDSIManager");
+            this.logger.log(10000000, "[%1.responseUpdateMode]", (Object)LOGCLASS);
         }
     }
 
-    @Override
-    public void requestModeChange(TMState tMState, String string, IDSISmartphoneManager$RequestModeChangeCallback iDSISmartphoneManager$RequestModeChangeCallback) {
+    public void requestModeChange(TMState tMState, String string, IDSISmartphoneManager.RequestModeChangeCallback requestModeChangeCallback) {
         if (this.logger.isDebug()) {
-            this.logger.log(-2137614336, "[%1.requestModeChange]", (Object)"CarlifeDSIManager");
+            this.logger.log(10000000, "[%1.requestModeChange]", (Object)LOGCLASS);
         }
-        this.handler.requestModeChange(tMState, string, iDSISmartphoneManager$RequestModeChangeCallback);
+        this.handler.requestModeChange(tMState, string, requestModeChangeCallback);
     }
 
-    @Override
     public void requestConstraintsChange(TMState tMState, Resource resource, boolean bl) {
     }
 
-    @Override
     public void requestNightMode(boolean bl) {
         if (this.logger.isDebug()) {
-            this.logger.log(-2137614336, "[%1.requestNightMode] %2", (Object)"CarlifeDSIManager", (Object)new Boolean(bl));
+            this.logger.log(10000000, "[%1.requestNightMode] %2", (Object)LOGCLASS, (Object)new Boolean(bl));
         }
         this.dsiCarlife.requestNightMode(bl);
     }
 
-    @Override
-    public IDSISmartphoneManager$ISmartphoneProperties getSmartphoneProperties() {
+    public IDSISmartphoneManager.ISmartphoneProperties getSmartphoneProperties() {
         return this.smartphoneProperties;
     }
 
@@ -92,24 +79,48 @@ extends AbstractDSISmartphoneManager {
         this.dsiCarlife.postButtonEvent(n, 1);
     }
 
-    @Override
     public ISpeechRequestHandler getSpeechRequestHandler() {
-        return new CarlifeDSIManager$1(this);
+        return new ISpeechRequestHandler(){
+
+            public void startSpeechSession() {
+                CarlifeDSIManager.this.toggleButtonEvent(20);
+            }
+
+            public void pttReleasedAfterLongPress() {
+            }
+
+            public void prewarm() {
+            }
+
+            public void cancelPrewarm() {
+            }
+
+            public void abortActiveSpeechSession() {
+                CarlifeDSIManager.this.toggleButtonEvent(21);
+            }
+        };
     }
 
-    @Override
     public IPhoneCallController getPhoneCallController() {
-        return new CarlifeDSIManager$2(this);
+        return new IPhoneCallController(){
+
+            public void hook(boolean bl) {
+            }
+
+            public void hangup(boolean bl) {
+            }
+
+            public void flash(boolean bl) {
+            }
+        };
     }
 
-    @Override
     public void skip(boolean bl, int n) {
         for (int i2 = 0; i2 < n; ++i2) {
             this.toggleButtonEvent(bl ? 13 : 14);
         }
     }
 
-    @Override
     public void seek(boolean bl, boolean bl2) {
         if (bl2) {
             this.dsiCarlife.postButtonEvent(bl ? 15 : 16, 0);
@@ -118,23 +129,41 @@ extends AbstractDSISmartphoneManager {
         }
     }
 
-    @Override
     public void resume() {
         this.toggleButtonEvent(18);
     }
 
-    @Override
     public void pause(boolean bl) {
         this.toggleButtonEvent(19);
     }
 
-    @Override
     protected IDSIAppState createAppState(int n, int n2, int n3) {
-        return new CarlifeDSIManager$3(this);
-    }
+        return new IDSIAppState(){
 
-    static /* synthetic */ void access$000(CarlifeDSIManager carlifeDSIManager, int n) {
-        carlifeDSIManager.toggleButtonEvent(n);
+            public int getSpeechMode() {
+                return 0;
+            }
+
+            public int getOwner() {
+                return 0;
+            }
+
+            public int getAppStateId() {
+                return 0;
+            }
+
+            public int getDSISpeechMode() {
+                return 0;
+            }
+
+            public int getDSIOwner() {
+                return 0;
+            }
+
+            public int getDSIAppStateId() {
+                return 0;
+            }
+        };
     }
 }
 

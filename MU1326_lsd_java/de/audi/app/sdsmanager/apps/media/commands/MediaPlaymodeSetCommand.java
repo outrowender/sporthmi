@@ -24,18 +24,17 @@ extends AbstractSystemCallCommand {
         this.mediaPlayModeStrategy = iMediaPlayModeStrategy;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: mediaPlaymode=%2", (Object)this.getName(), (long)this.mediaPlaymode);
+        this.logger.log(10000000, "%1#execute: mediaPlaymode=%2", (Object)this.getName(), (long)this.mediaPlaymode);
         if (!this.mediaPlayModeStrategy.executePlayMode(this.mediaPlaymode, this.mediaSDSService)) {
-            this.logger.log(-1601830656, "%1#execute: Unhandled mediaPlaymode %2!", (Object)this.getName(), (long)this.mediaPlaymode);
+            this.logger.log(100000, "%1#execute: Unhandled mediaPlaymode %2!", (Object)this.getName(), (long)this.mediaPlaymode);
             this.sendResult(20001);
             return;
         }
     }
 
     public void sendPlaymodeReply(int n) {
-        this.logger.log(-2137614336, "%1#sendPlaymodeReply: playmodeReply=%2!", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "%1#sendPlaymodeReply: playmodeReply=%2!", (Object)this.getName(), (long)n);
         int n2 = 20001;
         switch (n) {
             case 0: 
@@ -45,7 +44,7 @@ extends AbstractSystemCallCommand {
                 break;
             }
             default: {
-                this.logger.log(-1601830656, "%1#sendPlaymodeReply: Unhandled state %2!", (Object)this.getName(), (long)n);
+                this.logger.log(100000, "%1#sendPlaymodeReply: Unhandled state %2!", (Object)this.getName(), (long)n);
             }
         }
         this.sendResult(n2);

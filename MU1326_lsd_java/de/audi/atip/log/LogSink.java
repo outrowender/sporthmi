@@ -8,25 +8,18 @@ import de.audi.atip.log.LogServAdmin;
 import java.util.Map;
 
 public interface LogSink {
-    default public void registerServices(LogServAdmin logServAdmin) {
-    }
+    public void registerServices(LogServAdmin var1);
 
-    default public Map getAvailableChannel() {
-    }
+    public Map getAvailableChannel();
 
-    default public void setConfiguration(Map map) {
-    }
+    public void setConfiguration(Map var1);
 
-    default public void updateConfiguration(Map map, String string) {
-    }
+    public void updateConfiguration(Map var1, String var2);
 
-    default public Map getConfiguration() {
-    }
+    public Map getConfiguration();
 
-    default public int getLogThreshold(String string) {
-    }
+    public int getLogThreshold(String var1);
 
-    default public void writeLog(LogEntry logEntry) {
-    }
+    public void writeLog(LogEntry var1);
 }
 

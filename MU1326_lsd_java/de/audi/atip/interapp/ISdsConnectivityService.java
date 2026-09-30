@@ -4,34 +4,24 @@
 package de.audi.atip.interapp;
 
 public interface ISdsConnectivityService {
-    default public void disclaimerAccept() {
-    }
+    public void disclaimerAccept();
 
-    default public void activateNadModule() {
-    }
+    public void activateNadModule();
 
-    default public void acceptOnce() {
-    }
+    public void acceptOnce();
 
-    default public void acceptAlways() {
-    }
+    public void acceptAlways();
 
-    default public void reject() {
-    }
+    public void reject();
 
-    default public void activateOnlineConnection() {
-    }
+    public void activateOnlineConnection();
 
-    default public void deactivateOnlineConnection() {
-    }
+    public void deactivateOnlineConnection();
 
-    default public void activateRoaming() {
-    }
+    public void activateRoaming();
 
-    default public void confirmRoaming() {
-    }
+    public void confirmRoaming();
 
-    default public void declineRoaming() {
-    }
+    public void declineRoaming();
 }
 

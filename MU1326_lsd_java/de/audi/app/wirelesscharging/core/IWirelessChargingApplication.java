@@ -12,37 +12,28 @@ import de.mib.swdiagnosis.wirelesscharging.IWirelessChargingDiagComponent;
 import org.osgi.framework.BundleContext;
 
 public interface IWirelessChargingApplication {
-    public static final String LOGCHANNEL_MAIN;
-    public static final String LOGCHANNEL_AUDIO;
-    public static final String LOGCHANNEL_AUDIO_CL;
-    public static final int WirelessCharging_MODULE_ID;
-    public static final String MODULE_NAME;
+    public static final String LOGCHANNEL_MAIN = "App.WirelessCharging.Main";
+    public static final String LOGCHANNEL_AUDIO = "App.WirelessCharging.Audio";
+    public static final String LOGCHANNEL_AUDIO_CL = "App.WirelessCharging.Audio.CL";
+    public static final int WirelessCharging_MODULE_ID = 47;
+    public static final String MODULE_NAME = "AppWirelessCharging";
 
-    default public void init() {
-    }
+    public void init();
 
-    default public void deinit() {
-    }
+    public void deinit();
 
-    default public IFrameworkAccess getFrameworkAccess() {
-    }
+    public IFrameworkAccess getFrameworkAccess();
 
-    default public void logStartupEvent(String string) {
-    }
+    public void logStartupEvent(String var1);
 
-    default public BundleContext getBundleContext() {
-    }
+    public BundleContext getBundleContext();
 
-    default public void addDiagnosisComponent(IWirelessChargingDiagComponent iWirelessChargingDiagComponent) {
-    }
+    public void addDiagnosisComponent(IWirelessChargingDiagComponent var1);
 
-    default public boolean isWLCInfoPopupEnabled() {
-    }
+    public boolean isWLCInfoPopupEnabled();
 
-    default public IMessageDispatcher getMessageDispatcher() {
-    }
+    public IMessageDispatcher getMessageDispatcher();
 
-    default public void resetFactorySettings() {
-    }
+    public void resetFactorySettings();
 }
 

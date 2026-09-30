@@ -12,7 +12,7 @@ import de.audi.app.media.sdis.MediaSDISSourceHandler;
 import de.audi.atip.log.LogChannel;
 
 public class MediaSDISController {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "MediaSDISController";
     private final LogChannel logger;
     private final MediaSDISNotifier notifier;
     private final MediaSDISSourceHandler sourceHandler;
@@ -33,7 +33,7 @@ public class MediaSDISController {
     }
 
     public void init() {
-        this.logger.log(1078071040, "[%1.init]", (Object)"MediaSDISController");
+        this.logger.log(1000000, "[%1.init]", (Object)LOGCLASS);
         this.notifier.init(this.playerASIProvider);
         this.sourceHandler.init(this.notifier);
         this.contentHandler.init(this.notifier);
@@ -43,7 +43,7 @@ public class MediaSDISController {
     }
 
     public void deinit() {
-        this.logger.log(1078071040, "[%1.deinit]", (Object)"MediaSDISController");
+        this.logger.log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         this.browserASIProvider.deinit();
         this.browserASIProvider2.deinit();
         this.playerASIProvider.deinit();

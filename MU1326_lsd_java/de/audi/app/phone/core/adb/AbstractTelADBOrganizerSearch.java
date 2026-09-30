@@ -19,8 +19,8 @@ extends AbstractADBOrganizerSearch {
     protected final HMIService hmiService;
 
     protected AbstractTelADBOrganizerSearch(HMIService hMIService, ADBApplication aDBApplication, LogChannel logChannel) {
-        super(hMIService.getTiledListModel(-862583808), hMIService.getMatchSpellerModel(-845806592), null, hMIService.getChoiceModel(-829029376), aDBApplication, logChannel);
-        this.matchList = hMIService.getTiledListModel(-862583808);
+        super(hMIService.getTiledListModel(300748), hMIService.getMatchSpellerModel(300749), null, hMIService.getChoiceModel(300750), aDBApplication, logChannel);
+        this.matchList = hMIService.getTiledListModel(300748);
         this.hmiService = hMIService;
     }
 
@@ -30,13 +30,11 @@ extends AbstractADBOrganizerSearch {
         this.hmiService = hMIService;
     }
 
-    @Override
     public EvoListRow[] createSearchListRows(DataSet[] dataSetArray) {
         return this.getRows(dataSetArray);
     }
 
-    protected abstract EvoListRow[] getRows(DataSet[] dataSetArray) {
-    }
+    protected abstract EvoListRow[] getRows(DataSet[] var1);
 
     protected TiledListModelApp getMatchListModel() {
         return this.matchList;

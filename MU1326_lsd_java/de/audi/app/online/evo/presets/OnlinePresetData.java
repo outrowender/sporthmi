@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 public class OnlinePresetData
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1588742536925811378L;
     private String appName;
     private String contextName;
     private int type;

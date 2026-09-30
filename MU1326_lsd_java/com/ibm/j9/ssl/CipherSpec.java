@@ -24,13 +24,12 @@ public class CipherSpec {
     boolean isExportable;
     private String hashingAlgorithm;
     public static final byte[] NULL_PROTOCOL_VERSION = new byte[2];
-    public static final String NULL_PROTOCOL_NAME;
-    public static final CipherSpec NULL_SPEC;
+    public static final String NULL_PROTOCOL_NAME = "";
+    public static final CipherSpec NULL_SPEC = new CipherSpec(new byte[2], "SSL_NULL_WITH_NULL_NULL", -1, 0, 0, false, null);
     public static final CipherSpec[] SUPPORTED_SPECS;
     public static final String[] SUPPORTED_SPEC_IDS;
 
     static {
-        NULL_SPEC = new CipherSpec(new byte[2], "SSL_NULL_WITH_NULL_NULL", -1, 0, 0, false, null);
         CipherSpec[] cipherSpecArray = new CipherSpec[6];
         byte[] byArray = new byte[2];
         byArray[1] = 10;
@@ -86,7 +85,7 @@ public class CipherSpec {
         return NULL_SPEC;
     }
 
-    public static CipherSpec getCipherSpec(InputStream inputStream) {
+    public static CipherSpec getCipherSpec(InputStream inputStream) throws IOException {
         byte[] byArray = new byte[2];
         inputStream.read(byArray);
         return CipherSpec.getCipherSpec(byArray);
@@ -132,7 +131,7 @@ public class CipherSpec {
     }
 
     public String toString() {
-        return this.idString != null ? this.idString : new StringBuffer("0x").append(Integer.toHexString(this.id[0])).append(",0x").append(Integer.toHexString(this.id[1])).toString();
+        return this.idString != null ? this.idString : "0x" + Integer.toHexString(this.id[0]) + ",0x" + Integer.toHexString(this.id[1]);
     }
 
     public CipherAlgorithm newCipherAlgorithm() {
@@ -167,7 +166,7 @@ public class CipherSpec {
         if (Util.equals(byArray, TLSProtocol.TLS_PROTOCOL_VERSION)) {
             return "TLSv1";
         }
-        return "";
+        return NULL_PROTOCOL_NAME;
     }
 }
 

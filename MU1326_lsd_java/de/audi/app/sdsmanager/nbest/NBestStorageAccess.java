@@ -11,84 +11,58 @@ import org.dsi.ifc.speechrec.NBestList;
 import org.dsi.ifc.speechrec.NBestListEntry;
 
 public interface NBestStorageAccess {
-    public static final int LINE_NUMBER_NONE;
+    public static final int LINE_NUMBER_NONE = -1;
 
-    default public PicklistHistoryElement retrieveLatestNBestListHistory(boolean bl) {
-    }
+    public PicklistHistoryElement retrieveLatestNBestListHistory(boolean var1);
 
-    default public void stepBackPicklistHistory() {
-    }
+    public void stepBackPicklistHistory();
 
-    default public void resetPicklistsWithHistory() {
-    }
+    public void resetPicklistsWithHistory();
 
-    default public void storeCurrentPicklistInHistory() {
-    }
+    public void storeCurrentPicklistInHistory();
 
-    default public void addGGRefinementToNBestListHistory() {
-    }
+    public void addGGRefinementToNBestListHistory();
 
-    default public void addGGSpellingRefinementToNBestListHistory(NBestListEntry[] nBestListEntryArray) {
-    }
+    public void addGGSpellingRefinementToNBestListHistory(NBestListEntry[] var1);
 
-    default public void resetNBestListHistory() {
-    }
+    public void resetNBestListHistory();
 
-    default public int getSpellingGraphGroupID() {
-    }
+    public int getSpellingGraphGroupID();
 
-    default public int getLatestPicklistID() {
-    }
+    public int getLatestPicklistID();
 
-    default public void setLastRecogLine(boolean bl, int n) {
-    }
+    public void setLastRecogLine(boolean var1, int var2);
 
-    default public int getLastRecogLine() {
-    }
+    public int getLastRecogLine();
 
-    default public boolean storeNBestList(NBestList nBestList) {
-    }
+    public boolean storeNBestList(NBestList var1);
 
-    default public NBestListEntry getTopEntry() {
-    }
+    public NBestListEntry getTopEntry();
 
-    default public void filterPicklistDuplicates() {
-    }
+    public void filterPicklistDuplicates();
 
-    default public String getRecognitionText(int n) {
-    }
+    public String getRecognitionText(int var1);
 
-    default public void prepareGGRefinementPicklist(int n, int n2) {
-    }
+    public void prepareGGRefinementPicklist(int var1, int var2);
 
-    default public PicklistHelper getPicklistHelper() {
-    }
+    public PicklistHelper getPicklistHelper();
 
-    default public IPicklistSlot getSlotForPicklistElement(int n, int n2, byte by, boolean bl) {
-    }
+    public IPicklistSlot getSlotForPicklistElement(int var1, int var2, byte var3, boolean var4);
 
-    default public long getSlotObjID(int n, int n2) {
-    }
+    public long getSlotObjID(int var1, int var2);
 
-    default public IPicklist getMatchingPicklist(byte by) {
-    }
+    public IPicklist getMatchingPicklist(byte var1);
 
-    default public String[][] getPreparedPicklistTexts(byte by) {
-    }
+    public String[][] getPreparedPicklistTexts(byte var1);
 
-    default public long[][] getPreparedPicklistObjIDs(byte by) {
-    }
+    public long[][] getPreparedPicklistObjIDs(byte var1);
 
-    default public int[] getPreparedPicklistGraphGroupSizes(byte by) {
-    }
+    public int[] getPreparedPicklistGraphGroupSizes(byte var1);
 
-    default public int getPicklistSize(byte by) {
-    }
+    public int getPicklistSize(byte var1);
 
-    default public byte getRecogResultGraphGroupType() {
-    }
+    public byte getRecogResultGraphGroupType();
 
-    default public boolean isSlotRecognition() {
-    }
+    public boolean isSlotRecognition();
 }
 

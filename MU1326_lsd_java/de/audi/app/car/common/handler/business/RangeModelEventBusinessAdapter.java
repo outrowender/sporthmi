@@ -17,12 +17,10 @@ implements RangeModelEventBusiness {
         super(dSIBase, logChannel);
     }
 
-    @Override
     public boolean processAdjustment(int n, RangeModelHandler rangeModelHandler) {
         return false;
     }
 
-    @Override
     public boolean processAdjustment(HandlerTransactionData handlerTransactionData, RangeModelHandler rangeModelHandler) {
         return false;
     }

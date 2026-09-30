@@ -18,21 +18,17 @@ extends AbstractPoiCallModelHandler {
         super(hMIService, abstractOperatorCall);
     }
 
-    @Override
     public void showPopup(int n) {
     }
 
-    @Override
     protected AbstractHistoryCallListRow getHistoryCallListRow(EvoListRow evoListRow) {
         return (HistoryCallListRowEvo)evoListRow;
     }
 
-    @Override
     protected PoiResultListRow getPoiResultListRow(EvoListRow evoListRow) {
         return (PoiResultListRowEvo)evoListRow;
     }
 
-    @Override
     protected boolean isPhoneReadyForJokerkey() {
         return true;
     }

@@ -4,10 +4,17 @@
 package de.audi.atip.utils.dispatching;
 
 public interface ITimerListener {
-    default public void fireTimer() {
-    }
+    public void fireTimer();
 
-    default public void cancelTimer() {
+    public void cancelTimer();
+
+    public static class Stub
+    implements ITimerListener {
+        public void fireTimer() {
+        }
+
+        public void cancelTimer() {
+        }
     }
 }
 

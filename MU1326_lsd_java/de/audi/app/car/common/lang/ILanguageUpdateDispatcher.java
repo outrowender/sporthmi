@@ -6,16 +6,12 @@ package de.audi.app.car.common.lang;
 import de.audi.app.car.common.lang.ILanguageUpdateListener;
 
 public interface ILanguageUpdateDispatcher {
-    default public void init() {
-    }
+    public void init();
 
-    default public void deinit() {
-    }
+    public void deinit();
 
-    default public void addLanguageUpdateListener(ILanguageUpdateListener iLanguageUpdateListener) {
-    }
+    public void addLanguageUpdateListener(ILanguageUpdateListener var1);
 
-    default public void removeLanguageUpdateListener(ILanguageUpdateListener iLanguageUpdateListener) {
-    }
+    public void removeLanguageUpdateListener(ILanguageUpdateListener var1);
 }
 

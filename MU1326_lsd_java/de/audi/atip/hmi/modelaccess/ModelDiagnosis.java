@@ -6,13 +6,10 @@ package de.audi.atip.hmi.modelaccess;
 import de.audi.atip.hmi.model.AbstractModel;
 
 public interface ModelDiagnosis {
-    default public AbstractModel getActiveModel() {
-    }
+    public AbstractModel getActiveModel();
 
-    default public AbstractModel getInactiveModel() {
-    }
+    public AbstractModel getInactiveModel();
 
-    default public boolean isTransactionRunning() {
-    }
+    public boolean isTransactionRunning();
 }
 

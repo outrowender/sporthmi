@@ -7,13 +7,13 @@ import de.audi.atip.hmi.model.list.EvoListRow;
 
 public class AddAddressToContactSelectionListRow
 extends EvoListRow {
-    private static final int ADDRESS_EXISTS_COLUMN;
-    private static final int ADDRESS_TYPE_COLUMN;
-    private static final int ADDRESS_INFO_COLUMN;
-    private static final int ADDRESS_EXISTS;
-    private static final int ADDRESS_DOESNT_EXIST;
-    private static final int PRIVATE_ADDRESS;
-    private static final int BUSINESS_ADDRESS;
+    private static final int ADDRESS_EXISTS_COLUMN = 0;
+    private static final int ADDRESS_TYPE_COLUMN = 1;
+    private static final int ADDRESS_INFO_COLUMN = 2;
+    private static final int ADDRESS_EXISTS = 1;
+    private static final int ADDRESS_DOESNT_EXIST = 0;
+    private static final int PRIVATE_ADDRESS = 0;
+    private static final int BUSINESS_ADDRESS = 1;
 
     public AddAddressToContactSelectionListRow(long l, boolean bl, String string, int n) {
         super(l, 3);
@@ -26,7 +26,6 @@ extends EvoListRow {
         super(addAddressToContactSelectionListRow);
     }
 
-    @Override
     public EvoListRow copy() {
         return new AddAddressToContactSelectionListRow(this);
     }

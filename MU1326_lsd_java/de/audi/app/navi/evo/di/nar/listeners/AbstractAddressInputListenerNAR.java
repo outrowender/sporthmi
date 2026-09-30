@@ -15,8 +15,6 @@ extends AbstractAddressInputListenerEvo {
         super(navigationEnv, iPreviewMap, iCommandListFactory, iAddressInputManager);
     }
 
-    @Override
-    protected abstract void initListeners() {
-    }
+    protected abstract void initListeners();
 }
 

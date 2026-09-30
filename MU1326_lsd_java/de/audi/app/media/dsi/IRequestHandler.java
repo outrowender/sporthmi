@@ -7,22 +7,16 @@ import de.audi.app.media.dsi.IRequestParameter;
 import org.dsi.ifc.base.DSIBase;
 
 public interface IRequestHandler {
-    default public IRequestParameter dataResponded() {
-    }
+    public IRequestParameter dataResponded();
 
-    default public void setDSI(DSIBase dSIBase) {
-    }
+    public void setDSI(DSIBase var1);
 
-    default public boolean request(IRequestParameter iRequestParameter) {
-    }
+    public boolean request(IRequestParameter var1);
 
-    default public void discard(int n) {
-    }
+    public void discard(int var1);
 
-    default public boolean isRequestRunning(IRequestParameter iRequestParameter) {
-    }
+    public boolean isRequestRunning(IRequestParameter var1);
 
-    default public void reset() {
-    }
+    public void reset();
 }
 

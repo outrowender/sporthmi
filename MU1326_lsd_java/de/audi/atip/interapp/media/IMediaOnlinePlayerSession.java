@@ -7,34 +7,26 @@ import de.audi.atip.interapp.media.IMediaPlayerSession;
 
 public interface IMediaOnlinePlayerSession
 extends IMediaPlayerSession {
-    public static final int TYPE_ONLINE_RADIO;
-    public static final int TYPE_ONLINE_MEDIA;
-    public static final int BUFFER_STATE_UNDEFINED;
-    public static final int BUFFER_STATE_FILLED;
-    public static final int BUFFER_STATE_UNDERRUN;
+    public static final int TYPE_ONLINE_RADIO = 0;
+    public static final int TYPE_ONLINE_MEDIA = 1;
+    public static final int BUFFER_STATE_UNDEFINED = 0;
+    public static final int BUFFER_STATE_FILLED = 2;
+    public static final int BUFFER_STATE_UNDERRUN = 1;
 
-    default public String getServiceID() {
-    }
+    public String getServiceID();
 
-    default public String getUrl() {
-    }
+    public String getUrl();
 
-    default public void updateBufferState(int n, int n2) {
-    }
+    public void updateBufferState(int var1, int var2);
 
-    default public void trackChanged(long l) {
-    }
+    public void trackChanged(long var1);
 
-    default public void updateCapabilities(boolean bl, boolean bl2, boolean bl3, boolean bl4, boolean bl5, boolean bl6) {
-    }
+    public void updateCapabilities(boolean var1, boolean var2, boolean var3, boolean var4, boolean var5, boolean var6);
 
-    default public void updatePlaybackMode(boolean bl, boolean bl2) {
-    }
+    public void updatePlaybackMode(boolean var1, boolean var2);
 
-    default public void updateSkipCount(boolean bl, int n) {
-    }
+    public void updateSkipCount(boolean var1, int var2);
 
-    default public void responseDetailInfo(String string, String string2, String string3, String string4) {
-    }
+    public void responseDetailInfo(String var1, String var2, String var3, String var4);
 }
 

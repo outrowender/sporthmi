@@ -23,9 +23,8 @@ extends AbstractADBCommand {
         this.sdsHandler = aDBSDSHandler;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "GetEntryNamesCommand#execute()");
+        this.logger.log(10000000, "GetEntryNamesCommand#execute()");
         boolean bl = this.adbDSIAccess.getEntryDataSets(this.entryIDs, 0, 0);
         if (!bl) {
             this.logger.log(10000, "GetEntryNamesCommand#execute(): dsi call was not successful, finishing command.");
@@ -34,10 +33,9 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public void getEntryDataSetsResult(int n, DataSet[] dataSetArray) {
         if (this.logger.isDebug()) {
-            this.logger.log(-2137614336, "GetEntryNamesCommand#getEntryDataSetsResult(): entryDataSetList: %1, success: %2", (Object)ADBDbgUtils.dbg(dataSetArray), (Object)ADBDbgUtils.dbgSuccessFlag(n));
+            this.logger.log(10000000, "GetEntryNamesCommand#getEntryDataSetsResult(): entryDataSetList: %1, success: %2", (Object)ADBDbgUtils.dbg(dataSetArray), (Object)ADBDbgUtils.dbgSuccessFlag(n));
         }
         if (n == 0 && dataSetArray != null && dataSetArray.length > 0) {
             String[] stringArray = new String[dataSetArray.length];

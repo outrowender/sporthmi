@@ -14,19 +14,19 @@ implements Cloneable {
     private long bytesProcessed;
     private int bytesToProcess;
     private byte[] oneByte = new byte[1];
-    private static final int K0_19;
-    private static final int K20_39;
-    private static final int K40_59;
-    private static final int K60_79;
-    private static final int H0;
-    private static final int H1;
-    private static final int H2;
-    private static final int H3;
-    private static final int H4;
-    private static final int HConstantsSize;
-    private static final int HashSizeInBytes;
-    private static final int BlockSizeInBytes;
-    private static final int WArraySize;
+    private static final int K0_19 = 1518500249;
+    private static final int K20_39 = 1859775393;
+    private static final int K40_59 = -1894007588;
+    private static final int K60_79 = -899497514;
+    private static final int H0 = 1732584193;
+    private static final int H1 = -271733879;
+    private static final int H2 = -1732584194;
+    private static final int H3 = 271733878;
+    private static final int H4 = -1009589776;
+    private static final int HConstantsSize = 5;
+    private static final int HashSizeInBytes = 20;
+    private static final int BlockSizeInBytes = 64;
+    private static final int WArraySize = 80;
 
     public SHAOutputStream() {
         this.initialize();
@@ -51,7 +51,7 @@ implements Cloneable {
         }
     }
 
-    public Object clone() {
+    public Object clone() throws CloneNotSupportedException {
         SHAOutputStream sHAOutputStream = (SHAOutputStream)super.clone();
         sHAOutputStream.HConstants = (int[])this.HConstants.clone();
         sHAOutputStream.WArray = (int[])this.WArray.clone();
@@ -126,7 +126,7 @@ implements Cloneable {
             this.MArray[n] = 0;
             ++n;
         }
-        long l = ((long)this.bytesToProcess + this.bytesProcessed) * 0;
+        long l = ((long)this.bytesToProcess + this.bytesProcessed) * 8L;
         if (this.bytesToProcess + 9 > 64) {
             this.processBuffer();
             n = 0;
@@ -137,7 +137,7 @@ implements Cloneable {
         }
         n = 1;
         while (n < 9) {
-            this.MArray[64 - n] = (byte)(l & 0);
+            this.MArray[64 - n] = (byte)(l & 0xFFL);
             l >>>= 8;
             ++n;
         }
@@ -164,7 +164,7 @@ implements Cloneable {
         n2 = 0;
         while (n2 <= 19) {
             n = n3 << 5 | n3 >>> 27;
-            n = n + n7 + this.WArray[n2] + -1720090022;
+            n = n + n7 + this.WArray[n2] + 1518500249;
             n7 = n6;
             n6 = n5;
             n5 = n4 << 30 | n4 >>> 2;
@@ -175,7 +175,7 @@ implements Cloneable {
         n2 = 20;
         while (n2 <= 39) {
             n = n3 << 5 | n3 >>> 27;
-            n = n + n7 + this.WArray[n2] + -1578378898;
+            n = n + n7 + this.WArray[n2] + 1859775393;
             n7 = n6;
             n6 = n5;
             n5 = n4 << 30 | n4 >>> 2;
@@ -186,7 +186,7 @@ implements Cloneable {
         n2 = 40;
         while (n2 <= 59) {
             n = n3 << 5 | n3 >>> 27;
-            n = n + n7 + this.WArray[n2] + -591651953;
+            n = n + n7 + this.WArray[n2] + -1894007588;
             n7 = n6;
             n6 = n5;
             n5 = n4 << 30 | n4 >>> 2;
@@ -197,7 +197,7 @@ implements Cloneable {
         n2 = 60;
         while (n2 <= 79) {
             n = n3 << 5 | n3 >>> 27;
-            n = n + n7 + this.WArray[n2] + -691969334;
+            n = n + n7 + this.WArray[n2] + -899497514;
             n7 = n6;
             n6 = n5;
             n5 = n4 << 30 | n4 >>> 2;
@@ -210,22 +210,22 @@ implements Cloneable {
         this.HConstants[2] = this.HConstants[2] + n5;
         this.HConstants[3] = this.HConstants[3] + n6;
         this.HConstants[4] = this.HConstants[4] + n7;
-        this.bytesProcessed += 0;
+        this.bytesProcessed += 64L;
         this.bytesToProcess = 0;
     }
 
     public void reset() {
-        this.HConstants[0] = 19088743;
-        this.HConstants[1] = -1985229329;
-        this.HConstants[2] = -19088744;
-        this.HConstants[3] = 1985229328;
-        this.HConstants[4] = -253635901;
+        this.HConstants[0] = 1732584193;
+        this.HConstants[1] = -271733879;
+        this.HConstants[2] = -1732584194;
+        this.HConstants[3] = 271733878;
+        this.HConstants[4] = -1009589776;
         this.bytesProcessed = 0L;
         this.bytesToProcess = 0;
     }
 
     public String toString() {
-        return new StringBuffer(String.valueOf(super.getClass().getName())).append(':').append(SHAOutputStream.toStringBlock(this.getHashAsBytes())).toString();
+        return String.valueOf(this.getClass().getName()) + ':' + SHAOutputStream.toStringBlock(this.getHashAsBytes());
     }
 
     private static String toStringBlock(byte[] byArray) {
@@ -241,10 +241,9 @@ implements Cloneable {
             stringBuffer.append(string.charAt(byArray[n3] & 0xF));
             ++n3;
         }
-        return new StringBuffer("[").append((Object)stringBuffer).append("]").toString();
+        return "[" + stringBuffer + "]";
     }
 
-    @Override
     public void write(byte[] byArray, int n, int n2) {
         int n3 = 64 - this.bytesToProcess;
         if (n2 < n3) {
@@ -266,7 +265,6 @@ implements Cloneable {
         }
     }
 
-    @Override
     public void write(int n) {
         this.oneByte[0] = (byte)n;
         this.write(this.oneByte, 0, 1);

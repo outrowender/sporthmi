@@ -1,34 +1,36 @@
 /*
  * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  de.mib.swdiagnosis.wirelesscharging.IWirelessChargingDiagComponent
  */
 package de.audi.app.wirelesscharging.core;
 
 import de.audi.app.wirelesscharging.core.AbstractWirelessChargingComponent;
 import de.audi.app.wirelesscharging.core.IWirelessChargingApplication;
 import de.audi.app.wirelesscharging.core.IWirelessChargingPresentationHandler;
-import de.audi.app.wirelesscharging.core.ReminderPopupHandler$1;
-import de.audi.app.wirelesscharging.core.ReminderPopupHandler$2;
-import de.audi.app.wirelesscharging.core.ReminderPopupHandler$3;
-import de.audi.app.wirelesscharging.core.ReminderPopupHandler$ReminderBluetoothListener;
-import de.audi.app.wirelesscharging.core.ReminderPopupHandler$ReminderMediaServiceListener;
-import de.audi.app.wirelesscharging.core.ReminderPopupHandler$ReminderPowerEventListener;
-import de.audi.app.wirelesscharging.core.ReminderPopupHandler$ReminderTMUpdateListener;
-import de.audi.app.wirelesscharging.core.ReminderPopupHandler$WirelessChargingReminderPopupAppDiag;
 import de.audi.app.wirelesscharging.core.WLCDefaultBluetoothListener;
 import de.audi.app.wirelesscharging.core.WirelessChargingServiceProvider;
-import de.audi.atip.interapp.media.IMediaServiceListener$DefaultMediaServiceListener;
+import de.audi.atip.interapp.media.IMediaServiceListener;
 import de.audi.atip.interapp.media.MediaSlotInfo;
 import de.audi.atip.interapp.terminalmode.DefaultTerminalModeUpdateListener;
+import de.audi.atip.interapp.terminalmode.TerminalModeDevice;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.msg.MsgListener;
+import de.audi.atip.power.DefaultPowerEventListener;
 import de.audi.atip.power.IPowerManager;
 import de.audi.atip.timer.Timer;
+import de.audi.atip.timer.TimerListener;
 import de.audi.mib.jdsi.DSIActivator;
+import de.audi.mib.jdsi.IDSIClient;
 import de.esolutions.fw.util.commons.Buffer;
+import de.mib.swdiagnosis.wirelesscharging.IWirelessChargingDiagComponent;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import org.dsi.ifc.base.DSIBase;
 import org.dsi.ifc.bluetooth.TrustedDevice;
 import org.dsi.ifc.wirelesscharging.DSIWirelessChargingListener;
 
@@ -36,8 +38,8 @@ public class ReminderPopupHandler
 extends AbstractWirelessChargingComponent
 implements DSIWirelessChargingListener,
 MsgListener {
-    private static final int EPS_ENABLED;
-    private static final int EPS_DISABLED;
+    private static final int EPS_ENABLED = 160;
+    private static final int EPS_DISABLED = 161;
     private final IWirelessChargingApplication wlcApp;
     private final IWirelessChargingPresentationHandler presentationHandler;
     private final DSIActivator dsiWirelessChargingActivator;
@@ -53,7 +55,7 @@ MsgListener {
     private final WirelessChargingServiceProvider tmUpdateListnerService;
     private final DefaultTerminalModeUpdateListener tmUpdateListener;
     private final WirelessChargingServiceProvider mediaService;
-    private final IMediaServiceListener$DefaultMediaServiceListener mediaServiceListener;
+    private final IMediaServiceListener.DefaultMediaServiceListener mediaServiceListener;
     private final WLCDefaultBluetoothListener wlcBluetoothListener;
     private volatile List usbDevices = new ArrayList();
     private volatile TrustedDevice[] trustedDevices = new TrustedDevice[0];
@@ -71,15 +73,40 @@ MsgListener {
         this.presentationHandler = iWirelessChargingPresentationHandler;
         this.log = logChannel;
         this.pwrManager = iPowerManager;
-        this.popupTimer = new Timer("ReminderPopupTimer", 0, true, new ReminderPopupHandler$1(this));
-        this.tmUpdateListener = new ReminderPopupHandler$ReminderTMUpdateListener(this, null);
+        this.popupTimer = new Timer("ReminderPopupTimer", 5000L, true, new TimerListener(){
+
+            public void fireTimer(Timer timer) {
+                ReminderPopupHandler.this.removeReminderPopup();
+            }
+
+            public void cancelTimer(Timer timer) {
+                ReminderPopupHandler.this.removeReminderPopup();
+            }
+        });
+        this.tmUpdateListener = new ReminderTMUpdateListener();
         this.tmUpdateListnerService = new WirelessChargingServiceProvider((class$de$audi$atip$interapp$terminalmode$ITerminalModeUpdateListener == null ? (class$de$audi$atip$interapp$terminalmode$ITerminalModeUpdateListener = ReminderPopupHandler.class$("de.audi.atip.interapp.terminalmode.ITerminalModeUpdateListener")) : class$de$audi$atip$interapp$terminalmode$ITerminalModeUpdateListener).getName(), this.tmUpdateListener, null, this.wlcApp.getBundleContext(), this.log);
-        this.mediaServiceListener = new ReminderPopupHandler$ReminderMediaServiceListener(this, null);
+        this.mediaServiceListener = new ReminderMediaServiceListener();
         this.mediaService = new WirelessChargingServiceProvider((class$de$audi$atip$interapp$media$IMediaServiceListener == null ? (class$de$audi$atip$interapp$media$IMediaServiceListener = ReminderPopupHandler.class$("de.audi.atip.interapp.media.IMediaServiceListener")) : class$de$audi$atip$interapp$media$IMediaServiceListener).getName(), this.mediaServiceListener, null, this.wlcApp.getBundleContext(), this.log);
-        this.wlcBluetoothListener = new ReminderPopupHandler$ReminderBluetoothListener(this, null);
-        this.dsiWirelessChargingActivator = new DSIActivator(iWirelessChargingApplication.getFrameworkAccess(), (class$org$dsi$ifc$wirelesscharging$DSIWirelessCharging == null ? (class$org$dsi$ifc$wirelesscharging$DSIWirelessCharging = ReminderPopupHandler.class$("org.dsi.ifc.wirelesscharging.DSIWirelessCharging")) : class$org$dsi$ifc$wirelesscharging$DSIWirelessCharging).getName(), (class$org$dsi$ifc$wirelesscharging$DSIWirelessChargingListener == null ? (class$org$dsi$ifc$wirelesscharging$DSIWirelessChargingListener = ReminderPopupHandler.class$("org.dsi.ifc.wirelesscharging.DSIWirelessChargingListener")) : class$org$dsi$ifc$wirelesscharging$DSIWirelessChargingListener).getName(), new Integer(0), this, new ReminderPopupHandler$2(this));
-        this.dsiBluetoothActivator = new DSIActivator(iWirelessChargingApplication.getFrameworkAccess(), (class$org$dsi$ifc$bluetooth$DSIBluetooth == null ? (class$org$dsi$ifc$bluetooth$DSIBluetooth = ReminderPopupHandler.class$("org.dsi.ifc.bluetooth.DSIBluetooth")) : class$org$dsi$ifc$bluetooth$DSIBluetooth).getName(), (class$org$dsi$ifc$bluetooth$DSIBluetoothListener == null ? (class$org$dsi$ifc$bluetooth$DSIBluetoothListener = ReminderPopupHandler.class$("org.dsi.ifc.bluetooth.DSIBluetoothListener")) : class$org$dsi$ifc$bluetooth$DSIBluetoothListener).getName(), new Integer(0), this.wlcBluetoothListener, new ReminderPopupHandler$3(this));
-        this.serviceProvider = new WirelessChargingServiceProvider((class$de$audi$atip$power$PowerEventListener == null ? (class$de$audi$atip$power$PowerEventListener = ReminderPopupHandler.class$("de.audi.atip.power.PowerEventListener")) : class$de$audi$atip$power$PowerEventListener).getName(), new ReminderPopupHandler$ReminderPowerEventListener(this, null), new Hashtable(0), this.wlcApp.getBundleContext(), logChannel);
+        this.wlcBluetoothListener = new ReminderBluetoothListener();
+        this.dsiWirelessChargingActivator = new DSIActivator(iWirelessChargingApplication.getFrameworkAccess(), (class$org$dsi$ifc$wirelesscharging$DSIWirelessCharging == null ? (class$org$dsi$ifc$wirelesscharging$DSIWirelessCharging = ReminderPopupHandler.class$("org.dsi.ifc.wirelesscharging.DSIWirelessCharging")) : class$org$dsi$ifc$wirelesscharging$DSIWirelessCharging).getName(), (class$org$dsi$ifc$wirelesscharging$DSIWirelessChargingListener == null ? (class$org$dsi$ifc$wirelesscharging$DSIWirelessChargingListener = ReminderPopupHandler.class$("org.dsi.ifc.wirelesscharging.DSIWirelessChargingListener")) : class$org$dsi$ifc$wirelesscharging$DSIWirelessChargingListener).getName(), new Integer(0), this, new IDSIClient(){
+
+            public void setDSI(DSIBase dSIBase) {
+            }
+
+            public int[] getAutoNotifications() {
+                return DSIActivator.ATTR_ALL;
+            }
+        });
+        this.dsiBluetoothActivator = new DSIActivator(iWirelessChargingApplication.getFrameworkAccess(), (class$org$dsi$ifc$bluetooth$DSIBluetooth == null ? (class$org$dsi$ifc$bluetooth$DSIBluetooth = ReminderPopupHandler.class$("org.dsi.ifc.bluetooth.DSIBluetooth")) : class$org$dsi$ifc$bluetooth$DSIBluetooth).getName(), (class$org$dsi$ifc$bluetooth$DSIBluetoothListener == null ? (class$org$dsi$ifc$bluetooth$DSIBluetoothListener = ReminderPopupHandler.class$("org.dsi.ifc.bluetooth.DSIBluetoothListener")) : class$org$dsi$ifc$bluetooth$DSIBluetoothListener).getName(), new Integer(0), this.wlcBluetoothListener, new IDSIClient(){
+
+            public void setDSI(DSIBase dSIBase) {
+            }
+
+            public int[] getAutoNotifications() {
+                return DSIActivator.ATTR_ALL;
+            }
+        });
+        this.serviceProvider = new WirelessChargingServiceProvider((class$de$audi$atip$power$PowerEventListener == null ? (class$de$audi$atip$power$PowerEventListener = ReminderPopupHandler.class$("de.audi.atip.power.PowerEventListener")) : class$de$audi$atip$power$PowerEventListener).getName(), new ReminderPowerEventListener(), new Hashtable(0), this.wlcApp.getBundleContext(), logChannel);
     }
 
     private void logState() {
@@ -90,7 +117,7 @@ MsgListener {
             buffer.append("isPhoneInPhoneBox = ").append(this.isPhoneInPhoneBox()).append(", ");
             buffer.append("isTerminalModeActive = ").append(this.isTerminalModeActive).append(", ");
             buffer.append("isDeviceConnectedViaUsbAndBT = ").append(this.isDeviceConnectedViaUsbAndBT).append(", ");
-            this.log.log(1078071040, buffer.toString());
+            this.log.log(1000000, buffer.toString());
         }
     }
 
@@ -104,7 +131,6 @@ MsgListener {
         return this.isPhoneInPhoneBox() || this.isTerminalModeActive || this.isDeviceConnectedViaUsbAndBT;
     }
 
-    @Override
     public void updateChargingInfo(int n, int n2) {
         this.chargingInfo = n;
         if (this.isPopupReminderShowing) {
@@ -116,28 +142,27 @@ MsgListener {
         }
     }
 
-    @Override
     public void processMsg(int n) {
         if (n == 102) {
-            this.log.log(1078071040, "[ReminderPopupHandler#processMsg] event MMI_STANDBY && door_opened from PowerManager received");
+            this.log.log(1000000, "[ReminderPopupHandler#processMsg] event MMI_STANDBY && door_opened from PowerManager received");
             if (this.isPopupReminderRequired()) {
                 this.showReminderPopup();
             } else {
-                this.log.log(1078071040, "[ReminderPopupHandler#processMsg] NOT showing reminder popup");
+                this.log.log(1000000, "[ReminderPopupHandler#processMsg] NOT showing reminder popup");
             }
             if (this.isSoundReminderRequired()) {
                 this.wlcApp.getFrameworkAccess().getMsgDistrib().sendMessage(103);
             } else {
-                this.log.log(1078071040, "[ReminderPopupHandler#processMsg] NOT playing reminder sound");
+                this.log.log(1000000, "[ReminderPopupHandler#processMsg] NOT playing reminder sound");
             }
         } else if (n == 28) {
-            this.log.log(1078071040, "[ReminderPopupHandler#processMsg] event RESET_PHONE_SETTINGS received");
+            this.log.log(1000000, "[ReminderPopupHandler#processMsg] event RESET_PHONE_SETTINGS received");
             this.wlcApp.resetFactorySettings();
         }
     }
 
     private void stopReminderPopupTimer() {
-        this.log.log(1078071040, "[ReminderPopupHandler#stopReminderPopupTimer] called, chargingInfo=%1", (Object)ReminderPopupHandler.getChargingInfoName(this.chargingInfo));
+        this.log.log(1000000, "[ReminderPopupHandler#stopReminderPopupTimer] called, chargingInfo=%1", (Object)ReminderPopupHandler.getChargingInfoName(this.chargingInfo));
         this.popupTimer.cancel();
     }
 
@@ -154,7 +179,7 @@ MsgListener {
             this.popupTimer.start();
             this.isPopupReminderShowing = true;
         } else {
-            this.log.log(1078071040, "[ReminderPopupHandler#showReminderPopup] Reminder is already showing or was switched off in settings -> NOP!");
+            this.log.log(1000000, "[ReminderPopupHandler#showReminderPopup] Reminder is already showing or was switched off in settings -> NOP!");
         }
     }
 
@@ -167,7 +192,7 @@ MsgListener {
     }
 
     private void setPowerState(int n) {
-        this.log.log(1078071040, "[ReminderPopupHandler#setPowerState] setting EPS to %3, chargingInfo=%2, isWLCInfoPopupEnabled=%1", this.wlcApp.isWLCInfoPopupEnabled(), (Object)ReminderPopupHandler.getChargingInfoName(this.chargingInfo), (Object)ReminderPopupHandler.getEPSName(n));
+        this.log.log(1000000, "[ReminderPopupHandler#setPowerState] setting EPS to %3, chargingInfo=%2, isWLCInfoPopupEnabled=%1", this.wlcApp.isWLCInfoPopupEnabled(), (Object)ReminderPopupHandler.getChargingInfoName(this.chargingInfo), (Object)ReminderPopupHandler.getEPSName(n));
         this.pwrManager.setExtendedPowerState(n, 0);
     }
 
@@ -185,7 +210,7 @@ MsgListener {
         for (int i2 = 0; i2 < this.trustedDevices.length; ++i2) {
             TrustedDevice trustedDevice = this.trustedDevices[i2];
             if (trustedDevice == null || !this.isConnectedAsHFP(trustedDevice) || string == null || !string.equalsIgnoreCase(trustedDevice.getDeviceName())) continue;
-            this.log.log(1078071040, "[ReminderPopupHandler#checkConnectionViaUsbAndBT] We have a match! USB: %1, BT: %2.", (Object)string, (Object)trustedDevice.getDeviceName());
+            this.log.log(1000000, "[ReminderPopupHandler#checkConnectionViaUsbAndBT] We have a match! USB: %1, BT: %2.", (Object)string, (Object)trustedDevice.getDeviceName());
             return true;
         }
         return false;
@@ -195,12 +220,11 @@ MsgListener {
         return (trustedDevice.getActiveServiceTypes() & 2) > 0;
     }
 
-    @Override
     public void init() {
         super.init();
         this.dsiWirelessChargingActivator.start(this.getApplication().getBundleContext());
         this.dsiBluetoothActivator.start(this.getApplication().getBundleContext());
-        this.getApplication().addDiagnosisComponent(new ReminderPopupHandler$WirelessChargingReminderPopupAppDiag(this));
+        this.getApplication().addDiagnosisComponent(new WirelessChargingReminderPopupAppDiag());
         this.getApplication().getMessageDispatcher().addMessageListener(102, this);
         this.getApplication().getMessageDispatcher().addMessageListener(28, this);
         this.serviceProvider.startService();
@@ -208,7 +232,6 @@ MsgListener {
         this.mediaService.startService();
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.stopReminderPopupTimer();
@@ -268,16 +291,10 @@ MsgListener {
         return new StringBuffer().append("unknown EPS ").append(n).toString();
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
     }
 
-    @Override
     public void updateBatteryLevel(int n, int n2) {
-    }
-
-    static /* synthetic */ void access$000(ReminderPopupHandler reminderPopupHandler) {
-        reminderPopupHandler.removeReminderPopup();
     }
 
     static /* synthetic */ Class class$(String string) {
@@ -289,52 +306,76 @@ MsgListener {
         }
     }
 
-    static /* synthetic */ LogChannel access$500(ReminderPopupHandler reminderPopupHandler) {
-        return reminderPopupHandler.log;
-    }
-
-    static /* synthetic */ boolean access$602(ReminderPopupHandler reminderPopupHandler, boolean bl) {
-        reminderPopupHandler.isTerminalModeActive = bl;
-        return reminderPopupHandler.isTerminalModeActive;
-    }
-
-    static /* synthetic */ boolean access$700(ReminderPopupHandler reminderPopupHandler) {
-        return reminderPopupHandler.isPopupReminderShowing;
-    }
-
-    static /* synthetic */ void access$800(ReminderPopupHandler reminderPopupHandler) {
-        reminderPopupHandler.updateExtendedPowerState();
-    }
-
-    static /* synthetic */ List access$902(ReminderPopupHandler reminderPopupHandler, List list) {
-        reminderPopupHandler.usbDevices = list;
-        return reminderPopupHandler.usbDevices;
-    }
-
-    static /* synthetic */ boolean access$1002(ReminderPopupHandler reminderPopupHandler, boolean bl) {
-        reminderPopupHandler.isDeviceConnectedViaUsbAndBT = bl;
-        return reminderPopupHandler.isDeviceConnectedViaUsbAndBT;
-    }
-
-    static /* synthetic */ boolean access$1100(ReminderPopupHandler reminderPopupHandler) {
-        return reminderPopupHandler.checkConnectionViaUsbAndBT();
-    }
-
-    static /* synthetic */ boolean access$1000(ReminderPopupHandler reminderPopupHandler) {
-        return reminderPopupHandler.isDeviceConnectedViaUsbAndBT;
-    }
-
     static /* synthetic */ TrustedDevice[] access$1202(ReminderPopupHandler reminderPopupHandler, TrustedDevice[] trustedDeviceArray) {
         reminderPopupHandler.trustedDevices = trustedDeviceArray;
         return trustedDeviceArray;
     }
 
-    static /* synthetic */ IWirelessChargingApplication access$1300(ReminderPopupHandler reminderPopupHandler) {
-        return reminderPopupHandler.wlcApp;
+    private class ReminderTMUpdateListener
+    extends DefaultTerminalModeUpdateListener {
+        private ReminderTMUpdateListener() {
+        }
+
+        public void updateActiveDeviceState(TerminalModeDevice terminalModeDevice) {
+            ReminderPopupHandler.this.log.log(1000000, "[ReminderTMUpdateListener#updateActiveDeviceState] TMDevice=%1, isActive=%2", terminalModeDevice.isActive(), (Object)terminalModeDevice);
+            ReminderPopupHandler.this.isTerminalModeActive = terminalModeDevice.isActive();
+            if (!ReminderPopupHandler.this.isPopupReminderShowing) {
+                ReminderPopupHandler.this.updateExtendedPowerState();
+            }
+        }
     }
 
-    static /* synthetic */ void access$1400(ReminderPopupHandler reminderPopupHandler) {
-        reminderPopupHandler.stopReminderPopupTimer();
+    private class ReminderBluetoothListener
+    extends WLCDefaultBluetoothListener {
+        private ReminderBluetoothListener() {
+        }
+
+        public void updateTrustedDevices(TrustedDevice[] trustedDeviceArray, int n) {
+            if (n == 1) {
+                ReminderPopupHandler.access$1202(ReminderPopupHandler.this, trustedDeviceArray != null ? trustedDeviceArray : new TrustedDevice[]{});
+                ReminderPopupHandler.this.isDeviceConnectedViaUsbAndBT = ReminderPopupHandler.this.checkConnectionViaUsbAndBT();
+                ReminderPopupHandler.this.log.log(1000000, "[ReminderBluetoothListener#updateTrustedDevices] isDeviceConnectedViaUsbAndBT=%1", ReminderPopupHandler.this.isDeviceConnectedViaUsbAndBT);
+                if (!ReminderPopupHandler.this.isPopupReminderShowing) {
+                    ReminderPopupHandler.this.updateExtendedPowerState();
+                }
+            }
+        }
+    }
+
+    private class ReminderPowerEventListener
+    extends DefaultPowerEventListener {
+        private ReminderPowerEventListener() {
+        }
+
+        public void notifyPowerListenerOnEnterState(int n, int n2) {
+            if (n == 0 && ReminderPopupHandler.this.wlcApp.isWLCInfoPopupEnabled() && ReminderPopupHandler.this.isPopupReminderShowing) {
+                ReminderPopupHandler.this.log.log(1000000, "[ReminderPowerEventListener#notifyPowerListenerOnEnterState] going HMI_ON");
+                ReminderPopupHandler.this.stopReminderPopupTimer();
+            }
+        }
+    }
+
+    private class ReminderMediaServiceListener
+    extends IMediaServiceListener.DefaultMediaServiceListener {
+        private ReminderMediaServiceListener() {
+        }
+
+        public void sourceListChanged(Map map) {
+            List list = (List)map.get(new Integer(10));
+            ReminderPopupHandler.this.usbDevices = list != null ? list : new ArrayList();
+            ReminderPopupHandler.this.isDeviceConnectedViaUsbAndBT = ReminderPopupHandler.this.checkConnectionViaUsbAndBT();
+            ReminderPopupHandler.this.log.log(1000000, "[ReminderMediaServiceListener#sourceListChanged] isDeviceConnectedViaUsbAndBT=%1", ReminderPopupHandler.this.isDeviceConnectedViaUsbAndBT);
+            if (!ReminderPopupHandler.this.isPopupReminderShowing) {
+                ReminderPopupHandler.this.updateExtendedPowerState();
+            }
+        }
+    }
+
+    public class WirelessChargingReminderPopupAppDiag
+    implements IWirelessChargingDiagComponent {
+        public void cmdUpdateChargeInfoReminderPopup(int n) {
+            ReminderPopupHandler.this.updateChargingInfo(n, 1);
+        }
     }
 }
 

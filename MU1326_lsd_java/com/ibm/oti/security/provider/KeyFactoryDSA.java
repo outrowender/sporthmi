@@ -27,8 +27,7 @@ extends KeyFactorySpi {
     static /* synthetic */ Class class$2;
     static /* synthetic */ Class class$3;
 
-    @Override
-    protected PrivateKey engineGeneratePrivate(KeySpec keySpec) {
+    protected PrivateKey engineGeneratePrivate(KeySpec keySpec) throws InvalidKeySpecException {
         if (keySpec instanceof DSAPrivateKeySpec) {
             DSAPrivateKeySpec dSAPrivateKeySpec = (DSAPrivateKeySpec)keySpec;
             BigInteger bigInteger = dSAPrivateKeySpec.getP();
@@ -51,8 +50,7 @@ extends KeyFactorySpi {
         throw new InvalidKeySpecException();
     }
 
-    @Override
-    protected PublicKey engineGeneratePublic(KeySpec keySpec) {
+    protected PublicKey engineGeneratePublic(KeySpec keySpec) throws InvalidKeySpecException {
         if (keySpec instanceof DSAPublicKeySpec) {
             DSAPublicKeySpec dSAPublicKeySpec = (DSAPublicKeySpec)keySpec;
             BigInteger bigInteger = dSAPublicKeySpec.getP();
@@ -78,8 +76,7 @@ extends KeyFactorySpi {
     /*
      * Unable to fully structure code
      */
-    @Override
-    protected KeySpec engineGetKeySpec(Key var1_1, Class var2_2) {
+    protected KeySpec engineGetKeySpec(Key var1_1, Class var2_2) throws InvalidKeySpecException {
         var3_3 = false;
         v0 = KeyFactoryDSA.class$0;
         if (v0 == null) {
@@ -180,8 +177,7 @@ extends KeyFactorySpi {
         }
     }
 
-    @Override
-    protected Key engineTranslateKey(Key key) {
+    protected Key engineTranslateKey(Key key) throws InvalidKeyException {
         boolean bl;
         String string = key.getFormat();
         if ("PKCS#8".equals(string)) {

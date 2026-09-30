@@ -8,19 +8,14 @@ import de.audi.atip.hmi.model.ListCell;
 
 public interface SDSListModelApp
 extends HMIModel {
-    default public int getCellContentInteger() {
-    }
+    public int getCellContentInteger();
 
-    default public String getCellContentString() {
-    }
+    public String getCellContentString();
 
-    default public void setCellIndex(int n) {
-    }
+    public void setCellIndex(int var1);
 
-    default public int getCellIndex() {
-    }
+    public int getCellIndex();
 
-    default public void setRow(int n, ListCell[] listCellArray) {
-    }
+    public void setRow(int var1, ListCell[] var2);
 }
 

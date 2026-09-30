@@ -42,7 +42,7 @@ public class SpeechGrammar {
     }
 
     public String toString() {
-        return new StringBuffer("Grammar (id=").append(this.grammarID).append(", type=").append(this.grammarType).append(", grammarText='").append(this.grammarText).append("'").append(", listItems=").append(this.listItems).append(")").toString();
+        return "Grammar (id=" + this.grammarID + ", type=" + this.grammarType + ", grammarText='" + this.grammarText + "'" + ", listItems=" + this.listItems + ")";
     }
 }
 

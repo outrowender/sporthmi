@@ -12,7 +12,6 @@ extends AbstractBatteryControlListHandlingComponent {
         super(iCarApplication);
     }
 
-    @Override
     public int getID() {
         return 0;
     }

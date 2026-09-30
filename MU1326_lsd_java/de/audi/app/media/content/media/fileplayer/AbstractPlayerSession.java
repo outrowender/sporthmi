@@ -9,11 +9,11 @@ import de.audi.atip.log.LogChannel;
 
 public abstract class AbstractPlayerSession
 implements IMediaPlayerSession {
-    private static final String LOGCLASS;
-    public static final int ON_UNDEFINED;
-    public static final int ON_CLOSE;
-    public static final int ON_ACTIVE;
-    public static final int ON_SUSPEND;
+    private static final String LOGCLASS = "AbstractPlayerSession";
+    public static final int ON_UNDEFINED = -1;
+    public static final int ON_CLOSE = 0;
+    public static final int ON_ACTIVE = 1;
+    public static final int ON_SUSPEND = 2;
     protected final IMediaPlayerSession clientSession;
     private final LogChannel logger;
     private int currentState;
@@ -35,17 +35,14 @@ implements IMediaPlayerSession {
         return this.clientSession.getType();
     }
 
-    @Override
     public int getAudioConnection() {
         return this.clientSession.getAudioConnection();
     }
 
-    @Override
     public int getType() {
         return this.clientSession.getType();
     }
 
-    @Override
     public String getName() {
         return this.clientSession.getName();
     }
@@ -54,7 +51,6 @@ implements IMediaPlayerSession {
         return this.sessionPlayer;
     }
 
-    @Override
     public void onActive(IMediaSessionPlayer iMediaSessionPlayer) {
         this.onState = 1;
         this.sessionPlayer = iMediaSessionPlayer;
@@ -62,7 +58,6 @@ implements IMediaPlayerSession {
         this.clientSession.onActive(iMediaSessionPlayer);
     }
 
-    @Override
     public void onSuspend() {
         this.onState = 2;
         this.sessionPlayer = null;
@@ -70,7 +65,6 @@ implements IMediaPlayerSession {
         this.clientSession.onSuspend();
     }
 
-    @Override
     public void onClose() {
         this.onState = 0;
         this.sessionPlayer = null;
@@ -78,17 +72,15 @@ implements IMediaPlayerSession {
         this.clientSession.onClose();
     }
 
-    @Override
     public void updateState(int n) {
         if (this.currentState == n) {
             return;
         }
-        this.logger.log(1078071040, "[%1.updateState] '%2'", (Object)"AbstractPlayerSession", (Object)AbstractPlayerSession.state2Str(n));
+        this.logger.log(1000000, "[%1.updateState] '%2'", (Object)LOGCLASS, (Object)AbstractPlayerSession.state2Str(n));
         this.currentState = n;
         this.clientSession.updateState(n);
     }
 
-    @Override
     public void updatePlayPosition(int n, int n2) {
         this.clientSession.updatePlayPosition(n, n2);
     }
@@ -124,7 +116,7 @@ implements IMediaPlayerSession {
                 return "STOPPED_ERROR";
             }
         }
-        return new StringBuffer().append("UNKNOW (").append(n).append(")").toString();
+        return "UNKNOW (" + n + ")";
     }
 
     public boolean isOnPlayback() {

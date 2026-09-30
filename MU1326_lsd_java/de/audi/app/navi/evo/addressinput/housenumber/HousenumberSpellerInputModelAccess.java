@@ -36,16 +36,14 @@ implements IHousenumberModelAccess {
         this.spellerModelApp.setMaxLength(128);
     }
 
-    @Override
     public void onStart(NavLocation navLocation) {
         Util.setModelStatus(this.spellerModelApp, 0);
         this.spellerModelApp.clear();
         this.spellerModelApp.setCountryAbbreviation(navLocation.getCountryAbbreviation());
         this.previewListModelApp.removeAll();
-        this.env.getChoiceModel(220071424).setValue(0);
+        this.env.getChoiceModel(400909).setValue(0);
     }
 
-    @Override
     public void updatePreviewHousenumber(String string) {
         this.spellerModelApp.setText(string);
         this.previewListModelApp.removeAll();
@@ -59,11 +57,10 @@ implements IHousenumberModelAccess {
     }
 
     private EvoListRow buildListRow(String string, LIValueListElement lIValueListElement) {
-        AddressInputLIValueListElementListRow addressInputLIValueListElementListRow = new AddressInputLIValueListElementListRow(lIValueListElement, 160082217, new int[0]);
+        AddressInputLIValueListElementListRow addressInputLIValueListElementListRow = new AddressInputLIValueListElementListRow(lIValueListElement, 698976777, new int[0]);
         return addressInputLIValueListElementListRow;
     }
 
-    @Override
     public void onElementSelected(NavLocation navLocation) {
         if (navLocation == null) {
             this.env.getLogChannel().log(10000, "AbstractModelAccess#onElementSelected the given navLocation is null");
@@ -72,20 +69,17 @@ implements IHousenumberModelAccess {
         this.backupLocationHandler.setBackupLocation(navLocation);
     }
 
-    @Override
     public void onHousenumberValid() {
-        this.env.getChoiceModel(287049216).setValue(1);
-        this.env.getChoiceModel(-2027878912).setValue(0);
+        this.env.getChoiceModel(400401).setValue(1);
+        this.env.getChoiceModel(401799).setValue(0);
     }
 
-    @Override
     public void onHousenumberInvalid(String string) {
-        this.env.getChoiceModel(287049216).setValue(0);
-        this.env.getTextfieldModel(236848640).setText1(string);
-        this.env.getChoiceModel(-2027878912).setValue(2);
+        this.env.getChoiceModel(400401).setValue(0);
+        this.env.getTextfieldModel(400910).setText1(string);
+        this.env.getChoiceModel(401799).setValue(2);
     }
 
-    @Override
     public void onUpdateLocation(NavLocation navLocation, Map map) {
         this.modelAccessHelper.onUpdateLocation(this.env, this.logChannel, navLocation, map);
     }

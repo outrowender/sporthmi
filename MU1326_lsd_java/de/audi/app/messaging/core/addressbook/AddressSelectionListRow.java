@@ -8,10 +8,10 @@ import org.dsi.ifc.messaging.MatchedAddress;
 
 public class AddressSelectionListRow
 extends EvoListRow {
-    private static final int COLUMN_COUNT;
-    private static final int CELL_IDX_ADDRESS_ICON;
-    private static final int CELL_IDX_ADDRESS;
-    private static final int CELL_IDX_RECORDSET;
+    private static final int COLUMN_COUNT = 3;
+    private static final int CELL_IDX_ADDRESS_ICON = 0;
+    private static final int CELL_IDX_ADDRESS = 1;
+    private static final int CELL_IDX_RECORDSET = 2;
     private final MatchedAddress matchedAddress;
     private final int iconId;
     private final int recordset;
@@ -34,7 +34,6 @@ extends EvoListRow {
         return this.iconId;
     }
 
-    @Override
     public EvoListRow copy() {
         return new AddressSelectionListRow(this.matchedAddress, this.iconId, this.getUniqueID(), this.recordset == 1);
     }

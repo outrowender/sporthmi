@@ -9,16 +9,12 @@ import org.dsi.ifc.kombifastlist.DataMediaBrowser;
 
 public interface IDSIFastListMediaBrowser
 extends IDSIFastListAudio {
-    default public void responseMediaBrowser(int n, int n2, int n3, int n4, int n5, ArrayHeader arrayHeader) {
-    }
+    public void responseMediaBrowser(int var1, int var2, int var3, int var4, int var5, ArrayHeader var6);
 
-    default public void responseMediaBrowserArray(DataMediaBrowser[] dataMediaBrowserArray) {
-    }
+    public void responseMediaBrowserArray(DataMediaBrowser[] var1);
 
-    default public void responseMediaBrowserJobs(int n, int n2) {
-    }
+    public void responseMediaBrowserJobs(int var1, int var2);
 
-    default public void pushCurrentListSizeMediaBrowser(int n) {
-    }
+    public void pushCurrentListSizeMediaBrowser(int var1);
 }
 

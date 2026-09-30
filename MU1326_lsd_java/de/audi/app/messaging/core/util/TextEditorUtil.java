@@ -73,7 +73,7 @@ implements IMessagingComponent {
     }
 
     public void setText(int n, LinkedList linkedList, boolean bl, int n2) {
-        this.log.log(-2137614336, "[TextEditorUtil#setTextEditorContent] hasAlternatives = %1, focusedIndex = %2", bl, (long)n2);
+        this.log.log(10000000, "[TextEditorUtil#setTextEditorContent] hasAlternatives = %1, focusedIndex = %2", bl, (long)n2);
         int n3 = n2;
         int n4 = linkedList.size();
         if (n2 != 0) {
@@ -85,7 +85,7 @@ implements IMessagingComponent {
                 n3 = n4 - 1;
             }
             if (n3 != n2) {
-                this.log.log(-1601830656, "[TextEditorUtil#setTextEditorContent] focusedIndex out of bounds, adjusted value: %1 -> %2.", (long)n2, (long)n3);
+                this.log.log(100000, "[TextEditorUtil#setTextEditorContent] focusedIndex out of bounds, adjusted value: %1 -> %2.", (long)n2, (long)n3);
             }
         }
         int n5 = bl ? 1 : 0;
@@ -111,7 +111,7 @@ implements IMessagingComponent {
             }
         }
         if (bl) {
-            this.log.log(-2137614336, "[TextEditorUtil#getDictationText] Applying HMI space insertion.");
+            this.log.log(10000000, "[TextEditorUtil#getDictationText] Applying HMI space insertion.");
         }
         for (n = 0; n < dictationValueSentenceElementArray.length; ++n) {
             dictationValueSentenceElement = dictationValueSentenceElementArray[n];
@@ -169,7 +169,7 @@ implements IMessagingComponent {
         LinkedList linkedList = new LinkedList();
         boolean bl = true;
         if (dictationValueSentenceElementArray == null) {
-            this.log.log(-1601830656, "[TextEditorUtil#rectifyDictationElements] Element array is null.");
+            this.log.log(100000, "[TextEditorUtil#rectifyDictationElements] Element array is null.");
             bl = false;
         } else {
             for (int i2 = 0; i2 < dictationValueSentenceElementArray.length; ++i2) {
@@ -200,13 +200,13 @@ implements IMessagingComponent {
     private DictationValueSentenceElement rectifyDictationElement(DictationValueSentenceElement dictationValueSentenceElement, int n) {
         DictationValueSentenceElement dictationValueSentenceElement2 = null;
         if (dictationValueSentenceElement == null) {
-            this.log.log(-1601830656, "[TextEditorUtil#rectifyDictationElement] Element at index %1 is null.", (long)n);
+            this.log.log(100000, "[TextEditorUtil#rectifyDictationElement] Element at index %1 is null.", (long)n);
         } else {
             String[] stringArray = dictationValueSentenceElement.getWords();
             if (stringArray == null) {
-                this.log.log(-1601830656, "[TextEditorUtil#rectifyDictationElement] Word array of element at index %1 is null.", (long)n);
+                this.log.log(100000, "[TextEditorUtil#rectifyDictationElement] Word array of element at index %1 is null.", (long)n);
             } else if (stringArray.length == 0) {
-                this.log.log(-1601830656, "[TextEditorUtil#rectifyDictationElement] Word array of element at index %1 is empty.", (long)n);
+                this.log.log(100000, "[TextEditorUtil#rectifyDictationElement] Word array of element at index %1 is empty.", (long)n);
             } else {
                 int n2 = 0;
                 for (int i2 = 0; i2 < stringArray.length; ++i2) {
@@ -214,7 +214,7 @@ implements IMessagingComponent {
                         ++n2;
                         continue;
                     }
-                    this.log.log(-1601830656, "[TextEditorUtil#rectifyDictationElement] Word array of element at index %1 has a null or empty element at index %2.", (long)n, (long)i2);
+                    this.log.log(100000, "[TextEditorUtil#rectifyDictationElement] Word array of element at index %1 has a null or empty element at index %2.", (long)n, (long)i2);
                 }
                 if (n2 == stringArray.length) {
                     dictationValueSentenceElement2 = dictationValueSentenceElement;

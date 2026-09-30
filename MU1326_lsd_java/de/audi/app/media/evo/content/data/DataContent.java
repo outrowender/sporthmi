@@ -33,7 +33,7 @@ extends AbstractMediaContent
 implements TimerListener,
 IActionProxyListener,
 IActiveSourceListener {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "DataContent";
     private final DataPlayer dataPlayer;
     private final DataBrowser dataBrowser;
     private final IFavoritesController favoritesController;
@@ -51,31 +51,28 @@ IActiveSourceListener {
         this.lastSelectionHandler = new DataBrowserLastSelectionHandler(iMediaTerminal);
         this.dataBrowser = new DataBrowser(iMediaTerminal, this, this.dataPlayer, mediaDSIBrowserControllerImpl, this.favoritesController, iImplicitRepeatHandler, this.lastSelectionHandler);
         this.g2pController = new DataG2PController(iMediaTerminal, this.dataPlayer, this.lastSelectionHandler);
-        this.gracenoteTimer = new Timer("Gracenote", 0, true, this);
+        this.gracenoteTimer = new Timer("Gracenote", 3000L, true, this);
         this.mediaCapabilities = MediaCapabilities.EMPTY_CAPABILITIES;
     }
 
-    @Override
     public void init() {
-        this.logger.main().log(1078071040, "[%1.init]", (Object)"DataContent");
+        this.logger.main().log(1000000, "[%1.init]", (Object)LOGCLASS);
         this.dataPlayer.init();
         this.lastSelectionHandler.init();
         this.dataBrowser.init();
         this.g2pController.init();
     }
 
-    @Override
     public void deinit() {
-        this.logger.main().log(1078071040, "[%1.deinit]", (Object)"DataContent");
+        this.logger.main().log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         this.dataPlayer.deinit();
         this.dataBrowser.deinit();
         this.g2pController.deinit();
         this.lastSelectionHandler.deinit();
     }
 
-    @Override
     public void activate(IActivationContext iActivationContext) {
-        this.logger.main().log(1078071040, "[%1.activate]", (Object)"DataContent");
+        this.logger.main().log(1000000, "[%1.activate]", (Object)LOGCLASS);
         super.activate(iActivationContext);
         this.getTerminal().getSourceController().addActiveSourceListener(this);
         this.getTerminal().addActionProxyListener(36, (IActionProxyListener)this);
@@ -89,9 +86,8 @@ IActiveSourceListener {
         this.mediaCapabilities = iSourceSlot.getCapabilities();
     }
 
-    @Override
     public void deactivate() {
-        this.logger.main().log(1078071040, "[%1.deactivate]", (Object)"DataContent");
+        this.logger.main().log(1000000, "[%1.deactivate]", (Object)LOGCLASS);
         this.getChoiceModel(3941).setValue(0);
         super.deactivate();
         this.getTerminal().getSourceController().removeActiveSourceListener(this);
@@ -103,9 +99,8 @@ IActiveSourceListener {
         this.mediaCapabilities = MediaCapabilities.EMPTY_CAPABILITIES;
     }
 
-    @Override
     public void activeSourceChanged(boolean bl, ActiveSourceState activeSourceState) {
-        this.logger.main().log(1078071040, "[%1.activeSourceChanged]", (Object)"DataContent");
+        this.logger.main().log(1000000, "[%1.activeSourceChanged]", (Object)LOGCLASS);
         MediaCapabilities mediaCapabilities = activeSourceState.getSlot().getCapabilities();
         MediaCapabilities mediaCapabilities2 = this.mediaCapabilities;
         if (mediaCapabilities2 != null && mediaCapabilities2.equals(mediaCapabilities)) {
@@ -120,67 +115,58 @@ IActiveSourceListener {
         this.favoritesController.update(by, activeSourceState.getSlot());
     }
 
-    @Override
     public void sourceDeactivated() {
     }
 
-    @Override
     public IPlayer getPlayer() {
         return this.dataPlayer;
     }
 
-    @Override
     public void resetSettings() {
         this.dataPlayer.resetSettings();
     }
 
-    @Override
     public ButtonListener getHardKeyListener() {
         return this.dataPlayer.getHardKeyListener();
     }
 
-    @Override
     public void vehicleMoving(boolean bl) {
         this.dataPlayer.vehicleMoving(bl);
     }
 
-    @Override
     public void diagResetBrowser() {
         this.dataBrowser.diagResetBrowser();
     }
 
-    @Override
     public void actionProxyCallPerformed(int n, Map map) {
         if (36 == n) {
-            this.logger.main().log(1078071040, "[%1.actionProxyCallPerformed]", (Object)"DataContent");
+            this.logger.main().log(1000000, "[%1.actionProxyCallPerformed]", (Object)LOGCLASS);
             if (this.getTerminal().getConfiguration().isGracenoteEnabled()) {
                 this.getChoiceModel(3941).setValue(1);
                 this.gracenoteTimer.start();
             } else {
-                this.logger.main().log(-2137614336, "[%1.actionProxyCallPerformed] Gracenote is not coded", (Object)"DataContent");
+                this.logger.main().log(10000000, "[%1.actionProxyCallPerformed] Gracenote is not coded", (Object)LOGCLASS);
             }
         } else if (40 == n) {
             Integer n2 = (Integer)map.get(new Integer(40));
-            this.logger.main().log(1078071040, "[%1.actionProxyCallPerformed] AP_METHOD_SET_OPTION_OPEN_IN_NEXT_SCREEN", (Object)"DataContent");
-            this.getChoiceModel(-1659829504).setValue(n2);
+            this.logger.main().log(1000000, "[%1.actionProxyCallPerformed] AP_METHOD_SET_OPTION_OPEN_IN_NEXT_SCREEN", (Object)LOGCLASS);
+            this.getChoiceModel(201117).setValue(n2);
         }
     }
 
-    @Override
     public void fireTimer(Timer timer) {
-        this.logger.main().log(1078071040, "[%1.fireTimer] Remove gracenote icon.", (Object)"DataContent");
+        this.logger.main().log(1000000, "[%1.fireTimer] Remove gracenote icon.", (Object)LOGCLASS);
         this.getChoiceModel(3941).setValue(0);
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
-        this.logger.main().log(1078071040, "[%1.cancelTimer]", (Object)"DataContent");
+        this.logger.main().log(1000000, "[%1.cancelTimer]", (Object)LOGCLASS);
         this.getChoiceModel(3941).setValue(0);
     }
 
     public String toString() {
         Buffer buffer = new Buffer(20);
-        buffer.append("DataContent").append("@").append(this.hashCode());
+        buffer.append(LOGCLASS).append("@").append(this.hashCode());
         return buffer.toString();
     }
 }

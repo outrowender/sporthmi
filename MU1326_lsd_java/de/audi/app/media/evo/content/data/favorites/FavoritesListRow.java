@@ -10,25 +10,25 @@ import de.audi.atip.hmi.model.list.EvoListRow;
 
 public class FavoritesListRow
 extends EvoListRow {
-    private static final int MAX_COLUMNS;
-    private static final int CELL_ID_RECORDSET;
-    private static final int CELL_ID_FAV_FIRST_ROW;
-    private static final int CELL_ID_FAV_FIRST_ROW_I18N;
-    private static final int CELL_ID_FAV_SECOND_ROW;
-    private static final int CELL_ID_FAV_SECOND_ROW_I18N;
-    private static final int CELL_ID_ENABLED;
-    private static final int CELL_ID_PROPERTY;
-    private static final int CELL_ID_ICON;
-    private static final int ICON_UNDEFINED;
-    private static final int ICON_ARTIST;
-    private static final int ICON_ALBUM;
-    private static final int ICON_GENRE;
-    private static final int ICON_FOLDER;
-    private static final int ICON_PLAYLIST;
-    private static final int RECORDSET_ONELINE;
-    private static final int RECORDSET_TWOLINE;
-    private static final PropertyListCell FAVORITES_PROPERTIES;
-    private static final PropertyListCell DEADLINK_PROPERTIES;
+    private static final int MAX_COLUMNS = 8;
+    private static final int CELL_ID_RECORDSET = 0;
+    private static final int CELL_ID_FAV_FIRST_ROW = 1;
+    private static final int CELL_ID_FAV_FIRST_ROW_I18N = 2;
+    private static final int CELL_ID_FAV_SECOND_ROW = 3;
+    private static final int CELL_ID_FAV_SECOND_ROW_I18N = 4;
+    private static final int CELL_ID_ENABLED = 5;
+    private static final int CELL_ID_PROPERTY = 6;
+    private static final int CELL_ID_ICON = 7;
+    private static final int ICON_UNDEFINED = 0;
+    private static final int ICON_ARTIST = 1;
+    private static final int ICON_ALBUM = 2;
+    private static final int ICON_GENRE = 3;
+    private static final int ICON_FOLDER = 4;
+    private static final int ICON_PLAYLIST = 5;
+    private static final int RECORDSET_ONELINE = 0;
+    private static final int RECORDSET_TWOLINE = 1;
+    private static final PropertyListCell FAVORITES_PROPERTIES = new PropertyListCell(1065699435, new int[0]);
+    private static final PropertyListCell DEADLINK_PROPERTIES = new PropertyListCell(-211503700, new int[0]);
     private final MediaFavorite mediaFavorite;
 
     public FavoritesListRow(int n, MediaFavorite mediaFavorite) {
@@ -65,7 +65,6 @@ extends EvoListRow {
         return this.mediaFavorite;
     }
 
-    @Override
     public EvoListRow copy() {
         return new FavoritesListRow(this);
     }
@@ -90,11 +89,6 @@ extends EvoListRow {
             }
         }
         return 0;
-    }
-
-    static {
-        FAVORITES_PROPERTIES = new PropertyListCell(1799914815, new int[0]);
-        DEADLINK_PROPERTIES = new PropertyListCell(-1397398285, new int[0]);
     }
 }
 

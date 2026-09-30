@@ -6,13 +6,10 @@ package de.audi.app.terminalmode.dsi.keypanel;
 import de.audi.app.terminalmode.dsi.keypanel.TMDSIKeyPanelListener;
 
 public interface ITMDSIKeyPanelController {
-    default public void addTMKeyPanelListener(TMDSIKeyPanelListener tMDSIKeyPanelListener) {
-    }
+    public void addTMKeyPanelListener(TMDSIKeyPanelListener var1);
 
-    default public void removeTMKeyPanelListener() {
-    }
+    public void removeTMKeyPanelListener();
 
-    default public void setTextInputActive(int n, boolean bl) {
-    }
+    public void setTextInputActive(int var1, boolean var2);
 }
 

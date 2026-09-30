@@ -4,27 +4,21 @@
 package de.audi.atip.browser;
 
 public interface EfiUrlHandler {
-    public static final byte UPDATE_EFI_URL_ERROR;
-    public static final byte UPDATE_EFI_URL_SUCCESS_CHANGE_MODULE;
-    public static final byte UPDATE_EFI_URL_SUCCESS_DONT_CHANGE_MODULE;
-    public static final byte UPDATE_EFI_URL_DO_NOTHING;
+    public static final byte UPDATE_EFI_URL_ERROR = -1;
+    public static final byte UPDATE_EFI_URL_SUCCESS_CHANGE_MODULE = 1;
+    public static final byte UPDATE_EFI_URL_SUCCESS_DONT_CHANGE_MODULE = 2;
+    public static final byte UPDATE_EFI_URL_DO_NOTHING = 3;
 
-    default public void updateActiveUrl(String string) {
-    }
+    public void updateActiveUrl(String var1);
 
-    default public byte updateEfiUrl(String string) {
-    }
+    public byte updateEfiUrl(String var1);
 
-    default public void gotoHomeURL() {
-    }
+    public void gotoHomeURL();
 
-    default public void showSpeller(String string, String string2, String string3, boolean bl, short s) {
-    }
+    public void showSpeller(String var1, String var2, String var3, boolean var4, short var5);
 
-    default public boolean goForward() {
-    }
+    public boolean goForward();
 
-    default public boolean goBack() {
-    }
+    public boolean goBack();
 }
 

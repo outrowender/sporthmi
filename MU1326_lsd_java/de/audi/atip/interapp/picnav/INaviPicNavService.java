@@ -7,28 +7,20 @@ import org.dsi.ifc.global.NavLocation;
 import org.dsi.ifc.global.ResourceLocator;
 
 public interface INaviPicNavService {
-    default public boolean isPicNavAvailable() {
-    }
+    public boolean isPicNavAvailable();
 
-    default public void deleteAllImplicitPicNavLocations() {
-    }
+    public void deleteAllImplicitPicNavLocations();
 
-    default public void deleteImplicitPicNavLocation(NavLocation navLocation) {
-    }
+    public void deleteImplicitPicNavLocation(NavLocation var1);
 
-    default public void showPicNavMapDestination(NavLocation navLocation, ResourceLocator resourceLocator) {
-    }
+    public void showPicNavMapDestination(NavLocation var1, ResourceLocator var2);
 
-    default public NavLocation getDetailedLocation() {
-    }
+    public NavLocation getDetailedLocation();
 
-    default public void resetToFactorySettings() {
-    }
+    public void resetToFactorySettings();
 
-    default public void resolvedLocationResult(NavLocation navLocation) {
-    }
+    public void resolvedLocationResult(NavLocation var1);
 
-    default public void mapUnfrozen() {
-    }
+    public void mapUnfrozen();
 }
 

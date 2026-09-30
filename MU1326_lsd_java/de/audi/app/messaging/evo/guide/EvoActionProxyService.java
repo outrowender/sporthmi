@@ -18,14 +18,12 @@ MessagingActionProxy {
         super(messagingBundleContext, "App.Messaging.Main");
     }
 
-    @Override
     public int getActionProxyId() {
         return 8;
     }
 
-    @Override
     public void compositionSpeedThresholdPopupReturn(int n) {
-        this.log.log(1078071040, "[EvoActionProxyService#compositionSpeedThresholdPopupReturn]");
+        this.log.log(1000000, "[EvoActionProxyService#compositionSpeedThresholdPopupReturn]");
         IActionProxySubscriber[] iActionProxySubscriberArray = this.getCurrentSubscribers();
         for (int i2 = 0; i2 < iActionProxySubscriberArray.length; ++i2) {
             try {
@@ -40,9 +38,8 @@ MessagingActionProxy {
         }
     }
 
-    @Override
     public void messagingTransition(int n, int n2) {
-        this.log.log(1078071040, "[EvoActionProxyService#messagingTransition] transitionType = %1", (long)n2);
+        this.log.log(1000000, "[EvoActionProxyService#messagingTransition] transitionType = %1", (long)n2);
         IActionProxySubscriber[] iActionProxySubscriberArray = this.getCurrentSubscribers();
         for (int i2 = 0; i2 < iActionProxySubscriberArray.length; ++i2) {
             try {
@@ -57,9 +54,8 @@ MessagingActionProxy {
         }
     }
 
-    @Override
     public void editViewTransition(int n, int n2) {
-        this.log.log(1078071040, "[EvoActionProxyService#editViewTransition] transitionType = %1", (long)n2);
+        this.log.log(1000000, "[EvoActionProxyService#editViewTransition] transitionType = %1", (long)n2);
         IActionProxySubscriber[] iActionProxySubscriberArray = this.getCurrentSubscribers();
         for (int i2 = 0; i2 < iActionProxySubscriberArray.length; ++i2) {
             try {

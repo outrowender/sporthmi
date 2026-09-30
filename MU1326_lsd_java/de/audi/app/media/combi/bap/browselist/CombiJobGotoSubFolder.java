@@ -14,9 +14,9 @@ import de.audi.atip.log.LogChannel;
 public class CombiJobGotoSubFolder
 extends AbstractCombiBrowserJob {
     private final String LOGCLASS;
-    public static final int STATE_UNDEFINED;
-    public static final int STATE_ABSOLUTE_POSITION_DESITINATION_FOLDER;
-    public static final int STATE_ABSOLUTE_POSITION_PLAYING_TRACK;
+    public static final int STATE_UNDEFINED = 0;
+    public static final int STATE_ABSOLUTE_POSITION_DESITINATION_FOLDER = 1;
+    public static final int STATE_ABSOLUTE_POSITION_PLAYING_TRACK = 2;
     private final CombiBAPMediaEntry subFolder;
     private int state = 0;
     private int absolutePositionFolder = 0;
@@ -27,31 +27,27 @@ extends AbstractCombiBrowserJob {
         this.subFolder = combiBAPMediaEntry;
     }
 
-    @Override
     public int getType() {
         return 5;
     }
 
-    @Override
     public String getName() {
         return "SUBFOLDER";
     }
 
-    @Override
     public void abort(boolean bl) {
-        this.logger.log(1078071040, "[%1.abort]", (Object)"CombiJobGotoSubFolder");
+        this.logger.log(1000000, "[%1.abort]", (Object)"CombiJobGotoSubFolder");
         this.sendSubFolderResult(false);
     }
 
-    @Override
     public void start() {
-        this.logger.log(14808325, "[%1.start] Calculate absolute position of sub folder.", (Object)"CombiJobGotoSubFolder");
+        this.logger.log(100000000, "[%1.start] Calculate absolute position of sub folder.", (Object)"CombiJobGotoSubFolder");
         this.state = 1;
         this.getCombiAdapter().requestBrowseListByEntryId(this.subFolder.getEntryID(), this.subFolder.getEntryContentType(), 1);
     }
 
     private void changeToSubFolder() {
-        this.logger.log(14808325, "[%1.changeToSubFolder]", (Object)"CombiJobGotoSubFolder");
+        this.logger.log(100000000, "[%1.changeToSubFolder]", (Object)"CombiJobGotoSubFolder");
         MediaListEntry[] mediaListEntryArray = this.getCombiAdapter().getState().getCurrentBrowsingFolder();
         MediaListEntry[] mediaListEntryArray2 = new MediaListEntry[mediaListEntryArray.length + 1];
         System.arraycopy((Object)mediaListEntryArray, 0, (Object)mediaListEntryArray2, 0, mediaListEntryArray.length);
@@ -59,13 +55,12 @@ extends AbstractCombiBrowserJob {
         this.getCombiAdapter().changeFolder(mediaListEntryArray2);
     }
 
-    @Override
     public void browseFolderChanged(MediaListEntry[] mediaListEntryArray, int n) {
-        this.logger.log(14808325, "[%1.browseFolderChanged] Browse folder changed.", (Object)"CombiJobGotoSubFolder");
+        this.logger.log(100000000, "[%1.browseFolderChanged] Browse folder changed.", (Object)"CombiJobGotoSubFolder");
         this.sendBrowseFolder(this.getCombiAdapter().getState().getCurrentBrowsingFolder(), this.absolutePositionFolder);
         this.sendListSize(n);
         if (!this.getCombiAdapter().getState().isBrowsingPlaybackFolder()) {
-            this.logger.log(1078071040, "[%1.browseFolderChanged] Browsing not playback folder.", (Object)"CombiJobGotoSubFolder");
+            this.logger.log(1000000, "[%1.browseFolderChanged] Browsing not playback folder.", (Object)"CombiJobGotoSubFolder");
             this.getCombiAdapter().getState().setAbsolutePositionCurrentTrack(0);
             this.getCombiAdapter().getCombiAccessor().updatePlaybackFolder(false);
             this.sendDetailInfo();
@@ -73,39 +68,37 @@ extends AbstractCombiBrowserJob {
             this.getExecutionContext().jobFinished();
             return;
         }
-        this.logger.log(14808325, "[%1.browseFolderChanged] Browsing playback folder.", (Object)"CombiJobGotoSubFolder");
+        this.logger.log(100000000, "[%1.browseFolderChanged] Browsing playback folder.", (Object)"CombiJobGotoSubFolder");
         this.getCombiAdapter().getCombiAccessor().updatePlaybackFolder(true);
         MediaDetailInfo mediaDetailInfo = this.getCombiAdapter().getState().getCurrentDetailInfo();
         if (mediaDetailInfo == null) {
-            this.logger.log(1078071040, "[%1.browseFolderChanged] No detail info.", (Object)"CombiJobGotoSubFolder");
+            this.logger.log(1000000, "[%1.browseFolderChanged] No detail info.", (Object)"CombiJobGotoSubFolder");
             this.getCombiAdapter().getState().setAbsolutePositionCurrentTrack(0);
             this.sendDetailInfo();
             this.sendSubFolderResult(true);
             this.getExecutionContext().jobFinished();
             return;
         }
-        this.logger.log(14808325, "[%1.browseFolderChanged] Calculate absolute position playing track.", (Object)"CombiJobGotoSubFolder");
+        this.logger.log(100000000, "[%1.browseFolderChanged] Calculate absolute position playing track.", (Object)"CombiJobGotoSubFolder");
         this.state = 2;
         this.getCombiAdapter().requestBrowseListByEntryId(mediaDetailInfo.getEntryID(), mediaDetailInfo.getContentType(), 1);
     }
 
-    @Override
     public void errorFolderChangeAborted() {
-        this.logger.log(1078071040, "[%1.errorFolderChangeAborted] Folder change failed.", (Object)"CombiJobGotoSubFolder");
+        this.logger.log(1000000, "[%1.errorFolderChangeAborted] Folder change failed.", (Object)"CombiJobGotoSubFolder");
         this.sendSubFolderResult(false);
         this.getExecutionContext().jobFinished();
     }
 
-    @Override
     public void responseList(int n, MediaListEntry[] mediaListEntryArray) {
         if (this.state == 1) {
             this.absolutePositionFolder = CombiBAPUtils.getAbsolutePosition(this.subFolder.getEntryID(), this.subFolder.getEntryContentType(), mediaListEntryArray, n);
-            this.logger.log(1078071040, "[%1.responseList] STATE_ABSOLUTE_POSITION_DESITINATION_FOLDER absolutePositionSubFolder = '%2'", (Object)"CombiJobGotoSubFolder", (long)this.absolutePositionFolder);
+            this.logger.log(1000000, "[%1.responseList] STATE_ABSOLUTE_POSITION_DESITINATION_FOLDER absolutePositionSubFolder = '%2'", (Object)"CombiJobGotoSubFolder", (long)this.absolutePositionFolder);
             this.changeToSubFolder();
             return;
         }
         if (this.state == 2) {
-            this.logger.log(1078071040, "[%1.responseList] STATE_ABSOLUTE_POSITION_PLAYING_TRACK", (Object)"CombiJobGotoSubFolder");
+            this.logger.log(1000000, "[%1.responseList] STATE_ABSOLUTE_POSITION_PLAYING_TRACK", (Object)"CombiJobGotoSubFolder");
             this.getCombiAdapter().getState().setAbsolutePositionCurrentTrack(CombiBAPUtils.getAbsolutePosition(this.getCombiAdapter().getState().getCurrentDetailInfo().getEntryID(), this.getCombiAdapter().getState().getCurrentDetailInfo().getContentType(), mediaListEntryArray, n));
             this.sendDetailInfo();
             this.sendSubFolderResult(true);
@@ -114,10 +107,9 @@ extends AbstractCombiBrowserJob {
         }
     }
 
-    @Override
     public void errorListRequestAborted() {
         if (this.state == 1) {
-            this.logger.log(1078071040, "[%1.errorListRequestAborted] STATE_ABSOLUTE_POSITION_DESITINATION_FOLDER", (Object)"CombiJobGotoSubFolder");
+            this.logger.log(1000000, "[%1.errorListRequestAborted] STATE_ABSOLUTE_POSITION_DESITINATION_FOLDER", (Object)"CombiJobGotoSubFolder");
             this.changeToSubFolder();
             return;
         }

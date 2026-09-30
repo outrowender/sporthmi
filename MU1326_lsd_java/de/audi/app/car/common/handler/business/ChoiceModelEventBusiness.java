@@ -9,16 +9,12 @@ import de.audi.app.car.common.handler.business.HandlerTransactionData;
 
 public interface ChoiceModelEventBusiness
 extends ButtonModelEventBusiness {
-    default public boolean processItemSelected(int n, ChoiceModelHandler choiceModelHandler) {
-    }
+    public boolean processItemSelected(int var1, ChoiceModelHandler var2);
 
-    default public boolean processItemFocused(int n, ChoiceModelHandler choiceModelHandler) {
-    }
+    public boolean processItemFocused(int var1, ChoiceModelHandler var2);
 
-    default public boolean processItemSelected(HandlerTransactionData handlerTransactionData, ChoiceModelHandler choiceModelHandler) {
-    }
+    public boolean processItemSelected(HandlerTransactionData var1, ChoiceModelHandler var2);
 
-    default public boolean processItemFocused(HandlerTransactionData handlerTransactionData, ChoiceModelHandler choiceModelHandler) {
-    }
+    public boolean processItemFocused(HandlerTransactionData var1, ChoiceModelHandler var2);
 }
 

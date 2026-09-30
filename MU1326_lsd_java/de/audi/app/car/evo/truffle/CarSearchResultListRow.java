@@ -10,11 +10,11 @@ import org.dsi.ifc.search.SearchResult;
 
 public class CarSearchResultListRow
 extends SearchResultListRow {
-    private static final int MAX_COLUMNS;
-    private static final int COL_INDEX_ID;
-    private static final int COL_INDEX_TEXT1;
-    private static final int COL_INDEX_TEXT2;
-    private static final int COL_INDEX_TEXT3;
+    private static final int MAX_COLUMNS = 4;
+    private static final int COL_INDEX_ID = 0;
+    private static final int COL_INDEX_TEXT1 = 1;
+    private static final int COL_INDEX_TEXT2 = 2;
+    private static final int COL_INDEX_TEXT3 = 3;
 
     public CarSearchResultListRow(SearchResult searchResult) {
         super(searchResult, 4, searchResult.getDataId());
@@ -56,7 +56,6 @@ extends SearchResultListRow {
         return 4;
     }
 
-    @Override
     public EvoListRow copy() {
         return new CarSearchResultListRow(this);
     }

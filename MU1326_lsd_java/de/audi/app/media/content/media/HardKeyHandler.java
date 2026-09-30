@@ -3,17 +3,9 @@
  */
 package de.audi.app.media.content.media;
 
+import de.audi.app.media.AbstractDispatcherRunnable;
 import de.audi.app.media.AbstractMediaTerminalComponent;
 import de.audi.app.media.IMediaTerminal;
-import de.audi.app.media.content.media.HardKeyHandler$1;
-import de.audi.app.media.content.media.HardKeyHandler$2;
-import de.audi.app.media.content.media.HardKeyHandler$3;
-import de.audi.app.media.content.media.HardKeyHandler$4;
-import de.audi.app.media.content.media.HardKeyHandler$5;
-import de.audi.app.media.content.media.HardKeyHandler$6;
-import de.audi.app.media.content.media.HardKeyHandler$7;
-import de.audi.app.media.content.media.HardKeyHandler$8;
-import de.audi.app.media.content.media.HardKeyHandler$SkipJob;
 import de.audi.app.media.content.media.IPlayer;
 import de.audi.app.media.hmi.SyncedHMITimer;
 import de.audi.app.media.source.IActivationContext;
@@ -21,14 +13,15 @@ import de.audi.atip.hmi.model.ButtonListener;
 import de.audi.atip.sysapp.carcoding.Coding;
 import de.audi.atip.timer.Timer;
 import de.audi.atip.timer.TimerListener;
+import de.esolutions.fw.util.commons.Buffer;
 
 public class HardKeyHandler
 extends AbstractMediaTerminalComponent
 implements ButtonListener,
 TimerListener {
-    private static final int SEEKING_TIMEOUT;
-    private static final int SKIP_COUNTER_TIMEOUT;
-    private static final String LOGCLASS;
+    private static final int SEEKING_TIMEOUT = 500;
+    private static final int SKIP_COUNTER_TIMEOUT = 350;
+    private static final String LOGCLASS = "HardKeyHandler";
     private final IPlayer player;
     protected final SyncedHMITimer seekingFwdTimer;
     protected final SyncedHMITimer seekingBwdTimer;
@@ -39,9 +32,9 @@ TimerListener {
 
     public HardKeyHandler(IMediaTerminal iMediaTerminal, IPlayer iPlayer) {
         super(iMediaTerminal);
-        this.seekingFwdTimer = new SyncedHMITimer("seekingFwdTimer", (long)0, this, iMediaTerminal.getFramework());
-        this.seekingBwdTimer = new SyncedHMITimer("seekingBwdTimer", (long)0, this, iMediaTerminal.getFramework());
-        this.skipCountTimer = new SyncedHMITimer("skipCountTimer", (long)0, this, iMediaTerminal.getFramework());
+        this.seekingFwdTimer = new SyncedHMITimer("seekingFwdTimer", 500L, this, iMediaTerminal.getFramework());
+        this.seekingBwdTimer = new SyncedHMITimer("seekingBwdTimer", 500L, this, iMediaTerminal.getFramework());
+        this.skipCountTimer = new SyncedHMITimer("skipCountTimer", 350L, this, iMediaTerminal.getFramework());
         this.player = iPlayer;
         Coding coding = this.getTerminal().getFramework().getSysConstManager().getCarCoding();
         byte by = coding.getCarClass();
@@ -59,10 +52,10 @@ TimerListener {
         synchronized (object) {
             this.skipCount = 0;
         }
-        this.getButtonModel(1208877824).setButtonListener(this);
-        this.getButtonModel(1192100608).setButtonListener(this);
-        this.getButtonModel(1225655040).setButtonListener(this);
-        this.getButtonModel(1242432256).setButtonListener(this);
+        this.getButtonModel(200264).setButtonListener(this);
+        this.getButtonModel(200263).setButtonListener(this);
+        this.getButtonModel(200265).setButtonListener(this);
+        this.getButtonModel(200266).setButtonListener(this);
     }
 
     public void activate(IActivationContext iActivationContext) {
@@ -75,11 +68,11 @@ TimerListener {
         this.seekingFwdTimer.cancel();
         this.seekingBwdTimer.cancel();
         this.skipCountTimer.cancel();
-        this.skipCountTimer.setDelay(0);
-        this.getButtonModel(1208877824).setButtonListener(null);
-        this.getButtonModel(1192100608).setButtonListener(null);
-        this.getButtonModel(1225655040).setButtonListener(null);
-        this.getButtonModel(1242432256).setButtonListener(null);
+        this.skipCountTimer.setDelay(350L);
+        this.getButtonModel(200264).setButtonListener(null);
+        this.getButtonModel(200263).setButtonListener(null);
+        this.getButtonModel(200265).setButtonListener(null);
+        this.getButtonModel(200266).setButtonListener(null);
     }
 
     /*
@@ -89,7 +82,7 @@ TimerListener {
         Object object = this.skipCountMutex;
         synchronized (object) {
             ++this.skipCount;
-            this.logger.hmi().log(1078071040, "[%1.increaseSkipCount] SKIP('%2')", (Object)"HardKeyHandler", (long)this.skipCount);
+            this.logger.hmi().log(1000000, "[%1.increaseSkipCount] SKIP('%2')", (Object)LOGCLASS, (long)this.skipCount);
         }
         this.skipCountTimer.restart();
     }
@@ -101,12 +94,11 @@ TimerListener {
         Object object = this.skipCountMutex;
         synchronized (object) {
             --this.skipCount;
-            this.logger.hmi().log(1078071040, "[%1.decreaseSkipCount] SKIP('%2')", (Object)"HardKeyHandler", (long)this.skipCount);
+            this.logger.hmi().log(1000000, "[%1.decreaseSkipCount] SKIP('%2')", (Object)LOGCLASS, (long)this.skipCount);
         }
         this.skipCountTimer.restart();
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
         switch (n) {
             case 201018: {
@@ -114,7 +106,7 @@ TimerListener {
                     this.mediaSkipNextPressed();
                     break;
                 }
-                this.logger.hmi().log(-2137614336, "[%1.keyPressed] HK_NEXT ignored", (Object)"HardKeyHandler");
+                this.logger.hmi().log(10000000, "[%1.keyPressed] HK_NEXT ignored", (Object)LOGCLASS);
                 break;
             }
             case 200575: {
@@ -126,7 +118,7 @@ TimerListener {
                     this.mediaSkipPrevPressed();
                     break;
                 }
-                this.logger.hmi().log(-2137614336, "[%1.keyPressed] HK_PREV ignored", (Object)"HardKeyHandler");
+                this.logger.hmi().log(10000000, "[%1.keyPressed] HK_PREV ignored", (Object)LOGCLASS);
                 break;
             }
             case 200576: {
@@ -134,57 +126,64 @@ TimerListener {
                 break;
             }
             case 200264: {
-                this.logger.hmi().log(1078071040, "[%1.keyPressed] PLAYER_SEEK_FW_BUTTON", (Object)"HardKeyHandler");
-                this.getButtonModel(1208877824).setPressed(true);
-                this.getTerminal().getDispatcher().execute(new HardKeyHandler$1(this, "HardKeyHandler.startSeek"));
+                this.logger.hmi().log(1000000, "[%1.keyPressed] PLAYER_SEEK_FW_BUTTON", (Object)LOGCLASS);
+                this.getButtonModel(200264).setPressed(true);
+                this.getTerminal().getDispatcher().execute(new AbstractDispatcherRunnable("HardKeyHandler.startSeek"){
+
+                    public void run() {
+                        HardKeyHandler.this.player.startSeek(true);
+                    }
+                });
                 break;
             }
             case 200263: {
-                this.logger.hmi().log(1078071040, "[%1.keyPressed] PLAYER_SEEK_BW_BUTTON", (Object)"HardKeyHandler");
-                this.getButtonModel(1192100608).setPressed(true);
-                this.getTerminal().getDispatcher().execute(new HardKeyHandler$2(this, "HardKeyHandler.startSeek"));
+                this.logger.hmi().log(1000000, "[%1.keyPressed] PLAYER_SEEK_BW_BUTTON", (Object)LOGCLASS);
+                this.getButtonModel(200263).setPressed(true);
+                this.getTerminal().getDispatcher().execute(new AbstractDispatcherRunnable("HardKeyHandler.startSeek"){
+
+                    public void run() {
+                        HardKeyHandler.this.player.startSeek(false);
+                    }
+                });
                 break;
             }
             case 200265: {
-                this.logger.hmi().log(1078071040, "[%1.keyPressed] PLAYER_SKIP_BW_BUTTON", (Object)"HardKeyHandler");
-                this.getButtonModel(1225655040).setPressed(true);
+                this.logger.hmi().log(1000000, "[%1.keyPressed] PLAYER_SKIP_BW_BUTTON", (Object)LOGCLASS);
+                this.getButtonModel(200265).setPressed(true);
                 break;
             }
             case 200266: {
-                this.logger.hmi().log(1078071040, "[%1.keyPressed] PLAYER_SKIP_FW_BUTTON", (Object)"HardKeyHandler");
-                this.getButtonModel(1242432256).setPressed(true);
+                this.logger.hmi().log(1000000, "[%1.keyPressed] PLAYER_SKIP_FW_BUTTON", (Object)LOGCLASS);
+                this.getButtonModel(200266).setPressed(true);
                 break;
             }
         }
     }
 
     protected void mediaSkipPrevPressed() {
-        this.logger.hmi().log(1078071040, "[%1.mediaSkipPrevPressed] HK_PREV", (Object)"HardKeyHandler");
+        this.logger.hmi().log(1000000, "[%1.mediaSkipPrevPressed] HK_PREV", (Object)LOGCLASS);
         if (this.getTerminal().getAudioManager().hasFrontAudioFocus()) {
             this.seekingBwdTimer.restart();
         } else {
-            this.logger.hmi().log(1078071040, "[%1.mediaSkipPrevPressed] No audio focus.", (Object)"HardKeyHandler");
+            this.logger.hmi().log(1000000, "[%1.mediaSkipPrevPressed] No audio focus.", (Object)LOGCLASS);
         }
     }
 
     protected void mediaSkipNextPressed() {
-        this.logger.hmi().log(1078071040, "[%1.mediaSkipNextPressed] HK_NEXT", (Object)"HardKeyHandler");
+        this.logger.hmi().log(1000000, "[%1.mediaSkipNextPressed] HK_NEXT", (Object)LOGCLASS);
         if (this.getTerminal().getAudioManager().hasFrontAudioFocus()) {
             this.seekingFwdTimer.restart();
         } else {
-            this.logger.hmi().log(1078071040, "[%1.mediaSkipNextPressed] No audio focus.", (Object)"HardKeyHandler");
+            this.logger.hmi().log(1000000, "[%1.mediaSkipNextPressed] No audio focus.", (Object)LOGCLASS);
         }
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
         switch (n) {
             case 201018: {
@@ -192,7 +191,7 @@ TimerListener {
                     this.mediaSkipNextReleased();
                     break;
                 }
-                this.logger.hmi().log(-2137614336, "[%1.keyReleased] HK_NEXT ignored", (Object)"HardKeyHandler");
+                this.logger.hmi().log(10000000, "[%1.keyReleased] HK_NEXT ignored", (Object)LOGCLASS);
                 break;
             }
             case 200575: {
@@ -204,7 +203,7 @@ TimerListener {
                     this.mediaSkipPrevReleased();
                     break;
                 }
-                this.logger.hmi().log(-2137614336, "[%1.keyReleased] HK_PREV ignored", (Object)"HardKeyHandler");
+                this.logger.hmi().log(10000000, "[%1.keyReleased] HK_PREV ignored", (Object)LOGCLASS);
                 break;
             }
             case 200576: {
@@ -212,26 +211,36 @@ TimerListener {
                 break;
             }
             case 200264: {
-                this.logger.hmi().log(1078071040, "[%1.keyReleased] PLAYER_SEEK_FW_BUTTON", (Object)"HardKeyHandler");
-                this.getButtonModel(1208877824).setPressed(false);
-                this.getTerminal().getDispatcher().execute(new HardKeyHandler$3(this, "HardKeyHandler.stopSeek"));
+                this.logger.hmi().log(1000000, "[%1.keyReleased] PLAYER_SEEK_FW_BUTTON", (Object)LOGCLASS);
+                this.getButtonModel(200264).setPressed(false);
+                this.getTerminal().getDispatcher().execute(new AbstractDispatcherRunnable("HardKeyHandler.stopSeek"){
+
+                    public void run() {
+                        HardKeyHandler.this.player.stopSeek(true);
+                    }
+                });
                 break;
             }
             case 200263: {
-                this.logger.hmi().log(1078071040, "[%1.keyReleased] PLAYER_SEEK_BW_BUTTON", (Object)"HardKeyHandler");
-                this.getButtonModel(1192100608).setPressed(false);
-                this.getTerminal().getDispatcher().execute(new HardKeyHandler$4(this, "HardKeyHandler.stopSeek"));
+                this.logger.hmi().log(1000000, "[%1.keyReleased] PLAYER_SEEK_BW_BUTTON", (Object)LOGCLASS);
+                this.getButtonModel(200263).setPressed(false);
+                this.getTerminal().getDispatcher().execute(new AbstractDispatcherRunnable("HardKeyHandler.stopSeek"){
+
+                    public void run() {
+                        HardKeyHandler.this.player.stopSeek(true);
+                    }
+                });
                 break;
             }
             case 200265: {
-                this.logger.hmi().log(1078071040, "[%1.keyReleased] PLAYER_SKIP_BW_BUTTON", (Object)"HardKeyHandler");
-                this.getButtonModel(1225655040).setPressed(false);
+                this.logger.hmi().log(1000000, "[%1.keyReleased] PLAYER_SKIP_BW_BUTTON", (Object)LOGCLASS);
+                this.getButtonModel(200265).setPressed(false);
                 this.decreaseSkipCount();
                 break;
             }
             case 200266: {
-                this.logger.hmi().log(1078071040, "[%1.keyReleased] PLAYER_SKIP_FW_BUTTON", (Object)"HardKeyHandler");
-                this.getButtonModel(1242432256).setPressed(false);
+                this.logger.hmi().log(1000000, "[%1.keyReleased] PLAYER_SKIP_FW_BUTTON", (Object)LOGCLASS);
+                this.getButtonModel(200266).setPressed(false);
                 this.increaseSkipCount();
                 break;
             }
@@ -239,64 +248,95 @@ TimerListener {
     }
 
     private void mediaSkipPrevReleased() {
-        this.logger.hmi().log(1078071040, "[%1.mediaSkipPrevReleased] HK_PREV", (Object)"HardKeyHandler");
+        this.logger.hmi().log(1000000, "[%1.mediaSkipPrevReleased] HK_PREV", (Object)LOGCLASS);
         boolean bl = this.seekingBwdTimer.cancel();
         if (bl) {
             this.decreaseSkipCount();
             return;
         }
-        this.getTerminal().getDispatcher().execute(new HardKeyHandler$5(this, "HardKeyHandler.stopSeek"));
+        this.getTerminal().getDispatcher().execute(new AbstractDispatcherRunnable("HardKeyHandler.stopSeek"){
+
+            public void run() {
+                HardKeyHandler.this.player.stopSeek(true);
+            }
+        });
     }
 
     private void mediaSkipNextReleased() {
-        this.logger.hmi().log(1078071040, "[%1.mediaSkipNextReleased] HK_NEXT", (Object)"HardKeyHandler");
+        this.logger.hmi().log(1000000, "[%1.mediaSkipNextReleased] HK_NEXT", (Object)LOGCLASS);
         boolean bl = this.seekingFwdTimer.cancel();
         if (bl) {
             this.increaseSkipCount();
             return;
         }
-        this.getTerminal().getDispatcher().execute(new HardKeyHandler$6(this, "HardKeyHandler.stopSeek"));
+        this.getTerminal().getDispatcher().execute(new AbstractDispatcherRunnable("HardKeyHandler.stopSeek"){
+
+            public void run() {
+                HardKeyHandler.this.player.stopSeek(true);
+            }
+        });
     }
 
     private boolean isArrowKeySkipping() {
         return this.isBY831 ? false : 0 == this.getChoiceModel(4304).getValue();
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void fireTimer(Timer timer) {
         if (timer == this.seekingFwdTimer) {
-            this.logger.hmi().log(-2137614336, "[%1.fireTimer] SEEK FW.", (Object)"HardKeyHandler");
-            this.getTerminal().getDispatcher().execute(new HardKeyHandler$7(this, "HardKeyHandler.fireTimer"));
+            this.logger.hmi().log(10000000, "[%1.fireTimer] SEEK FW.", (Object)LOGCLASS);
+            this.getTerminal().getDispatcher().execute(new AbstractDispatcherRunnable("HardKeyHandler.fireTimer"){
+
+                public void run() {
+                    HardKeyHandler.this.player.startSeek(true);
+                }
+            });
             return;
         }
         if (timer == this.seekingBwdTimer) {
-            this.logger.hmi().log(-2137614336, "[%1.fireTimer] SEEK BW.", (Object)"HardKeyHandler");
-            this.getTerminal().getDispatcher().execute(new HardKeyHandler$8(this, "HardKeyHandler.fireTimer"));
+            this.logger.hmi().log(10000000, "[%1.fireTimer] SEEK BW.", (Object)LOGCLASS);
+            this.getTerminal().getDispatcher().execute(new AbstractDispatcherRunnable("HardKeyHandler.fireTimer"){
+
+                public void run() {
+                    HardKeyHandler.this.player.startSeek(false);
+                }
+            });
             return;
         }
         Object object = this.skipCountMutex;
         synchronized (object) {
             if (timer == this.skipCountTimer) {
-                this.logger.hmi().log(-2137614336, "[%1.fireTimer] SKIP('%2').", (Object)"HardKeyHandler", (long)this.skipCount);
+                this.logger.hmi().log(10000000, "[%1.fireTimer] SKIP('%2').", (Object)LOGCLASS, (long)this.skipCount);
                 if (this.skipCount == 0) {
                     return;
                 }
-                this.getTerminal().getDispatcher().execute(new HardKeyHandler$SkipJob(this, this.skipCount));
+                this.getTerminal().getDispatcher().execute(new SkipJob(this.skipCount));
                 this.skipCount = 0;
                 return;
             }
         }
     }
 
-    static /* synthetic */ IPlayer access$000(HardKeyHandler hardKeyHandler) {
-        return hardKeyHandler.player;
+    private class SkipJob
+    implements Runnable {
+        private final int count;
+
+        public SkipJob(int n) {
+            this.count = n;
+        }
+
+        public void run() {
+            HardKeyHandler.this.player.skip(this.count > 0, Math.abs(this.count));
+        }
+
+        public String toString() {
+            return new Buffer().append("HardKeyHandler.skip(").append(this.count).append(")").toString();
+        }
     }
 }
 

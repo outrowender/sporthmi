@@ -25,9 +25,8 @@ extends AbstractADBCommand {
         this.characters = string;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "AddSpellerCharsCommand#execute()");
+        this.logger.log(10000000, "AddSpellerCharsCommand#execute()");
         boolean bl = this.adbDSIAccess.addSpellerChars(this.currentSpellerHandle, this.characters);
         if (!bl) {
             this.logger.log(10000, "AddSpellerCharsCommand#execute(): dsi call was not successful, finishing command.");
@@ -36,9 +35,8 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public void spellerResult(int n, int n2, DataSet[] dataSetArray, int n3, String string, String string2) {
-        this.logger.log(-2137614336, "AddSpellerCharsCommand#spellerResult(): success: %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
+        this.logger.log(10000000, "AddSpellerCharsCommand#spellerResult(): success: %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
         if (n == 0) {
             this.adbSearch.spellerResult(n2, dataSetArray, n3, string, string2);
             this.adbSearch.getSpellerModel().setStatus(1);

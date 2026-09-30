@@ -8,15 +8,14 @@ import de.audi.app.car.common.comp.AbstractCarComponent;
 import de.audi.app.car.common.comp.CarDSIAttributesSet;
 import de.audi.app.car.common.service.CarServiceProvider;
 import de.audi.app.car.common.service.CarServiceTracker;
-import de.audi.app.car.core.joker.AbstractJokerKeyComponent$CombiMFLHandler;
-import de.audi.app.car.core.joker.AbstractJokerKeyComponent$ExternalKeyServiceTrackerListener;
-import de.audi.app.car.core.joker.AbstractJokerKeyComponent$JokerKeyFunction;
-import de.audi.app.car.core.joker.AbstractJokerKeyComponent$JokerKeyFunctionCluster;
+import de.audi.app.car.common.service.CarServiceTrackerListener;
 import de.audi.atip.hmi.intercommunication.JokerKeyMeaning;
 import de.audi.atip.hmi.model.ButtonListener;
 import de.audi.atip.hmi.model.ChoiceListener;
-import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
+import de.audi.atip.interapp.ExternalKeyListener;
 import de.audi.atip.interapp.JokerKeyService;
+import de.audi.atip.interapp.combi.bap.mfl.CombiBAPServiceMFL;
+import de.audi.atip.interapp.combi.bap.mfl.CombiBAPServiceMFLListener;
 import de.audi.atip.msg.MsgListener;
 import de.esolutions.fw.util.commons.SimpleIntIntMap;
 import java.util.HashMap;
@@ -30,18 +29,18 @@ implements JokerKeyService,
 MsgListener,
 ButtonListener,
 ChoiceListener {
-    public static final short CODING_ID;
-    private static final String LOGCHANNEL_NAME;
-    private static final SimpleIntIntMap MEANING2MODELID;
-    private static final int MENUSTYLE_CHECKBOX;
-    private static final int MENUSTYLE_RADIOBUTTON;
+    public static final short CODING_ID = 29;
+    private static final String LOGCHANNEL_NAME = "App.Car.JokerKey";
+    private static final SimpleIntIntMap MEANING2MODELID = new SimpleIntIntMap();
+    private static final int MENUSTYLE_CHECKBOX = 0;
+    private static final int MENUSTYLE_RADIOBUTTON = 1;
     int menuStyle = 1;
     private CarServiceTracker combiBAPServiceMFLTracker;
     private CarServiceProvider combiBAPServiceMFLListenerProvider;
     private CarServiceProvider jokerKeyServiceProvider;
-    private AbstractJokerKeyComponent$CombiMFLHandler combiMFLHandler;
+    private CombiMFLHandler combiMFLHandler;
     private final CarServiceTracker externalKeyServiceTracker;
-    private final AbstractJokerKeyComponent$ExternalKeyServiceTrackerListener externalKeyServiceTrackerListener;
+    private final ExternalKeyServiceTrackerListener externalKeyServiceTrackerListener;
     protected int joker1MeaningModelID = 395;
     private Map jokerKeyFunctions = new HashMap(5);
     private int restoredJokerKeyMeaningAfterStartup = -1;
@@ -51,16 +50,15 @@ ChoiceListener {
     static /* synthetic */ Class class$de$audi$atip$interapp$JokerKeyService;
 
     public AbstractJokerKeyComponent(ICarApplication iCarApplication) {
-        super(iCarApplication, "App.Car.JokerKey");
-        this.combiMFLHandler = new AbstractJokerKeyComponent$CombiMFLHandler(this, null);
+        super(iCarApplication, LOGCHANNEL_NAME);
+        this.combiMFLHandler = new CombiMFLHandler();
         this.restoreJokerKeyFunction();
         this.registerJokerKeyFunctions();
         this.registerJokerKeyFunction(0, -1);
-        this.externalKeyServiceTrackerListener = new AbstractJokerKeyComponent$ExternalKeyServiceTrackerListener(this, null);
+        this.externalKeyServiceTrackerListener = new ExternalKeyServiceTrackerListener();
         this.externalKeyServiceTracker = new CarServiceTracker(this.externalKeyServiceTrackerListener, iCarApplication.getBundleContext(), this.getLogChannel());
     }
 
-    @Override
     public void init() {
         super.init();
         this.combiBAPServiceMFLTracker = new CarServiceTracker(this.combiMFLHandler, this.getApplication().getBundleContext(), this.getLogChannel());
@@ -74,7 +72,6 @@ ChoiceListener {
         this.externalKeyServiceTracker.startTracking();
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.externalKeyServiceTracker.stopTracking();
@@ -86,96 +83,86 @@ ChoiceListener {
 
     protected final void restoreJokerKeyFunction() {
         int n = this.getApplication().getFrameworkAccess().getStorageMgr().getInt(1006, 10, -1);
-        this.getLogChannel().log(-2137614336, "[AbstractJokerKeyComponent#restoreJokerKeyFunction] restored meaning from persistence is: %1", (long)n);
-        AbstractJokerKeyComponent$JokerKeyFunction abstractJokerKeyComponent$JokerKeyFunction = this.getJokerKeyFunction(n);
-        if (abstractJokerKeyComponent$JokerKeyFunction != null && abstractJokerKeyComponent$JokerKeyFunction.isVisible()) {
-            abstractJokerKeyComponent$JokerKeyFunction.updateJokerKeyConfiguration();
+        this.getLogChannel().log(10000000, "[AbstractJokerKeyComponent#restoreJokerKeyFunction] restored meaning from persistence is: %1", (long)n);
+        JokerKeyFunction jokerKeyFunction = this.getJokerKeyFunction(n);
+        if (jokerKeyFunction != null && jokerKeyFunction.isVisible()) {
+            jokerKeyFunction.updateJokerKeyConfiguration();
         } else {
             this.restoredJokerKeyMeaningAfterStartup = n;
             this.getChoiceModel(this.joker1MeaningModelID).setValue(0);
-            this.getButtonModel(-1859450624).setButtonListener(this);
+            this.getButtonModel(600977).setButtonListener(this);
         }
     }
 
     protected void registerJokerKeyFunction(int n, int n2) {
-        AbstractJokerKeyComponent$JokerKeyFunction abstractJokerKeyComponent$JokerKeyFunction = JokerKeyMeaning.isClusterFunction(n) ? new AbstractJokerKeyComponent$JokerKeyFunctionCluster(this, n, this.joker1MeaningModelID, MEANING2MODELID.get(n), n2) : new AbstractJokerKeyComponent$JokerKeyFunction(this, n, this.joker1MeaningModelID, MEANING2MODELID.get(n), n2);
-        this.jokerKeyFunctions.put(new Integer(n), abstractJokerKeyComponent$JokerKeyFunction);
+        JokerKeyFunction jokerKeyFunction = JokerKeyMeaning.isClusterFunction(n) ? new JokerKeyFunctionCluster(n, this.joker1MeaningModelID, MEANING2MODELID.get(n), n2) : new JokerKeyFunction(n, this.joker1MeaningModelID, MEANING2MODELID.get(n), n2);
+        this.jokerKeyFunctions.put(new Integer(n), jokerKeyFunction);
     }
 
-    protected abstract void registerJokerKeyFunctions() {
-    }
+    protected abstract void registerJokerKeyFunctions();
 
     protected void initJokerKeyFunctionAvailability() {
         Iterator iterator = this.jokerKeyFunctions.values().iterator();
         while (iterator.hasNext()) {
-            ((AbstractJokerKeyComponent$JokerKeyFunction)iterator.next()).setVisible(false);
+            ((JokerKeyFunction)iterator.next()).setVisible(false);
         }
     }
 
-    @Override
     public String getName() {
         return "Joker Key";
     }
 
-    @Override
     public CarDSIAttributesSet[] getDSIAttributesSets() {
         return new CarDSIAttributesSet[0];
     }
 
-    @Override
     public String getCurrentViewOptions() {
         return "component has no view options";
     }
 
-    @Override
     protected void initModels() {
         Iterator iterator = this.jokerKeyFunctions.values().iterator();
         while (iterator.hasNext()) {
-            ((AbstractJokerKeyComponent$JokerKeyFunction)iterator.next()).initModel();
+            ((JokerKeyFunction)iterator.next()).initModel();
         }
-        this.getButtonModel(-1842673408).setButtonListener(this);
+        this.getButtonModel(600978).setButtonListener(this);
         if (this.menuStyle == 1) {
             this.getChoiceModel(this.joker1MeaningModelID).setChoiceListener(this);
         }
     }
 
-    @Override
     protected void deinitModels() {
         Iterator iterator = this.jokerKeyFunctions.values().iterator();
         while (iterator.hasNext()) {
-            ((AbstractJokerKeyComponent$JokerKeyFunction)iterator.next()).deinitModel();
+            ((JokerKeyFunction)iterator.next()).deinitModel();
         }
     }
 
-    @Override
     public String getDSIListenerClassName() {
         return null;
     }
 
-    @Override
     public String getDSIClassName() {
         return null;
     }
 
-    @Override
     public boolean isUsingDSI() {
         return false;
     }
 
-    @Override
     public void setFunctionAvailable(int n, boolean bl) {
-        this.getLogChannel().log(-2137614336, "[AbstractJokerKeyComponent#setFunctionAvailable] meaning=%2, available=%1", bl, (long)n);
-        AbstractJokerKeyComponent$JokerKeyFunction abstractJokerKeyComponent$JokerKeyFunction = (AbstractJokerKeyComponent$JokerKeyFunction)this.jokerKeyFunctions.get(new Integer(n));
-        if (abstractJokerKeyComponent$JokerKeyFunction != null) {
-            abstractJokerKeyComponent$JokerKeyFunction.setVisible(bl);
+        this.getLogChannel().log(10000000, "[AbstractJokerKeyComponent#setFunctionAvailable] meaning=%2, available=%1", bl, (long)n);
+        JokerKeyFunction jokerKeyFunction = (JokerKeyFunction)this.jokerKeyFunctions.get(new Integer(n));
+        if (jokerKeyFunction != null) {
+            jokerKeyFunction.setVisible(bl);
             this.checkSelection();
         } else {
-            this.getLogChannel().log(1078071040, "[AbstractJokerKeyComponent#setFunctionAvailable] no function available for meaning=%1", (long)n);
+            this.getLogChannel().log(1000000, "[AbstractJokerKeyComponent#setFunctionAvailable] no function available for meaning=%1", (long)n);
         }
     }
 
-    private AbstractJokerKeyComponent$JokerKeyFunction getJokerKeyFunction(int n) {
-        return (AbstractJokerKeyComponent$JokerKeyFunction)this.jokerKeyFunctions.get(new Integer(n));
+    private JokerKeyFunction getJokerKeyFunction(int n) {
+        return (JokerKeyFunction)this.jokerKeyFunctions.get(new Integer(n));
     }
 
     private int getCurrentJokerKeyMeaning() {
@@ -188,103 +175,78 @@ ChoiceListener {
     }
 
     private void checkRestoredJokerKeyFunction() {
-        AbstractJokerKeyComponent$JokerKeyFunction abstractJokerKeyComponent$JokerKeyFunction;
-        if (this.restoredJokerKeyMeaningAfterStartup > -1 && (abstractJokerKeyComponent$JokerKeyFunction = this.getJokerKeyFunction(this.restoredJokerKeyMeaningAfterStartup)) != null && abstractJokerKeyComponent$JokerKeyFunction.isVisible()) {
-            this.getLogChannel().log(-2137614336, "[AbstractJokerKeyComponent#checkRestoredJokerKeyFunction] restore persisted joker key function: %1", (long)this.restoredJokerKeyMeaningAfterStartup);
-            abstractJokerKeyComponent$JokerKeyFunction.updateJokerKeyConfiguration();
+        JokerKeyFunction jokerKeyFunction;
+        if (this.restoredJokerKeyMeaningAfterStartup > -1 && (jokerKeyFunction = this.getJokerKeyFunction(this.restoredJokerKeyMeaningAfterStartup)) != null && jokerKeyFunction.isVisible()) {
+            this.getLogChannel().log(10000000, "[AbstractJokerKeyComponent#checkRestoredJokerKeyFunction] restore persisted joker key function: %1", (long)this.restoredJokerKeyMeaningAfterStartup);
+            jokerKeyFunction.updateJokerKeyConfiguration();
         }
     }
 
     private void checkCurrentJokerKeyFunction() {
-        AbstractJokerKeyComponent$JokerKeyFunction abstractJokerKeyComponent$JokerKeyFunction = this.getJokerKeyFunction(this.getCurrentJokerKeyMeaning());
-        if (abstractJokerKeyComponent$JokerKeyFunction != null && !abstractJokerKeyComponent$JokerKeyFunction.isVisible()) {
-            abstractJokerKeyComponent$JokerKeyFunction.deactivate();
+        JokerKeyFunction jokerKeyFunction = this.getJokerKeyFunction(this.getCurrentJokerKeyMeaning());
+        if (jokerKeyFunction != null && !jokerKeyFunction.isVisible()) {
+            jokerKeyFunction.deactivate();
             this.getChoiceModel(this.joker1MeaningModelID).setValue(0);
             this.getApplication().getFrameworkAccess().getMsgDistrib().sendMessage(79);
         }
     }
 
-    @Override
     public void processMsg(int n) {
         int n2;
         if (79 == n && (0 == (n2 = this.getChoiceModel(395).getValue()) || 50 == n2)) {
-            this.getButtonModel(-1859450624).setButtonListener(this);
+            this.getButtonModel(600977).setButtonListener(this);
         }
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
-        if (n == -1859450624) {
+        if (n == 600977) {
             int n4 = this.getChoiceModel(395).getValue();
             if (0 == n4) {
-                this.getLogChannel().log(-2137614336, "[AbstractJokerKeyComponent#keyReleased] No joker key function assigned");
+                this.getLogChannel().log(10000000, "[AbstractJokerKeyComponent#keyReleased] No joker key function assigned");
                 this.handleJokerKeyNotAssigned();
             }
             if (50 == n4) {
-                this.getLogChannel().log(-2137614336, "[AbstractJokerKeyComponent#keyReleased] Invoke push to talk.");
+                this.getLogChannel().log(10000000, "[AbstractJokerKeyComponent#keyReleased] Invoke push to talk.");
                 this.externalKeyServiceTrackerListener.sendKey(50);
             }
         }
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
-        this.getLogChannel().log(-2137614336, "[AbstractJokerKeyComponent#keyPressed] Key pressed %1", (long)n);
-        if (n == -1842673408) {
+        this.getLogChannel().log(10000000, "[AbstractJokerKeyComponent#keyPressed] Key pressed %1", (long)n);
+        if (n == 600978) {
             this.handleJokerKeyLongpress();
         }
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
         if (n == this.joker1MeaningModelID) {
             String string = "[AbstractJokerKeyComponent.JokerKeyFunction#itemSelected]";
             this.logModelData(string, n, n2, true);
-            AbstractJokerKeyComponent$JokerKeyFunction abstractJokerKeyComponent$JokerKeyFunction = this.getJokerKeyFunction(n2);
-            if (abstractJokerKeyComponent$JokerKeyFunction != null) {
-                abstractJokerKeyComponent$JokerKeyFunction.updateJokerKeyConfiguration();
+            JokerKeyFunction jokerKeyFunction = this.getJokerKeyFunction(n2);
+            if (jokerKeyFunction != null) {
+                jokerKeyFunction.updateJokerKeyConfiguration();
             } else {
                 this.getLogChannel().log(10000, "[AbstractJokerKeyComponent#itemSelected] invalid item selected: %1", (long)n2);
             }
         }
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 
-    protected abstract void handleJokerKeyNotAssigned() {
-    }
+    protected abstract void handleJokerKeyNotAssigned();
 
-    protected abstract void handleJokerKeyLongpress() {
-    }
+    protected abstract void handleJokerKeyLongpress();
 
     protected int getTrafficAnnouncementAvailableConstant() {
         return 4358;
-    }
-
-    static /* synthetic */ void access$000(AbstractJokerKeyComponent abstractJokerKeyComponent) {
-        abstractJokerKeyComponent.checkSelection();
-    }
-
-    static /* synthetic */ Map access$100(AbstractJokerKeyComponent abstractJokerKeyComponent) {
-        return abstractJokerKeyComponent.jokerKeyFunctions;
-    }
-
-    static /* synthetic */ AbstractJokerKeyComponent$JokerKeyFunction access$200(AbstractJokerKeyComponent abstractJokerKeyComponent, int n) {
-        return abstractJokerKeyComponent.getJokerKeyFunction(n);
-    }
-
-    static /* synthetic */ int access$300(AbstractJokerKeyComponent abstractJokerKeyComponent) {
-        return abstractJokerKeyComponent.getCurrentJokerKeyMeaning();
     }
 
     static /* synthetic */ Class class$(String string) {
@@ -296,82 +258,344 @@ ChoiceListener {
         }
     }
 
-    static /* synthetic */ ChoiceModelApp access$400(AbstractJokerKeyComponent abstractJokerKeyComponent, int n) {
-        return abstractJokerKeyComponent.getChoiceModel(n);
-    }
-
-    static /* synthetic */ ChoiceModelApp access$500(AbstractJokerKeyComponent abstractJokerKeyComponent, int n) {
-        return abstractJokerKeyComponent.getChoiceModel(n);
-    }
-
-    static /* synthetic */ void access$600(AbstractJokerKeyComponent abstractJokerKeyComponent, String string, int n, int n2, boolean bl) {
-        abstractJokerKeyComponent.logModelData(string, n, n2, bl);
-    }
-
-    static /* synthetic */ void access$700(AbstractJokerKeyComponent abstractJokerKeyComponent, String string, int n, int n2, boolean bl) {
-        abstractJokerKeyComponent.logModelData(string, n, n2, bl);
-    }
-
-    static /* synthetic */ AbstractJokerKeyComponent$CombiMFLHandler access$800(AbstractJokerKeyComponent abstractJokerKeyComponent) {
-        return abstractJokerKeyComponent.combiMFLHandler;
-    }
-
-    static /* synthetic */ ChoiceModelApp access$1000(AbstractJokerKeyComponent abstractJokerKeyComponent, int n) {
-        return abstractJokerKeyComponent.getChoiceModel(n);
-    }
-
-    static /* synthetic */ int access$1102(AbstractJokerKeyComponent abstractJokerKeyComponent, int n) {
-        abstractJokerKeyComponent.restoredJokerKeyMeaningAfterStartup = n;
-        return abstractJokerKeyComponent.restoredJokerKeyMeaningAfterStartup;
-    }
-
-    static /* synthetic */ ChoiceModelApp access$1200(AbstractJokerKeyComponent abstractJokerKeyComponent, int n) {
-        return abstractJokerKeyComponent.getChoiceModel(n);
-    }
-
-    static /* synthetic */ ICarApplication access$1300(AbstractJokerKeyComponent abstractJokerKeyComponent) {
-        return abstractJokerKeyComponent.getApplication();
-    }
-
-    static /* synthetic */ ICarApplication access$1400(AbstractJokerKeyComponent abstractJokerKeyComponent) {
-        return abstractJokerKeyComponent.getApplication();
-    }
-
-    static /* synthetic */ ChoiceModelApp access$1500(AbstractJokerKeyComponent abstractJokerKeyComponent, int n) {
-        return abstractJokerKeyComponent.getChoiceModel(n);
-    }
-
-    static /* synthetic */ ICarApplication access$1600(AbstractJokerKeyComponent abstractJokerKeyComponent) {
-        return abstractJokerKeyComponent.getApplication();
-    }
-
     static {
-        MEANING2MODELID = new SimpleIntIntMap();
-        MEANING2MODELID.add(1, -1825896192);
-        MEANING2MODELID.add(2, -1809118976);
-        MEANING2MODELID.add(3, -1742010112);
-        MEANING2MODELID.add(4, -1708455680);
-        MEANING2MODELID.add(5, -1725232896);
-        MEANING2MODELID.add(10, -198506240);
-        MEANING2MODELID.add(7, -1658124032);
-        MEANING2MODELID.add(40, -131135232);
-        MEANING2MODELID.add(8, -1674901248);
-        MEANING2MODELID.add(9, -1691678464);
-        MEANING2MODELID.add(14, -449902336);
-        MEANING2MODELID.add(11, -533985024);
-        MEANING2MODELID.add(12, -366016256);
-        MEANING2MODELID.add(30, -433125120);
-        MEANING2MODELID.add(13, -114358016);
-        MEANING2MODELID.add(50, -466679552);
-        MEANING2MODELID.add(60, -416347904);
-        MEANING2MODELID.add(70, -399570688);
-        MEANING2MODELID.add(71, -315684608);
-        MEANING2MODELID.add(80, -349239040);
-        MEANING2MODELID.add(81, -332461824);
-        MEANING2MODELID.add(82, -382793472);
-        MEANING2MODELID.add(15, -1792341760);
-        MEANING2MODELID.add(16, -1775564544);
-        MEANING2MODELID.add(19, 1328285952);
+        MEANING2MODELID.add(1, 600979);
+        MEANING2MODELID.add(2, 600980);
+        MEANING2MODELID.add(3, 600984);
+        MEANING2MODELID.add(4, 600986);
+        MEANING2MODELID.add(5, 600985);
+        MEANING2MODELID.add(10, 601076);
+        MEANING2MODELID.add(7, 600989);
+        MEANING2MODELID.add(40, 602104);
+        MEANING2MODELID.add(8, 600988);
+        MEANING2MODELID.add(9, 600987);
+        MEANING2MODELID.add(14, 602085);
+        MEANING2MODELID.add(11, 601312);
+        MEANING2MODELID.add(12, 602090);
+        MEANING2MODELID.add(30, 602086);
+        MEANING2MODELID.add(13, 602105);
+        MEANING2MODELID.add(50, 602084);
+        MEANING2MODELID.add(60, 602087);
+        MEANING2MODELID.add(70, 602088);
+        MEANING2MODELID.add(71, 602093);
+        MEANING2MODELID.add(80, 602091);
+        MEANING2MODELID.add(81, 602092);
+        MEANING2MODELID.add(82, 602089);
+        MEANING2MODELID.add(15, 600981);
+        MEANING2MODELID.add(16, 600982);
+        MEANING2MODELID.add(19, 601167);
+    }
+
+    private class CombiMFLHandler
+    implements CombiBAPServiceMFLListener,
+    CarServiceTrackerListener {
+        private CombiBAPServiceMFL combiBAPServiceMFL;
+        private int availableJokerKeyClusterFunctions = 0;
+
+        private CombiMFLHandler() {
+        }
+
+        public void setAvailableJokerKeyClusterFunctions(int n) {
+            if (this.combiBAPServiceMFL != null) {
+                this.combiBAPServiceMFL.updateAvailableJokerKeyClusterFunctions(n);
+            }
+            if (this.availableJokerKeyClusterFunctions != n) {
+                this.availableJokerKeyClusterFunctions = n;
+                this.updateClusterFunctionsVisibilities();
+                AbstractJokerKeyComponent.this.checkSelection();
+            } else {
+                AbstractJokerKeyComponent.this.getLogChannel().log(10000000, "[AbtractJokerKeyComponent.CombiMFLHandler#setAvailableJokerKeyClusterFunctions] available functions not changed (%1)", (long)n);
+            }
+        }
+
+        private void updateClusterFunctionsVisibilities() {
+            Iterator iterator = AbstractJokerKeyComponent.this.jokerKeyFunctions.keySet().iterator();
+            while (iterator.hasNext()) {
+                int n = (Integer)iterator.next();
+                if (!JokerKeyMeaning.isClusterFunction(n)) continue;
+                AbstractJokerKeyComponent.this.setFunctionAvailable(n, this.isClusterFunctionAvailable(n));
+            }
+        }
+
+        public void confirmCurrentJokerKeyFunctions(int n, int n2, int n3, int n4, int n5) {
+            int n6;
+            switch (n) {
+                case 1: {
+                    n6 = 15;
+                    break;
+                }
+                case 2: {
+                    n6 = 16;
+                    break;
+                }
+                case 3: {
+                    n6 = 17;
+                    break;
+                }
+                case 4: {
+                    n6 = 18;
+                    break;
+                }
+                case 5: {
+                    n6 = 19;
+                    break;
+                }
+                case 6: {
+                    n6 = 20;
+                    break;
+                }
+                case 0: {
+                    return;
+                }
+                default: {
+                    AbstractJokerKeyComponent.this.getLogChannel().log(10000000, "[AbstractJokerKeyComponent.CombiMFLHandler#confirmCurrentJokerKeyFunctions] unknown joker key function selected: %1", (long)n);
+                    return;
+                }
+            }
+            AbstractJokerKeyComponent.this.getLogChannel().log(10000000, "[AbstractJokerKeyComponent.CombiMFLHandler#confirmCurrentJokerKeyFunctions] confirmation for jokerKeyFunction=%1 received", (long)n6);
+            if (this.isClusterFunctionAvailable(n6)) {
+                AbstractJokerKeyComponent.this.getJokerKeyFunction(n6).activate();
+            } else {
+                AbstractJokerKeyComponent.this.getLogChannel().log(10000, "[AbstractJokerKeyComponent.CombiMFLHandler#confirmCurrentJokerKeyFunctions] jokerKeyFunction=%1 not available", (long)n6);
+            }
+        }
+
+        private boolean isClusterFunctionAvailable(int n) {
+            int n2;
+            switch (n) {
+                case 15: {
+                    n2 = 1;
+                    break;
+                }
+                case 16: {
+                    n2 = 2;
+                    break;
+                }
+                case 17: {
+                    n2 = 4;
+                    break;
+                }
+                case 18: {
+                    n2 = 8;
+                    break;
+                }
+                case 19: {
+                    n2 = 16;
+                    break;
+                }
+                case 20: {
+                    n2 = 32;
+                    break;
+                }
+                default: {
+                    return false;
+                }
+            }
+            return (n2 & this.availableJokerKeyClusterFunctions) == n2;
+        }
+
+        private void updateClusterKeyConfiguration(int n) {
+            if (this.combiBAPServiceMFL != null) {
+                this.combiBAPServiceMFL.updateCurrentJokerKeyFunction(1, this.convertJokerKeyMeaning(n));
+            }
+        }
+
+        private int convertJokerKeyMeaning(int n) {
+            int n2;
+            switch (n) {
+                case 15: {
+                    n2 = 1;
+                    break;
+                }
+                case 16: {
+                    n2 = 2;
+                    break;
+                }
+                case 17: {
+                    n2 = 3;
+                    break;
+                }
+                case 18: {
+                    n2 = 4;
+                    break;
+                }
+                case 19: {
+                    n2 = 5;
+                    break;
+                }
+                case 20: {
+                    n2 = 6;
+                    break;
+                }
+                default: {
+                    n2 = 0;
+                }
+            }
+            return n2;
+        }
+
+        public void serviceAvailable(Object object) {
+            this.combiBAPServiceMFL = (CombiBAPServiceMFL)object;
+            if (this.combiBAPServiceMFL != null) {
+                this.updateClusterKeyConfiguration(AbstractJokerKeyComponent.this.getCurrentJokerKeyMeaning());
+                this.combiBAPServiceMFL.updateInstalledKeys(1);
+            }
+        }
+
+        public void serviceRemoved() {
+            this.combiBAPServiceMFL = null;
+        }
+
+        public String[] getTrackedServiceClazzName() {
+            return new String[]{(class$de$audi$atip$interapp$combi$bap$mfl$CombiBAPServiceMFL == null ? (class$de$audi$atip$interapp$combi$bap$mfl$CombiBAPServiceMFL = AbstractJokerKeyComponent.class$("de.audi.atip.interapp.combi.bap.mfl.CombiBAPServiceMFL")) : class$de$audi$atip$interapp$combi$bap$mfl$CombiBAPServiceMFL).getName()};
+        }
+    }
+
+    private class JokerKeyFunction
+    implements ChoiceListener {
+        int meaningModelID;
+        int meaning;
+        int selectionModelID;
+        int menuEntryID;
+        boolean visible = false;
+
+        public JokerKeyFunction(int n, int n2, int n3, int n4) {
+            this.meaning = n;
+            this.meaningModelID = n2;
+            this.selectionModelID = n3;
+            this.menuEntryID = n4;
+        }
+
+        public void initModel() {
+            if (AbstractJokerKeyComponent.this.menuStyle == 0 && this.selectionModelID != -1) {
+                AbstractJokerKeyComponent.this.getChoiceModel(this.selectionModelID).setChoiceListener(this);
+            }
+        }
+
+        public void deinitModel() {
+            if (AbstractJokerKeyComponent.this.menuStyle == 0 && this.selectionModelID != -1) {
+                AbstractJokerKeyComponent.this.getChoiceModel(this.selectionModelID).resetListener();
+            }
+        }
+
+        public void keyPressed(int n, int n2, int n3) {
+        }
+
+        public void keyReleased(int n, int n2, int n3) {
+        }
+
+        public void keyTyped(int n, int n2, int n3) {
+        }
+
+        public void keyLongTyped(int n, int n2, int n3) {
+        }
+
+        public void itemSelected(int n, int n2, int n3, int n4) {
+            if (n2 == 1) {
+                String string = "[AbstractJokerKeyComponent.JokerKeyFunction#itemSelected]";
+                if (n == this.selectionModelID) {
+                    AbstractJokerKeyComponent.this.logModelData(string, n, n2, true);
+                    if (this.meaning != AbstractJokerKeyComponent.this.getCurrentJokerKeyMeaning()) {
+                        this.updateJokerKeyConfiguration();
+                    }
+                } else {
+                    AbstractJokerKeyComponent.this.logModelData(string, n, n2, false);
+                }
+            }
+        }
+
+        public void itemFocused(int n, int n2, int n3, int n4) {
+        }
+
+        protected void updateJokerKeyConfiguration() {
+            AbstractJokerKeyComponent.this.getLogChannel().log(10000000, "[AbstractJokerKeyComponent.JokerKeyFunction#updateJokerKeyConfiguration] newJokerKeyFunction=%1", (long)this.meaning);
+            this.activate();
+            AbstractJokerKeyComponent.this.combiMFLHandler.updateClusterKeyConfiguration(this.meaning);
+        }
+
+        public void activate() {
+            if (AbstractJokerKeyComponent.this.menuStyle == 0) {
+                JokerKeyFunction jokerKeyFunction = AbstractJokerKeyComponent.this.getJokerKeyFunction(AbstractJokerKeyComponent.this.getCurrentJokerKeyMeaning());
+                if (jokerKeyFunction != null) {
+                    jokerKeyFunction.deactivate();
+                }
+                if (this.selectionModelID != -1) {
+                    AbstractJokerKeyComponent.this.getChoiceModel(this.selectionModelID).setValue(1);
+                }
+            }
+            AbstractJokerKeyComponent.this.restoredJokerKeyMeaningAfterStartup = -1;
+            AbstractJokerKeyComponent.this.getChoiceModel(this.meaningModelID).setValue(this.meaning);
+            AbstractJokerKeyComponent.this.getApplication().getFrameworkAccess().getStorageMgr().setInt(1006, 10, this.meaning);
+            AbstractJokerKeyComponent.this.getApplication().getFrameworkAccess().getMsgDistrib().sendMessage(79);
+        }
+
+        public void deactivate() {
+            if (AbstractJokerKeyComponent.this.menuStyle == 0 && this.selectionModelID != -1) {
+                AbstractJokerKeyComponent.this.getChoiceModel(this.selectionModelID).setValue(0);
+            }
+        }
+
+        public void setVisible(boolean bl) {
+            this.visible = bl;
+            AbstractJokerKeyComponent.this.getLogChannel().log(10000000, "[AbstractJokerKeyComponent.JokerKeyFunction#setVisible] menuEntryID=%2, visible=%1", bl, (long)this.menuEntryID);
+            this.updateMenuEntryVisiblity();
+        }
+
+        public boolean isVisible() {
+            return this.visible;
+        }
+
+        private void updateMenuEntryVisiblity() {
+            AbstractJokerKeyComponent.this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(this.menuEntryID, this.visible ? 0 : 1);
+        }
+    }
+
+    private class JokerKeyFunctionCluster
+    extends JokerKeyFunction {
+        public JokerKeyFunctionCluster(int n, int n2, int n3, int n4) {
+            super(n, n2, n3, n4);
+        }
+
+        protected void updateJokerKeyConfiguration() {
+            AbstractJokerKeyComponent.this.getLogChannel().log(10000000, "[JokerKeyFunctionCluster#updateJokerKeyConfiguration] cluster specific joker key function (%1) selected, waiting for confirmation", (long)this.meaning);
+            AbstractJokerKeyComponent.this.combiMFLHandler.updateClusterKeyConfiguration(this.meaning);
+        }
+    }
+
+    private class ExternalKeyServiceTrackerListener
+    implements CarServiceTrackerListener {
+        private volatile ExternalKeyListener externalKeyService;
+
+        private ExternalKeyServiceTrackerListener() {
+        }
+
+        public void serviceAvailable(Object object) {
+            AbstractJokerKeyComponent.this.getLogChannel().log(1000000, "[AbstractJokerKeyComponent#serviceAvailable] service received");
+            try {
+                this.externalKeyService = (ExternalKeyListener)object;
+            }
+            catch (ClassCastException classCastException) {
+                AbstractJokerKeyComponent.this.getLogChannel().log(1000, "[AbstractJokerKeyComponent#serviceAvailable] ExternalKeyListener: cannot cast service");
+            }
+        }
+
+        public void serviceRemoved() {
+            this.externalKeyService = null;
+            AbstractJokerKeyComponent.this.getLogChannel().log(10000000, "[AbstractJokerKeyComponent#serviceRemoved] Service has been removed");
+        }
+
+        public String[] getTrackedServiceClazzName() {
+            return new String[]{(class$de$audi$atip$interapp$ExternalKeyListener == null ? (class$de$audi$atip$interapp$ExternalKeyListener = AbstractJokerKeyComponent.class$("de.audi.atip.interapp.ExternalKeyListener")) : class$de$audi$atip$interapp$ExternalKeyListener).getName()};
+        }
+
+        public synchronized boolean sendKey(int n) {
+            if (null != this.externalKeyService) {
+                this.externalKeyService.supplyExternalKey(100, n, 1, 1);
+                this.externalKeyService.supplyExternalKey(100, n, 0, 1);
+                return true;
+            }
+            return false;
+        }
     }
 }
 

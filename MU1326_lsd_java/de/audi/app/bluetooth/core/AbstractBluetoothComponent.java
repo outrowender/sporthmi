@@ -33,16 +33,13 @@ DSIBluetoothListener {
         this.bluetoothApplication = iBluetoothApplication;
     }
 
-    protected abstract int[] getAttributeNotifications() {
-    }
+    protected abstract int[] getAttributeNotifications();
 
-    @Override
     public void init() {
         this.serviceTracker = new ServiceTracker(this.bundleContext, new String[]{(class$org$dsi$ifc$bluetooth$DSIBluetooth == null ? (class$org$dsi$ifc$bluetooth$DSIBluetooth = AbstractBluetoothComponent.class$("org.dsi.ifc.bluetooth.DSIBluetooth")) : class$org$dsi$ifc$bluetooth$DSIBluetooth).getName()}, (ServiceTrackerCustomizer)this);
         this.serviceTracker.open();
     }
 
-    @Override
     public void deinit() {
         if (this.dsiBluetooth != null) {
             this.dsiBluetooth.clearNotification(this);
@@ -52,7 +49,6 @@ DSIBluetoothListener {
         this.serviceTracker = null;
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof DSIBluetooth) {
@@ -63,7 +59,6 @@ DSIBluetoothListener {
         return null;
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof DSIBluetooth) {
             this.dsiBluetooth = null;
@@ -71,146 +66,111 @@ DSIBluetoothListener {
         }
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
         if (object instanceof DSIBluetooth) {
             this.dsiBluetooth = (DSIBluetooth)object;
         }
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
     }
 
-    @Override
     public void responseAbortConnectService(int n) {
     }
 
-    @Override
     public void responseAbortInquiry(int n) {
     }
 
-    @Override
     public void responseAcceptIncomingServiceRequest(int n) {
     }
 
-    @Override
     public void responseConnectService(String string, String string2, int n, int n2, int n3) {
     }
 
-    @Override
     public void responseConnectServiceToInstance(String string, String string2, int n, int n2, int n3) {
     }
 
-    @Override
     public void responseDisconnectService(String string, int n, int n2) {
     }
 
-    @Override
     public void responseGetServices(String string, String string2, int n, int n2) {
     }
 
-    @Override
     public void responseInquiry(int n, int n2) {
     }
 
-    @Override
     public void responsePasskeyResponse(String string, String string2, int n) {
     }
 
-    @Override
     public void responseRemoveAuthentication(String string, String string2, int n) {
     }
 
-    @Override
     public void responseRestoreFactorySettings(int n) {
     }
 
-    @Override
     public void responseSetA2DPUserSetting(int n) {
     }
 
-    @Override
     public void responseSetPriorizedDeviceReconnect(int n) {
     }
 
-    @Override
     public void responseSwitchBTState(int n) {
     }
 
-    @Override
     public void removeAuthenticationNoSupport(String string, String string2) {
     }
 
-    @Override
     public void updateAccessibleMode(int n, boolean bl, int n2) {
     }
 
-    @Override
     public void updateBTState(int n, int n2) {
     }
 
-    @Override
     public void updateDiscoveredDevices(DiscoveredDevice discoveredDevice, int n) {
     }
 
-    @Override
     public void updateHUCandBTHSState(int n, int n2) {
     }
 
-    @Override
     public void updateIncomingServiceRequest(RequestIncomingService requestIncomingService, int n) {
     }
 
-    @Override
     public void updateMasterRoleRequestError(MasterRoleRequestStruct masterRoleRequestStruct, int n) {
     }
 
-    @Override
     public void updatePasskeyState(PasskeyStateStruct passkeyStateStruct, int n) {
     }
 
-    @Override
     public void updatePriorizedDeviceReconnect(boolean bl, String string, int n) {
     }
 
-    @Override
     public void updateReconnectIndicator(ReconnectInfo reconnectInfo, int n) {
     }
 
-    @Override
     public void updateServiceRequestState(ServiceRequestStateStruct serviceRequestStateStruct, int n) {
     }
 
-    @Override
     public void updateSupportedBTProfiles(int n, int n2) {
     }
 
-    @Override
     public void updateTrustedDevices(TrustedDevice[] trustedDeviceArray, int n) {
     }
 
-    @Override
     public void updateUserFriendlyName(String string, int n) {
     }
 
-    @Override
     public void updateA2DPUserSetting(boolean bl, int n) {
     }
 
-    @Override
     public void deviceDisonnectionInfo(String string, String string2, int n) {
     }
 
-    @Override
     public void serviceRejectNoSupport(String string, String string2) {
     }
 
-    @Override
     public void responseReconnectSuspend(int n) {
     }
 
-    @Override
     public void responseSetAccessibleMode(int n) {
     }
 

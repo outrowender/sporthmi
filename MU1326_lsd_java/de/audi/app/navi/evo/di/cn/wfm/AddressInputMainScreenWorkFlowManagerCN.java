@@ -4,20 +4,17 @@
 package de.audi.app.navi.evo.di.cn.wfm;
 
 import de.audi.app.navi.evo.di.cn.wfm.AbstractAddressInputScreenWorkFlowManagerCN;
-import de.audi.app.navi.evo.di.cn.wfm.AddressInputMainScreenWorkFlowManagerCN$1;
-import de.audi.app.navi.evo.di.cn.wfm.AddressInputMainScreenWorkFlowManagerCN$2;
-import de.audi.app.navi.evo.di.cn.wfm.AddressInputMainScreenWorkFlowManagerCN$3;
-import de.audi.app.navi.evo.di.cn.wfm.AddressInputMainScreenWorkFlowManagerCN$4;
-import de.audi.app.navi.evo.di.cn.wfm.AddressInputMainScreenWorkFlowManagerCN$5;
-import de.audi.app.navi.evo.di.cn.wfm.AddressInputMainScreenWorkFlowManagerCN$6;
-import de.audi.app.navi.evo.di.cn.wfm.AddressInputMainScreenWorkFlowManagerCN$7;
 import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.ICommandListFactory;
 import de.audi.tghu.navi.app.NavigationEnv;
+import de.audi.tghu.navi.app.addressinput.poi.IPoiService;
 import de.audi.tghu.navi.app.command.LIGetStateCommand;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.di.AddressInputUtil;
 import de.audi.tghu.navi.app.li.SpellerStack;
 import de.audi.tghu.navi.app.li.sc.SpellerContext;
+import de.audi.tghu.navi.app.util.LocationFormatter;
+import org.dsi.ifc.global.NavLocation;
 
 public class AddressInputMainScreenWorkFlowManagerCN
 extends AbstractAddressInputScreenWorkFlowManagerCN {
@@ -25,7 +22,6 @@ extends AbstractAddressInputScreenWorkFlowManagerCN {
         super(navigationEnv, iCommandListFactory, spellerStack);
     }
 
-    @Override
     public CommandList handleWorkFlow(CommandList commandList, int n) {
         switch (n) {
             case 10008: {
@@ -88,31 +84,81 @@ extends AbstractAddressInputScreenWorkFlowManagerCN {
     }
 
     private void createCnMainScreenStartWorkFlow(CommandList commandList) {
-        this.logChannel.log(-2137614336, "%1#createCnMainScreenStartWorkFlow", (Object)this.CLASS_NAME);
-        commandList.add(new AddressInputMainScreenWorkFlowManagerCN$1(this, "Reset SpellerStack"));
+        this.logChannel.log(10000000, "%1#createCnMainScreenStartWorkFlow", (Object)this.CLASS_NAME);
+        commandList.add(new NavCommand("Reset SpellerStack"){
+
+            public void execute() {
+                AddressInputMainScreenWorkFlowManagerCN.this.spellerStack.reset();
+                this.getCommandList().commandFinished();
+            }
+        });
         SpellerContext spellerContext = this.getSpellerContext(26);
         commandList.add(new LIGetStateCommand(this.spellerStack, spellerContext));
-        commandList.add(new AddressInputMainScreenWorkFlowManagerCN$2(this, "Decide if to start the NDF with a given location"));
+        commandList.add(new NavCommand("Decide if to start the NDF with a given location"){
+
+            public void execute() {
+                Object object = this.commandList.get("startMainScreenNavLocation");
+                if (object != null && object instanceof NavLocation) {
+                    this.getCommandList().commandFinishedWithPostSequence(AddressInputMainScreenWorkFlowManagerCN.this.inputManager.getMainScreenListener().getStartCommandList((NavLocation)object));
+                } else {
+                    this.getCommandList().commandFinishedWithPostSequence(AddressInputMainScreenWorkFlowManagerCN.this.inputManager.getMainScreenListener().getStartCommandList());
+                }
+            }
+        });
     }
 
     private void createCnMainScreenStartForOnlineWorkFlow(CommandList commandList) {
-        this.logChannel.log(-2137614336, "%1#createCnMainScreenStartForOnlineWorkFlow", (Object)this.CLASS_NAME);
-        commandList.add(new AddressInputMainScreenWorkFlowManagerCN$3(this, "Reset SpellerStack"));
+        this.logChannel.log(10000000, "%1#createCnMainScreenStartForOnlineWorkFlow", (Object)this.CLASS_NAME);
+        commandList.add(new NavCommand("Reset SpellerStack"){
+
+            public void execute() {
+                AddressInputMainScreenWorkFlowManagerCN.this.spellerStack.reset();
+                this.getCommandList().commandFinished();
+            }
+        });
         SpellerContext spellerContext = this.getSpellerContext(78);
         commandList.add(new LIGetStateCommand(this.spellerStack, spellerContext));
-        commandList.add(new AddressInputMainScreenWorkFlowManagerCN$4(this, "Decide if to start the NDF with a given location"));
+        commandList.add(new NavCommand("Decide if to start the NDF with a given location"){
+
+            public void execute() {
+                Object object = this.commandList.get("startMainScreenNavLocation");
+                if (object != null && object instanceof NavLocation) {
+                    this.getCommandList().commandFinishedWithPostSequence(AddressInputMainScreenWorkFlowManagerCN.this.inputManager.getMainScreenListener().getStartCommandListForOnline((NavLocation)object));
+                } else {
+                    this.getCommandList().commandFinishedWithPostSequence(AddressInputMainScreenWorkFlowManagerCN.this.inputManager.getMainScreenListener().getStartCommandListForOnline());
+                }
+            }
+        });
     }
 
     private void createCnMainScreenStartForRemoteHmiWorkFlow(CommandList commandList) {
-        this.logChannel.log(-2137614336, "%1#createCnMainScreenStartForRemoteHmiWorkFlow", (Object)this.CLASS_NAME);
-        commandList.add(new AddressInputMainScreenWorkFlowManagerCN$5(this, "Reset SpellerStack"));
+        this.logChannel.log(10000000, "%1#createCnMainScreenStartForRemoteHmiWorkFlow", (Object)this.CLASS_NAME);
+        commandList.add(new NavCommand("Reset SpellerStack"){
+
+            public void execute() {
+                AddressInputMainScreenWorkFlowManagerCN.this.spellerStack.reset();
+                this.getCommandList().commandFinished();
+            }
+        });
         SpellerContext spellerContext = this.getSpellerContext(81);
         commandList.add(new LIGetStateCommand(this.spellerStack, spellerContext));
-        commandList.add(new AddressInputMainScreenWorkFlowManagerCN$6(this, "Decide if to start the NDF with a given location"));
+        commandList.add(new NavCommand("Decide if to start the NDF with a given location"){
+
+            public void execute() {
+                Object object = this.commandList.get("startMainScreenNavLocation");
+                if (object != null && object instanceof NavLocation) {
+                    AddressInputMainScreenWorkFlowManagerCN.this.logChannel.log(10000000, "%1#createCnMainScreenStartForRemoteHmiWorkFlow with navLocation = %2", (Object)this.CLASS_NAME, (Object)LocationFormatter.formatLocationShort((NavLocation)object));
+                    this.getCommandList().commandFinishedWithPostSequence(AddressInputMainScreenWorkFlowManagerCN.this.inputManager.getMainScreenListener().getStartCommandList((NavLocation)object));
+                } else {
+                    AddressInputMainScreenWorkFlowManagerCN.this.logChannel.log(10000000, "%1#createCnMainScreenStartForRemoteHmiWorkFlow with null location!", (Object)this.CLASS_NAME);
+                    this.getCommandList().commandFinishedWithPostSequence(AddressInputMainScreenWorkFlowManagerCN.this.inputManager.getMainScreenListener().getStartCommandList());
+                }
+            }
+        });
     }
 
     private void createCnMainScreenCityWorkFlow(CommandList commandList, boolean bl) {
-        this.logChannel.log(-2137614336, "%1#createCnMainScreenCityWorkFlow", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#createCnMainScreenCityWorkFlow", (Object)this.CLASS_NAME);
         SpellerContext spellerContext = this.inputManager.getActiveSpellerContextId() == 78 ? this.getSpellerContext(84) : (this.inputManager.getActiveSpellerContextId() == 81 ? this.getSpellerContext(85) : this.getSpellerContext(27));
         commandList.add(new LIGetStateCommand(this.spellerStack, spellerContext));
         if (bl) {
@@ -124,12 +170,19 @@ extends AbstractAddressInputScreenWorkFlowManagerCN {
     }
 
     private void createCnMainScreenLocationNameWorkFlow(CommandList commandList) {
-        this.logChannel.log(-2137614336, "%1#createCnMainScreenLocationNameWorkFlow", (Object)this.CLASS_NAME);
-        commandList.add(new AddressInputMainScreenWorkFlowManagerCN$7(this, "Start POI"));
+        this.logChannel.log(10000000, "%1#createCnMainScreenLocationNameWorkFlow", (Object)this.CLASS_NAME);
+        commandList.add(new NavCommand("Start POI"){
+
+            public void execute() {
+                IPoiService iPoiService = AddressInputMainScreenWorkFlowManagerCN.this.inputManager.getPoiService();
+                iPoiService.startPoiHybridSearch(0, this.env.getContainer().getLiCurrentLD(), false);
+                this.getCommandList().commandFinished();
+            }
+        });
     }
 
     private void createCnMainScreenStreetWorkFlow(CommandList commandList, boolean bl) {
-        this.logChannel.log(-2137614336, "%1#createCnMainScreenStreetWorkFlow", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#createCnMainScreenStreetWorkFlow", (Object)this.CLASS_NAME);
         SpellerContext spellerContext = this.getSpellerContext(29);
         spellerContext = this.inputManager.getActiveSpellerContextId() == 78 ? this.getSpellerContext(86) : (this.inputManager.getActiveSpellerContextId() == 81 ? this.getSpellerContext(87) : this.getSpellerContext(29));
         commandList.add(new LIGetStateCommand(this.spellerStack, spellerContext));
@@ -142,7 +195,7 @@ extends AbstractAddressInputScreenWorkFlowManagerCN {
     }
 
     private void createCnMainScreenHouseNumberWorkFlow(CommandList commandList, boolean bl) {
-        this.logChannel.log(-2137614336, "%1#createCnMainScreenHouseNumberWorkFlow", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#createCnMainScreenHouseNumberWorkFlow", (Object)this.CLASS_NAME);
         SpellerContext spellerContext = this.getSpellerContext(30);
         commandList.add(new LIGetStateCommand(this.spellerStack, spellerContext));
         if (bl) {
@@ -154,7 +207,7 @@ extends AbstractAddressInputScreenWorkFlowManagerCN {
     }
 
     private void createCnMainScreenIntersectionWorkFlow(CommandList commandList, boolean bl) {
-        this.logChannel.log(-2137614336, "%1#createCnMainScreenIntersectionWorkFlow", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#createCnMainScreenIntersectionWorkFlow", (Object)this.CLASS_NAME);
         SpellerContext spellerContext = this.getSpellerContext(31);
         commandList.add(new LIGetStateCommand(this.spellerStack, spellerContext));
         if (bl) {
@@ -166,7 +219,7 @@ extends AbstractAddressInputScreenWorkFlowManagerCN {
     }
 
     private void createCnMainScreenStartGuidanceWorkFlow(CommandList commandList) {
-        this.logChannel.log(-2137614336, "%1#createCnMainScreenStartGuidanceWorkFlow", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#createCnMainScreenStartGuidanceWorkFlow", (Object)this.CLASS_NAME);
     }
 }
 

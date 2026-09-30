@@ -15,59 +15,42 @@ import de.audi.app.media.source.ISourceSlot;
 import de.audi.app.media.source.ISourceSlotListener;
 
 public interface ISourceController {
-    public static final byte SOURCE_ACTIVATION_SUCCESSFUL;
-    public static final byte SOURCE_ACTIVATION_ALREADY_ACTIVE;
-    public static final byte SOURCE_ACTIVATION_FAILED_SOURCE_NOT_SUPPORTED;
+    public static final byte SOURCE_ACTIVATION_SUCCESSFUL = 1;
+    public static final byte SOURCE_ACTIVATION_ALREADY_ACTIVE = 2;
+    public static final byte SOURCE_ACTIVATION_FAILED_SOURCE_NOT_SUPPORTED = 3;
 
-    default public int activateSource(IActivationContext iActivationContext) {
-    }
+    public int activateSource(IActivationContext var1);
 
-    default public IActivationContext getActivationContext() {
-    }
+    public IActivationContext getActivationContext();
 
-    default public ISource getSource(int n) {
-    }
+    public ISource getSource(int var1);
 
-    default public void setAutomaticSourceChange(int[] nArray) {
-    }
+    public void setAutomaticSourceChange(int[] var1);
 
-    default public ISourceSlot getSelectedSlot() {
-    }
+    public ISourceSlot getSelectedSlot();
 
-    default public boolean isSelectedSource(ISource iSource) {
-    }
+    public boolean isSelectedSource(ISource var1);
 
-    default public void addSourceListener(ISourceListener iSourceListener) {
-    }
+    public void addSourceListener(ISourceListener var1);
 
-    default public void addSourceListListener(ISourceListListener iSourceListListener) {
-    }
+    public void addSourceListListener(ISourceListListener var1);
 
-    default public void addSlotListener(IMultipleSourceSlotListener iMultipleSourceSlotListener) {
-    }
+    public void addSlotListener(IMultipleSourceSlotListener var1);
 
-    default public void addSourceSlotListener(ISource iSource, ISourceSlotListener iSourceSlotListener, boolean bl) {
-    }
+    public void addSourceSlotListener(ISource var1, ISourceSlotListener var2, boolean var3);
 
-    default public void removeSlotListener(ISource iSource, ISourceSlotListener iSourceSlotListener) {
-    }
+    public void removeSlotListener(ISource var1, ISourceSlotListener var2);
 
-    default public void addActiveSourceListener(IActiveSourceListener iActiveSourceListener) {
-    }
+    public void addActiveSourceListener(IActiveSourceListener var1);
 
-    default public void addActiveSourceListenerAndNotifyState(IActiveSourceListener iActiveSourceListener) {
-    }
+    public void addActiveSourceListenerAndNotifyState(IActiveSourceListener var1);
 
-    default public void removeActiveSourceListener(IActiveSourceListener iActiveSourceListener) {
-    }
+    public void removeActiveSourceListener(IActiveSourceListener var1);
 
-    default public void restorePreviousFilePlayerSource() {
-    }
+    public void restorePreviousFilePlayerSource();
 
-    default public void addSourceChangeListener(ISourceChangeListener iSourceChangeListener) {
-    }
+    public void addSourceChangeListener(ISourceChangeListener var1);
 
-    default public void setSourceActivationExtension(ISourceActivationExtension iSourceActivationExtension) {
-    }
+    public void setSourceActivationExtension(ISourceActivationExtension var1);
 }
 

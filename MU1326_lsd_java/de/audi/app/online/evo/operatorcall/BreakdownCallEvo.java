@@ -24,17 +24,14 @@ extends AbstractBreakdownCall {
         super(abstractOperatorCallMain, telephoneHandler, operatorCallCommandListManager, navigationHandler, iFrameworkAccess, operatorCallModelHandlerCommon, intelliDestOperatorCallDataProvider, onlinePOICall, remoteHMIService);
     }
 
-    @Override
     protected AbstractModelHandler createModelHandler() {
         return new BreakdownCallModelHandlerEvo(this.framework.getHMIService(), this);
     }
 
-    @Override
     protected AbstractOperatorCallDataContainer createNewOperatorCallDataContainer(IntelliDestOperatorCallDataProvider intelliDestOperatorCallDataProvider) {
         return new OperatorCallDataContainerEvo(this.getServiceTypeName(), this.framework, this.naviHandler, intelliDestOperatorCallDataProvider, this.shouldPersistLists(), this.shouldPersistCCP(), this.getMaxNumberOfCalls(), this.getMaxNumberOfPoisPerCall());
     }
 
-    @Override
     public int getCurrentPermissionToTransmitCcp() {
         return 1;
     }

@@ -4,39 +4,30 @@
 package de.audi.atip.interapp;
 
 public interface AbstractSDSService {
-    public static final byte RESPONSE_TYPE_NONE;
-    public static final byte RESPONSE_TYPE_NOK_ONLY;
-    public static final byte RESPONSE_TYPE_ALL;
-    public static final byte PTT_DISABLER_NONE;
-    public static final byte PTT_DISABLER_NOT_READY;
-    public static final byte PTT_DISABLER_OPS_RVC;
-    public static final byte PTT_DISABLER_PHONE_CALL;
-    public static final byte PTT_DISABLER_SWDL;
-    public static final byte PTT_DISABLER_VOLUME_SETTING;
-    public static final byte PTT_DISABLER_LANGUAGE_LOADING;
-    public static final byte PTT_DISABLER_LANGUAGE_NOT_AVAILABLE;
-    public static final byte PTT_DISABLER_DRIVE_SELECT;
-    public static final byte PTT_DISABLER_APS;
-    public static final byte PTT_DISABLER_TERMINAL_MODE_PHONE_CALL;
-    public static final byte[] pttDisablerPrio;
+    public static final byte RESPONSE_TYPE_NONE = 0;
+    public static final byte RESPONSE_TYPE_NOK_ONLY = 1;
+    public static final byte RESPONSE_TYPE_ALL = 2;
+    public static final byte PTT_DISABLER_NONE = 0;
+    public static final byte PTT_DISABLER_NOT_READY = 1;
+    public static final byte PTT_DISABLER_OPS_RVC = 2;
+    public static final byte PTT_DISABLER_PHONE_CALL = 3;
+    public static final byte PTT_DISABLER_SWDL = 4;
+    public static final byte PTT_DISABLER_VOLUME_SETTING = 5;
+    public static final byte PTT_DISABLER_LANGUAGE_LOADING = 6;
+    public static final byte PTT_DISABLER_LANGUAGE_NOT_AVAILABLE = 7;
+    public static final byte PTT_DISABLER_DRIVE_SELECT = 8;
+    public static final byte PTT_DISABLER_APS = 9;
+    public static final byte PTT_DISABLER_TERMINAL_MODE_PHONE_CALL = 10;
+    public static final byte[] pttDisablerPrio = new byte[]{2, 9, 8, 3, 10, 7, 6, 4, 5};
 
-    default public void disablePTT(boolean bl, boolean bl2, byte by) {
-    }
+    public void disablePTT(boolean var1, boolean var2, byte var3);
 
-    default public void sendResult(int n) {
-    }
+    public void sendResult(int var1);
 
-    default public void abortPostTraining() {
-    }
+    public void abortPostTraining();
 
-    default public boolean isSDSAborting() {
-    }
+    public boolean isSDSAborting();
 
-    default public boolean isSDSActive() {
-    }
-
-    static {
-        pttDisablerPrio = new byte[]{2, 9, 8, 3, 10, 7, 6, 4, 5};
-    }
+    public boolean isSDSActive();
 }
 

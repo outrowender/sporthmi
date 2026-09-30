@@ -6,8 +6,6 @@ package de.audi.app.media.evo.content.tv;
 import de.audi.app.media.AbstractMediaTerminalComponent;
 import de.audi.app.media.IMediaTerminal;
 import de.audi.app.media.diagnosis.IDiagnosisCommandProvider;
-import de.audi.app.media.evo.content.tv.DrawerContextHandler$1;
-import de.audi.app.media.evo.content.tv.DrawerContextHandler$2;
 import de.audi.app.media.evo.content.tv.DrawerContextListRow;
 import de.audi.app.media.evo.content.tv.NullMediaDrawerContextListener;
 import de.audi.atip.hmi.model.list.BaseListModelApp;
@@ -28,9 +26,9 @@ extends AbstractMediaTerminalComponent
 implements IMediaDrawerContext,
 BaseListModelListener,
 IDiagnosisCommandProvider {
-    private static final String LOGCLASS;
-    protected static final int STATE_INACTIVE;
-    protected static final int STATE_ACTIVE;
+    private static final String LOGCLASS = "DrawerContextHandler";
+    protected static final int STATE_INACTIVE = 0;
+    protected static final int STATE_ACTIVE = 1;
     protected final IMediaDrawerContextListener nullDrawerContextListener;
     protected final LogChannel logger;
     protected final BaseListModelApp drawerContextListModel;
@@ -40,70 +38,65 @@ IDiagnosisCommandProvider {
     public DrawerContextHandler(IMediaTerminal iMediaTerminal) {
         super(iMediaTerminal);
         this.logger = iMediaTerminal.getLogger().main();
-        this.drawerContextListModel = this.getBaseListModel(-1794178304);
+        this.drawerContextListModel = this.getBaseListModel(200597);
         this.nullDrawerContextListener = new NullMediaDrawerContextListener(iMediaTerminal.getLogger().main());
         iMediaTerminal.getDiagnosisManager().addCommandProvider(-1, this);
     }
 
     public void init() {
-        this.logger.log(1078071040, "[%1.init]", (Object)"DrawerContextHandler");
+        this.logger.log(1000000, "[%1.init]", (Object)LOGCLASS);
         this.state = 0;
     }
 
     public void deinit() {
-        this.logger.log(1078071040, "[%1.deinit]", (Object)"DrawerContextHandler");
+        this.logger.log(1000000, "[%1.deinit]", (Object)LOGCLASS);
     }
 
     public void activate() {
-        this.logger.log(1078071040, "[%1.activate]", (Object)"DrawerContextHandler");
+        this.logger.log(1000000, "[%1.activate]", (Object)LOGCLASS);
         this.state = 1;
         this.drawerContextListModel.setListener(this);
     }
 
     public void deactivate() {
-        this.logger.log(1078071040, "[%1.deactivate]", (Object)"DrawerContextHandler");
-        this.getChoiceModel(-1274084608).setValue(0);
+        this.logger.log(1000000, "[%1.deactivate]", (Object)LOGCLASS);
+        this.getChoiceModel(200628).setValue(0);
         this.state = 0;
         this.drawerContextListModel.removeAll();
         this.drawerContextListModel.resetListener();
     }
 
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.logger.log(1078071040, "[%1.itemSelected]", (Object)"DrawerContextHandler");
+        this.logger.log(1000000, "[%1.itemSelected]", (Object)LOGCLASS);
         DrawerContextListRow drawerContextListRow = (DrawerContextListRow)evoListRow;
         IMediaDrawerElement iMediaDrawerElement = drawerContextListRow.getMediaDrawerElement();
         this.drawerContextListModel.setSelectedUniqueID(iMediaDrawerElement.getID());
-        this.getChoiceModel(-1274084608).setValue(drawerContextListRow.getCategoryId());
+        this.getChoiceModel(200628).setValue(drawerContextListRow.getCategoryId());
         this.drawerContextListener.drawerElementSelected(iMediaDrawerElement);
         this.drawerContextListModel.fireEvent(n4);
     }
 
-    @Override
     public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setDrawerElements(List list, IMediaDrawerContextListener iMediaDrawerContextListener) {
-        this.logger.log(1078071040, "[%1.setDrawerElements]", (Object)"DrawerContextHandler");
+        this.logger.log(1000000, "[%1.setDrawerElements]", (Object)LOGCLASS);
         if (this.state == 0) {
-            this.logger.log(1078071040, "[%1.setDrawerElements] TV not active source ignore", (Object)"DrawerContextHandler");
+            this.logger.log(1000000, "[%1.setDrawerElements] TV not active source ignore", (Object)LOGCLASS);
             return;
         }
         this.drawerContextListener = null == iMediaDrawerContextListener ? this.nullDrawerContextListener : iMediaDrawerContextListener;
         if (null == list || list.isEmpty()) {
-            this.logger.log(1078071040, "[%1.setDrawerElements] List empty.", (Object)"DrawerContextHandler");
+            this.logger.log(1000000, "[%1.setDrawerElements] List empty.", (Object)LOGCLASS);
             this.drawerContextListModel.removeAll();
             this.drawerContextListModel.trigger(ModelTrigger.CLOSE_SELECTION_DRAWER);
             return;
@@ -118,7 +111,7 @@ IDiagnosisCommandProvider {
                 baseListModelApp.append(drawerContextListRow);
                 if (iMediaDrawerElement.isSelected()) {
                     baseListModelApp.setSelectedUniqueID(iMediaDrawerElement.getID());
-                    this.getChoiceModel(-1274084608).setValue(drawerContextListRow.getCategoryId());
+                    this.getChoiceModel(200628).setValue(drawerContextListRow.getCategoryId());
                 }
                 if (!iMediaDrawerElement.isFocused() || baseListModelApp.getMenu() == null) continue;
                 baseListModelApp.getMenu().setFocusedItem(baseListModelApp.getID(), FocusAdvice.KEEP_POSITION, iMediaDrawerElement.getID());
@@ -132,20 +125,48 @@ IDiagnosisCommandProvider {
         }
     }
 
-    @Override
     public String[] getDiagKeys() {
         return new String[]{"setDrawerElements"};
     }
 
-    @Override
     public void executeDiagCommand(String string, String[] stringArray) {
         if ("setDrawerElements".equals(string)) {
             ArrayList arrayList = new ArrayList(stringArray.length);
             for (int i2 = 0; i2 < stringArray.length; ++i2) {
-                int n = Integer.parseInt(stringArray[i2]);
-                arrayList.add(new DrawerContextHandler$1(this, n));
+                final int n = Integer.parseInt(stringArray[i2]);
+                arrayList.add(new IMediaDrawerElement(){
+                    int id;
+                    {
+                        this.id = n;
+                    }
+
+                    public String getName() {
+                        return null;
+                    }
+
+                    public int getID() {
+                        return this.id;
+                    }
+
+                    public int getIconID() {
+                        return 0;
+                    }
+
+                    public boolean isSelected() {
+                        return false;
+                    }
+
+                    public boolean isFocused() {
+                        return false;
+                    }
+                });
             }
-            this.setDrawerElements(arrayList, new DrawerContextHandler$2(this));
+            this.setDrawerElements(arrayList, new IMediaDrawerContextListener(){
+
+                public void drawerElementSelected(IMediaDrawerElement iMediaDrawerElement) {
+                    DrawerContextHandler.this.logger.log(1000000, "[IMediaDrawerContextListener.drawerElementSelected]");
+                }
+            });
         }
     }
 }

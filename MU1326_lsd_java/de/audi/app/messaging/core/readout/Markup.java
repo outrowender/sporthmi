@@ -3,10 +3,10 @@
  */
 package de.audi.app.messaging.core.readout;
 
-import de.audi.app.messaging.core.readout.Markup$Attribute;
 import de.audi.app.messaging.core.util.Strings;
 import de.audi.tghu.tts.TTSStringUtil;
 import de.esolutions.fw.util.commons.Buffer;
+import java.io.UnsupportedEncodingException;
 
 final class Markup {
     Markup() {
@@ -20,16 +20,16 @@ final class Markup {
         buffer.append(Markup.escapeXml(string));
     }
 
-    static void openTag(Buffer buffer, String string, Markup$Attribute[] markup$AttributeArray) {
+    static void openTag(Buffer buffer, String string, Attribute[] attributeArray) {
         buffer.append('<');
         buffer.append(string);
-        if (markup$AttributeArray != null) {
-            for (int i2 = 0; i2 < markup$AttributeArray.length; ++i2) {
-                Markup$Attribute markup$Attribute = markup$AttributeArray[i2];
+        if (attributeArray != null) {
+            for (int i2 = 0; i2 < attributeArray.length; ++i2) {
+                Attribute attribute = attributeArray[i2];
                 buffer.append(' ');
-                buffer.append(markup$Attribute.key);
+                buffer.append(attribute.key);
                 buffer.append("=\"");
-                buffer.append(markup$Attribute.value);
+                buffer.append(attribute.value);
                 buffer.append('\"');
             }
         }
@@ -42,7 +42,7 @@ final class Markup {
         buffer.append('>');
     }
 
-    static String ensureDsiMaxByteLength(String string, String string2) {
+    static String ensureDsiMaxByteLength(String string, String string2) throws IllegalArgumentException, UnsupportedEncodingException {
         byte[] byArray;
         int n;
         String string3 = string;
@@ -52,19 +52,19 @@ final class Markup {
         return string3;
     }
 
-    private static String removeTextFromNode(String string, int n, String string2) {
+    private static String removeTextFromNode(String string, int n, String string2) throws IllegalArgumentException, UnsupportedEncodingException {
         int n2;
         if (Strings.isNullOrEmpty(string)) {
-            throw new IllegalArgumentException(new StringBuffer().append("Illegal text = ").append(string).toString());
+            throw new IllegalArgumentException("Illegal text = " + string);
         }
         if (n <= 0) {
-            throw new IllegalArgumentException(new StringBuffer().append("Illegal removeByteCount = ").append(n).toString());
+            throw new IllegalArgumentException("Illegal removeByteCount = " + n);
         }
         if (Strings.isNullOrEmpty(string2)) {
-            throw new IllegalArgumentException(new StringBuffer().append("Illegal nodeTagName = ").append(string2).toString());
+            throw new IllegalArgumentException("Illegal nodeTagName = " + string2);
         }
-        String string3 = new StringBuffer().append('<').append(string2).toString();
-        String string4 = new StringBuffer().append("</").append(string2).toString();
+        String string3 = '<' + string2;
+        String string4 = "</" + string2;
         int n3 = -1;
         int n4 = -1;
         int n5 = -1;
@@ -76,18 +76,18 @@ final class Markup {
             n5 = string.indexOf(string4, n4);
         }
         if (n3 < 0 || n4 < 0 || n5 < 0) {
-            throw new IllegalArgumentException(new StringBuffer().append("Cannot find target XML node '").append(string2).append("', text = ").append(string).toString());
+            throw new IllegalArgumentException("Cannot find target XML node '" + string2 + "', text = " + string);
         }
         String string5 = string.substring(n4, n5);
         byte[] byArray = TTSStringUtil.getBytesDsiEncoding(string5);
         int n6 = byArray.length;
         if (n6 < n) {
-            throw new IllegalArgumentException(new StringBuffer().append("Cannot remove ").append(n).append(" of ").append(n6).append(" bytes, text = ").append(string).toString());
+            throw new IllegalArgumentException("Cannot remove " + n + " of " + n6 + " bytes, text = " + string);
         }
         String string6 = TTSStringUtil.getStringDsiEncoding(byArray, 0, n6 - n);
         String string7 = Markup.ensureXmlCompliantTail(string6);
         if (Strings.isNullOrEmpty(string7)) {
-            throw new IllegalArgumentException(new StringBuffer().append("Target XML node is empty after truncation, text = ").append(string).toString());
+            throw new IllegalArgumentException("Target XML node is empty after truncation, text = " + string);
         }
         String string8 = string.substring(0, n4);
         String string9 = string.substring(n5);
@@ -109,6 +109,16 @@ final class Markup {
             }
         }
         return string2;
+    }
+
+    public static class Attribute {
+        public final String key;
+        public final String value;
+
+        public Attribute(String string, String string2) {
+            this.key = string;
+            this.value = string2;
+        }
     }
 }
 

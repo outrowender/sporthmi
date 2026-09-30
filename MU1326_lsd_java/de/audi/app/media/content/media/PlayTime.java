@@ -6,8 +6,8 @@ package de.audi.app.media.content.media;
 import de.esolutions.fw.util.commons.Buffer;
 
 public class PlayTime {
-    public static final int INVALID;
-    private static final int MAX_TIME_VALUE_SECONDS;
+    public static final int INVALID = -1;
+    private static final int MAX_TIME_VALUE_SECONDS = 59999;
     private final int restrictedTotalTime;
     private final String restrictedTotalTimeStr;
     private final int totalTimeOfTrack;
@@ -19,9 +19,9 @@ public class PlayTime {
     private final int currentRestrictedTime;
     private final String currentRestrictedTimeStr;
     private final int progress;
-    public static final String EMPTY_PLAYTIME;
-    public static final int EMPTY_PROGRESS;
-    public static final int INVALID_PLAYTIME;
+    public static final String EMPTY_PLAYTIME = "-:-";
+    public static final int EMPTY_PROGRESS = 0;
+    public static final int INVALID_PLAYTIME = 0;
 
     public PlayTime(int n, int n2) {
         if (n2 > 0) {
@@ -33,11 +33,11 @@ public class PlayTime {
             this.restrictedTotalTimeStr = PlayTime.toTimeString(this.restrictedTotalTime, false);
         } else {
             this.totalTimeOfTrack = 0;
-            this.totalTimeStr = "-:-";
+            this.totalTimeStr = EMPTY_PLAYTIME;
             this.remainTime = 0;
-            this.remainTimeStr = "-:-";
+            this.remainTimeStr = EMPTY_PLAYTIME;
             this.restrictedTotalTime = 0;
-            this.restrictedTotalTimeStr = "-:-";
+            this.restrictedTotalTimeStr = EMPTY_PLAYTIME;
         }
         this.currentTime = n;
         this.currentTimeStr = PlayTime.toTimeString(n, false);
@@ -47,8 +47,8 @@ public class PlayTime {
     }
 
     private static int restrictTimeToMaximumValue(int n) {
-        if (n > 1609170944) {
-            return 1609170944;
+        if (n > 59999) {
+            return 59999;
         }
         return n;
     }
@@ -98,15 +98,15 @@ public class PlayTime {
     }
 
     public static String toTimeString(long l, boolean bl) {
-        long l2 = l / 0;
-        long l3 = l % 0;
+        long l2 = l / 60L;
+        long l3 = l % 60L;
         Buffer buffer = new Buffer(7);
         if (bl) {
             buffer.append("-");
         }
         buffer.append(l2);
         buffer.append(":");
-        if (l3 < 0) {
+        if (l3 < 10L) {
             buffer.append("0");
         }
         buffer.append(l3);

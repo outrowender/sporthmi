@@ -11,17 +11,14 @@ implements ILicensePopupListener,
 ILicenseScreenState {
     private volatile int currentLicenseScreenId = 0;
 
-    @Override
     public int getLincenseScreenId() {
         return this.currentLicenseScreenId;
     }
 
-    @Override
     public void onLicensePopupOpened(int n) {
         this.currentLicenseScreenId = n;
     }
 
-    @Override
     public void onLicensePopupConfirmed() {
         this.currentLicenseScreenId = 0;
     }

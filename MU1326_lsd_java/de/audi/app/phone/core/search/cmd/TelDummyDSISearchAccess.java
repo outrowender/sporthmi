@@ -15,14 +15,12 @@ implements ITelDSISearchAccess {
         super(iTelApplication, "App.Phone.Search");
     }
 
-    @Override
     public void scheduleQuery(String string, int[] nArray, ITelSearchQueryListener iTelSearchQueryListener) {
-        this.log.log(-1601830656, "[TelDummyDSISearchAccess#scheduleQuery] Search not supported --> NOP!");
+        this.log.log(100000, "[TelDummyDSISearchAccess#scheduleQuery] Search not supported --> NOP!");
     }
 
-    @Override
     public void cancelActiveSearchQuery() {
-        this.log.log(-1601830656, "[TelDummyDSISearchAccess#cancelActiveSearchQuery] Search not supported --> NOP!");
+        this.log.log(100000, "[TelDummyDSISearchAccess#cancelActiveSearchQuery] Search not supported --> NOP!");
     }
 }
 

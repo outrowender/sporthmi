@@ -7,43 +7,32 @@ import de.audi.app.phone.core.dsi.ITelDSIMobileEquipmentDeviceAccess;
 import de.audi.app.phone.core.dsi.ITelDSIResponseListener;
 
 public interface ITelDSIMobileEquipmentTopologyAccess {
-    public static final int ME_SLOT_STATE_INIT;
-    public static final int ME_SLOT_NOT_IN_USE;
-    public static final int ME_SLOT_PRIMARY;
-    public static final int ME_SLOT_SECONDARY;
-    public static final int ME_SLOT_DATA;
+    public static final int ME_SLOT_STATE_INIT = -2;
+    public static final int ME_SLOT_NOT_IN_USE = -1;
+    public static final int ME_SLOT_PRIMARY = 0;
+    public static final int ME_SLOT_SECONDARY = 1;
+    public static final int ME_SLOT_DATA = 2;
 
-    default public ITelDSIMobileEquipmentDeviceAccess getPrimaryTelephoneAccess() {
-    }
+    public ITelDSIMobileEquipmentDeviceAccess getPrimaryTelephoneAccess();
 
-    default public ITelDSIMobileEquipmentDeviceAccess getSecondaryTelephoneAccess() {
-    }
+    public ITelDSIMobileEquipmentDeviceAccess getSecondaryTelephoneAccess();
 
-    default public ITelDSIMobileEquipmentDeviceAccess getDataOnlyNadAccess() {
-    }
+    public ITelDSIMobileEquipmentDeviceAccess getDataOnlyNadAccess();
 
-    default public ITelDSIMobileEquipmentDeviceAccess getNullDeviceAccess() {
-    }
+    public ITelDSIMobileEquipmentDeviceAccess getNullDeviceAccess();
 
-    default public void togglePhones(int n, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void togglePhones(int var1, ITelDSIResponseListener var2, ITelDSIResponseListener[] var3);
 
-    default public ITelDSIMobileEquipmentDeviceAccess getNADInstance() {
-    }
+    public ITelDSIMobileEquipmentDeviceAccess getNADInstance();
 
-    default public void restoreFactorySettings(boolean bl, int n, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void restoreFactorySettings(boolean var1, int var2, ITelDSIResponseListener var3, ITelDSIResponseListener[] var4);
 
-    default public void requestSetLanguage(String string, boolean bl, int n, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void requestSetLanguage(String var1, boolean var2, int var3, ITelDSIResponseListener var4, ITelDSIResponseListener[] var5);
 
-    default public void requestSetNADMode(int n, boolean bl, int n2, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void requestSetNADMode(int var1, boolean var2, int var3, ITelDSIResponseListener var4, ITelDSIResponseListener[] var5);
 
-    default public ITelDSIMobileEquipmentDeviceAccess getRoleDeviceAccess(int n) {
-    }
+    public ITelDSIMobileEquipmentDeviceAccess getRoleDeviceAccess(int var1);
 
-    default public void requestSetNadRole(int n, int n2, ITelDSIResponseListener iTelDSIResponseListener, ITelDSIResponseListener[] iTelDSIResponseListenerArray) {
-    }
+    public void requestSetNadRole(int var1, int var2, ITelDSIResponseListener var3, ITelDSIResponseListener[] var4);
 }
 

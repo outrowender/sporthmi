@@ -12,10 +12,10 @@ import java.util.StringTokenizer;
 
 public abstract class AbstractDiagnosisCommandSingleParam
 implements IDiagnosisCommand {
-    protected static final int PARAMETER_TYPE_STRING;
-    protected static final int PARAMETER_TYPE_BOOL;
-    protected static final int PARAMETER_TYPE_INT;
-    public static final int NUMBER_OF_VALUES_UNLIMITED;
+    protected static final int PARAMETER_TYPE_STRING = 0;
+    protected static final int PARAMETER_TYPE_BOOL = 1;
+    protected static final int PARAMETER_TYPE_INT = 2;
+    public static final int NUMBER_OF_VALUES_UNLIMITED = 65535;
     private final String[] possibleValues;
     private final int paramType;
     private List parsedValues;
@@ -51,8 +51,7 @@ implements IDiagnosisCommand {
         this.maxNumberOfValues = n;
     }
 
-    @Override
-    public void parseParameters(String string) {
+    public void parseParameters(String string) throws InvalidCommandParameterException {
         Buffer buffer = new Buffer();
         this.parsedValues = new ArrayList();
         StringTokenizer stringTokenizer = new StringTokenizer(string);
@@ -141,7 +140,6 @@ implements IDiagnosisCommand {
         return this.parsedValues.toArray();
     }
 
-    @Override
     public String getCommandString() {
         return this.commandString;
     }

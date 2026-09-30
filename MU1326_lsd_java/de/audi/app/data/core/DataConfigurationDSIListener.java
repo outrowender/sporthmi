@@ -3,21 +3,6 @@
  */
 package de.audi.app.data.core;
 
-import de.audi.app.data.core.DataConfigurationDSIListener$1;
-import de.audi.app.data.core.DataConfigurationDSIListener$10;
-import de.audi.app.data.core.DataConfigurationDSIListener$11;
-import de.audi.app.data.core.DataConfigurationDSIListener$12;
-import de.audi.app.data.core.DataConfigurationDSIListener$13;
-import de.audi.app.data.core.DataConfigurationDSIListener$14;
-import de.audi.app.data.core.DataConfigurationDSIListener$15;
-import de.audi.app.data.core.DataConfigurationDSIListener$2;
-import de.audi.app.data.core.DataConfigurationDSIListener$3;
-import de.audi.app.data.core.DataConfigurationDSIListener$4;
-import de.audi.app.data.core.DataConfigurationDSIListener$5;
-import de.audi.app.data.core.DataConfigurationDSIListener$6;
-import de.audi.app.data.core.DataConfigurationDSIListener$7;
-import de.audi.app.data.core.DataConfigurationDSIListener$8;
-import de.audi.app.data.core.DataConfigurationDSIListener$9;
 import de.audi.app.data.core.DataConfigurationDefaultListener;
 import de.audi.atip.log.LogChannel;
 import de.audi.tghu.command.CommandList;
@@ -42,102 +27,157 @@ ICommandResponseSupplier {
         this.log = logChannel;
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
         this.log.log(10000, "DataConfigurationDSIListener#asyncException():  called, error code: %2, error msg: %1, request type: %3 ", (Object)string, (long)n, (long)n2);
     }
 
-    @Override
-    public void updateAvailableProfiles(CDataProfile[] cDataProfileArray, int n) {
-        CommandResponse.execute(this, new DataConfigurationDSIListener$1(this, cDataProfileArray, n));
+    public void updateAvailableProfiles(final CDataProfile[] cDataProfileArray, final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIDataConfigurationListener)dSIListener).updateAvailableProfiles(cDataProfileArray, n);
+            }
+        });
     }
 
-    @Override
-    public void updateActiveProfile(int n, int n2) {
-        CommandResponse.execute(this, new DataConfigurationDSIListener$2(this, n, n2));
+    public void updateActiveProfile(final int n, final int n2) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIDataConfigurationListener)dSIListener).updateActiveProfile(n, n2);
+            }
+        });
     }
 
-    @Override
-    public void updateRoamingState(int n, int n2) {
-        CommandResponse.execute(this, new DataConfigurationDSIListener$3(this, n, n2));
+    public void updateRoamingState(final int n, final int n2) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIDataConfigurationListener)dSIListener).updateRoamingState(n, n2);
+            }
+        });
     }
 
-    @Override
-    public void updateConnectionMode(int n, int n2) {
-        CommandResponse.execute(this, new DataConfigurationDSIListener$4(this, n, n2));
+    public void updateConnectionMode(final int n, final int n2) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIDataConfigurationListener)dSIListener).updateConnectionMode(n, n2);
+            }
+        });
     }
 
-    @Override
-    public void updateDataRequest(int n, int n2) {
-        CommandResponse.execute(this, new DataConfigurationDSIListener$5(this, n, n2));
+    public void updateDataRequest(final int n, final int n2) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIDataConfigurationListener)dSIListener).updateDataRequest(n, n2);
+            }
+        });
     }
 
-    @Override
-    public void updateRequestSetting(int n, int n2, int n3) {
-        CommandResponse.execute(this, new DataConfigurationDSIListener$6(this, n, n2, n3));
+    public void updateRequestSetting(final int n, final int n2, final int n3) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIDataConfigurationListener)dSIListener).updateRequestSetting(n, n2, n3);
+            }
+        });
     }
 
-    @Override
-    public void setDataProfileResponse(CDataProfile cDataProfile, int n) {
-        CommandResponse.execute(this, new DataConfigurationDSIListener$7(this, cDataProfile, n));
+    public void setDataProfileResponse(final CDataProfile cDataProfile, final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIDataConfigurationListener)dSIListener).setDataProfileResponse(cDataProfile, n);
+            }
+        });
     }
 
-    @Override
-    public void automaticProfileResponse(int n, CDataProfile cDataProfile, int n2) {
-        CommandResponse.execute(this, new DataConfigurationDSIListener$8(this, n, cDataProfile, n2));
+    public void automaticProfileResponse(final int n, final CDataProfile cDataProfile, final int n2) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIDataConfigurationListener)dSIListener).automaticProfileResponse(n, cDataProfile, n2);
+            }
+        });
     }
 
-    @Override
-    public void setRoamingStateResponse(int n) {
-        CommandResponse.execute(this, new DataConfigurationDSIListener$9(this, n));
+    public void setRoamingStateResponse(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIDataConfigurationListener)dSIListener).setRoamingStateResponse(n);
+            }
+        });
     }
 
-    @Override
-    public void setConnectionModeResponse(int n) {
-        CommandResponse.execute(this, new DataConfigurationDSIListener$10(this, n));
+    public void setConnectionModeResponse(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIDataConfigurationListener)dSIListener).setConnectionModeResponse(n);
+            }
+        });
     }
 
-    @Override
-    public void setRequestSettingResponse(int n) {
-        CommandResponse.execute(this, new DataConfigurationDSIListener$11(this, n));
+    public void setRequestSettingResponse(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIDataConfigurationListener)dSIListener).setRequestSettingResponse(n);
+            }
+        });
     }
 
-    @Override
-    public void acceptDataRequestResponse(int n) {
-        CommandResponse.execute(this, new DataConfigurationDSIListener$12(this, n));
+    public void acceptDataRequestResponse(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIDataConfigurationListener)dSIListener).acceptDataRequestResponse(n);
+            }
+        });
     }
 
-    @Override
-    public void resetPacketCounterResponse(int n) {
-        CommandResponse.execute(this, new DataConfigurationDSIListener$13(this, n));
+    public void resetPacketCounterResponse(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIDataConfigurationListener)dSIListener).resetPacketCounterResponse(n);
+            }
+        });
     }
 
-    @Override
-    public void restoreFactorySettingsResponse(int n) {
-        CommandResponse.execute(this, new DataConfigurationDSIListener$14(this, n));
+    public void restoreFactorySettingsResponse(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIDataConfigurationListener)dSIListener).restoreFactorySettingsResponse(n);
+            }
+        });
     }
 
-    @Override
-    public void updatePacketCounter(CPacketCounter cPacketCounter, int n) {
-        CommandResponse.execute(this, new DataConfigurationDSIListener$15(this, cPacketCounter, n));
+    public void updatePacketCounter(final CPacketCounter cPacketCounter, final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIDataConfigurationListener)dSIListener).updatePacketCounter(cPacketCounter, n);
+            }
+        });
     }
 
-    @Override
     public CommandList getActiveCommandList() {
         return this.cmdListManager.getActiveCommandList();
     }
 
-    @Override
     public DSIListener getDSIDefaultHandler() {
         return this.dataConfigurationDefaultListener;
     }
 
-    @Override
     public String getHandlerName() {
-        return super.getClass().getName();
+        return this.getClass().getName();
     }
 
-    @Override
     public LogChannel getLogChannel() {
         return this.log;
     }

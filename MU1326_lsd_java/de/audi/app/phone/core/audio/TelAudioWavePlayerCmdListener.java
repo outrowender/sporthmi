@@ -8,8 +8,6 @@ import de.audi.app.phone.core.ITelApplication;
 import de.audi.app.phone.core.PhoneServiceTracker;
 import de.audi.app.phone.core.audio.ITelAudioCmdListener;
 import de.audi.app.phone.core.audio.TelAudioCmdDefaultListener;
-import de.audi.app.phone.core.audio.TelAudioWavePlayerCmdListener$1;
-import de.audi.app.phone.core.audio.TelAudioWavePlayerCmdListener$2;
 import de.audi.atip.log.LogChannel;
 import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.CommandListManager;
@@ -39,13 +37,11 @@ ServiceTrackerCustomizer {
         this.cmdListManager = commandListManager;
     }
 
-    @Override
     public void init() {
         this.wavePlayerServiceTracker = new PhoneServiceTracker(this.getApplication().getBundleContext(), (class$de$audi$tghu$waveplayer$WavePlayer == null ? (class$de$audi$tghu$waveplayer$WavePlayer = TelAudioWavePlayerCmdListener.class$("de.audi.tghu.waveplayer.WavePlayer")) : class$de$audi$tghu$waveplayer$WavePlayer).getName(), (ServiceTrackerCustomizer)this, this.log);
         this.wavePlayerServiceTracker.openTracker();
     }
 
-    @Override
     public void deinit() {
         if (this.wavePlayerServiceTracker != null) {
             this.wavePlayerServiceTracker.closeTracker();
@@ -53,39 +49,56 @@ ServiceTrackerCustomizer {
         }
     }
 
-    @Override
-    public void state(int n) {
-        this.log.log(-2137614336, "[TelAudioWavePlayerCmdListener#state] status=%1", (long)n);
-        CommandResponse.execute(this, new TelAudioWavePlayerCmdListener$1(this, n));
+    public void state(final int n) {
+        this.log.log(10000000, "[TelAudioWavePlayerCmdListener#state] status=%1", (long)n);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ITelAudioCmdListener iTelAudioCmdListener = TelAudioWavePlayerCmdListener.this.defaultListener;
+                try {
+                    iTelAudioCmdListener = (ITelAudioCmdListener)dSIListener;
+                }
+                catch (ClassCastException classCastException) {
+                    TelAudioWavePlayerCmdListener.this.log.log(10000, "[TelAudioWavePlayerCmdListener#state] %1", (Throwable)classCastException);
+                }
+                iTelAudioCmdListener.state(n);
+            }
+        });
     }
 
-    @Override
-    public void playToneInfo(int n) {
-        this.log.log(-2137614336, "[TelAudioWavePlayerCmdListener#playToneInfo] status=%1", (long)n);
-        CommandResponse.execute(this, new TelAudioWavePlayerCmdListener$2(this, n));
+    public void playToneInfo(final int n) {
+        this.log.log(10000000, "[TelAudioWavePlayerCmdListener#playToneInfo] status=%1", (long)n);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ITelAudioCmdListener iTelAudioCmdListener = TelAudioWavePlayerCmdListener.this.defaultListener;
+                try {
+                    iTelAudioCmdListener = (ITelAudioCmdListener)dSIListener;
+                }
+                catch (ClassCastException classCastException) {
+                    TelAudioWavePlayerCmdListener.this.log.log(10000, "[TelAudioWavePlayerCmdListener#playToneInfo] %1", (Throwable)classCastException);
+                }
+                iTelAudioCmdListener.playToneInfo(n);
+            }
+        });
     }
 
-    @Override
     public DSIListener getDSIDefaultHandler() {
         return this.defaultListener;
     }
 
-    @Override
     public CommandList getActiveCommandList() {
         return this.cmdListManager.getActiveCommandList();
     }
 
-    @Override
     public LogChannel getLogChannel() {
         return this.log;
     }
 
-    @Override
     public String getHandlerName() {
         return "TelAudioWavePlayerCmdListener";
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         if (serviceReference == null) {
             this.log.log(10000, "TelAudioWavePlayerCmdListener#addingService reference is null");
@@ -97,7 +110,7 @@ ServiceTrackerCustomizer {
             return null;
         }
         if (object instanceof WavePlayer) {
-            this.log.log(1078071040, "[TelAudioWavePlayerCmdListener#addingService] WavePlayer=%1", object);
+            this.log.log(1000000, "[TelAudioWavePlayerCmdListener#addingService] WavePlayer=%1", object);
             WavePlayer wavePlayer = (WavePlayer)object;
             if (wavePlayer != null) {
                 this.setWavePlayerService(wavePlayer);
@@ -108,11 +121,9 @@ ServiceTrackerCustomizer {
         return null;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (serviceReference == null) {
             this.log.log(10000, "TelAudioWavePlayerCmdListener#removedService reference is null");
@@ -123,7 +134,7 @@ ServiceTrackerCustomizer {
             return;
         }
         if (object instanceof WavePlayer) {
-            this.log.log(1078071040, "[TelAudioWavePlayerCmdListener#removedService] WavePlayer=%1", object);
+            this.log.log(1000000, "[TelAudioWavePlayerCmdListener#removedService] WavePlayer=%1", object);
             this.getApplication().getBundleContext().ungetService(serviceReference);
             if (this.ringtonePlayer != null) {
                 this.ringtonePlayer.removeListener(this);
@@ -144,18 +155,6 @@ ServiceTrackerCustomizer {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ ITelAudioCmdListener access$000(TelAudioWavePlayerCmdListener telAudioWavePlayerCmdListener) {
-        return telAudioWavePlayerCmdListener.defaultListener;
-    }
-
-    static /* synthetic */ LogChannel access$100(TelAudioWavePlayerCmdListener telAudioWavePlayerCmdListener) {
-        return telAudioWavePlayerCmdListener.log;
-    }
-
-    static /* synthetic */ LogChannel access$200(TelAudioWavePlayerCmdListener telAudioWavePlayerCmdListener) {
-        return telAudioWavePlayerCmdListener.log;
     }
 }
 

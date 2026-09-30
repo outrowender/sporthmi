@@ -4,47 +4,34 @@
 package de.audi.atip.base;
 
 public interface IVersionInfo {
-    public static final int INDEX_NAME;
-    public static final int INDEX_VERSION;
-    public static final int INFORMATION_COUNT;
+    public static final int INDEX_NAME = 0;
+    public static final int INDEX_VERSION = 1;
+    public static final int INFORMATION_COUNT = 2;
 
-    default public String getHMIVersion() {
-    }
+    public String getHMIVersion();
 
-    default public String getTextToolVersion() {
-    }
+    public String getTextToolVersion();
 
-    default public String getTextToolSDSVersion() {
-    }
+    public String getTextToolSDSVersion();
 
-    default public String getOptionDrawerVersion() {
-    }
+    public String getOptionDrawerVersion();
 
-    default public String getDsiIfcVersion() {
-    }
+    public String getDsiIfcVersion();
 
-    default public String getFrameworkVersion() {
-    }
+    public String getFrameworkVersion();
 
-    default public String getKanziVersion() {
-    }
+    public String getKanziVersion();
 
-    default public String getHudsonBuildTag() {
-    }
+    public String getHudsonBuildTag();
 
-    default public String getLangDataChecksum() {
-    }
+    public String getLangDataChecksum();
 
-    default public String getDiagChecksum() {
-    }
+    public String getDiagChecksum();
 
-    default public String getExtLogsChecksum() {
-    }
+    public String getExtLogsChecksum();
 
-    default public boolean isOfficialRelease() {
-    }
+    public boolean isOfficialRelease();
 
-    default public boolean isProductionVersion() {
-    }
+    public boolean isProductionVersion();
 }
 

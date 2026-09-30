@@ -23,12 +23,10 @@ extends AbstractBAPModuleFSG {
         return ((AbstractCombiBAPApplication)this.bapApplication).getPictureManager();
     }
 
-    @Override
     protected boolean isRelevantForUpdateProperties(int n) {
         return n != this.getFunctionList().getFctListBAPFctID() && n != this.getFunctionList().getBAPConfigBAPFctID();
     }
 
-    @Override
     public void deactivate() {
         if (((AbstractCombiBAPApplication)this.bapApplication).isMOSTListSupported()) {
             this.listManager.deinit();

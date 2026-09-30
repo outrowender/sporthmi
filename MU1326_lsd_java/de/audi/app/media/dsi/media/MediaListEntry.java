@@ -10,7 +10,7 @@ import org.dsi.ifc.global.ResourceLocator;
 import org.dsi.ifc.media.ListEntry;
 
 public class MediaListEntry {
-    public static final int INVALID_ID;
+    public static final int INVALID_ID = -1;
     private final I18NString filename;
     private final I18NString title;
     private final I18NString album;

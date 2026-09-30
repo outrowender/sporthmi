@@ -12,14 +12,12 @@ public class WirelessChargingActivator
 extends AbstractActivator {
     private IWirelessChargingApplication phoneboxApplication;
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         this.phoneboxApplication = new EvoWirelessChargingApplication(this.framework, bundleContext);
         this.phoneboxApplication.init();
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         this.phoneboxApplication.deinit();
         this.phoneboxApplication = null;

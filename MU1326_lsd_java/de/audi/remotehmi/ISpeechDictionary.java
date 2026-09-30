@@ -6,21 +6,16 @@ package de.audi.remotehmi;
 import java.util.List;
 
 public interface ISpeechDictionary {
-    public static final int type;
+    public static final int type = 2;
 
-    default public List getDictionaryEntries() {
-    }
+    public List getDictionaryEntries();
 
-    default public String getId() {
-    }
+    public String getId();
 
-    default public String getLanguage() {
-    }
+    public String getLanguage();
 
-    default public String getFormat() {
-    }
+    public String getFormat();
 
-    default public int getType() {
-    }
+    public int getType();
 }
 

@@ -16,28 +16,24 @@ extends AbstractBAPApplication {
     protected AbstractCombiBAPApplication(IFrameworkAccess iFrameworkAccess) {
         super(iFrameworkAccess, new CombiLogger(iFrameworkAccess));
         this.pictureManager = this.createPictureManager(iFrameworkAccess);
-        this.logChannel.log(1078071040, "*** Combi BAP HMI application has been started ***");
+        this.logChannel.log(1000000, "*** Combi BAP HMI application has been started ***");
     }
 
-    @Override
     public String getName() {
         return "Combi";
     }
 
-    protected abstract IPictureManager createPictureManager(IFrameworkAccess iFrameworkAccess) {
-    }
+    protected abstract IPictureManager createPictureManager(IFrameworkAccess var1);
 
     public IPictureManager getPictureManager() {
         return this.pictureManager;
     }
 
-    @Override
     protected void activate(AbstractActivator abstractActivator) {
         super.activate(abstractActivator);
         this.pictureManager.init(abstractActivator.getBundleContext());
     }
 
-    @Override
     protected void dereferenceApplicationComponents() {
         super.dereferenceApplicationComponents();
         this.pictureManager.deinit();

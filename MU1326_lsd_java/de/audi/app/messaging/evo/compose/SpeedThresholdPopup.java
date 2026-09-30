@@ -5,10 +5,10 @@ package de.audi.app.messaging.evo.compose;
 
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
 import de.audi.app.messaging.core.component.AbstractMessagingComponent;
+import de.audi.app.messaging.core.guide.IActionProxySubscriber;
 import de.audi.app.messaging.core.osgi.MessagingBundleContext;
-import de.audi.app.messaging.evo.compose.SpeedThresholdPopup$EvoActionProxy;
-import de.audi.app.messaging.evo.compose.SpeedThresholdPopup$MyButtonListener;
-import de.audi.atip.log.LogChannel;
+import de.audi.app.messaging.evo.guide.DefaultEvoActionProxy;
+import de.audi.atip.hmi.model.DefaultButtonListener;
 
 public final class SpeedThresholdPopup
 extends AbstractMessagingComponent {
@@ -16,39 +16,48 @@ extends AbstractMessagingComponent {
         super(messagingBundleContext, "App.Messaging.Main");
     }
 
-    @Override
     public void init(AbstractMsgApplication abstractMsgApplication) {
         super.init(abstractMsgApplication);
-        SpeedThresholdPopup$MyButtonListener speedThresholdPopup$MyButtonListener = new SpeedThresholdPopup$MyButtonListener(this, null);
-        this.framework.getHmiServiceApp().getButtonModel(1368596736).setButtonListener(speedThresholdPopup$MyButtonListener);
-        this.framework.getHmiServiceApp().getButtonModel(1385373952).setButtonListener(speedThresholdPopup$MyButtonListener);
-        abstractMsgApplication.getActionProxyService().addSubscriber(new SpeedThresholdPopup$EvoActionProxy(this, null));
+        MyButtonListener myButtonListener = new MyButtonListener();
+        this.framework.getHmiServiceApp().getButtonModel(2200401).setButtonListener(myButtonListener);
+        this.framework.getHmiServiceApp().getButtonModel(2200402).setButtonListener(myButtonListener);
+        abstractMsgApplication.getActionProxyService().addSubscriber(new EvoActionProxy());
     }
 
     private void compositionSpeedPopupOkButton(int n, int n2) {
-        this.log.log(1078071040, "[SpeedThresholdPopup#compositionSpeedPopupOkButton]");
+        this.log.log(1000000, "[SpeedThresholdPopup#compositionSpeedPopupOkButton]");
         this.repositionCompositionScreenCursor();
     }
 
     private void repositionCompositionScreenCursor() {
-        this.log.log(-2137614336, "[SpeedThresholdPopup#repositionCompositionScreenCursor]");
+        this.log.log(10000000, "[SpeedThresholdPopup#repositionCompositionScreenCursor]");
         this.msgApp.getNewMessage().setCursorPosition(3);
     }
 
-    static /* synthetic */ void access$200(SpeedThresholdPopup speedThresholdPopup, int n, int n2) {
-        speedThresholdPopup.compositionSpeedPopupOkButton(n, n2);
+    private final class EvoActionProxy
+    extends DefaultEvoActionProxy
+    implements IActionProxySubscriber {
+        private EvoActionProxy() {
+        }
+
+        public void compositionSpeedThresholdPopupReturn(int n) {
+            SpeedThresholdPopup.this.log.log(10000000, "[SpeedThresholdPopup#compositionSpeedThresholdPopupReturn]");
+            SpeedThresholdPopup.this.repositionCompositionScreenCursor();
+        }
     }
 
-    static /* synthetic */ LogChannel access$300(SpeedThresholdPopup speedThresholdPopup) {
-        return speedThresholdPopup.log;
-    }
+    private final class MyButtonListener
+    extends DefaultButtonListener {
+        private MyButtonListener() {
+        }
 
-    static /* synthetic */ LogChannel access$400(SpeedThresholdPopup speedThresholdPopup) {
-        return speedThresholdPopup.log;
-    }
-
-    static /* synthetic */ void access$500(SpeedThresholdPopup speedThresholdPopup) {
-        speedThresholdPopup.repositionCompositionScreenCursor();
+        public void keyTyped(int n, int n2, int n3) {
+            if (n == 2200401 || n == 2200402) {
+                SpeedThresholdPopup.this.compositionSpeedPopupOkButton(n, n3);
+            } else {
+                SpeedThresholdPopup.this.log.log(10000, "[SpeedThresholdPopup#keyTyped] Unexpected modelID = %1", (long)n);
+            }
+        }
     }
 }
 

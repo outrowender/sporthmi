@@ -3,29 +3,68 @@
  */
 package de.audi.remotehmi;
 
-import de.audi.remotehmi.IGenericDataUpdatePayload$IWeatherInfos;
+import de.audi.remotehmi.ui.pag.IPreviewContainer;
 import java.util.List;
 
 public interface IGenericDataUpdatePayload {
-    default public int getLocation() {
+    public int getLocation();
+
+    public String getId();
+
+    public String getContext();
+
+    public String getType();
+
+    public int getUpdateState();
+
+    public List getRows();
+
+    public IWeatherInfos getWeatherInfos();
+
+    public static interface IWeatherDay {
+        public String getTitle();
+
+        public String getDescription();
+
+        public String getTempMin();
+
+        public String getTempMax();
+
+        public String getWind();
+
+        public String getRain();
+
+        public String getImage();
+
+        public String getImageWind();
+
+        public String getImageRain();
     }
 
-    default public String getId() {
+    public static interface IWeatherInfos {
+        public String getCity();
+
+        public List getDays();
     }
 
-    default public String getContext() {
-    }
+    public static interface IGenericListRow {
+        public String getId();
 
-    default public String getType() {
-    }
+        public String getTitle();
 
-    default public int getUpdateState() {
-    }
+        public String getLine1();
 
-    default public List getRows() {
-    }
+        public String getLine2();
 
-    default public IWeatherInfos getWeatherInfos() {
+        public String getIconLeft();
+
+        public String getIconRight();
+
+        public double getLat();
+
+        public double getLon();
+
+        public IPreviewContainer getPreview();
     }
 }
 

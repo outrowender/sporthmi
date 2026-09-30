@@ -7,19 +7,14 @@ import de.audi.atip.log.LogSink;
 
 public interface BufferedLogSink
 extends LogSink {
-    default public void setBufferSize(int n) {
-    }
+    public void setBufferSize(int var1);
 
-    default public void clearBuffer() {
-    }
+    public void clearBuffer();
 
-    default public void dumpBuffer() {
-    }
+    public void dumpBuffer();
 
-    default public void startBuffering() {
-    }
+    public void startBuffering();
 
-    default public void stopBuffering() {
-    }
+    public void stopBuffering();
 }
 

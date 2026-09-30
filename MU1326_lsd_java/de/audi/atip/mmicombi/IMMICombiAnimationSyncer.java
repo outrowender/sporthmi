@@ -8,68 +8,53 @@ import de.audi.atip.mmicombi.IMMICombiAnimationPlan;
 import de.audi.atip.mmicombi.exchange.MMICombiDisplayStatus;
 
 public interface IMMICombiAnimationSyncer {
-    public static final int ANNOTATION_VERSION_COUNT;
-    public static final int ANNOTATION_VERSION_0;
-    public static final int ANNOTATION_VERSION_1;
-    public static final int ANNOTATION_VERSION_PREVIOUS;
-    public static final int ANNOTATION_VERSION_CURRENT;
-    public static final String ANNOTATION_HEADER;
-    public static final String ANNOTATION_BLOCK_END;
-    public static final String ANNOTATION_PARAMETER_SEPARATOR;
-    public static final String ANNOTATION_EMPTY_TEXT;
-    public static final String ANNOTATION_ANIMATION_SEPARATOR;
-    public static final String ANIMATION_STATUS_FINISHED_TEXT;
-    public static final String ANIMATION_STATUS_CONTINUING_TEXT;
-    public static final String ANIMATION_STATUS_AT_START_TEXT;
-    public static final String ANIMATION_STATUS_WAITING_FOR_START_TEXT;
-    public static final int ANIMATION_STATUS_WAITING_FOR_START;
-    public static final int ANIMATION_STATUS_AT_START;
-    public static final int ANIMATION_STATUS_CONTINUING;
-    public static final int ANIMATION_STATUS_FINISHED;
+    public static final int ANNOTATION_VERSION_COUNT = 2;
+    public static final int ANNOTATION_VERSION_0 = 0;
+    public static final int ANNOTATION_VERSION_1 = 1;
+    public static final int ANNOTATION_VERSION_PREVIOUS = 0;
+    public static final int ANNOTATION_VERSION_CURRENT = 1;
+    public static final String ANNOTATION_HEADER = "V";
+    public static final String ANNOTATION_BLOCK_END = "|";
+    public static final String ANNOTATION_PARAMETER_SEPARATOR = "-";
+    public static final String ANNOTATION_EMPTY_TEXT = "";
+    public static final String ANNOTATION_ANIMATION_SEPARATOR = ":";
+    public static final String ANIMATION_STATUS_FINISHED_TEXT = "f";
+    public static final String ANIMATION_STATUS_CONTINUING_TEXT = "c";
+    public static final String ANIMATION_STATUS_AT_START_TEXT = "s";
+    public static final String ANIMATION_STATUS_WAITING_FOR_START_TEXT = "w";
+    public static final int ANIMATION_STATUS_WAITING_FOR_START = 0;
+    public static final int ANIMATION_STATUS_AT_START = 1;
+    public static final int ANIMATION_STATUS_CONTINUING = 2;
+    public static final int ANIMATION_STATUS_FINISHED = 3;
 
-    default public void blockAnimations(boolean bl) {
-    }
+    public void blockAnimations(boolean var1);
 
-    default public void executeAnimationPlan(IMMICombiAnimationPlan iMMICombiAnimationPlan) {
-    }
+    public void executeAnimationPlan(IMMICombiAnimationPlan var1);
 
-    default public void processAnimationPlanUpdate(IMMICombiAnimationPlan iMMICombiAnimationPlan) {
-    }
+    public void processAnimationPlanUpdate(IMMICombiAnimationPlan var1);
 
-    default public String getSyncAnnotation(int n) {
-    }
+    public String getSyncAnnotation(int var1);
 
-    default public boolean isCombiSyncNeeded(int n) {
-    }
+    public boolean isCombiSyncNeeded(int var1);
 
-    default public void animationActivated(IAnimation iAnimation) {
-    }
+    public void animationActivated(IAnimation var1);
 
-    default public int getDefinedCanContext(int n) {
-    }
+    public int getDefinedCanContext(int var1);
 
-    default public MMICombiDisplayStatus getLastConfirmedDisplayStatus() {
-    }
+    public MMICombiDisplayStatus getLastConfirmedDisplayStatus();
 
-    default public int[] getSyncedAnimationTypes() {
-    }
+    public int[] getSyncedAnimationTypes();
 
-    default public int getMappedMMICombiContext(int n) {
-    }
+    public int getMappedMMICombiContext(int var1);
 
-    default public boolean isAnimationPlanActive() {
-    }
+    public boolean isAnimationPlanActive();
 
-    default public void activateNewAnimationPlan() {
-    }
+    public void activateNewAnimationPlan();
 
-    default public IMMICombiAnimationPlan getCurrentAnimationPlan() {
-    }
+    public IMMICombiAnimationPlan getCurrentAnimationPlan();
 
-    default public void setSkin(int n) {
-    }
+    public void setSkin(int var1);
 
-    default public void setKdKVisible(boolean bl) {
-    }
+    public void setKdKVisible(boolean var1);
 }
 

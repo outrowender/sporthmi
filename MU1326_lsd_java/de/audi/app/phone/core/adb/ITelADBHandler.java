@@ -11,43 +11,30 @@ import de.audi.app.phone.core.adb.ITelADBHandlerListener;
 import org.dsi.ifc.global.ResourceLocator;
 
 public interface ITelADBHandler {
-    default public void registerListener(ITelADBHandlerListener iTelADBHandlerListener) {
-    }
+    public void registerListener(ITelADBHandlerListener var1);
 
-    default public void removeListener(ITelADBHandlerListener iTelADBHandlerListener) {
-    }
+    public void removeListener(ITelADBHandlerListener var1);
 
-    default public void getADBEntry(long l, ITelADBGetADBEntryListener iTelADBGetADBEntryListener) {
-    }
+    public void getADBEntry(long var1, ITelADBGetADBEntryListener var3);
 
-    default public void getADBSpeedDialFavoritesList(ITelADBGetSpeedDialListFavoritesListener iTelADBGetSpeedDialListFavoritesListener) {
-    }
+    public void getADBSpeedDialFavoritesList(ITelADBGetSpeedDialListFavoritesListener var1);
 
-    default public int getADBSpeedDialEntriesMaxNumber() {
-    }
+    public int getADBSpeedDialEntriesMaxNumber();
 
-    default public void setFavoriteSpeedDial(String string, int n, int n2, String string2, String string3, String string4, String string5, ResourceLocator resourceLocator) {
-    }
+    public void setFavoriteSpeedDial(String var1, int var2, int var3, String var4, String var5, String var6, String var7, ResourceLocator var8);
 
-    default public void deleteFavoriteSpeedDial(int n) {
-    }
+    public void deleteFavoriteSpeedDial(int var1);
 
-    default public void deleteAllFavoriteSpeedDials() {
-    }
+    public void deleteAllFavoriteSpeedDials();
 
-    default public void deleteSpecificFavoriteSpeedDials(long[] lArray) {
-    }
+    public void deleteSpecificFavoriteSpeedDials(long[] var1);
 
-    default public void showEntryDetails(long l) {
-    }
+    public void showEntryDetails(long var1);
 
-    default public void showSpeedDialEntryDetails(long l) {
-    }
+    public void showSpeedDialEntryDetails(long var1);
 
-    default public ADBApplication getAdbApplication() {
-    }
+    public ADBApplication getAdbApplication();
 
-    default public ADBOrganizerSearch getOrganizerSearch() {
-    }
+    public ADBOrganizerSearch getOrganizerSearch();
 }
 

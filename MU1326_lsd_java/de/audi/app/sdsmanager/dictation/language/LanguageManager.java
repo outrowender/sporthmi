@@ -6,7 +6,7 @@ package de.audi.app.sdsmanager.dictation.language;
 import de.audi.app.sdsmanager.dictation.DictationComponentManager;
 import de.audi.app.sdsmanager.dictation.component.AbstractDictationComponent;
 import de.audi.app.sdsmanager.dictation.dsiadapter.DsiDictationAdapter;
-import de.audi.app.sdsmanager.dictation.language.LanguageManager$DsiDictationAdapterListener;
+import de.audi.app.sdsmanager.dictation.dsiadapter.DsiDictationAdapterEmptyListener;
 import de.audi.app.sdsmanager.dictation.osgi.BundleEnvironment;
 import de.audi.app.sdsmanager.dictation.osgi.IServiceRegistry;
 import de.audi.app.sdsmanager.dictation.osgi.ServiceProperties;
@@ -14,7 +14,6 @@ import de.audi.app.sdsmanager.dictation.util.DictationUtil;
 import de.audi.atip.i18n.I18NTarget;
 import de.audi.atip.i18n.ILanguageManager;
 import de.audi.atip.i18n.Language;
-import de.audi.atip.log.LogChannel;
 import java.util.Dictionary;
 
 public final class LanguageManager
@@ -28,14 +27,12 @@ implements I18NTarget {
         super(bundleEnvironment, "App.SDS.Dictation");
     }
 
-    @Override
     public void init(DictationComponentManager dictationComponentManager) {
         super.init(dictationComponentManager);
         this.fallBackLanguageCode = this.getFallBackLanguageCode();
-        dictationComponentManager.getDsiDictationAdapter().addListener(new LanguageManager$DsiDictationAdapterListener(this, null));
+        dictationComponentManager.getDsiDictationAdapter().addListener(new DsiDictationAdapterListener());
     }
 
-    @Override
     public void connect(IServiceRegistry iServiceRegistry) {
         try {
             super.connect(iServiceRegistry);
@@ -58,7 +55,7 @@ implements I18NTarget {
     }
 
     private void setLanguage() {
-        this.log.log(-2137614336, "[LanguageManager#setLanguage]");
+        this.log.log(10000000, "[LanguageManager#setLanguage]");
         if (this.dsiAvailable) {
             DsiDictationAdapter dsiDictationAdapter = this.dictationComponentManager.getDsiDictationAdapter();
             ILanguageManager iLanguageManager = this.framework.getLanguageMgr();
@@ -73,10 +70,9 @@ implements I18NTarget {
         }
     }
 
-    @Override
     public void setLanguage(Language language) {
         if (this.log.isInfo()) {
-            this.log.log(1078071040, "[LanguageManager#setLanguage] language = %1", (Object)String.valueOf(language));
+            this.log.log(1000000, "[LanguageManager#setLanguage] language = %1", (Object)String.valueOf(language));
         }
         this.setLanguage();
     }
@@ -90,17 +86,18 @@ implements I18NTarget {
         }
     }
 
-    static /* synthetic */ LogChannel access$100(LanguageManager languageManager) {
-        return languageManager.log;
-    }
+    private class DsiDictationAdapterListener
+    extends DsiDictationAdapterEmptyListener {
+        private DsiDictationAdapterListener() {
+        }
 
-    static /* synthetic */ boolean access$202(LanguageManager languageManager, boolean bl) {
-        languageManager.dsiAvailable = bl;
-        return languageManager.dsiAvailable;
-    }
-
-    static /* synthetic */ void access$300(LanguageManager languageManager) {
-        languageManager.setLanguage();
+        public void updateDsiAvailability(boolean bl) {
+            LanguageManager.this.log.log(10000000, "[LanguageManager$DsiDictationAdapterListener#updateDsiAvailability] dsiAvailable = %1", bl);
+            LanguageManager.this.dsiAvailable = bl;
+            if (bl) {
+                LanguageManager.this.setLanguage();
+            }
+        }
     }
 }
 

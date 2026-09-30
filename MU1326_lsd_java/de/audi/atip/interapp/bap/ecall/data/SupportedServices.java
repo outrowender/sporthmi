@@ -3,8 +3,6 @@
  */
 package de.audi.atip.interapp.bap.ecall.data;
 
-import de.audi.atip.interapp.bap.ecall.data.SupportedServices$Builder;
-
 public final class SupportedServices {
     private final boolean breakdownCallSupported;
     private final boolean accidentalDamageManagementSupported;
@@ -13,8 +11,8 @@ public final class SupportedServices {
     private final boolean manualEmergencyCallSupported;
     private final boolean testModeSupported;
 
-    public static SupportedServices$Builder builder() {
-        return new SupportedServices$Builder();
+    public static Builder builder() {
+        return new Builder();
     }
 
     private SupportedServices(boolean bl, boolean bl2, boolean bl3, boolean bl4, boolean bl5, boolean bl6) {
@@ -57,7 +55,7 @@ public final class SupportedServices {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         SupportedServices supportedServices = (SupportedServices)object;
@@ -92,6 +90,49 @@ public final class SupportedServices {
 
     public String toString() {
         return new StringBuffer().append("SupportedServices [breakdownCallSupported=").append(this.breakdownCallSupported).append(", accidentalDamageManagementSupported=").append(this.accidentalDamageManagementSupported).append(", infoCallSupported=").append(this.infoCallSupported).append(", automaticCrashNotificationSupported=").append(this.automaticCrashNotificationSupported).append(", manualEmergencyCallSupported=").append(this.manualEmergencyCallSupported).append(", testModeSupported=").append(this.testModeSupported).append("]").toString();
+    }
+
+    public static final class Builder {
+        private boolean breakdownCallSupported;
+        private boolean accidentalDamageManagementSupported;
+        private boolean infoCallSupported;
+        private boolean automaticCrashNotificationSupported;
+        private boolean manualEmergencyCallSupported;
+        private boolean testModeSupported;
+
+        public Builder setBreakdownCallSupported(boolean bl) {
+            this.breakdownCallSupported = bl;
+            return this;
+        }
+
+        public Builder setAccidentalDamageManagementSupported(boolean bl) {
+            this.accidentalDamageManagementSupported = bl;
+            return this;
+        }
+
+        public Builder setInfoCallSupported(boolean bl) {
+            this.infoCallSupported = bl;
+            return this;
+        }
+
+        public Builder setAutomaticCrashNotificationSupported(boolean bl) {
+            this.automaticCrashNotificationSupported = bl;
+            return this;
+        }
+
+        public Builder setManualEmergencyCallSupported(boolean bl) {
+            this.manualEmergencyCallSupported = bl;
+            return this;
+        }
+
+        public Builder setTestModeSupported(boolean bl) {
+            this.testModeSupported = bl;
+            return this;
+        }
+
+        public SupportedServices build() {
+            return new SupportedServices(this.breakdownCallSupported, this.accidentalDamageManagementSupported, this.infoCallSupported, this.automaticCrashNotificationSupported, this.manualEmergencyCallSupported, this.testModeSupported);
+        }
     }
 }
 

@@ -4,7 +4,6 @@
 package de.audi.atip.interapp;
 
 public interface IConnectivitySdisStateListener {
-    default public void updateSdisConnected(boolean bl) {
-    }
+    public void updateSdisConnected(boolean var1);
 }
 

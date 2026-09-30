@@ -23,20 +23,18 @@ extends AbstractBluetoothCommand {
         this.suspend = bl;
     }
 
-    @Override
     public void execute() {
         if (this.dsiBluetooth != null) {
             this.dsiBluetooth.requestReconnectSuspend(this.suspend);
         } else {
-            this.logger.log(-1601830656, "CommandRequestReconnectSuspend#execute(): dsiBluetooth is NULL");
+            this.logger.log(100000, "CommandRequestReconnectSuspend#execute(): dsiBluetooth is NULL");
             this.commandList.commandFinished();
         }
     }
 
-    @Override
     public void responseReconnectSuspend(int n) {
         this.commandList.commandFinished();
-        this.logger.log(1078071040, "CommandRequestReconnectSuspend#responseReconnectSuspend(): result=%1", (long)n);
+        this.logger.log(1000000, "CommandRequestReconnectSuspend#responseReconnectSuspend(): result=%1", (long)n);
     }
 
     static /* synthetic */ Class class$(String string) {

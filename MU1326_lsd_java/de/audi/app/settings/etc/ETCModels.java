@@ -22,103 +22,103 @@ public class ETCModels {
     }
 
     final ChoiceModelApp getETCStatusChoice() {
-        return this.getHMIService().getChoiceModel(-506916864);
+        return this.getHMIService().getChoiceModel(1100257);
     }
 
     final ButtonModelApp getETCPaymentHistoryButton() {
-        return this.getHMIService().getButtonModel(-104263680);
+        return this.getHMIService().getButtonModel(1100281);
     }
 
     final ButtonModelApp getETCHardwareInformationButton() {
-        return this.getHMIService().getButtonModel(-87486464);
+        return this.getHMIService().getButtonModel(1100282);
     }
 
     final ButtonModelApp getETCSettingsButton() {
-        return this.getHMIService().getButtonModel(-121040896);
+        return this.getHMIService().getButtonModel(1100280);
     }
 
     final LabelModelApp getETCHardwareIDNumberLabel() {
-        return this.getHMIService().getLabelModel(-255258624);
+        return this.getHMIService().getLabelModel(1100272);
     }
 
     final LabelModelApp getETCHardwareManufacturerNameLabel() {
-        return this.getHMIService().getLabelModel(-238481408);
+        return this.getHMIService().getLabelModel(1100273);
     }
 
     final LabelModelApp getETCHardwareTypeApprovalModelNameLabel() {
-        return this.getHMIService().getLabelModel(-272035840);
+        return this.getHMIService().getLabelModel(1100271);
     }
 
     final LabelModelApp getETCHardwareModelNameLabel() {
-        return this.getHMIService().getLabelModel(-221704192);
+        return this.getHMIService().getLabelModel(1100274);
     }
 
     final LabelModelApp getETCHardwareSerialNumberLabel() {
-        return this.getHMIService().getLabelModel(-204926976);
+        return this.getHMIService().getLabelModel(1100275);
     }
 
     final BaseListModelApp getETCPaymentHistoryList() {
-        return this.getHMIService().getBaseListModel(-188149760);
+        return this.getHMIService().getBaseListModel(1100276);
     }
 
     final LabelModelApp getETCPaymentHistoryDetailExitICNameLabel() {
-        return this.getHMIService().getLabelModel(-423030784);
+        return this.getHMIService().getLabelModel(1100262);
     }
 
     final LabelModelApp getETCPaymentHistoryDetailExitICRoadNameLabel() {
-        return this.getHMIService().getLabelModel(-339144704);
+        return this.getHMIService().getLabelModel(1100267);
     }
 
     final LabelModelApp getETCPaymentHistoryDetailEntranceICNameLabel() {
-        return this.getHMIService().getLabelModel(-355921920);
+        return this.getHMIService().getLabelModel(1100266);
     }
 
     final LabelModelApp getETCPaymentHistoryDetailEntranceICRoadNameLabel() {
-        return this.getHMIService().getLabelModel(-322367488);
+        return this.getHMIService().getLabelModel(1100268);
     }
 
     final LabelModelApp getETCPaymentHistoryDetailTitleLabel() {
-        return this.getHMIService().getLabelModel(-389476352);
+        return this.getHMIService().getLabelModel(1100264);
     }
 
     final LabelModelApp getETCPaymentHistoryDetailAmountLabel() {
-        return this.getHMIService().getLabelModel(-305590272);
+        return this.getHMIService().getLabelModel(1100269);
     }
 
     final ChoiceModelApp getETCAmountAnnouncementChoice() {
-        return this.getHMIService().getChoiceModel(-456585216);
+        return this.getHMIService().getChoiceModel(1100260);
     }
 
     final ChoiceModelApp getETCAmountNoticeChoice() {
-        return this.getHMIService().getChoiceModel(-439808000);
+        return this.getHMIService().getChoiceModel(1100261);
     }
 
     final ChoiceModelApp getETCCardPickUpReminderChoice() {
-        return this.getHMIService().getChoiceModel(-490139648);
+        return this.getHMIService().getChoiceModel(1100258);
     }
 
     final ChoiceModelApp getETCWarningChoice() {
-        return this.getHMIService().getChoiceModel(-473362432);
+        return this.getHMIService().getChoiceModel(1100259);
     }
 
     final ChoiceModelApp getETCErrorPopupTypeChoice() {
-        return this.getHMIService().getChoiceModel(-171372544);
+        return this.getHMIService().getChoiceModel(1100277);
     }
 
     final LabelModelApp getETCErrorCodeLabel() {
-        return this.getHMIService().getLabelModel(-53932032);
+        return this.getHMIService().getLabelModel(1100284);
     }
 
     final LabelModelApp getPopupPassGateFeeLabel() {
-        return this.getHMIService().getLabelModel(-137818112);
+        return this.getHMIService().getLabelModel(1100279);
     }
 
     final ChoiceModelApp getPopupPassGateChoice() {
-        return this.getHMIService().getChoiceModel(-154595328);
+        return this.getHMIService().getChoiceModel(1100278);
     }
 
     final ChoiceModelApp getETCPaymentHistoryButtonAvailableChoice() {
-        return this.getHMIService().getChoiceModel(533336064);
+        return this.getHMIService().getChoiceModel(1100319);
     }
 
     final ChoiceModelApp getETCIconChoiceModel() {
@@ -126,7 +126,7 @@ public class ETCModels {
     }
 
     final ChoiceModelApp getETCHistoryDetailsRefundChoiceModel() {
-        return this.getHMIService().getChoiceModel(499781632);
+        return this.getHMIService().getChoiceModel(1100317);
     }
 }
 

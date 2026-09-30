@@ -6,9 +6,8 @@ package de.audi.app.phone.evo.audio;
 import de.audi.app.phone.core.AbstractPhoneComponent;
 import de.audi.app.phone.core.ITelApplication;
 import de.audi.app.phone.core.dsi.ITelDSIMobileEquipmentDeviceState;
+import de.audi.app.phone.core.model.TelDefaultButtonListener;
 import de.audi.app.phone.core.state.IGlobalTelephoneStateStruct;
-import de.audi.app.phone.evo.audio.TelEvoAudioTransferPopupHandler$KeepAudioOnMEButtonListener;
-import de.audi.app.phone.evo.audio.TelEvoAudioTransferPopupHandler$TransferAudioToMUButtonListener;
 
 public class TelEvoAudioTransferPopupHandler
 extends AbstractPhoneComponent {
@@ -34,25 +33,22 @@ extends AbstractPhoneComponent {
 
     public TelEvoAudioTransferPopupHandler(ITelApplication iTelApplication) {
         super(iTelApplication, "App.Phone.Main");
-        this.addSubPhoneComponent(new TelEvoAudioTransferPopupHandler$TransferAudioToMUButtonListener(this, iTelApplication));
-        this.addSubPhoneComponent(new TelEvoAudioTransferPopupHandler$KeepAudioOnMEButtonListener(this, iTelApplication));
+        this.addSubPhoneComponent(new TransferAudioToMUButtonListener(iTelApplication));
+        this.addSubPhoneComponent(new KeepAudioOnMEButtonListener(iTelApplication));
     }
 
-    @Override
     public void init() {
         super.init();
         this.getApplication().getGlobalTelephoneStateManager().registerListener(this);
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.getApplication().getGlobalTelephoneStateManager().removeListener(this);
     }
 
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
-        if (n == 0x8000200 || n == 0x8000100 || n == 0xE000100 || n == 0xE000200) {
+        if (n == 131080 || n == 65544 || n == 65550 || n == 131086) {
             this.checkShowPopup(iGlobalTelephoneStateStruct);
         }
     }
@@ -66,40 +62,61 @@ extends AbstractPhoneComponent {
         if (bl && TelEvoAudioTransferPopupHandler.isCallPresent(iTelDSIMobileEquipmentDeviceState) && TelEvoAudioTransferPopupHandler.isHandsfreeModePrivateHFP(iTelDSIMobileEquipmentDeviceState)) {
             this.lastTransferedDeviceBTAddress = string;
             if (!iGlobalTelephoneStateStruct.isAcceptIncomingCallOnNonCallLeadingDevicePending()) {
-                this.log.log(1078071040, "[TelEvoAudioTransferPopupHandler#checkShowPopup] showing TEL_POPUP_AUDIO for device %1", (Object)string);
+                this.log.log(1000000, "[TelEvoAudioTransferPopupHandler#checkShowPopup] showing TEL_POPUP_AUDIO for device %1", (Object)string);
                 this.showTelPopupAudio();
             } else {
-                this.log.log(1078071040, "[TelEvoAudioTransferPopupHandler#checkShowPopup] accepting call on nonCallLeadingDevice is pending, not showing popup.");
+                this.log.log(1000000, "[TelEvoAudioTransferPopupHandler#checkShowPopup] accepting call on nonCallLeadingDevice is pending, not showing popup.");
             }
         }
         if (this.popupShown) {
             int n;
             int n2 = n = iTelDSIMobileEquipmentDeviceState != null && iTelDSIMobileEquipmentDeviceState.getCallState() != null ? iTelDSIMobileEquipmentDeviceState.getCallState().getMpCallState() : 0;
             if (n == 0 || n == 3) {
-                this.log.log(1078071040, "[TelEvoAudioTransferPopupHandler#checkShowPopup] call state is idle or disconnecting - removing popup!");
+                this.log.log(1000000, "[TelEvoAudioTransferPopupHandler#checkShowPopup] call state is idle or disconnecting - removing popup!");
                 this.removeTelPopupAudio();
             }
             if (this.lastTransferedDeviceBTAddress != null && this.lastTransferedDeviceBTAddress.equals(string) && TelEvoAudioTransferPopupHandler.isHFP(iTelDSIMobileEquipmentDeviceState) && !TelEvoAudioTransferPopupHandler.isHandsfreeModePrivateHFP(iTelDSIMobileEquipmentDeviceState)) {
-                this.log.log(1078071040, "[TelEvoAudioTransferPopupHandler#checkShowPopup] HandsfreeMode is no longer HANDSFREE_PRIVATE_HFP for device %1 - removing popup.", (Object)string);
+                this.log.log(1000000, "[TelEvoAudioTransferPopupHandler#checkShowPopup] HandsfreeMode is no longer HANDSFREE_PRIVATE_HFP for device %1 - removing popup.", (Object)string);
                 this.removeTelPopupAudio();
             }
         }
     }
 
     private void showTelPopupAudio() {
-        this.log.log(1078071040, "[TelEvoAudioTransferPopupHandler#showTelPopupAudio] showing TEL_POPUP_AUDIO");
-        this.getApplication().getFrameworkAccess().getHMIService().showPartialPopup(0, 697631744);
+        this.log.log(1000000, "[TelEvoAudioTransferPopupHandler#showTelPopupAudio] showing TEL_POPUP_AUDIO");
+        this.getApplication().getFrameworkAccess().getHMIService().showPartialPopup(0, 300329);
         this.popupShown = true;
     }
 
     private void removeTelPopupAudio() {
-        this.log.log(1078071040, "[TelEvoAudioTransferPopupHandler#removeTelPopupAudio] removing TEL_POPUP_AUDIO");
-        this.getApplication().getFrameworkAccess().getHMIService().removePartialPopup(0, 697631744);
+        this.log.log(1000000, "[TelEvoAudioTransferPopupHandler#removeTelPopupAudio] removing TEL_POPUP_AUDIO");
+        this.getApplication().getFrameworkAccess().getHMIService().removePartialPopup(0, 300329);
         this.popupShown = false;
     }
 
-    static /* synthetic */ void access$000(TelEvoAudioTransferPopupHandler telEvoAudioTransferPopupHandler) {
-        telEvoAudioTransferPopupHandler.removeTelPopupAudio();
+    private class KeepAudioOnMEButtonListener
+    extends TelDefaultButtonListener {
+        public KeepAudioOnMEButtonListener(ITelApplication iTelApplication) {
+            super(iTelApplication, 301045);
+        }
+
+        public void keyTyped(int n, int n2, int n3) {
+            this.log.log(1000000, "[TelEvoAudioTransferPopupHandler.KeepAudioOnMEButtonListener#keyTyped]");
+            TelEvoAudioTransferPopupHandler.this.removeTelPopupAudio();
+        }
+    }
+
+    private class TransferAudioToMUButtonListener
+    extends TelDefaultButtonListener {
+        public TransferAudioToMUButtonListener(ITelApplication iTelApplication) {
+            super(iTelApplication, 301046);
+        }
+
+        public void keyTyped(int n, int n2, int n3) {
+            this.log.log(1000000, "[TelEvoAudioTransferPopupHandler.TransferAudioToMUButtonListener#keyTyped] setting handsfreemode to HANDSFREEMODE_HANDSFREE");
+            this.getApplication().getTelephoneDSIAccess().requestSetHandsFreeModeCallLeadingDevice(0, n3);
+            TelEvoAudioTransferPopupHandler.this.removeTelPopupAudio();
+        }
     }
 }
 

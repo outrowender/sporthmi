@@ -40,36 +40,34 @@ implements IPoiResultScreenWithSpellerModelAccess {
         this.spellerModel.setMaxLength(128);
     }
 
-    @Override
     public void onUpdateResultList(LIValueList lIValueList, long l, String string, boolean bl) {
         super.onUpdateResultList(lIValueList, l, string, bl);
         this.previewList.clearAll();
         this.previewList.setLength((int)l);
-        this.logChannel.log(-2137614336, " PoiResultScreenWithSpellerModelAccess#onUpdateResultList( %1, %2)", (Object)string, l);
+        this.logChannel.log(10000000, " PoiResultScreenWithSpellerModelAccess#onUpdateResultList( %1, %2)", (Object)string, l);
         if (!Util.isListValid(lIValueList) || lIValueList.getList().length == 0) {
-            this.logChannel.log(-2137614336, "PoiResultScreenWithSpellerModelAccess#onUpdateResultList() - invalid value list: %1", (Object)lIValueList);
+            this.logChannel.log(10000000, "PoiResultScreenWithSpellerModelAccess#onUpdateResultList() - invalid value list: %1", (Object)lIValueList);
             this.previewList.removeAll();
             return;
         }
         LIValueListElement[] lIValueListElementArray = lIValueList.getList();
         int n = this.previewList.getLength();
-        this.logChannel.log(-2137614336, "PoiResultScreenWithSpellerModelAccess#onUpdateResultList - valueListSize: %1, currentListModelLength: %2", (long)lIValueListElementArray.length, (long)n);
+        this.logChannel.log(10000000, "PoiResultScreenWithSpellerModelAccess#onUpdateResultList - valueListSize: %1, currentListModelLength: %2", (long)lIValueListElementArray.length, (long)n);
         EvoListRow[] evoListRowArray = this.createUpdateListRow(lIValueListElementArray, PoiScreensEvo.createPoiIconedResultsListRowBuilder(this.poiSearchArea, this.env, this.iconHandler, this.vehicle, this.routeManager));
         this.previewList.setRows(-1, 0, evoListRowArray);
     }
 
-    @Override
     public void onUpdateSearchStatus(ValueListStatus valueListStatus) {
         int n = valueListStatus.getStatus();
         ModelGroup modelGroup = new ModelGroup();
-        modelGroup.add(this.env.getChoiceModel(-685767168));
-        modelGroup.add(this.env.getChoiceModel(35456512));
+        modelGroup.add(this.env.getChoiceModel(401623));
+        modelGroup.add(this.env.getChoiceModel(400642));
         if (n == 3) {
-            this.env.getChoiceModel(-685767168).setValue(0);
+            this.env.getChoiceModel(401623).setValue(0);
         } else {
-            this.env.getChoiceModel(-685767168).setValue(1);
+            this.env.getChoiceModel(401623).setValue(1);
         }
-        this.env.getChoiceModel(35456512).setValue(valueListStatus.getNumberOfAvailableItems());
+        this.env.getChoiceModel(400642).setValue(valueListStatus.getNumberOfAvailableItems());
         this.previewList.setLength(valueListStatus.getNumberOfAvailableItems());
         if (valueListStatus.status == 1 || valueListStatus.status == 3 && valueListStatus.numberOfAvailableItems == 0) {
             this.previewMapInterface.hidePreviewMap();
@@ -78,11 +76,10 @@ implements IPoiResultScreenWithSpellerModelAccess {
         modelGroup.removeAll();
     }
 
-    @Override
     public void onUpdateResultListForRequest(LIValueList lIValueList, long l, String string, boolean bl, int n, int n2) {
-        this.logChannel.log(-2137614336, " PoiResultScreenWithSpellerModelAccess#onUpdateResultListForRequest( %1, %2, %3, %4)", (Object)string, (Object)Long.toString(l), (Object)Integer.toString(n), (Object)Integer.toString(n2));
+        this.logChannel.log(10000000, " PoiResultScreenWithSpellerModelAccess#onUpdateResultListForRequest( %1, %2, %3, %4)", (Object)string, (Object)Long.toString(l), (Object)Integer.toString(n), (Object)Integer.toString(n2));
         if (!Util.isListValid(lIValueList) || lIValueList.getList().length == 0) {
-            this.logChannel.log(-2137614336, "PoiResultScreenWithSpellerModelAccess#onUpdateResultListForRequest() - invalid value list: %1", (Object)lIValueList);
+            this.logChannel.log(10000000, "PoiResultScreenWithSpellerModelAccess#onUpdateResultListForRequest() - invalid value list: %1", (Object)lIValueList);
             this.previewList.clearAll();
             if (n > -1) {
                 this.previewList.setRows(n, n2, null);
@@ -91,7 +88,7 @@ implements IPoiResultScreenWithSpellerModelAccess {
         }
         LIValueListElement[] lIValueListElementArray = lIValueList.getList();
         int n3 = this.previewList.getLength();
-        this.logChannel.log(-2137614336, "PoiResultScreenWithSpellerModelAccess#onUpdateResultListForRequest - valueListSize: %1, currentListModelLength: %2", (long)lIValueListElementArray.length, (long)n3);
+        this.logChannel.log(10000000, "PoiResultScreenWithSpellerModelAccess#onUpdateResultListForRequest - valueListSize: %1, currentListModelLength: %2", (long)lIValueListElementArray.length, (long)n3);
         EvoListRow[] evoListRowArray = this.createUpdateListRow(lIValueListElementArray, PoiScreensEvo.createPoiIconedResultsListRowBuilder(this.poiSearchArea, this.env, this.iconHandler, this.vehicle, this.routeManager));
         this.previewList.setRows(n, n2, evoListRowArray);
     }
@@ -123,38 +120,33 @@ implements IPoiResultScreenWithSpellerModelAccess {
                 break;
             }
             default: {
-                this.env.getPOILogChannel().log(1078071040, "PoiResultScreenNoSpellerModelAccess#createUpdateListRow no valid searchContext : %1", (long)n);
+                this.env.getPOILogChannel().log(1000000, "PoiResultScreenNoSpellerModelAccess#createUpdateListRow no valid searchContext : %1", (long)n);
             }
         }
         return evoListRowArray;
     }
 
-    @Override
     public void onUnrequestItems(int n, int n2) {
         this.previewList.clearRows(n, n2);
     }
 
-    @Override
     public void onStart() {
-        this.env.getChoiceModel(1344144896).setValue(0);
+        this.env.getChoiceModel(400976).setValue(0);
         this.spellerModel.clear();
         this.previewList.removeAll();
     }
 
-    @Override
     public void prepareParentChild(int n) {
-        this.env.getLogChannel().log(-2137614336, "PoiResultScreenWithSpellerModelAccess#onElementSelected(%1)", (long)n);
-        this.env.getChoiceModel(538838528).setValue(n);
+        this.env.getLogChannel().log(10000000, "PoiResultScreenWithSpellerModelAccess#onElementSelected(%1)", (long)n);
+        this.env.getChoiceModel(400928).setValue(n);
     }
 
-    @Override
     public void onElementSelected(LIValueListElement lIValueListElement) {
-        this.logChannel.log(-2137614336, "PoiResultScreenWithSpellerModelAccess#onElementSelected - selectedElement.data=%1", (Object)lIValueListElement.data);
+        this.logChannel.log(10000000, "PoiResultScreenWithSpellerModelAccess#onElementSelected - selectedElement.data=%1", (Object)lIValueListElement.data);
     }
 
-    @Override
     public void onUpdatePoiList(LIValueList lIValueList) {
-        this.logChannel.log(-2137614336, "PoiResultScreenWithSpellerModelAccess#onUpdatePoiList() - poiValueList: %1", (Object)lIValueList);
+        this.logChannel.log(10000000, "PoiResultScreenWithSpellerModelAccess#onUpdatePoiList() - poiValueList: %1", (Object)lIValueList);
         boolean bl = false;
         boolean bl2 = false;
         String string = "";
@@ -172,21 +164,20 @@ implements IPoiResultScreenWithSpellerModelAccess {
                 string = lIValueListElementArray[n].data;
             }
             if (bl || bl2) {
-                this.env.getChoiceModel(-1558510080).setValue(1);
-                this.env.getLabelModel(975046144).setText(string);
+                this.env.getChoiceModel(400291).setValue(1);
+                this.env.getLabelModel(400954).setText(string);
             } else {
-                this.env.getChoiceModel(-1558510080).setValue(0);
+                this.env.getChoiceModel(400291).setValue(0);
             }
         }
     }
 
-    @Override
     public void onElementFocused(NavLocation navLocation) {
         String string = LocationFormatter.getPhoneNumber(navLocation);
         if (Util.isEmpty(string)) {
-            this.env.getChoiceModel(-400554496).setValue(2);
+            this.env.getChoiceModel(401640).setValue(2);
         } else {
-            this.env.getChoiceModel(-400554496).setValue(1);
+            this.env.getChoiceModel(401640).setValue(1);
         }
     }
 }

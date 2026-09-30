@@ -7,16 +7,12 @@ import de.vw.mib.bap.requests.GetArray;
 import de.vw.mib.bap.requests.SetGetArray;
 
 public interface IBAPArrayASGREQ {
-    default public void getArrayREQ(GetArray getArray) {
-    }
+    public void getArrayREQ(GetArray var1);
 
-    default public void setGetArrayREQ(SetGetArray setGetArray) {
-    }
+    public void setGetArrayREQ(SetGetArray var1);
 
-    default public void setArrayREQ(SetGetArray setGetArray) {
-    }
+    public void setArrayREQ(SetGetArray var1);
 
-    default public void ackArrayREQ() {
-    }
+    public void ackArrayREQ();
 }
 

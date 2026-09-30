@@ -4,7 +4,6 @@
 package de.audi.atip.variant;
 
 public interface IIDMapper {
-    default public int mapToVariant(int n) {
-    }
+    public int mapToVariant(int var1);
 }
 

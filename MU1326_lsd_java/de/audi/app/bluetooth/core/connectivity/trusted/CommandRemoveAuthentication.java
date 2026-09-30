@@ -28,33 +28,30 @@ extends AbstractBluetoothCommand {
             choiceModelApp.setStatus(0);
             choiceModelApp.setValue(-1);
         } else {
-            this.logger.log(-1601830656, "CommandRemoveAuthentication(): commandMonitor is NULL");
+            this.logger.log(100000, "CommandRemoveAuthentication(): commandMonitor is NULL");
         }
     }
 
-    @Override
     public void execute() {
         if (this.dsiBluetooth != null) {
             this.dsiBluetooth.requestRemoveAuthentication(this.deviceAddress);
         } else {
-            this.logger.log(-1601830656, "CommandRemoveAuthentication#execute(): dsiBluetooth is NULL");
+            this.logger.log(100000, "CommandRemoveAuthentication#execute(): dsiBluetooth is NULL");
             this.commandList.commandFinished();
         }
     }
 
-    @Override
     public void abort() {
-        this.logger.log(-1601830656, "CommandRemoveAuthentication#abort()");
+        this.logger.log(100000, "CommandRemoveAuthentication#abort()");
         if (this.commandMonitor != null) {
             this.commandMonitor.setStatus(2);
         } else {
-            this.logger.log(-1601830656, "CommandRemoveAuthentication#execute(): commandMonitor is NULL");
+            this.logger.log(100000, "CommandRemoveAuthentication#execute(): commandMonitor is NULL");
         }
     }
 
-    @Override
     public void responseRemoveAuthentication(String string, String string2, int n) {
-        this.logger.log(1078071040, "CommandRemoveAuthentication#responseRemoveAuthentication() btDeviceName=%1, result=%2", (Object)string2, (long)n);
+        this.logger.log(1000000, "CommandRemoveAuthentication#responseRemoveAuthentication() btDeviceName=%1, result=%2", (Object)string2, (long)n);
         if (this.commandMonitor != null) {
             this.commandMonitor.setValue(n);
             if (n == 0) {
@@ -63,7 +60,7 @@ extends AbstractBluetoothCommand {
                 this.commandMonitor.setStatus(2);
             }
         } else {
-            this.logger.log(-1601830656, "CommandRemoveAuthentication#responseRemoveAuthentication(): commandMonitor is NULL");
+            this.logger.log(100000, "CommandRemoveAuthentication#responseRemoveAuthentication(): commandMonitor is NULL");
         }
         this.commandList.commandFinished();
     }

@@ -4,7 +4,6 @@
 package de.audi.app.sdsmanager.apps.system;
 
 public interface PopupStrategy {
-    default public void triggerPopup() {
-    }
+    public void triggerPopup();
 }
 

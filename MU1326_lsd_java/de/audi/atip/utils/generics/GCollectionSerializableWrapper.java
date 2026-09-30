@@ -1,9 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  de.audi.atip.utils.generics.FluentCollection
- *  de.audi.atip.utils.generics.GCollection
  */
 package de.audi.atip.utils.generics;
 
@@ -12,24 +8,29 @@ import de.audi.atip.utils.generics.GCollection;
 import de.audi.atip.utils.generics.GCollectionSerializable;
 import de.audi.atip.utils.generics.GCollectionWrapper;
 import de.audi.atip.utils.generics.GIterator;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Collection;
 
-public class GCollectionSerializableWrapper
-extends GCollectionWrapper
-implements GCollectionSerializable {
-    private static final long serialVersionUID;
+/*
+ * This class specifies class file version 49.0 but uses Java 6 signatures.  Assumed Java 6.
+ */
+public class GCollectionSerializableWrapper<T extends Serializable>
+extends GCollectionWrapper<T>
+implements GCollectionSerializable<T> {
+    private static final long serialVersionUID = 1L;
 
     public GCollectionSerializableWrapper(Collection collection) {
         super(collection);
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
         objectOutputStream.writeObject(this.backingCollection);
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
+    private void readObject(ObjectInputStream objectInputStream) throws IOException, ClassNotFoundException {
         this.backingCollection = (Collection)objectInputStream.readObject();
     }
 

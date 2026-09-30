@@ -4,19 +4,15 @@
 package de.audi.atip.mmicombi.exchange;
 
 public interface IMMICombiExchangePacket {
-    public static final int EXCHANGE_DIRECTION_MMI_TO_COMBI;
-    public static final int EXCHANGE_DIRECTION_COMBI_TO_MMI;
+    public static final int EXCHANGE_DIRECTION_MMI_TO_COMBI = 1;
+    public static final int EXCHANGE_DIRECTION_COMBI_TO_MMI = 2;
 
-    default public void setSessionID(int n) {
-    }
+    public void setSessionID(int var1);
 
-    default public int getSessionID() {
-    }
+    public int getSessionID();
 
-    default public void setExchangeDirection(int n) {
-    }
+    public void setExchangeDirection(int var1);
 
-    default public int getExchangeDirection() {
-    }
+    public int getExchangeDirection();
 }
 

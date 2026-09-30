@@ -4,22 +4,16 @@
 package de.audi.atip.interapp;
 
 public interface IConnectivityOnlineStateListener {
-    default public void onlineAppEntered() {
-    }
+    public void onlineAppEntered();
 
-    default public void onlineAppLeft() {
-    }
+    public void onlineAppLeft();
 
-    default public void enableOnlineDataConfiguration() {
-    }
+    public void enableOnlineDataConfiguration();
 
-    default public void disableOnlineDataConfiguration() {
-    }
+    public void disableOnlineDataConfiguration();
 
-    default public void connectivityDataOnlineCheckEntered() {
-    }
+    public void connectivityDataOnlineCheckEntered();
 
-    default public void connectivityDataOnlineCheckLeft() {
-    }
+    public void connectivityDataOnlineCheckLeft();
 }
 

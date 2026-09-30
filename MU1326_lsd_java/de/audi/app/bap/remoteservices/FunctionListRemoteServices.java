@@ -9,10 +9,9 @@ import de.vw.mib.bap.requests.StatusProperty;
 
 public class FunctionListRemoteServices
 extends AbstractFunctionListASG {
-    @Override
     public void setFunctionListConfiguration(StatusProperty statusProperty) {
         if (statusProperty instanceof FunctionList_Status) {
-            this.moduleAsg.getLogChannel().log(1078071040, "[FunctionListRemoteServices#setFunctionListConfiguration] %1", (Object)statusProperty);
+            this.moduleAsg.getLogChannel().log(1000000, "[FunctionListRemoteServices#setFunctionListConfiguration] %1", (Object)statusProperty);
             FunctionList_Status functionList_Status = (FunctionList_Status)statusProperty;
             this.functionSupported[1] = true;
             this.functionSupported[2] = true;
@@ -37,32 +36,26 @@ extends AbstractFunctionListASG {
         }
     }
 
-    @Override
     protected int getMinModuleSpecificFctID() {
         return 16;
     }
 
-    @Override
     protected int getMaxFctID() {
         return 26;
     }
 
-    @Override
     public int getGetAllFctID() {
         return 1;
     }
 
-    @Override
     public int getBAPConfigBAPFctID() {
         return 2;
     }
 
-    @Override
     public int getFctListBAPFctID() {
         return 3;
     }
 
-    @Override
     public int getOperationStateBAPFctID() {
         return 15;
     }

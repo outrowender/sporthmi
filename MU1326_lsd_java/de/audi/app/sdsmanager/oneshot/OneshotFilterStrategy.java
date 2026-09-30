@@ -20,28 +20,27 @@ implements IOneshotFilterStrategy {
         this.logger = logChannel;
     }
 
-    @Override
     public IPicklist filterEntryPicklist(IPicklist iPicklist, String[] stringArray, int n) {
         Object[] objectArray;
         int n2;
-        this.logger.log(-2137614336, "OneshotHandler#filterEntryPicklist: filterStrings=%1", (Object)stringArray);
+        this.logger.log(10000000, "OneshotHandler#filterEntryPicklist: filterStrings=%1", (Object)stringArray);
         ArrayList arrayList = new ArrayList();
         int n3 = iPicklist == null ? 0 : iPicklist.getSize();
         for (n2 = 0; n2 < n3; ++n2) {
             objectArray = iPicklist.get(n2);
             IPicklistSlot[] iPicklistSlotArray = objectArray.getSlots();
             if (SDSUtils.areSlotsInvalidForColumn(iPicklistSlotArray, n)) {
-                this.logger.log(-2137614336, "OneshotHandler#filterEntryPicklist: %1 entry #%2!", (Object)"Empty/Invalid slot for", (long)n2);
+                this.logger.log(10000000, "OneshotHandler#filterEntryPicklist: %1 entry #%2!", (Object)"Empty/Invalid slot for", (long)n2);
                 continue;
             }
             boolean bl = SDSUtils.matchFilterStrings(stringArray, iPicklistSlotArray);
-            this.logger.log(-2137614336, "OneshotHandler#filterEntryPicklist: %1 for entry #%2!", (Object)(bl ? "Match" : "NO match"), (long)n2);
+            this.logger.log(10000000, "OneshotHandler#filterEntryPicklist: %1 for entry #%2!", (Object)(bl ? "Match" : "NO match"), (long)n2);
             if (!bl) continue;
             SDSUtils.addToMatchingEntries((IPicklistElement)objectArray, iPicklistSlotArray[n], arrayList, this.logger);
         }
         n2 = arrayList.size();
         objectArray = (IPicklistElement[])arrayList.toArray(new IPicklistElement[n2]);
-        this.logger.log(-2137614336, "OneshotHandler#filterEntryPicklist: matchingSize=%2, matchingElements=%1!", (Object)SDSUtils.toString(objectArray, false), (long)n2);
+        this.logger.log(10000000, "OneshotHandler#filterEntryPicklist: matchingSize=%2, matchingElements=%1!", (Object)SDSUtils.toString(objectArray, false), (long)n2);
         return new Picklist((IPicklistElement[])objectArray);
     }
 }

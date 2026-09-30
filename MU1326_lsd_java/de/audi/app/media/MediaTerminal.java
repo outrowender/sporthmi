@@ -53,7 +53,7 @@ public class MediaTerminal
 implements IActionProxyListener,
 IMediaTerminal,
 ServiceTrackerCustomizer {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "MediaTerminal";
     private final IMediaPersistence mediaPersistence;
     private final int terminalID;
     private final IMediaLogger logger;
@@ -116,7 +116,7 @@ ServiceTrackerCustomizer {
     }
 
     public void init() {
-        this.logger.main().log(1078071040, "[%1.init]", (Object)"MediaTerminal");
+        this.logger.main().log(1000000, "[%1.init]", (Object)LOGCLASS);
         this.mediaDSIPlayerController.init();
         this.mediaDSIPlayerController.startDSI();
         this.titlelineHMIHandler.init();
@@ -138,7 +138,7 @@ ServiceTrackerCustomizer {
     }
 
     public void deinit() {
-        this.logger.main().log(1078071040, "[%1.deinit]", (Object)"MediaTerminal");
+        this.logger.main().log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         this.swDiagManagerTracker.close();
         this.extensionTracker.deinit();
         this.sdsController.deinit();
@@ -155,104 +155,84 @@ ServiceTrackerCustomizer {
         this.resetSettingsListeners.clear();
     }
 
-    @Override
     public ISDSCommandDistpacher getSDSDispatcher() {
         return this.sdsDispatcher;
     }
 
-    @Override
     public int getTerminalID() {
         return this.terminalID;
     }
 
-    @Override
     public boolean supportsCombiDisplay() {
         return this.terminalID == 0;
     }
 
-    @Override
     public IServiceManager getServiceManager() {
         return this.serviceManager;
     }
 
-    @Override
     public IFrameworkAccess getFramework() {
         return this.framework;
     }
 
-    @Override
     public IMediaLogger getLogger() {
         return this.logger;
     }
 
-    @Override
     public IMediaConfiguration getConfiguration() {
         return this.configuration;
     }
 
-    @Override
     public IMediaPersistence getMediaPersistence() {
         return this.mediaPersistence;
     }
 
-    @Override
     public IAudioManager getAudioManager() {
         return this.audioMgr;
     }
 
-    @Override
     public IContentManager getContentManager() {
         return this.contentMgr;
     }
 
-    @Override
     public DispatcherBase getDispatcher() {
         return this.dispatcher;
     }
 
-    @Override
     public IDiagnosisManager getDiagnosisManager() {
         return this.diagnosisManager;
     }
 
-    @Override
     public ITitlelineHMIHandler getTitlelineHMIHandler() {
         return this.titlelineHMIHandler;
     }
 
-    @Override
     public ISourceController getSourceController() {
         return this.sourceController;
     }
 
-    @Override
     public ISourceResolver getSourceResolver() {
         return this.sourceResolver;
     }
 
-    @Override
     public IMediaDSIBaseController getDSIBaseController() {
         return this.dsiBaseController;
     }
 
-    @Override
     public void addActionProxyListener(int n, IActionProxyListener iActionProxyListener) {
         this.actionProxyDispatcher.addActionProxyListener(n, this.getTerminalID(), iActionProxyListener);
     }
 
-    @Override
     public void addActionProxyListener(int[] nArray, IActionProxyListener iActionProxyListener) {
         for (int i2 = 0; i2 < nArray.length; ++i2) {
             this.actionProxyDispatcher.addActionProxyListener(nArray[i2], this.getTerminalID(), iActionProxyListener);
         }
     }
 
-    @Override
     public void removeActionProxyListener(IActionProxyListener iActionProxyListener) {
         this.actionProxyDispatcher.removeActionProxyListener(this.getTerminalID(), iActionProxyListener);
     }
 
-    @Override
     public boolean isVisible() {
         return this.visible;
     }
@@ -261,12 +241,10 @@ ServiceTrackerCustomizer {
         this.visible = bl;
     }
 
-    @Override
     public boolean isRearSeatTerminal() {
         return this.terminalID == 5 || this.terminalID == 4 || this.terminalID == 3;
     }
 
-    @Override
     public boolean isFrontTerminal() {
         return !this.isRearSeatTerminal();
     }
@@ -283,23 +261,22 @@ ServiceTrackerCustomizer {
         return "MAIN";
     }
 
-    @Override
     public void actionProxyCallPerformed(int n, Map map) {
         switch (n) {
             case 1001: {
-                this.logger.main().log(1078071040, "[%1.actionProxyCallPerformed] AP_METHOD_HMI_ACTIVATED.", (Object)"MediaTerminal");
+                this.logger.main().log(1000000, "[%1.actionProxyCallPerformed] AP_METHOD_HMI_ACTIVATED.", (Object)LOGCLASS);
                 this.setVisible(true);
                 break;
             }
             case 1002: {
-                this.logger.main().log(1078071040, "[%1.actionProxyCallPerformed] AP_METHOD_HMI_DEACTIVATED", (Object)"MediaTerminal");
+                this.logger.main().log(1000000, "[%1.actionProxyCallPerformed] AP_METHOD_HMI_DEACTIVATED", (Object)LOGCLASS);
                 this.setVisible(false);
                 break;
             }
             case 1003: {
-                this.logger.main().log(1078071040, "[%1.actionProxyCallPerformed] AP_METHOD_RELEASE_AUDIO.", (Object)"MediaTerminal");
+                this.logger.main().log(1000000, "[%1.actionProxyCallPerformed] AP_METHOD_RELEASE_AUDIO.", (Object)LOGCLASS);
                 if (this.getSourceController().isSelectedSource(this.getSourceController().getSource(4))) {
-                    this.logger.main().log(1078071040, "[%1.actionProxyCallPerformed] FilePlayer is active", (Object)"MediaTerminal");
+                    this.logger.main().log(1000000, "[%1.actionProxyCallPerformed] FilePlayer is active", (Object)LOGCLASS);
                     return;
                 }
                 this.getAudioManager().releaseAudio();
@@ -308,9 +285,8 @@ ServiceTrackerCustomizer {
         }
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
-        this.logger.main().log(1078071040, "[%1.addingService] SwDiagnosisManager found.", (Object)"MediaTerminal");
+        this.logger.main().log(1000000, "[%1.addingService] SwDiagnosisManager found.", (Object)LOGCLASS);
         SwDiagnosisManager swDiagnosisManager = (SwDiagnosisManager)this.serviceManager.getService(serviceReference);
         this.diag = new MediaDiagnosis((IMediaTerminal)this);
         this.diag.init();
@@ -318,32 +294,28 @@ ServiceTrackerCustomizer {
         return swDiagnosisManager;
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         ((SwDiagnosisManager)object).removeDiagGateway((AbstractSwDiagnosis)this.diag);
         this.diag.deinit();
         this.serviceManager.releaseService(serviceReference);
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void resetSettings(int n) {
-        this.logger.main().log(1078071040, "[%1.resetSettings] '%2'.", (Object)"MediaTerminal");
+        this.logger.main().log(1000000, "[%1.resetSettings] '%2'.", (Object)LOGCLASS);
         Iterator iterator = this.resetSettingsListeners.iterator();
         while (iterator.hasNext()) {
             try {
                 ((IResetSettingsListener)iterator.next()).onResetSettings(n);
             }
             catch (Exception exception) {
-                this.logger.main().log(-1601830656, "[%1.resetSettings] %2", (Object)"MediaTerminal", (Throwable)exception);
+                this.logger.main().log(100000, "[%1.resetSettings] %2", (Object)LOGCLASS, (Throwable)exception);
             }
         }
     }
 
-    @Override
     public void addResetSettingsListener(IResetSettingsListener iResetSettingsListener) {
         if (iResetSettingsListener == null) {
             throw new IllegalArgumentException();
@@ -351,12 +323,10 @@ ServiceTrackerCustomizer {
         this.resetSettingsListeners.addIfAbsent(iResetSettingsListener);
     }
 
-    @Override
     public SelectionBrowser getSelectionBrowser() {
         return this.selectionBrowser;
     }
 
-    @Override
     public boolean isStartup() {
         return this.startup;
     }

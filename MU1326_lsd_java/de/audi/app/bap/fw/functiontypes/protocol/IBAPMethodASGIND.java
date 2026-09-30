@@ -6,10 +6,8 @@ package de.audi.app.bap.fw.functiontypes.protocol;
 import de.vw.mib.bap.requests.ResultMethod;
 
 public interface IBAPMethodASGIND {
-    default public void processingIND() {
-    }
+    public void processingIND();
 
-    default public void resultIND(ResultMethod resultMethod) {
-    }
+    public void resultIND(ResultMethod var1);
 }
 

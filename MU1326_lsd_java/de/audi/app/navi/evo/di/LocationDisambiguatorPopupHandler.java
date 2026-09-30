@@ -18,17 +18,17 @@ import org.dsi.ifc.global.NavLocation;
 public class LocationDisambiguatorPopupHandler
 implements ButtonListener,
 ILocationDisambiguatorPopupHandler {
-    private final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
-    private static final int FIRST_LOCATION;
-    private static final int SECOND_LOCATION;
-    private static final int BRIDGE_POPUP_ID;
-    private static final int FERRY_POPUP_ID;
-    private static final int MOTORWAY_POPUP_ID;
-    private static final int TOLLROAD_POPUP_ID;
-    private static final int TUNNEL_POPUP_ID;
-    private static final int NO_POPUP_POSSIBLE_ID;
-    private static final int SELECT_THIS_ROAD_BUTTON_ID;
-    private static final int SELECT_OTHER_ROAD_BUTTON_ID;
+    private final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
+    private static final int FIRST_LOCATION = 0;
+    private static final int SECOND_LOCATION = 1;
+    private static final int BRIDGE_POPUP_ID = 400279;
+    private static final int FERRY_POPUP_ID = 400280;
+    private static final int MOTORWAY_POPUP_ID = 400277;
+    private static final int TOLLROAD_POPUP_ID = 400278;
+    private static final int TUNNEL_POPUP_ID = 400281;
+    private static final int NO_POPUP_POSSIBLE_ID = -1;
+    private static final int SELECT_THIS_ROAD_BUTTON_ID = 401821;
+    private static final int SELECT_OTHER_ROAD_BUTTON_ID = 401822;
     private final NavigationEnv env;
     private final ILocationDisambiguatorSequence sequence;
     private final LogChannel logChannel;
@@ -44,16 +44,14 @@ ILocationDisambiguatorPopupHandler {
         this.logChannel = navigationEnv.getAddressInputLogChannel();
         this.sequence = iLocationDisambiguatorSequence;
         this.hmiServiceApp = navigationEnv.getFramework().getHmiServiceApp();
-        navigationEnv.getButtonModel(-1658780160).setButtonListener(this);
-        navigationEnv.getButtonModel(-1642002944).setButtonListener(this);
+        navigationEnv.getButtonModel(401821).setButtonListener(this);
+        navigationEnv.getButtonModel(401822).setButtonListener(this);
     }
 
-    @Override
     public void startPopupHandlingForSds(LocationDisambiguationWrapper locationDisambiguationWrapper) {
         this.startPopupHandlingAndMapLocationsToPopupButtons(locationDisambiguationWrapper, false);
     }
 
-    @Override
     public void startPopupHandling(LocationDisambiguationWrapper locationDisambiguationWrapper) {
         this.startPopupHandlingAndMapLocationsToPopupButtons(locationDisambiguationWrapper, true);
     }
@@ -73,17 +71,17 @@ ILocationDisambiguatorPopupHandler {
     }
 
     private int mapDisambiguatedLocationsToButtons(DisambiguatedNavLocation[] disambiguatedNavLocationArray) {
-        this.logChannel.log(-2137614336, "%1#mapDisambiguatedLocationsToButtons - locations.length=%2", (Object)this.CLASS_NAME, (long)disambiguatedNavLocationArray.length);
+        this.logChannel.log(10000000, "%1#mapDisambiguatedLocationsToButtons - locations.length=%2", (Object)this.CLASS_NAME, (long)disambiguatedNavLocationArray.length);
         int n = this.matchTypeToPopupId(disambiguatedNavLocationArray[0].getType());
         if (n != -1) {
-            this.logChannel.log(-2137614336, "%1#mapDisambiguatedLocationsToButtons - first location is mapped to thisRoadButton.", (Object)this.CLASS_NAME);
+            this.logChannel.log(10000000, "%1#mapDisambiguatedLocationsToButtons - first location is mapped to thisRoadButton.", (Object)this.CLASS_NAME);
             this.thisRoadButtonLocation = disambiguatedNavLocationArray[0];
             this.otherRoadButtonLocation = disambiguatedNavLocationArray[1];
             return n;
         }
         n = this.matchTypeToPopupId(disambiguatedNavLocationArray[1].getType());
         if (n != -1) {
-            this.logChannel.log(-2137614336, "%1#mapDisambiguatedLocationsToButtons - second location is mapped to thisRoadButton.", (Object)this.CLASS_NAME);
+            this.logChannel.log(10000000, "%1#mapDisambiguatedLocationsToButtons - second location is mapped to thisRoadButton.", (Object)this.CLASS_NAME);
             this.thisRoadButtonLocation = disambiguatedNavLocationArray[1];
             this.otherRoadButtonLocation = disambiguatedNavLocationArray[0];
             return n;
@@ -93,30 +91,30 @@ ILocationDisambiguatorPopupHandler {
     }
 
     private int matchTypeToPopupId(int n) {
-        this.logChannel.log(-2137614336, "%1#matchTypeAndShowPopup - type=%2", (Object)this.CLASS_NAME, (long)n);
+        this.logChannel.log(10000000, "%1#matchTypeAndShowPopup - type=%2", (Object)this.CLASS_NAME, (long)n);
         switch (n) {
             case 5: {
-                return -1759836672;
+                return 400279;
             }
             case 3: {
-                return -1743059456;
+                return 400280;
             }
             case 1: {
-                return -1793391104;
+                return 400277;
             }
             case 4: {
-                return -1776613888;
+                return 400278;
             }
             case 2: {
-                return -1726282240;
+                return 400281;
             }
         }
-        this.logChannel.log(-2137614336, "%1#matchTypeAndShowPopup - no matching for type=%2", (Object)this.CLASS_NAME, (long)n);
+        this.logChannel.log(10000000, "%1#matchTypeAndShowPopup - no matching for type=%2", (Object)this.CLASS_NAME, (long)n);
         return -1;
     }
 
     private void performAction(NavLocation navLocation) {
-        this.logChannel.log(-2137614336, "%1#performAction - currentAction=%2, location=%3", (Object)this.CLASS_NAME, (Object)Integer.toString(this.currentAction), (Object)LocationFormatter.formatLocationShort(navLocation));
+        this.logChannel.log(10000000, "%1#performAction - currentAction=%2, location=%3", (Object)this.CLASS_NAME, (Object)Integer.toString(this.currentAction), (Object)LocationFormatter.formatLocationShort(navLocation));
         switch (this.currentAction) {
             case 2: {
                 this.sequence.setAsContact(navLocation);
@@ -153,25 +151,21 @@ ILocationDisambiguatorPopupHandler {
         return disambiguatedNavLocationArray.length > 1;
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "%1#keyPressed() - modelID=%2, keyID=%3", (Object)this.CLASS_NAME, (long)n, (long)n2);
-        if (n == -1658780160) {
+        this.logChannel.log(10000000, "%1#keyPressed() - modelID=%2, keyID=%3", (Object)this.CLASS_NAME, (long)n, (long)n2);
+        if (n == 401821) {
             this.performAction(this.thisRoadButtonLocation.getLocation());
-        } else if (n == -1642002944) {
+        } else if (n == 401822) {
             this.performAction(this.otherRoadButtonLocation.getLocation());
         }
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 }

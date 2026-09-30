@@ -43,12 +43,11 @@ extends ClassLoader {
         }
     }
 
-    private static native void nativeinit() {
-    }
+    private static native void nativeinit();
 
     synchronized void loadJXE(String string) {
         if (this.fJxesByName.contains(string)) {
-            throw new IllegalArgumentException(new StringBuffer("Already loaded this container name: ").append(string).toString());
+            throw new IllegalArgumentException("Already loaded this container name: " + string);
         }
         int n = 0;
         while (n < this.fClasspath.length) {
@@ -68,16 +67,15 @@ extends ClassLoader {
                     }
                 }
                 catch (Exception exception) {
-                    throw new IllegalArgumentException(new StringBuffer("Error loading ").append(string).append(": ").append(exception.getMessage()).toString());
+                    throw new IllegalArgumentException("Error loading " + string + ": " + exception.getMessage());
                 }
             }
             ++n;
         }
-        throw new IllegalArgumentException(new StringBuffer("Container name not found in the class path: ").append(string).toString());
+        throw new IllegalArgumentException("Container name not found in the class path: " + string);
     }
 
-    private native JxeData loadJXEimpl(String string, Archive archive, String string2) {
-    }
+    private native JxeData loadJXEimpl(String var1, Archive var2, String var3);
 
     synchronized void unloadJXE(String string) {
         Object object = this.fJxesByName.remove(string);
@@ -86,18 +84,15 @@ extends ClassLoader {
         }
     }
 
-    static native void unloadJXEDataimpl(long l) {
-    }
+    static native void unloadJXEDataimpl(long var0);
 
     void freeJxeSegment(Jxe jxe) {
         this.freeJxeSegmentImpl(jxe);
     }
 
-    private native void freeJxeSegmentImpl(Jxe jxe) {
-    }
+    private native void freeJxeSegmentImpl(Jxe var1);
 
-    @Override
-    public Class loadClass(String string) {
+    public Class loadClass(String string) throws ClassNotFoundException {
         try {
             Class clazz = super.loadClass(string);
             return clazz;
@@ -130,7 +125,6 @@ extends ClassLoader {
         XIPClassLoader.unloadArchiveImpl(archive);
     }
 
-    private static native void unloadArchiveImpl(Archive archive) {
-    }
+    private static native void unloadArchiveImpl(Archive var0);
 }
 

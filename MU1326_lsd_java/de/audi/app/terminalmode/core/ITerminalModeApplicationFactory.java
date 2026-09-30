@@ -8,13 +8,10 @@ import de.audi.app.terminalmode.ITerminalModeComponent;
 import java.util.List;
 
 public interface ITerminalModeApplicationFactory {
-    default public ITerminalModeComponent createHmiApplication(IContext iContext) {
-    }
+    public ITerminalModeComponent createHmiApplication(IContext var1);
 
-    default public ITerminalModeComponent createActionProxy(IContext iContext) {
-    }
+    public ITerminalModeComponent createActionProxy(IContext var1);
 
-    default public List getVariantComponents(IContext iContext) {
-    }
+    public List getVariantComponents(IContext var1);
 }
 

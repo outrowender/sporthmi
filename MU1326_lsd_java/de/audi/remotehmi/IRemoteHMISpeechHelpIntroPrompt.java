@@ -4,7 +4,6 @@
 package de.audi.remotehmi;
 
 public interface IRemoteHMISpeechHelpIntroPrompt {
-    default public String[] getHelpIntroPrompts() {
-    }
+    public String[] getHelpIntroPrompts();
 }
 

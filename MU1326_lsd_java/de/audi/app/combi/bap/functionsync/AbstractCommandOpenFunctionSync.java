@@ -31,53 +31,45 @@ BAPFunctionDataListener {
                 this.setFunctionBit(nArray[i2]);
                 continue;
             }
-            this.logger.log(-2137614336, "[AbstractCommandOpenFunctionSync#init] [%1] fctID=%2 not supported -> don't add to function sync", (Object)this.functionSync.getSyncTypeDescription(), (long)nArray[i2]);
+            this.logger.log(10000000, "[AbstractCommandOpenFunctionSync#init] [%1] fctID=%2 not supported -> don't add to function sync", (Object)this.functionSync.getSyncTypeDescription(), (long)nArray[i2]);
         }
     }
 
-    protected abstract StatusProperty createFunctionSynchronizationStatus() {
-    }
+    protected abstract StatusProperty createFunctionSynchronizationStatus();
 
-    protected abstract void setFunctionBit(int n) {
-    }
+    protected abstract void setFunctionBit(int var1);
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[AbstractCommandOpenFunctionSync#execute] [%1] start command", (Object)this.functionSync.getSyncTypeDescription());
+        this.logger.log(10000000, "[AbstractCommandOpenFunctionSync#execute] [%1] start command", (Object)this.functionSync.getSyncTypeDescription());
         this.functionSync.getFctSyncProperty().addDataListener(this);
         this.functionSync.getFctSyncProperty().addAcknowledgeListener(this);
         this.functionSync.setSyncState(1);
         this.functionSync.getFctSyncProperty().sendStatusIfChanged(this.functionSyncStatusSerializer);
     }
 
-    @Override
     public void abort() {
         this.removeAllListeners();
         super.abort();
     }
 
-    @Override
     public void notifyDataValidChanged(int n, boolean bl) {
     }
 
-    @Override
     public void notifyDataChanged(int n) {
     }
 
-    @Override
     public void notifyDataUpdatedNoChange(int n) {
-        this.logger.log(-2137614336, "[AbstractCommandOpenFunctionSync#notifyDataUpdatedNoChange] [%1] fctID=%2", (Object)this.functionSync.getSyncTypeDescription(), (Object)FunctionIDs.getDescription(this.moduleFsg.getLSGID(), n));
+        this.logger.log(10000000, "[AbstractCommandOpenFunctionSync#notifyDataUpdatedNoChange] [%1] fctID=%2", (Object)this.functionSync.getSyncTypeDescription(), (Object)FunctionIDs.getDescription(this.moduleFsg.getLSGID(), n));
         this.finishCommand();
     }
 
-    @Override
     public void processAcknowledge(int n, int n2) {
-        this.logger.log(-2137614336, "[AbstractCommandOpenFunctionSync#processAcknowledge] [%1] fctID=%2, acknowledgeType=%3", (Object)this.functionSync.getSyncTypeDescription(), (Object)FunctionIDs.getDescription(this.moduleFsg.getLSGID(), n), (long)n2);
+        this.logger.log(10000000, "[AbstractCommandOpenFunctionSync#processAcknowledge] [%1] fctID=%2, acknowledgeType=%3", (Object)this.functionSync.getSyncTypeDescription(), (Object)FunctionIDs.getDescription(this.moduleFsg.getLSGID(), n), (long)n2);
         this.finishCommand();
     }
 
     private void finishCommand() {
-        this.logger.log(-2137614336, "[AbstractCommandOpenFunctionSync#finishCommand] [%1] lsgID=%2", (Object)this.functionSync.getSyncTypeDescription(), (Object)LSGIDs.getDescription(this.moduleFsg.getLSGID()));
+        this.logger.log(10000000, "[AbstractCommandOpenFunctionSync#finishCommand] [%1] lsgID=%2", (Object)this.functionSync.getSyncTypeDescription(), (Object)LSGIDs.getDescription(this.moduleFsg.getLSGID()));
         this.removeAllListeners();
         this.functionSync.setSyncState(2);
         this.commandList.commandFinished();

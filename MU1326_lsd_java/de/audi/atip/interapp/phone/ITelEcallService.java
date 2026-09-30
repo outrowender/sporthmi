@@ -4,13 +4,10 @@
 package de.audi.atip.interapp.phone;
 
 public interface ITelEcallService {
-    default public void hangupServiceCall() {
-    }
+    public void hangupServiceCall();
 
-    default public void hangupLowPrioritySOSCall() {
-    }
+    public void hangupLowPrioritySOSCall();
 
-    default public void dialLowPrioritySOSCall(String string) {
-    }
+    public void dialLowPrioritySOSCall(String var1);
 }
 

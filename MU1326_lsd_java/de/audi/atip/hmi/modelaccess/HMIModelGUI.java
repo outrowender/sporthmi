@@ -7,25 +7,18 @@ import de.audi.atip.hmi.modelaccess.HMIModelBase;
 
 public interface HMIModelGUI
 extends HMIModelBase {
-    default public int getModelType() {
-    }
+    public int getModelType();
 
-    default public void addReference() {
-    }
+    public void addReference();
 
-    default public void removeReference() {
-    }
+    public void removeReference();
 
-    default public int getChangeState() {
-    }
+    public int getChangeState();
 
-    default public int startDrag(int n, long l, int n2) {
-    }
+    public int startDrag(int var1, long var2, int var4);
 
-    default public void stopDrag(int n, long l, long l2) {
-    }
+    public void stopDrag(int var1, long var2, long var4);
 
-    default public void drop(int n, long l, long l2, int n2, int n3) {
-    }
+    public void drop(int var1, long var2, long var4, int var6, int var7);
 }
 

@@ -24,18 +24,16 @@ extends AbstractWlanComponent {
         super(iWlanApplication);
     }
 
-    @Override
     protected int[] getAttributeNotifications() {
         return this.attributeNotifications;
     }
 
-    @Override
     public void updateNodeList(Node[] nodeArray, int n) {
         if (n != 1) {
             return;
         }
         int n2 = nodeArray == null ? 0 : nodeArray.length;
-        this.log.log(1078071040, "[ConnectedClientList#updateNodeList] %1 clients attached (%2)", (Object)new Integer(n2), (Object)StringUtils.toString(nodeArray));
+        this.log.log(1000000, "[ConnectedClientList#updateNodeList] %1 clients attached (%2)", (Object)new Integer(n2), (Object)StringUtils.toString(nodeArray));
         if (this.iOnline != null) {
             if (n2 == 0) {
                 this.iOnline.wlanHotspotActive(false);
@@ -46,7 +44,6 @@ extends AbstractWlanComponent {
         }
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof IOnline) {
@@ -56,7 +53,6 @@ extends AbstractWlanComponent {
         return super.addingService(serviceReference);
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof IOnline) {
             this.iOnline = null;
@@ -65,7 +61,6 @@ extends AbstractWlanComponent {
         super.removedService(serviceReference, object);
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
         if (object instanceof IOnline) {
             this.iOnline = (IOnline)object;
@@ -73,13 +68,11 @@ extends AbstractWlanComponent {
         super.modifiedService(serviceReference, object);
     }
 
-    @Override
     public void init() {
         super.init();
         this.tracker.open();
     }
 
-    @Override
     public void deinit() {
         this.tracker.close();
         super.deinit();

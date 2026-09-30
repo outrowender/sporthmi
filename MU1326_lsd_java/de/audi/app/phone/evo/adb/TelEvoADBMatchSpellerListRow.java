@@ -16,11 +16,10 @@ extends ADBOrganizerSearchListRow {
 
     private TelEvoADBMatchSpellerListRow(DataSet dataSet, boolean bl) {
         super(dataSet);
-        this.setPropertyCell(4, new PropertyListCell(195680110, new int[]{553997474}));
+        this.setPropertyCell(4, new PropertyListCell(1859627275, new int[]{-1571551967}));
         this.setOpen(bl);
     }
 
-    @Override
     public EvoListRow copy() {
         return new TelEvoADBMatchSpellerListRow(this.dataSet, this.isOpen());
     }

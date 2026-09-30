@@ -7,26 +7,34 @@ import de.audi.app.navi.evo.poi.online.OnlineSearchControllerEvo;
 import de.audi.app.navi.evo.search.ActiveDestinationsManager;
 import de.audi.app.navi.evo.search.IntelliDestController;
 import de.audi.app.navi.evo.search.IntelliDestGuiSearchHandler;
-import de.audi.app.navi.evo.search.IntelliDestHMIListener$1;
-import de.audi.app.navi.evo.search.IntelliDestHMIListener$MyButtonListener;
-import de.audi.app.navi.evo.search.IntelliDestHMIListener$MyOptionModelListener;
+import de.audi.app.navi.evo.search.NaviSearchResultListRow;
+import de.audi.atip.hmi.model.DefaultButtonListener;
+import de.audi.atip.hmi.model.DefaultOptionListener;
 import de.audi.atip.hmi.model.list.BaseListModelApp;
+import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.hmi.model.menu.MenuModelApp;
 import de.audi.atip.hmi.model.menu.MenuModelListener;
+import de.audi.atip.hmi.model.menu.focus.FocusAdvice;
 import de.audi.atip.hmi.modelaccess.SpellerModelApp;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.phone.ITelService;
+import de.audi.atip.search.util.SearchResultListRow;
+import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.ICommandListFactory;
 import de.audi.tghu.navi.app.HomeAddressHandler;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.addressinput.poi.IPoiService;
+import de.audi.tghu.navi.app.addressinput.poi.PoiUtil;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.search.ICountrySelection;
 import de.audi.tghu.navi.app.util.Util;
 import de.esolutions.fw.util.commons.job.DispatcherBase;
+import org.dsi.ifc.global.NavLocation;
+import org.dsi.ifc.search.SearchResult;
 
 public class IntelliDestHMIListener
 implements MenuModelListener {
-    private final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
+    private final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
     private final NavigationEnv env;
     private final LogChannel lc;
     private final IntelliDestGuiSearchHandler guiSearchHandler;
@@ -42,8 +50,8 @@ implements MenuModelListener {
     private final HomeAddressHandler homeAddressHandler;
     private final ICountrySelection countrySelection;
     private IPoiService poiService;
-    protected static final int SPELLER_OPENED;
-    protected static final int SPELLER_CLOSED;
+    protected static final int SPELLER_OPENED = 4711;
+    protected static final int SPELLER_CLOSED = 4712;
 
     public IntelliDestHMIListener(NavigationEnv navigationEnv, IntelliDestGuiSearchHandler intelliDestGuiSearchHandler, OnlineSearchControllerEvo onlineSearchControllerEvo, ActiveDestinationsManager activeDestinationsManager, IntelliDestController intelliDestController, DispatcherBase dispatcherBase, ITelService iTelService, ICommandListFactory iCommandListFactory, HomeAddressHandler homeAddressHandler, ICountrySelection iCountrySelection, IPoiService iPoiService) {
         this.env = navigationEnv;
@@ -56,139 +64,220 @@ implements MenuModelListener {
         this.countrySelection = iCountrySelection;
         this.poiService = iPoiService;
         this.lc = navigationEnv.getLogChannel("App.Navi.Search");
-        this.searchSpeller = Util.isHURegionKR() ? navigationEnv.getSpellerModel(-886897152) : navigationEnv.getSpellerModel(-2094791168);
-        this.intelliDestResultList = navigationEnv.getBaseListModel(-1541470720);
+        this.searchSpeller = Util.isHURegionKR() ? navigationEnv.getSpellerModel(402379) : navigationEnv.getSpellerModel(402563);
+        this.intelliDestResultList = navigationEnv.getBaseListModel(401316);
         this.telService = iTelService;
         this.commandListFactory = iCommandListFactory;
         this.initListener();
     }
 
     private final void initListener() {
-        IntelliDestHMIListener$MyOptionModelListener intelliDestHMIListener$MyOptionModelListener = new IntelliDestHMIListener$MyOptionModelListener(this, null);
-        this.env.getHMIService().getOptionModel(1948124672).setListener(intelliDestHMIListener$MyOptionModelListener, this.intelliDestResultList.getID());
-        this.env.getHMIService().getOptionModel(1948124672).setListener(intelliDestHMIListener$MyOptionModelListener, 1595803136);
-        this.env.getHMIService().getOptionModel(1948124672).setListener(intelliDestHMIListener$MyOptionModelListener, 0x200600);
-        this.env.getHMIService().getOptionModel(-467728896).setListener(intelliDestHMIListener$MyOptionModelListener, this.intelliDestResultList.getID());
-        this.env.getHMIService().getOptionModel(-467728896).setListener(intelliDestHMIListener$MyOptionModelListener, 1595803136);
-        this.env.getHMIService().getOptionModel(1176634880).setListener(intelliDestHMIListener$MyOptionModelListener, this.intelliDestResultList.getID());
-        this.env.getHMIService().getOptionModel(1176634880).setListener(intelliDestHMIListener$MyOptionModelListener, 1595803136);
-        this.env.getHMIService().getOptionModel(1176503808).setListener(intelliDestHMIListener$MyOptionModelListener, this.intelliDestResultList.getID());
-        this.env.getHMIService().getOptionModel(1176503808).setListener(intelliDestHMIListener$MyOptionModelListener, 1595803136);
-        this.env.getHMIService().getOptionModel(1964901888).setListener(intelliDestHMIListener$MyOptionModelListener, this.intelliDestResultList.getID());
-        this.env.getHMIService().getOptionModel(1964901888).setListener(intelliDestHMIListener$MyOptionModelListener, 1595803136);
-        this.env.getHMIService().getOptionModel(-1826748928).setListener(intelliDestHMIListener$MyOptionModelListener, this.intelliDestResultList.getID());
-        this.env.getHMIService().getOptionModel(-1826748928).setListener(intelliDestHMIListener$MyOptionModelListener, 1595803136);
-        this.env.getHMIService().getOptionModel(1293944320).setListener(intelliDestHMIListener$MyOptionModelListener, this.intelliDestResultList.getID());
-        this.env.getHMIService().getOptionModel(1293944320).setListener(intelliDestHMIListener$MyOptionModelListener, 1595803136);
-        this.env.getHMIService().getOptionModel(-2061629952).setListener(intelliDestHMIListener$MyOptionModelListener, this.intelliDestResultList.getID());
-        this.env.getHMIService().getOptionModel(-702544384).setListener(intelliDestHMIListener$MyOptionModelListener, this.intelliDestResultList.getID());
-        this.env.getHMIService().getOptionModel(1830684160).setListener(intelliDestHMIListener$MyOptionModelListener, this.intelliDestResultList.getID());
-        IntelliDestHMIListener$MyButtonListener intelliDestHMIListener$MyButtonListener = new IntelliDestHMIListener$MyButtonListener(this, null);
-        this.env.getButtonModel(1210058240).setButtonListener(intelliDestHMIListener$MyButtonListener);
-        this.env.getButtonModel(1226835456).setButtonListener(intelliDestHMIListener$MyButtonListener);
-        this.env.getButtonModel(-2044852736).setButtonListener(intelliDestHMIListener$MyButtonListener);
-        this.env.getButtonModel(1629357568).setButtonListener(intelliDestHMIListener$MyButtonListener);
-        this.env.getButtonModel(-1423964672).setButtonListener(intelliDestHMIListener$MyButtonListener);
-        this.env.getButtonModel(1528890880).setButtonListener(intelliDestHMIListener$MyButtonListener);
-        this.menuModel = this.env.getMenuModel(1629423104);
+        MyOptionModelListener myOptionModelListener = new MyOptionModelListener();
+        this.env.getHMIService().getOptionModel(401012).setListener(myOptionModelListener, this.intelliDestResultList.getID());
+        this.env.getHMIService().getOptionModel(401012).setListener(myOptionModelListener, 400991);
+        this.env.getHMIService().getOptionModel(401012).setListener(myOptionModelListener, 401408);
+        this.env.getHMIService().getOptionModel(401380).setListener(myOptionModelListener, this.intelliDestResultList.getID());
+        this.env.getHMIService().getOptionModel(401380).setListener(myOptionModelListener, 400991);
+        this.env.getHMIService().getOptionModel(401990).setListener(myOptionModelListener, this.intelliDestResultList.getID());
+        this.env.getHMIService().getOptionModel(401990).setListener(myOptionModelListener, 400991);
+        this.env.getHMIService().getOptionModel(401478).setListener(myOptionModelListener, this.intelliDestResultList.getID());
+        this.env.getHMIService().getOptionModel(401478).setListener(myOptionModelListener, 400991);
+        this.env.getHMIService().getOptionModel(401013).setListener(myOptionModelListener, this.intelliDestResultList.getID());
+        this.env.getHMIService().getOptionModel(401013).setListener(myOptionModelListener, 400991);
+        this.env.getHMIService().getOptionModel(401043).setListener(myOptionModelListener, this.intelliDestResultList.getID());
+        this.env.getHMIService().getOptionModel(401043).setListener(myOptionModelListener, 400991);
+        this.env.getHMIService().getOptionModel(401485).setListener(myOptionModelListener, this.intelliDestResultList.getID());
+        this.env.getHMIService().getOptionModel(401485).setListener(myOptionModelListener, 400991);
+        this.env.getHMIService().getOptionModel(401029).setListener(myOptionModelListener, this.intelliDestResultList.getID());
+        this.env.getHMIService().getOptionModel(401622).setListener(myOptionModelListener, this.intelliDestResultList.getID());
+        this.env.getHMIService().getOptionModel(401005).setListener(myOptionModelListener, this.intelliDestResultList.getID());
+        MyButtonListener myButtonListener = new MyButtonListener();
+        this.env.getButtonModel(401480).setButtonListener(myButtonListener);
+        this.env.getButtonModel(401481).setButtonListener(myButtonListener);
+        this.env.getButtonModel(401030).setButtonListener(myButtonListener);
+        this.env.getButtonModel(400993).setButtonListener(myButtonListener);
+        this.env.getButtonModel(401579).setButtonListener(myButtonListener);
+        this.env.getButtonModel(401755).setButtonListener(myButtonListener);
+        this.menuModel = this.env.getMenuModel(401249);
         this.menuModel.setListener(this);
-        this.env.getMenuModel(186713600).setListener(this);
-        this.env.getMenuModel(203490816).setListener(this);
-        this.env.getMenuModel(-534837760).setListener(this);
-        this.env.getMenuModel(773981696).setListener(this);
-        this.env.getMenuModel(220268032).setListener(this);
-        this.env.getMenuModel(723650048).setListener(this);
+        this.env.getMenuModel(401675).setListener(this);
+        this.env.getMenuModel(401676).setListener(this);
+        this.env.getMenuModel(401376).setListener(this);
+        this.env.getMenuModel(401966).setListener(this);
+        this.env.getMenuModel(401677).setListener(this);
+        this.env.getMenuModel(401963).setListener(this);
     }
 
     public void deinit() {
-        this.env.getHMIService().getOptionModel(1948124672).resetListener();
-        this.env.getHMIService().getOptionModel(-467728896).resetListener();
-        this.env.getHMIService().getOptionModel(1176634880).resetListener();
-        this.env.getHMIService().getOptionModel(1176503808).resetListener();
-        this.env.getHMIService().getOptionModel(1964901888).resetListener();
-        this.env.getHMIService().getOptionModel(1293944320).resetListener();
-        this.env.getHMIService().getOptionModel(-2061629952).resetListener();
-        this.env.getHMIService().getOptionModel(-702544384).resetListener();
-        this.env.getHMIService().getOptionModel(1830684160).resetListener();
-        this.env.getButtonModel(1210058240).resetListener();
-        this.env.getButtonModel(1226835456).resetListener();
-        this.env.getButtonModel(-2044852736).resetListener();
-        this.env.getButtonModel(1629357568).resetListener();
-        this.env.getButtonModel(-1423964672).resetListener();
-        this.env.getButtonModel(1528890880).resetListener();
-        this.env.getMenuModel(1629423104).resetListener();
-        this.env.getMenuModel(186713600).resetListener();
-        this.env.getMenuModel(203490816).resetListener();
-        this.env.getMenuModel(-534837760).resetListener();
-        this.env.getMenuModel(773981696).resetListener();
-        this.env.getMenuModel(220268032).resetListener();
-        this.env.getMenuModel(723650048).resetListener();
+        this.env.getHMIService().getOptionModel(401012).resetListener();
+        this.env.getHMIService().getOptionModel(401380).resetListener();
+        this.env.getHMIService().getOptionModel(401990).resetListener();
+        this.env.getHMIService().getOptionModel(401478).resetListener();
+        this.env.getHMIService().getOptionModel(401013).resetListener();
+        this.env.getHMIService().getOptionModel(401485).resetListener();
+        this.env.getHMIService().getOptionModel(401029).resetListener();
+        this.env.getHMIService().getOptionModel(401622).resetListener();
+        this.env.getHMIService().getOptionModel(401005).resetListener();
+        this.env.getButtonModel(401480).resetListener();
+        this.env.getButtonModel(401481).resetListener();
+        this.env.getButtonModel(401030).resetListener();
+        this.env.getButtonModel(400993).resetListener();
+        this.env.getButtonModel(401579).resetListener();
+        this.env.getButtonModel(401755).resetListener();
+        this.env.getMenuModel(401249).resetListener();
+        this.env.getMenuModel(401675).resetListener();
+        this.env.getMenuModel(401676).resetListener();
+        this.env.getMenuModel(401376).resetListener();
+        this.env.getMenuModel(401966).resetListener();
+        this.env.getMenuModel(401677).resetListener();
+        this.env.getMenuModel(401963).resetListener();
     }
 
-    @Override
-    public void itemFocused(int n, int n2, long l, int n3) {
-        this.lc.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#itemFocused menuItemID: %1 model: %2 terminal: %3").toString(), (long)n, (long)n2, (long)n3);
-        this.dispatcher.execute(new IntelliDestHMIListener$1(this, n, l));
+    public void itemFocused(final int n, int n2, final long l, int n3) {
+        this.lc.log(10000000, new StringBuffer().append(this.CLASS_NAME).append("#itemFocused menuItemID: %1 model: %2 terminal: %3").toString(), (long)n, (long)n2, (long)n3);
+        this.dispatcher.execute(new Runnable(){
+
+            public void run() {
+                if (IntelliDestHMIListener.this.homeAddressHandler.isHomeAddressMenuItem(n)) {
+                    IntelliDestHMIListener.this.homeAddressHandler.handleHomeAddressFocus();
+                } else if (n == 400991) {
+                    if (IntelliDestHMIListener.this.env.getFramework().isEvoHigh() && !IntelliDestHMIListener.this.env.getFramework().isEvoHighMMIKombi()) {
+                        IntelliDestHMIListener.this.guiSearchHandler.hidePreviewMap();
+                        return;
+                    }
+                    NavLocation navLocation = IntelliDestHMIListener.this.activeDestinationsManager.getNavLocation(l);
+                    IntelliDestHMIListener.this.guiSearchHandler.focusPreviewMapOnDestination(navLocation);
+                } else if (n == 401316 || n == 401408 || n == 401377 || n == 401421 || n == 401864 || n == 401612 || n == 401486 || n == 401334) {
+                    IntelliDestHMIListener.this.guiSearchHandler.focusPreviewMapOnSearchResult(l, n);
+                } else if (n == 401335 || n == 401378 || n == 401866) {
+                    if (IntelliDestHMIListener.this.env.getFramework().isAsia()) {
+                        CommandList commandList = IntelliDestHMIListener.this.commandListFactory.createCommandList();
+                        commandList.add(new NavCommand("IntelliDestHMIListener itemFocused"){
+
+                            public void execute() {
+                                IntelliDestHMIListener.this.guiSearchHandler.focusPreviewAreaAroundCCP();
+                                this.getCommandList().commandFinished();
+                            }
+                        });
+                        commandList.execute("IntelliDestHMIListener itemFocused");
+                    } else {
+                        IntelliDestHMIListener.this.guiSearchHandler.hidePreviewMap();
+                    }
+                } else if (n != 402078) {
+                    IntelliDestHMIListener.this.guiSearchHandler.hidePreviewMap();
+                }
+            }
+        });
     }
 
-    static /* synthetic */ String access$200(IntelliDestHMIListener intelliDestHMIListener) {
-        return intelliDestHMIListener.CLASS_NAME;
+    private class MyButtonListener
+    extends DefaultButtonListener {
+        private MyButtonListener() {
+        }
+
+        public void keyPressed(int n, int n2, int n3) {
+            IntelliDestHMIListener.this.lc.log(1000000, "%1#ButtonListener.keyPressed model = %2 key = %3", (Object)IntelliDestHMIListener.this.CLASS_NAME, (long)n, (long)n2);
+            switch (n) {
+                case 400993: {
+                    IntelliDestHMIListener.this.onlineController.configureSearchFromTruffles(IntelliDestHMIListener.this.searchSpeller.getText());
+                    break;
+                }
+                case 401480: {
+                    IntelliDestHMIListener.this.guiSearchHandler.startRG(((IntelliDestHMIListener)IntelliDestHMIListener.this).guiSearchHandler.cachedSelectedRow, n3);
+                    break;
+                }
+                case 401481: {
+                    String string = IntelliDestHMIListener.this.env.getLabelModel(401479).getText();
+                    IntelliDestHMIListener.this.searchSpeller.setText(string);
+                    IntelliDestHMIListener.this.guiSearchHandler.performQuery(string, new String[0]);
+                    IntelliDestHMIListener.this.menuModel.setFocusedItem(IntelliDestHMIListener.this.searchSpeller.getID(), FocusAdvice.VIEWPORT_FIRST_POSITION, -1L);
+                    break;
+                }
+                case 401030: {
+                    IntelliDestHMIListener.this.searchController.getMainSearch().removeAllFromHistory();
+                    break;
+                }
+                case 401579: {
+                    IntelliDestHMIListener.this.guiSearchHandler.openAddressInputForm();
+                    break;
+                }
+                case 401755: {
+                    IntelliDestHMIListener.this.countrySelection.loadCountriesFromNavigation();
+                    break;
+                }
+            }
+            IntelliDestHMIListener.this.env.getButtonModel(n).fireEvent(n3);
+        }
     }
 
-    static /* synthetic */ LogChannel access$300(IntelliDestHMIListener intelliDestHMIListener) {
-        return intelliDestHMIListener.lc;
-    }
+    private class MyOptionModelListener
+    extends DefaultOptionListener {
+        private MyOptionModelListener() {
+        }
 
-    static /* synthetic */ BaseListModelApp access$400(IntelliDestHMIListener intelliDestHMIListener) {
-        return intelliDestHMIListener.intelliDestResultList;
-    }
-
-    static /* synthetic */ IntelliDestGuiSearchHandler access$500(IntelliDestHMIListener intelliDestHMIListener) {
-        return intelliDestHMIListener.guiSearchHandler;
-    }
-
-    static /* synthetic */ ActiveDestinationsManager access$600(IntelliDestHMIListener intelliDestHMIListener) {
-        return intelliDestHMIListener.activeDestinationsManager;
-    }
-
-    static /* synthetic */ NavigationEnv access$700(IntelliDestHMIListener intelliDestHMIListener) {
-        return intelliDestHMIListener.env;
-    }
-
-    static /* synthetic */ IPoiService access$800(IntelliDestHMIListener intelliDestHMIListener) {
-        return intelliDestHMIListener.poiService;
-    }
-
-    static /* synthetic */ IntelliDestController access$900(IntelliDestHMIListener intelliDestHMIListener) {
-        return intelliDestHMIListener.searchController;
-    }
-
-    static /* synthetic */ ICommandListFactory access$1000(IntelliDestHMIListener intelliDestHMIListener) {
-        return intelliDestHMIListener.commandListFactory;
-    }
-
-    static /* synthetic */ ITelService access$1100(IntelliDestHMIListener intelliDestHMIListener) {
-        return intelliDestHMIListener.telService;
-    }
-
-    static /* synthetic */ SpellerModelApp access$1200(IntelliDestHMIListener intelliDestHMIListener) {
-        return intelliDestHMIListener.searchSpeller;
-    }
-
-    static /* synthetic */ OnlineSearchControllerEvo access$1300(IntelliDestHMIListener intelliDestHMIListener) {
-        return intelliDestHMIListener.onlineController;
-    }
-
-    static /* synthetic */ MenuModelApp access$1400(IntelliDestHMIListener intelliDestHMIListener) {
-        return intelliDestHMIListener.menuModel;
-    }
-
-    static /* synthetic */ ICountrySelection access$1500(IntelliDestHMIListener intelliDestHMIListener) {
-        return intelliDestHMIListener.countrySelection;
-    }
-
-    static /* synthetic */ HomeAddressHandler access$1600(IntelliDestHMIListener intelliDestHMIListener) {
-        return intelliDestHMIListener.homeAddressHandler;
+        public void keyPressed(int n, int n2, int n3, int n4, int n5) {
+            Object object;
+            IntelliDestHMIListener.this.lc.log(1000000, new StringBuffer().append(IntelliDestHMIListener.this.CLASS_NAME).append("#OptionModelListener.keyPressed modelID = %1, targetModelID=%2, targetRow = %3").toString(), (long)n, (long)n2, (long)n3);
+            EvoListRow evoListRow = IntelliDestHMIListener.this.intelliDestResultList.getRow(n3);
+            NavLocation navLocation = null;
+            if (n2 == IntelliDestHMIListener.this.intelliDestResultList.getID()) {
+                navLocation = IntelliDestHMIListener.this.guiSearchHandler.extractNavLocationFromRow(evoListRow);
+            } else if (n2 == 400991) {
+                navLocation = IntelliDestHMIListener.this.activeDestinationsManager.getNavLocation(n3);
+            } else if (n2 == 401334) {
+                evoListRow = IntelliDestHMIListener.this.env.getBaseListModel(401421).getRow(n3);
+                navLocation = IntelliDestHMIListener.this.guiSearchHandler.extractNavLocationFromRow(evoListRow);
+            }
+            long l = -1L;
+            if (evoListRow instanceof SearchResultListRow && ((SearchResult)(object = ((SearchResultListRow)evoListRow).getSearchResult())).getSource() == 5) {
+                l = ((SearchResult)object).getDataId();
+            }
+            switch (n) {
+                case 401380: {
+                    IntelliDestHMIListener.this.guiSearchHandler.parkingNearDestination(navLocation);
+                    break;
+                }
+                case 401990: {
+                    IntelliDestHMIListener.this.guiSearchHandler.poiNearDestination(navLocation);
+                    break;
+                }
+                case 401013: {
+                    IntelliDestHMIListener.this.guiSearchHandler.saveAsFavorite(evoListRow, navLocation, n2);
+                    break;
+                }
+                case 401043: {
+                    IntelliDestHMIListener.this.poiService.showPoiDetailScreen(navLocation);
+                    break;
+                }
+                case 401478: {
+                    IntelliDestHMIListener.this.guiSearchHandler.openAddressInputForm(navLocation);
+                    break;
+                }
+                case 401012: {
+                    IntelliDestHMIListener.this.guiSearchHandler.destOptShowInMap(navLocation, l);
+                    break;
+                }
+                case 401485: {
+                    IntelliDestHMIListener.this.guiSearchHandler.startAddLocationToContact(navLocation);
+                    break;
+                }
+                case 401029: {
+                    object = (NaviSearchResultListRow)IntelliDestHMIListener.this.intelliDestResultList.getRow(n3);
+                    IntelliDestHMIListener.this.searchController.getMainSearch().removeFromHistory(((SearchResultListRow)object).getSearchResult().getDataId());
+                    IntelliDestHMIListener.this.intelliDestResultList.remove((EvoListRow)object);
+                    break;
+                }
+                case 401622: {
+                    IntelliDestHMIListener.this.guiSearchHandler.optionShowContactDetailsForAdbResult(n3);
+                    break;
+                }
+                case 401005: {
+                    PoiUtil.callPoi(navLocation, IntelliDestHMIListener.this.env, IntelliDestHMIListener.this.commandListFactory, IntelliDestHMIListener.this.telService);
+                    break;
+                }
+            }
+            IntelliDestHMIListener.this.env.getHMIService().getOptionModel(n).fireEvent(n5);
+        }
     }
 }
 

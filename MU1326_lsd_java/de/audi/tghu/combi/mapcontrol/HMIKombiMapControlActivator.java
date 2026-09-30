@@ -15,12 +15,11 @@ import org.osgi.framework.BundleContext;
 
 public class HMIKombiMapControlActivator
 extends AbstractActivator {
-    private static final int COMBI_MAP_SCREEN_ID;
-    private static final int DISPLAYTYPE_UNDEFINED;
-    private static final int DISPlAYTYPE_LVDS;
-    private static final int DISPLAYTYPE_H264_MOST;
+    private static final int COMBI_MAP_SCREEN_ID = 123456789;
+    private static final int DISPLAYTYPE_UNDEFINED = 0;
+    private static final int DISPlAYTYPE_LVDS = 1;
+    private static final int DISPLAYTYPE_H264_MOST = 2;
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         if (this.getFramework().getKombiType() == 4 || this.getFramework().getSysConst(541) == 2 || this.getFramework().getSysConst(541) == 1) {
@@ -29,12 +28,12 @@ extends AbstractActivator {
     }
 
     private void showCombiMapControlScreen() {
-        CombiMapScreen combiMapScreen = new CombiMapScreen(365779719);
+        CombiMapScreen combiMapScreen = new CombiMapScreen(123456789);
         combiMapScreen.setRenderer(new CombiMapScreenRenderer());
         CombiMapController combiMapController = new CombiMapController();
         combiMapController.setModelID(168);
         ModelStubController modelStubController = new ModelStubController();
-        modelStubController.setModelID(1495533056);
+        modelStubController.setModelID(402521);
         combiMapController.add(modelStubController);
         if (this.getFramework().getKombiType() == 4) {
             combiMapController.setKombiTerminal(0);
@@ -51,8 +50,8 @@ extends AbstractActivator {
         combiMapScreen.setTerminal(hMITerminal);
         combiMapScreen.setColorPalettes(new int[][]{{-1, -1, -1, -1, -1, -1, -1, -1, -1}});
         combiMapScreen.setColorIndices(new int[]{0});
-        combiMapScreen.setViews(new int[]{168, 1495533056}, new HMIView[][]{{combiMapController}, {modelStubController}});
-        ScreenData screenData = new ScreenData(365779719, true, false, null, false, combiMapScreen, null, null, -1L, -1L, 0, 0, 0, null);
+        combiMapScreen.setViews(new int[]{168, 402521}, new HMIView[][]{{combiMapController}, {modelStubController}});
+        ScreenData screenData = new ScreenData(123456789, true, false, null, false, combiMapScreen, null, null, -1L, -1L, 0, 0, 0, null);
         this.framework.getHMITerminalRegistry().getTerminalContext(1).getScreenManager().showScreen(screenData);
     }
 }

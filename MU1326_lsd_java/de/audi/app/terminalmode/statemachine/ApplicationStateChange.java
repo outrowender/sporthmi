@@ -21,7 +21,6 @@ extends AbstractStateChange {
         this.newOwner = applicationOwner2;
     }
 
-    @Override
     public int hashCode() {
         int n = super.hashCode();
         n = 31 * n + this.applicationId.ordinal();
@@ -30,7 +29,6 @@ extends AbstractStateChange {
         return n;
     }
 
-    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -38,7 +36,7 @@ extends AbstractStateChange {
         if (!super.equals(object)) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         ApplicationStateChange applicationStateChange = (ApplicationStateChange)object;

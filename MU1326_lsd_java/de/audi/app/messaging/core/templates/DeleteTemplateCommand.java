@@ -4,8 +4,8 @@
 package de.audi.app.messaging.core.templates;
 
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
+import de.audi.app.messaging.core.commands.AbstractMessagingCommand;
 import de.audi.app.messaging.core.dsi.messaging.AbstractDsiMessagingCommand;
-import de.audi.app.messaging.core.templates.DeleteTemplateCommand$1;
 import de.audi.tghu.command.Command;
 
 final class DeleteTemplateCommand
@@ -17,9 +17,8 @@ extends AbstractDsiMessagingCommand {
         this.templateIDs = nArray;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[DeleteTemplateCommand#execute]");
+        this.logger.log(10000000, "[DeleteTemplateCommand#execute]");
         try {
             this.dsiMessagingAccess.deleteTemplateRequest(this.templateIDs);
         }
@@ -29,10 +28,9 @@ extends AbstractDsiMessagingCommand {
         }
     }
 
-    @Override
     public void deleteTemplateResponse(int n) {
         try {
-            this.logger.log(-2137614336, "[DeleteTemplateCommand#deleteTemplateResponse] result = %1", (long)n);
+            this.logger.log(10000000, "[DeleteTemplateCommand#deleteTemplateResponse] result = %1", (long)n);
             this.signalResult(n == 0);
         }
         catch (Exception exception) {
@@ -42,24 +40,25 @@ extends AbstractDsiMessagingCommand {
     }
 
     private void signalResult(boolean bl) {
-        this.logger.log(-2137614336, "[DeleteTemplateCommand#signalResult] isResultOk = %1", bl);
+        this.logger.log(10000000, "[DeleteTemplateCommand#signalResult] isResultOk = %1", bl);
         if (bl) {
-            this.logger.log(-2137614336, "[DeleteTemplateCommand#signalResult] Scheduling reload of the template list.");
+            this.logger.log(10000000, "[DeleteTemplateCommand#signalResult] Scheduling reload of the template list.");
             this.msgApp.getTemplateList().loadTemplates();
-            this.msgApp.getModelAccess().setOperationStateChoice(-1148051200, 1);
+            this.msgApp.getModelAccess().setOperationStateChoice(2200251, 1);
         } else {
-            this.msgApp.getModelAccess().setOperationStateChoice(-1148051200, 2);
+            this.msgApp.getModelAccess().setOperationStateChoice(2200251, 2);
         }
         this.commandList.commandFinished();
     }
 
-    @Override
     public Command getErrorCommand() {
-        return new DeleteTemplateCommand$1(this, this.msgApp);
-    }
+        return new AbstractMessagingCommand(this.msgApp){
 
-    static /* synthetic */ void access$000(DeleteTemplateCommand deleteTemplateCommand, boolean bl) {
-        deleteTemplateCommand.signalResult(bl);
+            public void execute() {
+                this.logger.log(10000000, "[DeleteTemplateErrorCommand#execute]");
+                DeleteTemplateCommand.this.signalResult(false);
+            }
+        };
     }
 }
 

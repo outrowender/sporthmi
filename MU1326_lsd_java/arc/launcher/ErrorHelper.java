@@ -31,7 +31,7 @@ public class ErrorHelper {
             return;
         }
         ErrorHelper.println(ErrorHelper.getStackTrace(throwable));
-        Method[] methodArray = super.getClass().getMethods();
+        Method[] methodArray = throwable.getClass().getMethods();
         int n = methodArray.length;
         Class clazz = class$0;
         if (clazz == null) {

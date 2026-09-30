@@ -14,7 +14,6 @@ extends AbstractSearch {
         super(bundleContext, iFrameworkAccess, logChannel, n);
     }
 
-    @Override
     public void removeAllFromHistoryBySourceResult(int n) {
     }
 }

@@ -4,21 +4,18 @@
 package de.audi.atip.hmi.model;
 
 public interface DragAndDropListener {
-    public static final int START_DRAG_OK;
-    public static final int START_DRAG_NOT_OK;
-    public static final int START_DRAG_PENDING;
-    public static final int OPERATION_MODE_DEFAULT_OPERATION_MODE;
-    public static final int OPERATION_MODE_INSERT_BEFORE;
-    public static final int OPERATION_MODE_INSERT_AFTER;
-    public static final int OPERATION_MODE_REPLACE;
+    public static final int START_DRAG_OK = 0;
+    public static final int START_DRAG_NOT_OK = 1;
+    public static final int START_DRAG_PENDING = 2;
+    public static final int OPERATION_MODE_DEFAULT_OPERATION_MODE = 0;
+    public static final int OPERATION_MODE_INSERT_BEFORE = 1;
+    public static final int OPERATION_MODE_INSERT_AFTER = 2;
+    public static final int OPERATION_MODE_REPLACE = 3;
 
-    default public int itemDragStarted(int n, long l, int n2) {
-    }
+    public int itemDragStarted(int var1, long var2, int var4);
 
-    default public void itemDragStopped(int n, long l, int n2, long l2) {
-    }
+    public void itemDragStopped(int var1, long var2, int var4, long var5);
 
-    default public void itemDropped(int n, long l, int n2, long l2, int n3, int n4) {
-    }
+    public void itemDropped(int var1, long var2, int var4, long var5, int var7, int var8);
 }
 

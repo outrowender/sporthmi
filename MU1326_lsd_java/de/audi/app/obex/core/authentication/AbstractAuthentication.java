@@ -32,14 +32,14 @@ implements SpellerListener,
 ButtonListener,
 DSIObexAuthenticationListener,
 ServiceTrackerCustomizer {
-    private static final int MAX_LENGTH;
-    private static final int SPELLER_NOK;
-    private static final int SPELLER_OK;
-    private static final String EMPTY;
-    private static final int AUTH_IDLE;
-    private static final int AUTH_ID;
-    private static final int AUTH_PWD;
-    private static final int AUTH_ERROR;
+    private static final int MAX_LENGTH = 128;
+    private static final int SPELLER_NOK = 0;
+    private static final int SPELLER_OK = 1;
+    private static final String EMPTY = "";
+    private static final int AUTH_IDLE = 0;
+    private static final int AUTH_ID = 1;
+    private static final int AUTH_PWD = 2;
+    private static final int AUTH_ERROR = -1;
     protected final IObexApplication application;
     private DSIObexAuthentication dsi;
     private ServiceTracker obexAuthenticationTracker;
@@ -58,93 +58,81 @@ ServiceTrackerCustomizer {
     public AbstractAuthentication(IObexApplication iObexApplication) {
         super(iObexApplication);
         this.application = iObexApplication;
-        this.authenticationState = this.getChoiceModel(1864771072);
-        this.deviceNameLabel = this.getLabelModel(1881548288);
-        this.acceptButton = this.getButtonModel(1847993856);
-        this.rejectButton = this.getButtonModel(1915102720);
-        this.userSpeller = this.getSpellerModel(1931879936);
-        this.passwordSpeller = this.getSpellerModel(1898325504);
-        this.userNameLabel = this.getLabelModel(1948657152);
+        this.authenticationState = this.getChoiceModel(0x26266F);
+        this.deviceNameLabel = this.getLabelModel(2500208);
+        this.acceptButton = this.getButtonModel(0x26266E);
+        this.rejectButton = this.getButtonModel(0x262672);
+        this.userSpeller = this.getSpellerModel(2500211);
+        this.passwordSpeller = this.getSpellerModel(2500209);
+        this.userNameLabel = this.getLabelModel(2500212);
         this.dsi = new NullDSIObexAuthentication(this.log);
     }
 
-    @Override
     public void authenticationRequired(int n, boolean bl, String string) {
-        this.log.log(1078071040, "AbstractAuthentication#authenticationRequired(): device name=%3, service =%1, ID required=%2", bl, (Object)String.valueOf(n), (Object)string);
+        this.log.log(1000000, "AbstractAuthentication#authenticationRequired(): device name=%3, service =%1, ID required=%2", bl, (Object)String.valueOf(n), (Object)string);
         this.service = n;
-        this.deviceNameLabel.setText(string == null ? "" : string);
+        this.deviceNameLabel.setText(string == null ? EMPTY : string);
         this.initModels();
         this.authenticationState.setValue(bl ? 1 : 2);
         this.showPopup();
     }
 
-    protected abstract void showPopup() {
-    }
+    protected abstract void showPopup();
 
     private void initModels() {
         this.userSpeller.clear();
         this.passwordSpeller.clear();
         this.userSpeller.setStatus(0);
         this.passwordSpeller.setStatus(0);
-        this.userNameLabel.setText("");
+        this.userNameLabel.setText(EMPTY);
     }
 
-    @Override
     public void indAuthentication(boolean bl) {
-        this.log.log(1078071040, "AbstractAuthentication#indAuthentication(): success=%1", bl);
+        this.log.log(1000000, "AbstractAuthentication#indAuthentication(): success=%1", bl);
         this.authenticationState.setValue(bl ? 0 : -1);
         this.authenticationState.setStatus(1);
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
-        this.log.log(-1601830656, "AbstractAuthentication#asyncException(): errorCode %1, errorMsg %2, requestType %3", (Object)String.valueOf(n), (Object)string, (Object)String.valueOf(n2));
+        this.log.log(100000, "AbstractAuthentication#asyncException(): errorCode %1, errorMsg %2, requestType %3", (Object)String.valueOf(n), (Object)string, (Object)String.valueOf(n2));
     }
 
-    @Override
     public void textChanged(int n, String string, char c2, int n2) {
-        this.log.log(-2137614336, "AbstractAuthentication#textChanged(): model=%2, text=%1", (Object)string, (long)n);
+        this.log.log(10000000, "AbstractAuthentication#textChanged(): model=%2, text=%1", (Object)string, (long)n);
         if (n == this.userSpeller.getID()) {
             this.userNameLabel.setText(string);
         }
         this.getSpellerModel(n).setStatus(string.length() > 0 ? 1 : 0);
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
         if (n == this.acceptButton.getID()) {
-            this.log.log(1078071040, "AbstractAuthentication#keyTyped(): Accepting authentication");
+            this.log.log(1000000, "AbstractAuthentication#keyTyped(): Accepting authentication");
             this.authenticationState.setStatus(0);
             this.dsi.setAuthenticationInfo(this.service, this.userSpeller.getText(), this.passwordSpeller.getText());
             this.acceptButton.fireEvent(n3);
         } else if (n == this.rejectButton.getID()) {
-            this.log.log(1078071040, "AbstractAuthentication#keyTyped(): Rejecting authentication");
+            this.log.log(1000000, "AbstractAuthentication#keyTyped(): Rejecting authentication");
             this.dsi.setAuthenticationInfo(this.service, this.userSpeller.getText(), this.passwordSpeller.getText());
             this.rejectButton.fireEvent(n3);
         }
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void focusedCharacter(int n, char c2, int n2) {
     }
 
-    @Override
     public void commandPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void init() {
         this.registerDsiListener();
         this.obexAuthenticationTracker = new ServiceTracker(this.bundleContext, new String[]{(class$org$dsi$ifc$bluetooth$DSIObexAuthentication == null ? (class$org$dsi$ifc$bluetooth$DSIObexAuthentication = AbstractAuthentication.class$("org.dsi.ifc.bluetooth.DSIObexAuthentication")) : class$org$dsi$ifc$bluetooth$DSIObexAuthentication).getName()}, (ServiceTrackerCustomizer)this);
@@ -165,7 +153,6 @@ ServiceTrackerCustomizer {
         this.bundleContext.registerService((class$org$dsi$ifc$base$DSIListener == null ? (class$org$dsi$ifc$base$DSIListener = AbstractAuthentication.class$("org.dsi.ifc.base.DSIListener")) : class$org$dsi$ifc$base$DSIListener).getName(), (Object)this, (Dictionary)hashtable);
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof DSIObexAuthentication) {
@@ -175,18 +162,15 @@ ServiceTrackerCustomizer {
         return null;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof DSIObexAuthentication) {
             this.dsi = new NullDSIObexAuthentication(this.log);
         }
     }
 
-    @Override
     public void deinit() {
         this.obexAuthenticationTracker.close();
         this.obexAuthenticationTracker = null;

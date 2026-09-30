@@ -42,13 +42,13 @@ implements BaseListModelListener {
         this.appAdr = abstractAddressBookApplication;
         this.log = logChannel;
         this.rowBuilder = addressBookEntryDetailsListRowBuilder;
-        this.combinedNameLabel = abstractAddressBookApplication.getHMIService().getLabelModel(464521728);
-        this.firstLineNameLabel = abstractAddressBookApplication.getHMIService().getLabelModel(-1380972032);
-        this.secondLineNameLabel = abstractAddressBookApplication.getHMIService().getLabelModel(-1364194816);
-        this.combinedPhoneticLabel = abstractAddressBookApplication.getHMIService().getLabelModel(-1867511296);
-        this.organizationNameLabel = abstractAddressBookApplication.getHMIService().getLabelModel(430967296);
-        this.entryTypeChoice = abstractAddressBookApplication.getHMIService().getChoiceModel(414190080);
-        this.contactPicture = abstractAddressBookApplication.getHMIService().getResourceLocatorModel(447744512);
+        this.combinedNameLabel = abstractAddressBookApplication.getHMIService().getLabelModel(700443);
+        this.firstLineNameLabel = abstractAddressBookApplication.getHMIService().getLabelModel(700589);
+        this.secondLineNameLabel = abstractAddressBookApplication.getHMIService().getLabelModel(700590);
+        this.combinedPhoneticLabel = abstractAddressBookApplication.getHMIService().getLabelModel(700560);
+        this.organizationNameLabel = abstractAddressBookApplication.getHMIService().getLabelModel(700441);
+        this.entryTypeChoice = abstractAddressBookApplication.getHMIService().getChoiceModel(700440);
+        this.contactPicture = abstractAddressBookApplication.getHMIService().getResourceLocatorModel(700442);
         this.telNumberList = baseListModelApp;
         this.telNumberList.setListener(this);
         this.addressList = baseListModelApp2;
@@ -66,13 +66,13 @@ implements BaseListModelListener {
     }
 
     public void updateEntryDetails(AdbEntry adbEntry) {
-        this.log.log(1078071040, "AddressBookEntryDetails#updateEntryDetails(): entry: %1", (Object)ADBDbgUtils.dbgShort(adbEntry));
+        this.log.log(1000000, "AddressBookEntryDetails#updateEntryDetails(): entry: %1", (Object)ADBDbgUtils.dbgShort(adbEntry));
         this.groupModels();
         ADBUtils.checkAndFixADBEntry(adbEntry, this.appAdr.getFramework());
         this.combinedNameLabel.setText(adbEntry.getCombinedName());
-        boolean bl = this.appAdr.getHMIService().getChoiceModel(1320159744).getValue() == 1;
+        boolean bl = this.appAdr.getHMIService().getChoiceModel(700494).getValue() == 1;
         this.setTwoLineName(adbEntry.getPersonalData().getFirstName(), adbEntry.getPersonalData().getLastName(), bl);
-        this.combinedPhoneticLabel.setText(ADBModelUtils.getCombinedName(adbEntry.getPersonalData().getLastNameSound(), adbEntry.getPersonalData().getFirstNameSound(), this.appAdr.getHMIService().getChoiceModel(1320159744).getValue()));
+        this.combinedPhoneticLabel.setText(ADBModelUtils.getCombinedName(adbEntry.getPersonalData().getLastNameSound(), adbEntry.getPersonalData().getFirstNameSound(), this.appAdr.getHMIService().getChoiceModel(700494).getValue()));
         this.organizationNameLabel.setText(ADBUtils.isEmpty(adbEntry.getPersonalData().getOrganization()) ? "" : adbEntry.getPersonalData().getOrganization());
         this.entryTypeChoice.setValue(ADBModelUtils.getEntryTypeModelValue(adbEntry.entryType));
         ADBModelUtils.updatePicture(adbEntry.getPersonalData().getContactPicture(), this.contactPicture, this.log);
@@ -111,11 +111,10 @@ implements BaseListModelListener {
         this.detailGroup.removeAll();
     }
 
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
         if (evoListRow instanceof ADBEntryDetailsListRow) {
             ADBEntryDetailsListRow aDBEntryDetailsListRow = (ADBEntryDetailsListRow)evoListRow;
-            this.log.log(1078071040, "AddressBookEntryDetails#itemSelected(): index: %1, entryId: %2, terminal: %3", (long)n2, aDBEntryDetailsListRow.getEntry().getEntryId(), (long)n4);
+            this.log.log(1000000, "AddressBookEntryDetails#itemSelected(): index: %1, entryId: %2, terminal: %3", (long)n2, aDBEntryDetailsListRow.getEntry().getEntryId(), (long)n4);
             boolean bl = n4 != 7;
             n3 = bl ? n3 : 0;
             boolean bl2 = EntryDetailsRowSelectionHandler.entryDetailsRowSelected(this.appAdr, aDBEntryDetailsListRow, n3, bl);
@@ -127,22 +126,19 @@ implements BaseListModelListener {
         }
     }
 
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
         if (evoListRow instanceof ADBEntryDetailsListRow) {
             ADBEntryDetailsListRow aDBEntryDetailsListRow = (ADBEntryDetailsListRow)evoListRow;
-            this.log.log(1078071040, "AddressBookEntryDetails#itemFocused(): index: %1, entryId: %2", (long)n2, aDBEntryDetailsListRow.getEntry().getEntryId());
+            this.log.log(1000000, "AddressBookEntryDetails#itemFocused(): index: %1, entryId: %2", (long)n2, aDBEntryDetailsListRow.getEntry().getEntryId());
             EntryDetailsRowSelectionHandler.entryDetailsRowFocused(this.appAdr, aDBEntryDetailsListRow);
         } else {
             this.log.log(10000, "AddressBookEntryDetails#itemFocused(): evoRow is not an ADBEntryDetailsListRow!");
         }
     }
 
-    @Override
     public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 }

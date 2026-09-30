@@ -31,24 +31,22 @@ implements IPoiParkingNearDestinationScreenModelAccess {
         this.spellerModelApp = navigationEnv.getSpellerModel(n2);
     }
 
-    @Override
     public void updateNavLocationForAirDistance(NavLocation navLocation) {
         this.navLocation = navLocation;
     }
 
-    @Override
     public void onUpdateResultList(LIValueList lIValueList, long l, String string, boolean bl) {
-        this.env.getChoiceModel(35456512).setValue((int)l);
+        this.env.getChoiceModel(400642).setValue((int)l);
         this.previewListModel.setLength((int)l);
-        this.logChannel.log(-2137614336, "PoiParkingNearDestinationScreenModelAccess#onUpdateResultList() - valueList: %1, currentInput: %2", (Object)lIValueList, (Object)string);
+        this.logChannel.log(10000000, "PoiParkingNearDestinationScreenModelAccess#onUpdateResultList() - valueList: %1, currentInput: %2", (Object)lIValueList, (Object)string);
         if (!Util.isListValid(lIValueList) || lIValueList.getList().length == 0) {
-            this.logChannel.log(-2137614336, "PoiParkingNearDestinationScreenModelAccess#onUpdateResultList() - invalid value list: %1", (Object)lIValueList);
+            this.logChannel.log(10000000, "PoiParkingNearDestinationScreenModelAccess#onUpdateResultList() - invalid value list: %1", (Object)lIValueList);
             this.previewListModel.removeAll();
             return;
         }
         LIValueListElement[] lIValueListElementArray = lIValueList.getList();
         int n = this.previewListModel.getLength();
-        this.logChannel.log(-2137614336, "PoiParkingNearDestinationScreenModelAccess#onUpdateResultList() - valueListSize: %1, currentListModelLength: %2", (long)lIValueListElementArray.length, (long)n);
+        this.logChannel.log(10000000, "PoiParkingNearDestinationScreenModelAccess#onUpdateResultList() - valueListSize: %1, currentListModelLength: %2", (long)lIValueListElementArray.length, (long)n);
         try {
             EvoListRow[] evoListRowArray = this.createUpdateListRow(lIValueListElementArray);
             this.previewListModel.setRows(-1, 0, evoListRowArray);
@@ -58,11 +56,10 @@ implements IPoiParkingNearDestinationScreenModelAccess {
         }
     }
 
-    @Override
     public void onUpdateResultListForRequest(LIValueList lIValueList, long l, String string, boolean bl, int n, int n2) {
-        this.logChannel.log(-2137614336, " PoiParkingNearDestinationScreenModelAccess#onUpdateResultListForRequest( %1, %2, %3, %4)", (Object)string, (Object)Long.toString(l), (Object)Integer.toString(n), (Object)Integer.toString(n2));
+        this.logChannel.log(10000000, " PoiParkingNearDestinationScreenModelAccess#onUpdateResultListForRequest( %1, %2, %3, %4)", (Object)string, (Object)Long.toString(l), (Object)Integer.toString(n), (Object)Integer.toString(n2));
         if (!Util.isListValid(lIValueList) || lIValueList.getList().length == 0) {
-            this.logChannel.log(-2137614336, "PoiParkingNearDestinationScreenModelAccess#onUpdateResultListForRequest() - invalid value list: %1", (Object)lIValueList);
+            this.logChannel.log(10000000, "PoiParkingNearDestinationScreenModelAccess#onUpdateResultListForRequest() - invalid value list: %1", (Object)lIValueList);
             this.previewListModel.clearAll();
             if (n > -1) {
                 this.previewListModel.setRows(n, n2, null);
@@ -71,7 +68,7 @@ implements IPoiParkingNearDestinationScreenModelAccess {
         }
         LIValueListElement[] lIValueListElementArray = lIValueList.getList();
         int n3 = this.previewListModel.getLength();
-        this.logChannel.log(-2137614336, "PoiParkingNearDestinationScreenModelAccess#onUpdateResultListForRequest - valueListSize: %1, currentListModelLength: %2", (long)lIValueListElementArray.length, (long)n3);
+        this.logChannel.log(10000000, "PoiParkingNearDestinationScreenModelAccess#onUpdateResultListForRequest - valueListSize: %1, currentListModelLength: %2", (long)lIValueListElementArray.length, (long)n3);
         try {
             EvoListRow[] evoListRowArray = this.createUpdateListRow(lIValueListElementArray);
             this.previewListModel.setRows(n, n2, evoListRowArray);
@@ -91,37 +88,34 @@ implements IPoiParkingNearDestinationScreenModelAccess {
         return evoListRowArray;
     }
 
-    @Override
     public void onUnrequestItems(int n, int n2) {
         this.previewListModel.clearRows(n, n2);
     }
 
-    @Override
     public void onStart() {
         this.previewListModel.removeAll();
         this.spellerModelApp.clear();
     }
 
-    @Override
     public void onUpdateSearchStatus(ValueListStatus valueListStatus) {
         int n = valueListStatus.getNumberOfAvailableItems();
         int n2 = valueListStatus.getDistance();
-        this.env.getChoiceModel(35456512).setValue(n);
-        this.logChannel.log(-2137614336, "PoiParkingNearDestinationScreenModelAccess#onUpdateSearchStatus(%1)", (long)n);
+        this.env.getChoiceModel(400642).setValue(n);
+        this.logChannel.log(10000000, "PoiParkingNearDestinationScreenModelAccess#onUpdateSearchStatus(%1)", (long)n);
         this.previewListModel.setLength(n);
-        this.logChannel.log(-2137614336, "PoiParkingNearDestinationScreenModelAccess#onUpdateSearchStatus(%1, %2)", (long)n, (long)n2);
+        this.logChannel.log(10000000, "PoiParkingNearDestinationScreenModelAccess#onUpdateSearchStatus(%1, %2)", (long)n, (long)n2);
         if (n > 0) {
-            this.logChannel.log(-2137614336, "PoiParkingNearDestinationScreenModelAccess#onUpdateSearchStatusm, setting DEST_POI_DEST_PARKING_AVAILABLE_CHOICE to one");
-            this.env.getChoiceModel(-1323366912).setValue(1);
+            this.logChannel.log(10000000, "PoiParkingNearDestinationScreenModelAccess#onUpdateSearchStatusm, setting DEST_POI_DEST_PARKING_AVAILABLE_CHOICE to one");
+            this.env.getChoiceModel(401329).setValue(1);
         } else if (n == 0) {
-            this.logChannel.log(-2137614336, "PoiParkingNearDestinationScreenModelAccess#onUpdateSearchStatusm, setting DEST_POI_DEST_PARKING_AVAILABLE_CHOICE to zero");
-            this.env.getChoiceModel(-1323366912).setValue(0);
+            this.logChannel.log(10000000, "PoiParkingNearDestinationScreenModelAccess#onUpdateSearchStatusm, setting DEST_POI_DEST_PARKING_AVAILABLE_CHOICE to zero");
+            this.env.getChoiceModel(401329).setValue(0);
         }
         int n3 = valueListStatus.getStatus();
         if (n3 == 3) {
-            this.env.getChoiceModel(-685767168).setValue(0);
+            this.env.getChoiceModel(401623).setValue(0);
         } else {
-            this.env.getChoiceModel(-685767168).setValue(1);
+            this.env.getChoiceModel(401623).setValue(1);
         }
     }
 }

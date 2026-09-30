@@ -6,51 +6,40 @@ package de.audi.atip.statemachine;
 import de.audi.atip.hmi.event.ModelUpdateEvent;
 
 public interface EventMediator {
-    public static final int MEDIATOR_TYPE_CHANGE;
-    public static final int MEDIATOR_TYPE_DATA_UPDATE;
-    public static final int MEDIATOR_TYPE_FUNCTION_ACCESS;
-    public static final int MEDIATOR_TYPE_HISTORY_RESTORE;
-    public static final int MEDIATOR_TYPE_INFO_SYNC;
-    public static final int MEDIATOR_TYPE_INFO_TIMER;
-    public static final int MEDIATOR_TYPE_JUMP_BACK;
-    public static final int MEDIATOR_TYPE_WAIT_SCREEN;
-    public static final int MEDIATOR_TYPE_WAIT_SYNC;
-    public static final int MEDIATOR_TYPE_WAIT_TIMER;
-    public static final int MEDIATOR_TYPE_CHANGE_TIMER;
-    public static final int MEDIATOR_TYPE_WAIT_SYNC_TIMEOUT;
-    public static final int MEDIATOR_TYPE_WAIT_ON_CHANGE;
+    public static final int MEDIATOR_TYPE_CHANGE = 1;
+    public static final int MEDIATOR_TYPE_DATA_UPDATE = 2;
+    public static final int MEDIATOR_TYPE_FUNCTION_ACCESS = 3;
+    public static final int MEDIATOR_TYPE_HISTORY_RESTORE = 4;
+    public static final int MEDIATOR_TYPE_INFO_SYNC = 5;
+    public static final int MEDIATOR_TYPE_INFO_TIMER = 6;
+    public static final int MEDIATOR_TYPE_JUMP_BACK = 7;
+    public static final int MEDIATOR_TYPE_WAIT_SCREEN = 8;
+    public static final int MEDIATOR_TYPE_WAIT_SYNC = 9;
+    public static final int MEDIATOR_TYPE_WAIT_TIMER = 10;
+    public static final int MEDIATOR_TYPE_CHANGE_TIMER = 11;
+    public static final int MEDIATOR_TYPE_WAIT_SYNC_TIMEOUT = 12;
+    public static final int MEDIATOR_TYPE_WAIT_ON_CHANGE = 13;
 
-    default public boolean isStarted() {
-    }
+    public boolean isStarted();
 
-    default public void start() {
-    }
+    public void start();
 
-    default public void stop() {
-    }
+    public void stop();
 
-    default public boolean isActive() {
-    }
+    public boolean isActive();
 
-    default public int activate(boolean bl) {
-    }
+    public int activate(boolean var1);
 
-    default public int reactivate(boolean bl) {
-    }
+    public int reactivate(boolean var1);
 
-    default public void deactivate() {
-    }
+    public void deactivate();
 
-    default public boolean locksScreen() {
-    }
+    public boolean locksScreen();
 
-    default public void processUpdate(ModelUpdateEvent modelUpdateEvent) {
-    }
+    public void processUpdate(ModelUpdateEvent var1);
 
-    default public int getType() {
-    }
+    public int getType();
 
-    default public void kill() {
-    }
+    public void kill();
 }
 

@@ -7,31 +7,25 @@ import de.audi.atip.interapp.sm.AbstractInterappState;
 import de.audi.atip.interapp.sm.IInterappEvent;
 
 public interface IInterappSM {
-    public static final int SM_COMPONENT_NONE;
-    public static final int SM_COMPONENT_PHONE;
-    public static final int SM_COMPONENT_CONNECTIVITY_BLUETOOTH;
-    public static final int SM_COMPONENT_CONNECTIVITY_WLAN;
-    public static final int SM_COMPONENT_CONNECTIVITY_DATA;
-    public static final int SM_COMPONENT_CONNECTIVITY_MANAGER;
-    public static final int SM_COMPONENT_SIM;
-    public static final int SM_COMPONENT_MAX_COUNT;
+    public static final int SM_COMPONENT_NONE = 0;
+    public static final int SM_COMPONENT_PHONE = 1;
+    public static final int SM_COMPONENT_CONNECTIVITY_BLUETOOTH = 2;
+    public static final int SM_COMPONENT_CONNECTIVITY_WLAN = 3;
+    public static final int SM_COMPONENT_CONNECTIVITY_DATA = 4;
+    public static final int SM_COMPONENT_CONNECTIVITY_MANAGER = 5;
+    public static final int SM_COMPONENT_SIM = 6;
+    public static final int SM_COMPONENT_MAX_COUNT = 7;
 
-    default public int getSmComponentId() {
-    }
+    public int getSmComponentId();
 
-    default public void init() {
-    }
+    public void init();
 
-    default public void deinit() {
-    }
+    public void deinit();
 
-    default public AbstractInterappState getDefaultState() {
-    }
+    public AbstractInterappState getDefaultState();
 
-    default public void dispatchEvent(IInterappEvent iInterappEvent) {
-    }
+    public void dispatchEvent(IInterappEvent var1);
 
-    default public void handleRemoteEvent(IInterappEvent iInterappEvent) {
-    }
+    public void handleRemoteEvent(IInterappEvent var1);
 }
 

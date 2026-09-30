@@ -17,11 +17,9 @@ extends LogChannel {
         this.name = "NullLogChannel";
     }
 
-    @Override
     public void log(int n, String string, Object object, Object object2, Object object3, Object object4, long l, long l2, long l3, int n2, Throwable throwable) {
     }
 
-    @Override
     public void log(int n, int n2, Object object, Object object2, Object object3, Object object4, long l, long l2, long l3, int n3, Throwable throwable) {
     }
 }

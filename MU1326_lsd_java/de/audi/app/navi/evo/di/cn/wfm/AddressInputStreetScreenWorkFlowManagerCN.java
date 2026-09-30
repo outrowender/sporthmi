@@ -16,7 +16,6 @@ extends AbstractAddressInputScreenWorkFlowManagerCN {
         super(navigationEnv, iCommandListFactory, spellerStack);
     }
 
-    @Override
     public CommandList handleWorkFlow(CommandList commandList, int n) {
         switch (n) {
             case 10402: {
@@ -39,15 +38,15 @@ extends AbstractAddressInputScreenWorkFlowManagerCN {
     }
 
     private void createCnStreetScreenNonAmbiguousStreetSelectedWorkFlow(CommandList commandList) {
-        this.logChannel.log(-2137614336, "%1#createCnStreetScreenNonAmbiguousStreetSelectedWorkFlow", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#createCnStreetScreenNonAmbiguousStreetSelectedWorkFlow", (Object)this.CLASS_NAME);
     }
 
     private void createCnStreetScreenAmbiguousStreetSelectedWorkFlow(CommandList commandList) {
-        this.logChannel.log(-2137614336, "%1#createCnStreetScreenAmbiguousStreetSelectedWorkFlow", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#createCnStreetScreenAmbiguousStreetSelectedWorkFlow", (Object)this.CLASS_NAME);
     }
 
     private void createCnStreetScreenListElementSelectedWorkFlow(CommandList commandList) {
-        this.logChannel.log(-2137614336, "%1#createCNStreetScreenListElementSelectedWorkFlow", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#createCNStreetScreenListElementSelectedWorkFlow", (Object)this.CLASS_NAME);
         this.spellerStack.pop();
         AddressInputUtil.setNewSearchAreaContextChoiceStatus(this.env, 1);
     }

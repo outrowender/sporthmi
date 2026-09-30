@@ -19,15 +19,14 @@ extends Command {
         this.reply = aSIHMISyncAudioReply;
     }
 
-    @Override
     public void execute() {
         try {
-            this.env.lcSDIS.log(-2137614336, "[SdisCmdResponsEnableA2LS.execute] reply: %1", (Object)this.reply);
+            this.env.lcSDIS.log(10000000, "[SdisCmdResponsEnableA2LS.execute] reply: %1", (Object)this.reply);
             this.reply.responseEnableA2LS(0);
             this.getCommandList().commandFinished();
         }
         catch (MethodException methodException) {
-            this.env.lcSDIS.log(-2137614336, "[SdisCmdResponsEnableA2LS.execute] Exception ", (Object)methodException.getMessage());
+            this.env.lcSDIS.log(10000000, "[SdisCmdResponsEnableA2LS.execute] Exception ", (Object)methodException.getMessage());
         }
     }
 }

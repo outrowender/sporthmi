@@ -16,9 +16,8 @@ extends AbstractADBCommand {
         super(aDBApplication);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "SetAutoProfileAllocationCommand#execute()");
+        this.logger.log(10000000, "SetAutoProfileAllocationCommand#execute()");
         boolean bl = this.adbDSIAccess.setAutoProfileAllocation(true);
         if (!bl) {
             this.logger.log(10000, "SetAutoProfileAllocationCommand#execute(): dsi call was not successful, finishing command.");
@@ -26,9 +25,8 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public void setAutoProfileAllocationResult(int n) {
-        this.logger.log(-2137614336, "SetAutoProfileAllocationCommand#setAutoProfileAllocationResult(): %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
+        this.logger.log(10000000, "SetAutoProfileAllocationCommand#setAutoProfileAllocationResult(): %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
         this.commandList.commandFinished();
     }
 

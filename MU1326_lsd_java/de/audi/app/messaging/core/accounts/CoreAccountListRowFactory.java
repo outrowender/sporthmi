@@ -10,7 +10,6 @@ import org.dsi.ifc.messaging.MessagingAccount;
 
 public class CoreAccountListRowFactory
 implements IAccountListRowFactory {
-    @Override
     public AbstractAccountListRow create(MessagingAccount messagingAccount, int n, boolean bl, String string, boolean bl2, int n2) {
         return new CoreAccountListRow(messagingAccount, n, bl, string, bl2, n2);
     }

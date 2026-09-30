@@ -29,16 +29,13 @@ extends AbstractEvoInputSequenceMatchspellerListener {
         this.inputSequence = countryInputSequence;
     }
 
-    @Override
     public IMatchspellerInputSequence getInputSequence() {
         return this.inputSequence;
     }
 
-    @Override
     public void focusedCharacter(int n, char c2, int n2) {
     }
 
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 }

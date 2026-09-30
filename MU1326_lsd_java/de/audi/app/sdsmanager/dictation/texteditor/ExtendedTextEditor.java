@@ -17,7 +17,7 @@ import java.util.StringTokenizer;
 public final class ExtendedTextEditor
 extends AbstractDictationComponent
 implements IExtendedTextEditor {
-    private static final int TRUNCATION_INDEX_NONE;
+    private static final int TRUNCATION_INDEX_NONE = -1;
     private final TextEditorModelApp textEditorModel = this.framework.getHmiServiceApp().getTextEditorModel(153);
     private volatile int truncationIndex = -1;
 
@@ -26,12 +26,12 @@ implements IExtendedTextEditor {
     }
 
     private void setLastDictationText(String string) {
-        this.log.log(-2137614336, "[ExtendedTextEditor#setLastDictationText]");
+        this.log.log(10000000, "[ExtendedTextEditor#setLastDictationText]");
         this.framework.getHmiServiceApp().getLabelModel(271).setText(string);
     }
 
     private void setTruncationIndex(int n) {
-        this.log.log(-2137614336, "[ExtendedTextEditor#setTruncationIndex] truncationIndex = %1", (long)n);
+        this.log.log(10000000, "[ExtendedTextEditor#setTruncationIndex] truncationIndex = %1", (long)n);
         this.truncationIndex = n;
         int n2 = n == -1 ? 0 : 1;
         this.framework.getHmiServiceApp().getChoiceModel(3881).setValue(n2);
@@ -87,7 +87,7 @@ implements IExtendedTextEditor {
     }
 
     private static void setText(TextEditorModelApp textEditorModelApp, LinkedList linkedList, boolean bl, int n, LogChannel logChannel) {
-        logChannel.log(-2137614336, "[TextEditorUtil#setTextEditorContent] hasAlternatives = %1, focusedIndex = %2", bl, (long)n);
+        logChannel.log(10000000, "[TextEditorUtil#setTextEditorContent] hasAlternatives = %1, focusedIndex = %2", bl, (long)n);
         int n2 = n;
         int n3 = linkedList.size();
         if (n != 0) {
@@ -99,7 +99,7 @@ implements IExtendedTextEditor {
                 n2 = n3 - 1;
             }
             if (n2 != n) {
-                logChannel.log(-1601830656, "[TextEditorUtil#setTextEditorContent] focusedIndex out of bounds, adjusted value: %1 -> %2.", (long)n, (long)n2);
+                logChannel.log(100000, "[TextEditorUtil#setTextEditorContent] focusedIndex out of bounds, adjusted value: %1 -> %2.", (long)n, (long)n2);
             }
         }
         int n4 = bl ? 1 : 0;
@@ -130,38 +130,32 @@ implements IExtendedTextEditor {
         }
     }
 
-    @Override
     public TextEditorModelApp getTextEditorModelApp() {
         return this.textEditorModel;
     }
 
-    @Override
     public void editorTextChanged() {
-        this.log.log(-2137614336, "[ExtendedTextEditor#editorTextChanged]");
+        this.log.log(10000000, "[ExtendedTextEditor#editorTextChanged]");
         this.setTruncationIndex(-1);
     }
 
-    @Override
     public void clear() {
         this.truncationIndex = -1;
         this.setText("");
     }
 
-    @Override
     public void setText(String string) {
-        this.log.log(-2137614336, "[ExtendedTextEditor#setText]");
+        this.log.log(10000000, "[ExtendedTextEditor#setText]");
         ExtendedTextEditor.setText(this.textEditorModel, ExtendedTextEditor.mapToTextList(string), false, 0, this.log);
     }
 
-    @Override
     public void setText(LinkedList linkedList, int n) {
-        this.log.log(-2137614336, "[ExtendedTextEditor#setText] focusedIndex = %1", (long)n);
+        this.log.log(10000000, "[ExtendedTextEditor#setText] focusedIndex = %1", (long)n);
         ExtendedTextEditor.setText(this.textEditorModel, linkedList, true, n, this.log);
     }
 
-    @Override
     public void append(LinkedList linkedList) {
-        this.log.log(-2137614336, "[ExtendedTextEditor#append]");
+        this.log.log(10000000, "[ExtendedTextEditor#append]");
         String string = ExtendedTextEditor.mapToString(linkedList);
         this.setLastDictationText(string);
         LinkedList linkedList2 = null;
@@ -172,9 +166,8 @@ implements IExtendedTextEditor {
         ExtendedTextEditor.setText(this.textEditorModel, linkedList2, true, 0, this.log);
     }
 
-    @Override
     public void undoAppend() {
-        this.log.log(-2137614336, "[ExtendedTextEditor#undoAppend]");
+        this.log.log(10000000, "[ExtendedTextEditor#undoAppend]");
         if (this.truncationIndex == -1) {
             throw new IllegalStateException("Nothing to undo.");
         }
@@ -184,9 +177,8 @@ implements IExtendedTextEditor {
         ExtendedTextEditor.setText(this.textEditorModel, linkedList2, true, 0, this.log);
     }
 
-    @Override
     public void replaceSelection(LinkedList linkedList) {
-        this.log.log(-2137614336, "[ExtendedTextEditor#replaceSelection]");
+        this.log.log(10000000, "[ExtendedTextEditor#replaceSelection]");
         String string = ExtendedTextEditor.mapToString(linkedList);
         this.setLastDictationText(string);
         ExtendedTextEditor.addCaseAlternative(linkedList, this.log);

@@ -28,28 +28,23 @@ implements ITelServiceConnectivityListener {
         this.phone = phoneProxy;
     }
 
-    @Override
     public void execute() {
         this.phone.togglePhones(this);
     }
 
-    @Override
     public void responseTogglePhones(int n) {
-        this.logger.log(1078071040, "CommandTogglePhones#responseTogglePhones(): result=%1", (long)n);
+        this.logger.log(1000000, "CommandTogglePhones#responseTogglePhones(): result=%1", (long)n);
         this.commandList.commandFinished();
     }
 
-    @Override
     public void responseSetNadMode(int n) {
         this.logger.log(10000, "CommandTogglePhones#responseSetNadMode(): Unexpected method call");
     }
 
-    @Override
     public void responseChangePhoneModulePowerState(int n) {
         this.logger.log(10000, "CommandTogglePhones#responseChangePhoneModulePowerState(): Unexpected method call");
     }
 
-    @Override
     public void responseSetNadRole(int n) {
         this.logger.log(10000, "CommandTogglePhones#responseSetNadRole(): Unexpected method call");
     }

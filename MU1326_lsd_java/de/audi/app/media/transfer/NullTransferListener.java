@@ -11,116 +11,95 @@ import org.dsi.ifc.media.ListEntry;
 
 public class NullTransferListener
 implements ITransferListener {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "NullTransferListener";
     private final LogChannel logger;
 
     public NullTransferListener(LogChannel logChannel) {
         this.logger = logChannel;
     }
 
-    @Override
     public void blockImportFunctionality() {
-        this.logger.log(1078071040, "[%1.blockImportFunctionality]", (Object)"NullTransferListener");
+        this.logger.log(1000000, "[%1.blockImportFunctionality]", (Object)LOGCLASS);
     }
 
-    @Override
     public void unblockImportFunctionality() {
-        this.logger.log(1078071040, "[%1.unblockImportFunctionality]", (Object)"NullTransferListener");
+        this.logger.log(1000000, "[%1.unblockImportFunctionality]", (Object)LOGCLASS);
     }
 
-    @Override
     public void readyForTransfer() {
-        this.logger.log(1078071040, "[%1.readyForTransfer]", (Object)"NullTransferListener");
+        this.logger.log(1000000, "[%1.readyForTransfer]", (Object)LOGCLASS);
     }
 
-    @Override
     public void importStarted() {
-        this.logger.log(1078071040, "[%1.importStarted]", (Object)"NullTransferListener");
+        this.logger.log(1000000, "[%1.importStarted]", (Object)LOGCLASS);
     }
 
-    @Override
     public void importAborted(long l, long l2, long l3, boolean bl) {
-        this.logger.log(1078071040, "[%1.importAborted]", (Object)"NullTransferListener");
+        this.logger.log(1000000, "[%1.importAborted]", (Object)LOGCLASS);
     }
 
-    @Override
     public void importFinished(long l, long l2, long l3, boolean bl) {
-        this.logger.log(1078071040, "[%1.importFinished]", (Object)"NullTransferListener");
+        this.logger.log(1000000, "[%1.importFinished]", (Object)LOGCLASS);
     }
 
-    @Override
     public void importWillBeResumed() {
-        this.logger.log(1078071040, "[%1.importWillBeResumed]", (Object)"NullTransferListener");
+        this.logger.log(1000000, "[%1.importWillBeResumed]", (Object)LOGCLASS);
     }
 
-    @Override
     public void importIsSuspended() {
-        this.logger.log(1078071040, "[%1.importIsSuspended]", (Object)"NullTransferListener");
+        this.logger.log(1000000, "[%1.importIsSuspended]", (Object)LOGCLASS);
     }
 
-    @Override
     public void activationSuccessful(ISourceSlot iSourceSlot, IBrowseListContext iBrowseListContext) {
-        this.logger.log(1078071040, "[%1.activationSuccessful]", (Object)"NullTransferListener");
+        this.logger.log(1000000, "[%1.activationSuccessful]", (Object)LOGCLASS);
     }
 
-    @Override
     public void jukeboxSpaceChanged(long l, long l2, long l3, long l4, long l5, long l6) {
-        this.logger.log(1078071040, "[%1.jukeboxSpaceChanged]", (Object)"NullTransferListener");
+        this.logger.log(1000000, "[%1.jukeboxSpaceChanged]", (Object)LOGCLASS);
     }
 
-    @Override
     public void deletionPostprocessing() {
-        this.logger.log(1078071040, "[%1.deletionPostprocessing]", (Object)"NullTransferListener");
+        this.logger.log(1000000, "[%1.deletionPostprocessing]", (Object)LOGCLASS);
     }
 
-    @Override
     public void deletionStarted() {
-        this.logger.log(1078071040, "[%1.deletionStarted]", (Object)"NullTransferListener");
+        this.logger.log(1000000, "[%1.deletionStarted]", (Object)LOGCLASS);
     }
 
-    @Override
     public void deletionFinished() {
-        this.logger.log(1078071040, "[%1.deletionFinished]", (Object)"NullTransferListener");
+        this.logger.log(1000000, "[%1.deletionFinished]", (Object)LOGCLASS);
     }
 
-    @Override
     public void deletionAborted() {
-        this.logger.log(1078071040, "[%1.deletionAborted]", (Object)"NullTransferListener");
+        this.logger.log(1000000, "[%1.deletionAborted]", (Object)LOGCLASS);
     }
 
-    @Override
     public void deletionProgressChanged(long l) {
-        this.logger.log(1078071040, "[%1.deletionProgressChanged]", (Object)"NullTransferListener");
+        this.logger.log(1000000, "[%1.deletionProgressChanged]", (Object)LOGCLASS);
     }
 
-    @Override
     public void importProgressChanged(long l, ListEntry listEntry) {
-        this.logger.log(1078071040, "[%1.importProgressChanged]", (Object)"NullTransferListener");
+        this.logger.log(1000000, "[%1.importProgressChanged]", (Object)LOGCLASS);
     }
 
-    @Override
     public void encodingQualityChanged(boolean bl, int n) {
-        this.logger.log(1078071040, "[%1.encodingQualityChanged]", (Object)"NullTransferListener");
+        this.logger.log(1000000, "[%1.encodingQualityChanged]", (Object)LOGCLASS);
     }
 
-    @Override
     public void activationFailed(ISourceSlot iSourceSlot) {
-        this.logger.log(1078071040, "[%1.activationFailed]", (Object)"NullTransferListener");
+        this.logger.log(1000000, "[%1.activationFailed]", (Object)LOGCLASS);
     }
 
-    @Override
     public void startFailed() {
-        this.logger.log(1078071040, "[%1.startFailed]", (Object)"NullTransferListener");
+        this.logger.log(1000000, "[%1.startFailed]", (Object)LOGCLASS);
     }
 
-    @Override
     public void sourceRemoved(ISourceSlot iSourceSlot) {
-        this.logger.log(1078071040, "[%1.sourceRemoved]", (Object)"NullTransferListener");
+        this.logger.log(1000000, "[%1.sourceRemoved]", (Object)LOGCLASS);
     }
 
-    @Override
     public void unreadyToTransfer() {
-        this.logger.log(1078071040, "[%1.unreadyToTransfer]", (Object)"NullTransferListener");
+        this.logger.log(1000000, "[%1.unreadyToTransfer]", (Object)LOGCLASS);
     }
 }
 

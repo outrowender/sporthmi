@@ -4,22 +4,16 @@
 package de.audi.app.bluetooth.core.interapp;
 
 public interface IMediaBluetoothStateProvider {
-    default public void connectionProcessStarted() {
-    }
+    public void connectionProcessStarted();
 
-    default public void connectionProcessStopped() {
-    }
+    public void connectionProcessStopped();
 
-    default public void inquiryStarted() {
-    }
+    public void inquiryStarted();
 
-    default public void inquiryStopped() {
-    }
+    public void inquiryStopped();
 
-    default public void serviceDiscoveryStarted() {
-    }
+    public void serviceDiscoveryStarted();
 
-    default public void serviceDiscoveryStopped() {
-    }
+    public void serviceDiscoveryStopped();
 }
 

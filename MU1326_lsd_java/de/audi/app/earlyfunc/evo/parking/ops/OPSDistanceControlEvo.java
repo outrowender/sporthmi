@@ -20,22 +20,18 @@ extends AbstractOPSDistanceControl {
         super(abstractParkingSystemOPSComponent, iHMIServiceApp);
     }
 
-    @Override
     protected IOPSSensorArea initFrontArea() {
         return this.getSensorAreaFrontRear(OPSSectorFactory.FRONTAREA_WITH_CONSTANT_DIST_RANGE);
     }
 
-    @Override
     protected IOPSSensorArea initRearArea() {
         return this.getSensorAreaFrontRear(OPSSectorFactory.REARAREA_WITH_CONSTANT_DIST_RANGE);
     }
 
-    @Override
     protected IOPSSensorArea initLeftArea() {
         return this.getSensorArea(OPSSectorFactory.LEFTAREA_WITH_CONSTANT_DIST_RANGE);
     }
 
-    @Override
     protected IOPSSensorArea initRightArea() {
         return this.getSensorArea(OPSSectorFactory.RIGHTAREA_WITH_CONSTANT_DIST_RANGE);
     }
@@ -47,28 +43,23 @@ extends AbstractOPSDistanceControl {
     }
 
     private OPSSensorAreaFrontRear getSensorAreaFrontRear(OPSSectorFactory oPSSectorFactory) {
-        OPSSensorAreaFrontRear oPSSensorAreaFrontRear = new OPSSensorAreaFrontRear(oPSSectorFactory.createLeftOuterSector(this), oPSSectorFactory.createLeftInnerSector(this), oPSSectorFactory.createRightInnerSector(this), oPSSectorFactory.createRightOuterSector(this), this.hmiService.getChoiceModel(-1089789952), this.hmiService.getChoiceModel(oPSSectorFactory.getErrorIconStatusModelID()));
+        OPSSensorAreaFrontRear oPSSensorAreaFrontRear = new OPSSensorAreaFrontRear(oPSSectorFactory.createLeftOuterSector(this), oPSSectorFactory.createLeftInnerSector(this), oPSSectorFactory.createRightInnerSector(this), oPSSectorFactory.createRightOuterSector(this), this.hmiService.getChoiceModel(2100159), this.hmiService.getChoiceModel(oPSSectorFactory.getErrorIconStatusModelID()));
         oPSSensorAreaFrontRear.enableAllSectors();
         return oPSSensorAreaFrontRear;
     }
 
-    @Override
     public void updateDistancesRearExt(PDCDistanceValuesFrontRearExt pDCDistanceValuesFrontRearExt) {
     }
 
-    @Override
     public void updateDistancesFrontExt(PDCDistanceValuesFrontRearExt pDCDistanceValuesFrontRearExt) {
     }
 
-    @Override
     public void applyFrontExtToStatusLvls(PDCStatusLevelFrontRearExt pDCStatusLevelFrontRearExt) {
     }
 
-    @Override
     public void applyRearExtToStatusLvls(PDCStatusLevelFrontRearExt pDCStatusLevelFrontRearExt) {
     }
 
-    @Override
     public void updatePDCInfo(PDCInfo pDCInfo) {
     }
 }

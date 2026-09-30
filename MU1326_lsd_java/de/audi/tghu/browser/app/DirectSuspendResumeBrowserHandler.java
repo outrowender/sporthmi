@@ -14,31 +14,26 @@ extends AbstractBrowserHandler {
         super(iFrameworkAccess, n, logChannel, logChannel2);
     }
 
-    @Override
     protected void internalResumeBrowser() {
-        this.logChannelDSI.log(1078071040, "DirectSuspendResumeBrowserHandler#internalResumeBrowser: ignoring");
+        this.logChannelDSI.log(1000000, "DirectSuspendResumeBrowserHandler#internalResumeBrowser: ignoring");
     }
 
-    @Override
     protected void internalSuspendBrowser() {
-        this.logChannelDSI.log(1078071040, "DirectSuspendResumeBrowserHandler#internalSuspendBrowser: ignoring");
+        this.logChannelDSI.log(1000000, "DirectSuspendResumeBrowserHandler#internalSuspendBrowser: ignoring");
     }
 
-    @Override
     public void suspendBrowser() {
-        this.logChannelDSI.log(1078071040, "DirectSuspendResumeBrowserHandler#suspendBrowser: calling doSuspendBrowser");
+        this.logChannelDSI.log(1000000, "DirectSuspendResumeBrowserHandler#suspendBrowser: calling doSuspendBrowser");
         this.doSuspendBrowser();
     }
 
-    @Override
     public void resumeBrowserResult(int n) {
-        this.logChannelDSI.log(1078071040, "DirectSuspendResumeBrowserHandler#resumeBrowserResult: showing HMI layer");
+        this.logChannelDSI.log(1000000, "DirectSuspendResumeBrowserHandler#resumeBrowserResult: showing HMI layer");
         this.modelHandler.setDisplayContextSwitchChoiceValue(4);
     }
 
-    @Override
     public void resumeBrowser() {
-        this.logChannelDSI.log(1078071040, "DirectSuspendResumeBrowserHandler#resumeBrowser: calling doResumeBrowser");
+        this.logChannelDSI.log(1000000, "DirectSuspendResumeBrowserHandler#resumeBrowser: calling doResumeBrowser");
         this.doResumeBrowser();
     }
 
@@ -46,7 +41,6 @@ extends AbstractBrowserHandler {
         this.modelHandler.setDisplayContextSwitchChoiceValue(n);
     }
 
-    @Override
     public void updateKeyboardDisplay(boolean bl, KeyboardInfo keyboardInfo, int n) {
     }
 }

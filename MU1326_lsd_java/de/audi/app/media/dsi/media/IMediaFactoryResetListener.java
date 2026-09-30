@@ -4,7 +4,6 @@
 package de.audi.app.media.dsi.media;
 
 public interface IMediaFactoryResetListener {
-    default public void responseResetFactorySettings(int n, boolean bl) {
-    }
+    public void responseResetFactorySettings(int var1, boolean var2);
 }
 

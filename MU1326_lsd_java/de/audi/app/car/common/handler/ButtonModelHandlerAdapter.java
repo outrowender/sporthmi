@@ -18,49 +18,40 @@ ButtonListener {
         super(buttonModelApp, logChannel);
     }
 
-    @Override
     public final void keyPressed(int n, int n2, int n3) {
         if (this.getHandledModelID() == n) {
             this.updateOnKeyPressed(n2);
         }
     }
 
-    @Override
     public final void keyReleased(int n, int n2, int n3) {
         if (this.getHandledModelID() == n) {
             this.updateOnKeyReleased(n2);
         }
     }
 
-    @Override
     public final void keyTyped(int n, int n2, int n3) {
         if (this.getHandledModelID() == n) {
             this.updateOnKeyTyped(n2);
         }
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void updateOnKeyPressed(int n) {
     }
 
-    @Override
     public void updateOnKeyReleased(int n) {
     }
 
-    @Override
     public void updateOnKeyTyped(int n) {
     }
 
-    @Override
     public ButtonModelApp returnButtonModel() {
         return (ButtonModelApp)this.getHandledModel();
     }
 
-    @Override
     public ButtonModelEventBusiness getButtonModelBusiness() {
         return (ButtonModelEventBusiness)this.getBusiness();
     }

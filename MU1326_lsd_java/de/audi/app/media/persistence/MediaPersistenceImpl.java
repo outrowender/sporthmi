@@ -18,7 +18,7 @@ import java.util.HashMap;
 
 public class MediaPersistenceImpl
 implements IMediaPersistence {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "MediaPersistenceImpl";
     private final LogChannel logger;
     private final MediaStorage mediaStorage;
     private final HashMap registeredKeys;
@@ -32,21 +32,20 @@ implements IMediaPersistence {
     }
 
     public void init() {
-        this.logger.log(1078071040, "[%1.init]", (Object)"MediaPersistenceImpl");
+        this.logger.log(1000000, "[%1.init]", (Object)LOGCLASS);
         this.mediaPersistenceStorageData.init();
     }
 
     public void deinit() {
-        this.logger.log(1078071040, "[%1.deinit]", (Object)"MediaPersistenceImpl");
+        this.logger.log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         this.mediaPersistenceStorageData.deinit();
     }
 
-    @Override
     public void setGlobalStringProperty(String string, String string2) {
-        this.logger.log(1078071040, "[%1.setGlobalStringProperty] key='%2' value='%3'", (Object)"MediaPersistenceImpl", (Object)string, (Object)string2);
+        this.logger.log(1000000, "[%1.setGlobalStringProperty] key='%2' value='%3'", (Object)LOGCLASS, (Object)string, (Object)string2);
         PersistenceKeyString persistenceKeyString = (PersistenceKeyString)this.registeredKeys.get(string);
         if (null == persistenceKeyString) {
-            this.logger.log(10000, "[%1.setGlobalStringProperty] Key '%2' is not registered.", (Object)"MediaPersistenceImpl", (Object)string);
+            this.logger.log(10000, "[%1.setGlobalStringProperty] Key '%2' is not registered.", (Object)LOGCLASS, (Object)string);
             return;
         }
         if (persistenceKeyString.isDirectAccess()) {
@@ -56,12 +55,11 @@ implements IMediaPersistence {
         }
     }
 
-    @Override
     public void setGlobalIntProperty(String string, int n) {
-        this.logger.log(1078071040, "[%1.setGlobalIntProperty] key='%2' value='%3'", (Object)"MediaPersistenceImpl", (Object)string, (Object)String.valueOf(n));
+        this.logger.log(1000000, "[%1.setGlobalIntProperty] key='%2' value='%3'", (Object)LOGCLASS, (Object)string, (Object)String.valueOf(n));
         PersistenceKeyInt persistenceKeyInt = (PersistenceKeyInt)this.registeredKeys.get(string);
         if (null == persistenceKeyInt) {
-            this.logger.log(10000, "[%1.setGlobalIntProperty] Key '%2' not registered.", (Object)"MediaPersistenceImpl", (Object)string);
+            this.logger.log(10000, "[%1.setGlobalIntProperty] Key '%2' not registered.", (Object)LOGCLASS, (Object)string);
             return;
         }
         if (persistenceKeyInt.isDirectAccess()) {
@@ -71,12 +69,11 @@ implements IMediaPersistence {
         }
     }
 
-    @Override
     public String getGlobalStringProperty(String string) {
-        this.logger.log(1078071040, "[%1.getGlobalStringProperty] key='%2'", (Object)"MediaPersistenceImpl", (Object)string);
+        this.logger.log(1000000, "[%1.getGlobalStringProperty] key='%2'", (Object)LOGCLASS, (Object)string);
         PersistenceKeyString persistenceKeyString = (PersistenceKeyString)this.registeredKeys.get(string);
         if (null == persistenceKeyString) {
-            this.logger.log(10000, "[%1.getGlobalStringProperty] Key '%2' is not registered.", (Object)"MediaPersistenceImpl", (Object)string);
+            this.logger.log(10000, "[%1.getGlobalStringProperty] Key '%2' is not registered.", (Object)LOGCLASS, (Object)string);
             return "";
         }
         if (persistenceKeyString.isDirectAccess()) {
@@ -85,15 +82,14 @@ implements IMediaPersistence {
         return this.getStringValue(string, persistenceKeyString);
     }
 
-    @Override
     public int getGlobalIntProperty(String string) {
         if ("GLOBAL_KEY_DVDV_REGIONCODE_CHANGES_LEFT".equals(string)) {
             return this.mediaStorage.getRegionCodeChangesLeft();
         }
-        this.logger.log(1078071040, "[%1.getGlobalIntProperty] key='%2'", (Object)"MediaPersistenceImpl", (Object)string);
+        this.logger.log(1000000, "[%1.getGlobalIntProperty] key='%2'", (Object)LOGCLASS, (Object)string);
         PersistenceKeyInt persistenceKeyInt = (PersistenceKeyInt)this.registeredKeys.get(string);
         if (null == persistenceKeyInt) {
-            this.logger.log(10000, "[%1.getGlobalIntProperty] Key '%2' not registered.", (Object)"MediaPersistenceImpl", (Object)string);
+            this.logger.log(10000, "[%1.getGlobalIntProperty] Key '%2' not registered.", (Object)LOGCLASS, (Object)string);
             return -1;
         }
         if (persistenceKeyInt.isDirectAccess()) {
@@ -103,10 +99,10 @@ implements IMediaPersistence {
     }
 
     private String getStringValue(String string, PersistenceKeyString persistenceKeyString) {
-        this.logger.log(1078071040, "[%1.getStringKey]", (Object)"MediaPersistenceImpl");
+        this.logger.log(1000000, "[%1.getStringKey]", (Object)LOGCLASS);
         PersistentData persistentData = this.mediaPersistenceStorageData.get(string);
         if (null == persistentData || null == persistentData.getString(persistenceKeyString.getDefaultValue())) {
-            this.logger.log(1078071040, "[%1.getIntKey] No stored value for '%2'", (Object)"MediaPersistenceImpl", (Object)string);
+            this.logger.log(1000000, "[%1.getIntKey] No stored value for '%2'", (Object)LOGCLASS, (Object)string);
             return persistenceKeyString.getDefaultValue();
         }
         return persistentData.getString(persistenceKeyString.getDefaultValue());
@@ -115,24 +111,24 @@ implements IMediaPersistence {
     private int getIntValue(String string) {
         PersistenceKeyInt persistenceKeyInt = (PersistenceKeyInt)this.registeredKeys.get(string);
         if (null == persistenceKeyInt) {
-            this.logger.log(10000, "[%1.getIntKey] Key '%2' not registered.", (Object)"MediaPersistenceImpl", (Object)string);
+            this.logger.log(10000, "[%1.getIntKey] Key '%2' not registered.", (Object)LOGCLASS, (Object)string);
             return -1;
         }
         PersistentData persistentData = this.mediaPersistenceStorageData.get(string);
         if (null == persistentData) {
-            this.logger.log(1078071040, "[%1.getIntKey] No stored value for '%2'", (Object)"MediaPersistenceImpl", (Object)string);
+            this.logger.log(1000000, "[%1.getIntKey] No stored value for '%2'", (Object)LOGCLASS, (Object)string);
             return persistenceKeyInt.getDefaultValue();
         }
         int n = persistentData.getInt(persistenceKeyInt.getDefaultValue());
         if (n < persistenceKeyInt.getMinValue() || n > persistenceKeyInt.getMaxValue()) {
-            this.logger.log(-1601830656, "[MediaPersistenceImpl.getIntValue] Key '%1' out of valid range [%2,%3] -> %4.", (Object)string, (Object)new Integer(persistenceKeyInt.getMinValue()), (Object)new Integer(persistenceKeyInt.getMaxValue()), (Object)new Integer(persistenceKeyInt.getDefaultValue()));
+            this.logger.log(100000, "[MediaPersistenceImpl.getIntValue] Key '%1' out of valid range [%2,%3] -> %4.", (Object)string, (Object)new Integer(persistenceKeyInt.getMinValue()), (Object)new Integer(persistenceKeyInt.getMaxValue()), (Object)new Integer(persistenceKeyInt.getDefaultValue()));
             return persistenceKeyInt.getDefaultValue();
         }
         return n;
     }
 
     private int getStorageKey(String string) {
-        this.logger.log(-2137614336, "[%1.getStorageKey]", (Object)"MediaPersistenceImpl");
+        this.logger.log(10000000, "[%1.getStorageKey]", (Object)LOGCLASS);
         if ("GLOBAL_KEY_DVDV_PM_LEVEL".equals(string)) {
             return 29;
         }
@@ -148,33 +144,28 @@ implements IMediaPersistence {
         if ("GLOBAL_KEY_IOS_AUTOSTART".equals(string)) {
             return 600;
         }
-        this.logger.log(-2137614336, "[%1.getStorageKey] directkey for '%2' not found.", (Object)"MediaPersistenceImpl", (Object)string);
+        this.logger.log(10000000, "[%1.getStorageKey] directkey for '%2' not found.", (Object)LOGCLASS, (Object)string);
         return -1;
     }
 
-    @Override
     public void setLocalProperty(int n, ISourceSlot iSourceSlot, int n2, Object object) {
     }
 
-    @Override
     public Object getLocalProperty(int n, ISourceSlot iSourceSlot, int n2, Object object) {
         return null;
     }
 
-    @Override
     public MediaStorage getStorage() {
         return this.mediaStorage;
     }
 
-    @Override
     public void registerIntProperty(String string, int n, int n2, int n3) {
-        this.logger.log(1078071040, "[%1.registerIntProperty] key='%2'", (Object)"MediaPersistenceImpl", (Object)string);
+        this.logger.log(1000000, "[%1.registerIntProperty] key='%2'", (Object)LOGCLASS, (Object)string);
         this.registeredKeys.put(string, new PersistenceKeyInt(this.getStorageKey(string), n, n2, n3));
     }
 
-    @Override
     public void registerStringProperty(String string, String string2) {
-        this.logger.log(1078071040, "[%1.registerStringProperty] key='%2'", (Object)"MediaPersistenceImpl", (Object)string);
+        this.logger.log(1000000, "[%1.registerStringProperty] key='%2'", (Object)LOGCLASS, (Object)string);
         this.registeredKeys.put(string, new PersistenceKeyString(this.getStorageKey(string), string2));
     }
 }

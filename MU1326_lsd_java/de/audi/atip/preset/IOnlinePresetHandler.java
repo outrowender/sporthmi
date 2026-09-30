@@ -8,10 +8,8 @@ import de.audi.atip.preset.Preset;
 
 public interface IOnlinePresetHandler
 extends IAppPresetDefinitionHandler {
-    default public Preset updatePresetPreview(Preset preset) {
-    }
+    public Preset updatePresetPreview(Preset var1);
 
-    default public boolean isDynmaicOnlineModel(int n) {
-    }
+    public boolean isDynmaicOnlineModel(int var1);
 }
 

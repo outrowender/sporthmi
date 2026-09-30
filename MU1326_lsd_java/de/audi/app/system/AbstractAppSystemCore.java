@@ -36,15 +36,12 @@ implements HMIApplication {
         return this.log;
     }
 
-    protected abstract AbstractAppManagerCore getAppManager() {
-    }
+    protected abstract AbstractAppManagerCore getAppManager();
 
-    @Override
     public int getId() {
         return 0;
     }
 
-    @Override
     public ButtonModelApp getVirtualButton(int n) {
         switch (n) {
             case 2: {
@@ -57,31 +54,24 @@ implements HMIApplication {
         return (ButtonModelApp)((Object)this.getAppManager().getVirtualButton(n));
     }
 
-    @Override
     public void popupVisible(int n, int n2) {
     }
 
-    @Override
     public void popupHidden(int n, int n2) {
     }
 
-    @Override
     public void popupRemoved(int n, int n2) {
     }
 
-    @Override
     public void screenVisible(int n, int n2) {
     }
 
-    @Override
     public void screenHidden(int n, int n2) {
     }
 
-    @Override
     public void screenFadedOut(int n, int n2) {
     }
 
-    @Override
     public void screenConnected(int n, int n2) {
     }
 }

@@ -32,7 +32,6 @@ implements ICopyTo {
         return null;
     }
 
-    @Override
     public boolean copyTo(ICopyTo iCopyTo) {
         if (!(iCopyTo instanceof ListNode)) {
             return false;

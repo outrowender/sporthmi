@@ -18,12 +18,11 @@ extends AbstractSdisCmdSendUpdate {
         super(audioEnv, sdisAudioListener);
         this.audioState = audioState;
         this.audioStateLabel = SdisLabels.getAudioState(audioState);
-        this.setName(new StringBuffer().append("SdisCmdUpdateAudioContext: ").append(this.audioStateLabel).toString());
+        this.setName("SdisCmdUpdateAudioContext: " + this.audioStateLabel);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "-> [SdisCmdUpdateAudioContext.execute] %1", (Object)this.audioStateLabel);
+        this.logger.log(10000000, "-> [SdisCmdUpdateAudioContext.execute] %1", (Object)this.audioStateLabel);
         this.sdisAudioListener.updateAudioContext(this.audioState);
         this.commandList.commandFinished();
     }

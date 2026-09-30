@@ -26,10 +26,10 @@ public final class JxeData {
     }
 
     public long getPointerAligned() {
-        if (0L == this.fPointer % 0) {
+        if (0L == this.fPointer % 8L) {
             return this.fPointer;
         }
-        return this.fPointer + 0 - this.fPointer % 0;
+        return this.fPointer + 8L - this.fPointer % 8L;
     }
 
     public Jxe getJxe() {

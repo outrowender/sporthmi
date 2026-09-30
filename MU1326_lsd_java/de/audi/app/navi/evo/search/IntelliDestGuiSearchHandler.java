@@ -7,13 +7,6 @@ import de.audi.app.addressbook.core.common.ADBAddressUtils;
 import de.audi.app.navi.evo.adb.AddChildrenToEntryEvoNaviCommand;
 import de.audi.app.navi.evo.addressinput.disambiguation.AddressDisambiguatorEvo;
 import de.audi.app.navi.evo.search.IIntelliDestSearchTimer;
-import de.audi.app.navi.evo.search.IntelliDestGuiSearchHandler$1;
-import de.audi.app.navi.evo.search.IntelliDestGuiSearchHandler$2;
-import de.audi.app.navi.evo.search.IntelliDestGuiSearchHandler$3;
-import de.audi.app.navi.evo.search.IntelliDestGuiSearchHandler$4;
-import de.audi.app.navi.evo.search.IntelliDestGuiSearchHandler$5;
-import de.audi.app.navi.evo.search.IntelliDestGuiSearchHandler$6;
-import de.audi.app.navi.evo.search.IntelliDestGuiSearchHandler$7;
 import de.audi.app.navi.evo.search.IntelliDestSearch;
 import de.audi.app.navi.evo.search.NaviAdbEntryListRow;
 import de.audi.app.navi.evo.search.NaviSearchResultListRow;
@@ -30,7 +23,7 @@ import de.audi.atip.hmi.model.menu.focus.FocusAdvice;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.hmi.modelaccess.SpellerModelApp;
 import de.audi.atip.interapp.ADBHMIAppService;
-import de.audi.atip.interapp.NaviADBService$LocationInputHandler;
+import de.audi.atip.interapp.NaviADBService;
 import de.audi.atip.interapp.NaviServiceListener;
 import de.audi.atip.interapp.navigation.previewmap.IPreviewMap;
 import de.audi.atip.log.LogChannel;
@@ -50,6 +43,7 @@ import de.audi.tghu.navi.app.addressinput.IAddressInputForm;
 import de.audi.tghu.navi.app.addressinput.poi.IPoiService;
 import de.audi.tghu.navi.app.addressinput.poi.PoiUtil;
 import de.audi.tghu.navi.app.car.kombi.ICarKombiService;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.command.storage.RmRouteGet;
 import de.audi.tghu.navi.app.command.translate.TranslateTourCommand;
 import de.audi.tghu.navi.app.details.IDestinationHandler;
@@ -57,6 +51,7 @@ import de.audi.tghu.navi.app.favorite.IFavorite;
 import de.audi.tghu.navi.app.favorite.INaviFavoriteHandler;
 import de.audi.tghu.navi.app.map.MapInterface;
 import de.audi.tghu.navi.app.navlocationextractor.LiValueListAsyncNavLocationExtractor;
+import de.audi.tghu.navi.app.navlocationextractor.NavLocationCallback;
 import de.audi.tghu.navi.app.navlocationextractor.SearchResultAsyncNavLocationExtractor;
 import de.audi.tghu.navi.app.navlocationextractor.SearchResultNavLocationExtractor;
 import de.audi.tghu.navi.app.search.AbstractNaviGuiSearchHandler;
@@ -69,19 +64,21 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.dsi.ifc.global.NavLocation;
+import org.dsi.ifc.navigation.Route;
+import org.dsi.ifc.organizer.AdbEntry;
 import org.dsi.ifc.search.SearchResult;
 import org.dsi.ifc.search.Token;
 
 public class IntelliDestGuiSearchHandler
 extends AbstractNaviGuiSearchHandler {
-    private static final int PICKING_OFF;
-    private static final int PICKING_ON;
-    private static final int OMIT_DISAMBIG_CHOICE_DEST;
-    private static final int MAX_VISIBLE_ROWS;
-    private static final int ROWS_RESOLVED_AUTOMATICALLY;
-    protected static final int SPELLER_OPENED;
-    protected static final int SPELLER_CLOSED;
-    private static final String LOGCLASS;
+    private static final int PICKING_OFF = 0;
+    private static final int PICKING_ON = 1;
+    private static final int OMIT_DISAMBIG_CHOICE_DEST = -1;
+    private static final int MAX_VISIBLE_ROWS = 3;
+    private static final int ROWS_RESOLVED_AUTOMATICALLY = 3;
+    protected static final int SPELLER_OPENED = 4711;
+    protected static final int SPELLER_CLOSED = 4712;
+    private static final String LOGCLASS = "IntelliDestGuiSearchHandler";
     private final MapInterface mapInterface;
     private final INaviFavoriteHandler naviFavoriteHandler;
     protected final HomeAddressHandler homeAddressHandler;
@@ -141,13 +138,13 @@ extends AbstractNaviGuiSearchHandler {
         if (this.isPoiOrConciergeCallEnabled()) {
             this.registryFormatter.put(new Integer(15), new SearchResultFormatterPoiCall(logChannel, navigationEnv));
         }
-        navigationEnv.getChoiceModel(1881015808).setValue(1);
-        this.menuModel = navigationEnv.getMenuModel(1629423104);
+        navigationEnv.getChoiceModel(401008).setValue(1);
+        this.menuModel = navigationEnv.getMenuModel(401249);
     }
 
     public void activate() {
         if (this.lc.isDebug2()) {
-            this.lc.log(14808325, "%1#activate() [%2]", (Object)"IntelliDestGuiSearchHandler", (Object)super.getClass().getName());
+            this.lc.log(100000000, "%1#activate() [%2]", (Object)LOGCLASS, (Object)this.getClass().getName());
         }
         ((IntelliDestSearch)this.appSearch).setSearchFilterForSource(3);
         this.registerListeners();
@@ -158,23 +155,22 @@ extends AbstractNaviGuiSearchHandler {
 
     public void loadInitialScreen() {
         this.mdlSpellerSearchText.clear();
-        this.env.getChoiceModel(1881015808).setValue(1);
+        this.env.getChoiceModel(401008).setValue(1);
         this.performQuery("");
-        BaseListModelApp baseListModelApp = this.env.getBaseListModel(1595803136);
+        BaseListModelApp baseListModelApp = this.env.getBaseListModel(400991);
         if (baseListModelApp.getLength() > 0) {
             this.menuModel.setFocusedItem(baseListModelApp.getID(), FocusAdvice.VIEWPORT_FIRST_POSITION, baseListModelApp.getRow(0).getUniqueID());
         }
     }
 
     public void deactivate() {
-        this.lc.log(1078071040, "%1#deactivate() [%2]", (Object)"IntelliDestGuiSearchHandler", (Object)super.getClass().getName());
+        this.lc.log(1000000, "%1#deactivate() [%2]", (Object)LOGCLASS, (Object)this.getClass().getName());
         this.cancelTimers();
         this.stopIntelliDestTimer();
     }
 
-    @Override
     protected void performQuery(String string, String[] stringArray) {
-        this.lc.log(-2137614336, "%1#performQuery # text=%2, alternativeTexts=%3", (Object)"IntelliDestGuiSearchHandler", (Object)string, (Object)stringArray);
+        this.lc.log(10000000, "%1#performQuery # text=%2, alternativeTexts=%3", (Object)LOGCLASS, (Object)string, (Object)stringArray);
         ((IntelliDestSearch)this.appSearch).refreshCarPosition();
         this.invalidateDataMissed = false;
         this.setSearchSources();
@@ -186,16 +182,14 @@ extends AbstractNaviGuiSearchHandler {
         super.performQuery(string, stringArray);
     }
 
-    @Override
     public void refreshQuery() {
         if (this.appSearch.getLastQueryID() == this.sdsQueryID) {
-            this.lc.log(-1601830656, "%1#refreshQuery won't refresh query in SDS usecase", (Object)"IntelliDestGuiSearchHandler");
+            this.lc.log(100000, "%1#refreshQuery won't refresh query in SDS usecase", (Object)LOGCLASS);
         } else {
             super.refreshQuery();
         }
     }
 
-    @Override
     public void searchEnded() {
         this.stopIntelliDestTimer();
         super.searchEnded();
@@ -210,7 +204,7 @@ extends AbstractNaviGuiSearchHandler {
             this.naviServiceListener.updateResponseStartTrufflesSearch((byte)0, this.mdlListSearchResults.getLength(), bl, n);
         }
         catch (Exception exception) {
-            this.lc.log(10000, "%1#sendSearchResponseToSDS() %2", (Object)"IntelliDestGuiSearchHandler", (Throwable)exception);
+            this.lc.log(10000, "%1#sendSearchResponseToSDS() %2", (Object)LOGCLASS, (Throwable)exception);
         }
     }
 
@@ -225,9 +219,8 @@ extends AbstractNaviGuiSearchHandler {
         this.activeTrufflesContext = n;
     }
 
-    @Override
     public void textChanged(int n, String string, char c2, int n2) {
-        this.lc.log(-2137614336, "%1#textChanged = %2", (Object)"IntelliDestGuiSearchHandler", (Object)string);
+        this.lc.log(10000000, "%1#textChanged = %2", (Object)LOGCLASS, (Object)string);
         this.menuModel.setFocusedItem(this.mdlSpellerSearchText.getID(), FocusAdvice.VIEWPORT_FIRST_POSITION, -1L);
         if (this.distanceCalculator != null) {
             this.distanceCalculator.userInputChanged();
@@ -235,12 +228,12 @@ extends AbstractNaviGuiSearchHandler {
         this.performQuery(string, new String[0]);
         this.taskManager.cancelAllJobs();
         if (string.length() == 0) {
-            this.env.getChoiceModel(-1306327552).setValue(0);
-            this.env.getChoiceModel(1881015808).setValue(1);
+            this.env.getChoiceModel(402354).setValue(0);
+            this.env.getChoiceModel(401008).setValue(1);
             this.clearModels();
             this.mdlSpellerSearchText.setText("");
         } else {
-            this.env.getChoiceModel(1881015808).setValue(0);
+            this.env.getChoiceModel(401008).setValue(0);
         }
     }
 
@@ -276,11 +269,10 @@ extends AbstractNaviGuiSearchHandler {
         return null == string || 0 == string.length();
     }
 
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        this.env.getChoiceModel(1042286080).setValue(0);
-        if (Util.isIntellidestPickHelpAvailable(this.env.getFramework()) && 1 == this.env.getChoiceModel(1260389888).getValue()) {
-            this.env.getChoiceModel(1830815232).setValue(this.isPickable(evoListRow) ? 1 : 0);
+        this.env.getChoiceModel(401470).setValue(0);
+        if (Util.isIntellidestPickHelpAvailable(this.env.getFramework()) && 1 == this.env.getChoiceModel(401483).getValue()) {
+            this.env.getChoiceModel(401517).setValue(this.isPickable(evoListRow) ? 1 : 0);
         }
         super.itemSelected(evoListRow, n, n2, n3, n4);
     }
@@ -307,20 +299,45 @@ extends AbstractNaviGuiSearchHandler {
         return stringBuffer.toString();
     }
 
-    @Override
-    public void searchResultSelected(SearchResultListRow searchResultListRow, int n, int n2) {
+    public void searchResultSelected(final SearchResultListRow searchResultListRow, final int n, int n2) {
         if (searchResultListRow == null) {
-            this.lc.log(-1601830656, "%1#searchResultSelected - listRow is null", (Object)"IntelliDestGuiSearchHandler");
+            this.lc.log(100000, "%1#searchResultSelected - listRow is null", (Object)LOGCLASS);
             return;
         }
-        int n3 = this.env.getChoiceModel(1579091456).getValue();
+        int n3 = this.env.getChoiceModel(401246).getValue();
         if (n3 == 1) {
-            this.asyncLocationExtractor.executeCallbackWithNavLocation(searchResultListRow, 0, new IntelliDestGuiSearchHandler$1(this, searchResultListRow, n));
+            this.asyncLocationExtractor.executeCallbackWithNavLocation(searchResultListRow, 0, new NavLocationCallback(){
+
+                public void callBack(NavLocation navLocation, ICommandList iCommandList) {
+                    IntelliDestGuiSearchHandler.this.storeAddressToAdb(searchResultListRow, navLocation, iCommandList, n);
+                }
+            });
         } else if (n3 == 2) {
-            this.asyncLocationExtractor.executeCallbackWithNavLocation(searchResultListRow, 0, new IntelliDestGuiSearchHandler$2(this, searchResultListRow, n));
-        } else if (1 == this.env.getChoiceModel(1260389888).getValue() && 1 == this.env.getChoiceModel(1830815232).getValue()) {
-            this.lc.log(-2137614336, "%1#searchResultSelected - pick help activated", (Object)"IntelliDestGuiSearchHandler");
-            this.env.getLabelModel(1193281024).setText(this.getPickHelpLabelString(searchResultListRow.getSearchResult().getTokens()));
+            this.asyncLocationExtractor.executeCallbackWithNavLocation(searchResultListRow, 0, new NavLocationCallback(){
+
+                public void callBack(final NavLocation navLocation, ICommandList iCommandList) {
+                    if (IntelliDestGuiSearchHandler.this.isDisambiguationNeeded(searchResultListRow)) {
+                        if (null != IntelliDestGuiSearchHandler.this.addressDisambiguator) {
+                            iCommandList.commandFinishedWithPostSequence(IntelliDestGuiSearchHandler.this.addressDisambiguator.prepareCandidatesList(searchResultListRow, n));
+                        } else {
+                            IntelliDestGuiSearchHandler.this.env.getLogChannel().log(100000, "%1#searchResultSelected() - addressDisambiguator is null", (Object)IntelliDestGuiSearchHandler.LOGCLASS);
+                        }
+                    } else {
+                        IntelliDestGuiSearchHandler.this.dispatcher.execute(new Runnable(){
+
+                            public void run() {
+                                if (IntelliDestGuiSearchHandler.this.lc.isDebug2()) {
+                                    IntelliDestGuiSearchHandler.this.lc.log(100000000, "%1#searchResultSelected - Store Address as HomeAddress", (Object)IntelliDestGuiSearchHandler.LOGCLASS);
+                                }
+                                (this).IntelliDestGuiSearchHandler.this.homeAddressHandler.onCreateEditHomeAddress(navLocation);
+                            }
+                        });
+                    }
+                }
+            });
+        } else if (1 == this.env.getChoiceModel(401483).getValue() && 1 == this.env.getChoiceModel(401517).getValue()) {
+            this.lc.log(10000000, "%1#searchResultSelected - pick help activated", (Object)LOGCLASS);
+            this.env.getLabelModel(401479).setText(this.getPickHelpLabelString(searchResultListRow.getSearchResult().getTokens()));
             this.cachedSelectedRow = searchResultListRow;
         } else {
             this.startRG(searchResultListRow, n);
@@ -328,38 +345,68 @@ extends AbstractNaviGuiSearchHandler {
         this.env.getBaseListModel(n2).fireEvent(n);
     }
 
-    protected void storeAddressToAdb(SearchResultListRow searchResultListRow, NavLocation navLocation, ICommandList iCommandList, int n) {
+    protected void storeAddressToAdb(SearchResultListRow searchResultListRow, final NavLocation navLocation, ICommandList iCommandList, int n) {
         if (this.isDisambiguationNeeded(searchResultListRow)) {
             if (null != this.addressDisambiguator) {
                 iCommandList.commandFinishedWithPostSequence(this.addressDisambiguator.prepareCandidatesList(searchResultListRow, n));
             } else {
-                this.env.getLogChannel().log(-1601830656, "%1#searchResultSelected() - addressDisambiguator is null", (Object)"IntelliDestGuiSearchHandler");
+                this.env.getLogChannel().log(100000, "%1#searchResultSelected() - addressDisambiguator is null", (Object)LOGCLASS);
             }
         } else {
-            this.dispatcher.execute(new IntelliDestGuiSearchHandler$3(this, navLocation));
+            this.dispatcher.execute(new Runnable(){
+
+                public void run() {
+                    IntelliDestGuiSearchHandler.this.selectResultModeADB(navLocation);
+                }
+            });
         }
     }
 
     private void selectResultModeADB(NavLocation navLocation) {
         if (this.lc.isDebug2()) {
-            this.lc.log(14808325, "%1#searchResultSelected - Store Address to ADB", (Object)"IntelliDestGuiSearchHandler");
+            this.lc.log(100000000, "%1#searchResultSelected - Store Address to ADB", (Object)LOGCLASS);
         }
         byte[] byArray = this.adbInterAppService.locationToStream(navLocation);
-        NaviADBService$LocationInputHandler naviADBService$LocationInputHandler = this.adbInterAppService.getCurrentLocationInputHandler();
-        if (naviADBService$LocationInputHandler != null) {
-            naviADBService$LocationInputHandler.updateLocation(byArray);
+        NaviADBService.LocationInputHandler locationInputHandler = this.adbInterAppService.getCurrentLocationInputHandler();
+        if (locationInputHandler != null) {
+            locationInputHandler.updateLocation(byArray);
             this.adbInterAppService.removeHandler();
         } else {
-            this.env.getLogChannel().log(-1601830656, "%1#searchResultSelected() - LocationInputhandler is null", (Object)"IntelliDestGuiSearchHandler");
+            this.env.getLogChannel().log(100000, "%1#searchResultSelected() - LocationInputhandler is null", (Object)LOGCLASS);
         }
     }
 
-    protected void startRG(SearchResultListRow searchResultListRow, int n) {
+    protected void startRG(final SearchResultListRow searchResultListRow, final int n) {
         if (searchResultListRow.getSearchResult().source == 14) {
             this.createStartRgWithPressRouteCL(searchResultListRow).execute("IntelliDestGuiSearchHandler#startRG() with PRESSROUTE");
             return;
         }
-        this.asyncLocationExtractor.executeCallbackWithNavLocation(searchResultListRow, 0, new IntelliDestGuiSearchHandler$4(this, searchResultListRow, n));
+        this.asyncLocationExtractor.executeCallbackWithNavLocation(searchResultListRow, 0, new NavLocationCallback(){
+
+            public void callBack(final NavLocation navLocation, ICommandList iCommandList) {
+                if (IntelliDestGuiSearchHandler.this.destinationHandler != null) {
+                    IntelliDestGuiSearchHandler.this.destinationHandler.setTransfereToNdf(true);
+                }
+                if (IntelliDestGuiSearchHandler.this.isDisambiguationNeeded(searchResultListRow)) {
+                    IntelliDestGuiSearchHandler.this.cancelJobs();
+                    if (null != IntelliDestGuiSearchHandler.this.addressDisambiguator) {
+                        iCommandList.commandFinishedWithPostSequence(IntelliDestGuiSearchHandler.this.addressDisambiguator.prepareCandidatesList(searchResultListRow, n));
+                    } else {
+                        IntelliDestGuiSearchHandler.this.env.getLogChannel().log(100000, "IntelliDestGuiSearchHandler#searchResultSelected() - addressDisambiguator is null");
+                    }
+                } else {
+                    IntelliDestGuiSearchHandler.this.checkNavLocation(navLocation, searchResultListRow);
+                    IntelliDestGuiSearchHandler.this.cachedSelectedRow = null;
+                    NavCommand navCommand = new NavCommand("IntelliDestGuiSearchHandler#StartRouteGuidance"){
+
+                        public void execute() {
+                            this.getCommandList().commandFinishedWithPostSequence(this.navigation.getStartGuidanceDependantSequence().getStartSequence(null, navLocation, true, false));
+                        }
+                    };
+                    iCommandList.commandFinishedWithPostCommand(navCommand);
+                }
+            }
+        });
     }
 
     private CommandList createStartRgWithPressRouteCL(SearchResultListRow searchResultListRow) {
@@ -367,13 +414,19 @@ extends AbstractNaviGuiSearchHandler {
         commandList.put("TOUR_INDEX", new Integer(0));
         commandList.add(new RmRouteGet(2, searchResultListRow.getSearchResult().dataId));
         commandList.add(new TranslateTourCommand());
-        commandList.add(new IntelliDestGuiSearchHandler$5(this, "start the StartGuidanceDependantSequence"));
+        commandList.add(new NavCommand("start the StartGuidanceDependantSequence"){
+
+            public void execute() {
+                this.navigation.getStartGuidanceDependantSequence().start((Route)this.getCommandList().get("TRANSLATED_ROUTE"));
+                this.getCommandList().commandFinished();
+            }
+        });
         return commandList;
     }
 
     private void checkNavLocation(NavLocation navLocation, SearchResultListRow searchResultListRow) {
         if (null == navLocation || !navLocation.isPositionValid()) {
-            this.lc.log(-1601830656, "%1#searchResultSelected # location is null or position is invalid - %2", (Object)"IntelliDestGuiSearchHandler", (Object)navLocation);
+            this.lc.log(100000, "%1#searchResultSelected # location is null or position is invalid - %2", (Object)LOGCLASS, (Object)navLocation);
         }
         if (null == navLocation && searchResultListRow.getSearchResult().getSource() == 4) {
             this.showPopUpRgNotPossible();
@@ -384,14 +437,14 @@ extends AbstractNaviGuiSearchHandler {
 
     private void showPopUpRgNotPossible() {
         if (this.env.getLogChannel().isDebug2()) {
-            this.env.getLogChannel().log(14808325, "%1#showPopUpRgNotPossible show PartialPopup sor CALC_FAIL_SINGLE", (Object)"IntelliDestGuiSearchHandler");
+            this.env.getLogChannel().log(100000000, "%1#showPopUpRgNotPossible show PartialPopup sor CALC_FAIL_SINGLE", (Object)LOGCLASS);
         }
-        this.env.getChoiceModel(-1373633024).setValue(1);
+        this.env.getChoiceModel(401582).setValue(1);
     }
 
     protected boolean isDisambiguationNeeded(SearchResultListRow searchResultListRow) {
         boolean bl = 16 == searchResultListRow.getSearchResult().getSource() && AddressDisambiguatorEvo.isHNrUnclear(this.env.getContainer().getTryMatchLocationResultData(), this.lc);
-        this.lc.log(-2137614336, "%2#isDisambiguationNeeded result=%1", bl, (Object)"IntelliDestGuiSearchHandler");
+        this.lc.log(10000000, "%2#isDisambiguationNeeded result=%1", bl, (Object)LOGCLASS);
         return bl;
     }
 
@@ -407,17 +460,16 @@ extends AbstractNaviGuiSearchHandler {
         }
     }
 
-    @Override
     public void requestChildrenNodes(SearchResultListRow searchResultListRow, int n) {
-        this.lc.log(-2137614336, "%1#getChildrenNodes", (Object)"IntelliDestGuiSearchHandler");
+        this.lc.log(10000000, "%1#getChildrenNodes", (Object)LOGCLASS);
         SearchResultFormatterADB searchResultFormatterADB = (SearchResultFormatterADB)this.registryFormatter.get(new Integer(searchResultListRow.getSearchResult().getSource()));
         AddChildrenToEntryEvoNaviCommand.createAndExecuteAddChildrenToEntryNaviCommand(this.naviADBHandler, searchResultListRow.getSearchResult().dataId, this.mdlChoiceSearchIsActive, this, searchResultListRow, searchResultFormatterADB);
     }
 
     private void openAddressInputForm(NavLocation navLocation, int n, String string) {
-        this.env.getChoiceModel(-1407187456).setValue(0);
+        this.env.getChoiceModel(401580).setValue(0);
         if (-1 != n) {
-            this.env.getChoiceModel(1042286080).setValue(n);
+            this.env.getChoiceModel(401470).setValue(n);
         }
         if (null != navLocation && navLocation.isPositionValid()) {
             MMIInternalData mMIInternalData = new MMIInternalData();
@@ -428,9 +480,9 @@ extends AbstractNaviGuiSearchHandler {
             this.addressInputForm.startWithoutStrip(navLocation);
         } else {
             if (this.lc.isDebug2()) {
-                this.lc.log(14808325, "IntelliDestGuiSearchHandler#openAddressInputForm Invalid navLoc = >>%1<<", (Object)navLocation);
+                this.lc.log(100000000, "IntelliDestGuiSearchHandler#openAddressInputForm Invalid navLoc = >>%1<<", (Object)navLocation);
             }
-            this.env.getChoiceModel(-1407187456).setValue(1);
+            this.env.getChoiceModel(401580).setValue(1);
         }
     }
 
@@ -452,10 +504,9 @@ extends AbstractNaviGuiSearchHandler {
         this.openAddressInputForm(this.extractNavLocationFromRow(naviAdbEntryListRow), 1, naviAdbEntryListRow.getAdbEntry().combinedName);
     }
 
-    @Override
     public void childNodeSelected(EvoListRow evoListRow, int n, int n2) {
         if (this.lc.isDebug2()) {
-            this.lc.log(14808325, "IntelliDestGuiSearchHandler#childNodeSelected, row: [%1], terminal: [%2], modelID: [%3]", (Object)evoListRow, (long)n, (long)n2);
+            this.lc.log(100000000, "IntelliDestGuiSearchHandler#childNodeSelected, row: [%1], terminal: [%2], modelID: [%3]", (Object)evoListRow, (long)n, (long)n2);
         }
         NaviAdbEntryListRow naviAdbEntryListRow = (NaviAdbEntryListRow)evoListRow;
         switch (naviAdbEntryListRow.getAdbType()) {
@@ -495,15 +546,32 @@ extends AbstractNaviGuiSearchHandler {
         this.env.getBaseListModel(n2).fireEvent(n);
     }
 
-    protected void saveAsFavorite(EvoListRow evoListRow, NavLocation navLocation, int n) {
+    protected void saveAsFavorite(final EvoListRow evoListRow, final NavLocation navLocation, int n) {
         CommandList commandList = this.commandListFactory.createCommandList();
-        commandList.add(new IntelliDestGuiSearchHandler$6(this, "AddToFavoritesCommand", evoListRow, navLocation));
+        commandList.add(new NavCommand("AddToFavoritesCommand"){
+
+            public void execute() {
+                if (evoListRow != null && evoListRow instanceof NaviAdbEntryListRow) {
+                    IntelliDestGuiSearchHandler.this.lc.log(1000000, "%1#saveAsFavorite - NaviAdbEntryListRow", (Object)IntelliDestGuiSearchHandler.LOGCLASS);
+                    NaviAdbEntryListRow naviAdbEntryListRow = (NaviAdbEntryListRow)evoListRow;
+                    AdbEntry adbEntry = naviAdbEntryListRow.getAdbEntry();
+                    String string = adbEntry.getCombinedName();
+                    if (!Util.isEmpty(string)) {
+                        IntelliDestGuiSearchHandler.this.naviFavoriteHandler.addToFavorites(navLocation, string);
+                    }
+                } else {
+                    IntelliDestGuiSearchHandler.this.lc.log(1000000, "%1#saveAsFavorite - no NaviAdbEntryListRow", (Object)IntelliDestGuiSearchHandler.LOGCLASS);
+                    IntelliDestGuiSearchHandler.this.naviFavoriteHandler.addToFavorites(navLocation);
+                }
+                this.getCommandList().commandFinished();
+            }
+        });
         commandList.execute("AddToFavoritesCommandCommandList");
     }
 
     protected void parkingNearDestination(NavLocation navLocation) {
         if (navLocation == null) {
-            this.lc.log(1078071040, "%1#parkingNearDestination location is null", (Object)"IntelliDestGuiSearchHandler");
+            this.lc.log(1000000, "%1#parkingNearDestination location is null", (Object)LOGCLASS);
             return;
         }
         this.poiService.getParkingNearDestinationSequenceWithDistanceFromCCP(navLocation).execute("IntelliDestGuiSearchHandler#parkingNearDestination");
@@ -511,28 +579,26 @@ extends AbstractNaviGuiSearchHandler {
 
     protected void poiNearDestination(NavLocation navLocation) {
         if (navLocation == null) {
-            this.lc.log(1078071040, "%1#poiNearDestination location is null", (Object)"IntelliDestGuiSearchHandler");
+            this.lc.log(1000000, "%1#poiNearDestination location is null", (Object)LOGCLASS);
             return;
         }
         this.poiService.startPoiWithSearchContext(4, navLocation, true, true);
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
         if (this.mdlListSearchResults.getLength() == 1) {
-            NaviSearchResultListRow naviSearchResultListRow = (NaviSearchResultListRow)this.env.getBaseListModel(-1541470720).getRow(0);
+            NaviSearchResultListRow naviSearchResultListRow = (NaviSearchResultListRow)this.env.getBaseListModel(401316).getRow(0);
             if (naviSearchResultListRow != null) {
-                this.menuModel.setFocusedItem(-1541470720, FocusAdvice.VIEWPORT_SECOND_POSITION, naviSearchResultListRow.getUniqueID());
+                this.menuModel.setFocusedItem(401316, FocusAdvice.VIEWPORT_SECOND_POSITION, naviSearchResultListRow.getUniqueID());
             }
             if (naviSearchResultListRow.getNodeType() == 1) {
                 this.parentNodeSelected(naviSearchResultListRow, n, n3);
             } else {
-                this.searchResultSelected((SearchResultListRow)this.mdlListSearchResults.getRow(0), 0, -1541470720);
+                this.searchResultSelected((SearchResultListRow)this.mdlListSearchResults.getRow(0), 0, 401316);
             }
         }
     }
 
-    @Override
     public NavLocation extractNavLocationFromRow(EvoListRow evoListRow) {
         if (evoListRow instanceof NaviSearchResultListRow) {
             return this.searchResultNavLocationExtractor.extractNavLocationFromRow(evoListRow);
@@ -540,16 +606,16 @@ extends AbstractNaviGuiSearchHandler {
         if (evoListRow instanceof NaviAdbEntryListRow) {
             return this.searchResultNavLocationExtractor.extractNavLocationFromRow(evoListRow);
         }
-        throw new IllegalArgumentException(new StringBuffer().append("this NavLocationExtractor works only with NaviSearchResultListRow or NaviAdbEntryListRow objects, not ").append(evoListRow != null ? super.getClass().getName() : "[null]").toString());
+        throw new IllegalArgumentException(new StringBuffer().append("this NavLocationExtractor works only with NaviSearchResultListRow or NaviAdbEntryListRow objects, not ").append(evoListRow != null ? evoListRow.getClass().getName() : "[null]").toString());
     }
 
-    public void focusPreviewMapOnSearchResult(long l, int n) {
-        this.lc.log(-2137614336, "%1#focusPreviewMapOnSearchResult # uniqueListRowID=%2, menuItemID=%3", (Object)"IntelliDestGuiSearchHandler", l, (long)n);
-        this.env.getChoiceModel(-400554496).setValue(2);
+    public void focusPreviewMapOnSearchResult(final long l, int n) {
+        this.lc.log(10000000, "%1#focusPreviewMapOnSearchResult # uniqueListRowID=%2, menuItemID=%3", (Object)LOGCLASS, l, (long)n);
+        this.env.getChoiceModel(401640).setValue(2);
         BaseListModelApp baseListModelApp = this.env.getBaseListModel(n);
         EvoListRow evoListRow = baseListModelApp.getRowByUniqueID(l);
         int n2 = baseListModelApp.getIndexForUniqueID(l);
-        if (n == -1541470720) {
+        if (n == 401316) {
             if (evoListRow instanceof SearchResultListRow && ((SearchResultListRow)evoListRow).getSearchResult().source == 14) {
                 CommandList commandList = this.commandListFactory.createCommandList();
                 commandList.put("TOUR_INDEX", new Integer(n2));
@@ -561,22 +627,28 @@ extends AbstractNaviGuiSearchHandler {
             }
             this.taskManager.cancelCursorFocusJobs();
             this.taskManager.resolveCoordinates(this.getVisibleRows(n2), 1);
-        } else if (n == -1239480832) {
-            this.lc.log(1078071040, "IntelliDestGuiSearchHandler#itemFocused operationMode=%1", (long)this.naviFavoriteHandler.getOperationMode());
+        } else if (n == 401334) {
+            this.lc.log(1000000, "IntelliDestGuiSearchHandler#itemFocused operationMode=%1", (long)this.naviFavoriteHandler.getOperationMode());
             if (this.naviFavoriteHandler.getOperationMode() == 0) {
                 this.taskManager.cancelFocusPreviewMapJob();
-                this.dispatcher.execute(new IntelliDestGuiSearchHandler$7(this, l));
+                this.dispatcher.execute(new Runnable(){
+
+                    public void run() {
+                        IntelliDestGuiSearchHandler.this.lc.log(10000000, "%1#focusPreviewMapOnSearchResult NAV_DEST_FAVORITES_BASE_LIST", (Object)IntelliDestGuiSearchHandler.LOGCLASS);
+                        NavLocation navLocation = IntelliDestGuiSearchHandler.this.naviFavoriteHandler.getFavoriteNavLocationByUniqueId(l);
+                        IntelliDestGuiSearchHandler.this.focusPreviewMapOnNavLocation(navLocation, true);
+                    }
+                });
             }
         } else {
             this.taskManager.focusPreviewMap(evoListRow);
         }
     }
 
-    @Override
     public void handleIfPoiIsCallable(NavLocation navLocation, EvoListRow evoListRow) {
         if (PoiUtil.checkIfPoiIsCallable(navLocation, this.env)) {
             PropertyListCell propertyListCell;
-            this.env.getChoiceModel(-400554496).setValue(1);
+            this.env.getChoiceModel(401640).setValue(1);
             PropertyListCell propertyListCell2 = (PropertyListCell)evoListRow.getCell(4);
             if (propertyListCell2 != null) {
                 int[] nArray = propertyListCell2.getProperties();
@@ -584,10 +656,10 @@ extends AbstractNaviGuiSearchHandler {
                 for (int i2 = 0; i2 < nArray.length; ++i2) {
                     nArray2[i2] = nArray[i2];
                 }
-                nArray2[nArray2.length - 1] = -168229239;
+                nArray2[nArray2.length - 1] = -1996031499;
                 propertyListCell = new PropertyListCell(propertyListCell2.getCategory(), nArray2);
             } else {
-                propertyListCell = new PropertyListCell(819717694, new int[]{-168229239});
+                propertyListCell = new PropertyListCell(1055316784, new int[]{-1996031499});
             }
             evoListRow.setPropertyCell(4, propertyListCell);
         }
@@ -618,7 +690,7 @@ extends AbstractNaviGuiSearchHandler {
 
     public void destOptShowInMap(NavLocation navLocation, long l) {
         if (navLocation == null) {
-            this.lc.log(1078071040, "%1#destOptShowInMap location is NULL", (Object)"IntelliDestGuiSearchHandler");
+            this.lc.log(1000000, "%1#destOptShowInMap location is NULL", (Object)LOGCLASS);
             return;
         }
         IFavorite iFavorite = null;
@@ -635,7 +707,6 @@ extends AbstractNaviGuiSearchHandler {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     protected void flushSearchResultBuffer() {
         ArrayList arrayList;
         Object object = ((IntelliDestSearch)this.appSearch).getLock();
@@ -670,12 +741,12 @@ extends AbstractNaviGuiSearchHandler {
     }
 
     protected void setInvalidateDataMissed(boolean bl) {
-        this.lc.log(-2137614336, "%2#setInvalidateDataMissed: %1", bl, (Object)"IntelliDestGuiSearchHandler");
+        this.lc.log(10000000, "%2#setInvalidateDataMissed: %1", bl, (Object)LOGCLASS);
         this.invalidateDataMissed = bl;
     }
 
     protected boolean hasMissedInvalidateData() {
-        this.lc.log(-2137614336, "%2#hasMissedInvalidateData: %1", this.invalidateDataMissed, (Object)"IntelliDestGuiSearchHandler");
+        this.lc.log(10000000, "%2#hasMissedInvalidateData: %1", this.invalidateDataMissed, (Object)LOGCLASS);
         return this.invalidateDataMissed;
     }
 
@@ -692,56 +763,19 @@ extends AbstractNaviGuiSearchHandler {
     }
 
     protected void restartIntelliDestTimer() {
-        this.lc.log(-2137614336, "%1#restartIntelliDestTimer()", (Object)"IntelliDestGuiSearchHandler");
+        this.lc.log(10000000, "%1#restartIntelliDestTimer()", (Object)LOGCLASS);
         this.intelliDestSearchTimer.restart();
     }
 
     protected void stopIntelliDestTimer() {
-        this.lc.log(-2137614336, "%1#stopIntelliDestTimer() + hide 'Search with Google' Button", (Object)"IntelliDestGuiSearchHandler");
+        this.lc.log(10000000, "%1#stopIntelliDestTimer() + hide 'Search with Google' Button", (Object)LOGCLASS);
         this.intelliDestSearchTimer.stop();
     }
 
-    @Override
     public void release() {
         super.release();
         this.stopIntelliDestTimer();
         this.registryFormatter.clear();
-    }
-
-    static /* synthetic */ LogChannel access$100(IntelliDestGuiSearchHandler intelliDestGuiSearchHandler) {
-        return intelliDestGuiSearchHandler.lc;
-    }
-
-    static /* synthetic */ LogChannel access$200(IntelliDestGuiSearchHandler intelliDestGuiSearchHandler) {
-        return intelliDestGuiSearchHandler.lc;
-    }
-
-    static /* synthetic */ void access$300(IntelliDestGuiSearchHandler intelliDestGuiSearchHandler, NavLocation navLocation) {
-        intelliDestGuiSearchHandler.selectResultModeADB(navLocation);
-    }
-
-    static /* synthetic */ IDestinationHandler access$400(IntelliDestGuiSearchHandler intelliDestGuiSearchHandler) {
-        return intelliDestGuiSearchHandler.destinationHandler;
-    }
-
-    static /* synthetic */ void access$500(IntelliDestGuiSearchHandler intelliDestGuiSearchHandler, NavLocation navLocation, SearchResultListRow searchResultListRow) {
-        intelliDestGuiSearchHandler.checkNavLocation(navLocation, searchResultListRow);
-    }
-
-    static /* synthetic */ LogChannel access$600(IntelliDestGuiSearchHandler intelliDestGuiSearchHandler) {
-        return intelliDestGuiSearchHandler.lc;
-    }
-
-    static /* synthetic */ INaviFavoriteHandler access$700(IntelliDestGuiSearchHandler intelliDestGuiSearchHandler) {
-        return intelliDestGuiSearchHandler.naviFavoriteHandler;
-    }
-
-    static /* synthetic */ LogChannel access$800(IntelliDestGuiSearchHandler intelliDestGuiSearchHandler) {
-        return intelliDestGuiSearchHandler.lc;
-    }
-
-    static /* synthetic */ LogChannel access$900(IntelliDestGuiSearchHandler intelliDestGuiSearchHandler) {
-        return intelliDestGuiSearchHandler.lc;
     }
 }
 

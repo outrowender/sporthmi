@@ -22,17 +22,15 @@ extends AbstractDataConfigurationComponent {
         super(iDataApplication);
     }
 
-    @Override
     protected int[] getAttributeNotifications() {
         return ATTRIBUTE_NOTIFICATIONS;
     }
 
-    @Override
     public void updateRoamingState(int n, int n2) {
         if (n2 != 1) {
             return;
         }
-        this.log.log(1078071040, "OnlineConnectivityStateProvider#updateRoamingState(): %1", (long)n);
+        this.log.log(1000000, "OnlineConnectivityStateProvider#updateRoamingState(): %1", (long)n);
         this.roamingAllowed = n == 0;
         this.updateState();
     }
@@ -43,7 +41,6 @@ extends AbstractDataConfigurationComponent {
         }
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof IOnlineDataStateListener) {
@@ -54,7 +51,6 @@ extends AbstractDataConfigurationComponent {
         return super.addingService(serviceReference);
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
         if (object instanceof IOnlineDataStateListener) {
             this.online = (IOnlineDataStateListener)object;
@@ -63,7 +59,6 @@ extends AbstractDataConfigurationComponent {
         }
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof IOnlineDataStateListener) {
             this.online = (IOnlineDataStateListener)object;
@@ -73,14 +68,12 @@ extends AbstractDataConfigurationComponent {
         }
     }
 
-    @Override
     public void init() {
         super.init();
         this.tracker = new ServiceTracker(this.bundleContext, (class$de$audi$atip$interapp$online$IOnlineDataStateListener == null ? (class$de$audi$atip$interapp$online$IOnlineDataStateListener = OnlineConnectivityStateProvider.class$("de.audi.atip.interapp.online.IOnlineDataStateListener")) : class$de$audi$atip$interapp$online$IOnlineDataStateListener).getName(), (ServiceTrackerCustomizer)this);
         this.tracker.open();
     }
 
-    @Override
     public void deinit() {
         this.tracker.close();
         this.tracker = null;

@@ -15,7 +15,6 @@ extends AbstractAddressInputScreenWorkFlowManagerCN {
         super(navigationEnv, iCommandListFactory, spellerStack);
     }
 
-    @Override
     public CommandList handleWorkFlow(CommandList commandList, int n) {
         switch (n) {
             case 10602: {
@@ -23,14 +22,14 @@ extends AbstractAddressInputScreenWorkFlowManagerCN {
                 break;
             }
             default: {
-                this.logChannel.log(-2137614336, "%1#handleWorkFlow - screenEventId %2 is in range of intersection screen but not known as valid id.", (Object)this.CLASS_NAME, (long)n);
+                this.logChannel.log(10000000, "%1#handleWorkFlow - screenEventId %2 is in range of intersection screen but not known as valid id.", (Object)this.CLASS_NAME, (long)n);
             }
         }
         return commandList;
     }
 
     private void createCNIntersectionScreenListElementSelectedWorkFlow(CommandList commandList) {
-        this.logChannel.log(-2137614336, "%1#createCNIntersectionScreenListElementSelectedWorkFlow", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#createCNIntersectionScreenListElementSelectedWorkFlow", (Object)this.CLASS_NAME);
         this.spellerStack.pop();
     }
 }

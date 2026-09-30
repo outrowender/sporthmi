@@ -13,7 +13,7 @@ public class MediaUtilities {
         if (string2.length() == 0) {
             return string;
         }
-        return new StringBuffer().append(string).append(" - ").append(string2).toString();
+        return string + " - " + string2;
     }
 
     public static int calculateIdFromAlbum(String string, int n) {

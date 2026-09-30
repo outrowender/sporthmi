@@ -8,21 +8,16 @@ import org.dsi.ifc.global.ResourceLocator;
 
 public interface IMediaOnlineSessionPlayer
 extends IMediaSessionPlayer {
-    public static final int PLAYBACK_FROM_BEGINNING;
+    public static final int PLAYBACK_FROM_BEGINNING = -1;
 
-    default public void updatePlayingTrack(long l, String string, String string2, String string3, ResourceLocator resourceLocator) {
-    }
+    public void updatePlayingTrack(long var1, String var3, String var4, String var5, ResourceLocator var6);
 
-    default public void seekToTime(int n) {
-    }
+    public void seekToTime(int var1);
 
-    default public void setRepeatTitle(boolean bl) {
-    }
+    public void setRepeatTitle(boolean var1);
 
-    default public void setShuffle(boolean bl) {
-    }
+    public void setShuffle(boolean var1);
 
-    default public void updateOnlineCoverart(ResourceLocator resourceLocator) {
-    }
+    public void updateOnlineCoverart(ResourceLocator var1);
 }
 

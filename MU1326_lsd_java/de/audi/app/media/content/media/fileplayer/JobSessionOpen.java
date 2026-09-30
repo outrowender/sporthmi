@@ -11,10 +11,10 @@ import de.audi.atip.log.LogChannel;
 
 public class JobSessionOpen
 extends AbstractFilePlayerControllerJob {
-    private static final String LOGCLASS;
-    private static final int STATE_ACTIVATE_FILEPLAYER;
-    private static final int STATE_WAITFOR_FILEPLAYER;
-    private static final int STATE_FILEPLAYER_ACTIVE;
+    private static final String LOGCLASS = "JobSessionOpen";
+    private static final int STATE_ACTIVATE_FILEPLAYER = 1;
+    private static final int STATE_WAITFOR_FILEPLAYER = 2;
+    private static final int STATE_FILEPLAYER_ACTIVE = 3;
     private final IFilePlayerController controller;
     private final FilePlayerSession session;
     private final FilePlayerSession activeSession;
@@ -27,7 +27,6 @@ extends AbstractFilePlayerControllerJob {
         this.activeSession = this.controller.getActiveSession();
     }
 
-    @Override
     public void start() {
         this.setState(1);
     }
@@ -36,7 +35,7 @@ extends AbstractFilePlayerControllerJob {
         this.state = n;
         switch (n) {
             case 1: {
-                this.logger.log(1078071040, "[%1.setState] STATE_ACTIVATE_FILEPLAYER", (Object)"JobSessionOpen");
+                this.logger.log(1000000, "[%1.setState] STATE_ACTIVATE_FILEPLAYER", (Object)LOGCLASS);
                 if (this.controller.activateFilePlayer()) {
                     this.setState(2);
                     return;
@@ -45,52 +44,49 @@ extends AbstractFilePlayerControllerJob {
                 break;
             }
             case 2: {
-                this.logger.log(1078071040, "[%1.setState] STATE_WAITFOR_FILEPLAYER", (Object)"JobSessionOpen");
+                this.logger.log(1000000, "[%1.setState] STATE_WAITFOR_FILEPLAYER", (Object)LOGCLASS);
                 break;
             }
             case 3: {
-                this.logger.log(1078071040, "[%1.setState] STATE_FILEPLAYER_ACTIVE", (Object)"JobSessionOpen");
+                this.logger.log(1000000, "[%1.setState] STATE_FILEPLAYER_ACTIVE", (Object)LOGCLASS);
                 if (this.controller.isActiveSession(this.session)) {
-                    this.logger.log(1078071040, "[%1.setState] Session already opened.", (Object)"JobSessionOpen");
+                    this.logger.log(1000000, "[%1.setState] Session already opened.", (Object)LOGCLASS);
                     this.getExecutionContext().jobFinished();
                     return;
                 }
                 if (this.activeSession == null) {
-                    this.logger.log(1078071040, "[%1.setState] No active session. Attach session.", (Object)"JobSessionOpen");
+                    this.logger.log(1000000, "[%1.setState] No active session. Attach session.", (Object)LOGCLASS);
                     this.controller.attachSession(this.session);
                     this.getExecutionContext().jobFinished();
                     return;
                 }
                 if (this.activeSession.getPriority() >= this.session.getPriority()) {
-                    this.logger.log(1078071040, "[%1.setState] Active session has higher priority.", (Object)"JobSessionOpen");
+                    this.logger.log(1000000, "[%1.setState] Active session has higher priority.", (Object)LOGCLASS);
                     this.controller.addSessionToPendingList(this.session);
                     this.getExecutionContext().jobFinished();
                     return;
                 }
-                this.logger.log(1078071040, "[%1.setState] Session has higher priority then the active session. Detach active session.", (Object)"JobSessionOpen");
+                this.logger.log(1000000, "[%1.setState] Session has higher priority then the active session. Detach active session.", (Object)LOGCLASS);
                 this.controller.detachActiveSession();
                 break;
             }
         }
     }
 
-    @Override
     public void onFilePlayerActive() {
-        this.logger.log(1078071040, "[%1.onFilePlayerActive]", (Object)"JobSessionOpen");
+        this.logger.log(1000000, "[%1.onFilePlayerActive]", (Object)LOGCLASS);
         if (this.state == 2) {
             this.setState(3);
         }
     }
 
-    @Override
     public void onActiveSessionDetached() {
-        this.logger.log(1078071040, "[%1.onActiveSessionDetached]", (Object)"JobSessionOpen");
+        this.logger.log(1000000, "[%1.onActiveSessionDetached]", (Object)LOGCLASS);
         this.controller.addSessionToPendingList(this.activeSession);
         this.controller.attachSession(this.session);
         this.getExecutionContext().jobFinished();
     }
 
-    @Override
     public String toString() {
         return this.session.getName();
     }

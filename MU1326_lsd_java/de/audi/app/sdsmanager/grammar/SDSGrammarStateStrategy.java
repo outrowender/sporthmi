@@ -14,7 +14,6 @@ implements ISDSGrammarStateStrategy {
         this.grammarInfo = grammarStateInfo;
     }
 
-    @Override
     public byte getGrammarStatus() {
         if (this.grammarInfo == null) {
             return 0;
@@ -22,12 +21,10 @@ implements ISDSGrammarStateStrategy {
         return this.grammarInfo.getGrammarStatus() == 1 || this.grammarInfo.getGrammarStatus() == 4 ? (byte)1 : 0;
     }
 
-    @Override
     public byte getGrammarStatusForMedia() {
         return this.getGrammarStatus();
     }
 
-    @Override
     public boolean isGrammarStatusCompiling() {
         if (this.grammarInfo == null) {
             return false;

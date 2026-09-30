@@ -21,22 +21,20 @@ implements DSISoundListener {
         this.sdisAudioListener = sdisAudioListener;
     }
 
-    @Override
     public void updateVolumeRange(int n, int n2, int n3) {
         if (n3 == 1) {
             this.sdisAudioListener.updateVolumeRange(new VolumeRange(n, n2));
         } else {
-            this.env.lcSDIS.log(1078071040, "[SdisDSISoundListener.updateVolumeRange] INVALID");
+            this.env.lcSDIS.log(1000000, "[SdisDSISoundListener.updateVolumeRange] INVALID");
         }
     }
 
-    @Override
     public void updateVolume(int n, int n2, short s, int n3) {
         if (n3 == 1 && this.isEntertainmentConnection(n)) {
-            this.env.lcSDIS.log(1078071040, "[SdisDSISoundListener.updateVolume] AC:%1, value:%2", (long)n, (long)s);
+            this.env.lcSDIS.log(1000000, "[SdisDSISoundListener.updateVolume] AC:%1, value:%2", (long)n, (long)s);
             this.sdisAudioListener.updateVolume(s);
         } else {
-            this.env.lcSDIS.log(1078071040, "[SdisDSISoundListener.updateVolume] INVALID or AC:%1 is no entertainment connection (valid:%2)", (long)n, (long)n3);
+            this.env.lcSDIS.log(1000000, "[SdisDSISoundListener.updateVolume] INVALID or AC:%1 is no entertainment connection (valid:%2)", (long)n, (long)n3);
         }
     }
 

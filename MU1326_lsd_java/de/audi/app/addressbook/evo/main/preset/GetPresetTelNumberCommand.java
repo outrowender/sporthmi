@@ -21,9 +21,8 @@ extends AbstractADBCommand {
         this.entryId = l;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "GetPresetTelNumberCommand#execute(): entryId: %1", this.entryId);
+        this.logger.log(1000000, "GetPresetTelNumberCommand#execute(): entryId: %1", this.entryId);
         boolean bl = this.adbDSIAccess.getEntries(new long[]{this.entryId}, 0, 0);
         if (!bl) {
             this.logger.log(10000, "GetPresetTelNumberCommand#execute(): dsi call was not successful, finishing command.");
@@ -32,11 +31,10 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public void getEntriesResult(int n, AdbEntry[] adbEntryArray) {
-        this.logger.log(-2137614336, "GetPresetTelNumberCommand#getEntriesResult(): success: %2, entryList: %1", (Object)adbEntryArray, (Object)ADBDbgUtils.dbgSuccessFlag(n));
+        this.logger.log(10000000, "GetPresetTelNumberCommand#getEntriesResult(): success: %2, entryList: %1", (Object)adbEntryArray, (Object)ADBDbgUtils.dbgSuccessFlag(n));
         if (n == 0 && adbEntryArray != null && adbEntryArray.length == 1 && adbEntryArray[0].phoneData != null && adbEntryArray[0].phoneData.length > 0) {
-            this.logger.log(1078071040, "GetPresetTelNumberCommand#getEntriesResult(): entryList[0].phoneData[0]: %1", (Object)adbEntryArray[0].phoneData[0]);
+            this.logger.log(1000000, "GetPresetTelNumberCommand#getEntriesResult(): entryList[0].phoneData[0]: %1", (Object)adbEntryArray[0].phoneData[0]);
             this.presetHandler.setPresetTelNumberData(adbEntryArray[0].phoneData[0]);
         } else {
             this.logger.log(10000, "GetPresetTelNumberCommand#getEntriesResult(): #getEntries() was not successful!");

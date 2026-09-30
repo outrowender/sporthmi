@@ -10,16 +10,15 @@ import org.dsi.ifc.search.SearchResult;
 
 public class AlbumSearchResultLayouter
 extends AbstractSearchResultLayouter {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "AlbumSearchResultLayouter";
 
     public AlbumSearchResultLayouter(LogChannel logChannel) {
         super(logChannel, 2);
     }
 
-    @Override
     public TextListCellHighlightText getTextCell(SearchResult searchResult, int n) {
         if (this.logger.isDebug2()) {
-            this.logger.log(14808325, "[%1.getTextCell] line='%2'", (Object)"AlbumSearchResultLayouter", (long)n);
+            this.logger.log(100000000, "[%1.getTextCell] line='%2'", (Object)LOGCLASS, (long)n);
         }
         if (this.layout == 1) {
             if (n == 1) {
@@ -36,22 +35,20 @@ extends AbstractSearchResultLayouter {
         return null;
     }
 
-    @Override
     public int getSymbol(int n) {
         return 1;
     }
 
-    @Override
     public int getI18NValue(SearchResult searchResult, int n) {
         if (1 == n) {
             if (this.logger.isDebug2()) {
-                this.logger.log(14808325, "[%1.getI18NValue] line='%2'", (Object)"AlbumSearchResultLayouter", (long)n);
+                this.logger.log(100000000, "[%1.getI18NValue] line='%2'", (Object)LOGCLASS, (long)n);
             }
             return AlbumSearchResultLayouter.getI18NKey(searchResult.getEntryFlags() & 8);
         }
         if (2 == n) {
             if (this.logger.isDebug2()) {
-                this.logger.log(14808325, "[%1.getI18NValue] line='%2'", (Object)"AlbumSearchResultLayouter", (long)n);
+                this.logger.log(100000000, "[%1.getI18NValue] line='%2'", (Object)LOGCLASS, (long)n);
             }
             return AlbumSearchResultLayouter.getI18NKey(searchResult.getEntryFlags() & 6);
         }

@@ -9,7 +9,6 @@ import de.audi.app.messaging.core.guide.ITextLookup;
 import org.dsi.ifc.messaging.ListEntry;
 
 public interface IEntryListRowDataFactory {
-    default public AbstractEntryListRowData create(ListEntry listEntry, IEntryPropertyFactory iEntryPropertyFactory, int n, long l, ITextLookup iTextLookup) {
-    }
+    public AbstractEntryListRowData create(ListEntry var1, IEntryPropertyFactory var2, int var3, long var4, ITextLookup var6);
 }
 

@@ -16,42 +16,38 @@ public class AppConnectorRemoteServices
 extends AbstractAppConnectorASG
 implements BAPServiceRemoteServices {
     private final BAPModuleRemoteServices remoteServicesModule;
-    private static final int ASG_ID_HEADUNIT;
-    private static final String EMPTY_STRING;
+    private static final int ASG_ID_HEADUNIT = 1;
+    private static final String EMPTY_STRING = "";
 
     public AppConnectorRemoteServices(BAPModuleRemoteServices bAPModuleRemoteServices, IFunctionRegistrationASG iFunctionRegistrationASG) {
         super(bAPModuleRemoteServices.getLogChannel(), iFunctionRegistrationASG);
         this.remoteServicesModule = bAPModuleRemoteServices;
     }
 
-    @Override
     public void disableMobileDeviceKey() {
-        this.logChannel.log(1078071040, "[AppConnectorRemoteServices#disableMobileDeviceKey] called");
+        this.logChannel.log(1000000, "[AppConnectorRemoteServices#disableMobileDeviceKey] called");
         MobDevKeySetup_SetGet mobDevKeySetup_SetGet = new MobDevKeySetup_SetGet();
         mobDevKeySetup_SetGet.setup.mobileDeviceKeyEnabled = false;
         this.remoteServicesModule.getBAPFunctionPropertyASG(23).setGetREQ(mobDevKeySetup_SetGet);
     }
 
-    @Override
     public void enableMobileDeviceKey() {
-        this.logChannel.log(1078071040, "[AppConnectorRemoteServices#enableMobileDeviceKey] called");
+        this.logChannel.log(1000000, "[AppConnectorRemoteServices#enableMobileDeviceKey] called");
         MobDevKeySetup_SetGet mobDevKeySetup_SetGet = new MobDevKeySetup_SetGet();
         mobDevKeySetup_SetGet.setup.mobileDeviceKeyEnabled = true;
         this.remoteServicesModule.getBAPFunctionPropertyASG(23).setGetREQ(mobDevKeySetup_SetGet);
     }
 
-    @Override
     public void startVTANAuthData() {
-        this.logChannel.log(1078071040, "[AppConnectorRemoteServices#startVTANAuthData] called");
+        this.logChannel.log(1000000, "[AppConnectorRemoteServices#startVTANAuthData] called");
         VTANAuthData_StartResult vTANAuthData_StartResult = new VTANAuthData_StartResult();
         vTANAuthData_StartResult.asg_Id = 1;
-        vTANAuthData_StartResult.challenge.setContent("");
+        vTANAuthData_StartResult.challenge.setContent(EMPTY_STRING);
         this.getMethod(24).startResultREQ(vTANAuthData_StartResult);
     }
 
-    @Override
     public void startVTANDecryption(String string) {
-        this.logChannel.log(1078071040, "[AppConnectorRemoteServices#startVTANDecryption] vTANDataEncrypted=%1", (Object)string);
+        this.logChannel.log(1000000, "[AppConnectorRemoteServices#startVTANDecryption] vTANDataEncrypted=%1", (Object)string);
         VTANDecryption_StartResult vTANDecryption_StartResult = new VTANDecryption_StartResult();
         vTANDecryption_StartResult.asg_Id = 1;
         vTANDecryption_StartResult.vtandataEncrypted.setRawContent();
@@ -59,9 +55,8 @@ implements BAPServiceRemoteServices {
         this.getMethod(25).startResultREQ(vTANDecryption_StartResult);
     }
 
-    @Override
     public void triggerMobDevKeySetupUpdate() {
-        this.logChannel.log(1078071040, "[AppConnectorRemoteServices#triggerMobDevKeySetupUpdate] called");
+        this.logChannel.log(1000000, "[AppConnectorRemoteServices#triggerMobDevKeySetupUpdate] called");
         MobileKeySetup mobileKeySetup = this.remoteServicesModule.getDataRemoteServices().getCurrentMobileKeySetup();
         this.remoteServicesModule.getAppServiceListenerRemoteServices().onMobDevKeySetup(mobileKeySetup);
     }

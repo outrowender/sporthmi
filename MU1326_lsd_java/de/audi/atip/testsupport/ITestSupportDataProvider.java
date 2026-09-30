@@ -4,10 +4,8 @@
 package de.audi.atip.testsupport;
 
 public interface ITestSupportDataProvider {
-    default public void updateStatus(int n) {
-    }
+    public void updateStatus(int var1);
 
-    default public String getDataProviderName() {
-    }
+    public String getDataProviderName();
 }
 

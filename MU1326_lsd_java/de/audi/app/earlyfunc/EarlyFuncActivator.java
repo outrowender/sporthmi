@@ -23,7 +23,7 @@ import org.osgi.util.tracker.ServiceTrackerCustomizer;
 public class EarlyFuncActivator
 extends AbstractActivator
 implements ServiceTrackerCustomizer {
-    private static final String LOG_CHANNEL_NAME;
+    private static final String LOG_CHANNEL_NAME = "App.EarlyFunc.Activator";
     private ICarApplication earlyFuncApplication;
     private ServiceTracker serviceTracker;
     private EarlyFuncEvoDiagnosis diagGWEarlyFunc;
@@ -34,37 +34,36 @@ implements ServiceTrackerCustomizer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         if (CarVMOptions.carFuncAdapSimulated()) {
-            this.getFramework().getLogChannel("App.EarlyFunc.Activator").log(1078071040, "[CarActivator] FuncAdapSimulated-VM-Flag is set, activating Simulation.");
+            this.getFramework().getLogChannel(LOG_CHANNEL_NAME).log(1000000, "[CarActivator] FuncAdapSimulated-VM-Flag is set, activating Simulation.");
             try {
                 Class clazz = Class.forName("de.mib.swdiagnosis.earlyfunc.evo.SimulatedEarlyFuncApplication");
                 Constructor constructor = clazz.getConstructor(new Class[]{class$de$audi$atip$base$IFrameworkAccess == null ? (class$de$audi$atip$base$IFrameworkAccess = EarlyFuncActivator.class$("de.audi.atip.base.IFrameworkAccess")) : class$de$audi$atip$base$IFrameworkAccess, class$org$osgi$framework$BundleContext == null ? (class$org$osgi$framework$BundleContext = EarlyFuncActivator.class$("org.osgi.framework.BundleContext")) : class$org$osgi$framework$BundleContext});
                 this.earlyFuncApplication = (ICarApplication)constructor.newInstance(new Object[]{this.getFramework(), bundleContext});
-                this.getFramework().getLogChannel("App.EarlyFunc.Activator").log(1078071040, "[EarlyFuncActivator] Simulation of Car Features activated");
+                this.getFramework().getLogChannel(LOG_CHANNEL_NAME).log(1000000, "[EarlyFuncActivator] Simulation of Car Features activated");
             }
             catch (ClassNotFoundException classNotFoundException) {
-                this.getFramework().getLogChannel("App.EarlyFunc.Activator").log(1078071040, "[EarlyFuncActivator] FuncAdapSimulated-VM-Flag is set, but cannot find Simulated Application. Using Standard.", (Throwable)classNotFoundException);
+                this.getFramework().getLogChannel(LOG_CHANNEL_NAME).log(1000000, "[EarlyFuncActivator] FuncAdapSimulated-VM-Flag is set, but cannot find Simulated Application. Using Standard.", (Throwable)classNotFoundException);
             }
             catch (SecurityException securityException) {
-                this.getFramework().getLogChannel("App.EarlyFunc.Activator").log(1078071040, "[EarlyFuncActivator] FuncAdapSimulated-VM-Flag is set, but cannot get Constructor because of security Concerns", (Throwable)securityException);
+                this.getFramework().getLogChannel(LOG_CHANNEL_NAME).log(1000000, "[EarlyFuncActivator] FuncAdapSimulated-VM-Flag is set, but cannot get Constructor because of security Concerns", (Throwable)securityException);
             }
             catch (NoSuchMethodException noSuchMethodException) {
-                this.getFramework().getLogChannel("App.EarlyFunc.Activator").log(1078071040, "[EarlyFuncActivator] FuncAdapSimulated-VM-Flag is set, but cannot get Constructor because there is no constructor with matching signature", (Throwable)noSuchMethodException);
+                this.getFramework().getLogChannel(LOG_CHANNEL_NAME).log(1000000, "[EarlyFuncActivator] FuncAdapSimulated-VM-Flag is set, but cannot get Constructor because there is no constructor with matching signature", (Throwable)noSuchMethodException);
             }
             catch (IllegalArgumentException illegalArgumentException) {
-                this.getFramework().getLogChannel("App.EarlyFunc.Activator").log(1078071040, "[EarlyFuncActivator] FuncAdapSimulated-VM-Flag is set, but cannot cannot call constructor with this type of argument", (Throwable)illegalArgumentException);
+                this.getFramework().getLogChannel(LOG_CHANNEL_NAME).log(1000000, "[EarlyFuncActivator] FuncAdapSimulated-VM-Flag is set, but cannot cannot call constructor with this type of argument", (Throwable)illegalArgumentException);
             }
             catch (InstantiationException instantiationException) {
-                this.getFramework().getLogChannel("App.EarlyFunc.Activator").log(1078071040, "[EarlyFuncActivator] FuncAdapSimulated-VM-Flag is set, but cannot instantiate Simulated Application. Using Standard.", (Throwable)instantiationException);
+                this.getFramework().getLogChannel(LOG_CHANNEL_NAME).log(1000000, "[EarlyFuncActivator] FuncAdapSimulated-VM-Flag is set, but cannot instantiate Simulated Application. Using Standard.", (Throwable)instantiationException);
             }
             catch (IllegalAccessException illegalAccessException) {
-                this.getFramework().getLogChannel("App.EarlyFunc.Activator").log(1078071040, "[EarlyFuncActivator] FuncAdapSimulated-VM-Flag is set, but cannot access Simulated Application. Using Standard.", (Throwable)illegalAccessException);
+                this.getFramework().getLogChannel(LOG_CHANNEL_NAME).log(1000000, "[EarlyFuncActivator] FuncAdapSimulated-VM-Flag is set, but cannot access Simulated Application. Using Standard.", (Throwable)illegalAccessException);
             }
             catch (InvocationTargetException invocationTargetException) {
-                this.getFramework().getLogChannel("App.EarlyFunc.Activator").log(1078071040, "[EarlyFuncActivator] FuncAdapSimulated-VM-Flag is set, but Constructor does not like to be called.", (Throwable)invocationTargetException);
+                this.getFramework().getLogChannel(LOG_CHANNEL_NAME).log(1000000, "[EarlyFuncActivator] FuncAdapSimulated-VM-Flag is set, but Constructor does not like to be called.", (Throwable)invocationTargetException);
             }
             finally {
                 if (this.earlyFuncApplication == null) {
@@ -78,7 +77,6 @@ implements ServiceTrackerCustomizer {
         this.initTracker();
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         super.stop(bundleContext);
         this.earlyFuncApplication.deinit();
@@ -94,7 +92,6 @@ implements ServiceTrackerCustomizer {
         this.serviceTracker = this.closeTracker(this.serviceTracker);
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof SwDiagnosisManager) {
@@ -104,11 +101,9 @@ implements ServiceTrackerCustomizer {
         return object;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof SwDiagnosisManager) {
             this.diagGWEarlyFunc = null;

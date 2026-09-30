@@ -5,7 +5,7 @@ package de.audi.atip.error;
 
 public class FatalSystemError
 extends Error {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 2863318504738720438L;
     private Throwable cause;
 
     public FatalSystemError() {
@@ -16,7 +16,6 @@ extends Error {
         this.cause = throwable;
     }
 
-    @Override
     public Throwable getCause() {
         return this.cause;
     }

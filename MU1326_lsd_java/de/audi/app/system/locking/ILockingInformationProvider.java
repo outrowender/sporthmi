@@ -4,7 +4,6 @@
 package de.audi.app.system.locking;
 
 public interface ILockingInformationProvider {
-    default public boolean isNowPlayingScreenLockedByNhtsaCoding() {
-    }
+    public boolean isNowPlayingScreenLockedByNhtsaCoding();
 }
 

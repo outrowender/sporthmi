@@ -10,16 +10,12 @@ import de.vw.mib.bap.requests.GetArray;
 import de.vw.mib.bap.requests.SetGetArray;
 
 public interface IBAPIndicationHandlerArrayFSG {
-    default public void processIndicationAckArray(BAPFunctionArrayFSG bAPFunctionArrayFSG, BAPArray bAPArray) {
-    }
+    public void processIndicationAckArray(BAPFunctionArrayFSG var1, BAPArray var2);
 
-    default public void processIndicationSetArray(BAPFunctionArrayFSG bAPFunctionArrayFSG, SetGetArray setGetArray) {
-    }
+    public void processIndicationSetArray(BAPFunctionArrayFSG var1, SetGetArray var2);
 
-    default public void processIndicationSetGetArray(BAPFunctionArrayFSG bAPFunctionArrayFSG, SetGetArray setGetArray) {
-    }
+    public void processIndicationSetGetArray(BAPFunctionArrayFSG var1, SetGetArray var2);
 
-    default public GetArrayIndication evaluateGetArrayIndication(int n, GetArray getArray) {
-    }
+    public GetArrayIndication evaluateGetArrayIndication(int var1, GetArray var2);
 }
 

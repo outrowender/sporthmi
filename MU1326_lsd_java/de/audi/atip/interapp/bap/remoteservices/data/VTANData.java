@@ -3,14 +3,12 @@
  */
 package de.audi.atip.interapp.bap.remoteservices.data;
 
-import de.audi.atip.interapp.bap.remoteservices.data.VTANData$Builder;
-
 public final class VTANData {
     private String vTAN;
     private String userName;
 
-    public static VTANData$Builder builder() {
-        return new VTANData$Builder();
+    public static Builder builder() {
+        return new Builder();
     }
 
     private VTANData(String string, String string2) {
@@ -33,6 +31,25 @@ public final class VTANData {
         stringBuffer.append(", vTAN=").append(this.getVTAN());
         stringBuffer.append("]");
         return stringBuffer.toString();
+    }
+
+    public static final class Builder {
+        private String vTAN;
+        private String userName;
+
+        public Builder setVTAN(String string) {
+            this.vTAN = string;
+            return this;
+        }
+
+        public Builder setUserName(String string) {
+            this.userName = string;
+            return this;
+        }
+
+        public VTANData build() {
+            return new VTANData(this.vTAN, this.userName);
+        }
     }
 }
 

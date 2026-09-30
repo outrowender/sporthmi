@@ -17,9 +17,8 @@ extends AbstractSystemCallCommand {
         this.appInfoKrService = appInfoKrService;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: started");
+        this.logger.log(10000000, "%1#execute: started");
         this.appInfoKrService.startSimpleMapFreeSelection();
     }
 
@@ -27,14 +26,14 @@ extends AbstractSystemCallCommand {
         int n2;
         switch (n) {
             case 0: {
-                n2 = 1083965440;
+                n2 = 40000;
                 break;
             }
             default: {
-                n2 = 1100742656;
+                n2 = 40001;
             }
         }
-        this.logger.log(1078071040, "%1#responseStartSimpleMapFreeSelection: response=%2", (Object)this.getName(), (long)n2);
+        this.logger.log(1000000, "%1#responseStartSimpleMapFreeSelection: response=%2", (Object)this.getName(), (long)n2);
         this.sendResult(n2);
     }
 }

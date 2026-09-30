@@ -4,7 +4,6 @@
 package de.audi.atip.error;
 
 public interface ShutdownGuard {
-    default public boolean queryShutdown() {
-    }
+    public boolean queryShutdown();
 }
 

@@ -16,12 +16,12 @@ import de.audi.atip.log.LogChannel;
 public class BufferedFolderListContentModel
 extends BufferedListModel
 implements FolderListContentModelApp {
-    public static final int INDEX_ROW_ID;
-    public static final int INDEX_FOLDER_ID;
-    public static final int INDEX_IS_FOLDER;
-    public static final int INDEX_LD_OPEN;
-    public static final int INDEX_LD_CLOSED;
-    public static final int INDEX_RS;
+    public static final int INDEX_ROW_ID = 0;
+    public static final int INDEX_FOLDER_ID = 1;
+    public static final int INDEX_IS_FOLDER = 2;
+    public static final int INDEX_LD_OPEN = 3;
+    public static final int INDEX_LD_CLOSED = 4;
+    public static final int INDEX_RS = 5;
     private final BufferedFolderListModel viewModel;
     private final LogChannel lc;
 
@@ -32,16 +32,14 @@ implements FolderListContentModelApp {
         this.viewModel.setContentModel(this);
     }
 
-    @Override
     public void addRow(ListCell listCell) {
         throw new ModelException((HMIModel)this, "Single column rows are not supported!");
     }
 
-    @Override
     public void addRow(BaseListRow baseListRow) {
         super.addRow(baseListRow);
         if (this.isTransactionRunning()) {
-            this.lc.log(1078071040, "[BFLContentModel.addRow] Ignored because transaction is running.");
+            this.lc.log(1000000, "[BFLContentModel.addRow] Ignored because transaction is running.");
             return;
         }
         this.setViewFolderState(baseListRow);
@@ -65,34 +63,30 @@ implements FolderListContentModelApp {
         }
     }
 
-    @Override
-    public void endTransaction() {
+    public void endTransaction() throws IllegalStateException {
         super.endTransaction();
         this.viewModel.contentChanged();
     }
 
-    @Override
     public void insertRow(int n, ListCell listCell) {
         throw new ModelException((HMIModel)this, "Single column rows are not supported!");
     }
 
-    @Override
     public void insertRow(int n, BaseListRow baseListRow) {
         super.insertRow(n, baseListRow);
         if (this.isTransactionRunning()) {
-            this.lc.log(1078071040, "[BFLContentModel.insertRow] Ignored because transaction is running.");
+            this.lc.log(1000000, "[BFLContentModel.insertRow] Ignored because transaction is running.");
             return;
         }
         this.setViewFolderState(baseListRow);
         this.viewModel.insertRow(n, baseListRow);
     }
 
-    @Override
     public void removeRow(int n) {
         int n2 = this.getRowIdByIndex(n);
         super.removeRow(n);
         if (this.isTransactionRunning()) {
-            this.lc.log(1078071040, "[BFLContentModel.removeRow] Ignored because transaction is running.");
+            this.lc.log(1000000, "[BFLContentModel.removeRow] Ignored because transaction is running.");
             return;
         }
         if (this.viewModel.isVisible(n2)) {
@@ -101,23 +95,20 @@ implements FolderListContentModelApp {
         }
     }
 
-    @Override
     public void setMaxColumns(int n) {
         super.setMaxColumns(n);
         this.viewModel.setMaxColumns(n);
     }
 
-    @Override
     public void setMaxRows(int n) {
         super.setMaxRows(n);
         this.viewModel.setMaxRows(n);
     }
 
-    @Override
     public void setCell(int n, int n2, ListCell listCell) {
         super.setCell(n, n2, listCell);
         if (this.isTransactionRunning()) {
-            this.lc.log(1078071040, "[BFLContentModel.setCell] Ignored because transaction is running.");
+            this.lc.log(1000000, "[BFLContentModel.setCell] Ignored because transaction is running.");
             return;
         }
         int n3 = this.getRowIdByIndex(n);
@@ -127,11 +118,10 @@ implements FolderListContentModelApp {
         }
     }
 
-    @Override
     public void setRow(int n, BaseListRow baseListRow) {
         super.setRow(n, baseListRow);
         if (this.isTransactionRunning()) {
-            this.lc.log(1078071040, "[BFLContentModel.setRow] Ignored because transaction is running.");
+            this.lc.log(1000000, "[BFLContentModel.setRow] Ignored because transaction is running.");
             return;
         }
         this.setViewFolderState(baseListRow);
@@ -140,51 +130,46 @@ implements FolderListContentModelApp {
         this.viewModel.setRow(n3, baseListRow);
     }
 
-    @Override
     public void addHint(int n) {
         super.addHint(n);
         if (this.isTransactionRunning()) {
-            this.lc.log(1078071040, "[BFLContentModel.addHint] Ignored because transaction is running.");
+            this.lc.log(1000000, "[BFLContentModel.addHint] Ignored because transaction is running.");
             return;
         }
         this.viewModel.addHint(n);
     }
 
-    @Override
     public void removeHint(int n) {
         super.removeHint(n);
         if (this.isTransactionRunning()) {
-            this.lc.log(1078071040, "[BFLContentModel.removeHint] Ignored because transaction is running.");
+            this.lc.log(1000000, "[BFLContentModel.removeHint] Ignored because transaction is running.");
             return;
         }
         this.viewModel.removeHint(n);
     }
 
-    @Override
     public void resetHints() {
         super.resetHints();
         if (this.isTransactionRunning()) {
-            this.lc.log(1078071040, "[BFLContentModel.resetHints] Ignored because transaction is running.");
+            this.lc.log(1000000, "[BFLContentModel.resetHints] Ignored because transaction is running.");
             return;
         }
         this.viewModel.resetHints();
     }
 
-    @Override
     public void publishHints() {
         super.publishHints();
         if (this.isTransactionRunning()) {
-            this.lc.log(1078071040, "[BFLContentModel.publishHints] Ignored because transaction is running.");
+            this.lc.log(1000000, "[BFLContentModel.publishHints] Ignored because transaction is running.");
             return;
         }
         this.viewModel.publishHints();
     }
 
-    @Override
     public void setSelected(int n) {
         super.setSelected(n);
         if (this.isTransactionRunning()) {
-            this.lc.log(1078071040, "[BFLContentModel.setSelected] Ignored because transaction is running.");
+            this.lc.log(1000000, "[BFLContentModel.setSelected] Ignored because transaction is running.");
             return;
         }
         int n2 = n != -1 ? this.getRowIdByIndex(n) : -1;
@@ -204,7 +189,7 @@ implements FolderListContentModelApp {
             if (n != this.getRowIdByIndex(i2)) continue;
             return this.getCell(i2, n2);
         }
-        throw new ModelException((HMIModel)this, new StringBuffer().append("Row ID ").append(n).append(" not found!").toString());
+        throw new ModelException((HMIModel)this, "Row ID " + n + " not found!");
     }
 
     int getFolderIdByIndex(int n) {
@@ -214,7 +199,6 @@ implements FolderListContentModelApp {
         return this.getRow(n).getInteger(1);
     }
 
-    @Override
     public int getFolderIndex(int n) {
         int n2 = this.getLength();
         for (int i2 = 0; i2 < n2; ++i2) {
@@ -224,11 +208,10 @@ implements FolderListContentModelApp {
         return -1;
     }
 
-    @Override
     public void setStatus(int n) {
         super.setStatus(n);
         if (this.isTransactionRunning()) {
-            this.lc.log(1078071040, "[BFLContentModel.setStatus] Ignored because transaction is running.");
+            this.lc.log(1000000, "[BFLContentModel.setStatus] Ignored because transaction is running.");
             return;
         }
         this.viewModel.setStatus(n);

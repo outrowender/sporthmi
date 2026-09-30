@@ -4,7 +4,6 @@
 package de.audi.atip.log;
 
 public interface SPISink {
-    default public void saveErrorDumpName(String string) {
-    }
+    public void saveErrorDumpName(String var1);
 }
 

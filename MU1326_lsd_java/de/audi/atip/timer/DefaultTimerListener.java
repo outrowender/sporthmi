@@ -10,11 +10,9 @@ public class DefaultTimerListener
 implements TimerListener {
     public static final TimerListener DEFAULT_LISTENER = new DefaultTimerListener();
 
-    @Override
     public void fireTimer(Timer timer) {
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 }

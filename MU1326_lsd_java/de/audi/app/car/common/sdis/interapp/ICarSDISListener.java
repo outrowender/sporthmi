@@ -4,10 +4,8 @@
 package de.audi.app.car.common.sdis.interapp;
 
 public interface ICarSDISListener {
-    default public void asiAvailable(boolean bl) {
-    }
+    public void asiAvailable(boolean var1);
 
-    default public void receiveData(Object object) {
-    }
+    public void receiveData(Object var1);
 }
 

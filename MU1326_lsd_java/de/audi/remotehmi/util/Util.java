@@ -8,7 +8,7 @@ import java.io.File;
 
 public class Util {
     private static final Integer[] cachedIntegers = Util.createCachedIntegers();
-    private static volatile int APPLICATION_ID = 1094848256;
+    private static volatile int APPLICATION_ID = 1000001;
     private static final Long[] cachedLongs = Util.createCachedLongs();
 
     private static Integer[] createCachedIntegers() {
@@ -38,7 +38,7 @@ public class Util {
     }
 
     public static Long createLong(long l) {
-        if (l >= -127L && l <= 0) {
+        if (l >= -127L && l <= 128L) {
             return cachedLongs[(int)l + 127];
         }
         return new Long(l);

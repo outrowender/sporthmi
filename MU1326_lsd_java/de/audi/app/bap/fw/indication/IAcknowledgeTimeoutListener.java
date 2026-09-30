@@ -4,7 +4,6 @@
 package de.audi.app.bap.fw.indication;
 
 public interface IAcknowledgeTimeoutListener {
-    default public void processAcknowledgeTimeout(int n) {
-    }
+    public void processAcknowledgeTimeout(int var1);
 }
 

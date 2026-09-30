@@ -5,7 +5,6 @@ package de.audi.app.messaging.core.deletemessage;
 
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
 import de.audi.app.messaging.core.commands.ICommandCallback;
-import de.audi.app.messaging.core.deletemessage.DeleteSimMessagesCommand$Result;
 import de.audi.app.messaging.core.dsi.messaging.AbstractDsiMessagingCommand;
 
 final class DeleteSimMessagesCommand
@@ -20,10 +19,9 @@ extends AbstractDsiMessagingCommand {
         this.delFlag = n2;
     }
 
-    @Override
     public void execute() {
         try {
-            this.logger.log(-2137614336, "[DeleteSimMessagesCommand#execute]");
+            this.logger.log(10000000, "[DeleteSimMessagesCommand#execute]");
             this.dsiMessagingAccess.deleteSimCardMessagesRequest(this.accountID, this.delFlag);
         }
         catch (Exception exception) {
@@ -32,12 +30,23 @@ extends AbstractDsiMessagingCommand {
         }
     }
 
-    @Override
     public void deleteSimCardMessagesResponse(int n) {
         if (this.logger.isDebug()) {
-            this.logger.log(-2137614336, "[DeleteSimMessagesCommand#deleteSimCardMessagesResponse] result = %1", (long)n);
+            this.logger.log(10000000, "[DeleteSimMessagesCommand#deleteSimCardMessagesResponse] result = %1", (long)n);
         }
-        this.setResult(new DeleteSimMessagesCommand$Result(this, n, null));
+        this.setResult(new Result(n));
+    }
+
+    final class Result {
+        private final int resultCode;
+
+        private Result(int n) {
+            this.resultCode = n;
+        }
+
+        public int getResultCode() {
+            return this.resultCode;
+        }
     }
 }
 

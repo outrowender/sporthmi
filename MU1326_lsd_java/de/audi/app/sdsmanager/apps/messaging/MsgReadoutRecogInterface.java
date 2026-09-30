@@ -4,7 +4,6 @@
 package de.audi.app.sdsmanager.apps.messaging;
 
 public interface MsgReadoutRecogInterface {
-    default public void responseBeginDialog(int n) {
-    }
+    public void responseBeginDialog(int var1);
 }
 

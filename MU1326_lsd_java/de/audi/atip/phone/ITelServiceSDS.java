@@ -12,52 +12,37 @@ import de.audi.atip.phone.TelServiceCallStackEntry;
 public interface ITelServiceSDS
 extends ITelService,
 AbstractSDSApplicationService {
-    public static final int PIN_MAX_LENGTH;
-    public static final int NUMBER_MAX_LENGTH;
+    public static final int PIN_MAX_LENGTH = 8;
+    public static final int NUMBER_MAX_LENGTH = 40;
 
-    default public boolean checkForSuppService(String string) {
-    }
+    public boolean checkForSuppService(String var1);
 
-    default public String getNumberSpellerContent() {
-    }
+    public String getNumberSpellerContent();
 
-    default public void setNumberSpeller(String string) {
-    }
+    public void setNumberSpeller(String var1);
 
-    default public String getPINSpellerContent() {
-    }
+    public String getPINSpellerContent();
 
-    default public void setPINSpeller(String string) {
-    }
+    public void setPINSpeller(String var1);
 
-    default public String getMailboxSpellerContent() {
-    }
+    public String getMailboxSpellerContent();
 
-    default public void setMailboxSpeller(String string) {
-    }
+    public void setMailboxSpeller(String var1);
 
-    default public void setMailboxNumber(String string, ITelServiceSDSListener iTelServiceSDSListener) {
-    }
+    public void setMailboxNumber(String var1, ITelServiceSDSListener var2);
 
-    default public void unlockSIMWithPIN(String string, ITelServiceSDSListener iTelServiceSDSListener) {
-    }
+    public void unlockSIMWithPIN(String var1, ITelServiceSDSListener var2);
 
-    default public String getMailboxNumber() {
-    }
+    public String getMailboxNumber();
 
-    default public TelServiceCallStackEntry getLastDialedNumber() {
-    }
+    public TelServiceCallStackEntry getLastDialedNumber();
 
-    default public byte fillCallstackPickList(SDSListEntry[] sDSListEntryArray) {
-    }
+    public byte fillCallstackPickList(SDSListEntry[] var1);
 
-    default public byte fillFavoritePickList(SDSListEntry[] sDSListEntryArray) {
-    }
+    public byte fillFavoritePickList(SDSListEntry[] var1);
 
-    default public boolean isHfpPhoneConnected(boolean bl) {
-    }
+    public boolean isHfpPhoneConnected(boolean var1);
 
-    default public boolean isBluetoothPhoneConnected() {
-    }
+    public boolean isBluetoothPhoneConnected();
 }
 

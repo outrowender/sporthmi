@@ -6,16 +6,12 @@ package de.audi.app.media.queue;
 import de.audi.app.media.queue.IQueueExecutionContext;
 
 public interface IQueueJob {
-    default public int getType() {
-    }
+    public int getType();
 
-    default public String getName() {
-    }
+    public String getName();
 
-    default public void start(IQueueExecutionContext iQueueExecutionContext) {
-    }
+    public void start(IQueueExecutionContext var1);
 
-    default public void abort(boolean bl) {
-    }
+    public void abort(boolean var1);
 }
 

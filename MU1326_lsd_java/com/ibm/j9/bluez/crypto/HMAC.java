@@ -41,7 +41,7 @@ public class HMAC {
         } else {
             objectArray = (Object[])cL3State.obj;
             if (n != (((byte[])objectArray[2])[0] & 0xFF)) {
-                throw new CL3Exception(0x3000080);
+                throw new CL3Exception(-2147483645);
             }
         }
         CL3 cL3 = null;
@@ -61,7 +61,7 @@ public class HMAC {
                     break;
                 }
                 default: {
-                    throw new CL3Exception(0x18000080);
+                    throw new CL3Exception(-2147483624);
                 }
             }
             objectArray[n4] = cL32;
@@ -141,7 +141,7 @@ public class HMAC {
                 return 20;
             }
             default: {
-                throw new CL3Exception(0x18000080);
+                throw new CL3Exception(-2147483624);
             }
         }
         return HASH_BS[n4] & 0xFF;

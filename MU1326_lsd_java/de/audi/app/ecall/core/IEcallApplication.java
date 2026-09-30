@@ -23,67 +23,49 @@ import de.mib.swdiagnosis.ecall.IEcallDiagnosisComponent;
 import org.osgi.framework.BundleContext;
 
 public interface IEcallApplication {
-    public static final String LOGCHANNEL_MAIN;
-    public static final String LOGCHANNEL_SOS;
-    public static final String LOGCHANNEL_OPR;
-    public static final String LOGCHANNEL_AUDIO;
-    public static final String LOGCHANNEL_AUDIO_CL;
-    public static final String LOGCHANNEL_STATE_DISPATCHER;
-    public static final int ECALL_MODULE_ID;
-    public static final String MODULE_NAME;
+    public static final String LOGCHANNEL_MAIN = "App.Ecall.Main";
+    public static final String LOGCHANNEL_SOS = "App.Ecall.SOS";
+    public static final String LOGCHANNEL_OPR = "App.Ecall.OPR";
+    public static final String LOGCHANNEL_AUDIO = "App.Ecall.Audio";
+    public static final String LOGCHANNEL_AUDIO_CL = "App.Ecall.Audio.CL";
+    public static final String LOGCHANNEL_STATE_DISPATCHER = "App.Ecall.State.Dispatcher";
+    public static final int ECALL_MODULE_ID = 33;
+    public static final String MODULE_NAME = "AppEcall";
 
-    default public void init() {
-    }
+    public void init();
 
-    default public void deinit() {
-    }
+    public void deinit();
 
-    default public IFrameworkAccess getFrameworkAccess() {
-    }
+    public IFrameworkAccess getFrameworkAccess();
 
-    default public void logStartupEvent(String string) {
-    }
+    public void logStartupEvent(String var1);
 
-    default public BundleContext getBundleContext() {
-    }
+    public BundleContext getBundleContext();
 
-    default public void addDiagnosisComponent(IEcallDiagnosisComponent iEcallDiagnosisComponent) {
-    }
+    public void addDiagnosisComponent(IEcallDiagnosisComponent var1);
 
-    default public IActionProxyDispatcher getActionProxyDispatcher() {
-    }
+    public IActionProxyDispatcher getActionProxyDispatcher();
 
-    default public IPowerEventDispatcher getPowerEventDispatcher() {
-    }
+    public IPowerEventDispatcher getPowerEventDispatcher();
 
-    default public IPopupScreenStateDispatcher getPopupScreenStateDispatcher() {
-    }
+    public IPopupScreenStateDispatcher getPopupScreenStateDispatcher();
 
-    default public LogChannel getEcallAppLogChannel() {
-    }
+    public LogChannel getEcallAppLogChannel();
 
-    default public ISOSOpenClosePopupHandler getSOSPopupHandler() {
-    }
+    public ISOSOpenClosePopupHandler getSOSPopupHandler();
 
-    default public IOPROpenClosePopupHandler getOPRPopupHandler() {
-    }
+    public IOPROpenClosePopupHandler getOPRPopupHandler();
 
-    default public SDSHandler getSDSHandler() {
-    }
+    public SDSHandler getSDSHandler();
 
-    default public IMessageDispatcher getMessageDispatcher() {
-    }
+    public IMessageDispatcher getMessageDispatcher();
 
-    default public ITelServiceEcallHandler getTelServiceEcallHandler() {
-    }
+    public ITelServiceEcallHandler getTelServiceEcallHandler();
 
-    default public IAudioConnectionHandler getAudioConnectionHandler() {
-    }
+    public IAudioConnectionHandler getAudioConnectionHandler();
 
-    default public IGlobalEcallState getEcallStateManager() {
-    }
+    public IGlobalEcallState getEcallStateManager();
 
-    default public IEcallBapServiceAdapter getEcallBapServiceAdapter() {
-    }
+    public IEcallBapServiceAdapter getEcallBapServiceAdapter();
 }
 

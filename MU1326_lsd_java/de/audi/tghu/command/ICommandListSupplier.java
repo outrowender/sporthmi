@@ -6,19 +6,14 @@ package de.audi.tghu.command;
 import de.audi.tghu.command.CommandList;
 
 public interface ICommandListSupplier {
-    default public boolean isApplicationOperable() {
-    }
+    public boolean isApplicationOperable();
 
-    default public boolean isDSIsAvailable(CommandList commandList) {
-    }
+    public boolean isDSIsAvailable(CommandList var1);
 
-    default public String getApplicationName(CommandList commandList) {
-    }
+    public String getApplicationName(CommandList var1);
 
-    default public void showDebugPopup(CommandList commandList, String string, String string2) {
-    }
+    public void showDebugPopup(CommandList var1, String var2, String var3);
 
-    default public void handleException(Exception exception) {
-    }
+    public void handleException(Exception var1);
 }
 

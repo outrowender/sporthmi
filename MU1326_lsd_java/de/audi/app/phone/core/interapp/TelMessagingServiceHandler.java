@@ -6,9 +6,9 @@ package de.audi.app.phone.core.interapp;
 import de.audi.app.phone.core.AbstractPhoneComponent;
 import de.audi.app.phone.core.ITelApplication;
 import de.audi.app.phone.core.PhoneServiceTracker;
-import de.audi.app.phone.core.interapp.TelMessagingServiceHandler$1;
 import de.audi.atip.interapp.IMessagingService;
 import de.esolutions.fw.util.commons.Buffer;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
 public class TelMessagingServiceHandler
@@ -19,16 +19,35 @@ extends AbstractPhoneComponent {
 
     public TelMessagingServiceHandler(ITelApplication iTelApplication) {
         super(iTelApplication, "App.Phone.Main");
-        this.messagingServiceTracker = new PhoneServiceTracker(this.getApplication().getBundleContext(), (class$de$audi$atip$interapp$IMessagingService == null ? (class$de$audi$atip$interapp$IMessagingService = TelMessagingServiceHandler.class$("de.audi.atip.interapp.IMessagingService")) : class$de$audi$atip$interapp$IMessagingService).getName(), (ServiceTrackerCustomizer)new TelMessagingServiceHandler$1(this), this.log);
+        this.messagingServiceTracker = new PhoneServiceTracker(this.getApplication().getBundleContext(), (class$de$audi$atip$interapp$IMessagingService == null ? (class$de$audi$atip$interapp$IMessagingService = TelMessagingServiceHandler.class$("de.audi.atip.interapp.IMessagingService")) : class$de$audi$atip$interapp$IMessagingService).getName(), new ServiceTrackerCustomizer(){
+
+            public void removedService(ServiceReference serviceReference, Object object) {
+                if (object instanceof IMessagingService) {
+                    TelMessagingServiceHandler.this.messagingService = null;
+                    TelMessagingServiceHandler.this.getApplication().getBundleContext().ungetService(serviceReference);
+                }
+            }
+
+            public void modifiedService(ServiceReference serviceReference, Object object) {
+            }
+
+            public Object addingService(ServiceReference serviceReference) {
+                Object object = TelMessagingServiceHandler.this.getApplication().getBundleContext().getService(serviceReference);
+                if (object instanceof IMessagingService) {
+                    TelMessagingServiceHandler.this.messagingService = (IMessagingService)object;
+                    return object;
+                }
+                TelMessagingServiceHandler.this.getApplication().getBundleContext().ungetService(serviceReference);
+                return null;
+            }
+        }, this.log);
     }
 
-    @Override
     public void init() {
         super.init();
         this.messagingServiceTracker.openTracker();
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.messagingServiceTracker.closeTracker();
@@ -37,11 +56,11 @@ extends AbstractPhoneComponent {
     public boolean prepareSendSMS(String string) {
         IMessagingService iMessagingService = this.messagingService;
         if (iMessagingService != null) {
-            this.log.log(1078071040, "[TelMessagingServiceHandler#sendSMS] telephoneNumber=%1", (Object)string);
+            this.log.log(1000000, "[TelMessagingServiceHandler#sendSMS] telephoneNumber=%1", (Object)string);
             iMessagingService.composeMsgPresetRecipient(0, string);
             return true;
         }
-        this.log.log(-1601830656, "[TelMessagingServiceHandler#sendSMS] messaging service is null --> NOP!");
+        this.log.log(100000, "[TelMessagingServiceHandler#sendSMS] messaging service is null --> NOP!");
         return false;
     }
 
@@ -61,23 +80,23 @@ extends AbstractPhoneComponent {
                 buffer.append("phoneNumberIndex");
                 buffer.append("=");
                 buffer.append(n);
-                this.log.log(1078071040, "[TelMessagingServiceHandler#sendSMS] %1", (Object)buffer);
+                this.log.log(1000000, "[TelMessagingServiceHandler#sendSMS] %1", (Object)buffer);
             }
             iMessagingService.composeMsgPresetRecipient(0, l, n);
             return true;
         }
-        this.log.log(-1601830656, "[TelMessagingServiceHandler#sendSMS] messaging service is null --> NOP!");
+        this.log.log(100000, "[TelMessagingServiceHandler#sendSMS] messaging service is null --> NOP!");
         return false;
     }
 
     public boolean prepareSendEmail(long l) {
         IMessagingService iMessagingService = this.messagingService;
         if (iMessagingService != null) {
-            this.log.log(1078071040, "[TelMessagingServiceHandler#prepareSendEmail] preparing email for adbEntryId %1", l);
+            this.log.log(1000000, "[TelMessagingServiceHandler#prepareSendEmail] preparing email for adbEntryId %1", l);
             iMessagingService.composeMsgPresetRecipient(1, l, -1);
             return true;
         }
-        this.log.log(-1601830656, "[TelMessagingServiceHandler#sendSMS] messaging service is null --> NOP!");
+        this.log.log(100000, "[TelMessagingServiceHandler#sendSMS] messaging service is null --> NOP!");
         return false;
     }
 
@@ -88,23 +107,6 @@ extends AbstractPhoneComponent {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ IMessagingService access$002(TelMessagingServiceHandler telMessagingServiceHandler, IMessagingService iMessagingService) {
-        telMessagingServiceHandler.messagingService = iMessagingService;
-        return telMessagingServiceHandler.messagingService;
-    }
-
-    static /* synthetic */ ITelApplication access$100(TelMessagingServiceHandler telMessagingServiceHandler) {
-        return telMessagingServiceHandler.getApplication();
-    }
-
-    static /* synthetic */ ITelApplication access$200(TelMessagingServiceHandler telMessagingServiceHandler) {
-        return telMessagingServiceHandler.getApplication();
-    }
-
-    static /* synthetic */ ITelApplication access$300(TelMessagingServiceHandler telMessagingServiceHandler) {
-        return telMessagingServiceHandler.getApplication();
     }
 }
 

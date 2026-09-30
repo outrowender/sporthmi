@@ -15,7 +15,7 @@ import de.audi.audio.intra.IAudioListener;
 import de.audi.audio.services.BaseAudioService;
 import de.audi.audio.store.ConnectionStore;
 import de.audi.audio.store.VolumelockMap;
-import de.audi.audio.volume.OnOffVolumeRange$Controller;
+import de.audi.audio.volume.OnOffVolumeRange;
 import de.audi.audio.volume.UserMuteRestorer;
 import org.dsi.ifc.audio.DSIAudioManagementListener;
 
@@ -28,7 +28,7 @@ implements DSIAudioManagementListener {
     private final InterAppHandler interAppHandler;
     private final AudioListenerDistributor distributor;
     private BaseAudioService autoFadeToClient;
-    private OnOffVolumeRange$Controller controller;
+    private OnOffVolumeRange.Controller controller;
     private volatile int amAvailable = 4;
     private boolean logFirstStartedEAC = true;
     private boolean logFirstFadedInEAC = true;
@@ -45,8 +45,8 @@ implements DSIAudioManagementListener {
         this.autoFadeToClient = baseAudioService;
     }
 
-    public void register(OnOffVolumeRange$Controller onOffVolumeRange$Controller) {
-        this.controller = onOffVolumeRange$Controller;
+    public void register(OnOffVolumeRange.Controller controller) {
+        this.controller = controller;
     }
 
     public void setInternalListeners(IAudioListener[] iAudioListenerArray) {
@@ -54,23 +54,22 @@ implements DSIAudioManagementListener {
     }
 
     public void register(HMIAudioServiceListener hMIAudioServiceListener, int n, String string) {
-        this.env.lcMain.log(-2137614336, "[DSIAudioListenerImpl.register] listener:%1 client:%2", (Object)hMIAudioServiceListener, (Object)string);
+        this.env.lcMain.log(10000000, "[DSIAudioListenerImpl.register] listener:%1 client:%2", (Object)hMIAudioServiceListener, (Object)string);
         this.distributor.add(n, hMIAudioServiceListener);
         hMIAudioServiceListener.updateAMAvailable(this.amAvailable == 3);
     }
 
     public void deregisterHMIAudioServiceListener(int n, HMIAudioServiceListener hMIAudioServiceListener) {
-        this.env.lcMain.log(-2137614336, "[DSIAudioListenerImpl.deregisterHMIAudioServiceListener] client:%2, listener:%1", (Object)hMIAudioServiceListener, (long)n);
+        this.env.lcMain.log(10000000, "[DSIAudioListenerImpl.deregisterHMIAudioServiceListener] client:%2, listener:%1", (Object)hMIAudioServiceListener, (long)n);
         this.distributor.remove(n, hMIAudioServiceListener);
     }
 
-    @Override
     public void fadedIn(int n, int n2) {
         if (this.logFirstFadedInEAC) {
-            this.env.logStartupEvent(new StringBuffer().append("[AUDIO] faded-in EAC: ").append(n).toString());
+            this.env.logStartupEvent("[AUDIO] faded-in EAC: " + n);
             this.logFirstFadedInEAC = false;
         }
-        this.env.lcDSI.log(-2137614336, "<- [DSIAudioListenerImpl.fadedIn] AC:%1 AT:%2", (long)n, (long)n2);
+        this.env.lcDSI.log(10000000, "<- [DSIAudioListenerImpl.fadedIn] AC:%1 AT:%2", (long)n, (long)n2);
         ConnectionStore.INSTANCE.setStatus(n, 0, n2);
         DumpAudioProvider.INSTANCE.putUpdate("fadedIn", n, n2);
         int n3 = this.toHmiTerminal(n2);
@@ -78,35 +77,33 @@ implements DSIAudioManagementListener {
         this.informInternalAppListeners(n, 0, n3);
     }
 
-    @Override
     public void startConnection(int n, int n2) {
         if (this.logFirstStartedEAC && n != 3) {
-            this.env.logStartupEvent(new StringBuffer().append("[AUDIO] started EAC: ").append(n).toString());
+            this.env.logStartupEvent("[AUDIO] started EAC: " + n);
             this.logFirstStartedEAC = false;
         }
         int n3 = this.toHmiTerminal(n2);
-        this.env.lcDSI.log(-2137614336, "<- [DSIAudioListenerImpl.startConnection] AC:%1 AT:%2", (long)n, (long)n2);
+        this.env.lcDSI.log(10000000, "<- [DSIAudioListenerImpl.startConnection] AC:%1 AT:%2", (long)n, (long)n2);
         ConnectionStore.INSTANCE.setStatus(n, 2, n2);
         DumpAudioProvider.INSTANCE.putUpdate("startConnection", n, n2);
         this.distributor.callStartConnection(n, n3);
         if (ConnectionStore.INSTANCE.isAutoFadeToConnection(n, n2)) {
-            this.env.lcDSI.log(-2137614336, "<- [DSIAudioListenerImpl.startConnection] automatic fadeIN AC:%1 ", (long)n);
+            this.env.lcDSI.log(10000000, "<- [DSIAudioListenerImpl.startConnection] automatic fadeIN AC:%1 ", (long)n);
             this.autoFadeToClient.fadeToConnection(n, n3);
         }
         this.informInternalAppListeners(n, 2, n3);
         if (this.isMmiOnTelActive(n, n2)) {
-            this.env.lcDSI.log(-1601830656, "[DSIAudioListenerImpl.startConnection] MMI_ON_TEL active -> fake active connection %1", (long)n);
+            this.env.lcDSI.log(100000, "[DSIAudioListenerImpl.startConnection] MMI_ON_TEL active -> fake active connection %1", (long)n);
             this.updateActiveConnection(n, n2, 1);
         }
     }
 
-    @Override
     public void pauseConnection(int n, int n2) {
         if (this.logFirstStartedEAC && this.logFirstPausedEAC) {
-            this.env.logStartupEvent(new StringBuffer().append("[AUDIO] paused EAC: ").append(n).toString());
+            this.env.logStartupEvent("[AUDIO] paused EAC: " + n);
             this.logFirstPausedEAC = false;
         }
-        this.env.lcDSI.log(-2137614336, "<- [DSIAudioListenerImpl.pauseConnection] AC:%1 AT:%2", (long)n, (long)n2);
+        this.env.lcDSI.log(10000000, "<- [DSIAudioListenerImpl.pauseConnection] AC:%1 AT:%2", (long)n, (long)n2);
         ConnectionStore.INSTANCE.setStatus(n, 4, n2);
         DumpAudioProvider.INSTANCE.putUpdate("pauseConnection", n, n2);
         int n3 = this.toHmiTerminal(n2);
@@ -114,9 +111,8 @@ implements DSIAudioManagementListener {
         this.informInternalAppListeners(n, 4, n3);
     }
 
-    @Override
     public void stopConnection(int n, int n2) {
-        this.env.lcDSI.log(-2137614336, "<- [DSIAudioListenerImpl.stopConnection] AC:%1 AT:%2", (long)n, (long)n2);
+        this.env.lcDSI.log(10000000, "<- [DSIAudioListenerImpl.stopConnection] AC:%1 AT:%2", (long)n, (long)n2);
         if (ConnectionStore.INSTANCE.getStatus(n, n2) != 3) {
             ConnectionStore.INSTANCE.removeAutoFadeToConnection(n, n2);
         }
@@ -127,7 +123,6 @@ implements DSIAudioManagementListener {
         this.informInternalAppListeners(n, 5, n3);
     }
 
-    @Override
     public void errorConnection(int n, int n2, int n3) {
         this.env.lcDSI.log(10000, "<- [DSIAudioListenerImpl.errorConnection] AC:%1 AT:%2 error:%3", (long)n, (long)n2, (long)n3);
         ConnectionStore.INSTANCE.setStatus(n, 5, n2);
@@ -138,9 +133,8 @@ implements DSIAudioManagementListener {
         this.informInternalAppListeners(n, 5, n4);
     }
 
-    @Override
     public void updateActiveConnection(int n, int n2, int n3) {
-        this.env.lcDSI.log(-2137614336, "<- [DSIAudioListenerImpl.updateActiveConnection] AC:%1 AT:%2 (valid:%3)", (long)n, (long)n2, (long)n3);
+        this.env.lcDSI.log(10000000, "<- [DSIAudioListenerImpl.updateActiveConnection] AC:%1 AT:%2 (valid:%3)", (long)n, (long)n2, (long)n3);
         if (n3 != 1) {
             return;
         }
@@ -154,33 +148,32 @@ implements DSIAudioManagementListener {
         }
         this.interAppHandler.updateActiveConnection(n, n4);
         if (this.env.isHigh() && n == 9) {
-            this.env.lcDSI.log(1078071040, "[DSIAudioListenerImpl.updateActiveConnection] Set ENT_SUPPRESSION as AEC (workaround for Harman)");
+            this.env.lcDSI.log(1000000, "[DSIAudioListenerImpl.updateActiveConnection] Set ENT_SUPPRESSION as AEC (workaround for Harman)");
             this.updateActiveEntertainmentConnection(n, n2, n3);
         }
-        this.env.lcMain.log(-2137614336, "<- [DSIAudioListenerImpl.updateActiveConnection] active connections on HT:%2 %1", (Object)ConnectionStore.INSTANCE.getConnectionsInUse(n2));
+        this.env.lcMain.log(10000000, "<- [DSIAudioListenerImpl.updateActiveConnection] active connections on HT:%2 %1", (Object)ConnectionStore.INSTANCE.getConnectionsInUse(n2));
         int[] nArray = ConnectionStore.INSTANCE.getConnectionsInUse(n2);
         for (int i3 = 0; i3 < nArray.length; ++i3) {
             int n5 = nArray[i3];
-            this.env.lcMain.log(14808325, "<- [DSIAudioListenerImpl.updateActiveConnection] AC:%1, status:%2", (long)nArray[i3], (long)ConnectionStore.INSTANCE.getStatus(n5, n2));
+            this.env.lcMain.log(100000000, "<- [DSIAudioListenerImpl.updateActiveConnection] AC:%1, status:%2", (long)nArray[i3], (long)ConnectionStore.INSTANCE.getStatus(n5, n2));
         }
     }
 
-    @Override
     public void updateActiveEntertainmentConnection(int n, int n2, int n3) {
-        this.env.lcDSI.log(-2137614336, "<- [DSIAudioListenerImpl.updateActiveEntertainmentConnection] AC:%1 AT:%2 (valid:%3)", (long)n, (long)n2, (long)n3);
+        this.env.lcDSI.log(10000000, "<- [DSIAudioListenerImpl.updateActiveEntertainmentConnection] AC:%1 AT:%2 (valid:%3)", (long)n, (long)n2, (long)n3);
         if (n3 != 1) {
             return;
         }
         switch (n) {
             case 0: {
-                this.env.lcDSI.log(-1601830656, "<- [DSIAudioListenerImpl.updateActiveEntertainmentConnection] Ignore invalid AEC:%1", (long)n);
+                this.env.lcDSI.log(100000, "<- [DSIAudioListenerImpl.updateActiveEntertainmentConnection] Ignore invalid AEC:%1", (long)n);
                 return;
             }
             case 82: 
             case 87: 
             case 91: 
             case 95: {
-                this.env.lcDSI.log(1078071040, "<- [DSIAudioListenerImpl.updateActiveEntertainmentConnection] AC:%1 IGNORED (HQ ringing)", (long)n);
+                this.env.lcDSI.log(1000000, "<- [DSIAudioListenerImpl.updateActiveEntertainmentConnection] AC:%1 IGNORED (HQ ringing)", (long)n);
                 return;
             }
         }
@@ -195,24 +188,22 @@ implements DSIAudioManagementListener {
         this.interAppHandler.updateActiveEntertainmentConnection(n, n4);
     }
 
-    @Override
     public void responseVolumelock(int n, int n2, boolean bl) {
-        this.env.lcDSI.log(-2137614336, "<- [DSIAudioListenerImpl.responseVolumelock] active:%3 AC:%1 AT:%2", (long)n, (long)n2, bl);
+        this.env.lcDSI.log(10000000, "<- [DSIAudioListenerImpl.responseVolumelock] active:%3 AC:%1 AT:%2", (long)n, (long)n2, bl);
         VolumelockMap.INSTANCE.setStatus(n, n2, bl);
         this.distributor.callUpdateVolumeLock(n, n2, bl);
         int n3 = TerminalMapper.toHmiTerminal(n2);
         this.controller.getRange(n3).audioStateChanged(n2);
     }
 
-    @Override
     public void updateAMAvailable(int n, int n2, int n3) {
-        this.env.lcDSI.log(-2137614336, "<- [DSIAudioListenerImpl.updateAMAvailable] available:%1 sink:%2 valid:%3", (long)n, (long)n2, (long)n3);
+        this.env.lcDSI.log(10000000, "<- [DSIAudioListenerImpl.updateAMAvailable] available:%1 sink:%2 valid:%3", (long)n, (long)n2, (long)n3);
         if (n3 != 1) {
             return;
         }
         this.amAvailable = n;
         boolean bl = n == 3;
-        this.env.logStartupEvent(new StringBuffer().append("[AUDIO] aMAvailable:").append(bl).toString());
+        this.env.logStartupEvent("[AUDIO] aMAvailable:" + bl);
         DumpAudioProvider.INSTANCE.putAMAvailable(n);
         this.env.getChoiceModel(0, 30).setValue(bl ? 1 : 0);
         this.userMuteRestorer.updateAMAvailable(bl);
@@ -228,7 +219,7 @@ implements DSIAudioManagementListener {
         int[] nArray = this.distributor.getClientIDs();
         block4: for (int i3 = 0; i3 < nArray.length; ++i3) {
             int n4 = nArray[i3];
-            this.env.lcDSI.log(-2137614336, "[DSIAudioListenerImpl.updateAMAvailable] clientIdIndex: %1, clientId: %2", (long)i3, (long)n4);
+            this.env.lcDSI.log(10000000, "[DSIAudioListenerImpl.updateAMAvailable] clientIdIndex: %1, clientId: %2", (long)i3, (long)n4);
             switch (n4) {
                 case 0: 
                 case 1: 
@@ -248,7 +239,6 @@ implements DSIAudioManagementListener {
         this.distributor.callUpdateAMAvailable(25, bl);
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
         this.env.lcDSI.log(10000, "<- [DSIAudioListenerImpl.asyncException] msg:%1 code:%2 type:%3", (Object)string, (long)n, (long)n2);
     }
@@ -284,9 +274,8 @@ implements DSIAudioManagementListener {
         }
     }
 
-    @Override
     public void updateTStandbyPopup(boolean bl, int n) {
-        this.env.lcDSI.log(-2137614336, "<- [DSIAudioListenerImpl.updateTStandbyPopup] showPopup: %1, valid: %2", bl, (long)n);
+        this.env.lcDSI.log(10000000, "<- [DSIAudioListenerImpl.updateTStandbyPopup] showPopup: %1, valid: %2", bl, (long)n);
         if (bl && n == 1) {
             this.controller.getRange(0).standbyPopupActive(bl);
         }

@@ -12,7 +12,7 @@ import org.dsi.ifc.telephoneng.CallInformation;
 public abstract class AbstractPhoneCall
 extends CallInformation
 implements ITelCallInformation {
-    private static final int DISCONNECT_REASON_UNKNOWN;
+    private static final int DISCONNECT_REASON_UNKNOWN = -1;
     private int disconnectReason = -1;
     private final Stack callStateHistory = new Stack();
     private int callDuration;
@@ -69,7 +69,6 @@ implements ITelCallInformation {
         this.disconnectReason = n;
     }
 
-    @Override
     public int getDisconnectReason() {
         return this.disconnectReason;
     }
@@ -78,17 +77,14 @@ implements ITelCallInformation {
         this.callDuration = n;
     }
 
-    @Override
     public int getCallDuration() {
         return this.callDuration;
     }
 
-    @Override
     public boolean callWasActive() {
         return this.isStateInHistory(4);
     }
 
-    @Override
     public boolean isOutgoingCall() {
         return this.isStateInHistory(1);
     }
@@ -105,7 +101,6 @@ implements ITelCallInformation {
         return this.hangupByUser;
     }
 
-    @Override
     public boolean isConferenceMember() {
         return this.telCallType != 4 && this.telMpty == 1;
     }
@@ -118,15 +113,12 @@ implements ITelCallInformation {
         return this.callStateHistory.size();
     }
 
-    @Override
     public int getPreviousCallState() {
         return this.previousCallState;
     }
 
-    public abstract HMIResourceLocator getHMIResourceLocator() {
-    }
+    public abstract HMIResourceLocator getHMIResourceLocator();
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer();
         buffer.append("telCallID");

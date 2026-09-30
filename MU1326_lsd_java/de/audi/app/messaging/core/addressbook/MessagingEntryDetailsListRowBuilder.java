@@ -9,7 +9,6 @@ import org.dsi.ifc.organizer.AdbEntry;
 
 public final class MessagingEntryDetailsListRowBuilder
 extends AbstractADBEntryDetailsListRowBuilder {
-    @Override
     public ADBEntryDetailsListRow createAddressDetailsRow(AdbEntry adbEntry, int n) {
         return null;
     }

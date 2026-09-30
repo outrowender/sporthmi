@@ -14,7 +14,7 @@ import org.osgi.framework.BundleContext;
 
 public class EvoWirelessChargingApplication
 extends AbstractWirelessChargingApplication {
-    private static final int WIRELESS_CHARGING_MUDUL_ID;
+    private static final int WIRELESS_CHARGING_MUDUL_ID = 34;
     private final DSIWirelessChargingResponseHandler wirelessChargingHandler;
     private final ReminderPopupHandler reminderPopupHandler;
 
@@ -26,47 +26,37 @@ extends AbstractWirelessChargingApplication {
         this.wirelessChargingHandler = new DSIWirelessChargingResponseHandler(this, evoWirelessChargingPresentationHandler, logChannel);
     }
 
-    @Override
     protected void addComponents() {
         this.addWirelessChargingComponent(this.wirelessChargingHandler);
         this.addWirelessChargingComponent(this.reminderPopupHandler);
     }
 
-    @Override
     public void popupVisible(int n, int n2) {
     }
 
-    @Override
     public void popupHidden(int n, int n2) {
     }
 
-    @Override
     public void popupRemoved(int n, int n2) {
         this.wirelessChargingHandler.popupRemoved(n, n2);
     }
 
-    @Override
     public void screenVisible(int n, int n2) {
     }
 
-    @Override
     public void screenHidden(int n, int n2) {
     }
 
-    @Override
     public void screenFadedOut(int n, int n2) {
     }
 
-    @Override
     public void screenConnected(int n, int n2) {
     }
 
-    @Override
     public ButtonModelApp getVirtualButton(int n) {
         return null;
     }
 
-    @Override
     public int getId() {
         return 34;
     }

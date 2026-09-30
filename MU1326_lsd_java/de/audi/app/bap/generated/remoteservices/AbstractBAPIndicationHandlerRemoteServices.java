@@ -37,7 +37,6 @@ extends AbstractBAPIndicationHandlerASG {
         super(abstractBAPModuleASG, logChannel);
     }
 
-    @Override
     public void processIndicationResult(BAPFunctionMethodASG bAPFunctionMethodASG, ResultMethod resultMethod) {
         switch (bAPFunctionMethodASG.getFctID()) {
             case 16: {
@@ -66,7 +65,6 @@ extends AbstractBAPIndicationHandlerASG {
         }
     }
 
-    @Override
     public void processIndicationStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, StatusProperty statusProperty) {
         switch (bAPFunctionPropertyASG.getFctID()) {
             case 2: {
@@ -119,7 +117,6 @@ extends AbstractBAPIndicationHandlerASG {
         }
     }
 
-    @Override
     public void processIndicationStatusAck(BAPFunctionPropertyASG bAPFunctionPropertyASG, StatusAckProperty statusAckProperty) {
         switch (bAPFunctionPropertyASG.getFctID()) {
             default: 
@@ -127,7 +124,6 @@ extends AbstractBAPIndicationHandlerASG {
         this.logChannel.log(10000, "AbstractBAPIndicationHandlerRemoteServices#processIndicationStatusAck not implemented for fctID=%1", (Object)bAPFunctionPropertyASG.getFctIDDescription());
     }
 
-    @Override
     public void processIndicationChangedArray(BAPFunctionArrayASG bAPFunctionArrayASG, ChangedArray changedArray) {
         switch (bAPFunctionArrayASG.getFctID()) {
             default: 
@@ -135,7 +131,6 @@ extends AbstractBAPIndicationHandlerASG {
         this.logChannel.log(10000, "AbstractBAPIndicationHandlerRemoteServices#processIndicationChangedArray not implemented for fctID=%1", (Object)bAPFunctionArrayASG.getFctIDDescription());
     }
 
-    @Override
     public void processIndicationStatusArray(BAPFunctionArrayASG bAPFunctionArrayASG, StatusArray statusArray) {
         switch (bAPFunctionArrayASG.getFctID()) {
             default: 
@@ -143,52 +138,36 @@ extends AbstractBAPIndicationHandlerASG {
         this.logChannel.log(10000, "AbstractBAPIndicationHandlerRemoteServices#processIndicationStatusArray not implemented for fctID=%1", (Object)bAPFunctionArrayASG.getFctIDDescription());
     }
 
-    protected abstract void processBapConfigStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, BAP_Config_Status bAP_Config_Status) {
-    }
+    protected abstract void processBapConfigStatus(BAPFunctionPropertyASG var1, BAP_Config_Status var2);
 
-    protected abstract void processFunctionListStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, FunctionList_Status functionList_Status) {
-    }
+    protected abstract void processFunctionListStatus(BAPFunctionPropertyASG var1, FunctionList_Status var2);
 
-    protected abstract void processFsgControlStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, FSG_Control_Status fSG_Control_Status) {
-    }
+    protected abstract void processFsgControlStatus(BAPFunctionPropertyASG var1, FSG_Control_Status var2);
 
-    protected abstract void processFsgSetupStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, FSG_Setup_Status fSG_Setup_Status) {
-    }
+    protected abstract void processFsgSetupStatus(BAPFunctionPropertyASG var1, FSG_Setup_Status var2);
 
-    protected abstract void processFsgOperationStateStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, FSG_OperationState_Status fSG_OperationState_Status) {
-    }
+    protected abstract void processFsgOperationStateStatus(BAPFunctionPropertyASG var1, FSG_OperationState_Status var2);
 
-    protected abstract void processStartEngineChallengeResult(BAPFunctionMethodASG bAPFunctionMethodASG, StartEngineChallenge_Result startEngineChallenge_Result) {
-    }
+    protected abstract void processStartEngineChallengeResult(BAPFunctionMethodASG var1, StartEngineChallenge_Result var2);
 
-    protected abstract void processStartEngineAuthenticationStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, StartEngineAuthentication_Status startEngineAuthentication_Status) {
-    }
+    protected abstract void processStartEngineAuthenticationStatus(BAPFunctionPropertyASG var1, StartEngineAuthentication_Status var2);
 
-    protected abstract void processStartEngineSignatureStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, StartEngineSignature_Status startEngineSignature_Status) {
-    }
+    protected abstract void processStartEngineSignatureStatus(BAPFunctionPropertyASG var1, StartEngineSignature_Status var2);
 
-    protected abstract void processMobDevKeyChallengeResult(BAPFunctionMethodASG bAPFunctionMethodASG, MobDevKeyChallenge_Result mobDevKeyChallenge_Result) {
-    }
+    protected abstract void processMobDevKeyChallengeResult(BAPFunctionMethodASG var1, MobDevKeyChallenge_Result var2);
 
-    protected abstract void processMobDevKeyAuthStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, MobDevKeyAuth_Status mobDevKeyAuth_Status) {
-    }
+    protected abstract void processMobDevKeyAuthStatus(BAPFunctionPropertyASG var1, MobDevKeyAuth_Status var2);
 
-    protected abstract void processMobDevKeyCommandStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, MobDevKeyCommand_Status mobDevKeyCommand_Status) {
-    }
+    protected abstract void processMobDevKeyCommandStatus(BAPFunctionPropertyASG var1, MobDevKeyCommand_Status var2);
 
-    protected abstract void processMobDevKeyActiveKeyStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, MobDevKeyActiveKey_Status mobDevKeyActiveKey_Status) {
-    }
+    protected abstract void processMobDevKeyActiveKeyStatus(BAPFunctionPropertyASG var1, MobDevKeyActiveKey_Status var2);
 
-    protected abstract void processMobDevKeySetupStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, MobDevKeySetup_Status mobDevKeySetup_Status) {
-    }
+    protected abstract void processMobDevKeySetupStatus(BAPFunctionPropertyASG var1, MobDevKeySetup_Status var2);
 
-    protected abstract void processVtanAuthDataResult(BAPFunctionMethodASG bAPFunctionMethodASG, VTANAuthData_Result vTANAuthData_Result) {
-    }
+    protected abstract void processVtanAuthDataResult(BAPFunctionMethodASG var1, VTANAuthData_Result var2);
 
-    protected abstract void processVtanDecryptionResult(BAPFunctionMethodASG bAPFunctionMethodASG, VTANDecryption_Result vTANDecryption_Result) {
-    }
+    protected abstract void processVtanDecryptionResult(BAPFunctionMethodASG var1, VTANDecryption_Result var2);
 
-    protected abstract void processMobDevKeyControlResult(BAPFunctionMethodASG bAPFunctionMethodASG, MobDevKeyControl_Result mobDevKeyControl_Result) {
-    }
+    protected abstract void processMobDevKeyControlResult(BAPFunctionMethodASG var1, MobDevKeyControl_Result var2);
 }
 

@@ -16,10 +16,9 @@ extends FuelWarningWrapperSequence {
         super(iPoiSpellerModelAccess, iPoiSpellerModelAccess2, iCommandListFactory, navigationEnv, n, iVehicle, n2, n3, iPoiSpellerModelAccess3, iDetailsScreen);
     }
 
-    @Override
     public void start() {
         int n = this.env.getContainer().isRgActive() ? 1 : 0;
-        this.env.getChoiceModel(-1859910144).setValue(n);
+        this.env.getChoiceModel(402577).setValue(n);
         super.start();
     }
 }

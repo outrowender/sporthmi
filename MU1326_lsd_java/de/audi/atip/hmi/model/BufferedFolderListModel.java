@@ -81,12 +81,10 @@ FolderListModelGUI {
         }
     }
 
-    @Override
     public SimpleIntIntMap getFolderStates() {
         return this.folderStates;
     }
 
-    @Override
     public int getIndexForRowID(int n) {
         int n2 = this.getLength();
         for (int i2 = 0; i2 < n2; ++i2) {
@@ -96,7 +94,6 @@ FolderListModelGUI {
         return -1;
     }
 
-    @Override
     public int getRowIDForIndex(int n) {
         if (n >= this.getLength() || n < 0) {
             return -1;
@@ -104,7 +101,6 @@ FolderListModelGUI {
         return this.getRow(n).getInteger(0);
     }
 
-    @Override
     public boolean isOpen(int n) {
         int n2 = this.folderStates.get(n);
         if (n2 == -1) {
@@ -118,12 +114,10 @@ FolderListModelGUI {
         return this.getIndexForRowID(n) != -1;
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3) {
         this.itemSelected(n, this.getRowIDForIndex(n), n2, n3);
     }
 
-    @Override
     public int itemSelected(int n, int n2, int n3, int n4) {
         if (n >= this.getLength()) {
             n = this.getIndexForRowID(n2);
@@ -150,7 +144,6 @@ FolderListModelGUI {
         this.contentModel = bufferedFolderListContentModel;
     }
 
-    @Override
     public void setFolderStates(SimpleIntIntMap simpleIntIntMap) {
         this.folderStates = simpleIntIntMap;
         this.contentChanged();
@@ -159,7 +152,6 @@ FolderListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setSelected(int n) {
         int n2;
         Object object = this.mutex;
@@ -176,7 +168,6 @@ FolderListModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void getSelected(int[] nArray) {
         Object object = this.mutex;
         synchronized (object) {
@@ -185,10 +176,9 @@ FolderListModelGUI {
         }
     }
 
-    @Override
     public String dumpContent() {
         Buffer buffer = new Buffer(10000);
-        buffer.append("\nI'm a ").append(super.getClass().getName());
+        buffer.append("\nI'm a ").append(this.getClass().getName());
         buffer.append("\nfolderStates: ").append(this.toString(this.folderStates));
         if (this.contentModel != null) {
             buffer.append("\n++++ contentModel ++++").append(this.contentModel.dumpContent());

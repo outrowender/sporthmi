@@ -19,25 +19,22 @@ extends AbstractTelSearchCmd {
         this.listener = iTelSearchQueryListener;
     }
 
-    @Override
     public void execute() {
         if (this.dsiSearch != null) {
-            this.logger.log(1078071040, "[TelSearchCancelQueryCmd#execute] canceling query %1", (long)this.queryID);
+            this.logger.log(1000000, "[TelSearchCancelQueryCmd#execute] canceling query %1", (long)this.queryID);
             this.dsiSearch.cancelQuery(this.queryID);
         } else {
-            this.logger.log(-1601830656, "[TelSearchCancelQueryCmd#execute] DSISearch is null --> NOP!");
+            this.logger.log(100000, "[TelSearchCancelQueryCmd#execute] DSISearch is null --> NOP!");
             this.getCommandList().commandFinished();
         }
     }
 
-    @Override
     public void updateSearchIsActive(int n, boolean bl, int n2) {
-        this.logger.log(-1601830656, "[TelSearchQueryCmd#updateSearchIsActive] queryID=%2, isActive=%1", (Object)String.valueOf(bl), (long)this.queryID);
+        this.logger.log(100000, "[TelSearchQueryCmd#updateSearchIsActive] queryID=%2, isActive=%1", (Object)String.valueOf(bl), (long)this.queryID);
     }
 
-    @Override
     public void cancelQueryResult(int n, int n2) {
-        this.logger.log(1078071040, "[TelSearchQueryCmd.TelSearchCancelQueryCmd#cancelQueryResult] queryID=%1, success=%2", (long)this.queryID, (long)n2);
+        this.logger.log(1000000, "[TelSearchQueryCmd.TelSearchCancelQueryCmd#cancelQueryResult] queryID=%1, success=%2", (long)this.queryID, (long)n2);
         this.listener.searchCanceled(this.queryID);
         this.getCommandList().commandFinished();
     }

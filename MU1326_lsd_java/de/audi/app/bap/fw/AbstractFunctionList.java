@@ -6,23 +6,17 @@ package de.audi.app.bap.fw;
 public abstract class AbstractFunctionList {
     protected boolean[] functionSupported;
 
-    protected abstract int getMinModuleSpecificFctID() {
-    }
+    protected abstract int getMinModuleSpecificFctID();
 
-    protected abstract int getMaxFctID() {
-    }
+    protected abstract int getMaxFctID();
 
-    public abstract int getGetAllFctID() {
-    }
+    public abstract int getGetAllFctID();
 
-    public abstract int getBAPConfigBAPFctID() {
-    }
+    public abstract int getBAPConfigBAPFctID();
 
-    public abstract int getFctListBAPFctID() {
-    }
+    public abstract int getFctListBAPFctID();
 
-    public abstract int getOperationStateBAPFctID() {
-    }
+    public abstract int getOperationStateBAPFctID();
 
     public boolean isFunctionSupported(int n) {
         return this.functionSupported[n];

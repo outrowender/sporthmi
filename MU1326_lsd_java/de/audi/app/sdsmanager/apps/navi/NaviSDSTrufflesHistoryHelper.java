@@ -15,7 +15,7 @@ public class NaviSDSTrufflesHistoryHelper {
     }
 
     public void setLastTruffleSearchText(String string) {
-        this.logger.log(-2137614336, "NaviSDSTrufflesHistoryHelper#setLastTruffleSearchText: string=%1", (Object)string);
+        this.logger.log(10000000, "NaviSDSTrufflesHistoryHelper#setLastTruffleSearchText: string=%1", (Object)string);
         this.lastTruffleSearchText = string;
     }
 
@@ -24,7 +24,7 @@ public class NaviSDSTrufflesHistoryHelper {
     }
 
     public void setLastTruffleAlternativeSearchTexts(String[] stringArray) {
-        this.logger.log(-2137614336, "NaviSDSTrufflesHistoryHelper#setLastTruffleSearchText: alternativeSearchTexts=%1", (Object)stringArray);
+        this.logger.log(10000000, "NaviSDSTrufflesHistoryHelper#setLastTruffleSearchText: alternativeSearchTexts=%1", (Object)stringArray);
         if (stringArray == null) {
             this.lastTruffleAlternativeSearchTexts = null;
             return;

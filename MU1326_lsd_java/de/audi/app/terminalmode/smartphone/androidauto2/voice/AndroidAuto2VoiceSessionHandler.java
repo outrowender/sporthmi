@@ -13,21 +13,19 @@ import org.dsi.ifc.androidauto2.DSIAndroidAuto2;
 
 public class AndroidAuto2VoiceSessionHandler
 extends AbstractAndroidAuto2Handler {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "AndroidAuto2VoiceSessionHandler";
 
     public AndroidAuto2VoiceSessionHandler(LogChannel logChannel, DSIAndroidAuto2 dSIAndroidAuto2, IStateHandler iStateHandler, IContext iContext) {
         super(logChannel, dSIAndroidAuto2, iStateHandler, iContext);
     }
 
-    @Override
     protected String getLogClass() {
-        return "AndroidAuto2VoiceSessionHandler";
+        return LOGCLASS;
     }
 
-    @Override
     public void voiceSessionNotification(int n, int n2) {
         if (this.isValid(n2)) {
-            this.logger.log(1078071040, "<- [%1.voiceSessionNotification] %2", (Object)"AndroidAuto2VoiceSessionHandler", (Object)this.getVoiceSessionStatus(n));
+            this.logger.log(1000000, "<- [%1.voiceSessionNotification] %2", (Object)LOGCLASS, (Object)this.getVoiceSessionStatus(n));
             if (1 == n) {
                 this.requestDSIUpdate(Application.SPEECH, ApplicationOwner.DEVICE);
             } else if (2 == n) {
@@ -45,7 +43,7 @@ extends AbstractAndroidAuto2Handler {
                 return "VS_END";
             }
         }
-        return new StringBuffer().append("VS_UNKNOWN ").append(n).toString();
+        return "VS_UNKNOWN " + n;
     }
 }
 

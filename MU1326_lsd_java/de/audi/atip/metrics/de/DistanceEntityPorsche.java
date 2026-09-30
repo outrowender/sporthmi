@@ -12,7 +12,6 @@ extends DistanceEntity {
         super(n);
     }
 
-    @Override
     void formatValue(StringBuffer stringBuffer) {
         if (this.mode == 8) {
             this.getStringValueModeDecimal(stringBuffer);

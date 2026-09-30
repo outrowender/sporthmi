@@ -7,19 +7,14 @@ import de.audi.atip.interapp.bap.BAPService;
 
 public interface BAPServiceRemoteServices
 extends BAPService {
-    default public void disableMobileDeviceKey() {
-    }
+    public void disableMobileDeviceKey();
 
-    default public void enableMobileDeviceKey() {
-    }
+    public void enableMobileDeviceKey();
 
-    default public void startVTANAuthData() {
-    }
+    public void startVTANAuthData();
 
-    default public void startVTANDecryption(String string) {
-    }
+    public void startVTANDecryption(String var1);
 
-    default public void triggerMobDevKeySetupUpdate() {
-    }
+    public void triggerMobDevKeySetupUpdate();
 }
 

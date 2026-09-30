@@ -24,52 +24,42 @@ implements DSICarStopWatchListener {
         return (DSICarStopWatch)this.getBaseDSI();
     }
 
-    @Override
     public final String getDSIListenerClassName() {
         return (class$org$dsi$ifc$carstopwatch$DSICarStopWatchListener == null ? (class$org$dsi$ifc$carstopwatch$DSICarStopWatchListener = AbstractDSICarStopWatchAdapter.class$("org.dsi.ifc.carstopwatch.DSICarStopWatchListener")) : class$org$dsi$ifc$carstopwatch$DSICarStopWatchListener).getName();
     }
 
-    @Override
     public final String getDSIClassName() {
         return (class$org$dsi$ifc$carstopwatch$DSICarStopWatch == null ? (class$org$dsi$ifc$carstopwatch$DSICarStopWatch = AbstractDSICarStopWatchAdapter.class$("org.dsi.ifc.carstopwatch.DSICarStopWatch")) : class$org$dsi$ifc$carstopwatch$DSICarStopWatch).getName();
     }
 
-    @Override
     public final boolean isUsingDSI() {
         return true;
     }
 
-    @Override
     public void updateStopWatchViewOptions(StopWatchViewOptions stopWatchViewOptions, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateStopWatchState(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updateStopWatchCurrentLapNumber(int n, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updateStopWatchTotalTime(StopWatchTime stopWatchTime, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateStopWatchLastSplitTime(int n, StopWatchTime stopWatchTime, int n2) {
         this.logStub();
     }
 
-    @Override
     public void updateStopWatchCurrentLapTime(StopWatchTime stopWatchTime, int n) {
         this.logStub();
     }
 
-    @Override
     public void updateStopWatchLastLapTime(StopWatchTime stopWatchTime, int n) {
         this.logStub();
     }

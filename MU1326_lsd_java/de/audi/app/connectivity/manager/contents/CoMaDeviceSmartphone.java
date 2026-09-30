@@ -9,12 +9,12 @@ import de.audi.atip.interapp.terminalmode.TerminalModeDevice;
 
 public class CoMaDeviceSmartphone
 extends AbstractCoMaDevice {
-    private static final PropertyListCell APPLE = PropertyListCell.create(52880697, new int[]{-1416844851});
-    private static final PropertyListCell APPLE_CONNECTED = PropertyListCell.create(52880697, new int[]{-1416844851, 474525614});
-    private static final PropertyListCell GOOGLE = PropertyListCell.create(52880697, new int[]{1855448429});
-    private static final PropertyListCell GOOGLE_CONNECTED = PropertyListCell.create(52880697, new int[]{1855448429, 474525614});
-    private static final PropertyListCell BAIDU_CAR_LIFE = PropertyListCell.create(52880697, new int[]{-1332481947});
-    private static final PropertyListCell BAIDU_CAR_LIFE_CONNECTED = PropertyListCell.create(52880697, new int[]{-1332481947, 474525614});
+    private static final PropertyListCell APPLE = PropertyListCell.create(971318787, new int[]{-844526421});
+    private static final PropertyListCell APPLE_CONNECTED = PropertyListCell.create(971318787, new int[]{-844526421, -1364244452});
+    private static final PropertyListCell GOOGLE = PropertyListCell.create(971318787, new int[]{1843763054});
+    private static final PropertyListCell GOOGLE_CONNECTED = PropertyListCell.create(971318787, new int[]{1843763054, -1364244452});
+    private static final PropertyListCell BAIDU_CAR_LIFE = PropertyListCell.create(971318787, new int[]{1710265264});
+    private static final PropertyListCell BAIDU_CAR_LIFE_CONNECTED = PropertyListCell.create(971318787, new int[]{1710265264, -1364244452});
     private final int connectionMethod;
     private final boolean isAttached;
 
@@ -24,7 +24,6 @@ extends AbstractCoMaDevice {
         this.isAttached = terminalModeDevice.isAttached();
     }
 
-    @Override
     PropertyListCell getProperties() {
         PropertyListCell propertyListCell;
         switch (this.connectionMethod) {

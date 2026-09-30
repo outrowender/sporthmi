@@ -14,81 +14,81 @@ import java.util.Iterator;
 import java.util.List;
 
 public class MediaUtils {
-    public static final String EMPTY_STRING;
-    public static final int ENABLED;
-    public static final int DISABLED;
-    public static final int HMI_MEDIATYPE_UNDEFINED;
-    public static final int HMI_MEDIATYPE_CDAUDIO;
-    public static final int HMI_MEDIATYPE_CDROM;
-    public static final int HMI_MEDIATYPE_DVDAUDIO;
-    public static final int HMI_MEDIATYPE_DVDVIDEO;
-    public static final int HMI_MEDIATYPE_DVDROM;
-    public static final int HMI_MEDIATYPE_SDCARD;
-    public static final int HMI_MEDIATYPE_USB;
-    public static final int HMI_MEDIATYPE_HDD;
-    public static final int HMI_MEDIATYPE_FILESYSTEM;
-    public static final int HMI_MEDIATYPE_REMOTEPLAYER;
-    public static final int HMI_MEDIATYPE_AUX_AUDIOSTREAM;
-    public static final int HMI_MEDIATYPE_AUX_VIDEOSTREAM;
-    public static final int HMI_MEDIATYPE_TV;
-    public static final int HMI_MEDIATYPE_AV;
-    public static final int HMI_MEDIATYPE_BT_AUDIOSTREAM;
-    public static final int HMI_MEDIATYPE_WLAN;
-    public static final int HMI_MEDIATYPE_NAVIGATION_DATABASE;
-    public static final int HMI_MEDIATYPE_SYSTEM_UPDATE;
-    public static final int HMI_MEDIATYPE_IPOD;
-    public static final int HMI_MEDIATYPE_ONLINE;
-    public static final int HMI_SOURCEICON_UNDEFINED;
-    public static final int HMI_SOURCEICON_CDDRIVE;
-    public static final int HMI_SOURCEICON_CDCHANGER;
-    public static final int HMI_SOURCEICON_CDCHANGER_1;
-    public static final int HMI_SOURCEICON_CDCHANGER_2;
-    public static final int HMI_SOURCEICON_CDCHANGER_3;
-    public static final int HMI_SOURCEICON_CDCHANGER_4;
-    public static final int HMI_SOURCEICON_CDCHANGER_5;
-    public static final int HMI_SOURCEICON_CDCHANGER_6;
-    public static final int HMI_SOURCEICON_DVDDRIVE;
-    public static final int HMI_SOURCEICON_DVDCHANGER;
-    public static final int HMI_SOURCEICON_DVDCHANGER_1;
-    public static final int HMI_SOURCEICON_DVDCHANGER_2;
-    public static final int HMI_SOURCEICON_DVDCHANGER_3;
-    public static final int HMI_SOURCEICON_DVDCHANGER_4;
-    public static final int HMI_SOURCEICON_DVDCHANGER_5;
-    public static final int HMI_SOURCEICON_DVDCHANGER_6;
-    public static final int HMI_SOURCEICON_SDCARD;
-    public static final int HMI_SOURCEICON_SDCARD_1;
-    public static final int HMI_SOURCEICON_SDCARD_2;
-    public static final int HMI_SOURCEICON_HDD;
-    public static final int HMI_SOURCEICON_USB;
-    public static final int HMI_SOURCEICON_USB_1;
-    public static final int HMI_SOURCEICON_USB_11;
-    public static final int HMI_SOURCEICON_USB_12;
-    public static final int HMI_SOURCEICON_USB_13;
-    public static final int HMI_SOURCEICON_USB_14;
-    public static final int HMI_SOURCEICON_USB_2;
-    public static final int HMI_SOURCEICON_USB_21;
-    public static final int HMI_SOURCEICON_USB_22;
-    public static final int HMI_SOURCEICON_USB_23;
-    public static final int HMI_SOURCEICON_USB_24;
-    public static final int HMI_SOURCEICON_IPOD;
-    public static final int HMI_SOURCEICON_IPOD_1;
-    public static final int HMI_SOURCEICON_IPOD_2;
-    public static final int HMI_SOURCEICON_BT;
-    public static final int HMI_SOURCEICON_RCP;
-    public static final int HMI_SOURCEICON_WLAN;
-    public static final int HMI_SOURCEICON_AUX_AUDIO;
-    public static final int HMI_SOURCEICON_AUX_VIDEO;
-    public static final int HMI_SOURCEICON_TVTUNER;
-    public static final int HMI_SOURCEICON_AVIN;
-    public static final int HMI_SOURCEICON_FILEPLAYER;
-    public static final int HMI_SOURCEICON_ONLINEPLAYER;
-    private static final IntMap MEDIATYPEMAP;
+    public static final String EMPTY_STRING = "";
+    public static final int ENABLED = 1;
+    public static final int DISABLED = 0;
+    public static final int HMI_MEDIATYPE_UNDEFINED = 0;
+    public static final int HMI_MEDIATYPE_CDAUDIO = 1;
+    public static final int HMI_MEDIATYPE_CDROM = 2;
+    public static final int HMI_MEDIATYPE_DVDAUDIO = 3;
+    public static final int HMI_MEDIATYPE_DVDVIDEO = 4;
+    public static final int HMI_MEDIATYPE_DVDROM = 5;
+    public static final int HMI_MEDIATYPE_SDCARD = 6;
+    public static final int HMI_MEDIATYPE_USB = 7;
+    public static final int HMI_MEDIATYPE_HDD = 8;
+    public static final int HMI_MEDIATYPE_FILESYSTEM = 9;
+    public static final int HMI_MEDIATYPE_REMOTEPLAYER = 10;
+    public static final int HMI_MEDIATYPE_AUX_AUDIOSTREAM = 11;
+    public static final int HMI_MEDIATYPE_AUX_VIDEOSTREAM = 12;
+    public static final int HMI_MEDIATYPE_TV = 13;
+    public static final int HMI_MEDIATYPE_AV = 14;
+    public static final int HMI_MEDIATYPE_BT_AUDIOSTREAM = 15;
+    public static final int HMI_MEDIATYPE_WLAN = 16;
+    public static final int HMI_MEDIATYPE_NAVIGATION_DATABASE = 17;
+    public static final int HMI_MEDIATYPE_SYSTEM_UPDATE = 18;
+    public static final int HMI_MEDIATYPE_IPOD = 19;
+    public static final int HMI_MEDIATYPE_ONLINE = 20;
+    public static final int HMI_SOURCEICON_UNDEFINED = 0;
+    public static final int HMI_SOURCEICON_CDDRIVE = 1;
+    public static final int HMI_SOURCEICON_CDCHANGER = 2;
+    public static final int HMI_SOURCEICON_CDCHANGER_1 = 3;
+    public static final int HMI_SOURCEICON_CDCHANGER_2 = 4;
+    public static final int HMI_SOURCEICON_CDCHANGER_3 = 5;
+    public static final int HMI_SOURCEICON_CDCHANGER_4 = 6;
+    public static final int HMI_SOURCEICON_CDCHANGER_5 = 7;
+    public static final int HMI_SOURCEICON_CDCHANGER_6 = 8;
+    public static final int HMI_SOURCEICON_DVDDRIVE = 9;
+    public static final int HMI_SOURCEICON_DVDCHANGER = 10;
+    public static final int HMI_SOURCEICON_DVDCHANGER_1 = 11;
+    public static final int HMI_SOURCEICON_DVDCHANGER_2 = 12;
+    public static final int HMI_SOURCEICON_DVDCHANGER_3 = 13;
+    public static final int HMI_SOURCEICON_DVDCHANGER_4 = 14;
+    public static final int HMI_SOURCEICON_DVDCHANGER_5 = 15;
+    public static final int HMI_SOURCEICON_DVDCHANGER_6 = 16;
+    public static final int HMI_SOURCEICON_SDCARD = 17;
+    public static final int HMI_SOURCEICON_SDCARD_1 = 18;
+    public static final int HMI_SOURCEICON_SDCARD_2 = 19;
+    public static final int HMI_SOURCEICON_HDD = 20;
+    public static final int HMI_SOURCEICON_USB = 21;
+    public static final int HMI_SOURCEICON_USB_1 = 22;
+    public static final int HMI_SOURCEICON_USB_11 = 23;
+    public static final int HMI_SOURCEICON_USB_12 = 24;
+    public static final int HMI_SOURCEICON_USB_13 = 25;
+    public static final int HMI_SOURCEICON_USB_14 = 26;
+    public static final int HMI_SOURCEICON_USB_2 = 27;
+    public static final int HMI_SOURCEICON_USB_21 = 28;
+    public static final int HMI_SOURCEICON_USB_22 = 29;
+    public static final int HMI_SOURCEICON_USB_23 = 30;
+    public static final int HMI_SOURCEICON_USB_24 = 31;
+    public static final int HMI_SOURCEICON_IPOD = 32;
+    public static final int HMI_SOURCEICON_IPOD_1 = 33;
+    public static final int HMI_SOURCEICON_IPOD_2 = 34;
+    public static final int HMI_SOURCEICON_BT = 35;
+    public static final int HMI_SOURCEICON_RCP = 36;
+    public static final int HMI_SOURCEICON_WLAN = 37;
+    public static final int HMI_SOURCEICON_AUX_AUDIO = 38;
+    public static final int HMI_SOURCEICON_AUX_VIDEO = 39;
+    public static final int HMI_SOURCEICON_TVTUNER = 40;
+    public static final int HMI_SOURCEICON_AVIN = 41;
+    public static final int HMI_SOURCEICON_FILEPLAYER = 42;
+    public static final int HMI_SOURCEICON_ONLINEPLAYER = 43;
+    private static final IntMap MEDIATYPEMAP = new IntMap(25);
     private static final IntMap HMISOURCEICONMAP;
-    public static final byte UPDATE_NOT_RELEVANT;
-    public static final byte UPDATE_NOBROWSER_TO_RAWBROWSER;
-    public static final byte UPDATE_NOBROWSER_TO_CONTENTBROWSER;
-    public static final byte UPDATE_RAWBROWSER_TO_CONTENTBROWSER;
-    public static final int HMI_ONLINE_ENTRY_POINT_UNDEFINED;
+    public static final byte UPDATE_NOT_RELEVANT = 0;
+    public static final byte UPDATE_NOBROWSER_TO_RAWBROWSER = 1;
+    public static final byte UPDATE_NOBROWSER_TO_CONTENTBROWSER = 2;
+    public static final byte UPDATE_RAWBROWSER_TO_CONTENTBROWSER = 3;
+    public static final int HMI_ONLINE_ENTRY_POINT_UNDEFINED = 0;
 
     public static boolean isSameFolder(MediaListEntry[] mediaListEntryArray, MediaListEntry[] mediaListEntryArray2) {
         if (mediaListEntryArray == mediaListEntryArray2) {
@@ -485,7 +485,7 @@ public class MediaUtils {
                 return "ALL";
             }
         }
-        return new StringBuffer().append("UNKNOWN(").append(n).append(")").toString();
+        return "UNKNOWN(" + n + ")";
     }
 
     public static final String getPlayViewClientIDToStr(int n) {
@@ -550,7 +550,7 @@ public class MediaUtils {
 
     public static String removeFileExtension(String string) {
         if (null == string) {
-            return "";
+            return EMPTY_STRING;
         }
         int n = string.lastIndexOf(46);
         return n > 0 ? string.substring(0, n) : string;
@@ -565,7 +565,6 @@ public class MediaUtils {
     }
 
     static {
-        MEDIATYPEMAP = new IntMap(25);
         MEDIATYPEMAP.put(14, 11);
         MEDIATYPEMAP.put(17, 14);
         MEDIATYPEMAP.put(15, 12);

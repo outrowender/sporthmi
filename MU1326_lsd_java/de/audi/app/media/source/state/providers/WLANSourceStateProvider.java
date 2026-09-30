@@ -3,12 +3,12 @@
  */
 package de.audi.app.media.source.state.providers;
 
+import de.audi.app.media.AbstractDispatcherRunnable;
+import de.audi.app.media.diagnosis.IDiagnosisCommandProvider;
 import de.audi.app.media.diagnosis.IDiagnosisManager;
 import de.audi.app.media.osgi.IServiceManager;
 import de.audi.app.media.source.state.ISourceStateUpdater;
-import de.audi.app.media.source.state.providers.WLANSourceStateProvider$1;
-import de.audi.app.media.source.state.providers.WLANSourceStateProvider$2;
-import de.audi.app.media.source.state.providers.WLANSourceStateProvider$3;
+import de.audi.app.media.source.state.SourceStateUpdate;
 import de.audi.app.media.source.state.providers.WLANState;
 import de.audi.atip.interapp.WlanServiceListener;
 import de.audi.atip.log.LogChannel;
@@ -19,7 +19,7 @@ import org.osgi.framework.ServiceRegistration;
 
 public class WLANSourceStateProvider
 implements WlanServiceListener {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "WLANSourceStateProvider";
     private final LogChannel logger;
     private final IServiceManager serviceManager;
     private final IDiagnosisManager diagnosisManager;
@@ -38,32 +38,49 @@ implements WlanServiceListener {
     }
 
     public void init() {
-        this.logger.log(1078071040, "[%1.init]", (Object)"WLANSourceStateProvider");
-        this.diagnosisManager.addCommandProvider(-1, new WLANSourceStateProvider$1(this));
+        this.logger.log(1000000, "[%1.init]", (Object)LOGCLASS);
+        this.diagnosisManager.addCommandProvider(-1, new IDiagnosisCommandProvider(){
+
+            public String[] getDiagKeys() {
+                return new String[]{"wlan.updateWLANState"};
+            }
+
+            public void executeDiagCommand(String string, String[] stringArray) {
+                WLANSourceStateProvider.this.updateWlanState(Boolean.valueOf(stringArray[0]));
+            }
+        });
         this.wlanListenerServiceRegistration = this.serviceManager.registerService(class$de$audi$atip$interapp$WlanServiceListener == null ? (class$de$audi$atip$interapp$WlanServiceListener = WLANSourceStateProvider.class$("de.audi.atip.interapp.WlanServiceListener")) : class$de$audi$atip$interapp$WlanServiceListener, this, new Hashtable(0));
     }
 
     public void deinit() {
-        this.logger.log(1078071040, "[%1.deinit] Deinit.", (Object)"WLANSourceStateProvider");
+        this.logger.log(1000000, "[%1.deinit] Deinit.", (Object)LOGCLASS);
         this.wlanListenerServiceRegistration.unregister();
     }
 
-    @Override
     public void updateWlanState(boolean bl) {
-        WLANState wLANState = new WLANState(bl);
+        final WLANState wLANState = new WLANState(bl);
         if (wLANState.equals(this.lastwlanState)) {
-            this.logger.log(1078071040, "[%1.updateWlanState] '%2' (not changed)", (Object)"WLANSourceStateProvider", (Object)wLANState);
+            this.logger.log(1000000, "[%1.updateWlanState] '%2' (not changed)", (Object)LOGCLASS, (Object)wLANState);
             return;
         }
         this.lastwlanState = wLANState;
-        this.logger.log(1078071040, "[%1.updateWlanState] '%2'", (Object)"WLANSourceStateProvider", (Object)wLANState);
-        this.dispatcher.execute(new WLANSourceStateProvider$2(this, new Buffer().append("updateWlanState('").append(wLANState).append("')").toString(), wLANState));
+        this.logger.log(1000000, "[%1.updateWlanState] '%2'", (Object)LOGCLASS, (Object)wLANState);
+        this.dispatcher.execute(new AbstractDispatcherRunnable(new Buffer().append("updateWlanState('").append(wLANState).append("')").toString()){
+
+            public void run() {
+                WLANSourceStateProvider.this.sourceStateUpdater.updateSourceState(new SourceStateUpdate(4, wLANState));
+            }
+        });
     }
 
-    @Override
-    public void updateNumberOfClients(int n) {
-        this.logger.log(1078071040, "[%1.updateNumberOfClients] '%2'", (Object)"WLANSourceStateProvider", (Object)String.valueOf(n));
-        this.dispatcher.execute(new WLANSourceStateProvider$3(this, "WLANSourceStateProvider.updateNumberOfClients", n));
+    public void updateNumberOfClients(final int n) {
+        this.logger.log(1000000, "[%1.updateNumberOfClients] '%2'", (Object)LOGCLASS, (Object)String.valueOf(n));
+        this.dispatcher.execute(new AbstractDispatcherRunnable("WLANSourceStateProvider.updateNumberOfClients"){
+
+            public void run() {
+                WLANSourceStateProvider.this.sourceStateUpdater.updateSourceState(new SourceStateUpdate(14, n > 0));
+            }
+        });
     }
 
     static /* synthetic */ Class class$(String string) {
@@ -73,10 +90,6 @@ implements WlanServiceListener {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ ISourceStateUpdater access$000(WLANSourceStateProvider wLANSourceStateProvider) {
-        return wLANSourceStateProvider.sourceStateUpdater;
     }
 }
 

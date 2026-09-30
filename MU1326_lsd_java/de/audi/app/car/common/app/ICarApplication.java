@@ -19,78 +19,57 @@ import de.esolutions.fw.util.commons.job.DispatcherBase;
 import org.osgi.framework.BundleContext;
 
 public interface ICarApplication {
-    public static final int MODULE_ID_CAR;
-    public static final int MODULE_ID_SETTINGS;
-    public static final int MODULE_ID_EARLY_FUNC;
-    public static final String MODULE_NAME_CAR;
-    public static final String MODULE_NAME_SETTINGS;
-    public static final String MODULE_NAME_EARLY_FUNC;
-    public static final int CLIMATE_SYSTEM_VARIANT_NONE;
-    public static final int CLIMATE_SYSTEM_VARIANT_HEATER;
-    public static final int CLIMATE_SYSTEM_VARIANT_COOLER;
-    public static final int CLIMATE_SYSTEM_VARIANT_COMBINED;
+    public static final int MODULE_ID_CAR = 6;
+    public static final int MODULE_ID_SETTINGS = 11;
+    public static final int MODULE_ID_EARLY_FUNC = 21;
+    public static final String MODULE_NAME_CAR = "AppCar";
+    public static final String MODULE_NAME_SETTINGS = "AppSettings";
+    public static final String MODULE_NAME_EARLY_FUNC = "AppEarlyFunc";
+    public static final int CLIMATE_SYSTEM_VARIANT_NONE = 0;
+    public static final int CLIMATE_SYSTEM_VARIANT_HEATER = 1;
+    public static final int CLIMATE_SYSTEM_VARIANT_COOLER = 2;
+    public static final int CLIMATE_SYSTEM_VARIANT_COMBINED = 3;
 
-    default public void init() {
-    }
+    public void init();
 
-    default public void deinit() {
-    }
+    public void deinit();
 
-    default public void startDSIServiceForComponent(String string, int n) {
-    }
+    public void startDSIServiceForComponent(String var1, int var2);
 
-    default public int getId() {
-    }
+    public int getId();
 
-    default public String getApplicationName() {
-    }
+    public String getApplicationName();
 
-    default public LogChannel getLogChannel() {
-    }
+    public LogChannel getLogChannel();
 
-    default public LogChannel getMerLogChannel() {
-    }
+    public LogChannel getMerLogChannel();
 
-    default public BundleContext getBundleContext() {
-    }
+    public BundleContext getBundleContext();
 
-    default public IActionProxyDispatcher getActionProxyDispatcher() {
-    }
+    public IActionProxyDispatcher getActionProxyDispatcher();
 
-    default public IMessageDispatcher getMessageDispatcher() {
-    }
+    public IMessageDispatcher getMessageDispatcher();
 
-    default public DispatcherBase getJobDispatcher() {
-    }
+    public DispatcherBase getJobDispatcher();
 
-    default public IFrameworkAccess getFrameworkAccess() {
-    }
+    public IFrameworkAccess getFrameworkAccess();
 
-    default public IMenuEntryRegistry getMenuEntryRegistry() {
-    }
+    public IMenuEntryRegistry getMenuEntryRegistry();
 
-    default public IPopupStateDispatcher getScreenStateDispatcher() {
-    }
+    public IPopupStateDispatcher getScreenStateDispatcher();
 
-    default public IPowerEventDispatcher getPowerEventDispatcher() {
-    }
+    public IPowerEventDispatcher getPowerEventDispatcher();
 
-    default public ILanguageUpdateDispatcher getLanguageUpdateDispatcher() {
-    }
+    public ILanguageUpdateDispatcher getLanguageUpdateDispatcher();
 
-    default public CarFuncAdap getCarMenuCoding() {
-    }
+    public CarFuncAdap getCarMenuCoding();
 
-    default public ICarComponent getComponent(int n) {
-    }
+    public ICarComponent getComponent(int var1);
 
-    default public ISDISConnector getSDISConnector() {
-    }
+    public ISDISConnector getSDISConnector();
 
-    default public IDumpRegistry getDumpRegistry() {
-    }
+    public IDumpRegistry getDumpRegistry();
 
-    default public int getClimateSystemVariant() {
-    }
+    public int getClimateSystemVariant();
 }
 

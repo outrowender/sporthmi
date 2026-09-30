@@ -15,19 +15,17 @@ extends AddressInputModelAccessKR {
 
     public AddressInputTownStreetModelAccessKR(NavigationEnv navigationEnv, int n, int n2, IAddressInputFormModelAccessHelper iAddressInputFormModelAccessHelper) {
         super(navigationEnv, n, n2, iAddressInputFormModelAccessHelper);
-        this.villageAvailable = navigationEnv.getChoiceModel(1042351616);
+        this.villageAvailable = navigationEnv.getChoiceModel(401726);
     }
 
-    @Override
     public void onElementSelected(NavLocation navLocation) {
-        this.env.getAddressInputLogChannel().log(-2137614336, "%1# villageAvailable.setValue(VILLAGE_STREET_UNAVAILABLE)", (Object)this.CLASS_NAME);
+        this.env.getAddressInputLogChannel().log(10000000, "%1# villageAvailable.setValue(VILLAGE_STREET_UNAVAILABLE)", (Object)this.CLASS_NAME);
         this.villageAvailable.setValue(0);
         this.reInitNDFScreenModel.setValue(0);
     }
 
-    @Override
     public void onAmbiguousElementSelected() {
-        this.env.getAddressInputLogChannel().log(-2137614336, "%1# villageAvailable.setValue(VILLAGE_STREET_AVAILABLE)", (Object)this.CLASS_NAME);
+        this.env.getAddressInputLogChannel().log(10000000, "%1# villageAvailable.setValue(VILLAGE_STREET_AVAILABLE)", (Object)this.CLASS_NAME);
         this.villageAvailable.setValue(1);
         this.reInitNDFScreenModel.setValue(1);
     }

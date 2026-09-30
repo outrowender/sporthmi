@@ -16,7 +16,6 @@ ResourceLocatorModelGUI {
         this.resource = new HMIResourceLocator(n, string);
     }
 
-    @Override
     public HMIResourceLocator getResourceLocator() {
         return this.resource;
     }

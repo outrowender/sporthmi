@@ -4,19 +4,19 @@
 package de.audi.app.bap.utils;
 
 public class LoggingUtils {
-    private static final String BAPSTACKSTATE_READY;
-    private static final String BAPSTACKSTATE_NOT_READY;
-    private static final String HMISTATE_NOT_READY;
-    private static final String HMISTATE_READY_INITIALIZING;
-    private static final String HMISTATE_READY_RUNNING;
+    private static final String BAPSTACKSTATE_READY = "READY";
+    private static final String BAPSTACKSTATE_NOT_READY = "NOT READY";
+    private static final String HMISTATE_NOT_READY = "HMISTATE_NOT_READY";
+    private static final String HMISTATE_READY_INITIALIZING = "HMISTATE_READY_INITIALIZING";
+    private static final String HMISTATE_READY_RUNNING = "HMISTATE_READY_RUNNING";
 
     public static String getBAPStackStateDescription(int n) {
         switch (n) {
             case 1: {
-                return "READY";
+                return BAPSTACKSTATE_READY;
             }
             case 0: {
-                return "NOT READY";
+                return BAPSTACKSTATE_NOT_READY;
             }
         }
         return String.valueOf(n);
@@ -25,13 +25,13 @@ public class LoggingUtils {
     public static String getHMIStateDescription(int n) {
         switch (n) {
             case 0: {
-                return "HMISTATE_NOT_READY";
+                return HMISTATE_NOT_READY;
             }
             case 1: {
-                return "HMISTATE_READY_INITIALIZING";
+                return HMISTATE_READY_INITIALIZING;
             }
             case 2: {
-                return "HMISTATE_READY_RUNNING";
+                return HMISTATE_READY_RUNNING;
             }
         }
         return String.valueOf(n);

@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class DiagnosisManagerImpl
 implements IDiagnosisManager {
-    public static final String LOGCLASS;
+    public static final String LOGCLASS = "DiagnosisManagerImpl";
     private final Map[] dataProvider = new HashMap[8];
     private final Map dataProviderAll = new HashMap();
     private final Map[] commandProvider = new HashMap[8];
@@ -28,17 +28,16 @@ implements IDiagnosisManager {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void addDataProvider(int n, IDiagnosisDataProvider iDiagnosisDataProvider) {
         if (iDiagnosisDataProvider == null) {
             throw new IllegalArgumentException();
         }
-        this.logger.log(14808325, "[%1.addDataProvider] '%2','%3'", (Object)"DiagnosisManagerImpl", (Object)String.valueOf(n), (Object)iDiagnosisDataProvider.getDiagKey());
+        this.logger.log(100000000, "[%1.addDataProvider] '%2','%3'", (Object)LOGCLASS, (Object)String.valueOf(n), (Object)iDiagnosisDataProvider.getDiagKey());
         Map[] mapArray = this.dataProvider;
         synchronized (this.dataProvider) {
             Map map = this.getDataProviderMap(n);
             if (map.containsKey(iDiagnosisDataProvider.getDiagKey())) {
-                this.logger.log(-1601830656, "[%1.addDataProvider] Already registered.", (Object)"DiagnosisManagerImpl", (Object)iDiagnosisDataProvider);
+                this.logger.log(100000, "[%1.addDataProvider] Already registered.", (Object)LOGCLASS, (Object)iDiagnosisDataProvider);
                 // ** MonitorExit[var3_3] (shouldn't be in output)
                 return;
             }
@@ -61,23 +60,22 @@ implements IDiagnosisManager {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public IDiagnosisDataProvider getDataProvider(int n, String string) {
         if (string == null) {
             throw new IllegalArgumentException();
         }
-        this.logger.log(1078071040, "[%1.getDataProvider] '%2','%3'", (Object)"DiagnosisManagerImpl", (Object)String.valueOf(n), (Object)string);
+        this.logger.log(1000000, "[%1.getDataProvider] '%2','%3'", (Object)LOGCLASS, (Object)String.valueOf(n), (Object)string);
         Map[] mapArray = this.dataProvider;
         synchronized (this.dataProvider) {
             IDiagnosisDataProvider iDiagnosisDataProvider = (IDiagnosisDataProvider)this.getDataProviderMap(n).get(string);
             IDiagnosisDataProvider iDiagnosisDataProvider2 = (IDiagnosisDataProvider)this.getDataProviderMap(-1).get(string);
             if (iDiagnosisDataProvider == null && iDiagnosisDataProvider2 == null) {
-                this.logger.log(1078071040, "[%1.getData] No provider '%2' found", (Object)"DiagnosisManagerImpl", (Object)string);
+                this.logger.log(1000000, "[%1.getData] No provider '%2' found", (Object)LOGCLASS, (Object)string);
                 // ** MonitorExit[var3_3] (shouldn't be in output)
                 return null;
             }
             if (iDiagnosisDataProvider != null && iDiagnosisDataProvider2 != null) {
-                this.logger.log(1078071040, "[%1.getData] '%2' shared key. Return terminal specific.", (Object)"DiagnosisManagerImpl", (Object)string);
+                this.logger.log(1000000, "[%1.getData] '%2' shared key. Return terminal specific.", (Object)LOGCLASS, (Object)string);
                 // ** MonitorExit[var3_3] (shouldn't be in output)
                 return iDiagnosisDataProvider;
             }
@@ -85,7 +83,7 @@ implements IDiagnosisManager {
                 // ** MonitorExit[var3_3] (shouldn't be in output)
                 return iDiagnosisDataProvider;
             }
-            this.logger.log(1078071040, "[%1.getData] Shared key", (Object)"DiagnosisManagerImpl", (Object)string);
+            this.logger.log(1000000, "[%1.getData] Shared key", (Object)LOGCLASS, (Object)string);
             // ** MonitorExit[var3_3] (shouldn't be in output)
             return iDiagnosisDataProvider2;
         }
@@ -94,7 +92,6 @@ implements IDiagnosisManager {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public List getDataProviderKeys(int n) {
         Map[] mapArray = this.dataProvider;
         synchronized (this.dataProvider) {
@@ -109,18 +106,17 @@ implements IDiagnosisManager {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void addCommandProvider(int n, IDiagnosisCommandProvider iDiagnosisCommandProvider) {
         if (iDiagnosisCommandProvider == null) {
             throw new IllegalArgumentException();
         }
-        this.logger.log(14808325, "[%1.addCommandProvider] '%2','%3'", (Object)"DiagnosisManagerImpl", (Object)String.valueOf(n), (Object)iDiagnosisCommandProvider.getDiagKeys());
+        this.logger.log(100000000, "[%1.addCommandProvider] '%2','%3'", (Object)LOGCLASS, (Object)String.valueOf(n), (Object)iDiagnosisCommandProvider.getDiagKeys());
         Map[] mapArray = this.commandProvider;
         synchronized (this.commandProvider) {
             Map map = this.getCommandProviderMap(n);
             for (int i2 = 0; i2 < iDiagnosisCommandProvider.getDiagKeys().length; ++i2) {
                 if (map.containsKey(iDiagnosisCommandProvider.getDiagKeys()[i2])) {
-                    this.logger.log(-1601830656, "[%1.addCommand] Already registered.", (Object)"DiagnosisManagerImpl");
+                    this.logger.log(100000, "[%1.addCommand] Already registered.", (Object)LOGCLASS);
                     // ** MonitorExit[var3_3] (shouldn't be in output)
                     return;
                 }
@@ -144,7 +140,6 @@ implements IDiagnosisManager {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public List getCommandProviderKeys(int n) {
         Map[] mapArray = this.commandProvider;
         synchronized (this.commandProvider) {
@@ -159,19 +154,18 @@ implements IDiagnosisManager {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public IDiagnosisCommandProvider getCommandProvider(int n, String string) {
         Map[] mapArray = this.commandProvider;
         synchronized (this.commandProvider) {
             IDiagnosisCommandProvider iDiagnosisCommandProvider = (IDiagnosisCommandProvider)this.getCommandProviderMap(n).get(string);
             IDiagnosisCommandProvider iDiagnosisCommandProvider2 = (IDiagnosisCommandProvider)this.getCommandProviderMap(-1).get(string);
             if (iDiagnosisCommandProvider == null && iDiagnosisCommandProvider2 == null) {
-                this.logger.log(1078071040, "[%1.getCommandProvider] No provider for '%2' found", (Object)"DiagnosisManagerImpl", (Object)string);
+                this.logger.log(1000000, "[%1.getCommandProvider] No provider for '%2' found", (Object)LOGCLASS, (Object)string);
                 // ** MonitorExit[var3_3] (shouldn't be in output)
                 return null;
             }
             if (iDiagnosisCommandProvider != null && iDiagnosisCommandProvider2 != null) {
-                this.logger.log(1078071040, "[%1.getCommandProvider] '%2' shared key. Return terminal specific.", (Object)"DiagnosisManagerImpl", (Object)string);
+                this.logger.log(1000000, "[%1.getCommandProvider] '%2' shared key. Return terminal specific.", (Object)LOGCLASS, (Object)string);
                 // ** MonitorExit[var3_3] (shouldn't be in output)
                 return iDiagnosisCommandProvider;
             }
@@ -179,7 +173,7 @@ implements IDiagnosisManager {
                 // ** MonitorExit[var3_3] (shouldn't be in output)
                 return iDiagnosisCommandProvider;
             }
-            this.logger.log(1078071040, "[%1.getCommandProvider] '%2' shared key", (Object)"DiagnosisManagerImpl", (Object)string);
+            this.logger.log(1000000, "[%1.getCommandProvider] '%2' shared key", (Object)LOGCLASS, (Object)string);
             // ** MonitorExit[var3_3] (shouldn't be in output)
             return iDiagnosisCommandProvider2;
         }

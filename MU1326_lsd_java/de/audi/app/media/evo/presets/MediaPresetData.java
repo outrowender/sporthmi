@@ -3,14 +3,15 @@
  */
 package de.audi.app.media.evo.presets;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 public class MediaPresetData
 implements Serializable {
-    private static final long serialVersionUID;
-    private static final int CURRENT_VERSION;
+    private static final long serialVersionUID = -6349227571311921474L;
+    private static final int CURRENT_VERSION = 0;
     private int version = 0;
     private int sourceType;
     private String mediaUniqueId;
@@ -46,7 +47,7 @@ implements Serializable {
         return this.preset;
     }
 
-    private void writeObject(ObjectOutputStream objectOutputStream) {
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
         objectOutputStream.writeInt(this.version);
         objectOutputStream.writeInt(this.sourceType);
         objectOutputStream.writeUTF(this.mediaUniqueId);
@@ -55,7 +56,7 @@ implements Serializable {
         objectOutputStream.writeUTF(this.path);
     }
 
-    private void readObject(ObjectInputStream objectInputStream) {
+    private void readObject(ObjectInputStream objectInputStream) throws IOException {
         this.version = objectInputStream.readInt();
         this.sourceType = objectInputStream.readInt();
         this.mediaUniqueId = objectInputStream.readUTF();

@@ -6,7 +6,6 @@ package de.audi.app.navi.evo.di.jp.listeners;
 import de.audi.app.navi.evo.di.AbstractAddressInputListenerEvo;
 import de.audi.app.navi.evo.di.AddressInputUtilEvo;
 import de.audi.app.navi.evo.di.DIScreensEvo;
-import de.audi.app.navi.evo.di.jp.listeners.AddressInputMainScreenListenerJP$1;
 import de.audi.atip.hmi.model.ButtonListener;
 import de.audi.atip.hmi.model.SpellerListener;
 import de.audi.atip.hmi.model.list.BaseListModelListener;
@@ -21,6 +20,7 @@ import de.audi.tghu.navi.app.INavigationInputModeManager;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.addressinput.CmdNaviPreviewMapUpdate;
 import de.audi.tghu.navi.app.command.DSIResponseContainer;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.di.IAddressInputMainScreenListener;
 import de.audi.tghu.navi.app.di.IAddressInputManager;
 import de.audi.tghu.navi.app.di.sequences.nospeller.AddressInputMainScreenSequence;
@@ -69,7 +69,6 @@ MenuModelListener {
         this.initListeners();
     }
 
-    @Override
     protected void initListeners() {
         this.env.getTextfieldModel(PREFECTURE_TEXT_FIELD_MODEL_ID).setButtonListener(this);
         this.env.getTextfieldModel(CITY_TEXT_FIELD_MODEL_ID).setButtonListener(this);
@@ -92,27 +91,22 @@ MenuModelListener {
         this.env.getMenuModel(MENU_MODEL_ID).setListener(this);
     }
 
-    @Override
     public CommandList getStartCommandList(NavLocation navLocation) {
         return this.inputSequence.getStartCommandList(navLocation);
     }
 
-    @Override
     public CommandList getStartCommandList() {
         return this.inputSequence.getStartCommandList();
     }
 
-    @Override
     public CommandList getStartCommandList(String string) {
         return this.getStartCommandList();
     }
 
-    @Override
     public CommandList getStartCommandListForOnline() {
         return this.inputSequence.getStartCommandList(null, true);
     }
 
-    @Override
     public CommandList getStartCommandListForOnline(NavLocation navLocation) {
         return this.inputSequence.getStartCommandList(navLocation, true);
     }
@@ -120,7 +114,6 @@ MenuModelListener {
     /*
      * Enabled aggressive block sorting
      */
-    @Override
     public void keyPressed(int n, int n2, int n3) {
         block22: {
             block29: {
@@ -130,7 +123,7 @@ MenuModelListener {
                             block25: {
                                 block24: {
                                     block23: {
-                                        this.logChannel.log(-2137614336, "%1#keyPressed - with modelId=%2 keyId=%3", (Object)this.CLASS_NAME, (long)n, (long)n2);
+                                        this.logChannel.log(10000000, "%1#keyPressed - with modelId=%2 keyId=%3", (Object)this.CLASS_NAME, (long)n, (long)n2);
                                         if (n != DEST_OPT_METHODS_BUTTON_ID) break block23;
                                         this.inputManager.start(this.adbInterAppService.getAddressbookDestination());
                                         if (this.inputModeManager.getInputMode() == 1) {
@@ -174,10 +167,10 @@ MenuModelListener {
             }
             if (n == PREFECTURE_TEXT_FIELD_MODEL_ID) {
                 if (AddressInputUtilEvo.isInPOIRelatedContext(this.env)) {
-                    this.logChannel.log(-2137614336, "%1#keyPressed() set nation wide button to invisible.", (Object)this.CLASS_NAME);
+                    this.logChannel.log(10000000, "%1#keyPressed() set nation wide button to invisible.", (Object)this.CLASS_NAME);
                     this.env.getButtonModel(DIScreensEvo.getDiJpPrefectureScreenNationWideButtonModel()).setStatus(0);
                 } else {
-                    this.logChannel.log(-2137614336, "%1#keyPressed() set nation wide button to visible.", (Object)this.CLASS_NAME);
+                    this.logChannel.log(10000000, "%1#keyPressed() set nation wide button to visible.", (Object)this.CLASS_NAME);
                     this.env.getButtonModel(DIScreensEvo.getDiJpPrefectureScreenNationWideButtonModel()).setStatus(1);
                 }
                 this.inputManager.executeAddressInputEvent(this.inputSequence.getStartPrefectureCommandList(), 20002);
@@ -190,22 +183,22 @@ MenuModelListener {
                 this.inputManager.executeAddressInputEvent(this.inputSequence.getStartPlacenameCommandList(), 20005);
             } else if (n == CHOME_TEXT_FIELD_MODEL_ID) {
                 if ((Util.isEmpty(this.env.getTextfieldModel(PLACENAME_TEXT_FIELD_MODEL_ID).getText1()) || this.env.getInputModeManager().isSdsActive()) && !this.isChomeNumberAvailable()) {
-                    this.env.getChoiceModel(807470592).setValue(0);
+                    this.env.getChoiceModel(401712).setValue(0);
                     return;
                 }
                 if (this.env.getContainer().selectionCriterionAvailable(144)) {
-                    this.logChannel.log(-2137614336, "%1#keyPressed - updateChoiceModel Chome select screen is needed!", (Object)this.CLASS_NAME);
+                    this.logChannel.log(10000000, "%1#keyPressed - updateChoiceModel Chome select screen is needed!", (Object)this.CLASS_NAME);
                     this.env.getChoiceModel(DIScreensEvo.getDiJpNeedsChome()).setValue(1);
                     this.inputManager.executeAddressInputEvent(this.commandListFactory.createCommandList(), 20006);
                 } else {
-                    this.logChannel.log(-2137614336, "%1#keyPressed - updateChoiceModel Chome select screen is not needed!", (Object)this.CLASS_NAME);
+                    this.logChannel.log(10000000, "%1#keyPressed - updateChoiceModel Chome select screen is not needed!", (Object)this.CLASS_NAME);
                     this.env.getChoiceModel(DIScreensEvo.getDiJpNeedsChome()).setValue(0);
                     this.inputManager.executeAddressInputEvent(this.inputSequence.getStartHouseNumberCommandList(), 20804);
                 }
             } else if (n == START_GUIDANCE_BUTTON_MODEL_ID) {
                 this.inputManager.executeAddressInputEvent(this.inputSequence.getStartRouteGuidanceCommandList(), 20011);
             } else {
-                this.logChannel.log(-2137614336, "%1#keyPressed - no valid case for modelId=%2 keyId=%3", (Object)this.CLASS_NAME, (long)n, (long)n2);
+                this.logChannel.log(10000000, "%1#keyPressed - no valid case for modelId=%2 keyId=%3", (Object)this.CLASS_NAME, (long)n, (long)n2);
             }
         }
         this.env.fireModelEvent(n, n3);
@@ -216,49 +209,52 @@ MenuModelListener {
         return dSIResponseContainer.selectionCriterionAvailable(144) || dSIResponseContainer.selectionCriterionAvailable(5);
     }
 
-    @Override
     public void textChanged(int n, String string, char c2, int n2) {
-        this.logChannel.log(-2137614336, "%1#textChanged - model=%2, text=%3, latestChar=%4", (Object)this.CLASS_NAME, (Object)Integer.toString(n), (Object)string, (long)c2);
+        this.logChannel.log(10000000, "%1#textChanged - model=%2, text=%3, latestChar=%4", (Object)this.CLASS_NAME, (Object)Integer.toString(n), (Object)string, (long)c2);
         if (n == PREFECTURE_DIRECT_WRITTING_SPELLER_MODEL_ID) {
-            this.logChannel.log(-2137614336, "%1#textChanged - starting prefecture speller", (Object)this.CLASS_NAME);
+            this.logChannel.log(10000000, "%1#textChanged - starting prefecture speller", (Object)this.CLASS_NAME);
             this.clearSpellerModel(PREFECTURE_DIRECT_WRITTING_SPELLER_MODEL_ID);
             this.inputManager.executeAddressInputEvent(this.inputSequence.getStartPrefectureCommandList(c2), 20007);
         } else if (n == CITY_DIRECT_WRITTING_SPELLER_MODEL_ID) {
-            this.logChannel.log(-2137614336, "%1#textChanged - starting city speller", (Object)this.CLASS_NAME);
+            this.logChannel.log(10000000, "%1#textChanged - starting city speller", (Object)this.CLASS_NAME);
             this.clearSpellerModel(CITY_DIRECT_WRITTING_SPELLER_MODEL_ID);
             this.inputManager.executeAddressInputEvent(this.inputSequence.getStartCityZipCommandList(c2), 20008);
         } else if (n == PLACE_DIRECT_WRITTING_SPELLER_MODEL_ID) {
-            this.logChannel.log(-2137614336, "%1#textChanged - starting place name speller", (Object)this.CLASS_NAME);
+            this.logChannel.log(10000000, "%1#textChanged - starting place name speller", (Object)this.CLASS_NAME);
             this.clearSpellerModel(PLACE_DIRECT_WRITTING_SPELLER_MODEL_ID);
             this.inputManager.executeAddressInputEvent(this.inputSequence.getStartPlacenameCommandList(c2), 20009);
         } else if (n == CHOME_DIRECT_WRITTING_SPELLER_MODEL_ID) {
-            this.logChannel.log(-2137614336, "%1#textChanged - starting chome/number speller", (Object)this.CLASS_NAME);
+            this.logChannel.log(10000000, "%1#textChanged - starting chome/number speller", (Object)this.CLASS_NAME);
             this.clearSpellerModel(CHOME_DIRECT_WRITTING_SPELLER_MODEL_ID);
             this.inputManager.executeAddressInputEvent(this.inputSequence.getStartHouseNumberCommandList(c2), 20010);
         } else {
-            this.logChannel.log(-2137614336, "%1#textChanged - unsupported model id (%2)", (Object)this.CLASS_NAME, (long)n);
+            this.logChannel.log(10000000, "%1#textChanged - unsupported model id (%2)", (Object)this.CLASS_NAME, (long)n);
         }
         this.env.fireModelEvent(n, n2);
     }
 
-    @Override
     public void resetPreviousLocation() {
         this.previousLocation = null;
     }
 
-    @Override
     public void itemFocused(int n, int n2, long l, int n3) {
-        this.logChannel.log(-2137614336, "%1#itemFocused (menu model) menuItemID=%2, model=%3", (Object)this.CLASS_NAME, (long)n, (long)n2);
+        this.logChannel.log(10000000, "%1#itemFocused (menu model) menuItemID=%2, model=%3", (Object)this.CLASS_NAME, (long)n, (long)n2);
         NavLocation navLocation = this.env.getContainer().getLiCurrentLD();
         if (this.previousLocation == null || this.inputSequence.isNdfEnteredForTheFirstTime() || this.previousLocation.longitude != navLocation.longitude || this.previousLocation.latitude != navLocation.latitude) {
-            this.logChannel.log(-2137614336, "%1#itemFocused -- liCurrentLD = %2", (Object)this.CLASS_NAME, (Object)LocationFormatter.formatLocationShort(navLocation));
+            this.logChannel.log(10000000, "%1#itemFocused -- liCurrentLD = %2", (Object)this.CLASS_NAME, (Object)LocationFormatter.formatLocationShort(navLocation));
             String string = Util.getLocationAccessor(navLocation).getState();
             String string2 = Util.getLocationAccessor(navLocation).getTown();
             String string3 = Util.getLocationAccessor(navLocation).getPlaceName();
             CommandList commandList = this.commandListFactory.createCommandList();
             this.previousLocation = navLocation;
             if (Util.isEmpty(string)) {
-                commandList.add(new AddressInputMainScreenListenerJP$1(this, "Focus preview map on CCP"));
+                commandList.add(new NavCommand("Focus preview map on CCP"){
+
+                    public void execute() {
+                        AddressInputMainScreenListenerJP.this.previewMap.setPreviewAreaAroundCCP(1);
+                        this.getCommandList().commandFinished();
+                    }
+                });
             } else if (Util.isEmpty(string2) && !Util.isEmpty(string) || Util.isEmpty(string3) && !Util.isEmpty(string2)) {
                 commandList.add(new CmdNaviPreviewMapUpdate(this.previewMap, true, 1, null, null));
             } else {
@@ -268,44 +264,31 @@ MenuModelListener {
         }
     }
 
-    @Override
     public void focusedCharacter(int n, char c2, int n2) {
     }
 
-    @Override
     public void commandPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-    }
-
-    static /* synthetic */ IPreviewMap access$000(AddressInputMainScreenListenerJP addressInputMainScreenListenerJP) {
-        return addressInputMainScreenListenerJP.previewMap;
     }
 }
 

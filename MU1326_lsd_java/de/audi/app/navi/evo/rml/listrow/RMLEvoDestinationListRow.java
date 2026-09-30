@@ -35,23 +35,19 @@ extends AbstractRMLListRow {
         return this.env;
     }
 
-    @Override
     public EvoListRow copy() {
         return new RMLEvoDestinationListRow(this);
     }
 
-    @Override
     protected void fillDistance() {
         this.setText(2, "");
     }
 
-    @Override
     protected void fillIcon() {
         int n = this.getOffset(this.combinedRouteListElement);
         this.setInteger(3, n);
     }
 
-    @Override
     protected void fillName() {
         int n;
         int n2 = this.route.getRoutelist().length;
@@ -61,24 +57,23 @@ extends AbstractRMLListRow {
             String string = locationFormattingResponse.getFirstLineAsText();
             this.setText(4, string);
         } else {
-            this.env.getRMLLogChannel().log(-1601830656, "RMLEvoDestinationListRow#fillName numDests(%1) > destIndex(%2)", (long)n2, (long)n);
+            this.env.getRMLLogChannel().log(100000, "RMLEvoDestinationListRow#fillName numDests(%1) > destIndex(%2)", (long)n2, (long)n);
         }
     }
 
-    @Override
     protected void fillDetailsAllowed() {
         this.setInteger(5, 1);
     }
 
     private int getOffset(CombinedRouteListElement combinedRouteListElement) {
-        this.env.getRMLLogChannel().log(-2137614336, "RMLEvoDestinationListRow#getOffset(%1)", (Object)combinedRouteListElement);
+        this.env.getRMLLogChannel().log(10000000, "RMLEvoDestinationListRow#getOffset(%1)", (Object)combinedRouteListElement);
         if (this.env.getRMLLogChannel().isDebug2()) {
-            this.env.getRMLLogChannel().log(14808325, "RMLEvoDestinationListRow#getOffset() destinationIndex = %1", (long)combinedRouteListElement.getDestinationIndex());
+            this.env.getRMLLogChannel().log(100000000, "RMLEvoDestinationListRow#getOffset() destinationIndex = %1", (long)combinedRouteListElement.getDestinationIndex());
         }
         int n = combinedRouteListElement.getDestinationIndex();
         if (this.route != null) {
             if (this.env.getRMLLogChannel().isDebug2()) {
-                this.env.getRMLLogChannel().log(14808325, "RMLEvoDestinationListRow#getOffset() routeList length = %1", (long)this.route.getRoutelist().length);
+                this.env.getRMLLogChannel().log(100000000, "RMLEvoDestinationListRow#getOffset() routeList length = %1", (long)this.route.getRoutelist().length);
             }
             int n2 = this.route.getRoutelist().length;
             n = (n + 1) % n2;
@@ -86,12 +81,10 @@ extends AbstractRMLListRow {
         return n;
     }
 
-    @Override
     protected void fillLayout() {
         this.setInteger(0, 0);
     }
 
-    @Override
     public void updateRgInfoForNextDestination(RgInfoForNextDestination rgInfoForNextDestination) {
     }
 }

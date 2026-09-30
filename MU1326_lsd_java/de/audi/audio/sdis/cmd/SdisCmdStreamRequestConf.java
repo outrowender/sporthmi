@@ -11,12 +11,12 @@ import org.dsi.ifc.media.DSIMediaRouter;
 
 public class SdisCmdStreamRequestConf
 extends Command {
-    public static final int MEDIA_SOURCE_INTERNAL;
-    public static final int MEDIA_SOURCE_EXTERNAL_AUDIO_VIDEO;
-    public static final int MEDIA_SOURCE_EXTERNAL_AUDIO_ONLY;
+    public static final int MEDIA_SOURCE_INTERNAL = 0;
+    public static final int MEDIA_SOURCE_EXTERNAL_AUDIO_VIDEO = 1;
+    public static final int MEDIA_SOURCE_EXTERNAL_AUDIO_ONLY = 2;
     private final String STREAMING_USE_JOINT_MODE;
-    private static final int JOINT_MODE;
-    private static final int REMOTE_MODE;
+    private static final int JOINT_MODE = 1;
+    private static final int REMOTE_MODE = 0;
     private final DSIMediaRouter dsiMediaRouter;
     private final int clientID;
     private final AudioEnv env;
@@ -42,7 +42,7 @@ extends Command {
         this.context = n2;
         this.contextLabel = SdisLabels.getContext(n2);
         this.mediasource = n3;
-        this.setName(new StringBuffer().append("SdisCmdStreamRequestConf: ").append(this.contextLabel).toString());
+        this.setName("SdisCmdStreamRequestConf: " + this.contextLabel);
         this.streamState = sdisStreamState;
         this.computeConfiguration();
         this.streamState.setRequiredMediaRouterConfig(this.audioSource, this.videoSource, this.sink);
@@ -84,35 +84,34 @@ extends Command {
                 break;
             }
             default: {
-                throw new IllegalArgumentException(new StringBuffer().append("Invalid context ").append(this.context).toString());
+                throw new IllegalArgumentException("Invalid context " + this.context);
             }
         }
     }
 
-    @Override
     public void execute() {
         if (this.streamState.reconfigureMediaRouterNecessary()) {
-            this.logger.log(-2137614336, "[SdisCmdStreamRequestConf.execute] -> DSIMediaRouter.requestConfiguration()");
-            this.logger.log(-2137614336, "[SdisCmdStreamRequestConf.execute] -> clientID:%1", (long)this.clientID);
-            this.logger.log(-2137614336, "[SdisCmdStreamRequestConf.execute] -> audioSource:%1 videoSource:%2 sink:0b%3", (long)this.audioSource, (long)this.videoSource, (long)this.sink);
+            this.logger.log(10000000, "[SdisCmdStreamRequestConf.execute] -> DSIMediaRouter.requestConfiguration()");
+            this.logger.log(10000000, "[SdisCmdStreamRequestConf.execute] -> clientID:%1", (long)this.clientID);
+            this.logger.log(10000000, "[SdisCmdStreamRequestConf.execute] -> audioSource:%1 videoSource:%2 sink:0b%3", (long)this.audioSource, (long)this.videoSource, (long)this.sink);
             this.streamState.setRequestedMediaRouterConfig(this.audioSource, this.videoSource, this.sink);
             this.dsiMediaRouter.requestConfiguration(this.clientID, this.audioSource, this.videoSource, this.sink);
         } else {
-            this.logger.log(-2137614336, "[SdisCmdStreamRequestConf.execute] -> No reconfiguration of the media router necessary.");
+            this.logger.log(10000000, "[SdisCmdStreamRequestConf.execute] -> No reconfiguration of the media router necessary.");
             this.commandList.commandFinished();
         }
     }
 
     public void responseConfiguration(int n, int n2) {
         if (n != this.clientID) {
-            this.logger.log(-1601830656, "[SdisCmdStreamRequestConf.responseConfiguration] ClientID mismatch %1 vs. %2", (long)this.clientID, (long)n);
+            this.logger.log(100000, "[SdisCmdStreamRequestConf.responseConfiguration] ClientID mismatch %1 vs. %2", (long)this.clientID, (long)n);
             return;
         }
         if (n2 == 0) {
-            this.logger.log(-2137614336, "[SdisCmdStreamRequestConf.responseConfiguration] OK(%1) -> finish command", (long)n2);
+            this.logger.log(10000000, "[SdisCmdStreamRequestConf.responseConfiguration] OK(%1) -> finish command", (long)n2);
             this.commandList.commandFinished();
         } else {
-            this.logger.log(-1601830656, "[SdisCmdStreamRequestConf.responseConfiguration] NOK(%1) -> abort command", (long)n2);
+            this.logger.log(100000, "[SdisCmdStreamRequestConf.responseConfiguration] NOK(%1) -> abort command", (long)n2);
             this.commandList.commandAborted("Configuration result NOK!");
         }
     }
@@ -121,25 +120,25 @@ extends Command {
         int n;
         Integer n2 = this.env.getIntegerVMOption("SDISStreamingMode");
         if (n2 == null) {
-            this.logger.log(-1601830656, "[SdisCmdStreamRequestConf.getMode] wrong mode VMOPTION %1 must not be unset -> set default", (Object)"SDISStreamingMode");
+            this.logger.log(100000, "[SdisCmdStreamRequestConf.getMode] wrong mode VMOPTION %1 must not be unset -> set default", (Object)"SDISStreamingMode");
             return 3;
         }
         try {
             n = n2;
         }
         catch (Exception exception) {
-            this.logger.log(-1601830656, "[SdisCmdStreamRequestConf.getMode] wrong mode: VMOPTION %1 must not be unset but set to JOINT_MODE or REMOTE_MODE -> set default", (Object)"SDISStreamingMode");
+            this.logger.log(100000, "[SdisCmdStreamRequestConf.getMode] wrong mode: VMOPTION %1 must not be unset but set to JOINT_MODE or REMOTE_MODE -> set default", (Object)"SDISStreamingMode");
             n = 2;
         }
         if (n == 1) {
-            this.logger.log(-2137614336, "[SdisCmdStreamRequestConf.getMode] JOINT_MODE active");
+            this.logger.log(10000000, "[SdisCmdStreamRequestConf.getMode] JOINT_MODE active");
             return 3;
         }
         if (n == 0) {
-            this.logger.log(-2137614336, "[SdisCmdStreamRequestConf.getMode] REMOTE_MODE active");
+            this.logger.log(10000000, "[SdisCmdStreamRequestConf.getMode] REMOTE_MODE active");
             return 2;
         }
-        this.logger.log(-1601830656, "[SdisCmdStreamRequestConf.getMode] wrong mode %1 must be JOINT_MODE or REMOTE_MODE -> set default", (Object)"SDISStreamingMode");
+        this.logger.log(100000, "[SdisCmdStreamRequestConf.getMode] wrong mode %1 must be JOINT_MODE or REMOTE_MODE -> set default", (Object)"SDISStreamingMode");
         return 2;
     }
 }

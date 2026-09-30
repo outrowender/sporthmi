@@ -13,10 +13,10 @@ import de.audi.atip.search.util.SearchResultListRow;
 
 public abstract class AbstractSearchHandlerEvo
 extends AbstractSearchHandler {
-    private static final int DISPLAY_NORMAL_LIST;
-    private static final int DISPLAY_SEARCHRESULT_LIST;
-    static final int ITEM_NOTSELECTED;
-    static final int ITEM_SELECTED;
+    private static final int DISPLAY_NORMAL_LIST = 0;
+    private static final int DISPLAY_SEARCHRESULT_LIST = 1;
+    static final int ITEM_NOTSELECTED = 0;
+    static final int ITEM_SELECTED = 1;
     protected final ChoiceModelApp displaySearchResultList;
 
     public AbstractSearchHandlerEvo(LogChannel logChannel, BaseListModelApp baseListModelApp, SpellerModelApp spellerModelApp, ChoiceModelApp choiceModelApp, ChoiceModelApp choiceModelApp2, int[] nArray, AbstractSearch abstractSearch, ChoiceModelApp choiceModelApp3) {
@@ -28,19 +28,17 @@ extends AbstractSearchHandler {
         this.configureSuggestions(false, true);
     }
 
-    @Override
     public void reset() {
         if (this.lc.isDebug2()) {
-            this.lc.log(14808325, "[%1.reset]", (Object)this.getLogClass());
+            this.lc.log(100000000, "[%1.reset]", (Object)this.getLogClass());
         }
         this.displaySearchResultList.setValue(0);
         super.reset();
     }
 
-    @Override
     public synchronized void searchStarted() {
         super.searchStarted();
-        this.lc.log(1078071040, "[%1.searchStarted]", (Object)this.getLogClass());
+        this.lc.log(1000000, "[%1.searchStarted]", (Object)this.getLogClass());
         if (this.mdlSpellerSearchText.getText() != null && this.mdlSpellerSearchText.getText().length() > 0) {
             this.displaySearchResultList.setValue(1);
         } else {
@@ -49,9 +47,8 @@ extends AbstractSearchHandler {
         }
     }
 
-    @Override
     public void textChanged(int n, String string, char c2, int n2) {
-        this.lc.log(1078071040, "[%1.textChanged '%2']", (Object)this.getLogClass(), (Object)string);
+        this.lc.log(1000000, "[%1.textChanged '%2']", (Object)this.getLogClass(), (Object)string);
         if (null != string && string.length() > 0) {
             this.searchEntered();
             if (string.length() > 2 && string.indexOf(32) > 0) {
@@ -70,11 +67,10 @@ extends AbstractSearchHandler {
     }
 
     protected void showNormalList() {
-        this.lc.log(1078071040, "[%1.showNormalList]", (Object)this.getLogClass());
+        this.lc.log(1000000, "[%1.showNormalList]", (Object)this.getLogClass());
         this.displaySearchResultList.setValue(0);
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
         if (this.mdlListSearchResults.getLength() == 1) {
             this.searchResultSelected((SearchResultListRow)this.mdlListSearchResults.getRow(0), n3, n);

@@ -4,6 +4,7 @@
 package com.ibm.oti.util;
 
 import java.io.FilterInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 public class PositionedInputStream
@@ -18,8 +19,7 @@ extends FilterInputStream {
         return this.currentPosition;
     }
 
-    @Override
-    public int read() {
+    public int read() throws IOException {
         int n = this.in.read();
         if (n >= 0) {
             ++this.currentPosition;
@@ -27,8 +27,7 @@ extends FilterInputStream {
         return n;
     }
 
-    @Override
-    public int read(byte[] byArray, int n, int n2) {
+    public int read(byte[] byArray, int n, int n2) throws IOException {
         int n3 = this.in.read(byArray, n, n2);
         if (n3 >= 0) {
             this.currentPosition += n3;
@@ -40,8 +39,7 @@ extends FilterInputStream {
         this.currentPosition = 0;
     }
 
-    @Override
-    public long skip(long l) {
+    public long skip(long l) throws IOException {
         long l2 = this.in.skip(l);
         this.currentPosition = (int)((long)this.currentPosition + l2);
         return l2;

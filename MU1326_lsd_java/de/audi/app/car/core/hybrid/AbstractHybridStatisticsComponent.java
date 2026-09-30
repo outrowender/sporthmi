@@ -6,9 +6,6 @@ package de.audi.app.car.core.hybrid;
 import de.audi.app.car.common.adapter.AbstractDSICarKombiAdapter;
 import de.audi.app.car.common.app.ICarApplication;
 import de.audi.app.car.common.comp.CarDSIAttributesSet;
-import de.audi.app.car.core.hybrid.AbstractHybridStatisticsComponent$CombinedDistance;
-import de.audi.app.car.core.hybrid.AbstractHybridStatisticsComponent$HybridStatisticsButtonListener;
-import de.audi.app.car.core.hybrid.AbstractHybridStatisticsComponent$HybridStatisticsRotationListener;
 import de.audi.app.car.core.hybrid.HybridStatisticsConfigLTS;
 import de.audi.app.car.core.hybrid.HybridStatisticsConfigSTS;
 import de.audi.app.car.core.hybrid.HybridStatisticsPersistenceManager;
@@ -18,13 +15,12 @@ import de.audi.app.car.core.hybrid.IMemoryBufferEntry;
 import de.audi.app.car.core.hybrid.StatisticsLongTermEntry;
 import de.audi.app.car.core.hybrid.StatisticsMemoryBuffer;
 import de.audi.app.car.core.hybrid.StatisticsShortTermEntry;
+import de.audi.atip.hmi.model.DefaultButtonListener;
+import de.audi.atip.hmi.model.RangeListener;
 import de.audi.atip.hmi.model.list.BaseListModelApp;
 import de.audi.atip.hmi.model.list.EvoListRow;
-import de.audi.atip.hmi.modelaccess.ButtonModelApp;
-import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.hmi.modelaccess.LabelModelApp;
 import de.audi.atip.hmi.modelaccess.MetricsModelApp;
-import de.audi.atip.hmi.modelaccess.RangeModelApp;
 import de.audi.atip.metrics.Distance;
 import de.audi.atip.msg.MsgListener;
 import de.esolutions.fw.util.commons.Buffer;
@@ -42,19 +38,19 @@ public abstract class AbstractHybridStatisticsComponent
 extends AbstractDSICarKombiAdapter
 implements MsgListener {
     public static final short[] CODING_ID = new short[]{24, 41};
-    private static final String LOGCHANNEL_NAME;
-    private static final String STS_BUFFER_NAME;
-    private static final String LTS_BUFFER_NAME;
-    private static final int VALUE_COUNTER_CHECK_INVALID;
-    private static final int VALUE_COUNTER_CHECK_VALID_NEXT;
-    private static final int VALUE_COUNTER_CHECK_VALID_OVERRIDE;
-    private static final int VALUE_COUNTER_RESET;
-    private static final int LONG_TERM_RESET_RESULT_UNDEFINED;
-    private static final int LONG_TERM_RESET_RESULT_SUCCESS;
-    private static final int LONG_TERM_RESET_RESULT_ERROR;
-    private static final int HIDE_SHORT_TERM_HISTORY_BAR;
-    private static final int HIDE_SHORT_TERM_CURRENT_BAR;
-    private static final int ZERO_EMMISSION_DEFAULT_VALVE;
+    private static final String LOGCHANNEL_NAME = "App.Car.Hybrid.Statistics";
+    private static final String STS_BUFFER_NAME = "ShortTermBuffer";
+    private static final String LTS_BUFFER_NAME = "LongTermBuffer";
+    private static final int VALUE_COUNTER_CHECK_INVALID = 0;
+    private static final int VALUE_COUNTER_CHECK_VALID_NEXT = 1;
+    private static final int VALUE_COUNTER_CHECK_VALID_OVERRIDE = 2;
+    private static final int VALUE_COUNTER_RESET = 0;
+    private static final int LONG_TERM_RESET_RESULT_UNDEFINED = 0;
+    private static final int LONG_TERM_RESET_RESULT_SUCCESS = 1;
+    private static final int LONG_TERM_RESET_RESULT_ERROR = 2;
+    private static final int HIDE_SHORT_TERM_HISTORY_BAR = 3;
+    private static final int HIDE_SHORT_TERM_CURRENT_BAR = 3;
+    private static final int ZERO_EMMISSION_DEFAULT_VALVE = 255;
     private int systemDistanceUnitAsCarConstant = 0;
     private final HybridStatisticsPersistenceManager persistenceMgr;
     private IMemoryBuffer shortTermBuffer;
@@ -72,9 +68,9 @@ implements MsgListener {
     private MetricsModelApp hLTSTotalModel;
 
     public AbstractHybridStatisticsComponent(ICarApplication iCarApplication) {
-        super(iCarApplication, "App.Car.Hybrid.Statistics");
+        super(iCarApplication, LOGCHANNEL_NAME);
         this.persistenceMgr = new HybridStatisticsPersistenceManager(iCarApplication, this.getLogChannel());
-        this.shortTermBuffer = new StatisticsMemoryBuffer("ShortTermBuffer");
+        this.shortTermBuffer = new StatisticsMemoryBuffer(STS_BUFFER_NAME);
         this.longTermBufferKM = new StatisticsMemoryBuffer("LongTermBufferKM");
         this.longTermBufferMLS = new StatisticsMemoryBuffer("LongTermBufferMLS");
         this.currentConfig = null;
@@ -120,7 +116,7 @@ implements MsgListener {
             if (!iMemoryBuffer.isInitialized()) {
                 bl = iMemoryBuffer.init(0, n);
             } else {
-                this.getLogChannel().log(-2137614336, "[AbstractHybridStatisticsComponent#initSTSBuffer] Short term buffer (%1) already initialized!", (Object)iMemoryBuffer.getName());
+                this.getLogChannel().log(10000000, "[AbstractHybridStatisticsComponent#initSTSBuffer] Short term buffer (%1) already initialized!", (Object)iMemoryBuffer.getName());
                 if (iMemoryBuffer.maxSize() == n) {
                     bl = iMemoryBuffer.reset();
                 } else {
@@ -130,13 +126,13 @@ implements MsgListener {
                 }
             }
         } else {
-            iMemoryBuffer = new StatisticsMemoryBuffer("ShortTermBuffer");
+            iMemoryBuffer = new StatisticsMemoryBuffer(STS_BUFFER_NAME);
             bl = iMemoryBuffer.init(0, n);
         }
         if (bl) {
-            this.getLogChannel().log(1078071040, "[AbstractHybridStatisticsComponent#initSTSBuffer] Short term buffer (%1) initialized.", (Object)iMemoryBuffer.getName());
+            this.getLogChannel().log(1000000, "[AbstractHybridStatisticsComponent#initSTSBuffer] Short term buffer (%1) initialized.", (Object)iMemoryBuffer.getName());
         } else {
-            this.getLogChannel().log(1078071040, "[AbstractHybridStatisticsComponent#initSTSBuffer] Short term buffer (%1) not initialized.", (Object)iMemoryBuffer.getName());
+            this.getLogChannel().log(1000000, "[AbstractHybridStatisticsComponent#initSTSBuffer] Short term buffer (%1) not initialized.", (Object)iMemoryBuffer.getName());
         }
         return iMemoryBuffer;
     }
@@ -147,7 +143,7 @@ implements MsgListener {
             if (!iMemoryBuffer.isInitialized()) {
                 bl = iMemoryBuffer.init(1, n);
             } else {
-                this.getLogChannel().log(-2137614336, "[AbstractHybridStatisticsComponent#initLTSBuffer] Long term buffer (%1) already initialized!", (Object)iMemoryBuffer.getName());
+                this.getLogChannel().log(10000000, "[AbstractHybridStatisticsComponent#initLTSBuffer] Long term buffer (%1) already initialized!", (Object)iMemoryBuffer.getName());
                 if (iMemoryBuffer.maxSize() == n) {
                     bl = iMemoryBuffer.reset();
                 } else {
@@ -157,28 +153,28 @@ implements MsgListener {
                 }
             }
         } else {
-            iMemoryBuffer = new StatisticsMemoryBuffer("LongTermBuffer");
+            iMemoryBuffer = new StatisticsMemoryBuffer(LTS_BUFFER_NAME);
             bl = iMemoryBuffer.init(1, n);
         }
         if (bl) {
-            this.getLogChannel().log(1078071040, "[AbstractHybridStatisticsComponent#initLTSBuffer] Long term buffer (%1) initialized.", (Object)iMemoryBuffer.getName());
+            this.getLogChannel().log(1000000, "[AbstractHybridStatisticsComponent#initLTSBuffer] Long term buffer (%1) initialized.", (Object)iMemoryBuffer.getName());
         } else {
-            this.getLogChannel().log(1078071040, "[AbstractHybridStatisticsComponent#initLTSBuffer] Long term buffer (%1) not initialized.", (Object)iMemoryBuffer.getName());
+            this.getLogChannel().log(1000000, "[AbstractHybridStatisticsComponent#initLTSBuffer] Long term buffer (%1) not initialized.", (Object)iMemoryBuffer.getName());
         }
         return iMemoryBuffer;
     }
 
-    private AbstractHybridStatisticsComponent$CombinedDistance getAccumulatedDistance(IMemoryBuffer iMemoryBuffer) {
+    private CombinedDistance getAccumulatedDistance(IMemoryBuffer iMemoryBuffer) {
         if (iMemoryBuffer.isInitialized()) {
             Iterator iterator = iMemoryBuffer.iterator();
-            AbstractHybridStatisticsComponent$CombinedDistance abstractHybridStatisticsComponent$CombinedDistance = new AbstractHybridStatisticsComponent$CombinedDistance(this);
+            CombinedDistance combinedDistance = new CombinedDistance();
             while (iterator.hasNext()) {
                 StatisticsLongTermEntry statisticsLongTermEntry = (StatisticsLongTermEntry)iterator.next();
-                abstractHybridStatisticsComponent$CombinedDistance.setDistanceCombustion(statisticsLongTermEntry.getDistanceCombustion(), true);
-                abstractHybridStatisticsComponent$CombinedDistance.setDistanceElectrical(statisticsLongTermEntry.getDistanceElectrical(), true);
-                abstractHybridStatisticsComponent$CombinedDistance.setDistanceEfficiency(statisticsLongTermEntry.getDistanceEfficiency(), true);
+                combinedDistance.setDistanceCombustion(statisticsLongTermEntry.getDistanceCombustion(), true);
+                combinedDistance.setDistanceElectrical(statisticsLongTermEntry.getDistanceElectrical(), true);
+                combinedDistance.setDistanceEfficiency(statisticsLongTermEntry.getDistanceEfficiency(), true);
             }
-            return abstractHybridStatisticsComponent$CombinedDistance;
+            return combinedDistance;
         }
         this.getLogChannel().log(10000, "[AbstractHybridStatisticsComponent#getAccumulatedDistance] Buffer (%1) not initialized!", (Object)iMemoryBuffer.getName());
         return null;
@@ -198,7 +194,7 @@ implements MsgListener {
         if (0.0f < f3) {
             return (int)Math.ceil(f2 / f3);
         }
-        this.getLogChannel().log(-1601830656, "[AbstractHybridStatisticsComponent#calculateBufferSize] Interval value not set or invalid.");
+        this.getLogChannel().log(100000, "[AbstractHybridStatisticsComponent#calculateBufferSize] Interval value not set or invalid.");
         return 0;
     }
 
@@ -211,7 +207,7 @@ implements MsgListener {
                 evoListRow.setLong(1, bCZeroEmissionRelative.getValue());
             } else {
                 evoListRow.setInteger(0, 3);
-                evoListRow.setLong(1, 0);
+                evoListRow.setLong(1, 255L);
             }
             this.hSTScModel.setRow(0, evoListRow);
             this.hSTScModel.setStatus(1);
@@ -261,7 +257,7 @@ implements MsgListener {
                 }
             }
             if (this.getLogChannel().isDebug2()) {
-                this.getLogChannel().log(14808325, "[AbstractHybridStatisticsComponent#updateShortTermStatisticsHistory] %1", (Object)this.shortTermBuffer.toString());
+                this.getLogChannel().log(100000000, "[AbstractHybridStatisticsComponent#updateShortTermStatisticsHistory] %1", (Object)this.shortTermBuffer.toString());
             }
             this.saveSTSData();
             this.setSTSHistoryModels(this.shortTermBuffer.toArray(), this.shortTermBuffer.size());
@@ -274,7 +270,7 @@ implements MsgListener {
         double d2;
         double d3;
         if (this.currentViewOptions == null) {
-            this.getLogChannel().log(-1601830656, "[AbstractHybridStatisticsComponent#updateLongTermStatistic] No view options received yet! Update ignored.");
+            this.getLogChannel().log(100000, "[AbstractHybridStatisticsComponent#updateLongTermStatistic] No view options received yet! Update ignored.");
             return;
         }
         BCConfiguration bCConfiguration = this.currentViewOptions.getConfiguration();
@@ -331,24 +327,24 @@ implements MsgListener {
             if (iMemoryBuffer.isInitialized()) {
                 iMemoryBuffer.enqueue(new StatisticsLongTermEntry(n2, n, d2, d3, d4));
                 if (this.getLogChannel().isDebug2()) {
-                    this.getLogChannel().log(14808325, "[AbstractHybridStatisticsComponent#updateLTSBuffer] %1", (Object)iMemoryBuffer.toString());
+                    this.getLogChannel().log(100000000, "[AbstractHybridStatisticsComponent#updateLTSBuffer] %1", (Object)iMemoryBuffer.toString());
                 }
                 return true;
             }
-            this.getLogChannel().log(-1601830656, "[AbstractHybridStatisticsComponent#updateLTSBuffer] Buffer not initialized. Update ignored.");
+            this.getLogChannel().log(100000, "[AbstractHybridStatisticsComponent#updateLTSBuffer] Buffer not initialized. Update ignored.");
         }
         return false;
     }
 
     protected void fireShortTermStatisticsReset() {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractHybridStatisticsComponent#fireShortTermStatisticsReset] Not specified yet!");
+            this.getLogChannel().log(1000000, "[AbstractHybridStatisticsComponent#fireShortTermStatisticsReset] Not specified yet!");
         }
     }
 
     private void resetShortTermStatistics() {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractHybridStatisticsComponent#resetShortTermStatistics] called.");
+            this.getLogChannel().log(1000000, "[AbstractHybridStatisticsComponent#resetShortTermStatistics] called.");
         }
         if (this.shortTermBuffer.isInitialized()) {
             this.shortTermBuffer.reset();
@@ -359,7 +355,7 @@ implements MsgListener {
 
     protected void fireLongTermStatisticsReset() {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "---> resetBCStatistics( BCStatisticsReset[time='false', distance='true'] )");
+            this.getLogChannel().log(1000000, "---> resetBCStatistics( BCStatisticsReset[time='false', distance='true'] )");
         }
         this.getDSI().resetBCStatistics(new BCStatisticsReset(false, true));
     }
@@ -372,7 +368,7 @@ implements MsgListener {
     private void resetLongTermStatistics(int n) {
         IMemoryBuffer iMemoryBuffer;
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractHybridStatisticsComponent#resetLongTermStatistics] called.");
+            this.getLogChannel().log(1000000, "[AbstractHybridStatisticsComponent#resetLongTermStatistics] called.");
         }
         if (null != (iMemoryBuffer = this.getLTSBuffer(n)) && iMemoryBuffer.isInitialized()) {
             iMemoryBuffer.reset();
@@ -433,38 +429,38 @@ implements MsgListener {
     }
 
     private void setLTSModels(int n) {
-        AbstractHybridStatisticsComponent$CombinedDistance abstractHybridStatisticsComponent$CombinedDistance = null;
+        CombinedDistance combinedDistance = null;
         int n2 = 6;
         switch (n) {
             case 0: {
-                abstractHybridStatisticsComponent$CombinedDistance = this.getAccumulatedDistance(this.longTermBufferKM);
+                combinedDistance = this.getAccumulatedDistance(this.longTermBufferKM);
                 n2 = 1;
                 break;
             }
             case 1: {
-                abstractHybridStatisticsComponent$CombinedDistance = this.getAccumulatedDistance(this.longTermBufferMLS);
+                combinedDistance = this.getAccumulatedDistance(this.longTermBufferMLS);
                 n2 = 2;
                 break;
             }
         }
-        if (null != abstractHybridStatisticsComponent$CombinedDistance) {
-            this.getLogChannel().log(-2137614336, "[AbstractHybridStatisticsComponent#setLTSModels] with distance unit %1", (long)n2);
+        if (null != combinedDistance) {
+            this.getLogChannel().log(10000000, "[AbstractHybridStatisticsComponent#setLTSModels] with distance unit %1", (long)n2);
             this.hLTSCombustionModel.setStatus(0);
             this.hLTSElectricalModel.setStatus(0);
             this.hLTSTotalModel.setStatus(0);
             this.hLTSWidgetModel.setStatus(0);
-            this.hLTSCombustionModel.setMetric(new Distance(abstractHybridStatisticsComponent$CombinedDistance.getDistanceCombustionDisp(), n2));
-            this.hLTSElectricalModel.setMetric(new Distance(abstractHybridStatisticsComponent$CombinedDistance.getDistanceElectricalDisp() + abstractHybridStatisticsComponent$CombinedDistance.getDistanceEfficiencyDisp(), n2));
-            this.hLTSTotalModel.setMetric(new Distance(abstractHybridStatisticsComponent$CombinedDistance.getTotalDistanceDisp(), n2));
+            this.hLTSCombustionModel.setMetric(new Distance(combinedDistance.getDistanceCombustionDisp(), n2));
+            this.hLTSElectricalModel.setMetric(new Distance(combinedDistance.getDistanceElectricalDisp() + combinedDistance.getDistanceEfficiencyDisp(), n2));
+            this.hLTSTotalModel.setMetric(new Distance(combinedDistance.getTotalDistanceDisp(), n2));
             EvoListRow evoListRow = new EvoListRow(-1L, 1);
-            evoListRow.setInteger(0, abstractHybridStatisticsComponent$CombinedDistance.getDistanceCombustionAsPercent());
+            evoListRow.setInteger(0, combinedDistance.getDistanceCombustionAsPercent());
             this.hLTSWidgetModel.setRow(0, evoListRow);
-            evoListRow.setInteger(0, abstractHybridStatisticsComponent$CombinedDistance.getDistanceElectricalAsPercent());
+            evoListRow.setInteger(0, combinedDistance.getDistanceElectricalAsPercent());
             this.hLTSWidgetModel.setRow(1, evoListRow);
-            evoListRow.setInteger(0, abstractHybridStatisticsComponent$CombinedDistance.getDistanceEfficiencyAsPercent());
+            evoListRow.setInteger(0, combinedDistance.getDistanceEfficiencyAsPercent());
             this.hLTSWidgetModel.setRow(2, evoListRow);
-            this.hLTSCombustionPercentModel.setText(Integer.toString(abstractHybridStatisticsComponent$CombinedDistance.getDistanceCombustionAsPercent()));
-            this.hLTSElectricalPercentModel.setText(Integer.toString(abstractHybridStatisticsComponent$CombinedDistance.getDistanceElectricalAsPercent() + abstractHybridStatisticsComponent$CombinedDistance.getDistanceEfficiencyAsPercent()));
+            this.hLTSCombustionPercentModel.setText(Integer.toString(combinedDistance.getDistanceCombustionAsPercent()));
+            this.hLTSElectricalPercentModel.setText(Integer.toString(combinedDistance.getDistanceElectricalAsPercent() + combinedDistance.getDistanceEfficiencyAsPercent()));
             this.hLTSWidgetModel.setStatus(1);
             this.hLTSCombustionModel.setStatus(1);
             this.hLTSElectricalModel.setStatus(1);
@@ -500,7 +496,7 @@ implements MsgListener {
 
     private boolean saveSTSData() {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractHybridStatisticsComponent#saveSTSData] Save short term statistics into persistent storage.");
+            this.getLogChannel().log(1000000, "[AbstractHybridStatisticsComponent#saveSTSData] Save short term statistics into persistent storage.");
         }
         boolean bl = false;
         if (null != this.currentConfig && this.shortTermBuffer.isInitialized()) {
@@ -508,7 +504,7 @@ implements MsgListener {
             boolean bl2 = bl = bl && this.persistenceMgr.saveHistory(102, this.shortTermBuffer.toArray());
         }
         if (!bl) {
-            this.getLogChannel().log(-1601830656, "[AbstractHybridStatisticsComponent#saveSTSData] Couldn't save short term statistics into persistent storage.");
+            this.getLogChannel().log(100000, "[AbstractHybridStatisticsComponent#saveSTSData] Couldn't save short term statistics into persistent storage.");
         }
         return bl;
     }
@@ -516,10 +512,10 @@ implements MsgListener {
     private boolean loadSTSData() {
         IHybridStatisticsConfig iHybridStatisticsConfig;
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractHybridStatisticsComponent#loadSTSData] Load short term statistics from persistent storage.");
+            this.getLogChannel().log(1000000, "[AbstractHybridStatisticsComponent#loadSTSData] Load short term statistics from persistent storage.");
         }
         if (!((iHybridStatisticsConfig = this.persistenceMgr.loadConfig(100)) instanceof HybridStatisticsConfigSTS)) {
-            this.getLogChannel().log(-1601830656, "[AbstractHybridStatisticsComponent#loadSTSData] Couldn't load the configuration of the short term statistics from persistent storage.");
+            this.getLogChannel().log(100000, "[AbstractHybridStatisticsComponent#loadSTSData] Couldn't load the configuration of the short term statistics from persistent storage.");
             return false;
         }
         IMemoryBufferEntry[] iMemoryBufferEntryArray = (IMemoryBufferEntry[])iHybridStatisticsConfig;
@@ -535,7 +531,7 @@ implements MsgListener {
                 this.shortTermBuffer.enqueue(iMemoryBufferEntryArray[i2]);
             }
         } else {
-            this.getLogChannel().log(-1601830656, "[AbstractHybridStatisticsComponent#loadSTSData] Couldn't load short term statistics from persistent storage.");
+            this.getLogChannel().log(100000, "[AbstractHybridStatisticsComponent#loadSTSData] Couldn't load short term statistics from persistent storage.");
             return false;
         }
         return true;
@@ -543,7 +539,7 @@ implements MsgListener {
 
     private boolean saveLTSData() {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractHybridStatisticsComponent#saveLTSData] Save long term statistics into persistent storage.");
+            this.getLogChannel().log(1000000, "[AbstractHybridStatisticsComponent#saveLTSData] Save long term statistics into persistent storage.");
         }
         boolean bl = false;
         if (null != this.currentConfig && this.longTermBufferKM.isInitialized() && this.longTermBufferMLS.isInitialized()) {
@@ -552,7 +548,7 @@ implements MsgListener {
             boolean bl2 = bl = bl && this.persistenceMgr.saveHistory(104, this.longTermBufferMLS.toArray());
         }
         if (!bl) {
-            this.getLogChannel().log(-1601830656, "[AbstractHybridStatisticsComponent#saveLTSData] Couldn't save long term statistics into persistent storage.");
+            this.getLogChannel().log(100000, "[AbstractHybridStatisticsComponent#saveLTSData] Couldn't save long term statistics into persistent storage.");
         }
         return bl;
     }
@@ -561,10 +557,10 @@ implements MsgListener {
         int n;
         IHybridStatisticsConfig iHybridStatisticsConfig;
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractHybridStatisticsComponent#loadLTSData] Load long term statistics from persistent storage.");
+            this.getLogChannel().log(1000000, "[AbstractHybridStatisticsComponent#loadLTSData] Load long term statistics from persistent storage.");
         }
         if (!((iHybridStatisticsConfig = this.persistenceMgr.loadConfig(101)) instanceof HybridStatisticsConfigLTS)) {
-            this.getLogChannel().log(-1601830656, "[AbstractHybridStatisticsComponent#loadLTSData] Couldn't load the configuration of the long term statistics from persistent storage.");
+            this.getLogChannel().log(100000, "[AbstractHybridStatisticsComponent#loadLTSData] Couldn't load the configuration of the long term statistics from persistent storage.");
             return false;
         }
         IMemoryBufferEntry[] iMemoryBufferEntryArray = (IMemoryBufferEntry[])iHybridStatisticsConfig;
@@ -580,7 +576,7 @@ implements MsgListener {
                 this.longTermBufferKM.enqueue(iMemoryBufferEntryArray[n]);
             }
         } else {
-            this.getLogChannel().log(-1601830656, "[AbstractHybridStatisticsComponent#loadLTSData] (%1) Couldn't load long term statistics from persistent storage.", (Object)this.longTermBufferKM.getName());
+            this.getLogChannel().log(100000, "[AbstractHybridStatisticsComponent#loadLTSData] (%1) Couldn't load long term statistics from persistent storage.", (Object)this.longTermBufferKM.getName());
             return false;
         }
         iMemoryBufferEntryArray = this.persistenceMgr.loadHistory(104);
@@ -591,13 +587,12 @@ implements MsgListener {
                 this.longTermBufferMLS.enqueue(iMemoryBufferEntryArray[n]);
             }
         } else {
-            this.getLogChannel().log(-1601830656, "[AbstractHybridStatisticsComponent#loadLTSData] (%1) Couldn't load long term statistics from persistent storage.", (Object)this.longTermBufferMLS.getName());
+            this.getLogChannel().log(100000, "[AbstractHybridStatisticsComponent#loadLTSData] (%1) Couldn't load long term statistics from persistent storage.", (Object)this.longTermBufferMLS.getName());
             return false;
         }
         return true;
     }
 
-    @Override
     public void processMsg(int n) {
         switch (n) {
             case 11: {
@@ -608,18 +603,16 @@ implements MsgListener {
                 } else {
                     this.resetLTSModels();
                 }
-                this.getLogChannel().log(1078071040, "[AbstractHybridStatisticsComponent#processMsg] UNITS_CHANGED: Distance %1", (long)this.systemDistanceUnitAsCarConstant);
+                this.getLogChannel().log(1000000, "[AbstractHybridStatisticsComponent#processMsg] UNITS_CHANGED: Distance %1", (long)this.systemDistanceUnitAsCarConstant);
                 break;
             }
         }
     }
 
-    @Override
     public String getName() {
         return "HybridStatistics";
     }
 
-    @Override
     public String getCurrentViewOptions() {
         Buffer buffer = new Buffer();
         buffer.append("Bord Computer: ");
@@ -627,38 +620,34 @@ implements MsgListener {
         return buffer.toString();
     }
 
-    @Override
     public CarDSIAttributesSet[] getDSIAttributesSets() {
         return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{4}, new int[]{2008, 45, 67, 68, 58, 54})};
     }
 
-    @Override
     public void init() {
         super.init();
         this.getApplication().getMessageDispatcher().addMessageListener(11, this);
     }
 
-    @Override
     public void deinit() {
         this.getApplication().getMessageDispatcher().removeMessageListener(11, this);
         super.deinit();
     }
 
-    @Override
     protected void initModels() {
-        this.getButtonModel(1764624640).setButtonListener(new AbstractHybridStatisticsComponent$HybridStatisticsButtonListener(this, null));
-        this.getRangeModel(-2010183424).setRangeListener(new AbstractHybridStatisticsComponent$HybridStatisticsRotationListener(this, null));
-        this.hSTScModel = this.getBaseListModel(2066614528);
+        this.getButtonModel(601705).setButtonListener(new HybridStatisticsButtonListener());
+        this.getRangeModel(601992).setRangeListener(new HybridStatisticsRotationListener());
+        this.hSTScModel = this.getBaseListModel(601723);
         this.hSTScModel.setLength(1);
-        this.hSTSxModel = this.getBaseListModel(2133723392);
+        this.hSTSxModel = this.getBaseListModel(601727);
         this.hSTSxModel.setLength(30);
-        this.hLTSWidgetModel = this.getBaseListModel(-2144466688);
+        this.hLTSWidgetModel = this.getBaseListModel(601728);
         this.hLTSWidgetModel.setLength(3);
-        this.hLTSCombustionPercentModel = this.getLabelModel(-1590818560);
-        this.hLTSElectricalPercentModel = this.getLabelModel(-1574041344);
-        this.hLTSCombustionModel = this.getMetricsModel(2049837312);
-        this.hLTSElectricalModel = this.getMetricsModel(2083391744);
-        this.hLTSTotalModel = this.getMetricsModel(2100168960);
+        this.hLTSCombustionPercentModel = this.getLabelModel(601761);
+        this.hLTSElectricalPercentModel = this.getLabelModel(601762);
+        this.hLTSCombustionModel = this.getMetricsModel(601722);
+        this.hLTSElectricalModel = this.getMetricsModel(601724);
+        this.hLTSTotalModel = this.getMetricsModel(601725);
         if (this.loadSTSData()) {
             this.setSTSHistoryModels(this.shortTermBuffer.toArray(), this.shortTermBuffer.size());
         } else {
@@ -671,17 +660,15 @@ implements MsgListener {
         }
     }
 
-    @Override
     protected void deinitModels() {
-        this.getButtonModel(1764624640).resetListener();
-        this.getRangeModel(-2010183424).resetListener();
+        this.getButtonModel(601705).resetListener();
+        this.getRangeModel(601992).resetListener();
     }
 
-    @Override
     public void updateBCViewOptions(BCViewOptions bCViewOptions, int n) {
         if (n == 1) {
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "[AbstractHybridStatisticsComponent(%1)#updateBCViewOptions] viewOptions='%2', valid='%3'", (Object)this.getName(), (Object)(bCViewOptions != null ? this.formatViewOptionsLog(bCViewOptions.toString()) : "null"), (long)n);
+                this.getLogChannel().log(1000000, "[AbstractHybridStatisticsComponent(%1)#updateBCViewOptions] viewOptions='%2', valid='%3'", (Object)this.getName(), (Object)(bCViewOptions != null ? this.formatViewOptionsLog(bCViewOptions.toString()) : "null"), (long)n);
             }
             if (1 == n && bCViewOptions != null) {
                 this.currentViewOptions = bCViewOptions;
@@ -691,19 +678,18 @@ implements MsgListener {
         }
     }
 
-    @Override
     public void updateBCStatisticsConfig(BCStatisticsConfig bCStatisticsConfig, int n) {
         if (n == 1) {
             int n2;
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "[AbstractHybridStatisticsComponent#updateBCStatisticsConfig] %1, validFlag='%2'", (Object)bCStatisticsConfig, (long)n);
+                this.getLogChannel().log(1000000, "[AbstractHybridStatisticsComponent#updateBCStatisticsConfig] %1, validFlag='%2'", (Object)bCStatisticsConfig, (long)n);
             }
             boolean bl = null == this.currentConfig ? true : bCStatisticsConfig.getStatisticsIntervalValue() != this.currentConfig.getStatisticsIntervalValue();
             this.currentConfig = bCStatisticsConfig;
             int n3 = this.calculateBufferSize(0);
             if (0 < n3 && (bl || !this.shortTermBuffer.isInitialized())) {
                 if (this.getLogChannel().isInfo()) {
-                    this.getLogChannel().log(1078071040, "[AbstractHybridStatisticsComponent#updateBCStatisticsConfig] Trying to initialize STS buffer(size='%1') ...", (long)n3);
+                    this.getLogChannel().log(1000000, "[AbstractHybridStatisticsComponent#updateBCStatisticsConfig] Trying to initialize STS buffer(size='%1') ...", (long)n3);
                 }
                 this.shortTermBuffer = this.initSTSBuffer(this.shortTermBuffer, n3);
                 this.hSTSxModel.setLength(n3);
@@ -711,7 +697,7 @@ implements MsgListener {
             }
             if (!(0 >= (n2 = this.calculateBufferSize(1)) || !bl && this.longTermBufferKM.isInitialized() && this.longTermBufferKM.isInitialized())) {
                 if (this.getLogChannel().isInfo()) {
-                    this.getLogChannel().log(1078071040, "[AbstractHybridStatisticsComponent#updateBCStatisticsConfig] Trying to initialize LTS buffer(size='%1') ...", (long)n2);
+                    this.getLogChannel().log(1000000, "[AbstractHybridStatisticsComponent#updateBCStatisticsConfig] Trying to initialize LTS buffer(size='%1') ...", (long)n2);
                 }
                 this.longTermBufferKM = this.initLTSBuffer(this.longTermBufferKM, n2);
                 this.longTermBufferMLS = this.initLTSBuffer(this.longTermBufferMLS, n2);
@@ -720,11 +706,10 @@ implements MsgListener {
         }
     }
 
-    @Override
     public void acknowledgeBcStatisticsReset(int n) {
         int n2;
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "<--- acknowledgeBcStatisticsReset(%1)", (long)n);
+            this.getLogChannel().log(1000000, "<--- acknowledgeBcStatisticsReset(%1)", (long)n);
         }
         if (0 == n) {
             this.resetLongTermStatistics();
@@ -732,25 +717,23 @@ implements MsgListener {
         } else {
             n2 = 2;
         }
-        this.getChoiceModel(-718403328).setValue(n2);
-        this.getChoiceModel(-718403328).setStatus(1);
+        this.getChoiceModel(601813).setValue(n2);
+        this.getChoiceModel(601813).setStatus(1);
     }
 
-    @Override
     public void updateBCStatisticsDistanceCurrentIntervalZE(BCZeroEmissionRelative bCZeroEmissionRelative, BCZeroEmissionAbsoluteDistance bCZeroEmissionAbsoluteDistance, int n) {
         if (n == 1) {
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "[AbstractHybridStatisticsComponent#updateBCStatisticsDistanceCurrentIntervalZE] %1, validFlag='%2'", (Object)bCZeroEmissionRelative, (long)n);
+                this.getLogChannel().log(1000000, "[AbstractHybridStatisticsComponent#updateBCStatisticsDistanceCurrentIntervalZE] %1, validFlag='%2'", (Object)bCZeroEmissionRelative, (long)n);
             }
             this.updateShortTermStatisticsCurrent(bCZeroEmissionRelative);
         }
     }
 
-    @Override
     public void updateBCStatisticsDistanceZE(BCStatisticsZE bCStatisticsZE, BCZeroEmissionAbsoluteDistance bCZeroEmissionAbsoluteDistance, int n) {
         if (n == 1) {
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "[AbstractHybridStatisticsComponent#updateBCStatisticsDistanceZE] %1, validFlag='%2'", (Object)bCStatisticsZE, (long)n);
+                this.getLogChannel().log(1000000, "[AbstractHybridStatisticsComponent#updateBCStatisticsDistanceZE] %1, validFlag='%2'", (Object)bCStatisticsZE, (long)n);
             }
             int n2 = bCStatisticsZE.getValueCounter().getState();
             switch (n2) {
@@ -772,12 +755,11 @@ implements MsgListener {
         }
     }
 
-    @Override
     public void updateBCStatisticDistanceEUkm(BCStatisticsDistanceEU bCStatisticsDistanceEU, int n) {
         if (n == 1) {
             int n2;
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "[AbstractHybridStatisticsComponent#updateBCStatisticDistanceEUkm] %1, validFlag='%2'", (Object)bCStatisticsDistanceEU, (long)n);
+                this.getLogChannel().log(1000000, "[AbstractHybridStatisticsComponent#updateBCStatisticDistanceEUkm] %1, validFlag='%2'", (Object)bCStatisticsDistanceEU, (long)n);
             }
             if (0 == (n2 = bCStatisticsDistanceEU.getValueCounter().getValue())) {
                 this.resetLongTermStatistics(0);
@@ -802,12 +784,11 @@ implements MsgListener {
         }
     }
 
-    @Override
     public void updateBCStatisticDistanceEUmls(BCStatisticsDistanceEU bCStatisticsDistanceEU, int n) {
         if (n == 1) {
             int n2;
             if (this.getLogChannel().isInfo()) {
-                this.getLogChannel().log(1078071040, "[AbstractHybridStatisticsComponent#updateBCStatisticDistanceEUmls] %1, validFlag='%2'", (Object)bCStatisticsDistanceEU, (long)n);
+                this.getLogChannel().log(1000000, "[AbstractHybridStatisticsComponent#updateBCStatisticDistanceEUmls] %1, validFlag='%2'", (Object)bCStatisticsDistanceEU, (long)n);
             }
             if (0 == (n2 = bCStatisticsDistanceEU.getValueCounter().getValue())) {
                 this.resetLongTermStatistics(1);
@@ -832,11 +813,9 @@ implements MsgListener {
         }
     }
 
-    protected abstract void updateMenuEntryVisibility(BCViewOptions bCViewOptions) {
-    }
+    protected abstract void updateMenuEntryVisibility(BCViewOptions var1);
 
-    protected abstract float getHistoryValue(int n) {
-    }
+    protected abstract float getHistoryValue(int var1);
 
     public String getSTSDataDump() {
         if (null != this.shortTermBuffer && this.shortTermBuffer.isInitialized()) {
@@ -875,24 +854,119 @@ implements MsgListener {
         }
     }
 
-    static /* synthetic */ ChoiceModelApp access$200(AbstractHybridStatisticsComponent abstractHybridStatisticsComponent, int n) {
-        return abstractHybridStatisticsComponent.getChoiceModel(n);
+    protected class CombinedDistance {
+        private double distanceCombustion = 0.0;
+        private double distanceElectrical = 0.0;
+        private double distanceEfficiency = 0.0;
+
+        protected CombinedDistance() {
+        }
+
+        protected void setDistanceCombustion(double d2, boolean bl) {
+            this.distanceCombustion = bl ? this.distanceCombustion + d2 : d2;
+        }
+
+        protected void setDistanceElectrical(double d2, boolean bl) {
+            this.distanceElectrical = bl ? this.distanceElectrical + d2 : d2;
+        }
+
+        protected void setDistanceEfficiency(double d2, boolean bl) {
+            this.distanceEfficiency = bl ? this.distanceEfficiency + d2 : d2;
+        }
+
+        protected double getDistanceCombustion() {
+            return this.distanceCombustion;
+        }
+
+        protected double getDistanceElectrical() {
+            return this.distanceElectrical;
+        }
+
+        protected double getDistanceEfficiency() {
+            return this.distanceEfficiency;
+        }
+
+        protected double getTotalDistance() {
+            return this.distanceCombustion + this.distanceElectrical + this.distanceEfficiency;
+        }
+
+        protected float getDistanceCombustionDisp() {
+            return (float)Math.round(this.distanceCombustion * 10.0) / 10.0f;
+        }
+
+        protected float getDistanceElectricalDisp() {
+            return (float)Math.round(this.distanceElectrical * 10.0) / 10.0f;
+        }
+
+        protected float getDistanceEfficiencyDisp() {
+            float f2 = this.getTotalDistanceDisp() - (this.getDistanceCombustionDisp() + this.getDistanceElectricalDisp());
+            if (f2 < 0.0f) {
+                f2 = 0.0f;
+            }
+            return f2;
+        }
+
+        protected float getTotalDistanceDisp() {
+            return Math.round((double)(this.getDistanceCombustionDisp() + this.getDistanceElectricalDisp()) + this.distanceEfficiency);
+        }
+
+        protected int getDistanceCombustionAsPercent() {
+            float f2 = this.getTotalDistanceDisp();
+            return f2 > 0.0f ? Math.round(100.0f * (this.getDistanceCombustionDisp() / this.getTotalDistanceDisp())) : 0;
+        }
+
+        protected int getDistanceElectricalAsPercent() {
+            float f2 = this.getTotalDistanceDisp();
+            return f2 > 0.0f ? Math.round(100.0f * (this.getDistanceElectricalDisp() / this.getTotalDistanceDisp())) : 0;
+        }
+
+        protected int getDistanceEfficiencyAsPercent() {
+            return (int)(100.0f - (float)(this.getDistanceCombustionAsPercent() + this.getDistanceElectricalAsPercent()));
+        }
     }
 
-    static /* synthetic */ ChoiceModelApp access$300(AbstractHybridStatisticsComponent abstractHybridStatisticsComponent, int n) {
-        return abstractHybridStatisticsComponent.getChoiceModel(n);
+    private final class HybridStatisticsButtonListener
+    extends DefaultButtonListener {
+        private HybridStatisticsButtonListener() {
+        }
+
+        public void keyPressed(int n, int n2, int n3) {
+            AbstractHybridStatisticsComponent.this.getLogChannel().log(10000000, "[AbstractHybridStatisticsComponent#keyPressed] modelID='%1', keyID='%2'", (long)n, (long)n2);
+            switch (n) {
+                case 601705: {
+                    AbstractHybridStatisticsComponent.this.getChoiceModel(601813).setValue(0);
+                    AbstractHybridStatisticsComponent.this.getChoiceModel(601813).setStatus(0);
+                    AbstractHybridStatisticsComponent.this.getButtonModel(601705).fireEvent(n3);
+                    AbstractHybridStatisticsComponent.this.fireLongTermStatisticsReset();
+                    break;
+                }
+            }
+        }
     }
 
-    static /* synthetic */ ButtonModelApp access$400(AbstractHybridStatisticsComponent abstractHybridStatisticsComponent, int n) {
-        return abstractHybridStatisticsComponent.getButtonModel(n);
-    }
+    private final class HybridStatisticsRotationListener
+    extends DefaultButtonListener
+    implements RangeListener {
+        public static final int ROTATION_LEFT = 0;
+        public static final int ROTATION_RIGHT = 1;
+        private byte lastRotation = (byte)-1;
 
-    static /* synthetic */ RangeModelApp access$500(AbstractHybridStatisticsComponent abstractHybridStatisticsComponent, int n) {
-        return abstractHybridStatisticsComponent.getRangeModel(n);
-    }
+        private HybridStatisticsRotationListener() {
+        }
 
-    static /* synthetic */ RangeModelApp access$600(AbstractHybridStatisticsComponent abstractHybridStatisticsComponent, int n) {
-        return abstractHybridStatisticsComponent.getRangeModel(n);
+        public void decrement(int n, int n2, int n3) {
+            if (n == 601992 && this.lastRotation != 1) {
+                AbstractHybridStatisticsComponent.this.getRangeModel(601992).setValue(1);
+                this.lastRotation = 1;
+            }
+        }
+
+        public void increment(int n, int n2, int n3) {
+            if (n == 601992 && this.lastRotation != 0) {
+                AbstractHybridStatisticsComponent.this.getRangeModel(601992).setValue(0);
+                this.lastRotation = 0;
+            }
+        }
     }
 }
 

@@ -14,7 +14,7 @@ import de.audi.atip.hmi.IHMIServiceApp;
 import de.audi.atip.hmi.model.list.BaseListModelApp;
 import de.audi.atip.hmi.model.list.DefaultBaseListModelListener;
 import de.audi.atip.hmi.model.list.EvoListRow;
-import de.audi.atip.hmi.model.menu.MenuModel$FocusedMenuItem;
+import de.audi.atip.hmi.model.menu.MenuModel;
 import de.audi.atip.hmi.model.menu.MenuModelApp;
 import de.audi.atip.hmi.model.menu.MenuModelGUI;
 import de.audi.atip.hmi.model.menu.focus.FocusAdvice;
@@ -46,9 +46,9 @@ implements ICoMaList {
         this.log = logChannel;
         this.hmiService = iHMIServiceApp;
         this.selectionHandler = iSelectionHandler;
-        this.list = iHMIServiceApp.getBaseListModel(1395074560);
+        this.list = iHMIServiceApp.getBaseListModel(2500435);
         this.list.setListener(this);
-        this.menu = iHMIServiceApp.getMenuModel(-534370816);
+        this.menu = iHMIServiceApp.getMenuModel(2500320);
         this.categories = coMaCategoryArray;
         this.initPreviews();
         this.categoryRows = new CoMaCategoryRow[coMaCategoryArray.length];
@@ -87,24 +87,23 @@ implements ICoMaList {
     }
 
     private String getTextNotAttached() {
-        return this.hmiService.getText(-215538176);
+        return this.hmiService.getText(2500595);
     }
 
     private String getTextNotAttachedWireless() {
-        return this.hmiService.getText(-2060966400);
+        return this.hmiService.getText(2500741);
     }
 
     private String getTextAttachedNotActive() {
-        return this.hmiService.getText(-2044189184);
+        return this.hmiService.getText(0x262886);
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateDevices(AbstractCoMaDevice[] abstractCoMaDeviceArray) {
         if (this.log.isDebug()) {
-            this.log.log(-2137614336, "##### CoMaList#updateDevices(): BEGIN (%1 devices)", (Object)StringUtils.toString(abstractCoMaDeviceArray));
+            this.log.log(10000000, "##### CoMaList#updateDevices(): BEGIN (%1 devices)", (Object)StringUtils.toString(abstractCoMaDeviceArray));
         }
         boolean bl = false;
         Object object = this.lock;
@@ -121,13 +120,13 @@ implements ICoMaList {
         if (bl) {
             this.updateCursorPosition();
         }
-        this.log.log(-2137614336, "##### CoMaList#updateDevices(): END (%1 non-category rows visible)", (long)this.visibleDevices);
+        this.log.log(10000000, "##### CoMaList#updateDevices(): END (%1 non-category rows visible)", (long)this.visibleDevices);
     }
 
     private boolean shouldUpdateCursorPosition(BaseListModelApp baseListModelApp, BaseListModelApp baseListModelApp2) {
-        MenuModel$FocusedMenuItem menuModel$FocusedMenuItem;
+        MenuModel.FocusedMenuItem focusedMenuItem;
         if (baseListModelApp.getLength() != baseListModelApp2.getLength()) {
-            this.log.log(-2137614336, "##### CoMaList#shouldUpdateCursorPosition(): list size changed: %1 -> %2", (long)baseListModelApp.getLength(), (long)baseListModelApp2.getLength());
+            this.log.log(10000000, "##### CoMaList#shouldUpdateCursorPosition(): list size changed: %1 -> %2", (long)baseListModelApp.getLength(), (long)baseListModelApp2.getLength());
             return true;
         }
         boolean bl = false;
@@ -139,24 +138,24 @@ implements ICoMaList {
             if (coMaRow.getUniqueID() != coMaRow2.getUniqueID()) {
                 bl = true;
                 if (!this.log.isDebug()) break;
-                this.log.log(-2137614336, "##### CoMaList#shouldUpdateCursorPosition(): unique id at index %1 changed: %2 -> %3", (long)i2, coMaRow.getUniqueID(), coMaRow2.getUniqueID());
+                this.log.log(10000000, "##### CoMaList#shouldUpdateCursorPosition(): unique id at index %1 changed: %2 -> %3", (long)i2, coMaRow.getUniqueID(), coMaRow2.getUniqueID());
             }
             String string2 = 6 < coMaRow.getColumnCount() ? coMaRow.getDeviceIdentifier() : null;
             String string3 = string = 6 < coMaRow2.getColumnCount() ? coMaRow2.getDeviceIdentifier() : null;
             if (this.isRecordSetDeviceOrIntegrationDevice(coMaRow2) && !CoMaList.areObjectsEqual(string2, string)) {
                 bl = true;
                 if (!this.log.isDebug()) break;
-                this.log.log(-2137614336, "##### CoMaList#shouldUpdateCursorPosition(): device address at index %1 changed: %2 -> %3", (Object)String.valueOf(i2), (Object)string2, (Object)string);
+                this.log.log(10000000, "##### CoMaList#shouldUpdateCursorPosition(): device address at index %1 changed: %2 -> %3", (Object)String.valueOf(i2), (Object)string2, (Object)string);
             }
             if (!this.isRecordSetDeviceOrIntegrationDevice(coMaRow2) || !CoMaList.areObjectsEqual(string, this.selectedDevice)) continue;
             evoListRow = coMaRow2;
         }
-        if (!bl && evoListRow != null && this.menu instanceof MenuModelGUI && ((menuModel$FocusedMenuItem = ((MenuModelGUI)((Object)this.menu)).getLastFocusedMenuItem()) == null || evoListRow.getUniqueID() != menuModel$FocusedMenuItem.getUniqueListRowID())) {
-            this.log.log(-2137614336, "##### CoMaList#shouldUpdateCursorPosition(): list not changed, but different device is selected: %1 -> %2", menuModel$FocusedMenuItem != null ? menuModel$FocusedMenuItem.getUniqueListRowID() : -1L, evoListRow.getUniqueID());
+        if (!bl && evoListRow != null && this.menu instanceof MenuModelGUI && ((focusedMenuItem = ((MenuModelGUI)((Object)this.menu)).getLastFocusedMenuItem()) == null || evoListRow.getUniqueID() != focusedMenuItem.getUniqueListRowID())) {
+            this.log.log(10000000, "##### CoMaList#shouldUpdateCursorPosition(): list not changed, but different device is selected: %1 -> %2", focusedMenuItem != null ? focusedMenuItem.getUniqueListRowID() : -1L, evoListRow.getUniqueID());
             bl = true;
         }
         if (!bl) {
-            this.log.log(1078071040, "##### CoMaList#shouldUpdateCursorPosition(): list not changed!");
+            this.log.log(1000000, "##### CoMaList#shouldUpdateCursorPosition(): list not changed!");
         }
         return bl;
     }
@@ -177,7 +176,7 @@ implements ICoMaList {
         int n2 = this.removeCount(baseListModelApp);
         int n3 = this.insertCount(n);
         if (this.log.isDebug()) {
-            this.log.log(-2137614336, "CoMaList#updateOpenCategory(): service=%3, removeCount=%1, insertCount=%2", (Object)String.valueOf(n2), (Object)String.valueOf(n3), (Object)String.valueOf(n));
+            this.log.log(10000000, "CoMaList#updateOpenCategory(): service=%3, removeCount=%1, insertCount=%2", (Object)String.valueOf(n2), (Object)String.valueOf(n3), (Object)String.valueOf(n));
         }
         if (n2 == n3) {
             long l = this.openCategory.hasNewDeviceLine() ? this.openCategory.getNewDeviceLine().getUniqueID() : (long)this.openCategory.getCategoryID();
@@ -202,9 +201,9 @@ implements ICoMaList {
 
     public void updateTerminalModeDevicesAmount(int n) {
         boolean bl = n == 0;
-        this.log.log(-2137614336, "CoMaList#updateTerminalModeDevicesAmount(): isTMDeviceListEmpty=%1", bl);
+        this.log.log(10000000, "CoMaList#updateTerminalModeDevicesAmount(): isTMDeviceListEmpty=%1", bl);
         if (bl) {
-            this.log.log(-2137614336, "CoMaList#updateTerminalModeDevicesAmount(): list was emptied, closing category");
+            this.log.log(10000000, "CoMaList#updateTerminalModeDevicesAmount(): list was emptied, closing category");
             this.closeOpenCategory();
         }
     }
@@ -246,7 +245,7 @@ implements ICoMaList {
 
     private void resetCategoryName(CoMaCategoryRow coMaCategoryRow, CoMaCategory coMaCategory) {
         if (this.log.isDebug()) {
-            this.log.log(-2137614336, "CoMaList#resetCategoryName(): %1 no connected Device found.", (Object)coMaCategory.getPreviewString());
+            this.log.log(10000000, "CoMaList#resetCategoryName(): %1 no connected Device found.", (Object)coMaCategory.getPreviewString());
         }
         if (coMaCategory.supportsMultipleSelection()) {
             coMaCategoryRow.setDeviceName(coMaCategory.getPreview().updateConnected(false));
@@ -258,12 +257,12 @@ implements ICoMaList {
     private void setCategoryName(CoMaCategoryRow coMaCategoryRow, CoMaCategory coMaCategory, AbstractCoMaDevice abstractCoMaDevice) {
         if (coMaCategory.supportsMultipleSelection()) {
             if (this.log.isDebug()) {
-                this.log.log(-2137614336, "CoMaList#setCategoryName(): %1 Multiple selection supported.", (Object)coMaCategory.getPreviewString());
+                this.log.log(10000000, "CoMaList#setCategoryName(): %1 Multiple selection supported.", (Object)coMaCategory.getPreviewString());
             }
             coMaCategoryRow.setDeviceName(coMaCategory.getPreview().updateConnected(true));
         } else {
             if (this.log.isDebug()) {
-                this.log.log(-2137614336, "CoMaList#setCategoryName(): %2 Found Device %1.", (Object)abstractCoMaDevice, (Object)coMaCategory.getPreviewString());
+                this.log.log(10000000, "CoMaList#setCategoryName(): %2 Found Device %1.", (Object)abstractCoMaDevice, (Object)coMaCategory.getPreviewString());
             }
             coMaCategory.getPreview().updateConnected(true);
             coMaCategoryRow.setDevice(abstractCoMaDevice);
@@ -296,7 +295,7 @@ implements ICoMaList {
             CoMaRow coMaRow = (CoMaRow)iterator.next();
             if (coMaRow.getRecordSet() != 2 && coMaRow.getRecordSet() != 3 && coMaRow.getRecordSet() != 4) continue;
             if (this.log.isDebug()) {
-                this.log.log(-2137614336, new StringBuffer().append("CoMaList#removeDevices() remove device ").append(coMaRow).toString());
+                this.log.log(10000000, "CoMaList#removeDevices() remove device " + coMaRow);
             }
             baseListModelApp.remove(coMaRow);
             --this.visibleDevices;
@@ -307,14 +306,14 @@ implements ICoMaList {
         ArrayList arrayList = new ArrayList();
         if (evoListRow != null) {
             arrayList.add(evoListRow);
-            this.log.log(-2137614336, "CoMaList#insertDevices() insert row connectNewDevice=%1", (Object)evoListRow);
+            this.log.log(10000000, "CoMaList#insertDevices() insert row connectNewDevice=%1", (Object)evoListRow);
         }
         for (int i2 = 0; i2 < this.devices.length; ++i2) {
             AbstractCoMaDevice abstractCoMaDevice = this.devices[i2];
             if (abstractCoMaDevice == null || !abstractCoMaDevice.supports(n)) continue;
             CoMaRow coMaRow = new CoMaRow(CoMaList.generateUniqueId(this.openCategory, i2), this.openCategory.getCategoryID(), n, abstractCoMaDevice);
             if (this.log.isDebug()) {
-                this.log.log(-2137614336, "CoMaList#insertDevices() insert row device %1, service=%2", (Object)coMaRow, (Object)String.valueOf(n));
+                this.log.log(10000000, "CoMaList#insertDevices() insert row device %1, service=%2", (Object)coMaRow, (Object)String.valueOf(n));
             }
             arrayList.add(coMaRow);
         }
@@ -334,15 +333,14 @@ implements ICoMaList {
             for (int i2 = 0; i2 < this.list.getLength(); ++i2) {
                 CoMaRow coMaRow = (CoMaRow)this.list.getRow(i2);
                 if (!this.isRecordSetDeviceOrIntegrationDevice(coMaRow) || coMaRow.getDeviceIdentifier() == null || !coMaRow.getDeviceIdentifier().equals(this.selectedDevice)) continue;
-                this.log.log(-2137614336, "CoMaList#updateCursorPosition(): %1", (Object)coMaRow);
-                this.menu.setFocusedItem(1395074560, FocusAdvice.KEEP_POSITION, coMaRow.getUniqueID());
+                this.log.log(10000000, "CoMaList#updateCursorPosition(): %1", (Object)coMaRow);
+                this.menu.setFocusedItem(2500435, FocusAdvice.KEEP_POSITION, coMaRow.getUniqueID());
                 this.menu.trigger(ModelTrigger.JOIN_CURSOR);
                 break;
             }
         }
     }
 
-    @Override
     public void setNewDeviceLineActivation(int n, boolean bl, boolean bl2) {
         CoMaRow coMaRow;
         CoMaCategory coMaCategory = this.getCategory(n);
@@ -373,7 +371,6 @@ implements ICoMaList {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
         CoMaRow coMaRow = (CoMaRow)evoListRow;
         int n5 = coMaRow.getCategory();
@@ -381,10 +378,10 @@ implements ICoMaList {
         int n6 = coMaRow.getRecordSet();
         if (n6 == 0) {
             if (this.isTerminalModeActive && n5 != 2 && n5 != 6) {
-                this.log.log(-2137614336, "##### CoMaList#itemSelected(): terminal mode is active. Skip.");
+                this.log.log(10000000, "##### CoMaList#itemSelected(): terminal mode is active. Skip.");
                 return;
             }
-            this.log.log(-2137614336, "##### CoMaList#itemSelected(): open() BEGIN");
+            this.log.log(10000000, "##### CoMaList#itemSelected(): open() BEGIN");
             Object object = this.lock;
             synchronized (object) {
                 BaseListModelApp baseListModelApp = this.list.getCopy();
@@ -394,11 +391,11 @@ implements ICoMaList {
                 }
                 this.list.update(baseListModelApp);
             }
-            this.log.log(-2137614336, "##### CoMaList#itemSelected(): open() END");
+            this.log.log(10000000, "##### CoMaList#itemSelected(): open() END");
         } else if (n6 == 1) {
-            this.log.log(-2137614336, "##### CoMaList#itemSelected(): close() BEGIN");
+            this.log.log(10000000, "##### CoMaList#itemSelected(): close() BEGIN");
             this.closeOpenCategory();
-            this.log.log(-2137614336, "##### CoMaList#itemSelected(): close() END");
+            this.log.log(10000000, "##### CoMaList#itemSelected(): close() END");
         } else if (n6 == 2 || n6 == 4) {
             if (coMaRow.isActive()) {
                 this.selectionHandler.deviceSelected(coMaRow, n5);
@@ -419,11 +416,10 @@ implements ICoMaList {
         return false;
     }
 
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
         boolean bl = evoListRow.getInteger(0) == 2 || evoListRow.getInteger(0) == 4;
         this.selectedDevice = bl ? evoListRow.getText(6) : null;
-        this.log.log(-2137614336, "CoMaList#itemFocused(): %1", (Object)this.selectedDevice);
+        this.log.log(10000000, "CoMaList#itemFocused(): %1", (Object)this.selectedDevice);
     }
 
     private void closeOpenCategory(BaseListModelApp baseListModelApp) {
@@ -460,7 +456,6 @@ implements ICoMaList {
         baseListModelApp.setRow(baseListModelApp.getIndexForUniqueID(n), coMaRow);
     }
 
-    @Override
     public void updateCategoryDeviceName(int n, String string) {
         CoMaCategory coMaCategory = this.getCategory(n);
         coMaCategory.getPreview().updateDeviceName(string);
@@ -469,7 +464,6 @@ implements ICoMaList {
         this.updateCategoryRow(this.list, n, coMaCategoryRow);
     }
 
-    @Override
     public void languageChanged() {
         for (int i2 = 0; i2 < this.categories.length; ++i2) {
             CoMaCategory coMaCategory = this.categories[i2];
@@ -481,7 +475,6 @@ implements ICoMaList {
         }
     }
 
-    @Override
     public void resetList() {
         this.closeOpenCategory();
     }

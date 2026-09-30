@@ -4,13 +4,10 @@
 package de.audi.atip.interapp.online;
 
 public interface IGridListRow {
-    default public boolean isArtificial() {
-    }
+    public boolean isArtificial();
 
-    default public String getGridId() {
-    }
+    public String getGridId();
 
-    default public Object getGridObject() {
-    }
+    public Object getGridObject();
 }
 

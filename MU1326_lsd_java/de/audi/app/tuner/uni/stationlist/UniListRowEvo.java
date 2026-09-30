@@ -17,7 +17,7 @@ extends UniListRow {
     public UniListRowEvo(UnifiedStationExt unifiedStationExt, boolean bl, int n) {
         super(14, unifiedStationExt, bl, n);
         this.props = new RadioRowProperties();
-        this.props.setCategory(unifiedStationExt.isAnalog() ? 1082681431 : 532791343);
+        this.props.setCategory(unifiedStationExt.isAnalog() ? 1466468416 : 801161503);
         this.props.setScrollingPS(unifiedStationExt.scrollingPS == 2);
         this.props.setNameFreezed(unifiedStationExt.isPsFreezed());
         this.setPropertyCell(9, new PropertyListCell(this.props.getCategory(), this.props.toArray()));
@@ -28,12 +28,10 @@ extends UniListRow {
         this.props = uniListRowEvo.props;
     }
 
-    @Override
     public EvoListRow copy() {
         return new UniListRowEvo(this);
     }
 
-    @Override
     public void setStationActive(boolean bl) {
         super.setStationActive(bl);
         this.props.setActive(bl);
@@ -43,7 +41,6 @@ extends UniListRow {
         }
     }
 
-    @Override
     protected void setSLSAvailability(HMIResourceLocator hMIResourceLocator) {
         super.setSLSAvailability(hMIResourceLocator);
         if (hMIResourceLocator.containsResourceURI()) {

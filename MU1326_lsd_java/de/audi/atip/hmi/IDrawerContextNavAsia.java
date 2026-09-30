@@ -4,6 +4,6 @@
 package de.audi.atip.hmi;
 
 public interface IDrawerContextNavAsia {
-    public static final int CONTEXT_TEXTEINGABE_H_M_I_SPELLER;
+    public static final int CONTEXT_TEXTEINGABE_H_M_I_SPELLER = 1216662265;
 }
 

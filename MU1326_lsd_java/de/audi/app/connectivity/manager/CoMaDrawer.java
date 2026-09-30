@@ -30,65 +30,59 @@ OptionModelListener {
         this.log = logChannel;
         this.connectivity = iEvoConnectivity;
         this.smartphoneProxy = terminalModeProxy;
-        this.comaList = iHMIServiceApp.getBaseListModel(1395074560);
-        this.blueDelete = iHMIServiceApp.getOptionModel(237381120);
-        this.blueShowProfiles = iHMIServiceApp.getOptionModel(1395009024);
-        this.blueSetPrioReconnect = iHMIServiceApp.getOptionModel(-484039168);
-        this.wlanDelete = iHMIServiceApp.getOptionModel(-81451520);
-        this.smartphoneDelete = iHMIServiceApp.getOptionModel(-198826496);
+        this.comaList = iHMIServiceApp.getBaseListModel(2500435);
+        this.blueDelete = iHMIServiceApp.getOptionModel(2500110);
+        this.blueShowProfiles = iHMIServiceApp.getOptionModel(2500179);
+        this.blueSetPrioReconnect = iHMIServiceApp.getOptionModel(2500323);
+        this.wlanDelete = iHMIServiceApp.getOptionModel(2500091);
+        this.smartphoneDelete = iHMIServiceApp.getOptionModel(2500340);
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3, int n4, int n5) {
         CoMaRow coMaRow = (CoMaRow)this.comaList.getRow(n3);
         if (n == this.blueDelete.getID()) {
-            this.log.log(1078071040, "CoMaDrawer#keyTyped(): Removing %1 %2 from trusted device list", (Object)coMaRow.getName(), (Object)coMaRow.getDeviceIdentifier());
+            this.log.log(1000000, "CoMaDrawer#keyTyped(): Removing %1 %2 from trusted device list", (Object)coMaRow.getName(), (Object)coMaRow.getDeviceIdentifier());
             this.connectivity.getBluetooth().getTrustedDeviceList().removeAuthentication(coMaRow.getDeviceIdentifier());
             this.blueDelete.fireEvent(n5);
         } else if (n == this.blueShowProfiles.getID()) {
-            this.log.log(1078071040, "CoMaDrawer#keyTyped(): Showing profiles of %1 %2 for category %3", (Object)coMaRow.getName(), (Object)coMaRow.getDeviceIdentifier(), (long)coMaRow.getCategory());
+            this.log.log(1000000, "CoMaDrawer#keyTyped(): Showing profiles of %1 %2 for category %3", (Object)coMaRow.getName(), (Object)coMaRow.getDeviceIdentifier(), (long)coMaRow.getCategory());
             this.connectivity.getBluetooth().getDeviceProfileList().setPhoneRole(coMaRow.getCategory() != 5);
             this.connectivity.getBluetooth().getDeviceProfileList().showProfiles(coMaRow.getDeviceIdentifier());
             this.blueShowProfiles.fireEvent(n5);
         } else if (n == this.blueSetPrioReconnect.getID()) {
-            this.log.log(1078071040, "CoMaDrawer#keyTyped(): Set/delete prio reconnect: %1 %2", (Object)coMaRow.getName(), (Object)coMaRow.getDeviceIdentifier());
+            this.log.log(1000000, "CoMaDrawer#keyTyped(): Set/delete prio reconnect: %1 %2", (Object)coMaRow.getName(), (Object)coMaRow.getDeviceIdentifier());
             this.connectivity.getBluetooth().getPrioReconnect().setPrioReconnect(coMaRow.getDeviceIdentifier());
             this.blueSetPrioReconnect.fireEvent(n5);
         } else if (n == this.wlanDelete.getID()) {
-            this.log.log(1078071040, "CoMaDrawer#keyTyped(): Removing %1 %2 from trusted network list", (Object)coMaRow.getName(), (Object)coMaRow.getDeviceIdentifier());
+            this.log.log(1000000, "CoMaDrawer#keyTyped(): Removing %1 %2 from trusted network list", (Object)coMaRow.getName(), (Object)coMaRow.getDeviceIdentifier());
             String string = coMaRow.getDeviceIdentifier();
             this.connectivity.getWlan().getTrustedNetworkList().deleteTrustedNetwork(string);
             this.wlanDelete.fireEvent(n5);
         } else if (n == this.smartphoneDelete.getID()) {
-            this.log.log(1078071040, "CoMaDrawer#keyTyped(): Removing %1 %2 from list of smartphones", (Object)coMaRow.getName(), (Object)coMaRow.getDeviceIdentifier());
+            this.log.log(1000000, "CoMaDrawer#keyTyped(): Removing %1 %2 from list of smartphones", (Object)coMaRow.getName(), (Object)coMaRow.getDeviceIdentifier());
             String string = coMaRow.getDeviceIdentifier();
             this.smartphoneProxy.deleteSmartphone(string);
             this.smartphoneDelete.fireEvent(n5);
         }
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3, int n4, int n5) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3, int n4, int n5) {
     }
 
-    @Override
     public void customAction(int n, int n2, int n3, int n4, int n5) {
     }
 
-    @Override
     public void init() {
-        this.blueDelete.setListener(this, 1395074560);
-        this.blueShowProfiles.setListener(this, 1395074560);
-        this.blueSetPrioReconnect.setListener(this, 1395074560);
-        this.wlanDelete.setListener(this, 1395074560);
-        this.smartphoneDelete.setListener(this, 1395074560);
+        this.blueDelete.setListener(this, 2500435);
+        this.blueShowProfiles.setListener(this, 2500435);
+        this.blueSetPrioReconnect.setListener(this, 2500435);
+        this.wlanDelete.setListener(this, 2500435);
+        this.smartphoneDelete.setListener(this, 2500435);
     }
 
-    @Override
     public void deinit() {
         this.blueDelete.resetListener();
         this.blueShowProfiles.resetListener();

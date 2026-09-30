@@ -9,13 +9,12 @@ import de.audi.atip.log.LogChannel;
 
 public class JobPause
 extends AbstractFilePlayerJob {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "JobPause";
 
     public JobPause(LogChannel logChannel, IFilePlayer iFilePlayer) {
         super(logChannel, "PAUSE", iFilePlayer);
     }
 
-    @Override
     public void start() {
         switch (this.getPlayer().getState().getPlaybackState()) {
             case 3: 
@@ -23,20 +22,19 @@ extends AbstractFilePlayerJob {
             case 7: 
             case 8: 
             case 9: {
-                this.logger.log(1078071040, "[%1.start] Player playing. Pause it.", (Object)"JobPause");
+                this.logger.log(1000000, "[%1.start] Player playing. Pause it.", (Object)LOGCLASS);
                 this.getPlayer().pause();
                 break;
             }
             default: {
-                this.logger.log(1078071040, "[%1.start] Wrong state. Ingore.", (Object)"JobPause");
+                this.logger.log(1000000, "[%1.start] Wrong state. Ingore.", (Object)LOGCLASS);
                 this.getExecutionContext().jobFinished();
             }
         }
     }
 
-    @Override
     public void onPlaybackStateChanged() {
-        this.logger.log(14808325, "[%1.onPlaybackStateChanged]", (Object)"JobPause");
+        this.logger.log(100000000, "[%1.onPlaybackStateChanged]", (Object)LOGCLASS);
         this.setSessionPlaybackState();
         this.getExecutionContext().jobFinished();
     }

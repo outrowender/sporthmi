@@ -9,37 +9,32 @@ import org.dsi.ifc.global.CarViewOption;
 
 public class OilLevelComponentEvo
 extends AbstractOilLevelComponent {
-    private static final int MAX_OIL_DSI;
-    private static final int MAX_OIL_HMI;
+    private static final int MAX_OIL_DSI = 8;
+    private static final int MAX_OIL_HMI = 10;
 
     public OilLevelComponentEvo(ICarApplication iCarApplication) {
         super(iCarApplication);
     }
 
-    @Override
     protected void updateMenuEntryVisibility(CarViewOption carViewOption) {
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(1126697216, this.getMenuEntryVisibilityState(carViewOption));
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600131, this.getMenuEntryVisibilityState(carViewOption));
     }
 
-    @Override
     protected void initVisibility() {
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(1126697216, (short)18);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600131, (short)18);
     }
 
-    @Override
     protected void deinitVisibility() {
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(1126697216);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600131);
     }
 
-    @Override
     public int getID() {
         return 6;
     }
 
-    @Override
     protected int segments(int n) {
         int n2 = n == 8 ? 10 : super.segments(n);
-        this.getLogChannel().log(1078071040, "segments(%1)->%2", (long)n, (long)n2);
+        this.getLogChannel().log(1000000, "segments(%1)->%2", (long)n, (long)n2);
         return n2;
     }
 }

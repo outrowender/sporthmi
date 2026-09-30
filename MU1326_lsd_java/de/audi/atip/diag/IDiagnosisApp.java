@@ -4,27 +4,22 @@
 package de.audi.atip.diag;
 
 public interface IDiagnosisApp {
-    public static final int FALSE;
-    public static final int TRUE;
-    public static final int DIAG_ACTION_SWITCH_SOURCE;
-    public static final int DIAG_ACTION_RESET_DVD_PM_PASSWORD;
-    public static final int DIAG_ACTION_RESET_DVD_PM_LEVEL;
-    public static final int TUNER_APP;
-    public static final int MEDIA_APP;
+    public static final int FALSE = 0;
+    public static final int TRUE = 1;
+    public static final int DIAG_ACTION_SWITCH_SOURCE = 5;
+    public static final int DIAG_ACTION_RESET_DVD_PM_PASSWORD = 9;
+    public static final int DIAG_ACTION_RESET_DVD_PM_LEVEL = 10;
+    public static final int TUNER_APP = 0;
+    public static final int MEDIA_APP = 1;
 
-    default public void performAction(int n, Object object) {
-    }
+    public void performAction(int var1, Object var2);
 
-    default public void startDiagSession() {
-    }
+    public void startDiagSession();
 
-    default public void stopDiagSession() {
-    }
+    public void stopDiagSession();
 
-    default public void switch2OriginSource(int n, int n2) {
-    }
+    public void switch2OriginSource(int var1, int var2);
 
-    default public void updateDiagnosticValueChanged(int n, long l) {
-    }
+    public void updateDiagnosticValueChanged(int var1, long var2);
 }
 

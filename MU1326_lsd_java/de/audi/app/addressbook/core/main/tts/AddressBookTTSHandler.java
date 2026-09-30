@@ -18,7 +18,7 @@ implements TTSListener {
     }
 
     public synchronized void setTTSService(TTSSingleSpeakService tTSSingleSpeakService) {
-        this.log.log(-2137614336, "AddressBookTTSHandler#setTTSService(): got TTSService: %1", (Object)tTSSingleSpeakService);
+        this.log.log(10000000, "AddressBookTTSHandler#setTTSService(): got TTSService: %1", (Object)tTSSingleSpeakService);
         this.ttsService = tTSSingleSpeakService;
     }
 
@@ -28,65 +28,55 @@ implements TTSListener {
             return;
         }
         if (this.isAlreadySpeaking) {
-            this.log.log(-2137614336, "AddressBookTTSHandler#speak(): read out already in progress, ignoring speak request.");
+            this.log.log(10000000, "AddressBookTTSHandler#speak(): read out already in progress, ignoring speak request.");
             return;
         }
         this.ttsService.speak(string);
     }
 
-    @Override
     public void sessionStarted() {
-        this.log.log(-2137614336, "AddressBookTTSHandler#sessionStarted()");
+        this.log.log(10000000, "AddressBookTTSHandler#sessionStarted()");
         this.isAlreadySpeaking = true;
     }
 
-    @Override
     public void sessionStopped() {
-        this.log.log(-2137614336, "AddressBookTTSHandler#sessionStopped()");
+        this.log.log(10000000, "AddressBookTTSHandler#sessionStopped()");
         this.isAlreadySpeaking = false;
     }
 
-    @Override
     public synchronized void sessionPaused() {
-        this.log.log(-2137614336, "AddressBookTTSHandler#sessionPaused()");
+        this.log.log(10000000, "AddressBookTTSHandler#sessionPaused()");
         if (this.ttsService != null) {
             this.ttsService.abortSpeaking();
         }
     }
 
-    @Override
     public void speakingFinished() {
-        this.log.log(-2137614336, "AddressBookTTSHandler#sessionFinished()");
+        this.log.log(10000000, "AddressBookTTSHandler#sessionFinished()");
     }
 
-    @Override
     public void speakingAborted() {
-        this.log.log(-2137614336, "AddressBookTTSHandler#sessionAborted()");
+        this.log.log(10000000, "AddressBookTTSHandler#sessionAborted()");
     }
 
-    @Override
     public void sessionResumed() {
-        this.log.log(-2137614336, "AddressBookTTSHandler#sessionResumed()");
+        this.log.log(10000000, "AddressBookTTSHandler#sessionResumed()");
     }
 
-    @Override
     public void speakingFailed() {
-        this.log.log(-2137614336, "AddressBookTTSHandler#sessionFailed()");
+        this.log.log(10000000, "AddressBookTTSHandler#sessionFailed()");
     }
 
-    @Override
     public void audioAvailable(boolean bl) {
-        this.log.log(-2137614336, "AddressBookTTSHandler#audioAvailable()");
+        this.log.log(10000000, "AddressBookTTSHandler#audioAvailable()");
     }
 
-    @Override
     public void speakingStarted() {
-        this.log.log(-2137614336, "AddressBookTTSHandler#speakingStarted()");
+        this.log.log(10000000, "AddressBookTTSHandler#speakingStarted()");
     }
 
-    @Override
     public void speakingPaused() {
-        this.log.log(-2137614336, "AddressBookTTSHandler#speakingPaused()");
+        this.log.log(10000000, "AddressBookTTSHandler#speakingPaused()");
     }
 }
 

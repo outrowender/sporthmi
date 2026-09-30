@@ -19,10 +19,10 @@ import java.io.InputStream;
 import java.net.URL;
 
 public abstract class AbstractScreenFactory {
-    protected static final String IMAGE_ROOT;
-    protected static final String KZB_ROOT;
-    private static final String EMPTY_STRING;
-    public static final int IMG_ID_OFFSET;
+    protected static final String IMAGE_ROOT = "images/";
+    protected static final String KZB_ROOT = System.getProperty("kzbResourceFolder", "kzbs/");
+    private static final String EMPTY_STRING = "";
+    public static final int IMG_ID_OFFSET = 0;
     protected int moduleID;
     protected int currentLanguage = -1;
     private ByteArrayData stringResources = null;
@@ -39,9 +39,9 @@ public abstract class AbstractScreenFactory {
     }
 
     public Screen getScreen(int n, int n2) {
-        int n3 = n / -1601830656;
+        int n3 = n / 100000;
         if (n3 != this.moduleID) {
-            throw new IllegalArgumentException(new StringBuffer().append("wrong module id ").append(n3).toString());
+            throw new IllegalArgumentException("wrong module id " + n3);
         }
         Screen screen = this.getScreenWithMainArea(n, n2);
         this.clearRefWidgets(n2);
@@ -51,38 +51,34 @@ public abstract class AbstractScreenFactory {
     public void clearRefWidgets(int n) {
     }
 
-    public abstract Screen getScreenWithMainArea(int n, int n2) {
-    }
+    public abstract Screen getScreenWithMainArea(int var1, int var2);
 
-    protected abstract Screen createScreen(int n, int n2) {
-    }
+    protected abstract Screen createScreen(int var1, int var2);
 
-    protected abstract Screen createDefaultScreen(int n, int n2) {
-    }
+    protected abstract Screen createDefaultScreen(int var1, int var2);
 
-    public abstract String getName() {
-    }
+    public abstract String getName();
 
     protected final ClassLoader getResourceClassLoader() {
-        return super.getClass().getClassLoader() != null ? super.getClass().getClassLoader() : ClassLoader.getSystemClassLoader();
+        return this.getClass().getClassLoader() != null ? this.getClass().getClassLoader() : ClassLoader.getSystemClassLoader();
     }
 
     public String getText(int n) {
         try {
-            String string = this.stringResources.getString(n - this.moduleID * -1601830656);
+            String string = this.stringResources.getString(n - this.moduleID * 100000);
             if (string != null) {
                 return string;
             }
-            return "";
+            return EMPTY_STRING;
         }
         catch (Exception exception) {
-            return "";
+            return EMPTY_STRING;
         }
     }
 
     public int getTextStatus(int n) {
         try {
-            int n2 = this.stringResources.getFlag(n - this.moduleID * -1601830656) & 0xF;
+            int n2 = this.stringResources.getFlag(n - this.moduleID * 100000) & 0xF;
             if (n2 > 0) {
                 return n2;
             }
@@ -95,20 +91,20 @@ public abstract class AbstractScreenFactory {
 
     public String getAltText(int n) {
         try {
-            String string = this.stringResources.getAltString(n - this.moduleID * -1601830656);
+            String string = this.stringResources.getAltString(n - this.moduleID * 100000);
             if (string != null) {
                 return string;
             }
-            return "";
+            return EMPTY_STRING;
         }
         catch (Exception exception) {
-            return "";
+            return EMPTY_STRING;
         }
     }
 
     public int getAltTextStatus(int n) {
         try {
-            int n2 = this.stringResources.getFlag(n - this.moduleID * -1601830656) >> 4 & 0xF;
+            int n2 = this.stringResources.getFlag(n - this.moduleID * 100000) >> 4 & 0xF;
             if (n2 > 0) {
                 return n2;
             }
@@ -184,7 +180,7 @@ public abstract class AbstractScreenFactory {
 
     protected String buildImagePathForClassloader(int n) {
         Buffer buffer = new Buffer();
-        buffer.append("images/").append(this.getName()).append('/').append(n).append(".png");
+        buffer.append(IMAGE_ROOT).append(this.getName()).append('/').append(n).append(".png");
         return buffer.toString();
     }
 
@@ -257,8 +253,7 @@ public abstract class AbstractScreenFactory {
         return this.currentLanguage;
     }
 
-    public abstract void executeCondition(int n, int n2, HMIView[] hMIViewArray, int n3) {
-    }
+    public abstract void executeCondition(int var1, int var2, HMIView[] var3, int var4);
 
     public final boolean evaluateSimpleChoiceModelValueEqualsCondition(int n, int n2, int n3) {
         try {
@@ -348,10 +343,6 @@ public abstract class AbstractScreenFactory {
 
     public IPartialPopupController[] getPartialPopupStubs(int n) {
         return null;
-    }
-
-    static {
-        KZB_ROOT = System.getProperty("kzbResourceFolder", "kzbs/");
     }
 }
 

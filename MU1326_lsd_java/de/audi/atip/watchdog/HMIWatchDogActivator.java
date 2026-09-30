@@ -6,10 +6,11 @@ package de.audi.atip.watchdog;
 import de.audi.atip.activator.AbstractFrameworkActivator;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.watchdog.HMIWatchDog;
-import de.audi.atip.watchdog.HMIWatchDogActivator$1;
 import java.util.Dictionary;
 import java.util.Hashtable;
+import org.dsi.ifc.system.DSIHMIWatchDog;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
@@ -33,7 +34,6 @@ extends AbstractFrameworkActivator {
         return this.instance;
     }
 
-    @Override
     protected void startInternal(BundleContext bundleContext) {
         this.log = this.framework.getLogChannel("Fw.WatchDog");
         this.instance = new HMIWatchDog(this.framework);
@@ -46,7 +46,6 @@ extends AbstractFrameworkActivator {
         this.instance.setReady();
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         if (this.sRegDSIWatchDog != null) {
             this.sRegDSIWatchDog.unregister();
@@ -60,7 +59,39 @@ extends AbstractFrameworkActivator {
     }
 
     private void initTracker() {
-        this.tracker = new ServiceTracker(this.bundleContext, DSI_WATCHDOG_CLASS, (ServiceTrackerCustomizer)new HMIWatchDogActivator$1(this));
+        this.tracker = new ServiceTracker(this.bundleContext, DSI_WATCHDOG_CLASS, new ServiceTrackerCustomizer(){
+
+            public Object addingService(ServiceReference serviceReference) {
+                try {
+                    String string = (String)serviceReference.getProperty("DEVICE_NAME");
+                    Object object = serviceReference.getProperty("DEVICE_INSTANCE");
+                    int n = 0;
+                    if (object instanceof Integer) {
+                        n = (Integer)object;
+                    }
+                    HMIWatchDogActivator.this.log.log(10000000, "HMIWatchDogActivator.addingService( %1, %2 )", (Object)string, (long)n);
+                    Object object2 = HMIWatchDogActivator.this.bundleContext.getService(serviceReference);
+                    if (DSI_WATCHDOG_CLASS.equals(string) && n == 0) {
+                        HMIWatchDogActivator.this.log.log(1000000, "DSIHMIWatchDog is available!", (Object)string, (long)n);
+                        HMIWatchDogActivator.this.instance.setDSI((DSIHMIWatchDog)object2);
+                    }
+                    return object2;
+                }
+                catch (Exception exception) {
+                    HMIWatchDogActivator.this.log.log(100000, "DomainActivator.addingService failed", (Throwable)exception);
+                    return null;
+                }
+            }
+
+            public void modifiedService(ServiceReference serviceReference, Object object) {
+            }
+
+            public void removedService(ServiceReference serviceReference, Object object) {
+                HMIWatchDogActivator.this.log.log(10000000, "HMIWatchDogActivator.removedService( %1 )", (Object)serviceReference);
+                HMIWatchDogActivator.this.bundleContext.ungetService(serviceReference);
+                HMIWatchDogActivator.this.instance.setDSI(null);
+            }
+        });
         this.tracker.open();
     }
 
@@ -71,26 +102,6 @@ extends AbstractFrameworkActivator {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ LogChannel access$000(HMIWatchDogActivator hMIWatchDogActivator) {
-        return hMIWatchDogActivator.log;
-    }
-
-    static /* synthetic */ BundleContext access$100(HMIWatchDogActivator hMIWatchDogActivator) {
-        return hMIWatchDogActivator.bundleContext;
-    }
-
-    static /* synthetic */ String access$200() {
-        return DSI_WATCHDOG_CLASS;
-    }
-
-    static /* synthetic */ HMIWatchDog access$300(HMIWatchDogActivator hMIWatchDogActivator) {
-        return hMIWatchDogActivator.instance;
-    }
-
-    static /* synthetic */ BundleContext access$400(HMIWatchDogActivator hMIWatchDogActivator) {
-        return hMIWatchDogActivator.bundleContext;
     }
 }
 

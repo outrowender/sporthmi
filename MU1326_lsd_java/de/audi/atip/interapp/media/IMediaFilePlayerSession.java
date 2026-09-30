@@ -7,10 +7,9 @@ import de.audi.atip.interapp.media.IMediaPlayerSession;
 
 public interface IMediaFilePlayerSession
 extends IMediaPlayerSession {
-    public static final int TYPE_BOARDBOOK;
-    public static final int TYPE_RINGTONE;
+    public static final int TYPE_BOARDBOOK = 0;
+    public static final int TYPE_RINGTONE = 1;
 
-    default public void updateVideoContext(int n) {
-    }
+    public void updateVideoContext(int var1);
 }
 

@@ -4,7 +4,6 @@
 package de.audi.app.bap;
 
 public interface IPowerState {
-    default public boolean isPowerOn() {
-    }
+    public boolean isPowerOn();
 }
 

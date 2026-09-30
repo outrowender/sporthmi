@@ -7,25 +7,18 @@ import de.audi.atip.interapp.tv.TVStation;
 import org.dsi.ifc.tvtuner.LogoInfo;
 
 public interface ITVFavoritesService {
-    default public void addServiceToFavorites(TVStation tVStation) {
-    }
+    public void addServiceToFavorites(TVStation var1);
 
-    default public int highlightSelectedStation(TVStation tVStation) {
-    }
+    public int highlightSelectedStation(TVStation var1);
 
-    default public void removeServiceFromFavorites(TVStation tVStation) {
-    }
+    public void removeServiceFromFavorites(TVStation var1);
 
-    default public void removeAllServicesFromFavorites() {
-    }
+    public void removeAllServicesFromFavorites();
 
-    default public void updateServiceLogos(LogoInfo[] logoInfoArray) {
-    }
+    public void updateServiceLogos(LogoInfo[] var1);
 
-    default public void removeAllSeviceLogos() {
-    }
+    public void removeAllSeviceLogos();
 
-    default public void cancelStoreMode() {
-    }
+    public void cancelStoreMode();
 }
 

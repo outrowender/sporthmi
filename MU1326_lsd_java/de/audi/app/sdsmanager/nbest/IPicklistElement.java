@@ -6,30 +6,22 @@ package de.audi.app.sdsmanager.nbest;
 import de.audi.app.sdsmanager.nbest.IPicklistSlot;
 
 public interface IPicklistElement {
-    public static final int GG_INDEX_NONE;
+    public static final int GG_INDEX_NONE = -1;
 
-    default public IPicklistSlot[] getSlots() {
-    }
+    public IPicklistSlot[] getSlots();
 
-    default public int getGraphGroupSize() {
-    }
+    public int getGraphGroupSize();
 
-    default public int getGraphGroupIndex() {
-    }
+    public int getGraphGroupIndex();
 
-    default public int getGraphGroupId() {
-    }
+    public int getGraphGroupId();
 
-    default public int getRuleID() {
-    }
+    public int getRuleID();
 
-    default public int getConfidence() {
-    }
+    public int getConfidence();
 
-    default public long getObjectID() {
-    }
+    public long getObjectID();
 
-    default public void setSlots(IPicklistSlot[] iPicklistSlotArray) {
-    }
+    public void setSlots(IPicklistSlot[] var1);
 }
 

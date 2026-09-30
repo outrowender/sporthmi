@@ -15,7 +15,6 @@ import de.audi.app.connectivity.manager.CoMaSelectionHandler;
 import de.audi.app.connectivity.manager.ComaBluetoothListener;
 import de.audi.app.connectivity.manager.ComaPhoneStateListener;
 import de.audi.app.connectivity.manager.ComaWlanListener;
-import de.audi.app.connectivity.manager.ConnectivityManager$1;
 import de.audi.app.connectivity.manager.IConnectivityManager;
 import de.audi.app.connectivity.manager.TerminalModeProxy;
 import de.audi.app.connectivity.manager.contents.AbstractCoMaDevice;
@@ -31,10 +30,10 @@ import de.audi.atip.i18n.I18NTarget;
 import de.audi.atip.i18n.Language;
 import de.audi.atip.interapp.IConnectivityRHMIStateListener;
 import de.audi.atip.interapp.terminalmode.TerminalModeDevice;
-import de.audi.atip.log.LogChannel;
 import de.audi.atip.msg.MsgListener;
 import de.audi.atip.sysapp.carcoding.Adaptation;
 import de.audi.atip.timer.Timer;
+import de.audi.atip.timer.TimerListener;
 import de.esolutions.fw.util.commons.StringUtils;
 import de.mib.swdiagnosis.connectivity.ConnectivityDiag;
 import java.io.File;
@@ -51,10 +50,10 @@ implements IConnectivityManager,
 IConnectivityRHMIStateListener,
 I18NTarget,
 MsgListener {
-    private static final String MODULE_NAME;
-    private static final boolean ENABLE_NEW_DEVICE_LINE;
-    private static final boolean DISABLE_NEW_DEVICE_LINE;
-    private static final boolean DISABLE_MULTIPLE_SELECTION;
+    private static final String MODULE_NAME = "CONNECTIVIY_MANAGER";
+    private static final boolean ENABLE_NEW_DEVICE_LINE = true;
+    private static final boolean DISABLE_NEW_DEVICE_LINE = false;
+    private static final boolean DISABLE_MULTIPLE_SELECTION = false;
     private ServiceRegistration registration1;
     private ServiceRegistration registration2;
     private ServiceRegistration registration3;
@@ -88,8 +87,21 @@ MsgListener {
     private volatile boolean isAnyEorBCallActive;
     private volatile boolean isLockFeatureCurrentlyActivated = false;
     private volatile long lastSimUpdateTime;
-    private static final long SIM_UPDATE_DELAY;
-    Timer updateSimTimer = new Timer("UpdateSim", 0, true, new ConnectivityManager$1(this));
+    private static final long SIM_UPDATE_DELAY = 150L;
+    Timer updateSimTimer = new Timer("UpdateSim", 150L, true, new TimerListener(){
+
+        public void cancelTimer(Timer timer) {
+            ConnectivityManager.this.log.log(10000000, "ConnectivityManager.updateSimTimer.new TimerListener() {...}#cancelTimer(): ");
+        }
+
+        public void fireTimer(Timer timer) {
+            ConnectivityManager.this.log.log(10000000, "ConnectivityManager.updateSimTimer.new TimerListener() {...}#fireTimer(): ");
+            ConnectivityManager.this.ignoreSimVanishOnNadModeUpgrade = false;
+            ConnectivityManager.this.sim = ConnectivityManager.this.delaySim;
+            ConnectivityManager.this.updateNewDeviceLineActivations();
+            ConnectivityManager.this.updateListDevices();
+        }
+    });
     static /* synthetic */ Class class$de$audi$atip$interapp$media$IMediaServiceListener;
     static /* synthetic */ Class class$de$audi$atip$interapp$IConnectivityRHMIStateListener;
     static /* synthetic */ Class class$de$audi$atip$i18n$I18NTarget;
@@ -130,7 +142,7 @@ MsgListener {
     }
 
     public ConnectivityManager(IFrameworkAccess iFrameworkAccess, BundleContext bundleContext, IEvoConnectivity iEvoConnectivity, boolean bl, boolean bl2, boolean bl3, boolean bl4) {
-        super(iFrameworkAccess, bundleContext, "App.Connectivity.Main", "App.Connectivity.Main", "CONNECTIVIY_MANAGER");
+        super(iFrameworkAccess, bundleContext, "App.Connectivity.Main", "App.Connectivity.Main", MODULE_NAME);
         this.connectivity = iEvoConnectivity;
         IHMIServiceApp iHMIServiceApp = iFrameworkAccess.getHmiServiceApp();
         Adaptation adaptation = iFrameworkAccess.getSysConstManager().getAdaptationANP();
@@ -173,7 +185,7 @@ MsgListener {
 
     synchronized void updateBluetoothDevices(List list, boolean bl) {
         if (this.log.isDebug()) {
-            this.log.log(-2137614336, "ConnectivityManager#updateBluetoothDevices simOrSap=%2, devices=%1", (Object)list.toString(), (Object)String.valueOf(bl));
+            this.log.log(10000000, "ConnectivityManager#updateBluetoothDevices simOrSap=%2, devices=%1", (Object)list.toString(), (Object)String.valueOf(bl));
         }
         this.blueCoMaDevices.clear();
         this.blueCoMaDevices.addAll(list);
@@ -182,7 +194,7 @@ MsgListener {
     }
 
     public void updatePhoneModuleState(boolean bl) {
-        this.log.log(-2137614336, "ConnectivityManager#updatePhoneModuleState isOn=%1", (Object)String.valueOf(bl));
+        this.log.log(10000000, "ConnectivityManager#updatePhoneModuleState isOn=%1", (Object)String.valueOf(bl));
         this.phoneModuleStateIsOn = bl;
         if (this.list != null) {
             this.list.updatePhoneModuleState(bl);
@@ -191,17 +203,17 @@ MsgListener {
 
     synchronized void updateSim(AbstractCoMaDevice abstractCoMaDevice) {
         boolean bl;
-        this.log.log(1078071040, "ConnectivityManager#updateSim(): %1", (Object)abstractCoMaDevice);
+        this.log.log(1000000, "ConnectivityManager#updateSim(): %1", (Object)abstractCoMaDevice);
         long l = System.currentTimeMillis();
         boolean bl2 = bl = this.ignoreSimVanishOnNadModeUpgrade && abstractCoMaDevice == null;
         if (bl) {
-            this.log.log(-2137614336, "ConnectivityManager#updateSimState(): Delaying SIM update");
-        } else if (l - this.lastSimUpdateTime < 0) {
-            this.log.log(-2137614336, "ConnectivityManager#updateSim(): skip");
+            this.log.log(10000000, "ConnectivityManager#updateSimState(): Delaying SIM update");
+        } else if (l - this.lastSimUpdateTime < 150L) {
+            this.log.log(10000000, "ConnectivityManager#updateSim(): skip");
             this.delaySim = abstractCoMaDevice;
             this.updateSimTimer.restart();
         } else {
-            this.log.log(-2137614336, "ConnectivityManager#updateSim(): update.");
+            this.log.log(10000000, "ConnectivityManager#updateSim(): update.");
             this.ignoreSimVanishOnNadModeUpgrade = false;
             this.sim = abstractCoMaDevice;
             this.updateNewDeviceLineActivations();
@@ -244,7 +256,7 @@ MsgListener {
 
     synchronized void updateSmartphones(TerminalModeDevice[] terminalModeDeviceArray) {
         if (terminalModeDeviceArray != null) {
-            this.log.log(1078071040, "ConnectivityManager#updateSmartphones(): %1", (Object)StringUtils.toString(terminalModeDeviceArray));
+            this.log.log(1000000, "ConnectivityManager#updateSmartphones(): %1", (Object)StringUtils.toString(terminalModeDeviceArray));
             this.smartphones.clear();
             this.isTerminalModeActive = false;
             for (int i2 = 0; i2 < terminalModeDeviceArray.length; ++i2) {
@@ -265,41 +277,35 @@ MsgListener {
         }
     }
 
-    @Override
     public void updateTrustedWlanNetworks(Network[] networkArray) {
         this.wlanListener.updateTrustedWlanNetworks(networkArray);
     }
 
-    @Override
     public synchronized void updateUPnPState(String string) {
-        this.log.log(1078071040, "ConnectivityManager#updateUPnPState(): %1", (Object)string);
+        this.log.log(1000000, "ConnectivityManager#updateUPnPState(): %1", (Object)string);
         this.uPnP = string != null ? new CoMaDeviceUpnp(string) : null;
         this.updateListDevices();
     }
 
-    @Override
     public synchronized void updateActiveMediaDevice(int n, String string) {
-        this.log.log(1078071040, "ConnectivityManager#updateActiveMediaDevice(): %2 %1", (Object)string, (long)n);
+        this.log.log(1000000, "ConnectivityManager#updateActiveMediaDevice(): %2 %1", (Object)string, (long)n);
         this.list.updateCategoryDeviceName(3, string);
     }
 
-    @Override
     public void connectivityManagerEntered() {
-        this.log.log(1078071040, "ConnectivityManager#connectivityManagerEntered()");
+        this.log.log(1000000, "ConnectivityManager#connectivityManagerEntered()");
         this.list.resetList();
     }
 
-    @Override
     public void responseConnectService(int n, int n2) {
         this.selectionHandler.responseConnectService(n, n2);
     }
 
-    @Override
     public synchronized void updateRHMIServerList(String[] stringArray, String[] stringArray2, boolean[] blArray) {
         if (stringArray == null || stringArray2 == null || blArray == null) {
             return;
         }
-        this.log.log(-2137614336, "ConnectivityManager#updateRHMIServerList(): Received RHMI app server list.");
+        this.log.log(10000000, "ConnectivityManager#updateRHMIServerList(): Received RHMI app server list.");
         this.rhmiAppServerDevices.clear();
         for (int i2 = 0; i2 < stringArray.length; ++i2) {
             CoMaDeviceRhmi coMaDeviceRhmi = new CoMaDeviceRhmi(stringArray[i2], stringArray2[i2], blArray[i2]);
@@ -328,14 +334,12 @@ MsgListener {
         this.updateNewDeviceLineActivations();
     }
 
-    @Override
     public synchronized void setLanguage(Language language) {
-        this.log.log(1078071040, "ConnectivityManager#setLanguage(): %1", (Object)language);
+        this.log.log(1000000, "ConnectivityManager#setLanguage(): %1", (Object)language);
         this.list.languageChanged();
         this.simState.languageChanged();
     }
 
-    @Override
     public void processMsg(int n) {
         if ((n == 206 || n == 207) && this.getFramework().getHMIService().getChoiceModel(5588).getValue() == 0) {
             this.registration5.unregister();
@@ -343,28 +347,24 @@ MsgListener {
             return;
         }
         if (n == 206) {
-            this.log.log(1078071040, "[ConnectivityManager#processMsg] LOCK_FEATURE_ACTIVATED");
+            this.log.log(1000000, "[ConnectivityManager#processMsg] LOCK_FEATURE_ACTIVATED");
             this.handleLockStatus(true);
         } else if (n == 207) {
-            this.log.log(1078071040, "[ConnectivityManager#processMsg] LOCK_FEATURE_DEACTIVATED");
+            this.log.log(1000000, "[ConnectivityManager#processMsg] LOCK_FEATURE_DEACTIVATED");
             this.handleLockStatus(false);
         }
     }
 
-    @Override
     public ConnectivityDiag getDiag() {
         return this.connectivity.getDiagnosis();
     }
 
-    @Override
     protected void registerDSIListener() {
     }
 
-    @Override
     protected void startDSI() {
     }
 
-    @Override
     public void init() {
         super.init();
         Hashtable hashtable = new Hashtable(0);
@@ -385,7 +385,6 @@ MsgListener {
         this.carplayHandler.init();
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.registration1.unregister();
@@ -411,36 +410,6 @@ MsgListener {
 
     public boolean isSimOrRsapAvailable() {
         return this.simOrRSAPAvailable;
-    }
-
-    static /* synthetic */ LogChannel access$000(ConnectivityManager connectivityManager) {
-        return connectivityManager.log;
-    }
-
-    static /* synthetic */ LogChannel access$100(ConnectivityManager connectivityManager) {
-        return connectivityManager.log;
-    }
-
-    static /* synthetic */ boolean access$202(ConnectivityManager connectivityManager, boolean bl) {
-        connectivityManager.ignoreSimVanishOnNadModeUpgrade = bl;
-        return connectivityManager.ignoreSimVanishOnNadModeUpgrade;
-    }
-
-    static /* synthetic */ AbstractCoMaDevice access$302(ConnectivityManager connectivityManager, AbstractCoMaDevice abstractCoMaDevice) {
-        connectivityManager.sim = abstractCoMaDevice;
-        return connectivityManager.sim;
-    }
-
-    static /* synthetic */ AbstractCoMaDevice access$400(ConnectivityManager connectivityManager) {
-        return connectivityManager.delaySim;
-    }
-
-    static /* synthetic */ void access$500(ConnectivityManager connectivityManager) {
-        connectivityManager.updateNewDeviceLineActivations();
-    }
-
-    static /* synthetic */ void access$600(ConnectivityManager connectivityManager) {
-        connectivityManager.updateListDevices();
     }
 
     static /* synthetic */ Class class$(String string) {

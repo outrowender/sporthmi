@@ -9,32 +9,32 @@ import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.log.LogChannel;
 
 public class OnlineErrorState {
-    private static final int DISCLAIMER_REQUIRED;
-    private static final int DISCLAIMER_CONFIRMED;
-    public static final int ERROR_NONE;
-    public static final int ERROR_SIM_STATE_NAD_OFF;
-    public static final int ERROR_SIM_STATE_NA_DATA_ONLY;
-    public static final int ERROR_SIM_STATE_NA;
-    public static final int ERROR_SIM_STATE_SAP_NA;
-    public static final int ERROR_SIM_STATE_SAP;
-    public static final int ERROR_SIM_STATE_PIN_REQUIRED;
-    public static final int ERROR_SIM_STATE_PUK_REQUIRED;
-    public static final int ERROR_SIM_STATE_PUK_BLOCKED;
-    public static final int ERROR_SIM_STATE_FAILURE;
-    public static final int ERROR_SIM_STATE_GSM_CALL_ACTIVE;
-    public static final int ERROR_SIM_STATE_PENDING_DATA_ONLY;
-    public static final int ERROR_SIM_STATE_PENDING;
-    public static final int ERROR_PROFILE_INVALID;
-    public static final int ERROR_PROFILE_NA;
-    public static final int ERROR_PROFILE_MULTI;
-    public static final int ERROR_GENERAL_PERMISSION_MANUAL;
-    public static final int ERROR_GENERAL_PERMISSION_NEVER;
-    public static final int ERROR_PERMISSION_CONFIRMED;
-    public static final int ERROR_DATA_DEACTIVATED;
-    public static final int ERROR_ROAMING_DEACTIVATED;
-    public static final int ERROR_ROAMING_ALLOWED;
-    public static final int ERROR_ROAMING_CONFIRMED;
-    static final String[] ERROR_NAMES;
+    private static final int DISCLAIMER_REQUIRED = 0;
+    private static final int DISCLAIMER_CONFIRMED = 1;
+    public static final int ERROR_NONE = 0;
+    public static final int ERROR_SIM_STATE_NAD_OFF = 1;
+    public static final int ERROR_SIM_STATE_NA_DATA_ONLY = 2;
+    public static final int ERROR_SIM_STATE_NA = 3;
+    public static final int ERROR_SIM_STATE_SAP_NA = 4;
+    public static final int ERROR_SIM_STATE_SAP = 5;
+    public static final int ERROR_SIM_STATE_PIN_REQUIRED = 6;
+    public static final int ERROR_SIM_STATE_PUK_REQUIRED = 7;
+    public static final int ERROR_SIM_STATE_PUK_BLOCKED = 8;
+    public static final int ERROR_SIM_STATE_FAILURE = 9;
+    public static final int ERROR_SIM_STATE_GSM_CALL_ACTIVE = 10;
+    public static final int ERROR_SIM_STATE_PENDING_DATA_ONLY = 21;
+    public static final int ERROR_SIM_STATE_PENDING = 22;
+    public static final int ERROR_PROFILE_INVALID = 11;
+    public static final int ERROR_PROFILE_NA = 12;
+    public static final int ERROR_PROFILE_MULTI = 13;
+    public static final int ERROR_GENERAL_PERMISSION_MANUAL = 14;
+    public static final int ERROR_GENERAL_PERMISSION_NEVER = 15;
+    public static final int ERROR_PERMISSION_CONFIRMED = 16;
+    public static final int ERROR_DATA_DEACTIVATED = 17;
+    public static final int ERROR_ROAMING_DEACTIVATED = 18;
+    public static final int ERROR_ROAMING_ALLOWED = 19;
+    public static final int ERROR_ROAMING_CONFIRMED = 20;
+    static final String[] ERROR_NAMES = new String[]{"ERROR_NONE", "ERROR_SIM_STATE_NAD_OFF", "ERROR_SIM_STATE_NA_DATA_ONLY", "ERROR_SIM_STATE_NA", "ERROR_SIM_STATE_SAP_NA", "ERROR_SIM_STATE_SAP", "ERROR_SIM_STATE_PIN_REQUIRED", "ERROR_SIM_STATE_PUK_REQUIRED", "ERROR_SIM_STATE_PUK_BLOCKED", "ERROR_SIM_STATE_FAILURE", "ERROR_SIM_STATE_GSM_CALL_ACTIVE", "ERROR_PROFILE_INVALID", "ERROR_PROFILE_NA", "ERROR_PROFILE_MULTI", "ERROR_GENERAL_PERMISSION_MANUAL", "ERROR_GENERAL_PERMISSION_NEVER", "ERROR_PERMISSION_CONFIRMED", "ERROR_DATA_DEACTIVATED", "ERROR_ROAMING_DEACTIVATED", "ERROR_ROAMING_ALLOWED", "ERROR_ROAMING_CONFIRMED", "ERROR_SIM_STATE_PENDING_DATA_ONLY", "ERROR_SIM_STATE_PENDING"};
     private final LogChannel log;
     private final ChoiceModelApp permissionChoice;
     private final ChoiceModelApp disclaimerConfirmed;
@@ -67,12 +67,12 @@ public class OnlineErrorState {
         this.log = logChannel;
         this.errorHandler = abstractErrorHandler;
         this.hmiService = iHMIServiceApp;
-        this.permissionChoice = iHMIServiceApp.getChoiceModel(740697600);
-        this.disclaimerConfirmed = iHMIServiceApp.getChoiceModel(707143168);
-        this.onlineConfirmed = iHMIServiceApp.getChoiceModel(1797662208);
-        this.onlineHotspotConfirmed = iHMIServiceApp.getChoiceModel(2032543232);
-        this.roamingConfirmed = iHMIServiceApp.getChoiceModel(1998988800);
-        this.roamingChoice = iHMIServiceApp.getChoiceModel(908469760);
+        this.permissionChoice = iHMIServiceApp.getChoiceModel(0x26262C);
+        this.disclaimerConfirmed = iHMIServiceApp.getChoiceModel(0x26262A);
+        this.onlineConfirmed = iHMIServiceApp.getChoiceModel(0x26266B);
+        this.onlineHotspotConfirmed = iHMIServiceApp.getChoiceModel(2500217);
+        this.roamingConfirmed = iHMIServiceApp.getChoiceModel(0x262677);
+        this.roamingChoice = iHMIServiceApp.getChoiceModel(0x262636);
         this.mmiErrorChoice = iHMIServiceApp.getChoiceModel(4277);
     }
 
@@ -103,7 +103,7 @@ public class OnlineErrorState {
         }
         if (n == 0 && bl && bl2 && this.simUsageIsToBeShown) {
             this.errorHandler.showUnlockPopup();
-            this.log.log(-2137614336, "OnlineErrorState#updateSimState(): Data only, NO PIN expected, no SIM Usage for this SIM => show sim usage popup");
+            this.log.log(10000000, "OnlineErrorState#updateSimState(): Data only, NO PIN expected, no SIM Usage for this SIM => show sim usage popup");
         }
     }
 
@@ -120,7 +120,7 @@ public class OnlineErrorState {
     }
 
     private void resetConfirmations() {
-        this.log.log(-2137614336, "OnlineErrorState#resetConfirmations(): SIM state has changed, resetting confirmation models");
+        this.log.log(10000000, "OnlineErrorState#resetConfirmations(): SIM state has changed, resetting confirmation models");
         this.resetConfirmationMmi();
         this.resetConfirmationWlan();
         this.resetConfirmationRoaming();
@@ -153,7 +153,7 @@ public class OnlineErrorState {
 
     private void checkRoamingPopup() {
         if (this.settingGeneral == 1 && this.settingPermissionRoaming == 0 && this.currentErrorMmi == 18) {
-            this.log.log(-2137614336, "OnlineErrorState#checkRoamingPopup(): Showing ROAMING DEACTIVATED for user action in settings menu");
+            this.log.log(10000000, "OnlineErrorState#checkRoamingPopup(): Showing ROAMING DEACTIVATED for user action in settings menu");
             this.errorHandler.showPopup(this.currentErrorMmi, 0);
         }
     }
@@ -230,11 +230,11 @@ public class OnlineErrorState {
         if (n2 != this.currentErrorMmi || n != this.currentErrorWlan) {
             this.currentErrorMmi = n2;
             this.currentErrorWlan = n;
-            this.log.log(-2137614336, "OnlineErrorState#updateErrorState(): New error state: mmi=%1, wlan=%2", (Object)ERROR_NAMES[n2], (Object)ERROR_NAMES[n]);
+            this.log.log(10000000, "OnlineErrorState#updateErrorState(): New error state: mmi=%1, wlan=%2", (Object)ERROR_NAMES[n2], (Object)ERROR_NAMES[n]);
             this.errorHandler.updateErrorState(n2, n);
             this.mmiErrorChoice.setValue(n2);
         } else {
-            this.log.log(-2137614336, "OnlineErrorState#updateErrorState(): Nothing changed, doing nothing: mmi=%1, wlan=%2", (Object)ERROR_NAMES[n2], (Object)ERROR_NAMES[n]);
+            this.log.log(10000000, "OnlineErrorState#updateErrorState(): Nothing changed, doing nothing: mmi=%1, wlan=%2", (Object)ERROR_NAMES[n2], (Object)ERROR_NAMES[n]);
         }
     }
 
@@ -278,7 +278,7 @@ public class OnlineErrorState {
                     return this.isTetheringActive() ? 0 : 21;
                 }
             }
-            this.log.log(-1601830656, "OnlineErrorState#determineNewError(): Missing mapping: %1", (long)this.simState);
+            this.log.log(100000, "OnlineErrorState#determineNewError(): Missing mapping: %1", (long)this.simState);
             return 9;
         }
         if (this.isEsimCodedAndActiveAndLicensed) {
@@ -295,7 +295,7 @@ public class OnlineErrorState {
     }
 
     private boolean isTetheringActive() {
-        return this.hmiService.getChoiceModel(1663444480).getValue() == 1;
+        return this.hmiService.getChoiceModel(0x262663).getValue() == 1;
     }
 
     private int determinePermissionMmi() {
@@ -331,16 +331,12 @@ public class OnlineErrorState {
     }
 
     public String toString() {
-        return new StringBuffer().append("MMI: ").append(ERROR_NAMES[this.currentErrorMmi]).append("\nWLAN: ").append(ERROR_NAMES[this.currentErrorWlan]).toString();
+        return "MMI: " + ERROR_NAMES[this.currentErrorMmi] + "\nWLAN: " + ERROR_NAMES[this.currentErrorWlan];
     }
 
     public void updateSimUsageToBeShown(boolean bl) {
         this.simUsageIsToBeShown = bl;
         this.updateSimState(this.simState, this.isNadDataOnly, this.isPhoneOn, this.isEsimCodedAndActiveAndLicensed);
-    }
-
-    static {
-        ERROR_NAMES = new String[]{"ERROR_NONE", "ERROR_SIM_STATE_NAD_OFF", "ERROR_SIM_STATE_NA_DATA_ONLY", "ERROR_SIM_STATE_NA", "ERROR_SIM_STATE_SAP_NA", "ERROR_SIM_STATE_SAP", "ERROR_SIM_STATE_PIN_REQUIRED", "ERROR_SIM_STATE_PUK_REQUIRED", "ERROR_SIM_STATE_PUK_BLOCKED", "ERROR_SIM_STATE_FAILURE", "ERROR_SIM_STATE_GSM_CALL_ACTIVE", "ERROR_PROFILE_INVALID", "ERROR_PROFILE_NA", "ERROR_PROFILE_MULTI", "ERROR_GENERAL_PERMISSION_MANUAL", "ERROR_GENERAL_PERMISSION_NEVER", "ERROR_PERMISSION_CONFIRMED", "ERROR_DATA_DEACTIVATED", "ERROR_ROAMING_DEACTIVATED", "ERROR_ROAMING_ALLOWED", "ERROR_ROAMING_CONFIRMED", "ERROR_SIM_STATE_PENDING_DATA_ONLY", "ERROR_SIM_STATE_PENDING"};
     }
 }
 

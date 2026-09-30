@@ -16,32 +16,26 @@ implements CarFuncAdap {
         carFunctionAdap = byArray;
     }
 
-    @Override
     public byte getByteCoding(short s) {
         return carFunctionAdap[s];
     }
 
-    @Override
     public boolean isMenuDisplayActivated(short s) {
         return BitHelper.testBit(carFunctionAdap[s], 0);
     }
 
-    @Override
     public boolean isMenuDisClamp15OffActivated(short s) {
         return BitHelper.testBit(carFunctionAdap[s], 1);
     }
 
-    @Override
     public boolean isMenuDisOverThresholdHighActivated(short s) {
         return BitHelper.testBit(carFunctionAdap[s], 2);
     }
 
-    @Override
     public boolean isMenuDisStandstillActivated(short s) {
         return BitHelper.testBit(carFunctionAdap[s], 3);
     }
 
-    @Override
     public boolean isMenuDisAfterDisclaimerActivated(short s) {
         return BitHelper.testBit(carFunctionAdap[s], 4);
     }

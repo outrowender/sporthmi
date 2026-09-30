@@ -4,20 +4,21 @@
 package de.audi.app.media.source.state.providers;
 
 import de.audi.app.media.content.media.utils.Integers;
+import de.audi.app.media.diagnosis.IDiagnosisDataProvider;
 import de.audi.app.media.diagnosis.IDiagnosisManager;
 import de.audi.app.media.dsi.media.IMediaDeviceListener;
+import de.audi.app.media.logger.LogUtil;
 import de.audi.app.media.persistence.IMediaPersistence;
 import de.audi.app.media.source.MediaCapabilities;
 import de.audi.app.media.source.MediaFlags;
 import de.audi.app.media.source.MediaSlot;
 import de.audi.app.media.source.state.ISourceStateUpdater;
 import de.audi.app.media.source.state.providers.MediaListSourceStateDiffer;
-import de.audi.app.media.source.state.providers.MediaListSourceStateProvider$1;
-import de.audi.app.media.source.state.providers.MediaListSourceStateProvider$2;
 import de.audi.atip.log.LogChannel;
 import de.esolutions.fw.util.commons.Buffer;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.dsi.ifc.media.DeviceInfo;
@@ -25,7 +26,7 @@ import org.dsi.ifc.media.MediaInfo;
 
 public class MediaListSourceStateProvider
 implements IMediaDeviceListener {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "MediaListSourceStateProvider";
     private final LogChannel logger;
     private final IDiagnosisManager diagnosisManager;
     private final MediaListSourceStateDiffer sourceStateUpdater;
@@ -44,13 +45,47 @@ implements IMediaDeviceListener {
     }
 
     public void init() {
-        this.logger.log(1078071040, "[%1.init]", (Object)"MediaListSourceStateProvider");
-        this.diagnosisManager.addDataProvider(-1, new MediaListSourceStateProvider$1(this));
-        this.diagnosisManager.addDataProvider(-1, new MediaListSourceStateProvider$2(this));
+        this.logger.log(1000000, "[%1.init]", (Object)LOGCLASS);
+        this.diagnosisManager.addDataProvider(-1, new IDiagnosisDataProvider(){
+
+            public String getDiagValue() {
+                Buffer buffer = new Buffer();
+                for (int i2 = 0; i2 < MediaListSourceStateProvider.this.deviceList.length; ++i2) {
+                    List list = MediaListSourceStateProvider.this.deviceList[i2];
+                    if (list == null) continue;
+                    Iterator iterator = list.iterator();
+                    while (iterator.hasNext()) {
+                        buffer.append(LogUtil.deviceInfoToStr((DeviceInfo)iterator.next())).append("\n");
+                    }
+                }
+                return buffer.toString();
+            }
+
+            public String getDiagKey() {
+                return "DSIMediaBase.deviceList";
+            }
+        });
+        this.diagnosisManager.addDataProvider(-1, new IDiagnosisDataProvider(){
+
+            public String getDiagValue() {
+                if (MediaListSourceStateProvider.this.currentMediaList == null) {
+                    return "";
+                }
+                Buffer buffer = new Buffer();
+                for (int i2 = 0; i2 < MediaListSourceStateProvider.this.currentMediaList.length; ++i2) {
+                    buffer.append(LogUtil.mediaInfoToStr(MediaListSourceStateProvider.this.currentMediaList[i2])).append("\n");
+                }
+                return buffer.toString();
+            }
+
+            public String getDiagKey() {
+                return "DSIMediaBase.mediaList";
+            }
+        });
     }
 
     public void deinit() {
-        this.logger.log(1078071040, "[%1.deinit]", (Object)"MediaListSourceStateProvider");
+        this.logger.log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         this.currentMediaList = null;
         for (int i2 = 0; i2 < 14; ++i2) {
             if (this.deviceList[i2] == null) continue;
@@ -59,11 +94,10 @@ implements IMediaDeviceListener {
         }
     }
 
-    @Override
     public void updateDeviceList(DeviceInfo[] deviceInfoArray) {
         int n;
         Object object;
-        this.logger.log(1078071040, "[%1.updateDeviceList]", (Object)"MediaListSourceStateProvider");
+        this.logger.log(1000000, "[%1.updateDeviceList]", (Object)LOGCLASS);
         this.initialDeviceListReceived = true;
         ArrayList[] arrayListArray = new ArrayList[14];
         boolean bl = false;
@@ -96,9 +130,9 @@ implements IMediaDeviceListener {
         if (this.currentMediaList != null && (bl || this.wasDeviceErrors || this.simulatedMediaListUpdateRequired)) {
             this.simulatedMediaListUpdateRequired = false;
             if (bl) {
-                this.logger.log(-2137614336, "[%1.updateDeviceList] Device errors detected. Update internal slot infos.", (Object)"MediaListSourceStateProvider");
+                this.logger.log(10000000, "[%1.updateDeviceList] Device errors detected. Update internal slot infos.", (Object)LOGCLASS);
             } else {
-                this.logger.log(-2137614336, "[%1.updateDeviceList] Available device errors cleared. Update internal slot infos.", (Object)"MediaListSourceStateProvider");
+                this.logger.log(10000000, "[%1.updateDeviceList] Available device errors cleared. Update internal slot infos.", (Object)LOGCLASS);
             }
             this.updateMediaList(this.currentMediaList);
         }
@@ -181,9 +215,8 @@ implements IMediaDeviceListener {
         return (n & n2) == n2;
     }
 
-    @Override
     public void updateMediaList(MediaInfo[] mediaInfoArray) {
-        this.logger.log(1078071040, "[%1.updateMediaList]", (Object)"MediaListSourceStateProvider");
+        this.logger.log(1000000, "[%1.updateMediaList]", (Object)LOGCLASS);
         HashMap hashMap = new HashMap(14);
         for (int i2 = 0; i2 < mediaInfoArray.length; ++i2) {
             MediaSlot mediaSlot;
@@ -193,7 +226,7 @@ implements IMediaDeviceListener {
             long l = mediaInfo.getDeviceID();
             int n2 = this.getSourceTypeOfDeviceID(l);
             if (n2 < 0) {
-                this.logger.log(1078071040, "[%1.updateMediaList] No source for deviceID '%2'.", (Object)"MediaListSourceStateProvider", l);
+                this.logger.log(1000000, "[%1.updateMediaList] No source for deviceID '%2'.", (Object)LOGCLASS, l);
                 continue;
             }
             int n3 = this.getDeviceIndex(n2, l);
@@ -208,20 +241,20 @@ implements IMediaDeviceListener {
             boolean bl2 = !MediaListSourceStateProvider.isFlag(n4, 1);
             boolean bl3 = MediaListSourceStateProvider.isFlag(n4, 64);
             boolean bl4 = MediaListSourceStateProvider.isFlag(n4, 32);
-            boolean bl5 = MediaListSourceStateProvider.isFlag(n4, 256);
-            boolean bl6 = MediaListSourceStateProvider.isFlag(n4, 512);
-            boolean bl7 = MediaListSourceStateProvider.isFlag(n4, 2048);
-            boolean bl8 = MediaListSourceStateProvider.isFlag(n4, 1024);
+            boolean bl5 = MediaListSourceStateProvider.isFlag(n4, 65536);
+            boolean bl6 = MediaListSourceStateProvider.isFlag(n4, 131072);
+            boolean bl7 = MediaListSourceStateProvider.isFlag(n4, 524288);
+            boolean bl8 = MediaListSourceStateProvider.isFlag(n4, 262144);
             boolean bl9 = MediaListSourceStateProvider.isFlag(n4, 8);
             boolean bl10 = MediaListSourceStateProvider.isFlag(n4, 16);
-            boolean bl11 = MediaListSourceStateProvider.isFlag(n4, 4096);
+            boolean bl11 = MediaListSourceStateProvider.isFlag(n4, 0x100000);
             boolean bl12 = MediaListSourceStateProvider.isFlag(n4, 8192);
-            boolean bl13 = MediaListSourceStateProvider.isFlag(n4, 0x800000);
-            boolean bl14 = MediaListSourceStateProvider.isFlag(n4, 1);
-            boolean bl15 = MediaListSourceStateProvider.isFlag(n4, 16384);
-            boolean bl16 = MediaListSourceStateProvider.isFlag(n4, 128);
-            boolean bl17 = MediaListSourceStateProvider.isFlag(n4, 2);
-            boolean bl18 = MediaListSourceStateProvider.isFlag(n4, 4);
+            boolean bl13 = MediaListSourceStateProvider.isFlag(n4, 32768);
+            boolean bl14 = MediaListSourceStateProvider.isFlag(n4, 0x1000000);
+            boolean bl15 = MediaListSourceStateProvider.isFlag(n4, 0x400000);
+            boolean bl16 = MediaListSourceStateProvider.isFlag(n4, Integer.MIN_VALUE);
+            boolean bl17 = MediaListSourceStateProvider.isFlag(n4, 0x2000000);
+            boolean bl18 = MediaListSourceStateProvider.isFlag(n4, 0x4000000);
             MediaFlags mediaFlags = new MediaFlags(bl9, bl5, bl6, bl7, bl8, bl10, bl12, bl16, bl15, bl18);
             if (mediaInfo.getMediaCaps() != null) {
                 boolean bl19 = mediaInfo.getMediaCaps().isPlayerCoverArt();
@@ -239,7 +272,7 @@ implements IMediaDeviceListener {
             if (deviceInfo != null) {
                 n = MediaListSourceStateProvider.isFlag(deviceInfo.getFlags(), 64) ? 7 : (MediaListSourceStateProvider.isFlag(deviceInfo.getFlags(), 16) ? 8 : (MediaListSourceStateProvider.isFlag(deviceInfo.getFlags(), 32) ? 9 : (MediaListSourceStateProvider.isFlag(deviceInfo.getFlags(), 8) ? 15 : (bl17 ? 24 : 0))));
             } else {
-                this.logger.log(-1601830656, "[%1.updateMediaList] No device info for source '%2' and deviceID '%3'.", (Object)"MediaListSourceStateProvider", (long)n2, l);
+                this.logger.log(100000, "[%1.updateMediaList] No device info for source '%2' and deviceID '%3'.", (Object)LOGCLASS, (long)n2, l);
                 n = 0;
             }
             int n5 = arrayList.size();
@@ -385,7 +418,7 @@ implements IMediaDeviceListener {
                     break;
                 }
                 default: {
-                    this.logger.log(-1601830656, "[%1.updateMediaList] Unsupported media type '%2'. Mark slot as empty. ", (Object)"MediaListSourceStateProvider", (long)mediaInfo.getMediaType());
+                    this.logger.log(100000, "[%1.updateMediaList] Unsupported media type '%2'. Mark slot as empty. ", (Object)LOGCLASS, (long)mediaInfo.getMediaType());
                     mediaSlot = new MediaSlot(0, n5, 0, l, l2, string, string2, mediaFlags, mediaCapabilities, n, n3, mediaInfo.getUniqueMediaID());
                 }
             }
@@ -441,16 +474,8 @@ implements IMediaDeviceListener {
 
     public String toString() {
         Buffer buffer = new Buffer(20);
-        buffer.append("MediaListSourceStateProvider").append("@").append(this.hashCode());
+        buffer.append(LOGCLASS).append("@").append(this.hashCode());
         return buffer.toString();
-    }
-
-    static /* synthetic */ List[] access$000(MediaListSourceStateProvider mediaListSourceStateProvider) {
-        return mediaListSourceStateProvider.deviceList;
-    }
-
-    static /* synthetic */ MediaInfo[] access$100(MediaListSourceStateProvider mediaListSourceStateProvider) {
-        return mediaListSourceStateProvider.currentMediaList;
     }
 }
 

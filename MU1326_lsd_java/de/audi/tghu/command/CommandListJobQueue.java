@@ -24,7 +24,7 @@ extends TimedJobQueue {
     }
 
     public synchronized void abortQueuedExecution(String string, String string2, Object object, boolean bl) {
-        this.logChannel.log(-2137614336, "CommandListQueue#abortExecution( %1, %2 )", (Object)string, (Object)string2);
+        this.logChannel.log(10000000, "CommandListQueue#abortExecution( %1, %2 )", (Object)string, (Object)string2);
         int n = this.length();
         for (int i2 = 0; i2 < n; ++i2) {
             CommandList commandList = (CommandList)((Job)this.getJobs().get(i2)).getPayload();

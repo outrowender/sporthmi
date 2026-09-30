@@ -6,6 +6,10 @@ package de.audi.app.messaging.core.readout;
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
 import de.audi.app.messaging.core.component.AbstractMessagingComponent;
 import de.audi.app.messaging.core.concurrent.CopyOnWriteArrayList;
+import de.audi.app.messaging.core.folderbrowsing.IFolderNavigatorObserver;
+import de.audi.app.messaging.core.guide.DefaultCoreActionProxy;
+import de.audi.app.messaging.core.guide.IActionProxySubscriber;
+import de.audi.app.messaging.core.osgi.AbstractMessagingTrackerCustomizer;
 import de.audi.app.messaging.core.osgi.IServiceRegistry;
 import de.audi.app.messaging.core.osgi.MessagingBundleContext;
 import de.audi.app.messaging.core.osgi.ServiceFilterBuilder;
@@ -13,41 +17,25 @@ import de.audi.app.messaging.core.readout.CoreReadableProvider;
 import de.audi.app.messaging.core.readout.IMessageReaderObserver;
 import de.audi.app.messaging.core.readout.IReadable;
 import de.audi.app.messaging.core.readout.IReadableProvider;
-import de.audi.app.messaging.core.readout.MessageReader$1;
-import de.audi.app.messaging.core.readout.MessageReader$10;
-import de.audi.app.messaging.core.readout.MessageReader$11;
-import de.audi.app.messaging.core.readout.MessageReader$12;
-import de.audi.app.messaging.core.readout.MessageReader$13;
-import de.audi.app.messaging.core.readout.MessageReader$14;
-import de.audi.app.messaging.core.readout.MessageReader$15;
-import de.audi.app.messaging.core.readout.MessageReader$16;
-import de.audi.app.messaging.core.readout.MessageReader$2;
-import de.audi.app.messaging.core.readout.MessageReader$3;
-import de.audi.app.messaging.core.readout.MessageReader$4;
-import de.audi.app.messaging.core.readout.MessageReader$5;
-import de.audi.app.messaging.core.readout.MessageReader$6;
-import de.audi.app.messaging.core.readout.MessageReader$7;
-import de.audi.app.messaging.core.readout.MessageReader$8;
-import de.audi.app.messaging.core.readout.MessageReader$9;
-import de.audi.app.messaging.core.readout.MessageReader$CoreActionProxy;
-import de.audi.app.messaging.core.readout.MessageReader$DiagPlugIn;
-import de.audi.app.messaging.core.readout.MessageReader$FolderNavigatorObserver;
-import de.audi.app.messaging.core.readout.MessageReader$MyButtonListener;
 import de.audi.app.messaging.core.swdiagnosis.IDiagPlugIn;
 import de.audi.app.messaging.core.swdiagnosis.IDiagProvider;
+import de.audi.app.messaging.core.util.Arrays;
 import de.audi.app.messaging.core.util.Logs;
+import de.audi.atip.hmi.model.DefaultButtonListener;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.interapp.tts.TTSListener;
 import de.audi.atip.interapp.tts.TTSService;
 import de.audi.atip.interapp.tts.TTSSessionBasedService;
-import de.audi.atip.log.LogChannel;
 import de.audi.tghu.tts.TTSStringUtil;
 import de.esolutions.fw.util.commons.Buffer;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.Iterator;
 import org.osgi.framework.Filter;
+import org.osgi.framework.InvalidSyntaxException;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
@@ -55,16 +43,16 @@ public final class MessageReader
 extends AbstractMessagingComponent
 implements TTSListener,
 IDiagProvider {
-    public static final int READOUT_STATE_UNAVAILABLE;
-    public static final int READOUT_STATE_IDLE;
-    public static final int READOUT_STATE_PAUSED_RESUMABLE;
-    public static final int READOUT_STATE_PAUSED_NOT_RESUMABLE;
-    public static final int READOUT_STATE_READING;
-    private static final int SESSION_STATE_INACTIVE;
-    private static final int SESSION_STATE_PAUSED;
-    private static final int SESSION_STATE_ACTIVE;
-    private static final int READOUT_SK_START;
-    private static final int READOUT_SK_STOP;
+    public static final int READOUT_STATE_UNAVAILABLE = 0;
+    public static final int READOUT_STATE_IDLE = 1;
+    public static final int READOUT_STATE_PAUSED_RESUMABLE = 2;
+    public static final int READOUT_STATE_PAUSED_NOT_RESUMABLE = 4;
+    public static final int READOUT_STATE_READING = 3;
+    private static final int SESSION_STATE_INACTIVE = 0;
+    private static final int SESSION_STATE_PAUSED = 1;
+    private static final int SESSION_STATE_ACTIVE = 2;
+    private static final int READOUT_SK_START = 0;
+    private static final int READOUT_SK_STOP = 1;
     private final CopyOnWriteArrayList messageReaderObservers = new CopyOnWriteArrayList();
     private volatile TTSSessionBasedService ttsService;
     private final CoreReadableProvider coreReadableProvider;
@@ -90,23 +78,21 @@ IDiagProvider {
         this.setReadableProvider(this.coreReadableProvider);
     }
 
-    @Override
     public void init(AbstractMsgApplication abstractMsgApplication) {
         super.init(abstractMsgApplication);
-        MessageReader$MyButtonListener messageReader$MyButtonListener = new MessageReader$MyButtonListener(this, null);
-        this.framework.getHmiServiceApp().getButtonModel(43196672).setButtonListener(messageReader$MyButtonListener);
-        this.framework.getHmiServiceApp().getButtonModel(59973888).setButtonListener(messageReader$MyButtonListener);
-        this.framework.getHmiServiceApp().getButtonModel(-23977728).setButtonListener(messageReader$MyButtonListener);
-        this.framework.getHmiServiceApp().getButtonModel(-7200512).setButtonListener(messageReader$MyButtonListener);
-        this.framework.getHmiServiceApp().getButtonModel(26419456).setButtonListener(messageReader$MyButtonListener);
-        this.framework.getHmiServiceApp().getButtonModel(9642240).setButtonListener(messageReader$MyButtonListener);
-        abstractMsgApplication.getActionProxyService().addSubscriber(new MessageReader$CoreActionProxy(this, null));
-        abstractMsgApplication.getFolderNavigator().addObserver(new MessageReader$FolderNavigatorObserver(this, null));
+        MyButtonListener myButtonListener = new MyButtonListener();
+        this.framework.getHmiServiceApp().getButtonModel(2200322).setButtonListener(myButtonListener);
+        this.framework.getHmiServiceApp().getButtonModel(2200323).setButtonListener(myButtonListener);
+        this.framework.getHmiServiceApp().getButtonModel(2200318).setButtonListener(myButtonListener);
+        this.framework.getHmiServiceApp().getButtonModel(2200319).setButtonListener(myButtonListener);
+        this.framework.getHmiServiceApp().getButtonModel(2200321).setButtonListener(myButtonListener);
+        this.framework.getHmiServiceApp().getButtonModel(2200320).setButtonListener(myButtonListener);
+        abstractMsgApplication.getActionProxyService().addSubscriber(new CoreActionProxy());
+        abstractMsgApplication.getFolderNavigator().addObserver(new FolderNavigatorObserver());
         abstractMsgApplication.getMessagingSwDiagnosis().registerDiagProvider(this);
         this.setIsReadingOut(false);
     }
 
-    @Override
     public void connect(IServiceRegistry iServiceRegistry) {
         try {
             super.connect(iServiceRegistry);
@@ -120,7 +106,7 @@ IDiagProvider {
         }
     }
 
-    private ServiceTracker createServiceTracker() {
+    private ServiceTracker createServiceTracker() throws InvalidSyntaxException {
         ServiceFilterBuilder serviceFilterBuilder = new ServiceFilterBuilder();
         serviceFilterBuilder.beginAnd();
         serviceFilterBuilder.addProperty("objectClass", (class$de$audi$atip$interapp$tts$TTSService == null ? (class$de$audi$atip$interapp$tts$TTSService = MessageReader.class$("de.audi.atip.interapp.tts.TTSService")) : class$de$audi$atip$interapp$tts$TTSService).getName());
@@ -128,18 +114,27 @@ IDiagProvider {
         serviceFilterBuilder.endAnd();
         String string = serviceFilterBuilder.createFilterString();
         Filter filter = this.bundleContext.createFilter(string);
-        MessageReader$1 messageReader$1 = new MessageReader$1(this, this.log, this.bundleContext);
-        return new ServiceTracker(this.bundleContext, filter, (ServiceTrackerCustomizer)messageReader$1);
+        AbstractMessagingTrackerCustomizer abstractMessagingTrackerCustomizer = new AbstractMessagingTrackerCustomizer(this.log, this.bundleContext){
+
+            public void addService(ServiceReference serviceReference, Object object) {
+                MessageReader.this.setTtsService((TTSSessionBasedService)object);
+            }
+
+            public void removeService(ServiceReference serviceReference, Object object) {
+                MessageReader.this.clearTtsService();
+            }
+        };
+        return new ServiceTracker(this.bundleContext, filter, (ServiceTrackerCustomizer)abstractMessagingTrackerCustomizer);
     }
 
     private void setTtsService(TTSSessionBasedService tTSSessionBasedService) {
-        this.log.log(-2137614336, "[MessageReader#setTtsService]");
+        this.log.log(10000000, "[MessageReader#setTtsService]");
         this.ttsService = tTSSessionBasedService;
         this.setReadoutKeyActivation();
     }
 
     private void clearTtsService() {
-        this.log.log(-2137614336, "[MessageReader#clearTtsService]");
+        this.log.log(10000000, "[MessageReader#clearTtsService]");
         this.ttsService = null;
         this.setIsReadingOut(false);
         this.setSessionState(0);
@@ -147,12 +142,19 @@ IDiagProvider {
         this.setReadoutKeyActivation();
     }
 
-    private void setReadoutPermitted(boolean bl) {
-        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new MessageReader$2(this, bl));
+    private void setReadoutPermitted(final boolean bl) {
+        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new Runnable(){
+
+            public void run() {
+                MessageReader.this.log.log(10000000, "[MessageReader#setReadoutPermitted] isReadoutPermitted = %1", bl);
+                MessageReader.this.isReadoutPermitted = bl;
+                MessageReader.this.setReadoutKeyActivation();
+            }
+        });
     }
 
     public void addObserver(IMessageReaderObserver iMessageReaderObserver) {
-        this.log.log(-2137614336, "[MessageReader#addObserver] observer = %1", (Object)iMessageReaderObserver);
+        this.log.log(10000000, "[MessageReader#addObserver] observer = %1", (Object)iMessageReaderObserver);
         this.messageReaderObservers.add(iMessageReaderObserver);
         try {
             iMessageReaderObserver.updateReadoutState(this.readoutState);
@@ -171,38 +173,85 @@ IDiagProvider {
     }
 
     public void toggle() {
-        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new MessageReader$3(this));
+        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new Runnable(){
+
+            public void run() {
+                MessageReader.this.log.log(10000000, "[MessageReader#toggle] A message is currently being read out: %1", MessageReader.this.isReadingOut);
+                if (!MessageReader.this.isReadingOut) {
+                    IReadable iReadable = MessageReader.this.readableProvider.getReadable();
+                    if (iReadable == null) {
+                        throw new IllegalStateException("Could not obtain a readable job.");
+                    }
+                    MessageReader.this.requestReadout(iReadable);
+                } else {
+                    MessageReader.this.requestAbortReadout();
+                }
+            }
+        });
     }
 
     public void start() {
-        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new MessageReader$4(this));
+        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new Runnable(){
+
+            public void run() {
+                MessageReader.this.log.log(10000000, "[MessageReader#start]");
+                if (MessageReader.this.getReadoutState() != 1) {
+                    throw new IllegalStateException("A message is already being read.");
+                }
+                IReadable iReadable = MessageReader.this.readableProvider.getReadable();
+                if (iReadable == null) {
+                    throw new IllegalStateException("Could not obtain a readable job.");
+                }
+                MessageReader.this.requestReadout(iReadable);
+            }
+        });
     }
 
     public void stop() {
-        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new MessageReader$5(this));
+        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new Runnable(){
+
+            public void run() {
+                MessageReader.this.log.log(10000000, "[MessageReader#stop]");
+                if (MessageReader.this.getReadoutState() != 1) {
+                    MessageReader.this.requestAbortReadout();
+                }
+            }
+        });
     }
 
     public void pause() {
-        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new MessageReader$6(this));
+        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new Runnable(){
+
+            public void run() {
+                MessageReader.this.log.log(10000000, "[MessageReader#pause]");
+                MessageReader.this.requestPause();
+            }
+        });
     }
 
     public void resume() {
-        this.log.log(-2137614336, "[MessageReader#resume]");
-        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new MessageReader$7(this));
+        this.log.log(10000000, "[MessageReader#resume]");
+        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new Runnable(){
+
+            public void run() {
+                MessageReader.this.log.log(10000000, "[MessageReader#resume]");
+                MessageReader.this.requestResume();
+            }
+        });
     }
 
     public void skipForward() {
-        this.log.log(-2137614336, "[MessageReader#skipForward]");
+        this.log.log(10000000, "[MessageReader#skipForward]");
         throw new UnsupportedOperationException();
     }
 
     public void skipBackward() {
-        this.log.log(-2137614336, "[MessageReader#skipBackward]");
+        this.log.log(10000000, "[MessageReader#skipBackward]");
         throw new UnsupportedOperationException();
     }
 
     private void requestReadout(IReadable iReadable) {
-        this.log.log(1078071040, "[MessageReader#requestReadout]");
+        this.log.log(1000000, "[MessageReader#requestReadout]");
         boolean bl = false;
         boolean bl2 = false;
         boolean bl3 = false;
@@ -226,12 +275,12 @@ IDiagProvider {
         } else if (!bl2) {
             this.logAudioUnavailable("[MessageReader#requestReadout]");
         } else if (bl3) {
-            this.log.log(-1601830656, "[MessageReader#requestReadout] A message is already being read out, ignoring call.");
+            this.log.log(100000, "[MessageReader#requestReadout] A message is already being read out, ignoring call.");
         }
     }
 
     private void requestAbortReadout() {
-        this.log.log(1078071040, "[MessageReader#requestAbortReadout]");
+        this.log.log(1000000, "[MessageReader#requestAbortReadout]");
         boolean bl = true;
         boolean bl2 = false;
         if (this.ttsService != null) {
@@ -240,7 +289,7 @@ IDiagProvider {
             if (bl2) {
                 this.setIsInTransition(true);
                 if (this.isReadoutFromTheBeginRequired) {
-                    this.log.log(1078071040, "[MessageReader#requestAbortReadout] after abort readout");
+                    this.log.log(1000000, "[MessageReader#requestAbortReadout] after abort readout");
                     this.ttsService.abortSpeaking();
                 } else {
                     this.ttsService.stopSession();
@@ -250,12 +299,12 @@ IDiagProvider {
         if (bl) {
             this.logTtsServiceNull("[MessageReader#requestAbortReadout]");
         } else if (!bl2) {
-            this.log.log(-1601830656, "[MessageReader#requestAbortReadout] Cannot abort, no message is being read out.");
+            this.log.log(100000, "[MessageReader#requestAbortReadout] Cannot abort, no message is being read out.");
         }
     }
 
     private void speak() {
-        this.log.log(1078071040, "[MessageReader#speak]");
+        this.log.log(1000000, "[MessageReader#speak]");
         boolean bl = true;
         if (this.ttsService != null && this.isAudioAvailable) {
             byte[] byArray;
@@ -270,7 +319,7 @@ IDiagProvider {
                 byArray = null;
             }
             String string3 = byArray != null ? String.valueOf(byArray.length) : String.valueOf(byArray);
-            this.log.log(1078071040, "[MessageReader#speak] text.length() = %1, dsiByteLength = %2", (Object)string2, (Object)string3);
+            this.log.log(1000000, "[MessageReader#speak] text.length() = %1, dsiByteLength = %2", (Object)string2, (Object)string3);
             this.ttsService.speak(string);
         }
         if (bl) {
@@ -281,7 +330,7 @@ IDiagProvider {
     }
 
     private void requestPause() {
-        this.log.log(1078071040, "[MessageReader#requestPause]");
+        this.log.log(1000000, "[MessageReader#requestPause]");
         if (this.ttsService == null) {
             this.logTtsServiceNull("[MessageReader#requestPause]");
         } else {
@@ -290,7 +339,7 @@ IDiagProvider {
     }
 
     public void requestResume() {
-        this.log.log(1078071040, "[MessageReader#requestResume]");
+        this.log.log(1000000, "[MessageReader#requestResume]");
         if (this.ttsService == null) {
             this.logTtsServiceNull("[MessageReader#requestResume]");
         } else {
@@ -307,15 +356,15 @@ IDiagProvider {
     }
 
     private void logTtsServiceNull(String string) {
-        this.log.log(-1601830656, "%1 TTS service unavailable.", (Object)string);
+        this.log.log(100000, "%1 TTS service unavailable.", (Object)string);
     }
 
     private void logAudioUnavailable(String string) {
-        this.log.log(-1601830656, "%1 Audio management unavailable.", (Object)string);
+        this.log.log(100000, "%1 Audio management unavailable.", (Object)string);
     }
 
     private void setSessionStarted(boolean bl) {
-        this.log.log(-2137614336, "[MessageReader#setSessionStarted] isSessionStarted = %1", bl);
+        this.log.log(10000000, "[MessageReader#setSessionStarted] isSessionStarted = %1", bl);
         this.isSessionStarted = bl;
         if (bl) {
             this.signalSessionStarted();
@@ -325,7 +374,7 @@ IDiagProvider {
     }
 
     public void setSessionState(int n) {
-        this.log.log(-2137614336, "[MessageReader#setSessionState] sessionState = %1", (long)n);
+        this.log.log(10000000, "[MessageReader#setSessionState] sessionState = %1", (long)n);
         this.sessionState = n;
         if (n == 0) {
             this.setSessionStarted(false);
@@ -339,9 +388,9 @@ IDiagProvider {
     }
 
     private void setReadoutState(int n) {
-        this.log.log(-2137614336, "[MessageReader#setReadoutState] readoutState = %1", (long)n);
+        this.log.log(10000000, "[MessageReader#setReadoutState] readoutState = %1", (long)n);
         this.readoutState = n;
-        ChoiceModelApp choiceModelApp = this.framework.getHmiServiceApp().getChoiceModel(-40754944);
+        ChoiceModelApp choiceModelApp = this.framework.getHmiServiceApp().getChoiceModel(2200317);
         choiceModelApp.setValue(n);
         this.emitUpdateReadoutState(n);
     }
@@ -351,8 +400,8 @@ IDiagProvider {
     }
 
     private void setIsReadingOut(boolean bl) {
-        this.log.log(-2137614336, "[MessageReader#setIsReadingOut] isReadingOut = %1", bl);
-        ChoiceModelApp choiceModelApp = this.framework.getHmiServiceApp().getChoiceModel(-1332600576);
+        this.log.log(10000000, "[MessageReader#setIsReadingOut] isReadingOut = %1", bl);
+        ChoiceModelApp choiceModelApp = this.framework.getHmiServiceApp().getChoiceModel(2200240);
         int n = bl ? 1 : 0;
         this.isReadingOut = bl;
         choiceModelApp.setValue(n);
@@ -360,13 +409,13 @@ IDiagProvider {
     }
 
     private void setIsInTransition(boolean bl) {
-        this.log.log(-2137614336, "[MessageReader#setIsInTransition] isInTransition = %1", bl);
+        this.log.log(10000000, "[MessageReader#setIsInTransition] isInTransition = %1", bl);
         this.isInTransition = bl;
         this.setReadoutKeyActivation();
     }
 
     private void setReadoutKeyActivation() {
-        ChoiceModelApp choiceModelApp = this.framework.getHmiServiceApp().getChoiceModel(-1752030976);
+        ChoiceModelApp choiceModelApp = this.framework.getHmiServiceApp().getChoiceModel(2200215);
         boolean bl = false;
         int n = 0;
         bl = this.isReadoutPermitted && !this.isInTransition && this.ttsService != null && this.isAudioAvailable;
@@ -379,12 +428,12 @@ IDiagProvider {
             buffer.append(", ttsService = ").append(this.ttsService);
             buffer.append(", isAudioAvailable = ").append(this.isAudioAvailable);
             buffer.append(", enabling readout key: ").append(bl);
-            this.log.log(-2137614336, buffer.toString());
+            this.log.log(10000000, buffer.toString());
         }
     }
 
     private void emitUpdateReadoutState(int n) {
-        this.log.log(-2137614336, "[MessageReader#emitUpdateReadoutState]");
+        this.log.log(10000000, "[MessageReader#emitUpdateReadoutState]");
         Iterator iterator = this.messageReaderObservers.iterator();
         while (iterator.hasNext()) {
             try {
@@ -396,62 +445,159 @@ IDiagProvider {
         }
     }
 
-    @Override
-    public void audioAvailable(boolean bl) {
-        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new MessageReader$8(this, bl));
+    public void audioAvailable(final boolean bl) {
+        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new Runnable(){
+
+            public void run() {
+                MessageReader.this.log.log(1000000, "[MessageReader#audioAvailable] flag = %1", bl);
+                MessageReader.this.isAudioAvailable = bl;
+                MessageReader.this.setReadoutKeyActivation();
+            }
+        });
     }
 
-    @Override
     public void sessionStarted() {
-        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new MessageReader$9(this));
+        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new Runnable(){
+
+            public void run() {
+                MessageReader.this.log.log(1000000, "[MessageReader#sessionStarted]");
+                MessageReader.this.setSessionState(2);
+                MessageReader.this.speak();
+            }
+        });
     }
 
-    @Override
     public void sessionPaused() {
-        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new MessageReader$10(this));
+        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new Runnable(){
+
+            public void run() {
+                if (!MessageReader.this.isSessionStarted) {
+                    MessageReader.this.log.log(1000000, "[MessageReader#sessionPaused] Session has been started in paused state. Waiting for session to be resumed.");
+                    MessageReader.this.speakOnSessionResumed = true;
+                    MessageReader.this.setSessionState(1);
+                } else {
+                    MessageReader.this.log.log(1000000, "[MessageReader#sessionPaused]");
+                }
+            }
+        });
     }
 
-    @Override
     public void sessionStopped() {
-        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new MessageReader$11(this));
+        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new Runnable(){
+
+            public void run() {
+                MessageReader.this.log.log(1000000, "[MessageReader#sessionStopped]");
+                MessageReader.this.setSessionState(0);
+                MessageReader.this.speakOnSessionResumed = false;
+                MessageReader.this.setIsReadingOut(false);
+                MessageReader.this.setIsInTransition(false);
+            }
+        });
     }
 
-    @Override
     public void speakingFinished() {
-        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new MessageReader$12(this));
+        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new Runnable(){
+
+            public void run() {
+                if (MessageReader.this.readable != null && MessageReader.this.readable.hasNextSpeakTask()) {
+                    MessageReader.this.log.log(1000000, "[MessageReader#speakingFinished] Proceeding with the next speak() task.");
+                    MessageReader.this.speak();
+                } else {
+                    MessageReader.this.log.log(1000000, "[MessageReader#speakingFinished] Read message job done.");
+                    boolean bl = true;
+                    if (MessageReader.this.ttsService != null) {
+                        bl = false;
+                        if (MessageReader.this.isSessionStarted) {
+                            MessageReader.this.setIsInTransition(true);
+                            MessageReader.this.ttsService.stopSession();
+                        }
+                    }
+                    if (bl) {
+                        MessageReader.this.logTtsServiceNull("[MessageReader#speakingFinished]");
+                    }
+                }
+            }
+        });
     }
 
-    @Override
     public void speakingPaused() {
         int n = this.getSessionState();
         int n2 = n == 2 ? 2 : 4;
-        this.log.log(1078071040, "[MessageReader#speakingPaused] getSessionState() = %1, preferredReadoutState = %2", (long)n, (long)n2);
+        this.log.log(1000000, "[MessageReader#speakingPaused] getSessionState() = %1, preferredReadoutState = %2", (long)n, (long)n2);
         this.setReadoutState(2);
     }
 
-    @Override
     public void speakingAborted() {
-        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new MessageReader$13(this));
+        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new Runnable(){
+
+            public void run() {
+                MessageReader.this.log.log(1000000, "[MessageReader#speakingAborted]");
+                boolean bl = true;
+                if (MessageReader.this.ttsService != null) {
+                    bl = false;
+                    if (MessageReader.this.isSessionStarted && !MessageReader.this.isReadoutFromTheBeginRequired) {
+                        MessageReader.this.ttsService.stopSession();
+                    }
+                    if (MessageReader.this.isReadoutFromTheBeginRequired) {
+                        MessageReader.this.setIsReadingOut(false);
+                        MessageReader.this.start();
+                    }
+                }
+                if (bl) {
+                    MessageReader.this.logTtsServiceNull("[MessageReader#speakingAborted]");
+                }
+            }
+        });
     }
 
-    @Override
     public void sessionResumed() {
-        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new MessageReader$14(this));
+        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new Runnable(){
+
+            public void run() {
+                MessageReader.this.log.log(1000000, "[MessageReader#sessionResumed]");
+                MessageReader.this.setSessionState(2);
+                if (MessageReader.this.speakOnSessionResumed) {
+                    MessageReader.this.log.log(1000000, "[MessageReader#sessionResumed] Session started in paused state has been resumed. Requesting readout to commence.");
+                    MessageReader.this.speakOnSessionResumed = false;
+                    MessageReader.this.speak();
+                }
+            }
+        });
     }
 
-    @Override
     public void speakingFailed() {
-        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new MessageReader$15(this));
+        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new Runnable(){
+
+            public void run() {
+                MessageReader.this.log.log(1000000, "[MessageReader#speakingFailed]");
+                boolean bl = true;
+                if (MessageReader.this.ttsService != null) {
+                    bl = false;
+                    if (MessageReader.this.isSessionStarted) {
+                        MessageReader.this.setIsInTransition(true);
+                        MessageReader.this.ttsService.stopSession();
+                    }
+                }
+                if (bl) {
+                    MessageReader.this.logTtsServiceNull("[MessageReader#speakingFailed]");
+                }
+            }
+        });
     }
 
-    @Override
     public void speakingStarted() {
-        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new MessageReader$16(this));
+        this.msgApp.getExecutorManager().getInternalTaskDispatcher().execute(new Runnable(){
+
+            public void run() {
+                MessageReader.this.log.log(1000000, "[MessageReader#speakingStarted]");
+                MessageReader.this.setIsReadingOut(true);
+                MessageReader.this.setIsInTransition(false);
+            }
+        });
     }
 
-    @Override
     public IDiagPlugIn[] createDiagPlugIns() {
-        return new IDiagPlugIn[]{new MessageReader$DiagPlugIn(this)};
+        return new IDiagPlugIn[]{new DiagPlugIn()};
     }
 
     static /* synthetic */ Class class$(String string) {
@@ -463,205 +609,123 @@ IDiagProvider {
         }
     }
 
-    static /* synthetic */ void access$300(MessageReader messageReader, TTSSessionBasedService tTSSessionBasedService) {
-        messageReader.setTtsService(tTSSessionBasedService);
+    final class DiagPlugIn
+    implements IDiagPlugIn {
+        DiagPlugIn() {
+        }
+
+        public Object getTtsMarkup() {
+            String string = null;
+            IReadable iReadable = MessageReader.this.readableProvider.getReadable();
+            if (iReadable == null) {
+                string = String.valueOf(null);
+            } else {
+                ArrayList arrayList = new ArrayList(2);
+                while (iReadable.hasNextSpeakTask()) {
+                    arrayList.add(iReadable.nextSpeakTask());
+                }
+                string = Arrays.toMultiLineString(arrayList.toArray());
+            }
+            return string;
+        }
+
+        public Object getReadableProvider() {
+            return String.valueOf(MessageReader.this.readableProvider);
+        }
     }
 
-    static /* synthetic */ void access$400(MessageReader messageReader) {
-        messageReader.clearTtsService();
+    private final class CoreActionProxy
+    extends DefaultCoreActionProxy
+    implements IActionProxySubscriber {
+        private CoreActionProxy() {
+        }
+
+        public void readoutScreensExited(int n) {
+            MessageReader.this.log.log(10000000, "[MessageReader#readoutScreensExited]");
+            MessageReader.this.stop();
+        }
     }
 
-    static /* synthetic */ LogChannel access$500(MessageReader messageReader) {
-        return messageReader.log;
+    private class MyButtonListener
+    extends DefaultButtonListener {
+        private MyButtonListener() {
+        }
+
+        public void keyTyped(int n, int n2, int n3) {
+            String string;
+            switch (n) {
+                case 2200322: {
+                    string = "readoutStartButton";
+                    break;
+                }
+                case 2200323: {
+                    string = "readoutStopButton";
+                    break;
+                }
+                case 2200318: {
+                    string = "readoutPauseButton";
+                    break;
+                }
+                case 2200319: {
+                    string = "readoutResumeButton";
+                    break;
+                }
+                case 2200321: {
+                    string = "readoutSkipForwardButton";
+                    break;
+                }
+                case 2200320: {
+                    string = "readoutSkipBackwarButton";
+                    break;
+                }
+                default: {
+                    string = "unknown";
+                }
+            }
+            MessageReader.this.log.log(1000000, "[MessageReader#keyTyped] model = %1", (Object)string);
+            if (MessageReader.this.isLongKeyPressed) {
+                MessageReader.this.isLongKeyPressed = false;
+                return;
+            }
+            if (n == 2200322) {
+                MessageReader.this.start();
+            } else if (n == 2200323) {
+                MessageReader.this.stop();
+            } else if (n == 2200318) {
+                MessageReader.this.pause();
+            } else if (n == 2200319) {
+                MessageReader.this.resume();
+            } else if (n == 2200321) {
+                MessageReader.this.skipForward();
+            } else if (n == 2200320) {
+                MessageReader.this.skipBackward();
+            } else {
+                MessageReader.this.log.log(10000, "[MessageReader#keyTyped] Unexpected modelID = %1", (long)n);
+            }
+        }
+
+        public void keyLongTyped(int n, int n2, int n3) {
+            MessageReader.this.log.log(1000000, "[MessageReader#keyLongTyped] model = %1", (long)n);
+            if (n == 2200322 || n == 2200323 || n == 2200318 || n == 2200319) {
+                MessageReader.this.stop();
+                MessageReader.this.isReadoutFromTheBeginRequired = true;
+                MessageReader.this.isLongKeyPressed = true;
+            }
+        }
     }
 
-    static /* synthetic */ boolean access$602(MessageReader messageReader, boolean bl) {
-        messageReader.isReadoutPermitted = bl;
-        return messageReader.isReadoutPermitted;
-    }
+    private final class FolderNavigatorObserver
+    extends IFolderNavigatorObserver.EmptyImplementation {
+        private FolderNavigatorObserver() {
+        }
 
-    static /* synthetic */ void access$700(MessageReader messageReader) {
-        messageReader.setReadoutKeyActivation();
-    }
-
-    static /* synthetic */ boolean access$800(MessageReader messageReader) {
-        return messageReader.isReadingOut;
-    }
-
-    static /* synthetic */ LogChannel access$900(MessageReader messageReader) {
-        return messageReader.log;
-    }
-
-    static /* synthetic */ IReadableProvider access$1000(MessageReader messageReader) {
-        return messageReader.readableProvider;
-    }
-
-    static /* synthetic */ void access$1100(MessageReader messageReader, IReadable iReadable) {
-        messageReader.requestReadout(iReadable);
-    }
-
-    static /* synthetic */ void access$1200(MessageReader messageReader) {
-        messageReader.requestAbortReadout();
-    }
-
-    static /* synthetic */ LogChannel access$1300(MessageReader messageReader) {
-        return messageReader.log;
-    }
-
-    static /* synthetic */ int access$1400(MessageReader messageReader) {
-        return messageReader.getReadoutState();
-    }
-
-    static /* synthetic */ LogChannel access$1500(MessageReader messageReader) {
-        return messageReader.log;
-    }
-
-    static /* synthetic */ LogChannel access$1600(MessageReader messageReader) {
-        return messageReader.log;
-    }
-
-    static /* synthetic */ void access$1700(MessageReader messageReader) {
-        messageReader.requestPause();
-    }
-
-    static /* synthetic */ LogChannel access$1800(MessageReader messageReader) {
-        return messageReader.log;
-    }
-
-    static /* synthetic */ LogChannel access$1900(MessageReader messageReader) {
-        return messageReader.log;
-    }
-
-    static /* synthetic */ boolean access$2002(MessageReader messageReader, boolean bl) {
-        messageReader.isAudioAvailable = bl;
-        return messageReader.isAudioAvailable;
-    }
-
-    static /* synthetic */ LogChannel access$2100(MessageReader messageReader) {
-        return messageReader.log;
-    }
-
-    static /* synthetic */ void access$2200(MessageReader messageReader) {
-        messageReader.speak();
-    }
-
-    static /* synthetic */ boolean access$2300(MessageReader messageReader) {
-        return messageReader.isSessionStarted;
-    }
-
-    static /* synthetic */ LogChannel access$2400(MessageReader messageReader) {
-        return messageReader.log;
-    }
-
-    static /* synthetic */ boolean access$2502(MessageReader messageReader, boolean bl) {
-        messageReader.speakOnSessionResumed = bl;
-        return messageReader.speakOnSessionResumed;
-    }
-
-    static /* synthetic */ LogChannel access$2600(MessageReader messageReader) {
-        return messageReader.log;
-    }
-
-    static /* synthetic */ LogChannel access$2700(MessageReader messageReader) {
-        return messageReader.log;
-    }
-
-    static /* synthetic */ void access$2800(MessageReader messageReader, boolean bl) {
-        messageReader.setIsReadingOut(bl);
-    }
-
-    static /* synthetic */ void access$2900(MessageReader messageReader, boolean bl) {
-        messageReader.setIsInTransition(bl);
-    }
-
-    static /* synthetic */ IReadable access$3000(MessageReader messageReader) {
-        return messageReader.readable;
-    }
-
-    static /* synthetic */ LogChannel access$3100(MessageReader messageReader) {
-        return messageReader.log;
-    }
-
-    static /* synthetic */ LogChannel access$3200(MessageReader messageReader) {
-        return messageReader.log;
-    }
-
-    static /* synthetic */ TTSSessionBasedService access$3300(MessageReader messageReader) {
-        return messageReader.ttsService;
-    }
-
-    static /* synthetic */ void access$3400(MessageReader messageReader, String string) {
-        messageReader.logTtsServiceNull(string);
-    }
-
-    static /* synthetic */ LogChannel access$3500(MessageReader messageReader) {
-        return messageReader.log;
-    }
-
-    static /* synthetic */ boolean access$3600(MessageReader messageReader) {
-        return messageReader.isReadoutFromTheBeginRequired;
-    }
-
-    static /* synthetic */ LogChannel access$3700(MessageReader messageReader) {
-        return messageReader.log;
-    }
-
-    static /* synthetic */ boolean access$2500(MessageReader messageReader) {
-        return messageReader.speakOnSessionResumed;
-    }
-
-    static /* synthetic */ LogChannel access$3800(MessageReader messageReader) {
-        return messageReader.log;
-    }
-
-    static /* synthetic */ LogChannel access$3900(MessageReader messageReader) {
-        return messageReader.log;
-    }
-
-    static /* synthetic */ LogChannel access$4000(MessageReader messageReader) {
-        return messageReader.log;
-    }
-
-    static /* synthetic */ LogChannel access$4100(MessageReader messageReader) {
-        return messageReader.log;
-    }
-
-    static /* synthetic */ AbstractMsgApplication access$4200(MessageReader messageReader) {
-        return messageReader.msgApp;
-    }
-
-    static /* synthetic */ void access$4300(MessageReader messageReader, boolean bl) {
-        messageReader.setReadoutPermitted(bl);
-    }
-
-    static /* synthetic */ LogChannel access$4400(MessageReader messageReader) {
-        return messageReader.log;
-    }
-
-    static /* synthetic */ boolean access$4500(MessageReader messageReader) {
-        return messageReader.isLongKeyPressed;
-    }
-
-    static /* synthetic */ boolean access$4502(MessageReader messageReader, boolean bl) {
-        messageReader.isLongKeyPressed = bl;
-        return messageReader.isLongKeyPressed;
-    }
-
-    static /* synthetic */ LogChannel access$4600(MessageReader messageReader) {
-        return messageReader.log;
-    }
-
-    static /* synthetic */ LogChannel access$4700(MessageReader messageReader) {
-        return messageReader.log;
-    }
-
-    static /* synthetic */ boolean access$3602(MessageReader messageReader, boolean bl) {
-        messageReader.isReadoutFromTheBeginRequired = bl;
-        return messageReader.isReadoutFromTheBeginRequired;
-    }
-
-    static /* synthetic */ LogChannel access$4800(MessageReader messageReader) {
-        return messageReader.log;
+        public void indicateFolderChange(boolean bl) {
+            MessageReader.this.log.log(10000000, "[MessageReader#indicateFolderChange] inProgress = %1", bl);
+            if (!bl) {
+                int n = MessageReader.this.msgApp.getFolderNavigator().getCurrentFolder().getHmiFolderType();
+                MessageReader.this.setReadoutPermitted(n == 4);
+            }
+        }
     }
 }
 

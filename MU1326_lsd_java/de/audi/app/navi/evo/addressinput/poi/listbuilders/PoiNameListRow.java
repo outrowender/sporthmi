@@ -9,8 +9,8 @@ import org.dsi.ifc.navigation.LIValueListElement;
 
 public class PoiNameListRow
 extends LiValueListRow {
-    private static final int COLUMN_CLASS_NAME;
-    private static final int COLUMN_COUNT;
+    private static final int COLUMN_CLASS_NAME = 0;
+    private static final int COLUMN_COUNT = 1;
 
     public PoiNameListRow(LIValueListElement lIValueListElement, int n) {
         super(n, 1, lIValueListElement);
@@ -21,7 +21,6 @@ extends LiValueListRow {
         super(poiNameListRow);
     }
 
-    @Override
     public EvoListRow copy() {
         return new PoiNameListRow(this);
     }

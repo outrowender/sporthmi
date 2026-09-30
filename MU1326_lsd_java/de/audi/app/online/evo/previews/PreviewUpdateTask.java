@@ -5,8 +5,8 @@ package de.audi.app.online.evo.previews;
 
 import de.audi.atip.log.LogChannel;
 import de.audi.remotehmi.IPreviewInfo;
-import de.audi.remotehmi.ui.mib2.Commands$StateUpdatePreviewsPayload;
-import de.audi.remotehmi.util.LogAppender$Factory;
+import de.audi.remotehmi.ui.mib2.Commands;
+import de.audi.remotehmi.util.LogAppender;
 import de.audi.tghu.online.app.remotehmi.AbstractCommandHandler;
 import de.audi.tghu.online.app.remotehmi.AbstractRemoteHMITask;
 import de.audi.tghu.online.app.remotehmi.RemoteHMITask;
@@ -17,28 +17,25 @@ public class PreviewUpdateTask
 extends AbstractRemoteHMITask {
     private final AbstractCommandHandler commandHandler;
     private final int status;
-    private final Commands$StateUpdatePreviewsPayload payload;
+    private final Commands.StateUpdatePreviewsPayload payload;
     private final LogChannel logChannel;
 
-    public PreviewUpdateTask(AbstractCommandHandler abstractCommandHandler, String string, int n, Commands$StateUpdatePreviewsPayload commands$StateUpdatePreviewsPayload, LogChannel logChannel) {
-        super(string, LogAppender$Factory.fromObject(commands$StateUpdatePreviewsPayload.getPreviews(), 128));
+    public PreviewUpdateTask(AbstractCommandHandler abstractCommandHandler, String string, int n, Commands.StateUpdatePreviewsPayload stateUpdatePreviewsPayload, LogChannel logChannel) {
+        super(string, LogAppender.Factory.fromObject(stateUpdatePreviewsPayload.getPreviews(), 128));
         this.commandHandler = abstractCommandHandler;
         this.status = n;
-        this.payload = commands$StateUpdatePreviewsPayload;
+        this.payload = stateUpdatePreviewsPayload;
         this.logChannel = logChannel;
     }
 
-    @Override
     public void run() {
         this.commandHandler.indicateCommand(this.status, this.payload);
     }
 
-    @Override
     public boolean isCoalescable() {
         return true;
     }
 
-    @Override
     public boolean coalesceWith(RemoteHMITask remoteHMITask) {
         if (!(remoteHMITask instanceof PreviewUpdateTask)) {
             return false;
@@ -47,8 +44,8 @@ extends AbstractRemoteHMITask {
         if (list == null || list.isEmpty()) {
             return true;
         }
-        Commands$StateUpdatePreviewsPayload commands$StateUpdatePreviewsPayload = ((PreviewUpdateTask)remoteHMITask).payload;
-        List list2 = commands$StateUpdatePreviewsPayload.getPreviews();
+        Commands.StateUpdatePreviewsPayload stateUpdatePreviewsPayload = ((PreviewUpdateTask)remoteHMITask).payload;
+        List list2 = stateUpdatePreviewsPayload.getPreviews();
         if (list2 != null) {
             Iterator iterator = list.iterator();
             while (iterator.hasNext()) {
@@ -65,11 +62,10 @@ extends AbstractRemoteHMITask {
                 list2.add(iPreviewInfo);
             }
         }
-        this.logChannel.log(1078071040, "PreviewUpdateTask#coalesceWith: coalesced preview updates: %1", (Object)list2);
+        this.logChannel.log(1000000, "PreviewUpdateTask#coalesceWith: coalesced preview updates: %1", (Object)list2);
         return true;
     }
 
-    @Override
     public Long getDelayMillis() {
         return new Long(this.payload.getDelayMillis());
     }

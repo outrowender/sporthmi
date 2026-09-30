@@ -9,99 +9,72 @@ import org.dsi.ifc.global.ResourceLocator;
 
 public interface PhoneService
 extends AbstractSDSApplicationService {
-    public static final int NUMBER_MAX_LENGTH;
-    public static final int CALLSTACK_NONE;
-    public static final int CALLSTACK_LAST_CALLS;
-    public static final int CALLSTACK_MISSED_CALLS;
-    public static final int CALLSTACK_RECEIVED_CALLS;
-    public static final int CALLSTACK_COMBINED_CALLS;
-    public static final int CALLSTACK_SMS;
-    public static final int CALL_STACK_SCREEN_SIZE;
-    public static final int POWERSTATE_OK;
-    public static final int POWERSTATE_NO_PHONE;
-    public static final int POWERSTATE_NO_SIM;
-    public static final int POWERSTATE_ERROR;
-    public static final int PIN_MAX_LENGTH;
+    public static final int NUMBER_MAX_LENGTH = 40;
+    public static final int CALLSTACK_NONE = -1;
+    public static final int CALLSTACK_LAST_CALLS = 0;
+    public static final int CALLSTACK_MISSED_CALLS = 1;
+    public static final int CALLSTACK_RECEIVED_CALLS = 2;
+    public static final int CALLSTACK_COMBINED_CALLS = 3;
+    public static final int CALLSTACK_SMS = 4;
+    public static final int CALL_STACK_SCREEN_SIZE = 5;
+    public static final int POWERSTATE_OK = 0;
+    public static final int POWERSTATE_NO_PHONE = 1;
+    public static final int POWERSTATE_NO_SIM = 2;
+    public static final int POWERSTATE_ERROR = 3;
+    public static final int PIN_MAX_LENGTH = 8;
 
-    default public void dialNumber(String string, String string2, boolean bl) {
-    }
+    public void dialNumber(String var1, String var2, boolean var3);
 
-    default public void dialNumber(String string, String string2, long l, long l2, long l3, ResourceLocator resourceLocator, int n, int n2, boolean bl) {
-    }
+    public void dialNumber(String var1, String var2, long var3, long var5, long var7, ResourceLocator var9, int var10, int var11, boolean var12);
 
-    default public boolean isDefaultRingingActive() {
-    }
+    public boolean isDefaultRingingActive();
 
-    default public void setMicGainLevel(int n) {
-    }
+    public void setMicGainLevel(int var1);
 
-    default public String getIMSI() {
-    }
+    public String getIMSI();
 
-    default public void fillCallStackList(ListModelApp listModelApp, int n) {
-    }
+    public void fillCallStackList(ListModelApp var1, int var2);
 
-    default public String getCallStackNumber(ListModelApp listModelApp, int n) {
-    }
+    public String getCallStackNumber(ListModelApp var1, int var2);
 
-    default public int getCallStackLength(int n) {
-    }
+    public int getCallStackLength(int var1);
 
-    default public String getLastDialedNumber() {
-    }
+    public String getLastDialedNumber();
 
-    default public boolean callLastDialedNumber() {
-    }
+    public boolean callLastDialedNumber();
 
-    default public String getCallStackNumber(int n) {
-    }
+    public String getCallStackNumber(int var1);
 
-    default public boolean dialMailboxNumber(boolean bl) {
-    }
+    public boolean dialMailboxNumber(boolean var1);
 
-    default public void setWaitForDialing(boolean bl) {
-    }
+    public void setWaitForDialing(boolean var1);
 
-    default public int getPhonePowerState() {
-    }
+    public int getPhonePowerState();
 
-    default public int getPhoneLockState() {
-    }
+    public int getPhoneLockState();
 
-    default public boolean hasNetwork() {
-    }
+    public boolean hasNetwork();
 
-    default public void setNumberSpeller(String string) {
-    }
+    public void setNumberSpeller(String var1);
 
-    default public String getNumberSpellerContent() {
-    }
+    public String getNumberSpellerContent();
 
-    default public void setPINSpeller(String string, boolean bl) {
-    }
+    public void setPINSpeller(String var1, boolean var2);
 
-    default public String getPINSpellerContent() {
-    }
+    public String getPINSpellerContent();
 
-    default public boolean checkForSuppService(String string) {
-    }
+    public boolean checkForSuppService(String var1);
 
-    default public int getNumType(String string) {
-    }
+    public int getNumType(String var1);
 
-    default public boolean isPrivacyModeOn() {
-    }
+    public boolean isPrivacyModeOn();
 
-    default public void unlock(int n, String string) {
-    }
+    public void unlock(int var1, String var2);
 
-    default public void setUserDefinedRingtone(String string, String string2) {
-    }
+    public void setUserDefinedRingtone(String var1, String var2);
 
-    default public void updateConnectedBTProfiles(boolean bl) {
-    }
+    public void updateConnectedBTProfiles(boolean var1);
 
-    default public String getFavoritesNumber(int n) {
-    }
+    public String getFavoritesNumber(int var1);
 }
 

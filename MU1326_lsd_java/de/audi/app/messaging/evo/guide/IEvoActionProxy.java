@@ -7,13 +7,10 @@ import de.audi.app.messaging.core.guide.ICoreActionProxy;
 
 public interface IEvoActionProxy
 extends ICoreActionProxy {
-    default public void compositionSpeedThresholdPopupReturn(int n) {
-    }
+    public void compositionSpeedThresholdPopupReturn(int var1);
 
-    default public void messagingTransition(int n, int n2) {
-    }
+    public void messagingTransition(int var1, int var2);
 
-    default public void editViewTransition(int n, int n2) {
-    }
+    public void editViewTransition(int var1, int var2);
 }
 

@@ -6,10 +6,8 @@ package de.audi.remotehmi.ui.mib2.grid;
 import de.audi.remotehmi.ui.mib2.grid.GeoPosition;
 
 public interface IGeoLocatable {
-    default public GeoPosition getGeoPosition() {
-    }
+    public GeoPosition getGeoPosition();
 
-    default public void setGeoPosition(GeoPosition geoPosition) {
-    }
+    public void setGeoPosition(GeoPosition var1);
 }
 

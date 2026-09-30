@@ -8,19 +8,14 @@ import de.audi.atip.phone.ITelServiceListener;
 import org.dsi.ifc.global.ResourceLocator;
 
 public interface ITelService {
-    default public void dialNumber(String string, ITelServiceListener iTelServiceListener, boolean bl) {
-    }
+    public void dialNumber(String var1, ITelServiceListener var2, boolean var3);
 
-    default public void dialNumberFromADBEntry(String string, String string2, short s, short s2, long l, ResourceLocator resourceLocator, int n, int n2, ITelServiceListener iTelServiceListener, boolean bl) {
-    }
+    public void dialNumberFromADBEntry(String var1, String var2, short var3, short var4, long var5, ResourceLocator var7, int var8, int var9, ITelServiceListener var10, boolean var11);
 
-    default public void prepareDialing(String string, ITelServiceListener iTelServiceListener) {
-    }
+    public void prepareDialing(String var1, ITelServiceListener var2);
 
-    default public void prepareDialing(String string, String string2, short s, short s2, long l, ResourceLocator resourceLocator, int n, int n2, ITelServiceListener iTelServiceListener) {
-    }
+    public void prepareDialing(String var1, String var2, short var3, short var4, long var5, ResourceLocator var7, int var8, int var9, ITelServiceListener var10);
 
-    default public void dialNumber(ITelCallSession iTelCallSession, boolean bl) {
-    }
+    public void dialNumber(ITelCallSession var1, boolean var2);
 }
 

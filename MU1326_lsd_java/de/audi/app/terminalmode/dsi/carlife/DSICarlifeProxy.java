@@ -28,42 +28,34 @@ implements DSICarlife {
         this.dsi = this.nullService;
     }
 
-    @Override
     public void startService(ServiceConfiguration serviceConfiguration) {
         this.dsi.startService(serviceConfiguration);
     }
 
-    @Override
     public void postButtonEvent(int n, int n2) {
         this.dsi.postButtonEvent(n, n2);
     }
 
-    @Override
     public void postTouchEvent(int n, TouchEvent[] touchEventArray, int n2) {
         this.dsi.postTouchEvent(n, touchEventArray, n2);
     }
 
-    @Override
     public void postRotaryEvent(int n) {
         this.dsi.postRotaryEvent(n);
     }
 
-    @Override
     public void postCharacterEvent(int n, String[] stringArray) {
         this.dsi.postCharacterEvent(n, stringArray);
     }
 
-    @Override
     public void setMode(Resource[] resourceArray, AppState[] appStateArray) {
         this.dsi.setMode(resourceArray, appStateArray);
     }
 
-    @Override
     public void requestNightMode(boolean bl) {
         this.dsi.requestNightMode(bl);
     }
 
-    @Override
     public void responseModeChange(Resource[] resourceArray, AppState[] appStateArray) {
         this.dsi.responseModeChange(resourceArray, appStateArray);
     }
@@ -77,12 +69,10 @@ implements DSICarlife {
         this.dsi = this.nullService;
     }
 
-    @Override
     protected DSIBase getDSI() {
         return this.dsi;
     }
 
-    @Override
     protected DSIListener getDSIListener() {
         return this.dsiListener;
     }

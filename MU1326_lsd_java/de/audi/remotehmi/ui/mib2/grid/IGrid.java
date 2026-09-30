@@ -7,7 +7,6 @@ import de.audi.remotehmi.textconstants.ITextConstantsConverter;
 import de.audi.remotehmi.ui.mib2.grid.GeoPosition;
 import de.audi.remotehmi.ui.mib2.grid.IBackgroundImages;
 import de.audi.remotehmi.ui.mib2.grid.IGeoLocatable;
-import de.audi.remotehmi.ui.mib2.grid.IGrid$1;
 import de.audi.remotehmi.ui.mib2.grid.IGridAction;
 import de.audi.remotehmi.ui.mib2.grid.IGridCell;
 import de.audi.remotehmi.ui.mib2.grid.IGridCellAction;
@@ -18,8 +17,11 @@ import de.audi.remotehmi.ui.mib2.grid.IGridListAction;
 import de.audi.remotehmi.ui.mib2.grid.IGridRow;
 import de.audi.remotehmi.ui.pag.IPreviewContainer;
 import de.audi.remotehmi.util.DeepCloneable;
+import de.audi.remotehmi.util.EnumHelper;
+import de.audi.remotehmi.util.EnumParser;
 import de.audi.remotehmi.util.PreparedImage;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,330 +29,286 @@ public interface IGrid
 extends IGeoLocatable,
 List,
 DeepCloneable {
-    public static final int STYLETYPE_UNKNOWN;
-    public static final int MEDIA_TITLE_CELL;
-    public static final int MEDIA_TIME_CELL;
-    public static final int MEDIA_ARTIST_AND_ALBUM_CELL;
-    public static final int MEDIA_ALBUM_CELL;
-    public static final int MEDIA_CELL_COUNT;
-    public static final int SEPARATOR_NONE;
-    public static final int SEPARATOR_TOP;
-    public static final int SEPARATOR_BOTTOM;
-    public static final int SEPARATOR_BOTH;
-    public static final Map separatorOptions;
-    public static final int LOG_MODE_DEFAULT;
-    public static final int LOG_MODE_COMPACT;
+    public static final int STYLETYPE_UNKNOWN = -1;
+    public static final int MEDIA_TITLE_CELL = 0;
+    public static final int MEDIA_TIME_CELL = 1;
+    public static final int MEDIA_ARTIST_AND_ALBUM_CELL = 2;
+    public static final int MEDIA_ALBUM_CELL = 3;
+    public static final int MEDIA_CELL_COUNT = 4;
+    public static final int SEPARATOR_NONE = 0;
+    public static final int SEPARATOR_TOP = 1;
+    public static final int SEPARATOR_BOTTOM = 2;
+    public static final int SEPARATOR_BOTH = 3;
+    public static final Map separatorOptions = new HashMap(){
+        private static final long serialVersionUID = -2334177256358173042L;
+        {
+            this.put("none", new Integer(0));
+            this.put("top", new Integer(1));
+            this.put("bottom", new Integer(2));
+            this.put("both", new Integer(3));
+            this.put("true", new Integer(1));
+        }
+    };
+    public static final int LOG_MODE_DEFAULT = 0;
+    public static final int LOG_MODE_COMPACT = 1;
 
-    default public boolean isFocusable() {
-    }
+    public boolean isFocusable();
 
-    default public void setFocusable(boolean bl) {
-    }
+    public void setFocusable(boolean var1);
 
-    default public List getDrawerTypes() {
-    }
+    public List getDrawerTypes();
 
-    default public void setDrawerTypes(List list) {
-    }
+    public void setDrawerTypes(List var1);
 
-    default public String getId() {
-    }
+    public String getId();
 
-    default public void setId(String string) {
-    }
+    public void setId(String var1);
 
-    default public String getDecoratorImageUrl() {
-    }
+    public String getDecoratorImageUrl();
 
-    default public void setDecoratorImageUrl(String string) {
-    }
+    public void setDecoratorImageUrl(String var1);
 
-    default public String getDecoratorImageUrlAlways() {
-    }
+    public String getDecoratorImageUrlAlways();
 
-    default public void setDecoratorImageUrlAlways(String string) {
-    }
+    public void setDecoratorImageUrlAlways(String var1);
 
-    default public PreparedImage getDecoratorImage() {
-    }
+    public PreparedImage getDecoratorImage();
 
-    default public void setDecoratorImage(PreparedImage preparedImage) {
-    }
+    public void setDecoratorImage(PreparedImage var1);
 
-    default public boolean isMapDecoratorEnabled() {
-    }
+    public boolean isMapDecoratorEnabled();
 
-    default public void setMapDecoratorEnabled(boolean bl) {
-    }
+    public void setMapDecoratorEnabled(boolean var1);
 
-    default public GeoPosition getMapDecoratorGeoPosition() {
-    }
+    public GeoPosition getMapDecoratorGeoPosition();
 
-    default public void setMapDecoratorGeoPosition(GeoPosition geoPosition) {
-    }
+    public void setMapDecoratorGeoPosition(GeoPosition var1);
 
-    default public IGridFactory getGridFactory() {
-    }
+    public IGridFactory getGridFactory();
 
-    default public void setGridFactory(IGridFactory iGridFactory) {
-    }
+    public void setGridFactory(IGridFactory var1);
 
-    default public int getMapDecoratorStyle() {
-    }
+    public int getMapDecoratorStyle();
 
-    default public void setMapDecoratorStyle(int n) {
-    }
+    public void setMapDecoratorStyle(int var1);
 
-    default public boolean isVisible() {
-    }
+    public boolean isVisible();
 
-    default public void setVisible(boolean bl) {
-    }
+    public void setVisible(boolean var1);
 
-    default public boolean isInitiallyVisible() {
-    }
+    public boolean isInitiallyVisible();
 
-    default public void setInitiallyVisible(boolean bl) {
-    }
+    public void setInitiallyVisible(boolean var1);
 
-    default public int getDisplayedRow() {
-    }
+    public int getDisplayedRow();
 
-    default public void setDisplayedRow(int n) {
-    }
+    public void setDisplayedRow(int var1);
 
-    default public int getXmlSourceRow() {
-    }
+    public int getXmlSourceRow();
 
-    default public void setXmlSourceRow(int n) {
-    }
+    public void setXmlSourceRow(int var1);
 
-    default public Object getData() {
-    }
+    public Object getData();
 
-    default public void setData(Object object) {
-    }
+    public void setData(Object var1);
 
-    default public void setTextRendering(int n) {
-    }
+    public void setTextRendering(int var1);
 
-    default public void setEnabled(boolean bl) {
-    }
+    public void setEnabled(boolean var1);
 
-    default public void makeAllEmptyCellsInvisible() {
-    }
+    public void makeAllEmptyCellsInvisible();
 
-    default public void convertRelativeToAbsoluteGridCoordinates() {
-    }
+    public void convertRelativeToAbsoluteGridCoordinates();
 
-    default public boolean containsText(String string) {
-    }
+    public boolean containsText(String var1);
 
-    default public boolean containsAnyInputCells() {
-    }
+    public boolean containsAnyInputCells();
 
-    default public IGridCell getFirstInputCell() {
-    }
+    public IGridCell getFirstInputCell();
 
-    default public IGridCell getFirstCell(int n) {
-    }
+    public IGridCell getFirstCell(int var1);
 
-    default public int getRenderedCellCount() {
-    }
+    public int getRenderedCellCount();
 
-    default public int getRowCount() {
-    }
+    public int getRowCount();
 
-    default public int getColumnCount() {
-    }
+    public int getColumnCount();
 
-    default public void deleteHighlight() {
-    }
+    public void deleteHighlight();
 
-    default public void replaceTextConstants(String string, ITextConstantsConverter iTextConstantsConverter) {
-    }
+    public void replaceTextConstants(String var1, ITextConstantsConverter var2);
 
-    default public String getInfoText() {
-    }
+    public String getInfoText();
 
-    default public void setInfoText(String string) {
-    }
+    public void setInfoText(String var1);
 
-    default public int getSeparator() {
-    }
+    public int getSeparator();
 
-    default public void setSeparator(int n) {
-    }
+    public void setSeparator(int var1);
 
-    default public IGrid getDetail() {
-    }
+    public IGrid getDetail();
 
-    default public void setDetail(IGrid iGrid) {
-    }
+    public void setDetail(IGrid var1);
 
-    default public boolean isExpanded() {
-    }
+    public boolean isExpanded();
 
-    default public void setExpanded(boolean bl) {
-    }
+    public void setExpanded(boolean var1);
 
-    default public IGridList getExpandedList() {
-    }
+    public IGridList getExpandedList();
 
-    default public void setExpandedList(IGridList iGridList) {
-    }
+    public void setExpandedList(IGridList var1);
 
-    default public void applySearchFilter(ArrayList arrayList) {
-    }
+    public void applySearchFilter(ArrayList var1);
 
-    default public List getRows() {
-    }
+    public List getRows();
 
-    default public void addRow(IGridRow iGridRow) {
-    }
+    public void addRow(IGridRow var1);
 
-    default public List getColumns() {
-    }
+    public List getColumns();
 
-    default public void addColumn(IGridColumn iGridColumn) {
-    }
+    public void addColumn(IGridColumn var1);
 
-    default public boolean hasVisibleExpandableListEntries() {
-    }
+    public boolean hasVisibleExpandableListEntries();
 
-    default public IGrid getCloneForMediaList() {
-    }
+    public IGrid getCloneForMediaList();
 
-    default public IGridCell[] getMediaCells() {
-    }
+    public IGridCell[] getMediaCells();
 
-    default public void checkAndCorrectSpanValues() {
-    }
+    public void checkAndCorrectSpanValues();
 
-    default public void correctWidthMode(IGridFactory iGridFactory) {
-    }
+    public void correctWidthMode(IGridFactory var1);
 
-    default public boolean isFollowedBySeparator() {
-    }
+    public boolean isFollowedBySeparator();
 
-    default public void setFollowedBySeparator(boolean bl) {
-    }
+    public void setFollowedBySeparator(boolean var1);
 
-    default public void insertLeftColumn(IGridCell iGridCell, IGridFactory iGridFactory) {
-    }
+    public void insertLeftColumn(IGridCell var1, IGridFactory var2);
 
-    default public boolean isArtificial() {
-    }
+    public boolean isArtificial();
 
-    default public void setArtificial(boolean bl) {
-    }
+    public void setArtificial(boolean var1);
 
-    default public boolean isUpdatePreservesHeight() {
-    }
+    public boolean isUpdatePreservesHeight();
 
-    default public void setUpdatePreservesHeight(boolean bl) {
-    }
+    public void setUpdatePreservesHeight(boolean var1);
 
-    @Override
-    default public GeoPosition getGeoPosition() {
-    }
+    public GeoPosition getGeoPosition();
 
-    @Override
-    default public void setGeoPosition(GeoPosition geoPosition) {
-    }
+    public void setGeoPosition(GeoPosition var1);
 
-    default public void insertRow(boolean bl, int n, IGridRow iGridRow, List list) {
-    }
+    public void insertRow(boolean var1, int var2, IGridRow var3, List var4);
 
-    default public boolean hasRRDItems() {
-    }
+    public boolean hasRRDItems();
 
-    default public IGridColumn getColumnAndCreateMissing(int n, IGridFactory iGridFactory) {
-    }
+    public IGridColumn getColumnAndCreateMissing(int var1, IGridFactory var2);
 
-    default public void applyBackgroundImages(IBackgroundImages iBackgroundImages, IGridFactory iGridFactory) {
-    }
+    public void applyBackgroundImages(IBackgroundImages var1, IGridFactory var2);
 
-    default public boolean containsCellType(int n) {
-    }
+    public boolean containsCellType(int var1);
 
-    default public boolean isLineNumberSpeakableDefault() {
-    }
+    public boolean isLineNumberSpeakableDefault();
 
-    default public void setLineNumberSpeakable(boolean bl) {
-    }
+    public void setLineNumberSpeakable(boolean var1);
 
-    default public boolean isLineNumberSpeakable() {
-    }
+    public boolean isLineNumberSpeakable();
 
-    default public int forEachCell(IGridCellAction iGridCellAction, int n) {
-    }
+    public int forEachCell(IGridCellAction var1, int var2);
 
-    default public int forEachGrid(IGridAction iGridAction, int n) {
-    }
+    public int forEachGrid(IGridAction var1, int var2);
 
-    default public int forEachList(IGridListAction iGridListAction, int n) {
-    }
+    public int forEachList(IGridListAction var1, int var2);
 
-    default public void hideAllCells() {
-    }
+    public void hideAllCells();
 
-    default public void restoreAllCellVisibility() {
-    }
+    public void restoreAllCellVisibility();
 
-    default public IGrid getArtificialClone() {
-    }
+    public IGrid getArtificialClone();
 
-    default public void setPlaytimeVisible(boolean bl) {
-    }
+    public void setPlaytimeVisible(boolean var1);
 
-    default public void clearDynamicContent() {
-    }
+    public void clearDynamicContent();
 
-    default public Object getLogObject(int n) {
-    }
+    public Object getLogObject(int var1);
 
-    default public void setPreview(IPreviewContainer iPreviewContainer) {
-    }
+    public void setPreview(IPreviewContainer var1);
 
-    default public IPreviewContainer getPreview() {
-    }
+    public IPreviewContainer getPreview();
 
-    default public boolean mediaCellValuesEqual(String string, String string2) {
-    }
+    public boolean mediaCellValuesEqual(String var1, String var2);
 
-    default public void setMediaCells(IGridCell[] iGridCellArray) {
-    }
+    public void setMediaCells(IGridCell[] var1);
 
-    default public boolean isEnabled() {
-    }
+    public boolean isEnabled();
 
-    default public boolean isBlocking() {
-    }
+    public boolean isBlocking();
 
-    default public void setBlocking(boolean bl) {
-    }
+    public void setBlocking(boolean var1);
 
-    default public String getBlockingText() {
-    }
+    public String getBlockingText();
 
-    default public void setBlockingText(String string) {
-    }
+    public void setBlockingText(String var1);
 
-    default public boolean isMedia() {
-    }
+    public boolean isMedia();
 
-    default public void setMedia(boolean bl) {
-    }
+    public void setMedia(boolean var1);
 
-    default public String getDefaultInfoText() {
-    }
+    public String getDefaultInfoText();
 
-    default public void setDisplayText(String string) {
-    }
+    public void setDisplayText(String var1);
 
-    static {
-        separatorOptions = new IGrid$1();
+    public static final class ExpandMode {
+        private static final EnumHelper enumHelper = new EnumHelper();
+        public static final ExpandMode GROW = new ExpandMode("grow", false, true);
+        public static final ExpandMode SHRINK = new ExpandMode("shrink", true, false);
+        public static final ExpandMode DYNAMIC = new ExpandMode("dynamic", true, true);
+        public static final ExpandMode FIXED = new ExpandMode("fixed", false, false);
+        private final String name;
+        private final boolean isShrinkable;
+        private final boolean isGrowable;
+
+        private ExpandMode(String string, boolean bl, boolean bl2) {
+            this.name = string;
+            this.isShrinkable = bl;
+            this.isGrowable = bl2;
+            enumHelper.addInstance(string, this);
+        }
+
+        public static final List values() {
+            return enumHelper.values();
+        }
+
+        public static final ExpandMode valueOf(String string) {
+            return (ExpandMode)enumHelper.valueOf(string);
+        }
+
+        public String toString() {
+            return this.name;
+        }
+
+        public static final EnumParser getParser() {
+            return enumHelper.getParser();
+        }
+
+        public boolean isShrinkable() {
+            return this.isShrinkable;
+        }
+
+        public boolean isGrowable() {
+            return this.isGrowable;
+        }
+
+        public static ExpandMode fromWeights(int n, int n2) {
+            if (n == -1 && n2 == -1) {
+                return null;
+            }
+            if (n > 0) {
+                return n2 > 0 ? DYNAMIC : SHRINK;
+            }
+            if (n2 > 0) {
+                return GROW;
+            }
+            return FIXED;
+        }
     }
 }
 

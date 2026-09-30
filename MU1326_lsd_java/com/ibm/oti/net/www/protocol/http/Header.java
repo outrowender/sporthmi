@@ -9,11 +9,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.Map$Entry;
 
 public class Header
 implements Cloneable {
-    private static final int incCapacity;
+    private static final int incCapacity = 20;
     private ArrayList props = new ArrayList(20);
     private HashMap keyTable = new HashMap(20);
     private String statusLine;
@@ -25,8 +24,8 @@ implements Cloneable {
             HashMap hashMap = header.keyTable = new HashMap(20);
             Iterator iterator = this.keyTable.entrySet().iterator();
             while (iterator.hasNext()) {
-                Map$Entry map$Entry = (Map$Entry)iterator.next();
-                hashMap.put(map$Entry.getKey(), ((LinkedList)map$Entry.getValue()).clone());
+                Map.Entry entry = (Map.Entry)iterator.next();
+                hashMap.put(entry.getKey(), ((LinkedList)entry.getValue()).clone());
             }
             return header;
         }
@@ -74,8 +73,8 @@ implements Cloneable {
         HashMap hashMap = new HashMap(this.keyTable.size());
         Iterator iterator = this.keyTable.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            hashMap.put(map$Entry.getKey(), Collections.unmodifiableList((LinkedList)map$Entry.getValue()));
+            Map.Entry entry = (Map.Entry)iterator.next();
+            hashMap.put(entry.getKey(), Collections.unmodifiableList((LinkedList)entry.getValue()));
         }
         return Collections.unmodifiableMap(hashMap);
     }

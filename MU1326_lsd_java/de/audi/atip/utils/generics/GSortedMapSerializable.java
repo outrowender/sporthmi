@@ -1,16 +1,16 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  de.audi.atip.utils.generics.GMap
  */
 package de.audi.atip.utils.generics;
 
 import de.audi.atip.utils.generics.GMap;
 import java.io.Serializable;
 
-public interface GSortedMapSerializable
-extends GMap,
+/*
+ * This class specifies class file version 49.0 but uses Java 6 signatures.  Assumed Java 6.
+ */
+public interface GSortedMapSerializable<K extends Serializable, V extends Serializable>
+extends GMap<K, V>,
 Serializable {
 }
 

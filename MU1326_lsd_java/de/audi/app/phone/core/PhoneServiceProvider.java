@@ -27,12 +27,12 @@ public class PhoneServiceProvider {
     }
 
     public void startService() {
-        this.logChannel.log(1078071040, "[PhoneServiceProvider#startService] %1", (Object)this);
+        this.logChannel.log(1000000, "[PhoneServiceProvider#startService] %1", (Object)this);
         this.serviceRegistration = this.bundleContext.registerService(this.serviceClass, this.service, (Dictionary)this.properties);
     }
 
     public void stopService() {
-        this.logChannel.log(1078071040, "[PhoneServiceProvider#stopService] %1", (Object)this);
+        this.logChannel.log(1000000, "[PhoneServiceProvider#stopService] %1", (Object)this);
         if (this.serviceRegistration != null) {
             this.serviceRegistration.unregister();
         }

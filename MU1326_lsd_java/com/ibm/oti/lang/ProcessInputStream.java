@@ -4,6 +4,7 @@
 package com.ibm.oti.lang;
 
 import java.io.FileDescriptor;
+import java.io.IOException;
 import java.io.InputStream;
 
 class ProcessInputStream
@@ -15,8 +16,7 @@ extends InputStream {
         ProcessInputStream.oneTimeInitialization();
     }
 
-    private static native void oneTimeInitialization() {
-    }
+    private static native void oneTimeInitialization();
 
     protected ProcessInputStream(long l) {
         this.setFDImpl(this.fd, l);
@@ -26,8 +26,7 @@ extends InputStream {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public int available() {
+    public int available() throws IOException {
         ProcessInputStream processInputStream = this;
         synchronized (processInputStream) {
             block4: {
@@ -38,18 +37,16 @@ extends InputStream {
         }
     }
 
-    private native int availableImpl() {
-    }
+    private native int availableImpl();
 
-    protected void finalize() {
+    protected void finalize() throws Throwable {
         this.close();
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void close() {
+    public void close() throws IOException {
         ProcessInputStream processInputStream = this;
         synchronized (processInputStream) {
             if (this.handle == -1L) {
@@ -60,14 +57,12 @@ extends InputStream {
         }
     }
 
-    private native void closeImpl() {
-    }
+    private native void closeImpl();
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public int read() {
+    public int read() throws IOException {
         byte[] byArray = new byte[1];
         ProcessInputStream processInputStream = this;
         synchronized (processInputStream) {
@@ -82,8 +77,7 @@ extends InputStream {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public int read(byte[] byArray) {
+    public int read(byte[] byArray) throws IOException {
         ProcessInputStream processInputStream = this;
         synchronized (processInputStream) {
             return this.readImpl(byArray, 0, byArray.length, this.handle);
@@ -93,8 +87,7 @@ extends InputStream {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public int read(byte[] byArray, int n, int n2) {
+    public int read(byte[] byArray, int n, int n2) throws IOException {
         ProcessInputStream processInputStream = this;
         synchronized (processInputStream) {
             block5: {
@@ -108,10 +101,8 @@ extends InputStream {
         }
     }
 
-    private native int readImpl(byte[] byArray, int n, int n2, long l) {
-    }
+    private native int readImpl(byte[] var1, int var2, int var3, long var4);
 
-    private native void setFDImpl(FileDescriptor fileDescriptor, long l) {
-    }
+    private native void setFDImpl(FileDescriptor var1, long var2);
 }
 

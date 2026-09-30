@@ -8,13 +8,10 @@ import org.dsi.ifc.kombifastlist.DataAddress;
 
 public interface IDSIFastListFavoriteDestinations
 extends IDSIFastListNavi {
-    default public void pushUpdateFavoriteDestinations(DataAddress[] dataAddressArray) {
-    }
+    public void pushUpdateFavoriteDestinations(DataAddress[] var1);
 
-    default public void pushCurrentListSizeFavoriteDestinations(int n) {
-    }
+    public void pushCurrentListSizeFavoriteDestinations(int var1);
 
-    default public void responseNotifyFavoriteDestinations(boolean bl) {
-    }
+    public void responseNotifyFavoriteDestinations(boolean var1);
 }
 

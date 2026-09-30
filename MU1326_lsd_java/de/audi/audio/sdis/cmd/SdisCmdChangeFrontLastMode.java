@@ -19,12 +19,11 @@ extends Command {
         this.lastmodeHandler = iLastmodeHandler;
         this.context = n;
         this.contextLabel = SdisLabels.getContext(n);
-        this.setName(new StringBuffer().append("SdisCmdChangeFrontLastMode: ").append(this.contextLabel).toString());
+        this.setName("SdisCmdChangeFrontLastMode: " + this.contextLabel);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[SdisCmdChangeFrontLastMode.execute] %1", (Object)this.contextLabel);
+        this.logger.log(10000000, "[SdisCmdChangeFrontLastMode.execute] %1", (Object)this.contextLabel);
         int n = 0;
         try {
             switch (this.context) {
@@ -41,13 +40,13 @@ extends Command {
                     break;
                 }
                 default: {
-                    throw new IllegalArgumentException(new StringBuffer().append("Unexpected audio context: ").append(this.context).toString());
+                    throw new IllegalArgumentException("Unexpected audio context: " + this.context);
                 }
             }
             if (this.lastmodeHandler.isValidLastmode(n)) {
                 this.lastmodeHandler.setLastmode(0, n, true);
             } else {
-                this.logger.log(-2137614336, new StringBuffer().append("[SdisCmdChangeFrontLastMode.execute] Invalid last mode: ").append(n).toString());
+                this.logger.log(10000000, "[SdisCmdChangeFrontLastMode.execute] Invalid last mode: " + n);
             }
             this.commandList.commandFinished();
         }

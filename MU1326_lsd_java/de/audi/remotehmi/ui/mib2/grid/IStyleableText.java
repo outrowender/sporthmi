@@ -4,16 +4,12 @@
 package de.audi.remotehmi.ui.mib2.grid;
 
 public interface IStyleableText {
-    default public int getStyle() {
-    }
+    public int getStyle();
 
-    default public void setStyle(int n) {
-    }
+    public void setStyle(int var1);
 
-    default public String getStringValue() {
-    }
+    public String getStringValue();
 
-    default public void setStringValue(String string) {
-    }
+    public void setStringValue(String var1);
 }
 

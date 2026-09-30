@@ -22,7 +22,6 @@ implements ADBSearchListRow {
         this.setText(3, dataSet.getGeneralDescription1());
     }
 
-    @Override
     public EvoListRow copy() {
         return new ADBOrganizerSearchListRow(this.dataSet);
     }
@@ -31,27 +30,22 @@ implements ADBSearchListRow {
         return this.dataSet;
     }
 
-    @Override
     public long getEntryId() {
         return this.dataSet.getEntryId();
     }
 
-    @Override
     public String getCombinedName() {
         return this.dataSet.getGeneralDescription1();
     }
 
-    @Override
     public int getEntryType() {
         return this.dataSet.getEntryType();
     }
 
-    @Override
     public ResourceLocator getContactPicture() {
         return this.dataSet.getContactPicture();
     }
 
-    @Override
     public int getPhoneCount() {
         return this.dataSet.getPhoneCount();
     }

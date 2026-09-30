@@ -10,23 +10,24 @@ import de.audi.app.media.browser.IBrowseListListener;
 import de.audi.app.media.browser.NullBrowseListContextImpl;
 import de.audi.app.media.dsi.media.MediaListEntry;
 import de.audi.app.media.logger.LogUtil;
+import de.audi.app.media.queue.IQueueExecutionContext;
 import de.audi.app.media.queue.Queue;
 import de.audi.app.media.selection.IDataSelectionContext;
 import de.audi.app.media.selection.IDataSelectionJob;
 import de.audi.app.media.selection.ISelectionListener;
-import de.audi.app.media.selection.SelectionBrowser$NullDataSelectionJob;
 import de.audi.app.media.source.ISourceSlot;
 import de.audi.app.media.util.CopyOnWriteArrayList;
+import de.audi.atip.log.LogChannel;
 import java.util.Iterator;
 import org.dsi.ifc.global.CharacterInfo;
 
 public class SelectionBrowser
 extends AbstractMediaBrowser
 implements IBrowseListListener {
-    public static final String LOGCLASS;
+    public static final String LOGCLASS = "SelectionBrowser";
     private final Queue selectionQueue;
     private final IDataSelectionJob nullSelectionJob;
-    private static final NullBrowseListContextImpl NULL_BROWSE_LIST_CONTEXT;
+    private static final NullBrowseListContextImpl NULL_BROWSE_LIST_CONTEXT = new NullBrowseListContextImpl();
     private IBrowseListContext browseContext;
     private final CopyOnWriteArrayList selectionListeners;
 
@@ -36,26 +37,23 @@ implements IBrowseListListener {
         iMediaTerminal.getDiagnosisManager().addDataProvider(iMediaTerminal.getTerminalID(), this.selectionQueue);
         this.selectionListeners = new CopyOnWriteArrayList();
         this.browseContext = NULL_BROWSE_LIST_CONTEXT;
-        this.nullSelectionJob = new SelectionBrowser$NullDataSelectionJob(iMediaTerminal.getLogger().hmi());
+        this.nullSelectionJob = new NullDataSelectionJob(iMediaTerminal.getLogger().hmi());
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.removeAllSelectionListeners();
     }
 
-    @Override
     protected void browserActivated(IBrowseListContext iBrowseListContext) {
-        this.logger.log(1078071040, "[%1.browserActivated]", (Object)"SelectionBrowser");
+        this.logger.log(1000000, "[%1.browserActivated]", (Object)LOGCLASS);
         this.browseContext = iBrowseListContext;
         this.browseContext.addBrowseListListener(this, false);
         this.getRunningJob().browserActivated();
     }
 
-    @Override
     protected void browserDeactivated(ISourceSlot iSourceSlot, boolean bl) {
-        this.logger.log(1078071040, "[%1.browserDeactivated]", (Object)"SelectionBrowser");
+        this.logger.log(1000000, "[%1.browserDeactivated]", (Object)LOGCLASS);
         this.getRunningJob().browserDeactivated(bl);
         if (bl) {
             this.selectionQueue.abort();
@@ -63,23 +61,19 @@ implements IBrowseListListener {
         this.browseContext = NULL_BROWSE_LIST_CONTEXT;
     }
 
-    @Override
     public void browseModeChanged(boolean bl, int n) {
-        this.logger.log(1078071040, "[%1.browseModeChanged] error: '%2', browseMode: '%3'", (Object)"SelectionBrowser", (Object)String.valueOf(bl), (long)n);
+        this.logger.log(1000000, "[%1.browseModeChanged] error: '%2', browseMode: '%3'", (Object)LOGCLASS, (Object)String.valueOf(bl), (long)n);
         this.getRunningJob().browseModeChanged(bl, n);
     }
 
-    @Override
     public void browseFolderChanged(boolean bl, MediaListEntry[] mediaListEntryArray, int n) {
-        this.logger.log(1078071040, "[%1.browseFolderChanged] error: '%2', folder: '%3'", (Object)"SelectionBrowser", (Object)String.valueOf(bl), (Object)LogUtil.listEntryToStr(mediaListEntryArray));
+        this.logger.log(1000000, "[%1.browseFolderChanged] error: '%2', folder: '%3'", (Object)LOGCLASS, (Object)String.valueOf(bl), (Object)LogUtil.listEntryToStr(mediaListEntryArray));
         this.getRunningJob().browseFolderChanged(bl, mediaListEntryArray, n);
     }
 
-    @Override
     public void listUpdated(int n) {
     }
 
-    @Override
     public int getClientId() {
         return 0;
     }
@@ -88,50 +82,42 @@ implements IBrowseListListener {
         return this.browseContext.getListSize();
     }
 
-    @Override
     public void responseList(boolean bl, MediaListEntry[] mediaListEntryArray, int n) {
-        this.logger.log(1078071040, "[%1.responseList]", (Object)"SelectionBrowser");
+        this.logger.log(1000000, "[%1.responseList]", (Object)LOGCLASS);
         this.getRunningJob().responseList(bl, mediaListEntryArray, n);
     }
 
-    @Override
     public void responsePickList(boolean bl, MediaListEntry[] mediaListEntryArray) {
         this.getRunningJob().responsePicklist(bl, mediaListEntryArray);
     }
 
-    @Override
     public void addSelectionResult(boolean bl, int n, int n2, boolean bl2, long l, long l2, long l3, long l4, long l5) {
-        this.logger.log(1078071040, "[%1.addSelectionResult]", (Object)"SelectionBrowser");
+        this.logger.log(1000000, "[%1.addSelectionResult]", (Object)LOGCLASS);
         this.getRunningJob().addSelectionResult(bl, n, n2, bl2, l, l2, l3, l4, l5);
     }
 
-    @Override
     public void resetSelectionResult(boolean bl, int n) {
     }
 
-    @Override
     public void notifyMetadataEntryAvailable(boolean bl) {
     }
 
-    @Override
     public void notifyFilesystemEntryAvailable(boolean bl) {
     }
 
-    @Override
     public void notifyCoverartsAvailable(boolean bl) {
     }
 
-    @Override
     public void notifyUpdateAlphabeticalIndex(CharacterInfo[] characterInfoArray) {
     }
 
     public void responseSetSelection(boolean bl, IDataSelectionContext iDataSelectionContext) {
-        this.logger.log(1078071040, "[%1.responseSetSelection] success: %2", (Object)"SelectionBrowser", (Object)String.valueOf(bl));
+        this.logger.log(1000000, "[%1.responseSetSelection] success: %2", (Object)LOGCLASS, (Object)String.valueOf(bl));
         this.propagateSelectionChange(iDataSelectionContext, bl);
     }
 
     private void propagateSelectionChange(IDataSelectionContext iDataSelectionContext, boolean bl) {
-        this.logger.log(1078071040, "[%1.propagateSelectionChange] %2", (Object)"SelectionBrowser", (Object)iDataSelectionContext);
+        this.logger.log(1000000, "[%1.propagateSelectionChange] %2", (Object)LOGCLASS, (Object)iDataSelectionContext);
         Iterator iterator = this.selectionListeners.iterator();
         while (iterator.hasNext()) {
             ISelectionListener iSelectionListener = (ISelectionListener)iterator.next();
@@ -203,8 +189,60 @@ implements IBrowseListListener {
         this.selectionListeners.clear();
     }
 
-    static {
-        NULL_BROWSE_LIST_CONTEXT = new NullBrowseListContextImpl();
+    private static class NullDataSelectionJob
+    implements IDataSelectionJob {
+        private static final String LOGCLASS = "NullDataSelectionJob";
+        private final LogChannel logChannel;
+
+        public NullDataSelectionJob(LogChannel logChannel) {
+            this.logChannel = logChannel;
+        }
+
+        public void browserActivated() {
+            this.logChannel.log(100000, "[%1.browserActivated]", (Object)LOGCLASS);
+        }
+
+        public void browserDeactivated(boolean bl) {
+            this.logChannel.log(100000, "[%1.browserDeactivated]", (Object)LOGCLASS);
+        }
+
+        public void browseModeChanged(boolean bl, int n) {
+            this.logChannel.log(100000, "[%1.browseModeChanged]", (Object)LOGCLASS);
+        }
+
+        public void browseFolderChanged(boolean bl, MediaListEntry[] mediaListEntryArray, int n) {
+            this.logChannel.log(100000, "[%1.browseFolderChanged]", (Object)LOGCLASS);
+        }
+
+        public void responseList(boolean bl, MediaListEntry[] mediaListEntryArray, int n) {
+            this.logChannel.log(100000, "[%1.responseList]", (Object)LOGCLASS);
+        }
+
+        public void responsePicklist(boolean bl, MediaListEntry[] mediaListEntryArray) {
+            this.logChannel.log(100000, "[%1.responsePicklist]", (Object)LOGCLASS);
+        }
+
+        public void addSelectionResult(boolean bl, int n, int n2, boolean bl2, long l, long l2, long l3, long l4, long l5) {
+            this.logChannel.log(100000, "[%1.addSelectionResult]", (Object)LOGCLASS);
+        }
+
+        public int getType() {
+            this.logChannel.log(100000, "[%1.getType]", (Object)LOGCLASS);
+            return 0;
+        }
+
+        public String getName() {
+            this.logChannel.log(100000, "[%1.getName]", (Object)LOGCLASS);
+            return LOGCLASS;
+        }
+
+        public void start(IQueueExecutionContext iQueueExecutionContext) {
+            this.logChannel.log(100000, "[%1.start]", (Object)LOGCLASS);
+        }
+
+        public void abort(boolean bl) {
+            this.logChannel.log(100000, "[%1.abort]", (Object)LOGCLASS);
+        }
     }
 }
 

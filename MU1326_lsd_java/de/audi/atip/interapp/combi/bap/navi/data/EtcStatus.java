@@ -25,7 +25,7 @@ public final class EtcStatus {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         EtcStatus etcStatus = (EtcStatus)object;
@@ -39,7 +39,18 @@ public final class EtcStatus {
     }
 
     public String toString() {
-        return new StringBuffer().append("EtcStatus [cardStatus=").append(this.cardStatus).append("]").toString();
+        return "EtcStatus [cardStatus=" + this.cardStatus + "]";
+    }
+
+    public static final class CardStatus {
+        public static final int UNKNOWN = 0;
+        public static final int INSERTED = 1;
+        public static final int NOT_INSERTED = 2;
+        public static final int CARD_READER_NOT_CONNECTED = 3;
+
+        private CardStatus() {
+            throw new AssertionError((Object)"PrivacySetup.ModificationReason is not intended to be instantiated.");
+        }
     }
 }
 

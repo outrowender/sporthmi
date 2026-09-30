@@ -7,7 +7,6 @@ import de.audi.atip.interapp.combi.bap.CombiBAPServiceListener;
 
 public interface CombiBAPServiceInfoListener
 extends CombiBAPServiceListener {
-    default public void skip(int n) {
-    }
+    public void skip(int var1);
 }
 

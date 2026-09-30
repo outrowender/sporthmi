@@ -23,21 +23,18 @@ extends MenuEntry {
         this.persistence = menuEntryPersistence;
     }
 
-    @Override
     protected void setStateViewOptions(int n) {
         super.setStateViewOptions(n);
         this.persistence.writePersistentViewOptionState(this, n);
     }
 
-    @Override
     public MenuEntryType getType() {
         return MenuEntryType.PERSISTENT_MENU_ENTRY;
     }
 
-    @Override
     public int getStateViewOptionsForRegistration() {
         int n = this.persistence.readPersistentViewOptionState();
-        this.logChannel.log(-2137614336, "[%1('%2')#getStateViewOptionsForRegistration] HMI persistence returns stateViewOptions='%3'", (Object)this.getType(), (Object)this, (long)n);
+        this.logChannel.log(10000000, "[%1('%2')#getStateViewOptionsForRegistration] HMI persistence returns stateViewOptions='%3'", (Object)this.getType(), (Object)this, (long)n);
         return n;
     }
 }

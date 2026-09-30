@@ -15,9 +15,8 @@ extends BaseAudioService {
         super(audioEnv, string);
     }
 
-    @Override
     public void releaseConnection(int n, int n2) {
-        this.env.lcDSI.log(1078071040, "[ToneAudioService.releaseConnection] connection: %1, HT: %2]", (long)n, (long)n2);
+        this.env.lcDSI.log(1000000, "[ToneAudioService.releaseConnection] connection: %1, HT: %2]", (long)n, (long)n2);
         int n3 = TerminalMapper.toAudioTerminal(n2);
         int n4 = ConnectionStore.INSTANCE.getStatus(n, n3);
         switch (n4) {
@@ -25,7 +24,7 @@ extends BaseAudioService {
             case 6: {
                 if (!this.env.lcMain.isDebug()) break;
                 Buffer buffer = this.toDebug(n, n3, n, n2);
-                this.env.lcMain.log(-2137614336, "[%1] [DSIAudioManagement.releaseConnection] IGNORED status:%3 %2", (Object)this.name, (Object)buffer, (long)n4);
+                this.env.lcMain.log(10000000, "[%1] [DSIAudioManagement.releaseConnection] IGNORED status:%3 %2", (Object)this.name, (Object)buffer, (long)n4);
                 break;
             }
             default: {

@@ -4,7 +4,6 @@
 package de.audi.atip.interapp;
 
 public interface CarPhoneService {
-    default public void updateCallStatus(boolean bl) {
-    }
+    public void updateCallStatus(boolean var1);
 }
 

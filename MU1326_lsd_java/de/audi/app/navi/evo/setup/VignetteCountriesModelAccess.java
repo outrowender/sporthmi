@@ -20,25 +20,21 @@ extends VignetteCountriesCoreModelAccess {
         super(navigationEnv, listListener, iListRowBuilder);
     }
 
-    @Override
     public void onStart(NavLocation navLocation) {
         this.previewListModelApp.clear();
     }
 
-    @Override
     public void onInputChanged() {
     }
 
-    @Override
     public void onUpdateSpeller(String string, String string2, boolean bl, boolean bl2) {
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void onUpdateResultList(LIValueList lIValueList, long l, String string, boolean bl) {
-        this.env.getLogChannel().log(-2137614336, "VignetteCountriesModelAccess#onUpdateResultList");
+        this.env.getLogChannel().log(10000000, "VignetteCountriesModelAccess#onUpdateResultList");
         LIValueListElement[] lIValueListElementArray = Util.isListValid(lIValueList) ? lIValueList.getList() : new LIValueListElement[]{};
         int n = 0;
         this.previewListModelApp.beginTransaction();
@@ -54,31 +50,24 @@ extends VignetteCountriesCoreModelAccess {
         }
     }
 
-    @Override
     public void onElementSelected(NavLocation navLocation) {
     }
 
-    @Override
     public void onAmbiguousElementSelected() {
     }
 
-    @Override
     public void onUpdateResultList(LIValueList lIValueList, long l, String string, boolean bl, int n, int n2) {
     }
 
-    @Override
     public void onSpellerStatusChanged(int n) {
     }
 
-    @Override
     public void onRestore() {
     }
 
-    @Override
     public void onUpdateLocation(NavLocation navLocation, Map map) {
     }
 
-    @Override
     public void unrequestItems(int n, int n2) {
     }
 }

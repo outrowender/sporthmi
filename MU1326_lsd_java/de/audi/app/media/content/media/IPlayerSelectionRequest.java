@@ -4,19 +4,14 @@
 package de.audi.app.media.content.media;
 
 public interface IPlayerSelectionRequest {
-    default public int getBrowserID() {
-    }
+    public int getBrowserID();
 
-    default public long getEntryID() {
-    }
+    public long getEntryID();
 
-    default public boolean isSeamless() {
-    }
+    public boolean isSeamless();
 
-    default public boolean waitForPlayposition() {
-    }
+    public boolean waitForPlayposition();
 
-    default public void responseSetSelection(boolean bl) {
-    }
+    public void responseSetSelection(boolean var1);
 }
 

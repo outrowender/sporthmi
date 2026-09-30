@@ -14,12 +14,10 @@ implements IAudioConnectionHandler {
         this.ecallAudioCmdManager = iEcallAudioCmdManager;
     }
 
-    @Override
     public void switchAudioSource() {
         this.ecallAudioCmdManager.schedulePhoneEcallAudioScenario(4, false);
     }
 
-    @Override
     public void scheduleMutePinConnectionRequest() {
         this.ecallAudioCmdManager.scheduleMutePinAudioScenarioRequest();
     }

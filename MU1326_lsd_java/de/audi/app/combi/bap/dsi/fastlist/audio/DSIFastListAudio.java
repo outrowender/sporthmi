@@ -16,45 +16,38 @@ implements IDSIFastListAudio {
     protected DSIFastListScrollingAudio dsi = new NullDSIFastListScrollingAudio(this.dsiLogChannel);
     static /* synthetic */ Class class$org$dsi$ifc$kombifastlist$DSIFastListScrollingAudio;
 
-    @Override
-    public void setDSI(DSIBase dSIBase) {
-        if (!this.getDSIClass().isAssignableFrom(super.getClass())) {
+    public void setDSI(DSIBase dSIBase) throws IllegalArgumentException {
+        if (!this.getDSIClass().isAssignableFrom(dSIBase.getClass())) {
             throw new IllegalArgumentException(new StringBuffer().append("dsi must be of class ").append(this.getDSIClass().getName()).toString());
         }
-        this.dsiLogChannel.log(-2137614336, "[DSIFastListAudio#setDSI] called (dsi=%1)", (Object)dSIBase);
+        this.dsiLogChannel.log(10000000, "[DSIFastListAudio#setDSI] called (dsi=%1)", (Object)dSIBase);
         this.dsi = (DSIFastListScrollingAudio)dSIBase;
     }
 
-    @Override
     public DSIBase getDSI() {
         return this.dsi;
     }
 
-    @Override
     public Class getDSIClass() {
         return class$org$dsi$ifc$kombifastlist$DSIFastListScrollingAudio == null ? (class$org$dsi$ifc$kombifastlist$DSIFastListScrollingAudio = DSIFastListAudio.class$("org.dsi.ifc.kombifastlist.DSIFastListScrollingAudio")) : class$org$dsi$ifc$kombifastlist$DSIFastListScrollingAudio;
     }
 
-    @Override
     public void deregisterDSI() {
         this.dsi = new NullDSIFastListScrollingAudio(this.dsiLogChannel);
     }
 
-    @Override
     public final void pushMOSTOperationState(int n) {
-        this.dsiLogChannel.log(1078071040, "[DSIFastListAudio#pushMOSTOperationStateAudio] opState=%1", (long)n);
+        this.dsiLogChannel.log(1000000, "[DSIFastListAudio#pushMOSTOperationStateAudio] opState=%1", (long)n);
         this.dsi.pushMOSTOperationStateAudio(n);
     }
 
-    @Override
     public final void pushFunctionAvailabilityAudio(int n) {
-        this.dsiLogChannel.log(1078071040, "[DSIFastListAudio#pushFunctionAvailabilityAudio] functionAvailability=%1", (long)n);
+        this.dsiLogChannel.log(1000000, "[DSIFastListAudio#pushFunctionAvailabilityAudio] functionAvailability=%1", (long)n);
         this.dsi.pushFunctionAvailabilityAudio(n);
     }
 
-    @Override
     public final void responseNotifyCurrentListSizeAudio(boolean bl) {
-        this.dsiLogChannel.log(1078071040, "[DSIFastListAudio#responseNotifyCurrentListSizeAudio] successful=%1", bl);
+        this.dsiLogChannel.log(1000000, "[DSIFastListAudio#responseNotifyCurrentListSizeAudio] successful=%1", bl);
         this.dsi.responseNotifyCurrentListSizeAudio(bl);
     }
 

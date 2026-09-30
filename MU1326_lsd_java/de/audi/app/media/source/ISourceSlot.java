@@ -8,109 +8,87 @@ import de.audi.app.media.source.MediaCapabilities;
 import de.audi.app.media.source.MediaFlags;
 
 public interface ISourceSlot {
-    public static final int STATE_EMPTY;
-    public static final int STATE_LOADING;
-    public static final int STATE_RELOAD;
-    public static final int STATE_LOADED;
-    public static final int ERR_NONE;
-    public static final int ERR_WRONG_REGION_CODE_NO_CHANGES_LEFT;
-    public static final int ERR_WRONG_REGION_CODE_CHANGES_LEFT;
-    public static final int ERR_CHILDLOCK;
-    public static final int ERR_IMPORT_RUNNING;
-    public static final int ERR_NO_PLAYABLE_FILES;
-    public static final int ERR_DELETION_RUNNING;
-    public static final int ERR_OVERCURRENT;
-    public static final int ERR_TEMPERATURE_TOO_HIGH;
-    public static final int ERR_TEMPERATURE_TOO_LOW;
-    public static final int ERR_BT_AUDIOPLAYER_DEACTIVATED;
-    public static final int ERR_BT_AUDIOPLAYER_NOT_CONNECTED;
-    public static final int ERR_BT_DEACTIVATED;
-    public static final int ERR_BT_DEACTIVATED_CLAMP_S_OFF;
-    public static final int ERR_BT_RECONNECTING;
-    public static final int ERR_DEVICE_UNAVAILABLE;
-    public static final int ERR_UNREADABLE;
-    public static final int ERR_UNSUPPORTED;
-    public static final int ERR_UNSUPPORTED_WRONG_FIRMWARE;
-    public static final int ERR_EMPTY;
-    public static final int ERR_WLAN_DEACTIVATED_CLAMP_S_OFF;
-    public static final int ERR_WLAN_DEACTIVATED;
-    public static final int ERR_JUKEBOX_NOT_FILLED;
-    public static final int ERR_CORRUPTED_PARTITION;
-    public static final int ERR_CHARGING;
-    public static final int ERR_ONLINE_DEACTIVATED_CLAMP_S_OFF;
-    public static final int ERR_ONLINE_DEACTIVATED_WLAN_OFF;
-    public static final int ERR_ONLINE_DEACTIVATED_WLAN_NO_CONN;
-    public static final int ERR_ONLINE_NO_APP;
-    public static final int ERR_WLAN_NO_DEVICE;
-    public static final int ERR_WLAN_NO_APP;
-    public static final int INVALID_DEVICE_INDEX;
-    public static final int INVALID_SLOT_INDEX;
-    public static final String NO_UNIQUE_MEDIA_ID;
+    public static final int STATE_EMPTY = 0;
+    public static final int STATE_LOADING = 1;
+    public static final int STATE_RELOAD = 2;
+    public static final int STATE_LOADED = 3;
+    public static final int ERR_NONE = 0;
+    public static final int ERR_WRONG_REGION_CODE_NO_CHANGES_LEFT = 1;
+    public static final int ERR_WRONG_REGION_CODE_CHANGES_LEFT = 2;
+    public static final int ERR_CHILDLOCK = 3;
+    public static final int ERR_IMPORT_RUNNING = 4;
+    public static final int ERR_NO_PLAYABLE_FILES = 5;
+    public static final int ERR_DELETION_RUNNING = 6;
+    public static final int ERR_OVERCURRENT = 7;
+    public static final int ERR_TEMPERATURE_TOO_HIGH = 8;
+    public static final int ERR_TEMPERATURE_TOO_LOW = 9;
+    public static final int ERR_BT_AUDIOPLAYER_DEACTIVATED = 10;
+    public static final int ERR_BT_AUDIOPLAYER_NOT_CONNECTED = 11;
+    public static final int ERR_BT_DEACTIVATED = 12;
+    public static final int ERR_BT_DEACTIVATED_CLAMP_S_OFF = 13;
+    public static final int ERR_BT_RECONNECTING = 14;
+    public static final int ERR_DEVICE_UNAVAILABLE = 15;
+    public static final int ERR_UNREADABLE = 16;
+    public static final int ERR_UNSUPPORTED = 17;
+    public static final int ERR_UNSUPPORTED_WRONG_FIRMWARE = 18;
+    public static final int ERR_EMPTY = 19;
+    public static final int ERR_WLAN_DEACTIVATED_CLAMP_S_OFF = 20;
+    public static final int ERR_WLAN_DEACTIVATED = 21;
+    public static final int ERR_JUKEBOX_NOT_FILLED = 22;
+    public static final int ERR_CORRUPTED_PARTITION = 23;
+    public static final int ERR_CHARGING = 24;
+    public static final int ERR_ONLINE_DEACTIVATED_CLAMP_S_OFF = 25;
+    public static final int ERR_ONLINE_DEACTIVATED_WLAN_OFF = 26;
+    public static final int ERR_ONLINE_DEACTIVATED_WLAN_NO_CONN = 27;
+    public static final int ERR_ONLINE_NO_APP = 28;
+    public static final int ERR_WLAN_NO_DEVICE = 29;
+    public static final int ERR_WLAN_NO_APP = 30;
+    public static final int INVALID_DEVICE_INDEX = -1;
+    public static final int INVALID_SLOT_INDEX = -1;
+    public static final String NO_UNIQUE_MEDIA_ID = "";
 
-    default public ISource getSource() {
-    }
+    public ISource getSource();
 
-    default public int getIndex() {
-    }
+    public int getIndex();
 
-    default public int getDeviceIndex() {
-    }
+    public int getDeviceIndex();
 
-    default public int getContentType() {
-    }
+    public int getContentType();
 
-    default public int getMediaType() {
-    }
+    public int getMediaType();
 
-    default public int getState() {
-    }
+    public int getState();
 
-    default public String getName() {
-    }
+    public String getName();
 
-    default public String getMountPoint() {
-    }
+    public String getMountPoint();
 
-    default public String getActiveSourceListIcon() {
-    }
+    public String getActiveSourceListIcon();
 
-    default public String getActiveSourceListReflectionIcon() {
-    }
+    public String getActiveSourceListReflectionIcon();
 
-    default public String getActiveSourceListClosedIcon() {
-    }
+    public String getActiveSourceListClosedIcon();
 
-    default public String getCaptionIcon() {
-    }
+    public String getCaptionIcon();
 
-    default public String getLoadingIcon() {
-    }
+    public String getLoadingIcon();
 
-    default public boolean isLoading() {
-    }
+    public boolean isLoading();
 
-    default public boolean isReloading() {
-    }
+    public boolean isReloading();
 
-    default public boolean isLoaded() {
-    }
+    public boolean isLoaded();
 
-    default public boolean isEmpty() {
-    }
+    public boolean isEmpty();
 
-    default public MediaFlags getFlags() {
-    }
+    public MediaFlags getFlags();
 
-    default public int getError() {
-    }
+    public int getError();
 
-    default public boolean equals(Object object) {
-    }
+    public boolean equals(Object var1);
 
-    default public MediaCapabilities getCapabilities() {
-    }
+    public MediaCapabilities getCapabilities();
 
-    default public String getUniqueMediaId() {
-    }
+    public String getUniqueMediaId();
 }
 

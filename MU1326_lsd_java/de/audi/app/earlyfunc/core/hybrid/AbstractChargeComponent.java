@@ -7,10 +7,9 @@ import de.audi.app.car.common.adapter.AbstractDSICarHybridAdapter;
 import de.audi.app.car.common.app.ICarApplication;
 import de.audi.app.car.common.comp.CarDSIAttributesSet;
 import de.audi.app.car.common.service.CarServiceTracker;
+import de.audi.app.car.common.service.CarServiceTrackerListener;
 import de.audi.app.car.common.util.MiscHybridHelper;
 import de.audi.app.car.common.util.TimerHelper;
-import de.audi.app.earlyfunc.core.hybrid.AbstractChargeComponent$BCCommunicationTrackerListener;
-import de.audi.app.earlyfunc.core.hybrid.AbstractChargeComponent$BCListHandlingTrackerListener;
 import de.audi.app.earlyfunc.core.hybrid.CarNetworkPlatformInfo;
 import de.audi.app.earlyfunc.core.hybrid.ChargeSubCarTimeUnitsLanguageComponent;
 import de.audi.app.earlyfunc.core.hybrid.IDateTimeChangeListener;
@@ -42,28 +41,28 @@ implements ChoiceListener,
 MetricsListener,
 IBatteryControlListHandlingCallback,
 IDateTimeChangeListener {
-    public static final short CODING_ID;
-    private static final String LOGCHANNEL_NAME;
-    static final int TIMER_TYPE_CYCLIC;
-    private static final int BATTERY_CHARGE_STATE_NOT_RUNNING;
-    private static final int BATTERY_CHARGE_STATE_RUNNING;
-    private static final int BATTERY_PLUG_STATE_NOT_PLUGGED;
-    private static final int BATTERY_PLUG_STATE_PLUGGED;
-    private static final int BATTERY_PLUG_COLOR_GREY;
-    private static final int BATTERY_PLUG_COLOR_GREEN;
-    private static final int BATTERY_PLUG_COLOR_YELLOW;
-    private static final int BATTERY_PLUG_COLOR_RED;
-    private static final int BATTERY_PLUG_ANIMATION_NONE;
-    private static final int BATTERY_PLUG_ANIMATION_BLINK;
-    private static final int BATTERY_PLUG_ANIMATION_PULSE;
-    private static final int BATTERY_PLUG_ANIMATION_FLASH;
-    private static final int ERROR_REASON_NONE;
-    private static final int ERROR_REASON_GENERALDEVICEERROR;
-    private static final int TIMER_VALUE_INVALID;
-    private static final int TIMER_1;
-    private static final int TIMER_2;
-    private static final int TIMER_3;
-    private static final int TIMER_4;
+    public static final short CODING_ID = 41;
+    private static final String LOGCHANNEL_NAME = "App.EarlyFunc.Charge";
+    static final int TIMER_TYPE_CYCLIC = 1;
+    private static final int BATTERY_CHARGE_STATE_NOT_RUNNING = 1;
+    private static final int BATTERY_CHARGE_STATE_RUNNING = 2;
+    private static final int BATTERY_PLUG_STATE_NOT_PLUGGED = 0;
+    private static final int BATTERY_PLUG_STATE_PLUGGED = 1;
+    private static final int BATTERY_PLUG_COLOR_GREY = 0;
+    private static final int BATTERY_PLUG_COLOR_GREEN = 1;
+    private static final int BATTERY_PLUG_COLOR_YELLOW = 2;
+    private static final int BATTERY_PLUG_COLOR_RED = 3;
+    private static final int BATTERY_PLUG_ANIMATION_NONE = 0;
+    private static final int BATTERY_PLUG_ANIMATION_BLINK = 1;
+    private static final int BATTERY_PLUG_ANIMATION_PULSE = 2;
+    private static final int BATTERY_PLUG_ANIMATION_FLASH = 3;
+    private static final int ERROR_REASON_NONE = 0;
+    private static final int ERROR_REASON_GENERALDEVICEERROR = 1;
+    private static final int TIMER_VALUE_INVALID = 255;
+    private static final int TIMER_1 = 1;
+    private static final int TIMER_2 = 2;
+    private static final int TIMER_3 = 3;
+    private static final int TIMER_4 = 4;
     private BatteryControlViewOptions currBConViewOptions;
     private BatteryControlConfiguration bcConfig = null;
     private BatteryControlWeekdays selectedWeekdaysTimer1 = new BatteryControlWeekdays();
@@ -86,31 +85,28 @@ IDateTimeChangeListener {
     Calendar dsiCalendar = Calendar.getInstance();
     ArrayList choiceModelList = new ArrayList();
     ArrayList metricsModelList = new ArrayList();
-    private static final int PROFILE_ID_TIMER1;
-    private static final int PROFILE_ID_TIMER2;
-    private static final int PROFILE_ID_TIMER3;
+    private static final int PROFILE_ID_TIMER1 = 1;
+    private static final int PROFILE_ID_TIMER2 = 2;
+    private static final int PROFILE_ID_TIMER3 = 3;
     static /* synthetic */ Class class$de$audi$atip$interapp$IBattCtrlCommunicationService;
     static /* synthetic */ Class class$de$audi$atip$interapp$IBatteryControlListHandlingService;
 
-    public abstract int getPopUpID() {
-    }
+    public abstract int getPopUpID();
 
     public AbstractChargeComponent(ICarApplication iCarApplication) {
-        super(iCarApplication, "App.EarlyFunc.Charge");
-        this.carTimeUnitsLanguageSubComponent = new ChargeSubCarTimeUnitsLanguageComponent(this, iCarApplication, "App.EarlyFunc.Charge");
+        super(iCarApplication, LOGCHANNEL_NAME);
+        this.carTimeUnitsLanguageSubComponent = new ChargeSubCarTimeUnitsLanguageComponent(this, iCarApplication, LOGCHANNEL_NAME);
         this.timerHelper = new TimerHelper(iCarApplication, this.getLogChannel());
         this.carNetworkPlatformInfo = new CarNetworkPlatformInfo(iCarApplication.getFrameworkAccess());
     }
 
-    @Override
     public void init() {
         super.init();
         this.carTimeUnitsLanguageSubComponent.init();
-        this.bcComminicationSeviceTracker = new CarServiceTracker(new AbstractChargeComponent$BCCommunicationTrackerListener(this, this), this.getApplication().getBundleContext(), this.getLogChannel());
+        this.bcComminicationSeviceTracker = new CarServiceTracker(new BCCommunicationTrackerListener(this), this.getApplication().getBundleContext(), this.getLogChannel());
         this.bcComminicationSeviceTracker.startTracking();
     }
 
-    @Override
     public void deinit() {
         this.carTimeUnitsLanguageSubComponent.deinit();
         super.deinit();
@@ -118,47 +114,46 @@ IDateTimeChangeListener {
         this.bcListHandlingTracker.stopTracking();
     }
 
-    @Override
     protected void initModels() {
-        this.getChoiceModel(-1995694080).setChoiceListener(this);
-        this.getChoiceModel(-1878253568).setChoiceListener(this);
-        this.getChoiceModel(1024270336).setChoiceListener(this);
-        this.getChoiceModel(-1022615552).setChoiceListener(this);
-        this.getMetricsModel(-1827921920).setMetricsListener(this);
-        this.getMetricsModel(-1844699136).setMetricsListener(this);
-        this.getMetricsModel(1074601984).setMetricsListener(this);
-        this.getMetricsModel(-888397824).setMetricsListener(this);
-        this.getMetricsModel(-921952256).setMetricsListener(this);
-        this.getChoiceModel(-905175040).setChoiceListener(this);
-        this.getChoiceModel(-1140056064).setChoiceListener(this);
-        this.getChoiceModel(973938688).setChoiceListener(this);
-        this.getChoiceModel(-804511744).setChoiceListener(this);
-        this.getChoiceModel(-1123278848).setChoiceListener(this);
-        this.getChoiceModel(-821288960).setChoiceListener(this);
-        this.getChoiceModel(-1039392768).setChoiceListener(this);
-        this.getChoiceModel(-854843392).setChoiceListener(this);
-        this.getChoiceModel(-938729472).setChoiceListener(this);
-        this.getChoiceModel(-770957312).setChoiceListener(this);
-        this.getChoiceModel(-838066176).setChoiceListener(this);
-        this.getChoiceModel(-972283904).setChoiceListener(this);
-        this.getChoiceModel(-955506688).setChoiceListener(this);
-        this.getChoiceModel(-1173610496).setChoiceListener(this);
-        this.getChoiceModel(-1056169984).setChoiceListener(this);
-        this.getChoiceModel(-1072947200).setChoiceListener(this);
-        this.getChoiceModel(-1106501632).setChoiceListener(this);
-        this.getChoiceModel(-989061120).setChoiceListener(this);
-        this.getChoiceModel(-1207164928).setChoiceListener(this);
-        this.getChoiceModel(940384256).setChoiceListener(this);
-        this.getChoiceModel(1057824768).setChoiceListener(this);
-        this.getChoiceModel(923607040).setChoiceListener(this);
-        this.getChoiceModel(1007493120).setChoiceListener(this);
-        this.getChoiceModel(1091379200).setChoiceListener(this);
-        this.getChoiceModel(1041047552).setChoiceListener(this);
-        this.getChoiceModel(1108156416).setChoiceListener(this);
-        DateMetric dateMetric = (DateMetric)this.getMetricsModel(-1005838336).getMetric();
-        DateMetric dateMetric2 = (DateMetric)this.getMetricsModel(-1156833280).getMetric();
-        DateMetric dateMetric3 = (DateMetric)this.getMetricsModel(-871620608).getMetric();
-        DateMetric dateMetric4 = (DateMetric)this.getMetricsModel(-1190387712).getMetric();
+        this.getChoiceModel(2100361).setChoiceListener(this);
+        this.getChoiceModel(2100368).setChoiceListener(this);
+        this.getChoiceModel(2100541).setChoiceListener(this);
+        this.getChoiceModel(2100419).setChoiceListener(this);
+        this.getMetricsModel(2100371).setMetricsListener(this);
+        this.getMetricsModel(2100370).setMetricsListener(this);
+        this.getMetricsModel(2100544).setMetricsListener(this);
+        this.getMetricsModel(2100427).setMetricsListener(this);
+        this.getMetricsModel(2100425).setMetricsListener(this);
+        this.getChoiceModel(2100426).setChoiceListener(this);
+        this.getChoiceModel(2100412).setChoiceListener(this);
+        this.getChoiceModel(2100538).setChoiceListener(this);
+        this.getChoiceModel(2100432).setChoiceListener(this);
+        this.getChoiceModel(2100413).setChoiceListener(this);
+        this.getChoiceModel(2100431).setChoiceListener(this);
+        this.getChoiceModel(0x200CC2).setChoiceListener(this);
+        this.getChoiceModel(2100429).setChoiceListener(this);
+        this.getChoiceModel(2100424).setChoiceListener(this);
+        this.getChoiceModel(2100434).setChoiceListener(this);
+        this.getChoiceModel(2100430).setChoiceListener(this);
+        this.getChoiceModel(2100422).setChoiceListener(this);
+        this.getChoiceModel(2100423).setChoiceListener(this);
+        this.getChoiceModel(2100410).setChoiceListener(this);
+        this.getChoiceModel(2100417).setChoiceListener(this);
+        this.getChoiceModel(0x200CC0).setChoiceListener(this);
+        this.getChoiceModel(2100414).setChoiceListener(this);
+        this.getChoiceModel(2100421).setChoiceListener(this);
+        this.getChoiceModel(2100408).setChoiceListener(this);
+        this.getChoiceModel(2100536).setChoiceListener(this);
+        this.getChoiceModel(2100543).setChoiceListener(this);
+        this.getChoiceModel(2100535).setChoiceListener(this);
+        this.getChoiceModel(2100540).setChoiceListener(this);
+        this.getChoiceModel(2100545).setChoiceListener(this);
+        this.getChoiceModel(2100542).setChoiceListener(this);
+        this.getChoiceModel(2100546).setChoiceListener(this);
+        DateMetric dateMetric = (DateMetric)this.getMetricsModel(2100420).getMetric();
+        DateMetric dateMetric2 = (DateMetric)this.getMetricsModel(2100411).getMetric();
+        DateMetric dateMetric3 = (DateMetric)this.getMetricsModel(0x200CCC).getMetric();
+        DateMetric dateMetric4 = (DateMetric)this.getMetricsModel(2100409).getMetric();
         if (dateMetric == null) {
             dateMetric = new DateMetric(new Date(), 2);
             dateMetric.setDate(new Date());
@@ -168,85 +163,81 @@ IDateTimeChangeListener {
             dateMetric2.setDate(new Date());
             dateMetric4 = new DateMetric(new Date(), 2);
             dateMetric4.setDate(new Date());
-            this.getMetricsModel(-1005838336).setMetric(dateMetric);
-            this.getMetricsModel(-1156833280).setMetric(dateMetric2);
-            this.getMetricsModel(-871620608).setMetric(dateMetric3);
-            this.getMetricsModel(-1190387712).setMetric(dateMetric4);
+            this.getMetricsModel(2100420).setMetric(dateMetric);
+            this.getMetricsModel(2100411).setMetric(dateMetric2);
+            this.getMetricsModel(0x200CCC).setMetric(dateMetric3);
+            this.getMetricsModel(2100409).setMetric(dateMetric4);
         }
-        this.getMetricsModel(-1005838336).setMetricsListener(this);
-        this.getMetricsModel(-1156833280).setMetricsListener(this);
-        this.getMetricsModel(-871620608).setMetricsListener(this);
-        this.getMetricsModel(-1190387712).setMetricsListener(this);
-        this.getChoiceModel(-787734528).setChoiceListener(this);
-        this.getChoiceModel(-1089724416).setChoiceListener(this);
-        this.getChoiceModel(990715904).setChoiceListener(this);
-        this.choiceModelList.add(this.getChoiceModel(-1995694080));
-        this.choiceModelList.add(this.getChoiceModel(-1878253568));
-        this.choiceModelList.add(this.getChoiceModel(1024270336));
-        this.metricsModelList.add(this.getMetricsModel(-1827921920));
-        this.metricsModelList.add(this.getMetricsModel(-1844699136));
-        this.metricsModelList.add(this.getMetricsModel(1074601984));
+        this.getMetricsModel(2100420).setMetricsListener(this);
+        this.getMetricsModel(2100411).setMetricsListener(this);
+        this.getMetricsModel(0x200CCC).setMetricsListener(this);
+        this.getMetricsModel(2100409).setMetricsListener(this);
+        this.getChoiceModel(2100433).setChoiceListener(this);
+        this.getChoiceModel(2100415).setChoiceListener(this);
+        this.getChoiceModel(2100539).setChoiceListener(this);
+        this.choiceModelList.add(this.getChoiceModel(2100361));
+        this.choiceModelList.add(this.getChoiceModel(2100368));
+        this.choiceModelList.add(this.getChoiceModel(2100541));
+        this.metricsModelList.add(this.getMetricsModel(2100371));
+        this.metricsModelList.add(this.getMetricsModel(2100370));
+        this.metricsModelList.add(this.getMetricsModel(2100544));
     }
 
-    @Override
     protected void deinitModels() {
-        this.getChoiceModel(-1995694080).resetListener();
-        this.getChoiceModel(-1878253568).resetListener();
-        this.getChoiceModel(1024270336).resetListener();
-        this.getChoiceModel(-1022615552).resetListener();
-        this.getMetricsModel(-1827921920).resetListener();
-        this.getMetricsModel(-1844699136).resetListener();
-        this.getMetricsModel(1074601984).resetListener();
-        this.getMetricsModel(-888397824).resetListener();
-        this.getMetricsModel(-921952256).resetListener();
-        this.getChoiceModel(-905175040).resetListener();
-        this.getChoiceModel(-1140056064).resetListener();
-        this.getChoiceModel(-804511744).resetListener();
-        this.getChoiceModel(-1123278848).resetListener();
-        this.getChoiceModel(-821288960).resetListener();
-        this.getChoiceModel(-1039392768).resetListener();
-        this.getChoiceModel(-854843392).resetListener();
-        this.getChoiceModel(-938729472).resetListener();
-        this.getChoiceModel(-770957312).resetListener();
-        this.getChoiceModel(-838066176).resetListener();
-        this.getChoiceModel(-972283904).resetListener();
-        this.getChoiceModel(-955506688).resetListener();
-        this.getChoiceModel(-1173610496).resetListener();
-        this.getChoiceModel(-1056169984).resetListener();
-        this.getChoiceModel(-1072947200).resetListener();
-        this.getChoiceModel(-1106501632).resetListener();
-        this.getChoiceModel(-989061120).resetListener();
-        this.getChoiceModel(-1207164928).resetListener();
-        this.getChoiceModel(940384256).resetListener();
-        this.getChoiceModel(1057824768).resetListener();
-        this.getChoiceModel(923607040).resetListener();
-        this.getChoiceModel(1007493120).resetListener();
-        this.getChoiceModel(1091379200).resetListener();
-        this.getChoiceModel(1041047552).resetListener();
-        this.getChoiceModel(1108156416).resetListener();
-        this.getMetricsModel(-1005838336).resetListener();
-        this.getMetricsModel(-1156833280).resetListener();
-        this.getMetricsModel(-871620608).resetListener();
-        this.getMetricsModel(-1190387712).resetListener();
-        this.getChoiceModel(-787734528).resetListener();
-        this.getChoiceModel(-1089724416).resetListener();
-        this.getChoiceModel(990715904).resetListener();
+        this.getChoiceModel(2100361).resetListener();
+        this.getChoiceModel(2100368).resetListener();
+        this.getChoiceModel(2100541).resetListener();
+        this.getChoiceModel(2100419).resetListener();
+        this.getMetricsModel(2100371).resetListener();
+        this.getMetricsModel(2100370).resetListener();
+        this.getMetricsModel(2100544).resetListener();
+        this.getMetricsModel(2100427).resetListener();
+        this.getMetricsModel(2100425).resetListener();
+        this.getChoiceModel(2100426).resetListener();
+        this.getChoiceModel(2100412).resetListener();
+        this.getChoiceModel(2100432).resetListener();
+        this.getChoiceModel(2100413).resetListener();
+        this.getChoiceModel(2100431).resetListener();
+        this.getChoiceModel(0x200CC2).resetListener();
+        this.getChoiceModel(2100429).resetListener();
+        this.getChoiceModel(2100424).resetListener();
+        this.getChoiceModel(2100434).resetListener();
+        this.getChoiceModel(2100430).resetListener();
+        this.getChoiceModel(2100422).resetListener();
+        this.getChoiceModel(2100423).resetListener();
+        this.getChoiceModel(2100410).resetListener();
+        this.getChoiceModel(2100417).resetListener();
+        this.getChoiceModel(0x200CC0).resetListener();
+        this.getChoiceModel(2100414).resetListener();
+        this.getChoiceModel(2100421).resetListener();
+        this.getChoiceModel(2100408).resetListener();
+        this.getChoiceModel(2100536).resetListener();
+        this.getChoiceModel(2100543).resetListener();
+        this.getChoiceModel(2100535).resetListener();
+        this.getChoiceModel(2100540).resetListener();
+        this.getChoiceModel(2100545).resetListener();
+        this.getChoiceModel(2100542).resetListener();
+        this.getChoiceModel(2100546).resetListener();
+        this.getMetricsModel(2100420).resetListener();
+        this.getMetricsModel(2100411).resetListener();
+        this.getMetricsModel(0x200CCC).resetListener();
+        this.getMetricsModel(2100409).resetListener();
+        this.getChoiceModel(2100433).resetListener();
+        this.getChoiceModel(2100415).resetListener();
+        this.getChoiceModel(2100539).resetListener();
     }
 
-    @Override
     protected void dsiAvailable(boolean bl) {
         super.dsiAvailable(bl);
-        this.getLogChannel().log(1078071040, "DSI available, starting BCListHandling Service...");
-        this.bcListHandlingTracker = new CarServiceTracker(new AbstractChargeComponent$BCListHandlingTrackerListener(this, this), this.getApplication().getBundleContext(), this.getLogChannel());
+        this.getLogChannel().log(1000000, "DSI available, starting BCListHandling Service...");
+        this.bcListHandlingTracker = new CarServiceTracker(new BCListHandlingTrackerListener(this), this.getApplication().getBundleContext(), this.getLogChannel());
         this.bcListHandlingTracker.startTracking();
     }
 
-    @Override
     public CarDSIAttributesSet[] getDSIAttributesSets() {
         return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{6}, new int[]{7, 24, 11, 12, 13, 10, 23, 19, 18, 15, 17, 9, 8, 22, 2})};
     }
 
-    @Override
     public String getCurrentViewOptions() {
         if (this.currBConViewOptions == null) {
             return "no view options received yet";
@@ -254,10 +245,9 @@ IDateTimeChangeListener {
         return this.currBConViewOptions.toString();
     }
 
-    @Override
     public void updateBatteryControlViewOptions(BatteryControlViewOptions batteryControlViewOptions, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "updateBatteryControlViewOptions(%1), valid=%2", (Object)(batteryControlViewOptions != null ? this.formatViewOptionsLog(batteryControlViewOptions.toString()) : "null"), (long)n);
+            this.getLogChannel().log(1000000, "updateBatteryControlViewOptions(%1), valid=%2", (Object)(batteryControlViewOptions != null ? this.formatViewOptionsLog(batteryControlViewOptions.toString()) : "null"), (long)n);
         }
         if (n == 1 && batteryControlViewOptions != null) {
             this.currBConViewOptions = batteryControlViewOptions;
@@ -273,88 +263,85 @@ IDateTimeChangeListener {
         }
     }
 
-    @Override
     public void updateBatteryControlPlugDisplayState(int n, int n2, int n3) {
-        this.getLogChannel().log(1078071040, "updateBatteryControlPlugDisplayState: color=%1, state=%2, validFlag=%3", (long)n, (long)n2, (long)n3);
+        this.getLogChannel().log(1000000, "updateBatteryControlPlugDisplayState: color=%1, state=%2, validFlag=%3", (long)n, (long)n2, (long)n3);
         if (n3 == 1) {
             switch (n) {
                 case 0: {
-                    this.getChoiceModel(-653516800).setValue(0);
+                    this.getChoiceModel(2100441).setValue(0);
                     break;
                 }
                 case 1: {
-                    this.getChoiceModel(-653516800).setValue(1);
+                    this.getChoiceModel(2100441).setValue(1);
                     break;
                 }
                 case 3: {
-                    this.getChoiceModel(-653516800).setValue(3);
+                    this.getChoiceModel(2100441).setValue(3);
                     break;
                 }
                 case 2: {
-                    this.getChoiceModel(-653516800).setValue(2);
+                    this.getChoiceModel(2100441).setValue(2);
                     break;
                 }
                 default: {
-                    this.getLogChannel().log(-1601830656, "updateBatteryControlPlugDisplayState: Unknown color=%1", (long)n);
+                    this.getLogChannel().log(100000, "updateBatteryControlPlugDisplayState: Unknown color=%1", (long)n);
                 }
             }
             switch (n2) {
                 case 0: 
                 case 1: {
-                    this.getChoiceModel(860160).setValue(0);
+                    this.getChoiceModel(0x200D00).setValue(0);
                     break;
                 }
                 case 2: {
-                    this.getChoiceModel(860160).setValue(1);
+                    this.getChoiceModel(0x200D00).setValue(1);
                     break;
                 }
                 case 3: {
-                    this.getChoiceModel(860160).setValue(2);
+                    this.getChoiceModel(0x200D00).setValue(2);
                     break;
                 }
                 case 4: {
-                    this.getChoiceModel(860160).setValue(3);
+                    this.getChoiceModel(0x200D00).setValue(3);
                     break;
                 }
                 default: {
-                    this.getLogChannel().log(-1601830656, "updateBatteryControlPlugDisplayState: Unknown animation state=%1", (long)n2);
+                    this.getLogChannel().log(100000, "updateBatteryControlPlugDisplayState: Unknown animation state=%1", (long)n2);
                 }
             }
         }
     }
 
-    @Override
     public void updateBatteryControlPlug(BatteryControlPlug batteryControlPlug, int n) {
-        this.getLogChannel().log(1078071040, "updateBatteryControlPlug: plug=%1", (Object)batteryControlPlug);
+        this.getLogChannel().log(1000000, "updateBatteryControlPlug: plug=%1", (Object)batteryControlPlug);
         if (n == 1) {
             if (batteryControlPlug.plugState == 1) {
-                this.getChoiceModel(-737402880).setValue(1);
+                this.getChoiceModel(2100436).setValue(1);
             } else if (batteryControlPlug.plugState == 0 || batteryControlPlug.plugState == 15) {
-                this.getChoiceModel(-737402880).setValue(0);
+                this.getChoiceModel(2100436).setValue(0);
             }
         }
     }
 
-    @Override
     public void updateBatteryControlChargeState(BatteryControlChargeState batteryControlChargeState, int n) {
-        this.getLogChannel().log(1078071040, "updateBatteryControlChargeState: chargeState=%1, validFlag=%2", (Object)batteryControlChargeState, (long)n);
+        this.getLogChannel().log(1000000, "updateBatteryControlChargeState: chargeState=%1, validFlag=%2", (Object)batteryControlChargeState, (long)n);
         if (n == 1) {
             if (this.carNetworkPlatformInfo.isMLBEvo()) {
                 this.updateBatterySegmetModel(batteryControlChargeState.getCurrentChargeLevel());
             }
             if (batteryControlChargeState.getChargeState() == 2) {
-                this.getChoiceModel(-15982592).setValue(2);
+                this.getChoiceModel(2100479).setValue(2);
             } else {
-                this.getChoiceModel(-15982592).setValue(1);
+                this.getChoiceModel(2100479).setValue(1);
             }
-            if (batteryControlChargeState.remainingChargeTime == -65536 || batteryControlChargeState.chargeState != 2) {
-                this.getChoiceModel(-720625664).setValue(1);
+            if (batteryControlChargeState.remainingChargeTime == 65535 || batteryControlChargeState.chargeState != 2) {
+                this.getChoiceModel(2100437).setValue(1);
             } else {
-                this.getChoiceModel(-720625664).setValue(0);
-                DateMetric dateMetric = new DateMetric(new Date(batteryControlChargeState.remainingChargeTime * 1625948160), 11);
+                this.getChoiceModel(2100437).setValue(0);
+                DateMetric dateMetric = new DateMetric(new Date(batteryControlChargeState.remainingChargeTime * 60000), 11);
                 dateMetric.setUseInstanceUnit(true);
-                this.getMetricsModel(-921952256).setMetric(dateMetric);
-                this.getMetricsModel(-921952256).formatChanged();
+                this.getMetricsModel(2100425).setMetric(dateMetric);
+                this.getMetricsModel(2100425).formatChanged();
             }
         }
         this.updateEntryVisibilityForError(batteryControlChargeState, this.currBConViewOptions);
@@ -362,9 +349,8 @@ IDateTimeChangeListener {
         this.updateCurrentErrorDisclaimer(batteryControlChargeState);
     }
 
-    @Override
     public void updateHybridCharge(int n, int n2) {
-        this.getLogChannel().log(1078071040, "updateHybridCharge: currentCharge=%1, validFlag=%2", (long)n, (long)n2);
+        this.getLogChannel().log(1000000, "updateHybridCharge: currentCharge=%1, validFlag=%2", (long)n, (long)n2);
         if (n2 == 1 && !this.carNetworkPlatformInfo.isMLBEvo()) {
             this.updateBatterySegmetModel(n);
         }
@@ -372,46 +358,41 @@ IDateTimeChangeListener {
 
     private void updateBatterySegmetModel(int n) {
         int n2 = MiscHybridHelper.getBatterySegmentForPercentage(n);
-        this.getChoiceModel(-754180096).setValue(n2);
+        this.getChoiceModel(2100435).setValue(n2);
     }
 
-    @Override
     public void updateBatteryControlClimateState(BatteryControlClimateState batteryControlClimateState, int n) {
-        this.getLogChannel().log(1078071040, "updateBatteryControlClimateState: climateState=%1, validFlag=%2", (Object)batteryControlClimateState, (long)n);
+        this.getLogChannel().log(1000000, "updateBatteryControlClimateState: climateState=%1, validFlag=%2", (Object)batteryControlClimateState, (long)n);
     }
 
-    @Override
     public void updateBatteryControlTimerState(BatteryControlTimerState batteryControlTimerState, int n) {
-        this.getLogChannel().log(1078071040, "updateBatteryControlTimerState: timer=%1, validflag=%2", (Object)batteryControlTimerState, (long)n);
+        this.getLogChannel().log(1000000, "updateBatteryControlTimerState: timer=%1, validflag=%2", (Object)batteryControlTimerState, (long)n);
         if (n == 1) {
             this.currentTimerState = batteryControlTimerState;
-            this.getChoiceModel(-1995694080).setValue(batteryControlTimerState.getProgrammedTimer().isTimer1() ? 1 : 0);
-            this.getChoiceModel(-1878253568).setValue(batteryControlTimerState.getProgrammedTimer().isTimer2() ? 1 : 0);
-            this.getChoiceModel(1024270336).setValue(batteryControlTimerState.getProgrammedTimer().isTimer3() ? 1 : 0);
+            this.getChoiceModel(2100361).setValue(batteryControlTimerState.getProgrammedTimer().isTimer1() ? 1 : 0);
+            this.getChoiceModel(2100368).setValue(batteryControlTimerState.getProgrammedTimer().isTimer2() ? 1 : 0);
+            this.getChoiceModel(2100541).setValue(batteryControlTimerState.getProgrammedTimer().isTimer3() ? 1 : 0);
         }
     }
 
-    @Override
     public void updateBatteryControlTimer1(BatteryControlTimer batteryControlTimer, int n) {
-        this.getLogChannel().log(1078071040, "updateBatteryControlTimer1: timer=%1, validFlag=%2", (Object)batteryControlTimer, (long)n);
+        this.getLogChannel().log(1000000, "updateBatteryControlTimer1: timer=%1, validFlag=%2", (Object)batteryControlTimer, (long)n);
         if (n == 1) {
             this.updateBatteryControlTimer(1, batteryControlTimer);
-            this.getChoiceModel(-670294016).setValue(batteryControlTimer.getWeekdays().isCyclic() ? 0 : 9);
+            this.getChoiceModel(2100440).setValue(batteryControlTimer.getWeekdays().isCyclic() ? 0 : 9);
         }
     }
 
-    @Override
     public void updateBatteryControlTimer2(BatteryControlTimer batteryControlTimer, int n) {
-        this.getLogChannel().log(1078071040, "updateBatteryControlTimer2: timer=%1, validFlag=%2", (Object)batteryControlTimer, (long)n);
+        this.getLogChannel().log(1000000, "updateBatteryControlTimer2: timer=%1, validFlag=%2", (Object)batteryControlTimer, (long)n);
         if (n == 1) {
-            this.getChoiceModel(-703848448).setValue(batteryControlTimer.getWeekdays().isCyclic() ? 0 : 9);
+            this.getChoiceModel(2100438).setValue(batteryControlTimer.getWeekdays().isCyclic() ? 0 : 9);
             this.updateBatteryControlTimer(2, batteryControlTimer);
         }
     }
 
-    @Override
     public void updateBatteryControlTimer3(BatteryControlTimer batteryControlTimer, int n) {
-        this.getLogChannel().log(1078071040, "updateBatteryControlTimer3: timer=%1, validFlag=%2", (Object)batteryControlTimer, (long)n);
+        this.getLogChannel().log(1000000, "updateBatteryControlTimer3: timer=%1, validFlag=%2", (Object)batteryControlTimer, (long)n);
         if (n == 1) {
             this.updateBatteryControlTimer(3, batteryControlTimer);
         }
@@ -422,64 +403,64 @@ IDateTimeChangeListener {
         String string = "updateBatteryControlTimer";
         switch (n) {
             case 1: {
-                n2 = -1827921920;
+                n2 = 2100371;
                 this.batteryControlTimer1 = batteryControlTimer;
-                this.getChoiceModel(-821288960).setValue(batteryControlTimer.getWeekdays().monday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(2, batteryControlTimer.getWeekdays().monday, batteryControlTimer) ? 1 : 0));
-                this.getChoiceModel(-1039392768).setValue(batteryControlTimer.getWeekdays().tuesday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(3, batteryControlTimer.getWeekdays().tuesday, batteryControlTimer) ? 1 : 0));
-                this.getChoiceModel(-854843392).setValue(batteryControlTimer.getWeekdays().wednesday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(4, batteryControlTimer.getWeekdays().wednesday, batteryControlTimer) ? 1 : 0));
-                this.getChoiceModel(-938729472).setValue(batteryControlTimer.getWeekdays().thursday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(5, batteryControlTimer.getWeekdays().thursday, batteryControlTimer) ? 1 : 0));
-                this.getChoiceModel(-770957312).setValue(batteryControlTimer.getWeekdays().friday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(6, batteryControlTimer.getWeekdays().friday, batteryControlTimer) ? 1 : 0));
-                this.getChoiceModel(-838066176).setValue(batteryControlTimer.getWeekdays().saturday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(7, batteryControlTimer.getWeekdays().saturday, batteryControlTimer) ? 1 : 0));
-                this.getChoiceModel(-972283904).setValue(batteryControlTimer.getWeekdays().sunday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(1, batteryControlTimer.getWeekdays().sunday, batteryControlTimer) ? 1 : 0));
-                this.getChoiceModel(-905175040).setValue(batteryControlTimer.getWeekdays().isCyclic() ? 1 : 0);
+                this.getChoiceModel(2100431).setValue(batteryControlTimer.getWeekdays().monday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(2, batteryControlTimer.getWeekdays().monday, batteryControlTimer) ? 1 : 0));
+                this.getChoiceModel(0x200CC2).setValue(batteryControlTimer.getWeekdays().tuesday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(3, batteryControlTimer.getWeekdays().tuesday, batteryControlTimer) ? 1 : 0));
+                this.getChoiceModel(2100429).setValue(batteryControlTimer.getWeekdays().wednesday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(4, batteryControlTimer.getWeekdays().wednesday, batteryControlTimer) ? 1 : 0));
+                this.getChoiceModel(2100424).setValue(batteryControlTimer.getWeekdays().thursday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(5, batteryControlTimer.getWeekdays().thursday, batteryControlTimer) ? 1 : 0));
+                this.getChoiceModel(2100434).setValue(batteryControlTimer.getWeekdays().friday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(6, batteryControlTimer.getWeekdays().friday, batteryControlTimer) ? 1 : 0));
+                this.getChoiceModel(2100430).setValue(batteryControlTimer.getWeekdays().saturday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(7, batteryControlTimer.getWeekdays().saturday, batteryControlTimer) ? 1 : 0));
+                this.getChoiceModel(2100422).setValue(batteryControlTimer.getWeekdays().sunday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(1, batteryControlTimer.getWeekdays().sunday, batteryControlTimer) ? 1 : 0));
+                this.getChoiceModel(2100426).setValue(batteryControlTimer.getWeekdays().isCyclic() ? 1 : 0);
                 if (this.areAllWeekdaysSelected(batteryControlTimer.getWeekdays())) {
-                    this.getChoiceModel(-804511744).setValue(1);
+                    this.getChoiceModel(2100432).setValue(1);
                 } else {
-                    this.getChoiceModel(-804511744).setValue(0);
+                    this.getChoiceModel(2100432).setValue(0);
                 }
                 this.prepareWeekdaysObject(this.selectedWeekdaysTimer1, batteryControlTimer);
                 break;
             }
             case 2: {
-                n2 = -1844699136;
+                n2 = 2100370;
                 this.batteryControlTimer2 = batteryControlTimer;
-                this.getChoiceModel(-955506688).setValue(batteryControlTimer.getWeekdays().monday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(2, batteryControlTimer.getWeekdays().monday, batteryControlTimer) ? 1 : 0));
-                this.getChoiceModel(-1173610496).setValue(batteryControlTimer.getWeekdays().tuesday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(3, batteryControlTimer.getWeekdays().tuesday, batteryControlTimer) ? 1 : 0));
-                this.getChoiceModel(-1056169984).setValue(batteryControlTimer.getWeekdays().wednesday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(4, batteryControlTimer.getWeekdays().wednesday, batteryControlTimer) ? 1 : 0));
-                this.getChoiceModel(-1072947200).setValue(batteryControlTimer.getWeekdays().thursday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(5, batteryControlTimer.getWeekdays().thursday, batteryControlTimer) ? 1 : 0));
-                this.getChoiceModel(-1106501632).setValue(batteryControlTimer.getWeekdays().friday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(6, batteryControlTimer.getWeekdays().friday, batteryControlTimer) ? 1 : 0));
-                this.getChoiceModel(-989061120).setValue(batteryControlTimer.getWeekdays().saturday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(7, batteryControlTimer.getWeekdays().saturday, batteryControlTimer) ? 1 : 0));
-                this.getChoiceModel(-1207164928).setValue(batteryControlTimer.getWeekdays().sunday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(1, batteryControlTimer.getWeekdays().sunday, batteryControlTimer) ? 1 : 0));
-                this.getChoiceModel(-1140056064).setValue(batteryControlTimer.getWeekdays().isCyclic() ? 1 : 0);
+                this.getChoiceModel(2100423).setValue(batteryControlTimer.getWeekdays().monday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(2, batteryControlTimer.getWeekdays().monday, batteryControlTimer) ? 1 : 0));
+                this.getChoiceModel(2100410).setValue(batteryControlTimer.getWeekdays().tuesday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(3, batteryControlTimer.getWeekdays().tuesday, batteryControlTimer) ? 1 : 0));
+                this.getChoiceModel(2100417).setValue(batteryControlTimer.getWeekdays().wednesday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(4, batteryControlTimer.getWeekdays().wednesday, batteryControlTimer) ? 1 : 0));
+                this.getChoiceModel(0x200CC0).setValue(batteryControlTimer.getWeekdays().thursday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(5, batteryControlTimer.getWeekdays().thursday, batteryControlTimer) ? 1 : 0));
+                this.getChoiceModel(2100414).setValue(batteryControlTimer.getWeekdays().friday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(6, batteryControlTimer.getWeekdays().friday, batteryControlTimer) ? 1 : 0));
+                this.getChoiceModel(2100421).setValue(batteryControlTimer.getWeekdays().saturday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(7, batteryControlTimer.getWeekdays().saturday, batteryControlTimer) ? 1 : 0));
+                this.getChoiceModel(2100408).setValue(batteryControlTimer.getWeekdays().sunday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(1, batteryControlTimer.getWeekdays().sunday, batteryControlTimer) ? 1 : 0));
+                this.getChoiceModel(2100412).setValue(batteryControlTimer.getWeekdays().isCyclic() ? 1 : 0);
                 if (this.areAllWeekdaysSelected(batteryControlTimer.getWeekdays())) {
-                    this.getChoiceModel(-1123278848).setValue(1);
+                    this.getChoiceModel(2100413).setValue(1);
                 } else {
-                    this.getChoiceModel(-1123278848).setValue(0);
+                    this.getChoiceModel(2100413).setValue(0);
                 }
                 this.prepareWeekdaysObject(this.selectedWeekdaysTimer2, batteryControlTimer);
                 break;
             }
             case 3: {
-                n2 = 1074601984;
+                n2 = 2100544;
                 this.batteryControlTimer3 = batteryControlTimer;
-                this.getChoiceModel(940384256).setValue(batteryControlTimer.getWeekdays().monday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(2, batteryControlTimer.getWeekdays().monday, batteryControlTimer) ? 1 : 0));
-                this.getChoiceModel(1057824768).setValue(batteryControlTimer.getWeekdays().tuesday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(3, batteryControlTimer.getWeekdays().tuesday, batteryControlTimer) ? 1 : 0));
-                this.getChoiceModel(923607040).setValue(batteryControlTimer.getWeekdays().wednesday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(4, batteryControlTimer.getWeekdays().wednesday, batteryControlTimer) ? 1 : 0));
-                this.getChoiceModel(1007493120).setValue(batteryControlTimer.getWeekdays().thursday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(5, batteryControlTimer.getWeekdays().thursday, batteryControlTimer) ? 1 : 0));
-                this.getChoiceModel(1091379200).setValue(batteryControlTimer.getWeekdays().friday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(6, batteryControlTimer.getWeekdays().friday, batteryControlTimer) ? 1 : 0));
-                this.getChoiceModel(1041047552).setValue(batteryControlTimer.getWeekdays().saturday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(7, batteryControlTimer.getWeekdays().saturday, batteryControlTimer) ? 1 : 0));
-                this.getChoiceModel(1108156416).setValue(batteryControlTimer.getWeekdays().sunday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(1, batteryControlTimer.getWeekdays().sunday, batteryControlTimer) ? 1 : 0));
-                this.getChoiceModel(973938688).setValue(batteryControlTimer.getWeekdays().isCyclic() ? 1 : 0);
+                this.getChoiceModel(2100536).setValue(batteryControlTimer.getWeekdays().monday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(2, batteryControlTimer.getWeekdays().monday, batteryControlTimer) ? 1 : 0));
+                this.getChoiceModel(2100543).setValue(batteryControlTimer.getWeekdays().tuesday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(3, batteryControlTimer.getWeekdays().tuesday, batteryControlTimer) ? 1 : 0));
+                this.getChoiceModel(2100535).setValue(batteryControlTimer.getWeekdays().wednesday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(4, batteryControlTimer.getWeekdays().wednesday, batteryControlTimer) ? 1 : 0));
+                this.getChoiceModel(2100540).setValue(batteryControlTimer.getWeekdays().thursday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(5, batteryControlTimer.getWeekdays().thursday, batteryControlTimer) ? 1 : 0));
+                this.getChoiceModel(2100545).setValue(batteryControlTimer.getWeekdays().friday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(6, batteryControlTimer.getWeekdays().friday, batteryControlTimer) ? 1 : 0));
+                this.getChoiceModel(2100542).setValue(batteryControlTimer.getWeekdays().saturday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(7, batteryControlTimer.getWeekdays().saturday, batteryControlTimer) ? 1 : 0));
+                this.getChoiceModel(2100546).setValue(batteryControlTimer.getWeekdays().sunday ? 1 : (this.shouldBeCheckedForNonCyclicTimer(1, batteryControlTimer.getWeekdays().sunday, batteryControlTimer) ? 1 : 0));
+                this.getChoiceModel(2100538).setValue(batteryControlTimer.getWeekdays().isCyclic() ? 1 : 0);
                 if (this.areAllWeekdaysSelected(batteryControlTimer.getWeekdays())) {
-                    this.getChoiceModel(957161472).setValue(1);
+                    this.getChoiceModel(2100537).setValue(1);
                 } else {
-                    this.getChoiceModel(957161472).setValue(0);
+                    this.getChoiceModel(2100537).setValue(0);
                 }
                 this.prepareWeekdaysObject(this.selectedWeekdaysTimer3, batteryControlTimer);
                 break;
             }
             default: {
-                n2 = -1827921920;
+                n2 = 2100371;
             }
         }
         BatteryControlTimer batteryControlTimer2 = batteryControlTimer;
@@ -568,24 +549,18 @@ IDateTimeChangeListener {
         }
     }
 
-    protected abstract void updateMenuEntryVisibility(BatteryControlViewOptions batteryControlViewOptions) {
-    }
+    protected abstract void updateMenuEntryVisibility(BatteryControlViewOptions var1);
 
-    protected abstract void updateThermometerIconVisibility(int n, boolean bl) {
-    }
+    protected abstract void updateThermometerIconVisibility(int var1, boolean var2);
 
-    protected abstract void updateHeatCoilIconVisibility(int n, int n2) {
-    }
+    protected abstract void updateHeatCoilIconVisibility(int var1, int var2);
 
-    protected abstract void updateEntryVisibilityForError(BatteryControlChargeState batteryControlChargeState, BatteryControlViewOptions batteryControlViewOptions) {
-    }
+    protected abstract void updateEntryVisibilityForError(BatteryControlChargeState var1, BatteryControlViewOptions var2);
 
-    @Override
     public String getName() {
         return "Charge";
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
         this.logModelData("itemSelected:", n, n2, true);
         switch (n) {
@@ -726,7 +701,7 @@ IDateTimeChangeListener {
             }
         }
         BatteryControlProgrammedTimer batteryControlProgrammedTimer = new BatteryControlProgrammedTimer(bl2, bl3, bl4, bl5);
-        this.getLogChannel().log(1078071040, "switchTimerActivation: dsi.setBatteryControlTimerState(timer=%1)", (Object)batteryControlProgrammedTimer);
+        this.getLogChannel().log(1000000, "switchTimerActivation: dsi.setBatteryControlTimerState(timer=%1)", (Object)batteryControlProgrammedTimer);
         this.getDSI().setBatteryControlTimerState(batteryControlProgrammedTimer);
     }
 
@@ -787,15 +762,15 @@ IDateTimeChangeListener {
         }
         switch (n3) {
             case 1: {
-                this.setTimer(1, this.getDateMetric(-1827921920).getDate());
+                this.setTimer(1, this.getDateMetric(2100371).getDate());
                 break;
             }
             case 2: {
-                this.setTimer(2, this.getDateMetric(-1844699136).getDate());
+                this.setTimer(2, this.getDateMetric(2100370).getDate());
                 break;
             }
             case 3: {
-                this.setTimer(3, this.getDateMetric(1074601984).getDate());
+                this.setTimer(3, this.getDateMetric(2100544).getDate());
                 break;
             }
             default: {
@@ -838,7 +813,7 @@ IDateTimeChangeListener {
                         this.selectedWeekdaysTimer1.sunday = bl;
                     }
                 }
-                this.setTimer(1, this.getDateMetric(-1827921920).getDate());
+                this.setTimer(1, this.getDateMetric(2100371).getDate());
                 break;
             }
             case 2100413: {
@@ -854,7 +829,7 @@ IDateTimeChangeListener {
                         this.selectedWeekdaysTimer2.sunday = bl;
                     }
                 }
-                this.setTimer(2, this.getDateMetric(-1844699136).getDate());
+                this.setTimer(2, this.getDateMetric(2100370).getDate());
                 break;
             }
             case 2100537: {
@@ -870,7 +845,7 @@ IDateTimeChangeListener {
                         this.selectedWeekdaysTimer3.sunday = bl;
                     }
                 }
-                this.setTimer(3, this.getDateMetric(1074601984).getDate());
+                this.setTimer(3, this.getDateMetric(2100544).getDate());
                 break;
             }
         }
@@ -917,7 +892,7 @@ IDateTimeChangeListener {
                         this.selectedWeekdaysTimer1.sunday = bl;
                     }
                 }
-                Date date = this.getDateForTimerTypeChanged(-1827921920, bl);
+                Date date = this.getDateForTimerTypeChanged(2100371, bl);
                 this.setTimer(1, date);
                 break;
             }
@@ -935,7 +910,7 @@ IDateTimeChangeListener {
                         this.selectedWeekdaysTimer2.sunday = bl;
                     }
                 }
-                Date date = this.getDateForTimerTypeChanged(-1844699136, bl);
+                Date date = this.getDateForTimerTypeChanged(2100370, bl);
                 this.setTimer(2, date);
                 break;
             }
@@ -953,7 +928,7 @@ IDateTimeChangeListener {
                         this.selectedWeekdaysTimer3.sunday = bl;
                     }
                 }
-                Date date = this.getDateForTimerTypeChanged(1074601984, bl);
+                Date date = this.getDateForTimerTypeChanged(2100544, bl);
                 this.setTimer(3, date);
                 break;
             }
@@ -979,29 +954,23 @@ IDateTimeChangeListener {
         return calendar.getTime();
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void metricsUpdated(int n, int n2) {
-        this.getLogChannel().log(1078071040, "metricsUpdated: DATE_METRIC FOR MODELID %1 is  %2", (Object)String.valueOf(n), (Object)this.getDateMetric(n).getDate());
+        this.getLogChannel().log(1000000, "metricsUpdated: DATE_METRIC FOR MODELID %1 is  %2", (Object)String.valueOf(n), (Object)this.getDateMetric(n).getDate());
         switch (n) {
             case 2100371: {
                 this.setTimer(1, this.getDateForTimer(n, this.selectedWeekdaysTimer1.cyclic));
@@ -1061,7 +1030,7 @@ IDateTimeChangeListener {
         if (this.timerHelper.getNowInOneYear().getTime().before(date)) {
             calendar = TimerHelper.getCorrectCalendarFromDate(this.timerHelper.getNowInOneYear().getTime());
         }
-        this.getLogChannel().log(1078071040, "setTimer: timerId=%1, date=%2", (Object)String.valueOf(n), (Object)date.toString());
+        this.getLogChannel().log(1000000, "setTimer: timerId=%1, date=%2", (Object)String.valueOf(n), (Object)date.toString());
         int n3 = calendar.get(1);
         int n4 = calendar.get(2) + 1;
         int n5 = calendar.get(5);
@@ -1069,20 +1038,17 @@ IDateTimeChangeListener {
             n3 = 255;
             n4 = 255;
             n5 = 255;
-            this.getLogChannel().log(1078071040, "setTimer: Cyclic timer year=%1, month=%1, day=%1", (long)0);
+            this.getLogChannel().log(1000000, "setTimer: Cyclic timer year=%1, month=%1, day=%1", 255L);
         }
         this.getDSI().setBatteryControlTimer(n, n3, n4, n5, calendar.get(11), calendar.get(12), batteryControlWeekdays, n2);
     }
 
-    @Override
     protected void initVisibility() {
     }
 
-    @Override
     protected void deinitVisibility() {
     }
 
-    @Override
     public void updateClimateSystemType(int n, int n2) {
         switch (n) {
             case 1: {
@@ -1098,74 +1064,70 @@ IDateTimeChangeListener {
                 break;
             }
             default: {
-                this.getLogChannel().log(-2137614336, "[AbstractAuxCoolerComponent.BatteryControlListHandling#setClimateSystemType] profileId=%1 not handled", (long)n);
+                this.getLogChannel().log(10000000, "[AbstractAuxCoolerComponent.BatteryControlListHandling#setClimateSystemType] profileId=%1 not handled", (long)n);
             }
         }
     }
 
-    @Override
     public void updateChargeTimerClimateChoice(int n, int n2) {
         switch (n) {
             case 1: {
-                this.getChoiceModel(-787734528).setValue(n2);
+                this.getChoiceModel(2100433).setValue(n2);
                 this.updateThermometerIconVisibility(1, n2 == 1);
                 break;
             }
             case 2: {
-                this.getChoiceModel(-1089724416).setValue(n2);
+                this.getChoiceModel(2100415).setValue(n2);
                 this.updateThermometerIconVisibility(2, n2 == 1);
                 break;
             }
             case 3: {
-                this.getChoiceModel(990715904).setValue(n2);
+                this.getChoiceModel(2100539).setValue(n2);
                 this.updateThermometerIconVisibility(3, n2 == 1);
                 break;
             }
         }
     }
 
-    @Override
     public void onBatteryControlProfileOperationChanged(int n, BatteryControlProfileOperation batteryControlProfileOperation) {
     }
 
     public void updateCurrentErrorDisclaimer(BatteryControlChargeState batteryControlChargeState) {
         if (batteryControlChargeState.getChargeState() == 7) {
-            this.getLogChannel().log(1078071040, "updateCurrentErrorDisclaimer: chargeState=%1; Show Disclaimer with ERROR_REASON_GENERALDEVICEERROR", (Object)batteryControlChargeState);
-            this.getChoiceModel(118300672).setValue(1);
+            this.getLogChannel().log(1000000, "updateCurrentErrorDisclaimer: chargeState=%1; Show Disclaimer with ERROR_REASON_GENERALDEVICEERROR", (Object)batteryControlChargeState);
+            this.getChoiceModel(2100487).setValue(1);
         } else {
-            this.getLogChannel().log(1078071040, "updateCurrentErrorDisclaimer: chargeState=%1; Show Disclaimer with ERROR_REASON_NONE", (Object)batteryControlChargeState);
-            this.getChoiceModel(118300672).setValue(0);
+            this.getLogChannel().log(1000000, "updateCurrentErrorDisclaimer: chargeState=%1; Show Disclaimer with ERROR_REASON_NONE", (Object)batteryControlChargeState);
+            this.getChoiceModel(2100487).setValue(0);
         }
     }
 
-    @Override
     public void updateBatteryControlPastErrorReason(int n, int n2, int n3, int n4) {
-        this.getLogChannel().log(1078071040, "updateBatteryControlPastErrorReason: climateStateLastError=%1, validFlag=%2", (long)n2, (long)n4);
+        this.getLogChannel().log(1000000, "updateBatteryControlPastErrorReason: climateStateLastError=%1, validFlag=%2", (long)n2, (long)n4);
         if (n4 == 1) {
             this.updatePastErrorDisclaimerModel(n3);
         }
     }
 
     protected synchronized void updatePastErrorDisclaimerModel(int n) {
-        this.getLogChannel().log(1078071040, "updatePastErrorDisclaimerModel: errorReason=%1", (long)n);
+        this.getLogChannel().log(1000000, "updatePastErrorDisclaimerModel: errorReason=%1", (long)n);
         if (n == 16 || n == 0) {
-            this.getChoiceModel(135077888).setValue(0);
+            this.getChoiceModel(2100488).setValue(0);
             return;
         }
-        this.getChoiceModel(135077888).setValue(1);
+        this.getChoiceModel(2100488).setValue(1);
     }
 
     public void resetPastError() {
-        this.getChoiceModel(135077888).setValue(0);
-        this.getLogChannel().log(1078071040, "[AbstractAuxheaterComponent#resetPastError] screen with past error entered, resetting the error until next bus cycle");
+        this.getChoiceModel(2100488).setValue(0);
+        this.getLogChannel().log(1000000, "[AbstractAuxheaterComponent#resetPastError] screen with past error entered, resetting the error until next bus cycle");
         this.getDSI().setBatteryControlPastErrorReason(0);
     }
 
-    @Override
     public void onTimeChange(ClockTime clockTime) {
         if (this.clockTime.getMinutes() != clockTime.getMinutes() || this.clockTime.getHours() != clockTime.getHours()) {
             this.storeRemainingTimeTillTimerActivation(clockTime);
-            this.getLogChannel().log(-2137614336, "onTimeChange: time = %1", (Object)clockTime);
+            this.getLogChannel().log(10000000, "onTimeChange: time = %1", (Object)clockTime);
             this.clockTime = clockTime;
             this.dsiCalendar.set(11, clockTime.getHours());
             this.dsiCalendar.set(12, clockTime.getMinutes());
@@ -1179,8 +1141,8 @@ IDateTimeChangeListener {
         long l = this.calcRemainingTimeTillTimerActivation(clockTime);
         DateMetric dateMetric = new DateMetric(new Date(l), 5);
         dateMetric.setUseInstanceUnit(true);
-        this.getMetricsModel(1141710848).setMetric(dateMetric);
-        this.getMetricsModel(1141710848).formatChanged();
+        this.getMetricsModel(2100548).setMetric(dateMetric);
+        this.getMetricsModel(2100548).formatChanged();
     }
 
     private long calcRemainingTimeTillTimerActivation(ClockTime clockTime) {
@@ -1194,10 +1156,9 @@ IDateTimeChangeListener {
         return l;
     }
 
-    @Override
     public void onDateChange(ClockDate clockDate) {
         if (this.clockDate.getDay() != clockDate.getDay() || this.clockDate.getMonth() != clockDate.getMonth() || this.clockDate.getYear() != clockDate.getYear()) {
-            this.getLogChannel().log(-2137614336, "onDateChange: date = %1", (Object)clockDate);
+            this.getLogChannel().log(10000000, "onDateChange: date = %1", (Object)clockDate);
             this.clockDate = clockDate;
             this.dsiCalendar.set(1, clockDate.getYear() + 2000);
             this.dsiCalendar.set(2, clockDate.getMonth() - 1);
@@ -1206,11 +1167,6 @@ IDateTimeChangeListener {
         } else {
             this.clockDate = clockDate;
         }
-    }
-
-    static /* synthetic */ IBattCtrlCommunicationService access$002(AbstractChargeComponent abstractChargeComponent, IBattCtrlCommunicationService iBattCtrlCommunicationService) {
-        abstractChargeComponent.bcCommunicationService = iBattCtrlCommunicationService;
-        return abstractChargeComponent.bcCommunicationService;
     }
 
     static /* synthetic */ Class class$(String string) {
@@ -1222,13 +1178,51 @@ IDateTimeChangeListener {
         }
     }
 
-    static /* synthetic */ IBatteryControlListHandlingService access$102(AbstractChargeComponent abstractChargeComponent, IBatteryControlListHandlingService iBatteryControlListHandlingService) {
-        abstractChargeComponent.bcListHandlingService = iBatteryControlListHandlingService;
-        return abstractChargeComponent.bcListHandlingService;
+    private class BCListHandlingTrackerListener
+    implements CarServiceTrackerListener {
+        private AbstractChargeComponent component;
+
+        public BCListHandlingTrackerListener(AbstractChargeComponent abstractChargeComponent2) {
+            this.component = abstractChargeComponent2;
+        }
+
+        public void serviceAvailable(Object object) {
+            AbstractChargeComponent.this.bcListHandlingService = (IBatteryControlListHandlingService)object;
+            AbstractChargeComponent.this.bcListHandlingService.registerCalledBackComponent(this.component);
+        }
+
+        public void serviceRemoved() {
+            AbstractChargeComponent.this.bcListHandlingService = null;
+        }
+
+        public String[] getTrackedServiceClazzName() {
+            return new String[]{(class$de$audi$atip$interapp$IBatteryControlListHandlingService == null ? (class$de$audi$atip$interapp$IBatteryControlListHandlingService = AbstractChargeComponent.class$("de.audi.atip.interapp.IBatteryControlListHandlingService")) : class$de$audi$atip$interapp$IBatteryControlListHandlingService).getName()};
+        }
+
+        public IBatteryControlListHandlingService getGoodbyeService() {
+            return AbstractChargeComponent.this.bcListHandlingService;
+        }
     }
 
-    static /* synthetic */ IBatteryControlListHandlingService access$100(AbstractChargeComponent abstractChargeComponent) {
-        return abstractChargeComponent.bcListHandlingService;
+    private class BCCommunicationTrackerListener
+    implements CarServiceTrackerListener {
+        private AbstractChargeComponent component;
+
+        public BCCommunicationTrackerListener(AbstractChargeComponent abstractChargeComponent2) {
+            this.component = abstractChargeComponent2;
+        }
+
+        public void serviceAvailable(Object object) {
+            AbstractChargeComponent.this.bcCommunicationService = (IBattCtrlCommunicationService)object;
+        }
+
+        public void serviceRemoved() {
+            AbstractChargeComponent.this.bcCommunicationService = null;
+        }
+
+        public String[] getTrackedServiceClazzName() {
+            return new String[]{(class$de$audi$atip$interapp$IBattCtrlCommunicationService == null ? (class$de$audi$atip$interapp$IBattCtrlCommunicationService = AbstractChargeComponent.class$("de.audi.atip.interapp.IBattCtrlCommunicationService")) : class$de$audi$atip$interapp$IBattCtrlCommunicationService).getName()};
+        }
     }
 }
 

@@ -9,12 +9,11 @@ import org.dsi.ifc.search.SearchResult;
 import org.dsi.ifc.search.Token;
 
 public abstract class AbstractSearchResultFormatter {
-    public static final int LLD_ONETEXTLINES_GENERAL;
-    public static final int LLD_TWOTEXTLINES_GENERAL;
-    public static final int LLD_THREETEXTLINES_GENERAL;
+    public static final int LLD_ONETEXTLINES_GENERAL = 0;
+    public static final int LLD_TWOTEXTLINES_GENERAL = 1;
+    public static final int LLD_THREETEXTLINES_GENERAL = 2;
 
-    public abstract SearchResultListRow formatResult(SearchResult searchResult) {
-    }
+    public abstract SearchResultListRow formatResult(SearchResult var1);
 
     public static Token getTokenForType(Token[] tokenArray, int n) {
         Token token = null;

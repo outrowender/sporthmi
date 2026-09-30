@@ -17,32 +17,27 @@ extends AbstractEasyEntryComponent {
         this.isRgsAvailable = bl;
     }
 
-    @Override
     protected void initVisibility() {
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(1982335232, (short)12);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600182, (short)12);
         if (this.isRgsAvailable) {
-            this.getApplication().getMenuEntryRegistry().updateSlotBinding(422906880, -1615984128);
+            this.getApplication().getMenuEntryRegistry().updateSlotBinding(800025, 700063);
         } else {
-            this.getApplication().getMenuEntryRegistry().updateSlotBinding(422906880, -1481766400);
+            this.getApplication().getMenuEntryRegistry().updateSlotBinding(800025, 700071);
         }
     }
 
-    @Override
     protected void deinitVisibility() {
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(1982335232);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600182);
     }
 
-    @Override
     protected void updateMenuEntryVisibility(WiperViewOptions wiperViewOptions) {
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(1982335232, this.getMenuEntryVisibilityState(wiperViewOptions.getEasyEntrySteeringColumn()));
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600182, this.getMenuEntryVisibilityState(wiperViewOptions.getEasyEntrySteeringColumn()));
     }
 
-    @Override
     public int getID() {
         return 34;
     }
 
-    @Override
     public void updateDoorLockingUserProfileOnOff(DoorLockingUserProfileOnOff doorLockingUserProfileOnOff, int n) {
     }
 }

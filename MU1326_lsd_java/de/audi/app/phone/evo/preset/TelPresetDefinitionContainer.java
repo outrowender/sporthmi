@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 public class TelPresetDefinitionContainer
 implements Serializable {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
     private final String name;
     private final String number;
     private final short telPhoneType;

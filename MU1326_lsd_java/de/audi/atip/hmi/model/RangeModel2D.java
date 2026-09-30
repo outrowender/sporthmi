@@ -35,7 +35,6 @@ RangeModel2DApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public String dumpContent() {
         Buffer buffer = new Buffer(100);
         buffer.append(super.dumpContent());
@@ -70,7 +69,6 @@ RangeModel2DApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     protected void copy(AbstractModel abstractModel) {
         try {
             Object object = this.mutex;
@@ -95,42 +93,34 @@ RangeModel2DApp {
         }
     }
 
-    @Override
     public int getModelType() {
         return 16;
     }
 
-    @Override
     public boolean isEmpty() {
         return false;
     }
 
-    @Override
     public int getMaximumX() {
         return this.maximumX;
     }
 
-    @Override
     public int getMaximumY() {
         return this.maximumY;
     }
 
-    @Override
     public int getMinimumX() {
         return this.minimumX;
     }
 
-    @Override
     public int getMinimumY() {
         return this.minimumY;
     }
 
-    @Override
     public int getStepX() {
         return this.stepX;
     }
 
-    @Override
     public int getStepY() {
         return this.stepY;
     }
@@ -138,7 +128,6 @@ RangeModel2DApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int getValueX() {
         Object object = this.mutex;
         synchronized (object) {
@@ -149,7 +138,6 @@ RangeModel2DApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public int getValueY() {
         Object object = this.mutex;
         synchronized (object) {
@@ -157,7 +145,6 @@ RangeModel2DApp {
         }
     }
 
-    @Override
     public void setLimitsX(int n, int n2, int n3) {
         this.minimumX = n;
         this.maximumX = n2;
@@ -165,7 +152,6 @@ RangeModel2DApp {
         this.fireModelUpdateEvent(4, n, n2);
     }
 
-    @Override
     public void setLimitsY(int n, int n2, int n3) {
         this.minimumY = n;
         this.maximumY = n2;
@@ -173,46 +159,38 @@ RangeModel2DApp {
         this.fireModelUpdateEvent(4, n, n2);
     }
 
-    @Override
     public void setLimitsX(int n, int n2, int n3, int n4) {
         this.medialPositionX = n4;
         this.setLimitsX(n, n2, n3);
     }
 
-    @Override
     public void setLimitsY(int n, int n2, int n3, int n4) {
         this.medialPositionY = n4;
         this.setLimitsY(n, n2, n3);
     }
 
-    @Override
     public void setLimitsXY(int n, int n2, int n3, int n4, int n5, int n6) {
         this.setLimitsX(n, n2, n5);
         this.setLimitsY(n3, n4, n6);
     }
 
-    @Override
     public void setLimitsXY(int n, int n2, int n3, int n4, int n5, int n6, int n7, int n8) {
         this.setLimitsX(n, n2, n5, n7);
         this.setLimitsY(n3, n4, n6, n8);
     }
 
-    @Override
     public void setMedialPositionX(int n) {
         this.medialPositionX = n;
     }
 
-    @Override
     public void setMedialPositionY(int n) {
         this.medialPositionY = n;
     }
 
-    @Override
     public void setRangeListener(RangeListener2D rangeListener2D) {
         this.setButtonListener(rangeListener2D);
     }
 
-    @Override
     public void setValue(int n, int n2) {
         this.setValueNoUpdateEvent(n, n2);
         this.fireModelUpdateEvent(1, n, n2);
@@ -225,19 +203,19 @@ RangeModel2DApp {
         int n3;
         int n4;
         if (n < this.minimumX) {
-            this.lc.log(-2137614336, "RangeModel.setValueNoUpdateEvent( %1 ): Limited to minimum %2! ", (long)n, (long)this.minimumX);
+            this.lc.log(10000000, "RangeModel.setValueNoUpdateEvent( %1 ): Limited to minimum %2! ", (long)n, (long)this.minimumX);
             n4 = this.minimumX;
         } else if (n > this.maximumX) {
-            this.lc.log(-2137614336, "RangeModel.setValueNoUpdateEvent( %1 ): Limited to maximum %2! ", (long)n, (long)this.maximumX);
+            this.lc.log(10000000, "RangeModel.setValueNoUpdateEvent( %1 ): Limited to maximum %2! ", (long)n, (long)this.maximumX);
             n4 = this.maximumX;
         } else {
             n4 = n;
         }
         if (n2 < this.minimumY) {
-            this.lc.log(-2137614336, "RangeModel.setValueNoUpdateEvent( %1 ): Limited to minimum %2! ", (long)n2, (long)this.minimumY);
+            this.lc.log(10000000, "RangeModel.setValueNoUpdateEvent( %1 ): Limited to minimum %2! ", (long)n2, (long)this.minimumY);
             n3 = this.minimumY;
         } else if (n2 > this.maximumY) {
-            this.lc.log(-2137614336, "RangeModel.setValueNoUpdateEvent( %1 ): Limited to maximum %2! ", (long)n2, (long)this.maximumY);
+            this.lc.log(10000000, "RangeModel.setValueNoUpdateEvent( %1 ): Limited to maximum %2! ", (long)n2, (long)this.maximumY);
             n3 = this.maximumY;
         } else {
             n3 = n2;
@@ -255,19 +233,16 @@ RangeModel2DApp {
         }
     }
 
-    @Override
     public int getMedialPositionX() {
         return this.medialPositionX;
     }
 
-    @Override
     public int getMedialPositionY() {
         return this.medialPositionY;
     }
 
-    @Override
     public void setValueHit(int n, int n2, int n3) {
-        this.lc.log(-2137614336, "%1.setValueHit] x:%2 y:%3", (Object)this.logPrefix, (long)n, (long)n2);
+        this.lc.log(10000000, "%1.setValueHit] x:%2 y:%3", (Object)this.logPrefix, (long)n, (long)n2);
         try {
             ((RangeListener2D)this.buttonListener).setValueHit(this.id, n, n2, n3);
         }
@@ -276,12 +251,10 @@ RangeModel2DApp {
         }
     }
 
-    @Override
     public void forceUpdate(boolean bl) {
         this.forceUpdate = bl;
     }
 
-    @Override
     public boolean isForceUpdateEnabled() {
         return this.forceUpdate;
     }

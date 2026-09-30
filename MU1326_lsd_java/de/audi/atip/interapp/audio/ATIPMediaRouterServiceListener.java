@@ -6,7 +6,6 @@ package de.audi.atip.interapp.audio;
 import de.audi.atip.interapp.audio.ATIPAudioRoute;
 
 public interface ATIPMediaRouterServiceListener {
-    default public void updateActiveAudioRoutes(ATIPAudioRoute[] aTIPAudioRouteArray) {
-    }
+    public void updateActiveAudioRoutes(ATIPAudioRoute[] var1);
 }
 

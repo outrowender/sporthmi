@@ -110,23 +110,20 @@ implements SystemSDSHandler {
         this.audioHandler = sDSAudioHandler;
         this.sdsTimeoutHandler = sDSTimeoutHandler;
         this.sdsPopupHelper = iSDSPopupHelper;
-        this.lc.log(-2137614336, "SystemSDSHandlerImpl initialized.");
+        this.lc.log(10000000, "SystemSDSHandlerImpl initialized.");
     }
 
-    @Override
     public int[] getCommands() {
         return commands;
     }
 
-    @Override
     public void sessionEnded() {
-        this.lc.log(-2137614336, "SystemSDSHandlerImpl#sessionEnded: called");
+        this.lc.log(10000000, "SystemSDSHandlerImpl#sessionEnded: called");
         this.sdsPopupHelper.removeSmallCommandDisplay();
     }
 
-    @Override
     public void processCommand(int n, ISystemCallParameter[] iSystemCallParameterArray) {
-        this.lc.log(-2137614336, "SystemSDSHandlerImpl#processCommand: id=%2, params=%1", (Object)SDSUtils.toString((Object[])iSystemCallParameterArray, false), (Object)SDSManagerBaseActivator.getSystemCallNames().getName(n));
+        this.lc.log(10000000, "SystemSDSHandlerImpl#processCommand: id=%2, params=%1", (Object)SDSUtils.toString((Object[])iSystemCallParameterArray, false), (Object)SDSManagerBaseActivator.getSystemCallNames().getName(n));
         CommandList commandList = new CommandList(SDSManagerBaseActivator.getSysCallCmdListManager());
         if (SystemSDSHandlerImpl.isDisplayCommand(n)) {
             this.processDisplayCommand(n, iSystemCallParameterArray, commandList);
@@ -418,8 +415,8 @@ implements SystemSDSHandler {
         int n = SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
         int n2 = SDSUtils.retrieveInteger(iSystemCallParameterArray, 1);
         int n3 = SDSUtils.retrieveInteger(iSystemCallParameterArray, 2);
-        this.lc.log(-2137614336, "SystemSDSHandlerImpl#commandModeSet: commandModeSmall=%1, commandModeBig=%2!", (long)n, (long)n2);
-        this.lc.log(-2137614336, "SystemSDSHandlerImpl#commandModeSet: commandModeFurther=%1!", (long)n3);
+        this.lc.log(10000000, "SystemSDSHandlerImpl#commandModeSet: commandModeSmall=%1, commandModeBig=%2!", (long)n, (long)n2);
+        this.lc.log(10000000, "SystemSDSHandlerImpl#commandModeSet: commandModeFurther=%1!", (long)n3);
         if (n != -1 && n != -1) {
             SDSModelAccess.setCommandModeSmall(n);
         }
@@ -433,13 +430,13 @@ implements SystemSDSHandler {
 
     private void contextSet(ISystemCallParameter[] iSystemCallParameterArray) {
         int n = SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
-        this.lc.log(-2137614336, "SystemSDSHandlerImpl#contextSet: context=%1", (long)n);
+        this.lc.log(10000000, "SystemSDSHandlerImpl#contextSet: context=%1", (long)n);
         SDSModelAccess.setContextChoice(n);
     }
 
     private void dialogContextSet(ISystemCallParameter[] iSystemCallParameterArray) {
         int n = SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
-        this.lc.log(-2137614336, "SystemSDSHandlerImpl#dialogContextSet: dialogContext=%1", (long)n);
+        this.lc.log(10000000, "SystemSDSHandlerImpl#dialogContextSet: dialogContext=%1", (long)n);
         if (n != -1) {
             this.sdsManager.setDialogContext(n);
         }
@@ -447,13 +444,12 @@ implements SystemSDSHandler {
 
     private void promptTypeSet(ISystemCallParameter[] iSystemCallParameterArray) {
         int n = SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
-        this.lc.log(-2137614336, "SystemSDSHandlerImpl#promptTypeSet: promptType=%1", (long)n);
+        this.lc.log(10000000, "SystemSDSHandlerImpl#promptTypeSet: promptType=%1", (long)n);
         this.ttsHandler.setPromptType((byte)n);
     }
 
-    @Override
     public void responseRequestGGAsNBestList(int n, NBestList nBestList) {
-        this.lc.log(-2137614336, "SystemSDSHandlerImpl#responseRequestGGAsNBestList: NOP", (long)n);
+        this.lc.log(10000000, "SystemSDSHandlerImpl#responseRequestGGAsNBestList: NOP", (long)n);
         try {
             ((SystemGraphemicGroupRecognizedCommand)SDSUtils.getActiveSystemCall()).responseRequestGGAsNBestList(n, nBestList);
         }
@@ -465,9 +461,8 @@ implements SystemSDSHandler {
         }
     }
 
-    @Override
     public void responseRequestAudioConnections(boolean bl) {
-        this.lc.log(-2137614336, "SystemSDSHandlerImpl#responseRequestAudioConnections: ok=%1", bl);
+        this.lc.log(10000000, "SystemSDSHandlerImpl#responseRequestAudioConnections: ok=%1", bl);
         try {
             ((ISystemSessionStartCommand)((Object)SDSUtils.getActiveSystemCall())).responseRequestAudioConnections(bl);
         }
@@ -479,9 +474,8 @@ implements SystemSDSHandler {
         }
     }
 
-    @Override
     public void responseReleaseAudioConnections(boolean bl) {
-        this.lc.log(-2137614336, "SystemSDSHandlerImpl#responseReleaseAudioConnections: ok=%1", bl);
+        this.lc.log(10000000, "SystemSDSHandlerImpl#responseReleaseAudioConnections: ok=%1", bl);
         try {
             ((ISystemSessionEndCommand)((Object)SDSUtils.getActiveSystemCall())).responseReleaseAudioConnections(bl);
         }
@@ -493,35 +487,33 @@ implements SystemSDSHandler {
         }
     }
 
-    @Override
     public boolean abortCurrentRecognition(byte by, boolean bl, int n) {
-        this.lc.log(-2137614336, "SystemSDSHandlerImpl#abortCurrentRecognition: type=%2, direct=%1, evID=%3", (Object)bl, (long)by, (long)n);
+        this.lc.log(10000000, "SystemSDSHandlerImpl#abortCurrentRecognition: type=%2, direct=%1, evID=%3", (Object)bl, (long)by, (long)n);
         this.abortingType = by;
         this.abortingDirect = bl;
         this.abortingEventID = n;
         AbstractSystemCallCommand abstractSystemCallCommand = SDSUtils.getActiveSystemCall();
         if (abstractSystemCallCommand instanceof SystemStartRecognitionCommand) {
-            this.lc.log(-2137614336, "SystemSDSHandlerImpl#abortCurrentRecognition: Active command is SystemStartRecognitionCommand, calling stopCurrentRecognition there!");
+            this.lc.log(10000000, "SystemSDSHandlerImpl#abortCurrentRecognition: Active command is SystemStartRecognitionCommand, calling stopCurrentRecognition there!");
             return ((SystemStartRecognitionCommand)abstractSystemCallCommand).stopCurrentRecognition();
         }
         if (by != 0) {
-            this.lc.log(-2137614336, "SystemSDSHandlerImpl#abortCurrentRecognition: Aborting type is no systemcall and no recognition running, returning false!", (long)by);
+            this.lc.log(10000000, "SystemSDSHandlerImpl#abortCurrentRecognition: Aborting type is no systemcall and no recognition running, returning false!", (long)by);
             return false;
         }
         if (abstractSystemCallCommand == null) {
-            this.lc.log(-2137614336, "SystemSDSHandlerImpl#abortCurrentRecognition: No active command!");
+            this.lc.log(10000000, "SystemSDSHandlerImpl#abortCurrentRecognition: No active command!");
         }
-        this.lc.log(-2137614336, "SystemSDSHandlerImpl#abortCurrentRecognition: Sending OK for systemcall and returning false!");
+        this.lc.log(10000000, "SystemSDSHandlerImpl#abortCurrentRecognition: Sending OK for systemcall and returning false!");
         this.sdsHandlerService.sendResult(3000);
         return false;
     }
 
-    @Override
     public void abortedCurrentRecognition() {
         AbstractSystemCallCommand abstractSystemCallCommand = SDSUtils.getActiveSystemCall();
         switch (this.abortingType) {
             case 1: {
-                this.lc.log(-2137614336, "SystemSDSHandlerImpl#abortedCurrentRecognition: Recognition aborted by event!");
+                this.lc.log(10000000, "SystemSDSHandlerImpl#abortedCurrentRecognition: Recognition aborted by event!");
                 if (abstractSystemCallCommand instanceof SystemStartRecognitionCommand) {
                     ((SystemStartRecognitionCommand)abstractSystemCallCommand).recognitionAborted();
                     break;
@@ -530,7 +522,7 @@ implements SystemSDSHandler {
                 break;
             }
             case 3: {
-                this.lc.log(-2137614336, "SystemSDSHandlerImpl#abortedCurrentRecognition: Recognition aborted by speech I/O event!");
+                this.lc.log(10000000, "SystemSDSHandlerImpl#abortedCurrentRecognition: Recognition aborted by speech I/O event!");
                 this.sdsHandlerService.sendSpeechSMEvent(this.abortingEventID, this.abortingDirect, true);
                 if (this.playPrioPromptCallback == null) break;
                 this.playPrioPromptCallback.callback();
@@ -538,16 +530,16 @@ implements SystemSDSHandler {
                 break;
             }
             case 2: {
-                this.lc.log(-2137614336, "SystemSDSHandlerImpl#abortedCurrentRecognition: Recognition aborted by barge-in => NOP!");
+                this.lc.log(10000000, "SystemSDSHandlerImpl#abortedCurrentRecognition: Recognition aborted by barge-in => NOP!");
                 break;
             }
             case 4: {
-                this.lc.log(-2137614336, "SystemSDSHandlerImpl#abortedCurrentRecognition: Recognition aborted by left or right drawer or view key => try to enter waiting state!");
+                this.lc.log(10000000, "SystemSDSHandlerImpl#abortedCurrentRecognition: Recognition aborted by left or right drawer or view key => try to enter waiting state!");
                 this.sdsManager.checkAbortingAndTriggerWaitState();
                 break;
             }
             case 0: {
-                this.lc.log(-2137614336, "SystemSDSHandlerImpl#abortedCurrentRecognition: Recognition aborted by systemcall -> send response OK!");
+                this.lc.log(10000000, "SystemSDSHandlerImpl#abortedCurrentRecognition: Recognition aborted by systemcall -> send response OK!");
                 if (abstractSystemCallCommand instanceof SystemStartRecognitionCommand) {
                     ((SystemStartRecognitionCommand)abstractSystemCallCommand).recognitionAborted();
                     break;
@@ -556,23 +548,21 @@ implements SystemSDSHandler {
                 break;
             }
             default: {
-                this.lc.log(-1601830656, "SystemSDSHandlerImpl#abortedCurrentRecognition: Recognition aborted by another client => NOP!");
+                this.lc.log(100000, "SystemSDSHandlerImpl#abortedCurrentRecognition: Recognition aborted by another client => NOP!");
             }
         }
     }
 
-    @Override
     public void setPlayPrioPromptCallback(PlayPrioPromptCallback playPrioPromptCallback) {
         this.playPrioPromptCallback = playPrioPromptCallback;
     }
 
-    @Override
     public void abortedCurrentPrompt() {
-        this.lc.log(-2137614336, "SystemSDSHandlerImpl#abortedCurrentPrompt: called");
+        this.lc.log(10000000, "SystemSDSHandlerImpl#abortedCurrentPrompt: called");
         AbstractSystemCallCommand abstractSystemCallCommand = SDSUtils.getActiveSystemCall();
         switch (this.abortingType) {
             case 1: {
-                this.lc.log(-2137614336, "SystemSDSHandlerImpl#abortedCurrentPrompt: TTS aborted by event!");
+                this.lc.log(10000000, "SystemSDSHandlerImpl#abortedCurrentPrompt: TTS aborted by event!");
                 if (abstractSystemCallCommand instanceof SystemTTSAbortCommand) {
                     ((SystemTTSAbortCommand)abstractSystemCallCommand).currentTTSPromptEnded();
                     break;
@@ -581,16 +571,16 @@ implements SystemSDSHandler {
                 break;
             }
             case 3: {
-                this.lc.log(-2137614336, "SystemSDSHandlerImpl#abortedCurrentPrompt: TTS aborted by speech I/O event!");
+                this.lc.log(10000000, "SystemSDSHandlerImpl#abortedCurrentPrompt: TTS aborted by speech I/O event!");
                 this.sdsHandlerService.sendSpeechSMEvent(this.abortingEventID, this.abortingDirect, true);
                 break;
             }
             case 2: {
-                this.lc.log(-2137614336, "SystemSDSHandlerImpl#abortedCurrentPrompt: TTS aborted by barge-in => NOP!");
+                this.lc.log(10000000, "SystemSDSHandlerImpl#abortedCurrentPrompt: TTS aborted by barge-in => NOP!");
                 break;
             }
             case 4: {
-                this.lc.log(-2137614336, "SystemSDSHandlerImpl#abortedCurrentPrompt: TTS aborted by left or right drawer or view key => try to enter waiting state!");
+                this.lc.log(10000000, "SystemSDSHandlerImpl#abortedCurrentPrompt: TTS aborted by left or right drawer or view key => try to enter waiting state!");
                 this.sdsManager.checkAbortingAndTriggerWaitState();
                 break;
             }
@@ -607,21 +597,19 @@ implements SystemSDSHandler {
                 break;
             }
             default: {
-                this.lc.log(-1601830656, "SystemSDSHandlerImpl#abortedCurrentPrompt: TTS aborted by another client, sending TTS_FINISH!");
+                this.lc.log(100000, "SystemSDSHandlerImpl#abortedCurrentPrompt: TTS aborted by another client, sending TTS_FINISH!");
                 this.sdsHandlerService.sendEvent(2000);
             }
         }
     }
 
-    @Override
     public void handleIllegalCommand(String string) {
-        this.lc.log(-2137614336, "SystemSDSHandlerImpl#handleIllegalCommand: errorText=%1", (Object)string);
+        this.lc.log(10000000, "SystemSDSHandlerImpl#handleIllegalCommand: errorText=%1", (Object)string);
         this.ttsHandler.playText(string, true);
     }
 
-    @Override
     public void responseHandleIllegalCommand() {
-        this.lc.log(-2137614336, "SystemSDSHandlerImpl#responseHandleIllegalCommand: called");
+        this.lc.log(10000000, "SystemSDSHandlerImpl#responseHandleIllegalCommand: called");
         try {
             SDSUtils.getActiveSystemCall().sendResult(3001);
         }
@@ -630,24 +618,20 @@ implements SystemSDSHandler {
         }
     }
 
-    @Override
     public void setCommandListManager(CommandListManager commandListManager) {
         this.grammarCmdListManager = commandListManager;
     }
 
-    @Override
     public void setSystemVBIHandler(ISystemVBIHandler iSystemVBIHandler) {
         this.systemVBIHandler = iSystemVBIHandler;
     }
 
-    @Override
     public boolean isListLineDataGetActive() {
         return SDSUtils.getActiveSystemCall() instanceof SystemListLineDataGetCommand;
     }
 
-    @Override
     public void sdsListLineDataGet(int n, int n2) {
-        this.lc.log(-2137614336, "SystemSDSHandlerImpl#sdsListLineDataGet: modelID=%1, absLine=%2", (long)n, (long)n2);
+        this.lc.log(10000000, "SystemSDSHandlerImpl#sdsListLineDataGet: modelID=%1, absLine=%2", (long)n, (long)n2);
         try {
             ((SystemListLineDataGetCommand)SDSUtils.getActiveSystemCall()).sdsListLineDataGet(n, n2);
         }
@@ -659,31 +643,29 @@ implements SystemSDSHandler {
         }
     }
 
-    @Override
     public void systemScreenConnected(int n) {
-        this.lc.log(-2137614336, "SystemSDSHandlerImpl#systemScreenConnected: screenID=%1", (long)n);
+        this.lc.log(10000000, "SystemSDSHandlerImpl#systemScreenConnected: screenID=%1", (long)n);
         AbstractSystemCallCommand abstractSystemCallCommand = SDSUtils.getActiveSystemCall();
         if (abstractSystemCallCommand instanceof ISDSScreenConnectedUpdatable) {
             if (this.sdsManager.isSDSAborting()) {
-                this.lc.log(-2137614336, "SystemSDSHandlerImpl#systemScreenConnected: SDS aborting => abort syscall that is waiting for connecting screen!");
+                this.lc.log(10000000, "SystemSDSHandlerImpl#systemScreenConnected: SDS aborting => abort syscall that is waiting for connecting screen!");
                 abstractSystemCallCommand.processingFinished();
             } else {
-                this.lc.log(-2137614336, "SystemSDSHandlerImpl#systemScreenConnected: active syscall is instanceof ISDSScreenConnectedUpdatable.");
+                this.lc.log(10000000, "SystemSDSHandlerImpl#systemScreenConnected: active syscall is instanceof ISDSScreenConnectedUpdatable.");
                 ((ISDSScreenConnectedUpdatable)((Object)abstractSystemCallCommand)).updateSDSScreenConnected(n);
             }
         }
     }
 
-    @Override
     public void systemScreenFadedOut(int n) {
-        this.lc.log(-2137614336, "SystemSDSHandlerImpl#systemScreenFadedOut: screenID=%1", (long)n);
+        this.lc.log(10000000, "SystemSDSHandlerImpl#systemScreenFadedOut: screenID=%1", (long)n);
         AbstractSystemCallCommand abstractSystemCallCommand = SDSUtils.getActiveSystemCall();
         if (abstractSystemCallCommand instanceof ISDSScreenFadedOutUpdatable) {
             if (this.sdsManager.isSDSAborting()) {
-                this.lc.log(-2137614336, "SystemSDSHandlerImpl#systemScreenFadedOut: SDS aborting => abort syscall that is waiting for out fading screen!");
+                this.lc.log(10000000, "SystemSDSHandlerImpl#systemScreenFadedOut: SDS aborting => abort syscall that is waiting for out fading screen!");
                 abstractSystemCallCommand.processingFinished();
             } else {
-                this.lc.log(-2137614336, "SystemSDSHandlerImpl#systemScreenFadedOut: active syscall is instanceof ISDSScreenFadedOutUpdatable.");
+                this.lc.log(10000000, "SystemSDSHandlerImpl#systemScreenFadedOut: active syscall is instanceof ISDSScreenFadedOutUpdatable.");
                 ((ISDSScreenFadedOutUpdatable)((Object)abstractSystemCallCommand)).updateSDSScreenFadedOut(n);
             }
         }
@@ -701,21 +683,18 @@ implements SystemSDSHandler {
         return n == 1001 || n == 1007 || n == 1002 || n == 1003 || n == 1020 || n == 1021 || n == 1022 || n == 1023 || n == 1056 || n == 1024 || n == 1058 || n == 1055 || n == 1025 || n == 1027 || n == 1048 || n == 1047 || n == 1061 || n == 1062;
     }
 
-    @Override
     public boolean abortCurrentPrompt(byte by, boolean bl, int n) {
-        this.lc.log(-2137614336, "SystemSDSHandlerImpl#abortCurrentPrompt: type=%2, direct=%1, eventID=%3", (Object)bl, (long)by, (long)n);
+        this.lc.log(10000000, "SystemSDSHandlerImpl#abortCurrentPrompt: type=%2, direct=%1, eventID=%3", (Object)bl, (long)by, (long)n);
         this.abortingType = by;
         this.abortingDirect = bl;
         this.abortingEventID = n;
         return this.ttsHandler.abort();
     }
 
-    @Override
     public void unsetConnectivityService() {
         this.connectivityService = new NullSDSConnectivityService(this.lc);
     }
 
-    @Override
     public void setConnectivityService(ISdsConnectivityService iSdsConnectivityService) {
         if (iSdsConnectivityService != null) {
             this.connectivityService = iSdsConnectivityService;
@@ -726,12 +705,10 @@ implements SystemSDSHandler {
         return "SystemSDSHandlerImpl";
     }
 
-    @Override
     public SpeechTTSHandler getTTSHandler() {
         return this.ttsHandler;
     }
 
-    @Override
     public byte getAbortingType() {
         return this.abortingType;
     }

@@ -9,16 +9,12 @@ import de.audi.atip.interapp.bap.remoteservices.data.VTANData;
 
 public interface BAPServiceRemoteServicesListener
 extends BAPServiceListener {
-    default public void onCommunicationUp() {
-    }
+    public void onCommunicationUp();
 
-    default public void onMobDevKeySetup(MobileKeySetup mobileKeySetup) {
-    }
+    public void onMobDevKeySetup(MobileKeySetup var1);
 
-    default public void onVTANAuthDataFinished(boolean bl, String string) {
-    }
+    public void onVTANAuthDataFinished(boolean var1, String var2);
 
-    default public void onVTANDecryptionFinished(boolean bl, VTANData vTANData) {
-    }
+    public void onVTANDecryptionFinished(boolean var1, VTANData var2);
 }
 

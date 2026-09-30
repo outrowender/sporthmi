@@ -5,32 +5,34 @@ package de.audi.app.messaging.core.dictation;
 
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
 import de.audi.app.messaging.core.component.AbstractMessagingComponent;
-import de.audi.app.messaging.core.dictation.EulaManager$1;
-import de.audi.app.messaging.core.dictation.EulaManager$DiagPlugIn;
-import de.audi.app.messaging.core.dictation.EulaManager$MyButtonListener;
-import de.audi.app.messaging.core.dictation.EulaManager$SettingsManagerObserver;
+import de.audi.app.messaging.core.osgi.AbstractMessagingTrackerCustomizer;
 import de.audi.app.messaging.core.osgi.DsiDescriptor;
 import de.audi.app.messaging.core.osgi.IServiceRegistry;
 import de.audi.app.messaging.core.osgi.MessagingBundleContext;
 import de.audi.app.messaging.core.osgi.ServiceFilterBuilder;
 import de.audi.app.messaging.core.osgi.ServiceProperties;
+import de.audi.app.messaging.core.settings.ISettingsManagerObserver;
 import de.audi.app.messaging.core.swdiagnosis.IDiagPlugIn;
 import de.audi.app.messaging.core.swdiagnosis.IDiagProvider;
 import de.audi.app.messaging.core.util.Arrays;
 import de.audi.app.messaging.core.util.Collections;
 import de.audi.app.messaging.core.util.Logs;
-import de.audi.atip.log.LogChannel;
+import de.audi.atip.hmi.model.DefaultButtonListener;
 import de.audi.atip.storage.IStorageAccess;
 import de.audi.atip.util.Util;
 import de.esolutions.fw.util.commons.Buffer;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
+import org.dsi.ifc.base.DSIListener;
+import org.dsi.ifc.organizer.DSIAdbUserProfile;
 import org.dsi.ifc.organizer.DSIAdbUserProfileListener;
 import org.dsi.ifc.organizer.DownloadInfo;
 import org.dsi.ifc.organizer.EntryMeter;
 import org.dsi.ifc.organizer.ProfileInfo;
 import org.osgi.framework.Filter;
+import org.osgi.framework.InvalidSyntaxException;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
@@ -49,24 +51,21 @@ IDiagProvider {
         super(messagingBundleContext, "App.Messaging.Main");
     }
 
-    @Override
     public synchronized void init(AbstractMsgApplication abstractMsgApplication) {
         super.init(abstractMsgApplication);
         this.loadFromPersistence();
         this.setSkipEula();
-        this.framework.getHmiServiceApp().getButtonModel(1905402112).setButtonListener(new EulaManager$MyButtonListener(this, null));
-        abstractMsgApplication.getSettingsManager().addObserver(new EulaManager$SettingsManagerObserver(this, null));
+        this.framework.getHmiServiceApp().getButtonModel(2200177).setButtonListener(new MyButtonListener());
+        abstractMsgApplication.getSettingsManager().addObserver(new SettingsManagerObserver());
         abstractMsgApplication.getMessagingSwDiagnosis().registerDiagProvider(this);
     }
 
-    @Override
     public synchronized void dispose() {
         super.dispose();
         this.eulaAcceptedSet.clear();
         this.setSkipEula();
     }
 
-    @Override
     public void connect(IServiceRegistry iServiceRegistry) {
         try {
             super.connect(iServiceRegistry);
@@ -80,14 +79,14 @@ IDiagProvider {
     }
 
     private synchronized void restoreFactorySettings() {
-        this.log.log(-2137614336, "[EulaManager#restoreFactorySettings]");
+        this.log.log(10000000, "[EulaManager#restoreFactorySettings]");
         this.eulaAcceptedSet.clear();
         this.saveToPersistence();
         this.setSkipEula();
     }
 
     private synchronized void eulaAccepted() {
-        this.log.log(-2137614336, "[EulaManager#eulaAccepted]");
+        this.log.log(10000000, "[EulaManager#eulaAccepted]");
         boolean bl = this.eulaAcceptedSet.add(this.activeAdbProfileId);
         if (bl) {
             this.saveToPersistence();
@@ -108,21 +107,21 @@ IDiagProvider {
     private synchronized void setSkipEula() {
         boolean bl;
         if (this.log.isDebug()) {
-            this.log.log(-2137614336, "[EulaManager#setSkipEula] this = %1", (Object)this);
+            this.log.log(10000000, "[EulaManager#setSkipEula] this = %1", (Object)this);
         }
         int n = (bl = this.eulaAcceptedSet.contains(this.activeAdbProfileId)) ? 1 : 0;
         this.framework.getHmiServiceApp().getChoiceModel(510).setValue(n);
     }
 
     private void eulaAcceptButton(int n, int n2) {
-        this.log.log(1078071040, "[EulaManager#eulaAcceptButton]");
+        this.log.log(1000000, "[EulaManager#eulaAcceptButton]");
         this.eulaAccepted();
         this.framework.getHmiServiceApp().getModelApp(n).fireEvent(n2);
     }
 
     private synchronized void saveToPersistence() {
         try {
-            this.log.log(1078071040, "[EulaManager#saveToPersistence] this = %1", (Object)this);
+            this.log.log(1000000, "[EulaManager#saveToPersistence] this = %1", (Object)this);
             TreeSet treeSet = new TreeSet(this.eulaAcceptedSet);
             treeSet.remove(PUBLIC_ADB_PROFILE_ID);
             int[] nArray = new int[treeSet.size()];
@@ -149,14 +148,14 @@ IDiagProvider {
             for (int i2 = 0; i2 < nArray2.length; ++i2) {
                 this.eulaAcceptedSet.add(Util.createInteger(nArray2[i2]));
             }
-            this.log.log(1078071040, "[EulaManager#loadFromPersistence] this = %1", (Object)this);
+            this.log.log(1000000, "[EulaManager#loadFromPersistence] this = %1", (Object)this);
         }
         catch (Exception exception) {
             Logs.logException(this.log, exception, "[EulaManager#loadFromPersistence]");
         }
     }
 
-    private ServiceTracker createServiceTracker() {
+    private ServiceTracker createServiceTracker() throws InvalidSyntaxException {
         ServiceFilterBuilder serviceFilterBuilder = new ServiceFilterBuilder();
         serviceFilterBuilder.beginAnd();
         serviceFilterBuilder.addProperty("objectClass", (class$org$dsi$ifc$organizer$DSIAdbUserProfile == null ? (class$org$dsi$ifc$organizer$DSIAdbUserProfile = EulaManager.class$("org.dsi.ifc.organizer.DSIAdbUserProfile")) : class$org$dsi$ifc$organizer$DSIAdbUserProfile).getName());
@@ -164,23 +163,31 @@ IDiagProvider {
         serviceFilterBuilder.endAnd();
         String string = serviceFilterBuilder.createFilterString();
         Filter filter = this.bundleContext.createFilter(string);
-        EulaManager$1 eulaManager$1 = new EulaManager$1(this, this.log, this.bundleContext);
-        return new ServiceTracker(this.bundleContext, filter, (ServiceTrackerCustomizer)eulaManager$1);
+        AbstractMessagingTrackerCustomizer abstractMessagingTrackerCustomizer = new AbstractMessagingTrackerCustomizer(this.log, this.bundleContext){
+
+            public void addService(ServiceReference serviceReference, Object object) {
+                DSIAdbUserProfile dSIAdbUserProfile = (DSIAdbUserProfile)object;
+                if (dSIAdbUserProfile != null) {
+                    dSIAdbUserProfile.setNotification(2, (DSIListener)EulaManager.this);
+                }
+            }
+
+            public void removeService(ServiceReference serviceReference, Object object) {
+            }
+        };
+        return new ServiceTracker(this.bundleContext, filter, (ServiceTrackerCustomizer)abstractMessagingTrackerCustomizer);
     }
 
-    @Override
     public IDiagPlugIn[] createDiagPlugIns() {
-        return new IDiagPlugIn[]{new EulaManager$DiagPlugIn(this)};
+        return new IDiagPlugIn[]{new DiagPlugIn()};
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
     }
 
-    @Override
     public synchronized void updateProfileInfo(ProfileInfo[] profileInfoArray, int n, int n2) {
         if (this.log.isInfo()) {
-            this.log.log(1078071040, "[EulaManager#updateProfileInfo] profileInfo = %1, indexOfActiveProfile = %2, validFlag = %3", (Object)Arrays.toMultiLineString(profileInfoArray), (long)n, (long)n2);
+            this.log.log(1000000, "[EulaManager#updateProfileInfo] profileInfo = %1, indexOfActiveProfile = %2, validFlag = %3", (Object)Arrays.toMultiLineString(profileInfoArray), (long)n, (long)n2);
         }
         if (n2 == 1) {
             int n3;
@@ -197,37 +204,29 @@ IDiagProvider {
         }
     }
 
-    @Override
     public void updateDeviceConnected(boolean bl, int n) {
     }
 
-    @Override
     public void updateDownloadCountSim(DownloadInfo downloadInfo, int n) {
     }
 
-    @Override
     public void updateDownloadCountMe(DownloadInfo downloadInfo, int n) {
     }
 
-    @Override
     public void updateDownloadCountOpp(DownloadInfo downloadInfo, int n) {
     }
 
-    @Override
     public void newDeviceConnected(String string) {
     }
 
-    @Override
     public void downloadToProfileResult(int n) {
     }
 
-    @Override
     public void restartDownloadResult(int n) {
     }
 
-    @Override
     public synchronized void profileDeleted(int n) {
-        this.log.log(1078071040, "[EulaManager#profileDeleted] profileId = %1", (long)n);
+        this.log.log(1000000, "[EulaManager#profileDeleted] profileId = %1", (long)n);
         boolean bl = this.eulaAcceptedSet.remove(Util.createInteger(n));
         if (bl) {
             this.saveToPersistence();
@@ -235,43 +234,33 @@ IDiagProvider {
         }
     }
 
-    @Override
     public void setProfileNameResult(int n) {
     }
 
-    @Override
     public void deleteProfilesResult(int n) {
     }
 
-    @Override
     public void commonEntryCountResult(int n, int n2) {
     }
 
-    @Override
     public void entryMeterResult(int n, EntryMeter[] entryMeterArray) {
     }
 
-    @Override
     public void setPairingCodeResult(int n) {
     }
 
-    @Override
     public void setHomeIdResult(int n) {
     }
 
-    @Override
     public void updateDownloadState(int n, int n2, int n3) {
     }
 
-    @Override
     public void updateDownloadState2ndPhone(int n, int n2, int n3) {
     }
 
-    @Override
     public void setSOSButtonResult(int n) {
     }
 
-    @Override
     public void updateSOSButton(boolean bl, int n) {
     }
 
@@ -284,20 +273,43 @@ IDiagProvider {
         }
     }
 
-    static /* synthetic */ void access$200(EulaManager eulaManager, int n, int n2) {
-        eulaManager.eulaAcceptButton(n, n2);
+    final class DiagPlugIn
+    implements IDiagPlugIn {
+        DiagPlugIn() {
+        }
+
+        public Object getEulaManager() {
+            return EulaManager.this;
+        }
+
+        public void cmdEulaAccepted() {
+            EulaManager.this.eulaAcceptButton(2200177, 0);
+        }
     }
 
-    static /* synthetic */ LogChannel access$300(EulaManager eulaManager) {
-        return eulaManager.log;
+    private class MyButtonListener
+    extends DefaultButtonListener {
+        private MyButtonListener() {
+        }
+
+        public void keyTyped(int n, int n2, int n3) {
+            if (n == 2200177) {
+                EulaManager.this.eulaAcceptButton(n, n3);
+            } else {
+                EulaManager.this.log.log(10000, "[EulaManager#keyTyped] Unexpected modelID = %1", (long)n);
+            }
+        }
     }
 
-    static /* synthetic */ LogChannel access$400(EulaManager eulaManager) {
-        return eulaManager.log;
-    }
+    private class SettingsManagerObserver
+    implements ISettingsManagerObserver {
+        private SettingsManagerObserver() {
+        }
 
-    static /* synthetic */ void access$500(EulaManager eulaManager) {
-        eulaManager.restoreFactorySettings();
+        public void indicateResetToFactorySettings() {
+            EulaManager.this.log.log(10000000, "[EulaManager#indicateResetToFactorySettings]");
+            EulaManager.this.restoreFactorySettings();
+        }
     }
 }
 

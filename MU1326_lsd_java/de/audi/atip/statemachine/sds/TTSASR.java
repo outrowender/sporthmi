@@ -7,37 +7,29 @@ import de.audi.atip.statemachine.sds.ITTSASRContext;
 import java.util.SortedSet;
 
 public interface TTSASR {
-    public static final int GRAMMARTYPE_SRGS_GRAMMAR_STRING;
-    public static final int GRAMMARTYPE_LIST_WORD_LIST;
-    public static final int GRAMMARTYPE_LIST_ID_REF_LIST;
-    public static final int GRAMMARTYPE_PRECOMPILED_ID;
-    public static final int GRAMMARTYPE_LIST_SPELLING;
-    public static final int GRAMMARTYPE_LAST_NBESTLIST;
-    public static final int GRAMMARTYPE_LAST_NBESTLIST_WITH_GRAPHEMIC_GROUP;
-    public static final int GRAMMARTYPE_LIST_COMBINED_WORD_ID_LIST;
+    public static final int GRAMMARTYPE_SRGS_GRAMMAR_STRING = 1;
+    public static final int GRAMMARTYPE_LIST_WORD_LIST = 2;
+    public static final int GRAMMARTYPE_LIST_ID_REF_LIST = 3;
+    public static final int GRAMMARTYPE_PRECOMPILED_ID = 4;
+    public static final int GRAMMARTYPE_LIST_SPELLING = 5;
+    public static final int GRAMMARTYPE_LAST_NBESTLIST = 6;
+    public static final int GRAMMARTYPE_LAST_NBESTLIST_WITH_GRAPHEMIC_GROUP = 7;
+    public static final int GRAMMARTYPE_LIST_COMBINED_WORD_ID_LIST = 8;
 
-    default public void addToPrompt(String string) {
-    }
+    public void addToPrompt(String var1);
 
-    default public void startPrompt() {
-    }
+    public void startPrompt();
 
-    default public void stopPrompt() {
-    }
+    public void stopPrompt();
 
-    default public ITTSASRContext createGrammarContext() {
-    }
+    public ITTSASRContext createGrammarContext();
 
-    default public void setGrammarContext(ITTSASRContext iTTSASRContext) {
-    }
+    public void setGrammarContext(ITTSASRContext var1);
 
-    default public void sdsPopupRemoved() {
-    }
+    public void sdsPopupRemoved();
 
-    default public SortedSet getLoadedGrammarIDs() {
-    }
+    public SortedSet getLoadedGrammarIDs();
 
-    default public void initializeStateMachine() {
-    }
+    public void initializeStateMachine();
 }
 

@@ -8,7 +8,7 @@ import edu.emory.mathcs.backport.java.util.concurrent.ConcurrentHashMap;
 import java.util.Map;
 
 public final class BoardBookVideoLogic {
-    private static final int DEFAULT_INFO_STATE;
+    private static final int DEFAULT_INFO_STATE = 0;
     private final LogChannel logChannel;
     private final Map infoStatesForApps = new ConcurrentHashMap();
     private volatile boolean boardBookVideoRunning = false;
@@ -24,11 +24,11 @@ public final class BoardBookVideoLogic {
         this.boardBookVideoRunningChanged = false;
         this.infoStatesForApps.put(new Integer(n2), new Integer(n));
         if (n == 67) {
-            this.logChannel.log(-2137614336, "[BoardBookVideoLogic#receivedInfoStateFromApp] On");
+            this.logChannel.log(10000000, "[BoardBookVideoLogic#receivedInfoStateFromApp] On");
             this.boardBookVideoRunning = true;
             this.boardBookVideoRunningChanged = true;
         } else if (this.boardBookVideoRunning) {
-            this.logChannel.log(-2137614336, "[BoardBookVideoLogic#receivedInfoStateFromApp] Off");
+            this.logChannel.log(10000000, "[BoardBookVideoLogic#receivedInfoStateFromApp] Off");
             this.boardBookVideoRunning = false;
             this.boardBookVideoRunningChanged = true;
         }

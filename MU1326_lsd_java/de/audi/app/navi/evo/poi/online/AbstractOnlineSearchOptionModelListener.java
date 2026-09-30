@@ -18,7 +18,7 @@ implements OptionModelListener {
     protected final NavigationEnv env;
     protected final IOnlineSearchForm searchForm;
     protected final OnlineSearchSequence sequence;
-    protected final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
+    protected final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
 
     public AbstractOnlineSearchOptionModelListener(LogChannel logChannel, NavigationEnv navigationEnv, OnlineSearchSequence onlineSearchSequence, IOnlineSearchForm iOnlineSearchForm) {
         this.logChannel = logChannel;
@@ -27,11 +27,9 @@ implements OptionModelListener {
         this.searchForm = iOnlineSearchForm;
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3, int n4, int n5) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3, int n4, int n5) {
     }
 
@@ -43,7 +41,6 @@ implements OptionModelListener {
         return navLocation;
     }
 
-    @Override
     public void customAction(int n, int n2, int n3, int n4, int n5) {
     }
 }

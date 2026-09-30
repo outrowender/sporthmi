@@ -13,7 +13,6 @@ extends DefaultTestSupportHandlerNotification {
         return this.testSupportStatisticsVisible;
     }
 
-    @Override
     public void debugDataVisible(boolean bl) {
         this.testSupportStatisticsVisible = bl;
     }

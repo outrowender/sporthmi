@@ -4,7 +4,6 @@
 package de.audi.remotehmi.ui.mib2.grid;
 
 public interface IInfiniteListListener {
-    default public void requestItems(int n, int n2, String string, int n3, String string2, String string3, int n4, int n5) {
-    }
+    public void requestItems(int var1, int var2, String var3, int var4, String var5, String var6, int var7, int var8);
 }
 

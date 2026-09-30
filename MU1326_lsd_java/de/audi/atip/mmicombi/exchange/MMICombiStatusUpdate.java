@@ -16,7 +16,6 @@ extends MMICombiDisplayExchangePacket {
         super(n, n2, mMICombiDisplayStatus);
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer(23);
         stringBuffer.append("MMICombiStatusUpdate {");

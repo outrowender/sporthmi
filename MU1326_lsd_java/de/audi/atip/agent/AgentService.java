@@ -27,7 +27,7 @@ DumpInfoProvider {
     public AgentService(IFrameworkAccess iFrameworkAccess) {
         this.log = iFrameworkAccess.getLogChannel("Fw.Agent.Service");
         this.handlers = new ArrayList(3);
-        this.log.log(1078071040, "AgentService() - get the agent instance");
+        this.log.log(1000000, "AgentService() - get the agent instance");
         this.agent = Agent.getAgent();
     }
 
@@ -37,7 +37,7 @@ DumpInfoProvider {
 
     private boolean registerASIProviderAtAgent(IASIProvider iASIProvider) {
         try {
-            this.log.log(1078071040, "AgentService#registerASIProviderAtAgent(%1)", (Object)iASIProvider);
+            this.log.log(1000000, "AgentService#registerASIProviderAtAgent(%1)", (Object)iASIProvider);
             IService iService = iASIProvider.getService();
             this.getAgent().registerService(iService);
             this.getAgent().registerServiceListener(iService, this);
@@ -56,7 +56,7 @@ DumpInfoProvider {
 
     private void unregisterASIHandlerAtAgent(IASIProvider iASIProvider) {
         try {
-            this.log.log(1078071040, "AgentService#unregisterASIProviderAtAgent(%1)", (Object)iASIProvider);
+            this.log.log(1000000, "AgentService#unregisterASIProviderAtAgent(%1)", (Object)iASIProvider);
             IService iService = iASIProvider.getService();
             this.getAgent().unregisterServiceListener(iService, this);
             this.getAgent().unregisterService(iService);
@@ -85,7 +85,7 @@ DumpInfoProvider {
     }
 
     public final void register(IASIProvider iASIProvider) {
-        this.log.log(1078071040, "AgentService#registerASIHandler(%1)", (Object)iASIProvider);
+        this.log.log(1000000, "AgentService#registerASIHandler(%1)", (Object)iASIProvider);
         if (iASIProvider != null) {
             this.handlers.add(iASIProvider);
             this.registerASIProviderAtAgent(iASIProvider);
@@ -93,7 +93,7 @@ DumpInfoProvider {
     }
 
     public final void unregister(IASIProvider iASIProvider) {
-        this.log.log(1078071040, "AgentService#unregisterASIHandler(%1)", (Object)iASIProvider);
+        this.log.log(1000000, "AgentService#unregisterASIHandler(%1)", (Object)iASIProvider);
         if (this.handlers.remove(iASIProvider)) {
             this.unregisterASIHandlerAtAgent(iASIProvider);
         }
@@ -105,41 +105,36 @@ DumpInfoProvider {
         }
     }
 
-    @Override
     public void serviceStubAttached(IStub iStub) {
-        this.log.log(1078071040, "AgentService#serviceStubAttached( %1 )", (Object)iStub);
+        this.log.log(1000000, "AgentService#serviceStubAttached( %1 )", (Object)iStub);
         IASIProvider iASIProvider = this.lookupHandler(iStub);
         if (iASIProvider != null) {
-            this.log.log(1078071040, "AgentService#serviceStubAttached() - found stub for '%1'", (Object)iASIProvider);
+            this.log.log(1000000, "AgentService#serviceStubAttached() - found stub for '%1'", (Object)iASIProvider);
             iASIProvider.attachStub(iStub);
         } else {
             this.log.log(10000, "AgentService#serviceStubAttached() - ignore unknown service stub!");
         }
     }
 
-    @Override
     public void serviceStubDetached(IStub iStub) {
-        this.log.log(1078071040, "AgentService#serviceStubDetached( %1 )", (Object)iStub);
+        this.log.log(1000000, "AgentService#serviceStubDetached( %1 )", (Object)iStub);
         IASIProvider iASIProvider = this.lookupHandler(iStub);
         if (iASIProvider != null) {
-            this.log.log(1078071040, "AgentService#serviceStubDetached() - found stub for '%1'", (Object)iASIProvider);
+            this.log.log(1000000, "AgentService#serviceStubDetached() - found stub for '%1'", (Object)iASIProvider);
             iASIProvider.detachStub(iStub);
         } else {
             this.log.log(10000, "AgentService#serviceStubDetached() - ignore unknown service stub!");
         }
     }
 
-    @Override
     public void serviceStubCountChanged(IService iService, int n) {
-        this.log.log(1078071040, "AgentService#serviceStubCountChanged( %1, %2 )", (Object)iService, (long)n);
+        this.log.log(1000000, "AgentService#serviceStubCountChanged( %1, %2 )", (Object)iService, (long)n);
     }
 
-    @Override
     public String getName() {
         return "AgentSerivce";
     }
 
-    @Override
     public void dump(PrintStream printStream, String string) {
         printStream.println("registered Providers:");
         Iterator iterator = this.handlers.iterator();

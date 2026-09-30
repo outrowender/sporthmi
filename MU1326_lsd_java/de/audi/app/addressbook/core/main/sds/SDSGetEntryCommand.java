@@ -21,9 +21,8 @@ extends GetEntryCommand {
         this.sdsHandler = aDBSDSHandler;
     }
 
-    @Override
     public void getEntriesResult(int n, AdbEntry[] adbEntryArray) {
-        this.logger.log(-2137614336, "SDSGetEntryCommand#getEntriesResult(): success: %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
+        this.logger.log(10000000, "SDSGetEntryCommand#getEntriesResult(): success: %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
         super.getEntriesResult(n, adbEntryArray);
         String string = "";
         if (n == 0 && adbEntryArray != null && adbEntryArray.length > 0) {

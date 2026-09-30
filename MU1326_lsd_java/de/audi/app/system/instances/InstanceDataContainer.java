@@ -3,18 +3,18 @@
  */
 package de.audi.app.system.instances;
 
-import de.audi.app.system.instances.InstanceDataContainer$AddInstanceData;
-import de.audi.app.system.instances.InstanceDataContainer$DumpInstanceData;
-import de.audi.app.system.instances.InstanceDataContainer$InstanceData;
-import de.audi.app.system.instances.InstanceDataContainer$InstanceMapping;
-import de.audi.app.system.instances.InstanceDataContainer$InstanceRequest;
 import de.audi.atip.base.IFrameworkAccess;
 import de.audi.atip.interapp.tv.ITVStateListener;
 import de.audi.atip.job.JobLogger;
 import de.audi.atip.log.LogChannel;
 import de.esolutions.fw.comm.asi.hmisync.instance.ASIHMISyncInstanceReply;
+import de.esolutions.fw.comm.core.method.MethodException;
+import de.esolutions.fw.util.commons.Buffer;
 import de.esolutions.fw.util.commons.job.DispatcherBase;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 public class InstanceDataContainer
@@ -24,9 +24,9 @@ implements ITVStateListener {
     private final DispatcherBase dispatcher;
     private volatile boolean destroyed = false;
     private volatile int tvState = 0;
-    public static final int INSTANCE_TYPE_DEFAULT;
-    public static final int INSTANCE_TYPE_DEDICATED;
-    public static final int INSTANCE_TYPE_NOT_CODED;
+    public static final int INSTANCE_TYPE_DEFAULT = 0;
+    public static final int INSTANCE_TYPE_DEDICATED = 1;
+    public static final int INSTANCE_TYPE_NOT_CODED = 2;
     private final Map instances = new HashMap();
 
     public InstanceDataContainer(IFrameworkAccess iFrameworkAccess, LogChannel logChannel) {
@@ -36,13 +36,13 @@ implements ITVStateListener {
     }
 
     public final void start() {
-        this.log.log(-2137614336, "SDISInstancesManager#start()");
+        this.log.log(10000000, "SDISInstancesManager#start()");
         this.dispatcher.start();
         this.prepare();
     }
 
     public final void destroy() {
-        this.log.log(-2137614336, "SDISInstancesManager#destroy()");
+        this.log.log(10000000, "SDISInstancesManager#destroy()");
         this.destroyed = true;
         this.dispatcher.stop();
         this.framework.getDispatcherManager().destroyDispatcher(this.dispatcher.getDispatcherName());
@@ -53,45 +53,45 @@ implements ITVStateListener {
     }
 
     public void dumpMappings() {
-        this.log.log(-2137614336, "SDISInstancesManager#dumpMappings()");
+        this.log.log(10000000, "SDISInstancesManager#dumpMappings()");
         if (!this.destroyed) {
-            this.dispatcher.execute(new InstanceDataContainer$DumpInstanceData(this));
+            this.dispatcher.execute(new DumpInstanceData(this));
         }
     }
 
     public void addInstanceData(String string, int n, int[] nArray) {
-        this.log.log(-2137614336, "SDISInstancesManager#addInstanceData( %1, %3, %2 )", (Object)string, (Object)nArray, (long)n);
-        InstanceDataContainer$InstanceMapping[] instanceDataContainer$InstanceMappingArray = new InstanceDataContainer$InstanceMapping[nArray.length];
+        this.log.log(10000000, "SDISInstancesManager#addInstanceData( %1, %3, %2 )", (Object)string, (Object)nArray, (long)n);
+        InstanceMapping[] instanceMappingArray = new InstanceMapping[nArray.length];
         for (int i2 = 0; i2 < nArray.length; ++i2) {
-            instanceDataContainer$InstanceMappingArray[i2] = new InstanceDataContainer$InstanceMapping(null);
-            InstanceDataContainer$InstanceMapping.access$102(instanceDataContainer$InstanceMappingArray[i2], nArray[i2]);
+            instanceMappingArray[i2] = new InstanceMapping();
+            instanceMappingArray[i2].instanceId = nArray[i2];
         }
-        InstanceDataContainer$InstanceData instanceDataContainer$InstanceData = new InstanceDataContainer$InstanceData(n, instanceDataContainer$InstanceMappingArray);
+        InstanceData instanceData = new InstanceData(n, instanceMappingArray);
         if (!this.destroyed) {
-            this.dispatcher.execute(new InstanceDataContainer$AddInstanceData(this, string, instanceDataContainer$InstanceData));
+            this.dispatcher.execute(new AddInstanceData(this, string, instanceData));
         }
     }
 
     public final void enqueueRequest(String string, String string2, ASIHMISyncInstanceReply aSIHMISyncInstanceReply) {
-        this.log.log(-2137614336, "SDISInstancesManager#enqueueRequest( %1, %2 )", (Object)string, (Object)string2);
+        this.log.log(10000000, "SDISInstancesManager#enqueueRequest( %1, %2 )", (Object)string, (Object)string2);
         if (!this.destroyed) {
-            this.dispatcher.execute(new InstanceDataContainer$InstanceRequest(this, string, string2, aSIHMISyncInstanceReply));
+            this.dispatcher.execute(new InstanceRequest(this, string, string2, aSIHMISyncInstanceReply));
         }
     }
 
-    static final Integer isDeviceRegistered(InstanceDataContainer$InstanceMapping[] instanceDataContainer$InstanceMappingArray, String string) {
-        for (int i2 = 0; i2 < instanceDataContainer$InstanceMappingArray.length; ++i2) {
-            if (!string.equals(InstanceDataContainer$InstanceMapping.access$200(instanceDataContainer$InstanceMappingArray[i2]))) continue;
-            return new Integer(InstanceDataContainer$InstanceMapping.access$100(instanceDataContainer$InstanceMappingArray[i2]));
+    static final Integer isDeviceRegistered(InstanceMapping[] instanceMappingArray, String string) {
+        for (int i2 = 0; i2 < instanceMappingArray.length; ++i2) {
+            if (!string.equals(instanceMappingArray[i2].deviceId)) continue;
+            return new Integer(instanceMappingArray[i2].instanceId);
         }
         return null;
     }
 
-    static final Integer registerDevice(InstanceDataContainer$InstanceMapping[] instanceDataContainer$InstanceMappingArray, String string) {
-        for (int i2 = 0; i2 < instanceDataContainer$InstanceMappingArray.length; ++i2) {
-            if (InstanceDataContainer$InstanceMapping.access$200(instanceDataContainer$InstanceMappingArray[i2]) != null && InstanceDataContainer$InstanceMapping.access$200(instanceDataContainer$InstanceMappingArray[i2]).length() != 0) continue;
-            InstanceDataContainer$InstanceMapping.access$202(instanceDataContainer$InstanceMappingArray[i2], string);
-            return new Integer(InstanceDataContainer$InstanceMapping.access$100(instanceDataContainer$InstanceMappingArray[i2]));
+    static final Integer registerDevice(InstanceMapping[] instanceMappingArray, String string) {
+        for (int i2 = 0; i2 < instanceMappingArray.length; ++i2) {
+            if (instanceMappingArray[i2].deviceId != null && instanceMappingArray[i2].deviceId.length() != 0) continue;
+            instanceMappingArray[i2].deviceId = string;
+            return new Integer(instanceMappingArray[i2].instanceId);
         }
         return null;
     }
@@ -120,13 +120,158 @@ implements ITVStateListener {
         this.addInstanceData("04780aa8-9662-4220-9900-4a1e11586d28", 1, new int[]{4, 5});
     }
 
-    @Override
     public synchronized void updateState(int n, int[] nArray) {
         this.tvState = n;
     }
 
-    static /* synthetic */ Map access$300(InstanceDataContainer instanceDataContainer) {
-        return instanceDataContainer.instances;
+    private static class InstanceData {
+        private final int instanceType;
+        private final InstanceMapping[] mappings;
+
+        public InstanceData(int n, InstanceMapping[] instanceMappingArray) {
+            this.instanceType = n;
+            this.mappings = instanceMappingArray;
+        }
+
+        public int getInstanceType() {
+            return this.instanceType;
+        }
+
+        public InstanceMapping[] getMappings() {
+            return this.mappings;
+        }
+
+        public int getDefaultInstance() {
+            return this.mappings[0].instanceId;
+        }
+
+        public String toString() {
+            Buffer buffer = new Buffer();
+            buffer.append("type: ").append(this.instanceType).append(", mappings: ");
+            List list = Arrays.asList(this.mappings);
+            buffer.append(list);
+            return buffer.toString();
+        }
+    }
+
+    private static class AddInstanceData
+    implements Runnable {
+        private final InstanceDataContainer manager;
+        private final LogChannel log;
+        private final String asiId;
+        private final InstanceData data;
+
+        AddInstanceData(InstanceDataContainer instanceDataContainer, String string, InstanceData instanceData) {
+            this.manager = instanceDataContainer;
+            this.log = instanceDataContainer.getLog();
+            this.asiId = string;
+            this.data = instanceData;
+        }
+
+        public void run() {
+            this.log.log(10000000, "AddInstanceData#run() - add new instance data");
+            if (!this.manager.instances.containsKey(this.asiId)) {
+                this.manager.instances.put(this.asiId, this.data);
+            }
+        }
+    }
+
+    private static class InstanceMapping {
+        private int instanceId = -1;
+        private String deviceId = null;
+
+        private InstanceMapping() {
+        }
+
+        public String toString() {
+            return new Buffer().append("[id:").append(this.instanceId).append(", device:").append(this.deviceId).append(']').toString();
+        }
+    }
+
+    private static class InstanceRequest
+    implements Runnable {
+        private final InstanceDataContainer manager;
+        private final LogChannel log;
+        private final String asiId;
+        private final String deviceId;
+        private final ASIHMISyncInstanceReply reply;
+
+        InstanceRequest(InstanceDataContainer instanceDataContainer, String string, String string2, ASIHMISyncInstanceReply aSIHMISyncInstanceReply) {
+            this.manager = instanceDataContainer;
+            this.log = instanceDataContainer.getLog();
+            this.asiId = string;
+            this.deviceId = string2;
+            this.reply = aSIHMISyncInstanceReply;
+        }
+
+        public void run() {
+            this.log.log(10000000, "InstanceRequest#run() - process instance request");
+            if (this.manager.instances.containsKey(this.asiId)) {
+                InstanceData instanceData = (InstanceData)this.manager.instances.get(this.asiId);
+                if (instanceData.getInstanceType() == 0) {
+                    int n = instanceData.getDefaultInstance();
+                    this.log.log(10000000, "InstanceRequest#run() - requested ASI provides default instance '%1'", (long)n);
+                    this.sendResponse(this.reply, this.asiId, this.deviceId, n, 0);
+                    return;
+                }
+                if (instanceData.getInstanceType() == 1) {
+                    InstanceMapping[] instanceMappingArray = instanceData.getMappings();
+                    Integer n = InstanceDataContainer.isDeviceRegistered(instanceMappingArray, this.deviceId);
+                    if (n != null) {
+                        this.log.log(10000000, "InstanceRequest#run() - requested ASI already maps instance id '%1' for device id '%2'", (Object)n, (Object)this.deviceId);
+                        this.sendResponse(this.reply, this.asiId, this.deviceId, n, 0);
+                    } else {
+                        n = InstanceDataContainer.registerDevice(instanceMappingArray, this.deviceId);
+                        if (n != null) {
+                            this.log.log(10000000, "InstanceRequest#run() - found new instance id '%1' for device id '%2'", (Object)n, (Object)this.deviceId);
+                            this.sendResponse(this.reply, this.asiId, this.deviceId, n, 0);
+                        } else {
+                            this.log.log(10000, "InstanceRequest#run() - no more instance id available for device id '%1'!", (Object)this.deviceId);
+                            this.sendResponse(this.reply, this.asiId, this.deviceId, -1, 2);
+                        }
+                    }
+                    return;
+                }
+                if (instanceData.getInstanceType() == 2) {
+                    this.log.log(10000000, "InstanceRequest#run() - The device with id '%1' is not coded !", (Object)this.asiId);
+                    this.sendResponse(this.reply, this.asiId, this.deviceId, -1, 2);
+                    return;
+                }
+                this.log.log(1000, "InstanceRequest#run() - unsupported instance typ '%1', this must not happen!", (long)instanceData.getInstanceType());
+            } else {
+                this.log.log(10000, "InstanceRequest#run() - Did not find requested ASI '%1' !", (Object)this.asiId);
+                this.sendResponse(this.reply, this.asiId, this.deviceId, -1, 1);
+            }
+        }
+
+        private final void sendResponse(ASIHMISyncInstanceReply aSIHMISyncInstanceReply, String string, String string2, int n, int n2) {
+            try {
+                aSIHMISyncInstanceReply.responseInstanceId(string, string2, n, n2);
+            }
+            catch (MethodException methodException) {
+                this.log.log(10000, "Exception during reply", (Throwable)methodException);
+            }
+        }
+    }
+
+    private static class DumpInstanceData
+    implements Runnable {
+        private final InstanceDataContainer manager;
+        private final LogChannel log;
+
+        public DumpInstanceData(InstanceDataContainer instanceDataContainer) {
+            this.manager = instanceDataContainer;
+            this.log = instanceDataContainer.getLog();
+        }
+
+        public void run() {
+            this.log.log(1000000, "DumpInstanceData#run() - dump instance mappings:");
+            Iterator iterator = this.manager.instances.entrySet().iterator();
+            while (iterator.hasNext()) {
+                Map.Entry entry = (Map.Entry)iterator.next();
+                this.log.log(1000000, "%1 -> %2", entry.getKey(), entry.getValue());
+            }
+        }
     }
 }
 

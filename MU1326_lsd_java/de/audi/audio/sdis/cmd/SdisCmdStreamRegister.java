@@ -12,7 +12,7 @@ extends Command {
     private final DSIMediaRouter dsiMediaRouter;
     private final int clientID;
     private final String ipAddress;
-    private static final String PORT;
+    private static final String PORT = "ADD_HERE";
 
     public SdisCmdStreamRegister(AudioEnv audioEnv, DSIMediaRouter dSIMediaRouter, int n, String string) {
         super(audioEnv.lcSDIS, "SdisCmdStreamRegister");
@@ -21,23 +21,22 @@ extends Command {
         this.ipAddress = string;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[SdisCmdStreamRegister.execute] -> DSIMediaRouter.registerClient()");
-        this.logger.log(-2137614336, "[SdisCmdStreamRegister.execute] -> clientID:%3 ipAddress:%1 port:%2", (Object)this.ipAddress, (Object)"ADD_HERE", (long)this.clientID);
-        this.dsiMediaRouter.registerClient(this.clientID, this.ipAddress, "ADD_HERE");
+        this.logger.log(10000000, "[SdisCmdStreamRegister.execute] -> DSIMediaRouter.registerClient()");
+        this.logger.log(10000000, "[SdisCmdStreamRegister.execute] -> clientID:%3 ipAddress:%1 port:%2", (Object)this.ipAddress, (Object)PORT, (long)this.clientID);
+        this.dsiMediaRouter.registerClient(this.clientID, this.ipAddress, PORT);
     }
 
     public void responseClientStatus(int n, int n2) {
         if (n != this.clientID) {
-            this.logger.log(1078071040, "[SdisCmdStreamRegister.responseClientStatus] Client ID mismatch %1 vs. %2", (long)this.clientID, (long)n);
+            this.logger.log(1000000, "[SdisCmdStreamRegister.responseClientStatus] Client ID mismatch %1 vs. %2", (long)this.clientID, (long)n);
             return;
         }
         if (n2 == 1) {
-            this.logger.log(-2137614336, "[SdisCmdStreamRegister.responseClientStatus] Success -> finish command");
+            this.logger.log(10000000, "[SdisCmdStreamRegister.responseClientStatus] Success -> finish command");
             this.commandList.commandFinished();
         } else if (n2 == 2) {
-            this.logger.log(-1601830656, "[SdisCmdStreamRegister.responseClientStatus] Failed -> abort command");
+            this.logger.log(100000, "[SdisCmdStreamRegister.responseClientStatus] Failed -> abort command");
             this.commandList.commandAborted("Registration failed!");
         }
     }

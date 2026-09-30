@@ -4,13 +4,10 @@
 package com.ibm.oti.nio;
 
 public interface BufferUtil {
-    default public boolean isDirect() {
-    }
+    public boolean isDirect();
 
-    default public int getDirectPointer() {
-    }
+    public int getDirectPointer();
 
-    default public boolean hasArray() {
-    }
+    public boolean hasArray();
 }
 

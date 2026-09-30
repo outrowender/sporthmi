@@ -7,27 +7,22 @@ import de.audi.atip.interapp.phone.ITelCallControl;
 import de.audi.atip.interapp.phone.ITelCallInformation;
 
 public interface ITelCallSession {
-    public static final int CALLTYPE_NORMAL;
-    public static final int CALLTYPE_OPERATOR;
-    public static final int CALLTYPE_P_CALL;
-    public static final int CALLTYPE_C_CALL;
-    public static final int CALLTYPE_B_CALL;
-    public static final int MIC_MUTE_ON;
-    public static final int MIC_MUTE_OFF;
+    public static final int CALLTYPE_NORMAL = 0;
+    public static final int CALLTYPE_OPERATOR = 1;
+    public static final int CALLTYPE_P_CALL = 65536;
+    public static final int CALLTYPE_C_CALL = 131072;
+    public static final int CALLTYPE_B_CALL = 196608;
+    public static final int MIC_MUTE_ON = 0;
+    public static final int MIC_MUTE_OFF = 1;
 
-    default public int getCallType() {
-    }
+    public int getCallType();
 
-    default public String getTelephoneNumber() {
-    }
+    public String getTelephoneNumber();
 
-    default public void onActive(ITelCallControl iTelCallControl) {
-    }
+    public void onActive(ITelCallControl var1);
 
-    default public void onClose() {
-    }
+    public void onClose();
 
-    default public void updateCallInformation(ITelCallInformation iTelCallInformation, int n) {
-    }
+    public void updateCallInformation(ITelCallInformation var1, int var2);
 }
 

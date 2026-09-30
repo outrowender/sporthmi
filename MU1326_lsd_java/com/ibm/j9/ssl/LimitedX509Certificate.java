@@ -14,53 +14,45 @@ implements Certificate {
         this.certImpl = x509Certificate;
     }
 
-    @Override
     public String getIssuer() {
         return this.certImpl.getIssuerDN().getName();
     }
 
-    @Override
     public long getNotAfter() {
         return this.certImpl.getNotAfter().getTime();
     }
 
-    @Override
     public long getNotBefore() {
         return this.certImpl.getNotBefore().getTime();
     }
 
-    @Override
     public String getSerialNumber() {
         String string = this.certImpl.getSerialNumber().toString(16).toUpperCase();
         if (string.length() % 2 != 0) {
-            string = new StringBuffer("0").append(string).toString();
+            string = "0" + string;
         }
         String string2 = "";
         int n = 0;
         while (n < string.length()) {
-            string2 = new StringBuffer(String.valueOf(string2)).append(string.substring(n, n + 2)).toString();
+            string2 = String.valueOf(string2) + string.substring(n, n + 2);
             if ((n += 2) >= string.length()) continue;
-            string2 = new StringBuffer(String.valueOf(string2)).append(":").toString();
+            string2 = String.valueOf(string2) + ":";
         }
         return string2;
     }
 
-    @Override
     public String getSigAlgName() {
         return this.certImpl.getSigAlgName();
     }
 
-    @Override
     public String getSubject() {
         return this.certImpl.getSubjectDN().getName();
     }
 
-    @Override
     public String getType() {
         return "X.509";
     }
 
-    @Override
     public String getVersion() {
         return Integer.toString(this.certImpl.getVersion());
     }

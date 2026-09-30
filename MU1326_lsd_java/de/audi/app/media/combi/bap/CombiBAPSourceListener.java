@@ -20,7 +20,7 @@ import java.util.HashMap;
 public class CombiBAPSourceListener
 implements IActiveSourceListener,
 IMultipleSourceSlotListener {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "CombiBAPSourceListener";
     private final LogChannel logger;
     private final CombiBAPController controller;
 
@@ -29,13 +29,12 @@ IMultipleSourceSlotListener {
         this.logger = combiBAPController.getLogChannel();
     }
 
-    @Override
     public void slotsChanged(ISource[] iSourceArray) {
         ArrayList arrayList;
         Object object;
         Object object2;
         CombiBAPAudioSource[][] combiBAPAudioSourceArray;
-        this.logger.log(14808325, "[%1.slotsChanged]", (Object)"CombiBAPSourceListener");
+        this.logger.log(100000000, "[%1.slotsChanged]", (Object)LOGCLASS);
         HashMap hashMap = new HashMap();
         boolean bl = false;
         CombiBAPAudioSource[][] combiBAPAudioSourceArray2 = null;
@@ -63,14 +62,14 @@ IMultipleSourceSlotListener {
                     }
                 }
             } else {
-                this.logger.log(1078071040, "[%1.slotsChanged] Activation context not yet available.", (Object)"CombiBAPSourceListener");
+                this.logger.log(1000000, "[%1.slotsChanged] Activation context not yet available.", (Object)LOGCLASS);
             }
             if (combiBAPAudioSourceArray.getType() == 7 || combiBAPAudioSourceArray.getType() == 8) {
-                this.logger.log(14808325, "[%1.slotsChanged] TV -> ignore", (Object)"CombiBAPSourceListener");
+                this.logger.log(100000000, "[%1.slotsChanged] TV -> ignore", (Object)LOGCLASS);
                 continue;
             }
             if (combiBAPAudioSourceArray.getType() == 4) {
-                this.logger.log(14808325, "[%1.slotsChanged] Fileplayer -> ignore", (Object)"CombiBAPSourceListener");
+                this.logger.log(100000000, "[%1.slotsChanged] Fileplayer -> ignore", (Object)LOGCLASS);
                 continue;
             }
             object3 = combiBAPAudioSourceArray.getSlots().iterator();
@@ -103,9 +102,8 @@ IMultipleSourceSlotListener {
         }
     }
 
-    @Override
     public void activeSourceChanged(boolean bl, ActiveSourceState activeSourceState) {
-        this.logger.log(14808325, "[%1.activeSourceChanged] '%2' (changed='%3')", (Object)"CombiBAPSourceListener", (Object)activeSourceState, (Object)bl);
+        this.logger.log(100000000, "[%1.activeSourceChanged] '%2' (changed='%3')", (Object)LOGCLASS, (Object)activeSourceState, (Object)bl);
         if (bl) {
             this.controller.updateActiveSource(activeSourceState.getSlot());
         }
@@ -116,13 +114,12 @@ IMultipleSourceSlotListener {
         }
     }
 
-    @Override
     public void sourceDeactivated() {
     }
 
     public String toString() {
         Buffer buffer = new Buffer(20);
-        buffer.append("CombiBAPSourceListener").append("@").append(this.hashCode());
+        buffer.append(LOGCLASS).append("@").append(this.hashCode());
         return buffer.toString();
     }
 }

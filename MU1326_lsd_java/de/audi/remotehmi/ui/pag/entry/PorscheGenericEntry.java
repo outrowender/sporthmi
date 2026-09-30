@@ -4,25 +4,18 @@
 package de.audi.remotehmi.ui.pag.entry;
 
 public interface PorscheGenericEntry {
-    default public String getFirstImagePath() {
-    }
+    public String getFirstImagePath();
 
-    default public void setFirstImagePath(String string) {
-    }
+    public void setFirstImagePath(String var1);
 
-    default public String getSecondImagePath() {
-    }
+    public String getSecondImagePath();
 
-    default public void setSecondImagePath(String string) {
-    }
+    public void setSecondImagePath(String var1);
 
-    default public boolean isSecondImageAvailable() {
-    }
+    public boolean isSecondImageAvailable();
 
-    default public void setContextName(String string) {
-    }
+    public void setContextName(String var1);
 
-    default public String getContextName() {
-    }
+    public String getContextName();
 }
 

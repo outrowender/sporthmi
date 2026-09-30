@@ -8,13 +8,10 @@ import de.audi.atip.hmi.modelaccess.ListModelGUI;
 
 public interface TooltipModelGUI
 extends ListModelGUI {
-    default public void requestTooltipData(HMIModelGUI hMIModelGUI, int n, boolean bl, int n2) {
-    }
+    public void requestTooltipData(HMIModelGUI var1, int var2, boolean var3, int var4);
 
-    default public void tooltipVisible(HMIModelGUI hMIModelGUI, int n) {
-    }
+    public void tooltipVisible(HMIModelGUI var1, int var2);
 
-    default public void tooltipHidden(HMIModelGUI hMIModelGUI, boolean bl, int n) {
-    }
+    public void tooltipHidden(HMIModelGUI var1, boolean var2, int var3);
 }
 

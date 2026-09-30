@@ -9,19 +9,14 @@ import de.audi.atip.hmi.modelaccess.ButtonModelApp;
 
 public interface ButtonModelHandler
 extends ModelHandler {
-    default public void updateOnKeyPressed(int n) {
-    }
+    public void updateOnKeyPressed(int var1);
 
-    default public void updateOnKeyReleased(int n) {
-    }
+    public void updateOnKeyReleased(int var1);
 
-    default public void updateOnKeyTyped(int n) {
-    }
+    public void updateOnKeyTyped(int var1);
 
-    default public ButtonModelApp returnButtonModel() {
-    }
+    public ButtonModelApp returnButtonModel();
 
-    default public ButtonModelEventBusiness getButtonModelBusiness() {
-    }
+    public ButtonModelEventBusiness getButtonModelBusiness();
 }
 

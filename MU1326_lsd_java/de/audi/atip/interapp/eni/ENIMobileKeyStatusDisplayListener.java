@@ -7,13 +7,10 @@ import de.audi.atip.interapp.bap.eni.data.MobileKeyCount;
 import de.audi.atip.interapp.bap.remoteservices.data.MobileKeySetup;
 
 public interface ENIMobileKeyStatusDisplayListener {
-    default public void onMobDevKeySetup(MobileKeySetup mobileKeySetup) {
-    }
+    public void onMobDevKeySetup(MobileKeySetup var1);
 
-    default public void onFleetModeAvailability(boolean bl) {
-    }
+    public void onFleetModeAvailability(boolean var1);
 
-    default public void onMobileDeviceKeyCount(MobileKeyCount mobileKeyCount) {
-    }
+    public void onMobileDeviceKeyCount(MobileKeyCount var1);
 }
 

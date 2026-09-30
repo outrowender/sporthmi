@@ -21,12 +21,10 @@ implements DumpInfoProvider {
         this.smmInfo = new HashMap(20);
     }
 
-    @Override
     public String getName() {
         return "SMMInfo";
     }
 
-    @Override
     public void dump(PrintStream printStream, String string) {
         Iterator iterator = this.smmInfo.keySet().iterator();
         while (iterator.hasNext()) {
@@ -52,7 +50,7 @@ implements DumpInfoProvider {
             arrayList = (ArrayList)this.smmInfo.get(string);
         }
         if (arrayList != null) {
-            arrayList.add(new StringBuffer().append(Long.toString(this.framework.getMonotonicTime())).append(" ").append(string2).toString());
+            arrayList.add(Long.toString(this.framework.getMonotonicTime()) + " " + string2);
         }
     }
 }

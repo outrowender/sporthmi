@@ -17,11 +17,10 @@ extends AbstractRemoteHMIComponent {
         this.rrdCalculationHandler = rrdCalculationHandler;
     }
 
-    @Override
     public void init(LogChannel logChannel, RemoteHMIService remoteHMIService) {
         super.init(logChannel, remoteHMIService);
         PreviewUpdateCommandHandler previewUpdateCommandHandler = new PreviewUpdateCommandHandler("update-previews", this.remoteHmiService, this.rrdCalculationHandler, logChannel);
-        this.remoteHmiService.addCommandHandler(1185648705, previewUpdateCommandHandler);
+        this.remoteHmiService.addCommandHandler(1100000070, previewUpdateCommandHandler);
     }
 }
 

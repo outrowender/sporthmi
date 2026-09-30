@@ -6,7 +6,6 @@ package de.audi.app.terminalmode.device;
 import de.audi.app.terminalmode.device.TMDevice;
 
 public interface TMDevicePredicate {
-    default public boolean apply(TMDevice tMDevice) {
-    }
+    public boolean apply(TMDevice var1);
 }
 

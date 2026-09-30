@@ -3,15 +3,13 @@
  */
 package de.audi.atip.interapp.bap.eni.data;
 
-import de.audi.atip.interapp.bap.eni.data.MobileKeyCount$Builder;
-
 public final class MobileKeyCount {
     private int keyCountBackend;
     private int keyCountBackendState;
     private boolean vtanAvailable;
 
-    public static MobileKeyCount$Builder builder() {
-        return new MobileKeyCount$Builder();
+    public static Builder builder() {
+        return new Builder();
     }
 
     private MobileKeyCount(int n, int n2, boolean bl) {
@@ -40,6 +38,31 @@ public final class MobileKeyCount {
         stringBuffer.append(", vtanAvailable=").append(this.isVtanAvailable());
         stringBuffer.append("]");
         return stringBuffer.toString();
+    }
+
+    public static final class Builder {
+        private int keyCountBackend;
+        private int keyCountBackendState;
+        private boolean vtanAvailable;
+
+        public Builder setKeyCountBackend(int n) {
+            this.keyCountBackend = n;
+            return this;
+        }
+
+        public Builder setKeyCountBackendState(int n) {
+            this.keyCountBackendState = n;
+            return this;
+        }
+
+        public Builder setVtanAvailable(boolean bl) {
+            this.vtanAvailable = bl;
+            return this;
+        }
+
+        public MobileKeyCount build() {
+            return new MobileKeyCount(this.keyCountBackend, this.keyCountBackendState, this.vtanAvailable);
+        }
     }
 }
 

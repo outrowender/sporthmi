@@ -14,7 +14,7 @@ implements Comparable {
     private final ISource source;
     private final CopyOnWriteArrayList registeredSourceSlotListeners;
     private final LogChannel logger;
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "RegisteredSource";
 
     public RegisteredSource(ISource iSource, LogChannel logChannel) {
         this.source = iSource;
@@ -44,12 +44,11 @@ implements Comparable {
                 ((ISourceSlotListener)iterator.next()).slotsChanged(this.getSource());
             }
             catch (Exception exception) {
-                this.logger.log(-1601830656, "[%1.notifySlotChanged] Exception occured: %2", (Object)"RegisteredSource", (Throwable)exception);
+                this.logger.log(100000, "[%1.notifySlotChanged] Exception occured: %2", (Object)LOGCLASS, (Throwable)exception);
             }
         }
     }
 
-    @Override
     public int compareTo(Object object) {
         return this.source.getType() - ((RegisteredSource)object).source.getType();
     }

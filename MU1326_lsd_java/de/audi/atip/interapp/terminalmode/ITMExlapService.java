@@ -4,19 +4,14 @@
 package de.audi.atip.interapp.terminalmode;
 
 public interface ITMExlapService {
-    default public void nextTrack(int n) {
-    }
+    public void nextTrack(int var1);
 
-    default public void previousTrack(int n) {
-    }
+    public void previousTrack(int var1);
 
-    default public void playMedia(int n) {
-    }
+    public void playMedia(int var1);
 
-    default public void pauseMedia(int n) {
-    }
+    public void pauseMedia(int var1);
 
-    default public void activateAppConnectAudio(int n) {
-    }
+    public void activateAppConnectAudio(int var1);
 }
 

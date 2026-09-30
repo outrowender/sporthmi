@@ -27,7 +27,7 @@ public final class SdisLabels {
                 return "AUDIOCONTEXT_NONE";
             }
         }
-        return new StringBuffer().append("AUDIOCONTEXT_UNKNOW(").append(n).append(")").toString();
+        return "AUDIOCONTEXT_UNKNOW(" + n + ")";
     }
 
     public static String getAudioState(int n) {
@@ -42,14 +42,14 @@ public final class SdisLabels {
                 return "AUDIOSTATE_A2LS_PENDING";
             }
         }
-        return new StringBuffer().append("AUDIOSTATE_UNKNOW(").append(n).append(")").toString();
+        return "AUDIOSTATE_UNKNOW(" + n + ")";
     }
 
     public static String getAudioState(AudioState audioState) {
         if (audioState == null) {
             return "NULL";
         }
-        return new StringBuffer().append(SdisLabels.getContext(audioState.audioContext)).append(": ").append(SdisLabels.getAudioState(audioState.audioState)).toString();
+        return SdisLabels.getContext(audioState.audioContext) + ": " + SdisLabels.getAudioState(audioState.audioState);
     }
 
     public static String getAudibleState(int n) {

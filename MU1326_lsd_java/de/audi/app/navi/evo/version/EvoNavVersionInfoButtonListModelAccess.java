@@ -14,8 +14,8 @@ import de.audi.tghu.navi.app.version.INavVersionInfoButtonListModelAccess;
 public class EvoNavVersionInfoButtonListModelAccess
 implements INavVersionInfoButtonListModelAccess {
     private final NavigationEnv env;
-    private static final int navVersionButton;
-    private static final int navVersionList;
+    private static final int navVersionButton = 343;
+    private static final int navVersionList = 3840;
     private LogChannel logChannel;
 
     public EvoNavVersionInfoButtonListModelAccess(NavigationEnv navigationEnv, LogChannel logChannel) {
@@ -23,10 +23,9 @@ implements INavVersionInfoButtonListModelAccess {
         this.logChannel = logChannel;
     }
 
-    @Override
     public void update(String[] stringArray) {
         if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "NavVersionInfoHandler#update(String[] navVersionInfo) %1", (Object)stringArray);
+            this.logChannel.log(100000000, "NavVersionInfoHandler#update(String[] navVersionInfo) %1", (Object)stringArray);
         }
         ButtonModelApp buttonModelApp = this.env.getButtonModel(343);
         BaseListModelApp baseListModelApp = this.env.getBaseListModel(3840);
@@ -42,12 +41,12 @@ implements INavVersionInfoButtonListModelAccess {
         baseListModelApp.update(baseListModelApp2);
         if (bl) {
             if (this.logChannel.isDebug2()) {
-                this.logChannel.log(14808325, "NavVersionInfoHandler#updateNavVersionInfo() - show submenu button");
+                this.logChannel.log(100000000, "NavVersionInfoHandler#updateNavVersionInfo() - show submenu button");
             }
             Util.setModelStatus(buttonModelApp, 1);
         } else {
             if (this.logChannel.isDebug2()) {
-                this.logChannel.log(14808325, "NavVersionInfoHandler#updateNavVersionInfo() - hide submenu button");
+                this.logChannel.log(100000000, "NavVersionInfoHandler#updateNavVersionInfo() - hide submenu button");
             }
             Util.setModelStatus(buttonModelApp, 0);
         }

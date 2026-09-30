@@ -4,19 +4,14 @@
 package de.audi.atip.hmi.model;
 
 public interface TextEditorListenerDD {
-    default public void openAlternativesList(int n, int n2, int n3) {
-    }
+    public void openAlternativesList(int var1, int var2, int var3);
 
-    default public boolean alternativeSelected(boolean bl, int n, int n2, int n3) {
-    }
+    public boolean alternativeSelected(boolean var1, int var2, int var3, int var4);
 
-    default public void textChanged(int n, int n2, int n3) {
-    }
+    public void textChanged(int var1, int var2, int var3);
 
-    default public void commandPressed(int n, int n2, int n3) {
-    }
+    public void commandPressed(int var1, int var2, int var3);
 
-    default public void maxTextLengthChanged(int n) {
-    }
+    public void maxTextLengthChanged(int var1);
 }
 

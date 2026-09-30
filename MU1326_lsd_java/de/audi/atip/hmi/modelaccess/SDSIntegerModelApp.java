@@ -7,13 +7,10 @@ import de.audi.atip.hmi.model.HMIModel;
 
 public interface SDSIntegerModelApp
 extends HMIModel {
-    default public void setValue(int n) {
-    }
+    public void setValue(int var1);
 
-    default public void incrementValue(int n) {
-    }
+    public void incrementValue(int var1);
 
-    default public int getValue() {
-    }
+    public int getValue();
 }
 

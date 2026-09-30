@@ -13,20 +13,17 @@ implements IAdditionalStateInfo {
         this.housenumberFirstValue = string;
     }
 
-    @Override
     public void gatherInfo() {
     }
 
-    @Override
     public void restoreBefore() {
     }
 
-    @Override
     public void restoreAfter() {
     }
 
     public String toString() {
-        return new StringBuffer().append("Value for housenumberfirst is ").append(this.housenumberFirstValue).toString();
+        return "Value for housenumberfirst is " + this.housenumberFirstValue;
     }
 
     public String getHousenumberFirstValue() {

@@ -5,8 +5,8 @@ package de.audi.app.phone.core.interapp;
 
 import de.audi.app.phone.core.AbstractPhoneComponent;
 import de.audi.app.phone.core.ITelApplication;
-import de.audi.app.phone.core.interapp.TelOnlinePhoneStateUpdater$OnlineServiceRegistrationListener;
 import de.audi.app.phone.core.state.IGlobalTelephoneStateStruct;
+import de.audi.app.phone.core.util.AbstractTelServiceTracker;
 import de.audi.atip.interapp.online.IPhoneStateService;
 
 public class TelOnlinePhoneStateUpdater
@@ -17,22 +17,19 @@ extends AbstractPhoneComponent {
 
     public TelOnlinePhoneStateUpdater(ITelApplication iTelApplication) {
         super(iTelApplication, "App.Phone.Main");
-        this.addSubPhoneComponent(new TelOnlinePhoneStateUpdater$OnlineServiceRegistrationListener(this, iTelApplication));
+        this.addSubPhoneComponent(new OnlineServiceRegistrationListener(iTelApplication));
     }
 
-    @Override
     public void init() {
         super.init();
         this.getApplication().getGlobalTelephoneStateManager().registerListener(this);
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.getApplication().getGlobalTelephoneStateManager().removeListener(this);
     }
 
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         boolean bl;
         if (iGlobalTelephoneStateStruct != null && this.phoneReady != (bl = iGlobalTelephoneStateStruct.isPhoneReady())) {
@@ -44,10 +41,10 @@ extends AbstractPhoneComponent {
     private void updateOnlineService(boolean bl) {
         IPhoneStateService iPhoneStateService = this.onlineService;
         if (iPhoneStateService != null) {
-            this.log.log(1078071040, "[TelOnlinePhoneStateUpdater#updateOnlineService] phoneReady=%1", bl);
+            this.log.log(1000000, "[TelOnlinePhoneStateUpdater#updateOnlineService] phoneReady=%1", bl);
             iPhoneStateService.updatePhoneStatus(bl);
         } else {
-            this.log.log(1078071040, "[TelOnlinePhoneStateUpdater#updateOnlineService] service is null --> NOP!");
+            this.log.log(1000000, "[TelOnlinePhoneStateUpdater#updateOnlineService] service is null --> NOP!");
         }
     }
 
@@ -60,17 +57,21 @@ extends AbstractPhoneComponent {
         }
     }
 
-    static /* synthetic */ IPhoneStateService access$002(TelOnlinePhoneStateUpdater telOnlinePhoneStateUpdater, IPhoneStateService iPhoneStateService) {
-        telOnlinePhoneStateUpdater.onlineService = iPhoneStateService;
-        return telOnlinePhoneStateUpdater.onlineService;
-    }
+    private class OnlineServiceRegistrationListener
+    extends AbstractTelServiceTracker {
+        public OnlineServiceRegistrationListener(ITelApplication iTelApplication) {
+            super(iTelApplication, "App.Phone.Main", class$de$audi$atip$interapp$online$IPhoneStateService == null ? (class$de$audi$atip$interapp$online$IPhoneStateService = TelOnlinePhoneStateUpdater.class$("de.audi.atip.interapp.online.IPhoneStateService")) : class$de$audi$atip$interapp$online$IPhoneStateService);
+        }
 
-    static /* synthetic */ boolean access$100(TelOnlinePhoneStateUpdater telOnlinePhoneStateUpdater) {
-        return telOnlinePhoneStateUpdater.phoneReady;
-    }
+        protected void serviceAvailable(Object object) {
+            TelOnlinePhoneStateUpdater.this.onlineService = (IPhoneStateService)object;
+            this.log.log(1000000, "[TelOnlinePhoneStateUpdater.OnlineServiceRegistrationListener#serviceAvailable] phoneReady=%1", TelOnlinePhoneStateUpdater.this.phoneReady);
+            TelOnlinePhoneStateUpdater.this.onlineService.updatePhoneStatus(TelOnlinePhoneStateUpdater.this.phoneReady);
+        }
 
-    static /* synthetic */ IPhoneStateService access$000(TelOnlinePhoneStateUpdater telOnlinePhoneStateUpdater) {
-        return telOnlinePhoneStateUpdater.onlineService;
+        protected void serviceRemoved(Object object) {
+            TelOnlinePhoneStateUpdater.this.onlineService = null;
+        }
     }
 }
 

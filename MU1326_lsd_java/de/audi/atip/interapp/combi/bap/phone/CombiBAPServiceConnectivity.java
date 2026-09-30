@@ -6,31 +6,22 @@ package de.audi.atip.interapp.combi.bap.phone;
 import de.audi.atip.interapp.combi.bap.audio.data.CombiBAPBluetoothConnections;
 
 public interface CombiBAPServiceConnectivity {
-    default public void updateMobileServiceSupportConnectionIndication(boolean bl, boolean bl2) {
-    }
+    public void updateMobileServiceSupportConnectionIndication(boolean var1, boolean var2);
 
-    default public void updateMobileServiceSupportWLAN(boolean bl) {
-    }
+    public void updateMobileServiceSupportWLAN(boolean var1);
 
-    default public void updateMobileServiceSupportBluetooth(boolean bl) {
-    }
+    public void updateMobileServiceSupportBluetooth(boolean var1);
 
-    default public void updateDataConnectionActive(boolean bl) {
-    }
+    public void updateDataConnectionActive(boolean var1);
 
-    default public void updateDataConnectionPacketCount(long l, long l2) {
-    }
+    public void updateDataConnectionPacketCount(long var1, long var3);
 
-    default public void updateDataConnection2Active(boolean bl) {
-    }
+    public void updateDataConnection2Active(boolean var1);
 
-    default public void updateDataConnection2PacketCount(long l, long l2) {
-    }
+    public void updateDataConnection2PacketCount(long var1, long var3);
 
-    default public void updateBluetoothConnectionState(int n, int n2, CombiBAPBluetoothConnections combiBAPBluetoothConnections) {
-    }
+    public void updateBluetoothConnectionState(int var1, int var2, CombiBAPBluetoothConnections var3);
 
-    default public void updateWLANConnectionState(int n, int n2, int n3) {
-    }
+    public void updateWLANConnectionState(int var1, int var2, int var3);
 }
 

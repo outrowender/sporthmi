@@ -17,7 +17,6 @@ import de.audi.tghu.navi.app.map.instances.MapMain;
 
 public class MapFactoryEvo
 implements IMapFactory {
-    @Override
     public MapMain createMapMain(NavigationEnv navigationEnv, MapManager mapManager, MapConfig mapConfig, IconHandler iconHandler, MapInterface mapInterface, INaviInterface iNaviInterface, LocationSerializer locationSerializer, MapSelectionHandlerFactory mapSelectionHandlerFactory) {
         return new MapMain(navigationEnv, mapManager, mapConfig, iconHandler, mapInterface, iNaviInterface, new GUIFactoryEvo(), locationSerializer, mapSelectionHandlerFactory);
     }

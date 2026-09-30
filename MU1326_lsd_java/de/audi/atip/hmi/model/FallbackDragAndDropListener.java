@@ -12,16 +12,13 @@ implements DragAndDropListener {
     private FallbackDragAndDropListener() {
     }
 
-    @Override
     public int itemDragStarted(int n, long l, int n2) {
         return 1;
     }
 
-    @Override
     public void itemDropped(int n, long l, int n2, long l2, int n3, int n4) {
     }
 
-    @Override
     public void itemDragStopped(int n, long l, int n2, long l2) {
     }
 }

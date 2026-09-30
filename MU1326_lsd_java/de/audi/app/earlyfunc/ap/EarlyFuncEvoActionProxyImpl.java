@@ -19,26 +19,22 @@ EarlyFuncEvoActionProxyIDs {
         super(iFrameworkAccess, bundleContext, iActionProxyDispatcher);
     }
 
-    @Override
     public int getActionProxyInterfaceID() {
         return 3;
     }
 
-    @Override
     public void volumeLoweredEntertainmnetExited(int n) {
     }
 
-    @Override
     public void carMenusEnteredEarly(int n, boolean bl) {
-        this.getLogChannel().log(1078071040, "[EarlyFuncEvoActionProxyImpl#carMenusEnteredEarly] entered='%1'", bl);
+        this.getLogChannel().log(1000000, "[EarlyFuncEvoActionProxyImpl#carMenusEnteredEarly] entered='%1'", bl);
         HashMap hashMap = new HashMap(1);
         hashMap.put("ENTERED", bl);
         this.getActionProxyDispatcher().notifyActionProxyCall(1, hashMap);
     }
 
-    @Override
     public void phevGoodbyeEntered(int n, boolean bl) {
-        this.getLogChannel().log(1078071040, "[EarlyFuncEvoActionProxyImpl#phevGoodbyeEntered] entered='%1'", bl);
+        this.getLogChannel().log(1000000, "[EarlyFuncEvoActionProxyImpl#phevGoodbyeEntered] entered='%1'", bl);
         HashMap hashMap = new HashMap(1);
         hashMap.put("ENTERED", bl);
         this.getActionProxyDispatcher().notifyActionProxyCall(2, hashMap);

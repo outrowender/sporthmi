@@ -7,13 +7,10 @@ import de.audi.atip.interapp.online.IOperatorCallSDSServiceListener;
 import org.dsi.ifc.online.OperatorCallResult;
 
 public interface IOperatorCallSDSService {
-    default public void startCallcenterCallBySDS(int n, IOperatorCallSDSServiceListener iOperatorCallSDSServiceListener, boolean bl) {
-    }
+    public void startCallcenterCallBySDS(int var1, IOperatorCallSDSServiceListener var2, boolean var3);
 
-    default public int getNumberOfPoisOfHistoryCallForSDS(int n, int n2) {
-    }
+    public int getNumberOfPoisOfHistoryCallForSDS(int var1, int var2);
 
-    default public OperatorCallResult getPoiOfIndexForSDS(int n, int n2) {
-    }
+    public OperatorCallResult getPoiOfIndexForSDS(int var1, int var2);
 }
 

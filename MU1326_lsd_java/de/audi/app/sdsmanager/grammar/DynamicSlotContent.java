@@ -7,23 +7,23 @@ import de.audi.app.sdsmanager.common.SDSUtils;
 import de.audi.atip.interapp.SDSListEntry;
 
 public class DynamicSlotContent {
-    static final String DESCR_UNK;
-    public static final byte SLOT_CONTENT_NEW;
-    public static final byte SLOT_CONTENT_NEW_AND_TO_BE_LOADED;
-    static final byte SLOT_CONTENT_OLD;
-    private static final long DUMMY_ID;
+    static final String DESCR_UNK = "UNK";
+    public static final byte SLOT_CONTENT_NEW = 0;
+    public static final byte SLOT_CONTENT_NEW_AND_TO_BE_LOADED = 1;
+    static final byte SLOT_CONTENT_OLD = 2;
+    private static final long DUMMY_ID = 0L;
     private final String description;
     private final SDSListEntry[] slotEntries;
     private byte status = 0;
 
     public DynamicSlotContent(String string, SDSListEntry[] sDSListEntryArray, byte by) {
-        this.description = string != null ? string : "UNK";
+        this.description = string != null ? string : DESCR_UNK;
         this.slotEntries = sDSListEntryArray == null ? new SDSListEntry[]{} : sDSListEntryArray;
         this.status = by;
     }
 
     public DynamicSlotContent(String string, String[] stringArray, byte by) {
-        this.description = string != null ? string : "UNK";
+        this.description = string != null ? string : DESCR_UNK;
         this.status = by;
         if (SDSUtils.isEmpty(stringArray)) {
             this.slotEntries = new SDSListEntry[0];

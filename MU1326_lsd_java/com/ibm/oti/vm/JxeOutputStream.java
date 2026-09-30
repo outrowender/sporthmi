@@ -3,20 +3,17 @@
  */
 package com.ibm.oti.vm;
 
+import java.io.IOException;
+
 public interface JxeOutputStream {
-    default public byte read8(int n) {
-    }
+    public byte read8(int var1) throws IOException;
 
-    default public short read16(int n) {
-    }
+    public short read16(int var1) throws IOException;
 
-    default public int read32(int n) {
-    }
+    public int read32(int var1) throws IOException;
 
-    default public long read64(int n) {
-    }
+    public long read64(int var1) throws IOException;
 
-    default public void write(byte[] byArray, int n, int n2) {
-    }
+    public void write(byte[] var1, int var2, int var3) throws IOException;
 }
 

@@ -6,7 +6,6 @@ package de.audi.app.media.source;
 import de.audi.app.media.source.ISource;
 
 public interface ISourceSlotListener {
-    default public void slotsChanged(ISource iSource) {
-    }
+    public void slotsChanged(ISource var1);
 }
 

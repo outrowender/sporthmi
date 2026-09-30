@@ -11,29 +11,27 @@ import org.dsi.ifc.cardrivingcharacteristics.SuspensionControlViewOptions;
 
 public class AirSuspensionIndicatorComponentEvo
 extends AbstractAirSuspensionIndicatorComponent {
-    private static final int CHARISMA_INDIV_AIRSUSPENSION_DAMPER;
-    private static final int CHARISMA_INDIV_AIRSUSPENSION_NORMAL;
-    private static final int CHARISMA_INDIV_AIRSUSPENSION_SPORT;
+    private static final int CHARISMA_INDIV_AIRSUSPENSION_DAMPER = 0;
+    private static final int CHARISMA_INDIV_AIRSUSPENSION_NORMAL = 1;
+    private static final int CHARISMA_INDIV_AIRSUSPENSION_SPORT = 2;
 
     public AirSuspensionIndicatorComponentEvo(ICarApplication iCarApplication) {
         super(iCarApplication);
     }
 
-    @Override
     protected void updateMenuEntryVisibility(SuspensionControlViewOptions suspensionControlViewOptions) {
         this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(260, this.getAirSuspensionLvlIconVisibilityState(suspensionControlViewOptions));
         int n = this.getMenuEntryVisibilityState(suspensionControlViewOptions.getCarJackMode());
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1238890240, n);
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1809315584, this.getMenuEntryVisibilityState(suspensionControlViewOptions.getTrailerMode()));
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600246, n);
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600212, this.getMenuEntryVisibilityState(suspensionControlViewOptions.getTrailerMode()));
         SuspensionControlConfiguration suspensionControlConfiguration = suspensionControlViewOptions.getConfiguration();
         int n2 = 0;
         if (suspensionControlConfiguration != null) {
             n2 = suspensionControlConfiguration.getModelType() == 1 || suspensionControlConfiguration.getModelType() == 4 || suspensionControlConfiguration.getModelType() == 5 ? 2 : 1;
         }
-        this.getChoiceModel(707528960).setValue(n2);
+        this.getChoiceModel(601130).setValue(n2);
     }
 
-    @Override
     protected boolean isAirSuspensionActiveByVehicleState(int n) {
         return true;
     }
@@ -53,21 +51,18 @@ extends AbstractAirSuspensionIndicatorComponent {
         return false;
     }
 
-    @Override
     protected void initVisibility() {
         this.getApplication().getMenuEntryRegistry().registerMenuEntry(260, (short)21);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-1238890240, (short)21);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-1809315584, (short)21);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600246, (short)21);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600212, (short)21);
     }
 
-    @Override
     protected void deinitVisibility() {
         this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(260);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-1238890240);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-1809315584);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600246);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600212);
     }
 
-    @Override
     public int getID() {
         return 25;
     }

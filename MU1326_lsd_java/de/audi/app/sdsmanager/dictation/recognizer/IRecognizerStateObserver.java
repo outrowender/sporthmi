@@ -4,10 +4,8 @@
 package de.audi.app.sdsmanager.dictation.recognizer;
 
 public interface IRecognizerStateObserver {
-    default public void indicateStartOfSpeech() {
-    }
+    public void indicateStartOfSpeech();
 
-    default public void indicateEndOfSpeech() {
-    }
+    public void indicateEndOfSpeech();
 }
 

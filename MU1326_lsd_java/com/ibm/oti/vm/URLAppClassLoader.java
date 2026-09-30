@@ -114,7 +114,6 @@ extends URLSystemClassLoader {
         return uRLArray;
     }
 
-    @Override
     boolean addExitPermission() {
         return true;
     }

@@ -31,32 +31,26 @@ implements CarFuncAdap {
         this.carFunctions[8] = by;
     }
 
-    @Override
     public boolean isMenuDisplayActivated(short s) {
         return (this.carFunctions[s] & 1) == 1;
     }
 
-    @Override
     public boolean isMenuDisClamp15OffActivated(short s) {
         return this.isMenuDisplayActivated(s) && (this.carFunctions[s] & 2) == 1;
     }
 
-    @Override
     public boolean isMenuDisOverThresholdHighActivated(short s) {
         return this.isMenuDisplayActivated(s) && (this.carFunctions[s] & 4) == 0;
     }
 
-    @Override
     public boolean isMenuDisStandstillActivated(short s) {
         return this.isMenuDisplayActivated(s) && (this.carFunctions[s] & 8) == 1;
     }
 
-    @Override
     public boolean isMenuDisAfterDisclaimerActivated(short s) {
         return false;
     }
 
-    @Override
     public byte getByteCoding(short s) {
         return this.carFunctions[s];
     }

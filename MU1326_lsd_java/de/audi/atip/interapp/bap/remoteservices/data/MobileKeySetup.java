@@ -3,8 +3,6 @@
  */
 package de.audi.atip.interapp.bap.remoteservices.data;
 
-import de.audi.atip.interapp.bap.remoteservices.data.MobileKeySetup$Builder;
-
 public final class MobileKeySetup {
     private final boolean mobileDeviceKeyEnabled;
     private boolean smartCardEnabled;
@@ -17,8 +15,8 @@ public final class MobileKeySetup {
     private final boolean canBeModified_Reset;
     private final int modificationReason_Reset;
 
-    public static MobileKeySetup$Builder builder() {
-        return new MobileKeySetup$Builder();
+    public static Builder builder() {
+        return new Builder();
     }
 
     private MobileKeySetup(boolean bl, boolean bl2, boolean bl3, boolean bl4, boolean bl5, int n, boolean bl6, int n2, boolean bl7, int n3) {
@@ -96,7 +94,7 @@ public final class MobileKeySetup {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         MobileKeySetup mobileKeySetup = (MobileKeySetup)object;
@@ -132,6 +130,90 @@ public final class MobileKeySetup {
 
     public String toString() {
         return new StringBuffer().append("MobileKeySetup [mobileDeviceKeyEnabled=").append(this.mobileDeviceKeyEnabled).append(", smartCardEnabled=").append(this.smartCardEnabled).append(", mobileDeviceKeyReset=").append(this.mobileDeviceKeyReset).append(", smartCardActivationRequested=").append(this.smartCardActivationRequested).append(", canBeModified_Setup=").append(this.canBeModified_Setup).append(", modificationReason_Setup=").append(this.modificationReason_Setup).append("]").append(", canBeModified_Smartcard=").append(this.canBeModified_Smartcard).append(", modificationReason_Smartcard=").append(this.modificationReason_Smartcard).append("]").append(", canBeModified_Reset=").append(this.canBeModified_Reset).append(", modificationReason_Reset=").append(this.modificationReason_Reset).append("]").toString();
+    }
+
+    public static final class Builder {
+        private boolean mobileDeviceKeyEnabled;
+        private boolean smartCardEnabled;
+        private boolean mobileDeviceKeyReset;
+        private boolean smartCardActivationRequested;
+        private boolean canBeModified_Setup;
+        private boolean canBeModified_Smartcard;
+        private boolean canBeModified_Reset;
+        private int modificationReason_Setup;
+        private int modificationReason_Smartcard;
+        private int modificationReason_Reset;
+
+        public Builder setMobDevKeyEnabled(boolean bl) {
+            this.mobileDeviceKeyEnabled = bl;
+            return this;
+        }
+
+        public Builder setSmartCardEnabled(boolean bl) {
+            this.smartCardEnabled = bl;
+            return this;
+        }
+
+        public Builder setMobileDeviceKeyReset(boolean bl) {
+            this.mobileDeviceKeyReset = bl;
+            return this;
+        }
+
+        public Builder setSmartcardActivationRequested(boolean bl) {
+            this.smartCardActivationRequested = bl;
+            return this;
+        }
+
+        public Builder setCanBeModified_Setup(boolean bl) {
+            this.canBeModified_Setup = bl;
+            return this;
+        }
+
+        public Builder setModificationReason_Setup(int n) {
+            this.modificationReason_Setup = n;
+            return this;
+        }
+
+        public Builder setCanBeModified_Smartcard(boolean bl) {
+            this.canBeModified_Smartcard = bl;
+            return this;
+        }
+
+        public Builder setModificationReason_Smartcard(int n) {
+            this.modificationReason_Smartcard = n;
+            return this;
+        }
+
+        public Builder setCanBeModified_Reset(boolean bl) {
+            this.canBeModified_Reset = bl;
+            return this;
+        }
+
+        public Builder setModificationReason_Reset(int n) {
+            this.modificationReason_Reset = n;
+            return this;
+        }
+
+        public MobileKeySetup build() {
+            return new MobileKeySetup(this.mobileDeviceKeyEnabled, this.smartCardEnabled, this.mobileDeviceKeyReset, this.smartCardActivationRequested, this.canBeModified_Setup, this.modificationReason_Setup, this.canBeModified_Smartcard, this.modificationReason_Smartcard, this.canBeModified_Reset, this.modificationReason_Reset);
+        }
+    }
+
+    public static final class ModificationReason {
+        public static final int NO_REASON = 0;
+        public static final int CLAMP_15_NOT_ACTIVE = 1;
+        public static final int CLAMP_15_ON_WITH_PHYSICAL_KEY = 2;
+        public static final int CLAMP_15_ON_WITH_MOBILE_DEVICE_KEY = 3;
+        public static final int CLAMP_15_ON_WITH_SMARTCARD = 4;
+        public static final int AUTHENTICATION_REQUIRED_PHYSICAL_KEY = 5;
+        public static final int AUTHENTICATION_REQUIRED_MOBILE_DEVICE_KEY = 6;
+        public static final int AUTHENTICATION_REQUIRED_SMARTCARD = 7;
+        public static final int AUTHENTICATION_REQUIRED_PHYSICAL_OR_MOBILE_DEVICE_KEY = 8;
+        public static final int DEFECTIVE = 9;
+
+        private ModificationReason() {
+            throw new AssertionError((Object)"MobileKeySetup.ModificationReason is not intended to be instantiated.");
+        }
     }
 }
 

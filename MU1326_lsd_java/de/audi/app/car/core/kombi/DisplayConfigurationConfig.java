@@ -32,7 +32,7 @@ implements IDisplayConfigurationConstants {
     }
 
     public long getWatchdogTimeout() {
-        return 0;
+        return 1000L;
     }
 }
 

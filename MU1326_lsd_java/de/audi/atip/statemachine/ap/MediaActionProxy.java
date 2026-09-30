@@ -7,58 +7,40 @@ import de.audi.atip.statemachine.ActionProxy;
 
 public interface MediaActionProxy
 extends ActionProxy {
-    default public void hmiActivated(int n) {
-    }
+    public void hmiActivated(int var1);
 
-    default public void hmiDeactivated(int n) {
-    }
+    public void hmiDeactivated(int var1);
 
-    default public void mediaToggleSource(int n) {
-    }
+    public void mediaToggleSource(int var1);
 
-    default public void mediaToggleSourceEntered(int n) {
-    }
+    public void mediaToggleSourceEntered(int var1);
 
-    default public void mediaStartBrowsing(int n, int n2, boolean bl) {
-    }
+    public void mediaStartBrowsing(int var1, int var2, boolean var3);
 
-    default public void mediaChangeToParentFolder(int n) {
-    }
+    public void mediaChangeToParentFolder(int var1);
 
-    default public void mediaManualSeekEnter(int n) {
-    }
+    public void mediaManualSeekEnter(int var1);
 
-    default public void mediaManualSeekLeft(int n) {
-    }
+    public void mediaManualSeekLeft(int var1);
 
-    default public void mediaBrowserTrufflesDisable(int n) {
-    }
+    public void mediaBrowserTrufflesDisable(int var1);
 
-    default public void mediaBrowserRestoreSelectionPath(int n) {
-    }
+    public void mediaBrowserRestoreSelectionPath(int var1);
 
-    default public void mediaPlayerNewSearch(int n) {
-    }
+    public void mediaPlayerNewSearch(int var1);
 
-    default public void mediaDataSetSelectedList(int n, int n2) {
-    }
+    public void mediaDataSetSelectedList(int var1, int var2);
 
-    default public void mediaBrowserFavoritesRestoreSelectionPath(int n) {
-    }
+    public void mediaBrowserFavoritesRestoreSelectionPath(int var1);
 
-    default public void medialoadingFinished(int n) {
-    }
+    public void medialoadingFinished(int var1);
 
-    default public void mediaBrowserTrufflesDisableAnimWait(int n) {
-    }
+    public void mediaBrowserTrufflesDisableAnimWait(int var1);
 
-    default public void setBrowserActive(int n, int n2) {
-    }
+    public void setBrowserActive(int var1, int var2);
 
-    default public void mediaStartSearchBrowser(int n, int n2) {
-    }
+    public void mediaStartSearchBrowser(int var1, int var2);
 
-    default public void setOptionOpenInNextScreen(int n, int n2) {
-    }
+    public void setOptionOpenInNextScreen(int var1, int var2);
 }
 

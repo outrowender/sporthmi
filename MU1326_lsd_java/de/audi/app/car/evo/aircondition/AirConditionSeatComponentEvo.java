@@ -15,56 +15,51 @@ extends AbstractAirconSeatComponent {
         super(iCarApplication);
     }
 
-    @Override
     public int getID() {
         return 43;
     }
 
-    @Override
     protected void initVisibility() {
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-483981056, (short)8);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-433649408, (short)8);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-383317760, (short)8);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-332986112, (short)8);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-265877248, (short)8);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-249100032, (short)8);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-232322816, (short)8);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-215545600, (short)8);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600035, (short)8);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600038, (short)8);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600041, (short)8);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600044, (short)8);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600048, (short)8);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600049, (short)8);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600050, (short)8);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600051, (short)8);
     }
 
-    @Override
     protected void deinitVisibility() {
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-483981056);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-433649408);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-383317760);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-332986112);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-265877248);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-249100032);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-232322816);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-215545600);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600035);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600038);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600041);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600044);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600048);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600049);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600050);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600051);
     }
 
-    @Override
     protected void updateMenuEntryVisibility(AirconMasterViewOptions airconMasterViewOptions) {
         this.setDriverSideRight(airconMasterViewOptions.getConfiguration().isCarDriverSide());
     }
 
-    @Override
     protected void updateMenuEntryVisibility(int n, AirconRowViewOptions airconRowViewOptions) {
         AirconZoneViewOptions airconZoneViewOptions;
         AirconZoneViewOptions airconZoneViewOptions2 = !this.isDriverSideRight() ? airconRowViewOptions.getZoneLeftViewOptions() : airconRowViewOptions.getZoneRightViewOptions();
         AirconZoneViewOptions airconZoneViewOptions3 = airconZoneViewOptions = this.isDriverSideRight() ? airconRowViewOptions.getZoneLeftViewOptions() : airconRowViewOptions.getZoneRightViewOptions();
         if (1 == n) {
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-483981056, this.getMenuEntryVisibilityState(airconZoneViewOptions2.getAirconSeatVentilationDistribution()));
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-433649408, this.getMenuEntryVisibilityState(airconZoneViewOptions.getAirconSeatVentilationDistribution()));
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-265877248, this.getMenuEntryVisibilityState(airconZoneViewOptions2.getAirconSeatHeaterDistribution()));
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-249100032, this.getMenuEntryVisibilityState(airconZoneViewOptions.getAirconSeatHeaterDistribution()));
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600035, this.getMenuEntryVisibilityState(airconZoneViewOptions2.getAirconSeatVentilationDistribution()));
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600038, this.getMenuEntryVisibilityState(airconZoneViewOptions.getAirconSeatVentilationDistribution()));
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600048, this.getMenuEntryVisibilityState(airconZoneViewOptions2.getAirconSeatHeaterDistribution()));
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600049, this.getMenuEntryVisibilityState(airconZoneViewOptions.getAirconSeatHeaterDistribution()));
         }
         if (2 == n) {
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-383317760, this.getMenuEntryVisibilityState(airconZoneViewOptions2.getAirconSeatVentilationDistribution()));
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-332986112, this.getMenuEntryVisibilityState(airconZoneViewOptions.getAirconSeatVentilationDistribution()));
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-232322816, this.getMenuEntryVisibilityState(airconZoneViewOptions2.getAirconSeatHeaterDistribution()));
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-215545600, this.getMenuEntryVisibilityState(airconZoneViewOptions.getAirconSeatHeaterDistribution()));
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600041, this.getMenuEntryVisibilityState(airconZoneViewOptions2.getAirconSeatVentilationDistribution()));
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600044, this.getMenuEntryVisibilityState(airconZoneViewOptions.getAirconSeatVentilationDistribution()));
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600050, this.getMenuEntryVisibilityState(airconZoneViewOptions2.getAirconSeatHeaterDistribution()));
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600051, this.getMenuEntryVisibilityState(airconZoneViewOptions.getAirconSeatHeaterDistribution()));
         }
     }
 }

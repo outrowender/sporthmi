@@ -21,9 +21,8 @@ extends DefaultButtonListener {
         this.vehicle = iVehicle;
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
-        this.env.getLogChannel().log(-2137614336, "ParkingInVincinityMapListener#keyPressed, modelID %1, keyID %2, terminalID %3", (long)n, (long)n2, (long)n3);
+        this.env.getLogChannel().log(10000000, "ParkingInVincinityMapListener#keyPressed, modelID %1, keyID %2, terminalID %3", (long)n, (long)n2, (long)n3);
         this.env.getChoiceModel(170).setValue(0);
         NavLocation navLocation = this.vehicle.getVehicleLocation();
         this.poiService.getParkingNearDestinationSequenceWithDistanceFromCCP(navLocation).execute("ParkingInVincinityMapListener#ParkingNearDestination");

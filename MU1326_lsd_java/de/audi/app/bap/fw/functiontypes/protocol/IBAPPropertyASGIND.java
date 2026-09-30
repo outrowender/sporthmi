@@ -7,10 +7,8 @@ import de.vw.mib.bap.requests.StatusAckProperty;
 import de.vw.mib.bap.requests.StatusProperty;
 
 public interface IBAPPropertyASGIND {
-    default public void statusIND(StatusProperty statusProperty) {
-    }
+    public void statusIND(StatusProperty var1);
 
-    default public void statusAckIND(StatusAckProperty statusAckProperty) {
-    }
+    public void statusAckIND(StatusAckProperty var1);
 }
 

@@ -4,46 +4,36 @@
 package de.audi.atip.interapp;
 
 public interface DataConnectionStateService {
-    public static final int DATA_CONNECTION_STATE_PHONE_NOT_ACTIVE;
-    public static final int DATA_CONNECTION_STATE_HFP_CONNECTED;
-    public static final int DATA_CONNECTION_STATE_GSM_CALL_ACTIVE;
-    public static final int DATA_CONNECTION_STATE_PHONE_READY;
-    public static final int DATA_CONNECTION_CONFIG_ALWAYS_CONNECT;
-    public static final int DATA_CONNECTION_CONFIG_NEVER_CONNECT;
-    public static final int DATA_CONNECTION_CONFIG_NOT_AVAILABLE;
-    public static final int DATA_CONNECTION_CONFIG_ON_DEMAND;
-    public static final int DATAAPPLICATIONID_HOTSPOT;
-    public static final int DATAAPPLICATIONID_REAR_SEAT;
-    public static final int DATAAPPLICATIONID_ONLINE_SERVICES;
+    public static final int DATA_CONNECTION_STATE_PHONE_NOT_ACTIVE = 0;
+    public static final int DATA_CONNECTION_STATE_HFP_CONNECTED = 1;
+    public static final int DATA_CONNECTION_STATE_GSM_CALL_ACTIVE = 2;
+    public static final int DATA_CONNECTION_STATE_PHONE_READY = 3;
+    public static final int DATA_CONNECTION_CONFIG_ALWAYS_CONNECT = 0;
+    public static final int DATA_CONNECTION_CONFIG_NEVER_CONNECT = 1;
+    public static final int DATA_CONNECTION_CONFIG_NOT_AVAILABLE = 2;
+    public static final int DATA_CONNECTION_CONFIG_ON_DEMAND = 3;
+    public static final int DATAAPPLICATIONID_HOTSPOT = 6;
+    public static final int DATAAPPLICATIONID_REAR_SEAT = 7;
+    public static final int DATAAPPLICATIONID_ONLINE_SERVICES = 8;
 
-    default public boolean isConnectionConfirmed(int n) {
-    }
+    public boolean isConnectionConfirmed(int var1);
 
-    default public void connectionConfirmed(int n) {
-    }
+    public void connectionConfirmed(int var1);
 
-    default public void connectionConfirmed(int n, boolean bl) {
-    }
+    public void connectionConfirmed(int var1, boolean var2);
 
-    default public void connectionDenied(int n) {
-    }
+    public void connectionDenied(int var1);
 
-    default public void connectionDenied(int n, boolean bl) {
-    }
+    public void connectionDenied(int var1, boolean var2);
 
-    default public void updateRoamingState(boolean bl) {
-    }
+    public void updateRoamingState(boolean var1);
 
-    default public void requestConnect(int n) {
-    }
+    public void requestConnect(int var1);
 
-    default public void requestDisconnect(int n) {
-    }
+    public void requestDisconnect(int var1);
 
-    default public int getDataConnectionState() {
-    }
+    public int getDataConnectionState();
 
-    default public boolean isConnected(int n) {
-    }
+    public boolean isConnected(int var1);
 }
 

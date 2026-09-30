@@ -19,15 +19,14 @@ extends AbstractSystemCallCommand {
         this.naviService = naviService;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: called.", (Object)this.getName());
+        this.logger.log(10000000, "%1#execute: called.", (Object)this.getName());
         int n = SDSModelAccess.getEnumerationNumberStatus();
         this.naviService.getTpegPOIResultsByCategoryIndex(n);
     }
 
     public void responseSelectTopPOI(byte by) {
-        this.logger.log(-2137614336, "%1#responseSelectTopPOI: result=%2", (Object)this.getName(), (long)by);
+        this.logger.log(10000000, "%1#responseSelectTopPOI: result=%2", (Object)this.getName(), (long)by);
         this.sendResult(NaviSDSUtils.getSDSResult(by));
     }
 }

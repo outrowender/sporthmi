@@ -26,9 +26,8 @@ extends AbstractADBCommand {
         this.msgType = n;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "SendAsVCardCommand#execute()");
+        this.logger.log(10000000, "SendAsVCardCommand#execute()");
         boolean bl = this.adbDSIAccess.createVCard(0, new long[]{this.entryId}, 0);
         if (!bl) {
             this.logger.log(10000, "SendAsVCardCommand#execute(): dsi call was not successful, finishing command.");
@@ -36,9 +35,8 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public void createVCardResult(int n, long[] lArray, int n2, String string) {
-        this.logger.log(-2137614336, "SendAsVCardCommand#createVCardResult(): success: %2, fullPathToVCards: %1", (Object)string, (Object)ADBDbgUtils.dbgSuccessFlag(n));
+        this.logger.log(10000000, "SendAsVCardCommand#createVCardResult(): success: %2, fullPathToVCards: %1", (Object)string, (Object)ADBDbgUtils.dbgSuccessFlag(n));
         if (n == 0) {
             this.messaging.sendAsMessage(this.entryId, this.msgType, string);
             this.syncModel.setStatus(1);

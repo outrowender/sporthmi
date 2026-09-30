@@ -6,37 +6,26 @@ package de.audi.app.ecall.core.bap;
 import de.audi.atip.interapp.bap.ecall.data.PhoneCall;
 
 public interface IEcallBapServiceAdapter {
-    default public void terminateBreakdownService() {
-    }
+    public void terminateBreakdownService();
 
-    default public void endEmergencyCall(PhoneCall phoneCall) {
-    }
+    public void endEmergencyCall(PhoneCall var1);
 
-    default public void endBreakdownCall(PhoneCall phoneCall) {
-    }
+    public void endBreakdownCall(PhoneCall var1);
 
-    default public void acceptBreakdownCall() {
-    }
+    public void acceptBreakdownCall();
 
-    default public void rejectBreakdownCall() {
-    }
+    public void rejectBreakdownCall();
 
-    default public void acceptEmergencyServiceCall() {
-    }
+    public void acceptEmergencyServiceCall();
 
-    default public void dialEmergencyNumber(String string) {
-    }
+    public void dialEmergencyNumber(String var1);
 
-    default public void setAudioSource(int n) {
-    }
+    public void setAudioSource(int var1);
 
-    default public void sendMainUnitAudioSource(boolean bl) {
-    }
+    public void sendMainUnitAudioSource(boolean var1);
 
-    default public void onCommunicationUp() {
-    }
+    public void onCommunicationUp();
 
-    default public void startTestMode() {
-    }
+    public void startTestMode();
 }
 

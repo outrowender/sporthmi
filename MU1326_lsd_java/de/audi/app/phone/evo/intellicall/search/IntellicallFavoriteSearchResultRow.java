@@ -25,7 +25,7 @@ extends AbstractIntellicallSearchResultRow {
         this.setHighlightTextCell(3, this.getNameCell(searchResult));
         this.setHighlightTextCell(4, this.getNumberCell(searchResult));
         this.setInteger(8, ADBModelUtils.getIconTypeForPhoneNumber(this.phoneNumberType));
-        this.setPropertyCell(7, PropertyListCell.create(-1635178174, new int[]{1052831299, -2040561860}));
+        this.setPropertyCell(7, PropertyListCell.create(1110018462, new int[]{1139720254, 1014980486}));
     }
 
     private int getPhoneNumberTypeFromToken(SearchResult searchResult) {
@@ -55,7 +55,6 @@ extends AbstractIntellicallSearchResultRow {
         return new TextListCellHighlightText(textLineList.getText(), textLineList.getTextHighlightIndices());
     }
 
-    @Override
     public EvoListRow copy() {
         return new IntellicallFavoriteSearchResultRow(this.getSearchResult(), this.log);
     }

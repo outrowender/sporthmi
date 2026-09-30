@@ -10,33 +10,25 @@ import java.util.List;
 
 public interface MediaSDSHandler
 extends ISDSApplication {
-    public static final byte LEVEL_1;
-    public static final byte LEVEL_2;
-    public static final byte LEVEL_3;
-    public static final byte MAX_LEVEL_SIZE;
+    public static final byte LEVEL_1 = 0;
+    public static final byte LEVEL_2 = 1;
+    public static final byte LEVEL_3 = 2;
+    public static final byte MAX_LEVEL_SIZE = 3;
 
-    default public void setMediaSDSService(IMediaSDSService iMediaSDSService) {
-    }
+    public void setMediaSDSService(IMediaSDSService var1);
 
-    default public void unsetMediaSDSService() {
-    }
+    public void unsetMediaSDSService();
 
-    default public void ignoreMediaDeviceChanges() {
-    }
+    public void ignoreMediaDeviceChanges();
 
-    default public int getIPodSlotIndex() {
-    }
+    public int getIPodSlotIndex();
 
-    default public List getUSBSlotIndexes() {
-    }
+    public List getUSBSlotIndexes();
 
-    default public IMediaSDSService getMediaSDSService() {
-    }
+    public IMediaSDSService getMediaSDSService();
 
-    default public OneshotHandler initializeOneshotHandler(int n) {
-    }
+    public OneshotHandler initializeOneshotHandler(int var1);
 
-    default public OneshotHandler getOneshotHandler() {
-    }
+    public OneshotHandler getOneshotHandler();
 }
 

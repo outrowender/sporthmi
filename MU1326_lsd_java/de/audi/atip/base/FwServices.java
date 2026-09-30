@@ -437,7 +437,7 @@ public final class FwServices {
 
     public HMIService getHMIService() {
         if (this.hmiService == null) {
-            this.log.log(-1601830656, "Access to HMIService before it was created!");
+            this.log.log(100000, "Access to HMIService before it was created!");
         }
         return this.hmiService;
     }

@@ -4,7 +4,6 @@
 package de.audi.app.sdsmanager.apps.navi;
 
 public interface ISDSNaviGuidanceStartingCommand {
-    default public void responseStartRouteGuidance(byte by) {
-    }
+    public void responseStartRouteGuidance(byte var1);
 }
 

@@ -3,17 +3,27 @@
  */
 package de.audi.atip.sdis;
 
-import de.audi.atip.sdis.IHMISyncNaviReplies$CarPosition;
-import de.audi.atip.sdis.IHMISyncNaviReplies$LastDestination;
-
 public interface IHMISyncNaviReplies {
-    default public void updateCarPosition(CarPosition carPosition) {
+    public void updateCarPosition(CarPosition var1);
+
+    public void replyLastDestinationList(LastDestination[] var1);
+
+    public void replyStartRouteGuidance(int var1);
+
+    public static class CarPosition {
+        public double longitude;
+        public double latitude;
+        public int angle;
+        public int speed;
+        public int height;
     }
 
-    default public void replyLastDestinationList(LastDestination[] lastDestinationArray) {
-    }
-
-    default public void replyStartRouteGuidance(int n) {
+    public static class LastDestination {
+        public int queryId;
+        public int listPosition;
+        public String name;
+        public double longitude;
+        public double latitude;
     }
 }
 

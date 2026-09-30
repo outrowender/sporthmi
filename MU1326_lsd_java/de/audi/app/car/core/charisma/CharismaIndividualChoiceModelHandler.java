@@ -8,33 +8,30 @@ import de.audi.app.car.common.handler.ChoiceModelHandler;
 import de.audi.app.car.common.handler.ChoiceModelHandlerAdapter;
 import de.audi.app.car.core.charisma.CharismaIndivEntryBusinessConfig;
 import de.audi.app.car.core.charisma.CharismaIndividualEntryTransactionData;
-import de.audi.app.car.core.charisma.CharismaIndividualEntryTransactionData$CharismaIndivOptionMapping;
 import de.audi.app.car.core.charisma.CharismaIndividualEventBusiness;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.log.LogChannel;
 
 public class CharismaIndividualChoiceModelHandler
 extends ChoiceModelHandlerAdapter {
-    private CharismaIndividualEntryTransactionData$CharismaIndivOptionMapping optionMapping;
+    private CharismaIndividualEntryTransactionData.CharismaIndivOptionMapping optionMapping;
 
     public CharismaIndividualChoiceModelHandler(ChoiceModelApp choiceModelApp, LogChannel logChannel) {
         super(choiceModelApp, logChannel);
     }
 
-    @Override
     public void updateOnItemSelected(int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[CharismaIndividualChoiceModelHandler#updateOnItemSelected] modelID='%1' , itemID='%2'", (long)this.getHandledModelID(), (long)n);
+            this.getLogChannel().log(1000000, "[CharismaIndividualChoiceModelHandler#updateOnItemSelected] modelID='%1' , itemID='%2'", (long)this.getHandledModelID(), (long)n);
         }
         if (this.getBusiness() != null) {
             this.getChoiceModelBusiness().processItemSelected(this.createTransactionData(n), (ChoiceModelHandler)this);
         }
     }
 
-    @Override
     public void updateOnKeyPressed(int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[CharismaIndividualChoiceModelHandler#updateOnKeyPressed] modelID='%1' , keyID='%2'", (long)this.getHandledModelID(), (long)n);
+            this.getLogChannel().log(1000000, "[CharismaIndividualChoiceModelHandler#updateOnKeyPressed] modelID='%1' , keyID='%2'", (long)this.getHandledModelID(), (long)n);
         }
         if (this.getBusiness() != null) {
             this.getChoiceModelBusiness().processKeyPressed(this.createTransactionData(n), (ButtonModelHandler)this);
@@ -53,7 +50,6 @@ extends ChoiceModelHandlerAdapter {
         charismaIndividualEventBusiness.init(this, charismaIndivEntryBusinessConfig);
     }
 
-    @Override
     public void updateOnItemFocused(int n) {
     }
 
@@ -68,12 +64,12 @@ extends ChoiceModelHandlerAdapter {
         this.getChoiceModel().setValue(charismaIndividualEntryTransactionData.getDataID(this));
     }
 
-    private CharismaIndividualEntryTransactionData$CharismaIndivOptionMapping getOptionMapping() {
+    private CharismaIndividualEntryTransactionData.CharismaIndivOptionMapping getOptionMapping() {
         return this.optionMapping;
     }
 
-    private void setOptionMapping(CharismaIndividualEntryTransactionData$CharismaIndivOptionMapping charismaIndividualEntryTransactionData$CharismaIndivOptionMapping) {
-        this.optionMapping = charismaIndividualEntryTransactionData$CharismaIndivOptionMapping;
+    private void setOptionMapping(CharismaIndividualEntryTransactionData.CharismaIndivOptionMapping charismaIndivOptionMapping) {
+        this.optionMapping = charismaIndivOptionMapping;
     }
 }
 

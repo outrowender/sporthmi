@@ -6,13 +6,10 @@ package de.audi.atip.hmi.model.texteditor.mlcursorll;
 import de.audi.atip.hmi.model.texteditor.MLCursor;
 
 public interface Op {
-    default public int[] doOp(MLCursor mLCursor) {
-    }
+    public int[] doOp(MLCursor var1);
 
-    default public int[] noOp(MLCursor mLCursor) {
-    }
+    public int[] noOp(MLCursor var1);
 
-    default public int[] doNotOp(MLCursor mLCursor) {
-    }
+    public int[] doNotOp(MLCursor var1);
 }
 

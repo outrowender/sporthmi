@@ -15,34 +15,28 @@ implements Cloneable {
         super("MD5");
     }
 
-    @Override
-    public Object clone() {
+    public Object clone() throws CloneNotSupportedException {
         MessageDigestMD5 messageDigestMD5 = (MessageDigestMD5)super.clone();
         messageDigestMD5.md5Stream = this.md5Stream.copyOf();
         return messageDigestMD5;
     }
 
-    @Override
     protected byte[] engineDigest() {
         return this.md5Stream.getHashAsBytes();
     }
 
-    @Override
     protected int engineGetDigestLength() {
         return 16;
     }
 
-    @Override
     protected void engineReset() {
         this.md5Stream.reset();
     }
 
-    @Override
     protected void engineUpdate(byte[] byArray, int n, int n2) {
         this.md5Stream.write(byArray, n, n2);
     }
 
-    @Override
     protected void engineUpdate(byte by) {
         this.md5Stream.write(by);
     }

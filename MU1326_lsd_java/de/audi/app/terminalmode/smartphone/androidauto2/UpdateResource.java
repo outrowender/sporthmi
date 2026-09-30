@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  de.audi.app.terminalmode.statemachine.TMState
  */
 package de.audi.app.terminalmode.smartphone.androidauto2;
 
@@ -18,22 +15,21 @@ import de.audi.tghu.command.CommandList;
 
 public class UpdateResource
 extends AbstractStateHandlerCommand {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "UpdateResource";
     private final Resource resource;
     private final ResourceOwner resourceOwner;
 
     public UpdateResource(IContext iContext, Resource resource, ResourceOwner resourceOwner, IStateHandler iStateHandler) {
-        super(iContext.getLogger().main(), "UpdateResource", iContext, iStateHandler);
+        super(iContext.getLogger().main(), LOGCLASS, iContext, iStateHandler);
         this.resource = resource;
         this.resourceOwner = resourceOwner;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "[%1.execute]", (Object)"UpdateResource");
+        this.logger.log(1000000, "[%1.execute]", (Object)LOGCLASS);
         TMState tMState = this.stateHandler.getCurrentState();
         tMState.setOwnerForResource(this.resource, this.resourceOwner);
-        this.logger.log(1078071040, "[%1.execute] new state=%2", (Object)"UpdateResource", (Object)tMState.toString());
+        this.logger.log(1000000, "[%1.execute] new state=%2", (Object)LOGCLASS, (Object)tMState.toString());
         CommandList commandList = this.stateHandler.changeState(tMState, IRequestor.DEVICE, -1L);
         commandList.add(new SendUpdateResponse(this.context, this.stateHandler, tMState));
         this.getCommandList().commandFinishedWithPostSequence(commandList);

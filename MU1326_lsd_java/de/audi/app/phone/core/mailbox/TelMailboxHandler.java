@@ -32,49 +32,44 @@ ServiceTrackerCustomizer {
         this.SPELLER_MAX_LENGTH = 40;
     }
 
-    @Override
     public void init() {
         super.init();
         this.getApplication().getGlobalTelephoneStateManager().registerListener(this);
-        this.getSpellerModel(1687684096).setSpellerListener(this);
-        this.getSpellerModel(1687684096).setMaxLength(40);
-        this.getButtonModel(1402340352).setButtonListener(this);
-        this.getButtonModel(-2104163328).setButtonListener(this);
-        this.getButtonModel(-2104163328).setStatus(0);
+        this.getSpellerModel(301156).setSpellerListener(this);
+        this.getSpellerModel(301156).setMaxLength(40);
+        this.getButtonModel(300627).setButtonListener(this);
+        this.getButtonModel(300418).setButtonListener(this);
+        this.getButtonModel(300418).setStatus(0);
         this.sdsPhoneServiceListenerTracker = new ServiceTracker(this.getApplication().getBundleContext(), (class$de$audi$atip$interapp$SDSService == null ? (class$de$audi$atip$interapp$SDSService = TelMailboxHandler.class$("de.audi.atip.interapp.SDSService")) : class$de$audi$atip$interapp$SDSService).getName(), (ServiceTrackerCustomizer)this);
         this.sdsPhoneServiceListenerTracker.open();
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.getApplication().getGlobalTelephoneStateManager().removeListener(this);
-        this.getSpellerModel(1687684096).resetListener();
-        this.getButtonModel(1402340352).resetListener();
-        this.getButtonModel(-2104163328).resetListener();
+        this.getSpellerModel(301156).resetListener();
+        this.getButtonModel(300627).resetListener();
+        this.getButtonModel(300418).resetListener();
         if (this.sdsPhoneServiceListenerTracker != null) {
             this.sdsPhoneServiceListenerTracker.close();
             this.sdsPhoneServiceListenerTracker = null;
         }
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.getApplication().getBundleContext().getService(serviceReference);
         if (object instanceof SDSService) {
             this.sdsPhoneServiceListener = (SDSService)object;
-            this.updateSDSMailboxSpellerContent(this.getSpellerModel(1687684096).getText());
+            this.updateSDSMailboxSpellerContent(this.getSpellerModel(301156).getText());
             return object;
         }
         this.getApplication().getBundleContext().ungetService(serviceReference);
         return null;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof SDSService) {
             this.sdsPhoneServiceListener = null;
@@ -85,12 +80,11 @@ ServiceTrackerCustomizer {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         Object object = this.stateMutex;
         synchronized (object) {
             this.state = iGlobalTelephoneStateStruct;
-            if (n == 0x10000100) {
+            if (n == 65552) {
                 this.setMailboxSpellerWithCurrentMailboxNumber();
                 this.updateSDSMailboxSpellerContent(iGlobalTelephoneStateStruct.getMailboxNumber());
             }
@@ -104,24 +98,23 @@ ServiceTrackerCustomizer {
         Object object = this.stateMutex;
         synchronized (object) {
             String string = this.state.getMailboxNumber();
-            this.log.log(-2137614336, "[TelMailboxHandler#dialMailboxNumber] dialing %1", (Object)string);
+            this.log.log(10000000, "[TelMailboxHandler#dialMailboxNumber] dialing %1", (Object)string);
             this.getApplication().getTelephoneDSIAccess().dialNumber(string, n);
         }
     }
 
     protected void deleteMailboxNumber(int n) {
-        this.log.log(-2137614336, "[TelMailboxHandler#deleteMailboxNumber]");
+        this.log.log(10000000, "[TelMailboxHandler#deleteMailboxNumber]");
         this.setMailboxNumber("", n);
     }
 
     protected void setMailboxNumber(String string, int n) {
-        this.log.log(-2137614336, "[TelMailboxHandler#setMailboxNumber] setting mailbox number to %1", (Object)string);
+        this.log.log(10000000, "[TelMailboxHandler#setMailboxNumber] setting mailbox number to %1", (Object)string);
         this.getApplication().getTelephoneDSIAccess().requestSetMailboxNumber(string, n);
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.log.log(1078071040, "[TelMailboxHandler#keyTyped] modelID=%1, keyID=%2, terminalID=%3", (long)n, (long)n2, (long)n3);
+        this.log.log(1000000, "[TelMailboxHandler#keyTyped] modelID=%1, keyID=%2, terminalID=%3", (long)n, (long)n2, (long)n3);
         switch (n) {
             case 301156: {
                 SpellerModelApp spellerModelApp = this.getSpellerModel(n);
@@ -134,12 +127,12 @@ ServiceTrackerCustomizer {
                 break;
             }
             case 300418: {
-                this.setMailboxNumber(this.getSpellerModel(1687684096).getText(), n3);
+                this.setMailboxNumber(this.getSpellerModel(301156).getText(), n3);
                 this.getButtonModel(n).fireEvent(n3);
                 break;
             }
             default: {
-                this.log.log(-2137614336, "[TelMailboxHandler#keyTyped] no handling for model %1", (long)n);
+                this.log.log(10000000, "[TelMailboxHandler#keyTyped] no handling for model %1", (long)n);
             }
         }
     }
@@ -163,25 +156,23 @@ ServiceTrackerCustomizer {
     }
 
     protected void enterDefineMailboxNumber(int n, int n2) {
-        this.log.log(-2137614336, "[TelMailboxHandler#enterDefineMailboxNumber]");
+        this.log.log(10000000, "[TelMailboxHandler#enterDefineMailboxNumber]");
         this.getButtonModel(n).fireEvent(n2);
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void textChanged(int n, String string, char c2, int n2) {
         if (this.log.isInfo()) {
-            this.log.log(1078071040, "[TelMailboxHandler#textChanged] %1", (Object)TelLoggingUtils.textChanged(n, string, c2, n2));
+            this.log.log(1000000, "[TelMailboxHandler#textChanged] %1", (Object)TelLoggingUtils.textChanged(n, string, c2, n2));
         }
-        if (n == 1687684096) {
+        if (n == 301156) {
             this.getSpellerModel(n).setText(string);
             if (string != null && string.length() > 0) {
-                this.getButtonModel(-2104163328).setStatus(1);
+                this.getButtonModel(300418).setStatus(1);
             } else {
-                this.getButtonModel(-2104163328).setStatus(0);
+                this.getButtonModel(300418).setStatus(0);
             }
             this.updateSDSMailboxSpellerContent(string);
         }
@@ -191,35 +182,31 @@ ServiceTrackerCustomizer {
         SDSService sDSService = this.sdsPhoneServiceListener;
         if (sDSService != null) {
             if (string != null && string.length() > 0) {
-                this.log.log(1078071040, "[TelMailboxHandler#textChanged] notifying SDS with matchTextWithMailboxSequence: text=%1", (Object)string);
-                sDSService.textChanged(1687684096, string, '\u0000');
+                this.log.log(1000000, "[TelMailboxHandler#textChanged] notifying SDS with matchTextWithMailboxSequence: text=%1", (Object)string);
+                sDSService.textChanged(301156, string, '\u0000');
             } else {
-                this.log.log(1078071040, "[TelMailboxHandler#textChanged] notifying SDS with clearMailboxSequence: text=%1", (Object)string);
-                sDSService.textChanged(1687684096, "", '\u0000');
+                this.log.log(1000000, "[TelMailboxHandler#textChanged] notifying SDS with clearMailboxSequence: text=%1", (Object)string);
+                sDSService.textChanged(301156, "", '\u0000');
             }
         } else {
-            this.log.log(1078071040, "[TelMailboxHandler#updateSDSMailboxSpellerContent] PhoneServiceListener not available!");
+            this.log.log(1000000, "[TelMailboxHandler#updateSDSMailboxSpellerContent] PhoneServiceListener not available!");
         }
     }
 
-    @Override
     public void commandPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void focusedCharacter(int n, char c2, int n2) {
     }
 
     protected int getDialMailboxButtonId() {
-        return this.getButtonModel(1402340352).getID();
+        return this.getButtonModel(300627).getID();
     }
 
     protected void setMailboxSpellerWithCurrentMailboxNumber() {
@@ -227,11 +214,11 @@ ServiceTrackerCustomizer {
         if (iGlobalTelephoneStateStruct != null) {
             String string = iGlobalTelephoneStateStruct.getMailboxNumber();
             if (string != null && string.length() > 0) {
-                this.getButtonModel(-2104163328).setStatus(1);
-                this.getSpellerModel(1687684096).setText(string);
+                this.getButtonModel(300418).setStatus(1);
+                this.getSpellerModel(301156).setText(string);
             } else {
-                this.getButtonModel(-2104163328).setStatus(0);
-                this.getSpellerModel(1687684096).setText("");
+                this.getButtonModel(300418).setStatus(0);
+                this.getSpellerModel(301156).setText("");
             }
         }
     }

@@ -28,23 +28,19 @@ extends AbstractCombiBrowserJob {
         this.count = n4;
     }
 
-    @Override
     public int getType() {
         return 7;
     }
 
-    @Override
     public String getName() {
         return "REQUESTLIST";
     }
 
-    @Override
     public void abort(boolean bl) {
-        this.logger.log(1078071040, "[%1.abort]", (Object)"CombiJobRequestList");
+        this.logger.log(1000000, "[%1.abort]", (Object)"CombiJobRequestList");
         this.getCombiAdapter().getCombiAccessor().responseList(this.transactionID, 1, 0, new MediaListEntry[0]);
     }
 
-    @Override
     public void start() {
         if (this.entryID != 0L) {
             this.getCombiAdapter().requestBrowseListByEntryId(this.entryID, this.contentType, this.count);
@@ -53,25 +49,21 @@ extends AbstractCombiBrowserJob {
         }
     }
 
-    @Override
     public void responseList(int n, MediaListEntry[] mediaListEntryArray) {
-        this.logger.log(14808325, "[%1.responseList] Receive response.", (Object)"CombiJobRequestList");
+        this.logger.log(100000000, "[%1.responseList] Receive response.", (Object)"CombiJobRequestList");
         this.getCombiAdapter().getCombiAccessor().responseList(this.transactionID, 1, n, mediaListEntryArray);
         this.getExecutionContext().jobFinished();
     }
 
-    @Override
     public void errorListRequestAborted() {
-        this.logger.log(1078071040, "[%1.errorListRequestAborted] List request aborted.", (Object)"CombiJobRequestList");
+        this.logger.log(1000000, "[%1.errorListRequestAborted] List request aborted.", (Object)"CombiJobRequestList");
         this.getCombiAdapter().getCombiAccessor().responseList(this.transactionID, 1, 0, new MediaListEntry[0]);
         this.getExecutionContext().jobFinished();
     }
 
-    @Override
     public void browseFolderChanged(MediaListEntry[] mediaListEntryArray, int n) {
     }
 
-    @Override
     public void errorFolderChangeAborted() {
     }
 

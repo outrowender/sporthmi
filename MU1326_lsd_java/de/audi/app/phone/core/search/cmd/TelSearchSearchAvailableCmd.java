@@ -17,14 +17,13 @@ extends AbstractTelSearchCmd {
         this.searchAvailableChoice = choiceModelApp;
     }
 
-    @Override
     public void execute() {
         int n = this.dsiSearch != null ? 1 : 0;
-        this.logger.log(1078071040, "[TelSearchSearchAvailableCmd#execute] available=%1", n == 1);
+        this.logger.log(1000000, "[TelSearchSearchAvailableCmd#execute] available=%1", n == 1);
         if (this.searchAvailableChoice != null) {
             this.searchAvailableChoice.setValue(n);
         } else {
-            this.logger.log(-1601830656, "[TelSearchSearchAvailableCmd#execute] searchAvailableChoice is null --> NOP!");
+            this.logger.log(100000, "[TelSearchSearchAvailableCmd#execute] searchAvailableChoice is null --> NOP!");
         }
         this.getCommandList().commandFinished();
     }

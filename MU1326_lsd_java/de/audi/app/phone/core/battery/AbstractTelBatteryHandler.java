@@ -1,21 +1,23 @@
 /*
  * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  de.mib.swdiagnosis.phone.IPhoneDiagComponent
  */
 package de.audi.app.phone.core.battery;
 
 import de.audi.app.phone.core.AbstractPhoneComponent;
 import de.audi.app.phone.core.ITelApplication;
-import de.audi.app.phone.core.battery.AbstractTelBatteryHandler$TelBatteryBluetoothListener;
-import de.audi.app.phone.core.battery.AbstractTelBatteryHandler$TelBatteryDiag;
+import de.audi.app.phone.core.bluetooth.ITelBluetoothListener;
 import de.audi.app.phone.core.dsi.ITelDSIMobileEquipmentDeviceState;
 import de.audi.app.phone.core.state.IGlobalTelephoneStateStruct;
-import de.audi.atip.log.LogChannel;
+import de.mib.swdiagnosis.phone.IPhoneDiagComponent;
 import java.util.LinkedList;
 import org.dsi.ifc.bluetooth.TrustedDevice;
 
 public abstract class AbstractTelBatteryHandler
 extends AbstractPhoneComponent {
-    private final AbstractTelBatteryHandler$TelBatteryBluetoothListener bluetoothListener = new AbstractTelBatteryHandler$TelBatteryBluetoothListener(this, null);
+    private final TelBatteryBluetoothListener bluetoothListener = new TelBatteryBluetoothListener();
     private final LinkedList btTelephoneConnectedDeviceList = new LinkedList();
 
     private static boolean isDeviceViaHFPOrSAPConnected(TrustedDevice trustedDevice) {
@@ -44,22 +46,19 @@ extends AbstractPhoneComponent {
         super(iTelApplication, "App.Phone.Main");
     }
 
-    @Override
     public void init() {
         super.init();
         this.getApplication().getBluetoothHandler().addBluetoothListener(this.bluetoothListener);
         this.getApplication().getGlobalTelephoneStateManager().registerListener(this);
-        this.getApplication().addDiagnosisComponent(new AbstractTelBatteryHandler$TelBatteryDiag(this));
+        this.getApplication().addDiagnosisComponent(new TelBatteryDiag());
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.getApplication().getGlobalTelephoneStateManager().removeListener(this);
         this.getApplication().getBluetoothHandler().removeBluetoothListener(this.bluetoothListener);
     }
 
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         if (iGlobalTelephoneStateStruct == null) {
             this.log.log(10000, "AbstractTelBatteryHandler#updateGlobalTelephoneStateProperty stateStruct is null");
@@ -68,7 +67,7 @@ extends AbstractPhoneComponent {
         String string = AbstractTelBatteryHandler.getMEMacAddress(iTelDSIMobileEquipmentDeviceState);
         String string2 = AbstractTelBatteryHandler.getMEFriendlyName(iTelDSIMobileEquipmentDeviceState);
         int n2 = AbstractTelBatteryHandler.getBatteryChargeLevel(iTelDSIMobileEquipmentDeviceState);
-        if (n == 0x6000100 || n == 0x12000100) {
+        if (n == 65542 || n == 65554) {
             this.handleBatteryChargeLevel(string2, string, n2);
         }
     }
@@ -83,27 +82,51 @@ extends AbstractPhoneComponent {
         }
     }
 
-    protected abstract void handleBatteryChargeLevel(String string, String string2, int n) {
+    protected abstract void handleBatteryChargeLevel(String var1, String var2, int var3);
+
+    public class TelBatteryDiag
+    implements IPhoneDiagComponent {
+        public void cmdSetBatteryLevel(String string, String string2, int n, String string3) {
+            AbstractTelBatteryHandler.this.handleBatteryChargeLevel(string, string2, n);
+        }
     }
 
-    static /* synthetic */ boolean access$100(TrustedDevice trustedDevice) {
-        return AbstractTelBatteryHandler.isDeviceViaHFPOrSAPConnected(trustedDevice);
-    }
+    private class TelBatteryBluetoothListener
+    implements ITelBluetoothListener {
+        private TelBatteryBluetoothListener() {
+        }
 
-    static /* synthetic */ LogChannel access$200(AbstractTelBatteryHandler abstractTelBatteryHandler) {
-        return abstractTelBatteryHandler.log;
-    }
-
-    static /* synthetic */ LogChannel access$300(AbstractTelBatteryHandler abstractTelBatteryHandler) {
-        return abstractTelBatteryHandler.log;
-    }
-
-    static /* synthetic */ LinkedList access$400(AbstractTelBatteryHandler abstractTelBatteryHandler) {
-        return abstractTelBatteryHandler.btTelephoneConnectedDeviceList;
-    }
-
-    static /* synthetic */ LogChannel access$500(AbstractTelBatteryHandler abstractTelBatteryHandler) {
-        return abstractTelBatteryHandler.log;
+        /*
+         * WARNING - Removed try catching itself - possible behaviour change.
+         */
+        public void updateTrustedDevices(TrustedDevice[] trustedDeviceArray) {
+            if (trustedDeviceArray != null) {
+                for (int i2 = 0; i2 < trustedDeviceArray.length; ++i2) {
+                    TrustedDevice trustedDevice = trustedDeviceArray[i2];
+                    if (trustedDevice == null) continue;
+                    boolean bl = AbstractTelBatteryHandler.isDeviceViaHFPOrSAPConnected(trustedDevice);
+                    String string = trustedDevice.getDeviceAddress();
+                    if (bl) {
+                        AbstractTelBatteryHandler.this.log.log(10000000, "[AbstractTelBatteryHandler.TelBatteryBluetoothListener#updateTrustedDevices] %1 connected via HFP or SAP", (Object)string);
+                    } else {
+                        AbstractTelBatteryHandler.this.log.log(10000000, "[AbstractTelBatteryHandler.TelBatteryBluetoothListener#updateTrustedDevices] %1 not connected via HFP or SAP", (Object)string);
+                    }
+                    LinkedList linkedList = AbstractTelBatteryHandler.this.btTelephoneConnectedDeviceList;
+                    synchronized (linkedList) {
+                        if (bl) {
+                            if (!AbstractTelBatteryHandler.this.btTelephoneConnectedDeviceList.contains(string)) {
+                                AbstractTelBatteryHandler.this.btTelephoneConnectedDeviceList.add(string);
+                            }
+                        } else if (AbstractTelBatteryHandler.this.btTelephoneConnectedDeviceList.contains(string)) {
+                            AbstractTelBatteryHandler.this.btTelephoneConnectedDeviceList.remove(string);
+                        }
+                        continue;
+                    }
+                }
+            } else {
+                AbstractTelBatteryHandler.this.log.log(10000, "AbstractTelBatteryHandler.TelBatteryBluetoothListener#updateTrustedDevices trustedDevices is null");
+            }
+        }
     }
 }
 

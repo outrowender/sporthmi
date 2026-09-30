@@ -4,7 +4,6 @@
 package de.audi.remotehmi.textconstants;
 
 public interface ITextConstantsConverter {
-    default public String getText(String string) {
-    }
+    public String getText(String var1);
 }
 

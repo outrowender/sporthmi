@@ -4,21 +4,17 @@
 package de.audi.audio.intra;
 
 public interface IAudioListener {
-    public static final int CONN_FADEDIN;
-    public static final int CONN_PAUSED;
-    public static final int CONN_STARTED;
-    public static final int CONN_STOPPED;
+    public static final int CONN_FADEDIN = 0;
+    public static final int CONN_PAUSED = 4;
+    public static final int CONN_STARTED = 2;
+    public static final int CONN_STOPPED = 5;
 
-    default public void updateConnStatus(int n, int n2, int n3) {
-    }
+    public void updateConnStatus(int var1, int var2, int var3);
 
-    default public void updateAMAvailable(boolean bl) {
-    }
+    public void updateAMAvailable(boolean var1);
 
-    default public void updateActiveConnection(int n, int n2) {
-    }
+    public void updateActiveConnection(int var1, int var2);
 
-    default public void updateActiveEntertainmentConnection(int n, int n2) {
-    }
+    public void updateActiveEntertainmentConnection(int var1, int var2);
 }
 

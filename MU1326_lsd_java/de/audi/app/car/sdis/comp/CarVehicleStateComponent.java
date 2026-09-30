@@ -3,10 +3,10 @@
  */
 package de.audi.app.car.sdis.comp;
 
+import de.audi.app.car.sdis.base.AbstractCarStateHandler;
 import de.audi.app.car.sdis.base.AbstractDSICarVehicleState;
 import de.audi.app.car.sdis.base.IDSIObserver;
 import de.audi.app.car.sdis.base.ISDISFramework;
-import de.audi.app.car.sdis.comp.CarVehicleStateComponent$CarStateHandler;
 import de.audi.atip.log.LogChannel;
 import de.esolutions.fw.comm.asi.hmisync.car.FloatBaseType;
 import de.esolutions.fw.comm.asi.hmisync.car.service.AdBlueInfo;
@@ -26,13 +26,13 @@ import org.dsi.ifc.global.CarViewOption;
 public class CarVehicleStateComponent
 extends AbstractDSICarVehicleState
 implements IDSIObserver {
-    private static final String LOG_CHANNEL_NAME;
-    public static final byte[] CODING;
-    private static final int[] attributes;
+    private static final String LOG_CHANNEL_NAME = "App.CarSDIS.CarVehicleState";
+    public static final byte[] CODING = new byte[]{18, 32, 19, 53};
+    private static final int[] attributes = new int[]{2, 1, 6, 5, 4, 3, 18, 14, 12, 11};
     private LogChannel logger;
     private DSICarVehicleStates dsi;
     private ISDISFramework baseService;
-    private CarVehicleStateComponent$CarStateHandler carStateHandler;
+    private CarStateHandler carStateHandler;
     private ASIHMISyncCarServiceAbstractBaseService toSDIS;
     private OilLevelData storedOilLevelData;
     private DynamicVehicleInfoSCR storedDynamicVehicleInfoScr;
@@ -40,22 +40,22 @@ implements IDSIObserver {
     static /* synthetic */ Class class$org$dsi$ifc$carvehiclestates$DSICarVehicleStatesListener;
 
     public CarVehicleStateComponent(ISDISFramework iSDISFramework) {
-        super(iSDISFramework.getLogChannel("App.CarSDIS.CarVehicleState"));
-        this.logger = iSDISFramework.getLogChannel("App.CarSDIS.CarVehicleState");
+        super(iSDISFramework.getLogChannel(LOG_CHANNEL_NAME));
+        this.logger = iSDISFramework.getLogChannel(LOG_CHANNEL_NAME);
         this.baseService = iSDISFramework;
         this.toSDIS = this.baseService.getASIDataUpdater().getServiceASI();
-        this.carStateHandler = new CarVehicleStateComponent$CarStateHandler(this, this.logger);
+        this.carStateHandler = new CarStateHandler(this.logger);
     }
 
     public void init() {
-        this.logger.log(-2137614336, "register DSICarVehicleStates");
+        this.logger.log(10000000, "register DSICarVehicleStates");
         this.notCodedInfo();
         this.carStateHandler.registerCarStates(CODING);
         this.baseService.registerDSI((class$org$dsi$ifc$carvehiclestates$DSICarVehicleStates == null ? (class$org$dsi$ifc$carvehiclestates$DSICarVehicleStates = CarVehicleStateComponent.class$("org.dsi.ifc.carvehiclestates.DSICarVehicleStates")) : class$org$dsi$ifc$carvehiclestates$DSICarVehicleStates).getName(), (class$org$dsi$ifc$carvehiclestates$DSICarVehicleStatesListener == null ? (class$org$dsi$ifc$carvehiclestates$DSICarVehicleStatesListener = CarVehicleStateComponent.class$("org.dsi.ifc.carvehiclestates.DSICarVehicleStatesListener")) : class$org$dsi$ifc$carvehiclestates$DSICarVehicleStatesListener).getName(), this);
     }
 
     public void deinit() {
-        this.logger.log(-2137614336, "deregister DSICarVehicleStates and services for car states");
+        this.logger.log(10000000, "deregister DSICarVehicleStates and services for car states");
         this.baseService.deRegisterDSI((class$org$dsi$ifc$carvehiclestates$DSICarVehicleStates == null ? (class$org$dsi$ifc$carvehiclestates$DSICarVehicleStates = CarVehicleStateComponent.class$("org.dsi.ifc.carvehiclestates.DSICarVehicleStates")) : class$org$dsi$ifc$carvehiclestates$DSICarVehicleStates).getName());
         this.carStateHandler.deregisterCarStates();
     }
@@ -86,26 +86,25 @@ implements IDSIObserver {
                     break;
                 }
                 default: {
-                    this.logger.log(-2137614336, "[notCodedInfo]: %1 not supported.", (long)CODING[n]);
+                    this.logger.log(10000000, "[notCodedInfo]: %1 not supported.", (long)CODING[n]);
                 }
             }
         } while (++n < CODING.length);
     }
 
-    @Override
     public synchronized void updateOilLevelViewOption(CarViewOption carViewOption, int n) {
         if (n != 1) {
             return;
         }
-        this.logger.log(-2137614336, "updateOilLevelViewOption: %1", (Object)carViewOption);
-        int n2 = CarVehicleStateComponent$CarStateHandler.access$002(this.carStateHandler, this.baseService.updateVisibility(carViewOption, (short)18));
+        this.logger.log(10000000, "updateOilLevelViewOption: %1", (Object)carViewOption);
+        int n2 = this.carStateHandler.oilVisibility = this.baseService.updateVisibility(carViewOption, (short)18);
         int n3 = this.carStateHandler.updateMenuEntryVisibility((short)18, n2);
         this.sendUpdateOilLevelVisibilityState(n3);
     }
 
     private void sendUpdateOilLevelVisibilityState(int n) {
         try {
-            this.logger.log(-2137614336, "Send update to devices -> updateOilLevelDataVisibilityState: %1", (long)n);
+            this.logger.log(10000000, "Send update to devices -> updateOilLevelDataVisibilityState: %1", (long)n);
             this.toSDIS.updateOilLevelDataVisibilityState(n);
         }
         catch (MethodException methodException) {
@@ -113,34 +112,32 @@ implements IDSIObserver {
         }
     }
 
-    @Override
     public void updateOilLevelData(OilLevelData oilLevelData, int n) {
         if (n != 1) {
             return;
         }
-        if (this.carStateHandler.isClamp15Sensitive((short)18) && CarVehicleStateComponent$CarStateHandler.access$100(this.carStateHandler)) {
+        if (this.carStateHandler.isClamp15Sensitive((short)18) && this.carStateHandler.isClamp15Off()) {
             this.storedOilLevelData = oilLevelData;
             return;
         }
-        this.logger.log(-2137614336, "updateOilLevelData: %1", (Object)oilLevelData);
+        this.logger.log(10000000, "updateOilLevelData: %1", (Object)oilLevelData);
         this.baseService.getDsiAsiHandler().updateValue(4001, oilLevelData);
     }
 
-    @Override
     public void updateVINViewOption(CarViewOption carViewOption, int n) {
         if (n != 1) {
             return;
         }
-        this.logger.log(-2137614336, "updateVINViewOption: %1", (Object)carViewOption);
+        this.logger.log(10000000, "updateVINViewOption: %1", (Object)carViewOption);
         int n2 = this.baseService.updateVisibility(carViewOption, (short)19);
         int n3 = this.carStateHandler.updateMenuEntryVisibility((short)19, n2);
         this.sendUpdateVinDataVisibilityState(n3);
-        CarVehicleStateComponent$CarStateHandler.access$202(this.carStateHandler, n3);
+        this.carStateHandler.vinVisibility = n3;
     }
 
     private void sendUpdateVinDataVisibilityState(int n) {
         try {
-            this.logger.log(-2137614336, "Send update to devices -> updateVinDataVisibilityState: %1", (long)n);
+            this.logger.log(10000000, "Send update to devices -> updateVinDataVisibilityState: %1", (long)n);
             this.toSDIS.updateVinDataVisibilityState(n);
         }
         catch (MethodException methodException) {
@@ -148,14 +145,13 @@ implements IDSIObserver {
         }
     }
 
-    @Override
     public void updateVINData(String string, int n) {
         if (n != 1) {
             return;
         }
-        this.logger.log(-2137614336, "[updateVINData]: %1", (Object)string);
+        this.logger.log(10000000, "[updateVINData]: %1", (Object)string);
         try {
-            this.logger.log(-2137614336, "Send update to devices -> updateVINData: %1", (Object)string);
+            this.logger.log(10000000, "Send update to devices -> updateVINData: %1", (Object)string);
             this.toSDIS.updateVinData(string);
         }
         catch (MethodException methodException) {
@@ -163,20 +159,19 @@ implements IDSIObserver {
         }
     }
 
-    @Override
     public void updateKeyViewOption(CarViewOption carViewOption, int n) {
         if (n != 1) {
             return;
         }
-        this.logger.log(-2137614336, "[updateKeyViewOption]: %1", (Object)carViewOption);
+        this.logger.log(10000000, "[updateKeyViewOption]: %1", (Object)carViewOption);
         int n2 = this.baseService.updateVisibility(carViewOption, (short)32);
-        CarVehicleStateComponent$CarStateHandler.access$302(this.carStateHandler, n2);
+        this.carStateHandler.keyVisibility = n2;
         this.sendUpdateKeyDataVisibilityState(n2);
     }
 
     private void sendUpdateKeyDataVisibilityState(int n) {
         try {
-            this.logger.log(-2137614336, "Send update to devices -> updateKeyDataVisibilityState: %1", (long)n);
+            this.logger.log(10000000, "Send update to devices -> updateKeyDataVisibilityState: %1", (long)n);
             this.toSDIS.updateKeyDataVisibilityState(n);
         }
         catch (MethodException methodException) {
@@ -184,15 +179,14 @@ implements IDSIObserver {
         }
     }
 
-    @Override
     public void updateKeyData(KeyData keyData, int n) {
         if (n != 1) {
             return;
         }
-        this.logger.log(-2137614336, "[updateKeyData]: %1", (Object)keyData);
+        this.logger.log(10000000, "[updateKeyData]: %1", (Object)keyData);
         int[] nArray = new int[]{keyData.getActualValue(), keyData.getActiveKey(), keyData.getTargetValue()};
         try {
-            this.logger.log(-2137614336, "Send update to devices -> updateKeyData: %1", (Object)nArray);
+            this.logger.log(10000000, "Send update to devices -> updateKeyData: %1", (Object)nArray);
             this.toSDIS.updateKeyData(nArray);
         }
         catch (MethodException methodException) {
@@ -200,20 +194,19 @@ implements IDSIObserver {
         }
     }
 
-    @Override
     public synchronized void updateVehicleInfoViewOptions(VehicleInfoViewOptions vehicleInfoViewOptions, int n) {
         if (n != 1) {
             return;
         }
-        this.logger.log(-2137614336, "[updateVehicleInfoViewOptions.adblue]: %1", (Object)vehicleInfoViewOptions.getScrInfo());
-        int n2 = CarVehicleStateComponent$CarStateHandler.access$402(this.carStateHandler, this.baseService.updateVisibility(vehicleInfoViewOptions.getScrInfo(), (short)53));
+        this.logger.log(10000000, "[updateVehicleInfoViewOptions.adblue]: %1", (Object)vehicleInfoViewOptions.getScrInfo());
+        int n2 = this.carStateHandler.adblueVisibility = this.baseService.updateVisibility(vehicleInfoViewOptions.getScrInfo(), (short)53);
         int n3 = this.carStateHandler.updateMenuEntryVisibility((short)53, n2);
         this.sendUpdateAdblueVisibilityState(n3);
     }
 
     private void sendUpdateAdblueVisibilityState(int n) {
         try {
-            this.logger.log(-2137614336, "Send update to devices -> sendUpdateAdblueVisibilityState: %1", (long)n);
+            this.logger.log(10000000, "Send update to devices -> sendUpdateAdblueVisibilityState: %1", (long)n);
             this.toSDIS.updateAdBlueInfoVisibilityState(n);
         }
         catch (MethodException methodException) {
@@ -221,21 +214,20 @@ implements IDSIObserver {
         }
     }
 
-    @Override
     public void updateDynamicVehicleInfoSCR(DynamicVehicleInfoSCR dynamicVehicleInfoSCR, int n) {
         if (n != 1) {
             return;
         }
-        if (this.carStateHandler.isClamp15Sensitive((short)53) && CarVehicleStateComponent$CarStateHandler.access$100(this.carStateHandler)) {
+        if (this.carStateHandler.isClamp15Sensitive((short)53) && this.carStateHandler.isClamp15Off()) {
             this.storedDynamicVehicleInfoScr = dynamicVehicleInfoSCR;
             return;
         }
-        this.logger.log(-2137614336, "[updateDynamicVehicleInfoSCR]: %1", (Object)dynamicVehicleInfoSCR);
-        int n2 = Math.round(dynamicVehicleInfoSCR.getRefillLevelMin() * 51266);
-        int n3 = Math.round(dynamicVehicleInfoSCR.getRefillLevelMax() * 51266);
+        this.logger.log(10000000, "[updateDynamicVehicleInfoSCR]: %1", (Object)dynamicVehicleInfoSCR);
+        int n2 = Math.round(dynamicVehicleInfoSCR.getRefillLevelMin() * 100.0f);
+        int n3 = Math.round(dynamicVehicleInfoSCR.getRefillLevelMax() * 100.0f);
         AdBlueInfo adBlueInfo = new AdBlueInfo(dynamicVehicleInfoSCR.getRange(), dynamicVehicleInfoSCR.getRangeUnit(), dynamicVehicleInfoSCR.getLevel(), (int)dynamicVehicleInfoSCR.getTankVolume(), dynamicVehicleInfoSCR.getStatus(), dynamicVehicleInfoSCR.getVolumeUnit(), n2, n3);
         try {
-            this.logger.log(-2137614336, "Send update to devices -> updateDynamicVehicleInfoSCR: %1", (Object)adBlueInfo);
+            this.logger.log(10000000, "Send update to devices -> updateDynamicVehicleInfoSCR: %1", (Object)adBlueInfo);
             this.toSDIS.updateAdBlueInfo(adBlueInfo);
         }
         catch (MethodException methodException) {
@@ -243,10 +235,9 @@ implements IDSIObserver {
         }
     }
 
-    @Override
     public void updateDynamicVehicleInfoHighFrequentViewOptions(DynamicVehicleInfoHighFrequentViewOptions dynamicVehicleInfoHighFrequentViewOptions, int n) {
         if (n == 1) {
-            this.logger.log(-2137614336, "[updateDynamicVehicleInfoHighFrequentViewOptions.vehicleSpeed]: %1", (Object)dynamicVehicleInfoHighFrequentViewOptions.getVehicleSpeed());
+            this.logger.log(10000000, "[updateDynamicVehicleInfoHighFrequentViewOptions.vehicleSpeed]: %1", (Object)dynamicVehicleInfoHighFrequentViewOptions.getVehicleSpeed());
             int n2 = this.baseService.updateVisibility(dynamicVehicleInfoHighFrequentViewOptions.getVehicleSpeed(), (short)128);
             this.sendUpdateSpeedVisibilityState(n2);
         }
@@ -254,7 +245,7 @@ implements IDSIObserver {
 
     private void sendUpdateSpeedVisibilityState(int n) {
         try {
-            this.logger.log(-2137614336, "Send update to devices -> sendUpdateSpeedVisibilityState: %1", (long)n);
+            this.logger.log(10000000, "Send update to devices -> sendUpdateSpeedVisibilityState: %1", (long)n);
             this.toSDIS.updateVehicleSpeedVisibility(n);
         }
         catch (MethodException methodException) {
@@ -262,15 +253,14 @@ implements IDSIObserver {
         }
     }
 
-    @Override
     public void updateDynamicVehicleInfoHighFrequent(DynamicVehicleInfoHighFrequent dynamicVehicleInfoHighFrequent, int n) {
         if (n == 1) {
-            this.logger.log(1078071040, "updateDynamicVehicleInfoHighFrequent(%1)", (Object)dynamicVehicleInfoHighFrequent.getVehicleSpeed());
+            this.logger.log(1000000, "updateDynamicVehicleInfoHighFrequent(%1)", (Object)dynamicVehicleInfoHighFrequent.getVehicleSpeed());
             float f2 = dynamicVehicleInfoHighFrequent.getVehicleSpeed().getSpeedValue();
             int n2 = dynamicVehicleInfoHighFrequent.getVehicleSpeed().getSpeedUnit();
             FloatBaseType floatBaseType = new FloatBaseType(f2, n2, -1);
             try {
-                this.logger.log(-2137614336, "Send update to devices -> updateDynamicVehicleInfoSCR: %1", (Object)floatBaseType);
+                this.logger.log(10000000, "Send update to devices -> updateDynamicVehicleInfoSCR: %1", (Object)floatBaseType);
                 this.toSDIS.updateVehicleSpeed(floatBaseType);
             }
             catch (MethodException methodException) {
@@ -279,7 +269,6 @@ implements IDSIObserver {
         }
     }
 
-    @Override
     public void setDSI(DSIBase dSIBase) {
         this.dsi = (DSICarVehicleStates)dSIBase;
         this.dsi.setNotification(attributes, (DSIListener)this);
@@ -294,47 +283,104 @@ implements IDSIObserver {
         }
     }
 
-    static /* synthetic */ ISDISFramework access$500(CarVehicleStateComponent carVehicleStateComponent) {
-        return carVehicleStateComponent.baseService;
-    }
+    public class CarStateHandler
+    extends AbstractCarStateHandler {
+        private volatile int vinVisibility;
+        private volatile int keyVisibility;
+        private volatile int oilVisibility;
+        private volatile int adblueVisibility;
 
-    static /* synthetic */ void access$600(CarVehicleStateComponent carVehicleStateComponent, int n) {
-        carVehicleStateComponent.sendUpdateVinDataVisibilityState(n);
-    }
+        public CarStateHandler(LogChannel logChannel) {
+            super(logChannel, CarVehicleStateComponent.this.baseService);
+            this.vinVisibility = 0;
+            this.keyVisibility = 0;
+            this.oilVisibility = 0;
+            this.adblueVisibility = 0;
+        }
 
-    static /* synthetic */ void access$700(CarVehicleStateComponent carVehicleStateComponent, int n) {
-        carVehicleStateComponent.sendUpdateKeyDataVisibilityState(n);
-    }
+        public void updateClampState(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
+            boolean bl5 = this.isClamp15On;
+            super.updateClampState(bl, bl2, bl3, bl4);
+            this.logger.log(1000000, "[updateClampState] clamp15=%1", bl2);
+            this.updateVisibilityAfterCarStateChange((short)19, this.vinVisibility);
+            this.updateVisibilityAfterCarStateChange((short)32, this.keyVisibility);
+            this.updateVisibilityAfterCarStateChange((short)18, this.oilVisibility);
+            this.updateVisibilityAfterCarStateChange((short)53, this.adblueVisibility);
+            if (!bl5 && bl2) {
+                this.resendOilValue();
+                this.resendScrValue();
+            }
+        }
 
-    static /* synthetic */ void access$800(CarVehicleStateComponent carVehicleStateComponent, int n) {
-        carVehicleStateComponent.sendUpdateOilLevelVisibilityState(n);
-    }
+        public void exceedsUpperThreshold(int n) {
+            super.exceedsUpperThreshold(n);
+            this.logger.log(1000000, "[exceedsUpperThreshold] =%1", this.isUnderVThr);
+            this.updateVisibilityAfterCarStateChange((short)19, this.vinVisibility);
+            this.updateVisibilityAfterCarStateChange((short)32, this.keyVisibility);
+            this.updateVisibilityAfterCarStateChange((short)18, this.oilVisibility);
+            this.updateVisibilityAfterCarStateChange((short)53, this.adblueVisibility);
+        }
 
-    static /* synthetic */ void access$900(CarVehicleStateComponent carVehicleStateComponent, int n) {
-        carVehicleStateComponent.sendUpdateAdblueVisibilityState(n);
-    }
+        public void belowLowerThreshold(int n) {
+            super.belowLowerThreshold(n);
+            this.logger.log(1000000, "[belowLowerThreshold] =%1", this.isUnderVThr);
+            this.updateVisibilityAfterCarStateChange((short)19, this.vinVisibility);
+            this.updateVisibilityAfterCarStateChange((short)32, this.keyVisibility);
+            this.updateVisibilityAfterCarStateChange((short)18, this.oilVisibility);
+            this.updateVisibilityAfterCarStateChange((short)53, this.adblueVisibility);
+        }
 
-    static /* synthetic */ OilLevelData access$1000(CarVehicleStateComponent carVehicleStateComponent) {
-        return carVehicleStateComponent.storedOilLevelData;
-    }
+        public void updateStandStill(boolean bl) {
+            super.updateStandStill(bl);
+            this.logger.log(1000000, "[updateStandStill] =%1", bl);
+            this.updateVisibilityAfterCarStateChange((short)19, this.vinVisibility);
+            this.updateVisibilityAfterCarStateChange((short)32, this.keyVisibility);
+            this.updateVisibilityAfterCarStateChange((short)18, this.oilVisibility);
+            this.updateVisibilityAfterCarStateChange((short)53, this.adblueVisibility);
+        }
 
-    static /* synthetic */ OilLevelData access$1002(CarVehicleStateComponent carVehicleStateComponent, OilLevelData oilLevelData) {
-        carVehicleStateComponent.storedOilLevelData = oilLevelData;
-        return carVehicleStateComponent.storedOilLevelData;
-    }
+        private boolean isClamp15Off() {
+            return !this.isClamp15On;
+        }
 
-    static /* synthetic */ DynamicVehicleInfoSCR access$1100(CarVehicleStateComponent carVehicleStateComponent) {
-        return carVehicleStateComponent.storedDynamicVehicleInfoScr;
-    }
+        private void updateVisibilityAfterCarStateChange(short s, int n) {
+            int n2 = this.updateMenuEntryVisibility(s, n);
+            switch (s) {
+                case 19: {
+                    CarVehicleStateComponent.this.sendUpdateVinDataVisibilityState(n2);
+                    break;
+                }
+                case 32: {
+                    CarVehicleStateComponent.this.sendUpdateKeyDataVisibilityState(n2);
+                    break;
+                }
+                case 18: {
+                    CarVehicleStateComponent.this.sendUpdateOilLevelVisibilityState(n2);
+                    break;
+                }
+                case 53: {
+                    CarVehicleStateComponent.this.sendUpdateAdblueVisibilityState(n2);
+                    break;
+                }
+                default: {
+                    this.logger.log(100000, "Coding %1 not supported", (long)s);
+                }
+            }
+        }
 
-    static /* synthetic */ DynamicVehicleInfoSCR access$1102(CarVehicleStateComponent carVehicleStateComponent, DynamicVehicleInfoSCR dynamicVehicleInfoSCR) {
-        carVehicleStateComponent.storedDynamicVehicleInfoScr = dynamicVehicleInfoSCR;
-        return carVehicleStateComponent.storedDynamicVehicleInfoScr;
-    }
+        private void resendOilValue() {
+            if (CarVehicleStateComponent.this.storedOilLevelData != null && this.isClamp15Sensitive((short)18)) {
+                CarVehicleStateComponent.this.updateOilLevelData(CarVehicleStateComponent.this.storedOilLevelData, 1);
+                CarVehicleStateComponent.this.storedOilLevelData = null;
+            }
+        }
 
-    static {
-        CODING = new byte[]{18, 32, 19, 53};
-        attributes = new int[]{2, 1, 6, 5, 4, 3, 18, 14, 12, 11};
+        private void resendScrValue() {
+            if (CarVehicleStateComponent.this.storedDynamicVehicleInfoScr != null && this.isClamp15Sensitive((short)53)) {
+                CarVehicleStateComponent.this.updateDynamicVehicleInfoSCR(CarVehicleStateComponent.this.storedDynamicVehicleInfoScr, 1);
+                CarVehicleStateComponent.this.storedDynamicVehicleInfoScr = null;
+            }
+        }
     }
 }
 

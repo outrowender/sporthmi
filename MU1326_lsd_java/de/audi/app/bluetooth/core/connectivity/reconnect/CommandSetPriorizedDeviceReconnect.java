@@ -25,20 +25,18 @@ extends AbstractBluetoothCommand {
         this.setActive = bl;
     }
 
-    @Override
     public void execute() {
         if (this.dsiBluetooth != null) {
             this.dsiBluetooth.requestSetPriorizedDeviceReconnect(this.setActive, this.address);
         } else {
-            this.logger.log(-1601830656, "CommandSetPriorizedDeviceReconnect#execute(): dsiBluetooth is NULL");
+            this.logger.log(100000, "CommandSetPriorizedDeviceReconnect#execute(): dsiBluetooth is NULL");
             this.commandList.commandFinished();
         }
     }
 
-    @Override
     public void responseSetPriorizedDeviceReconnect(int n) {
         this.commandList.commandFinished();
-        this.logger.log(-2137614336, "CommandSetPriorizedDeviceReconnect#responseSetPriorizedDeviceReconnect(): result=%1", (long)n);
+        this.logger.log(10000000, "CommandSetPriorizedDeviceReconnect#responseSetPriorizedDeviceReconnect(): result=%1", (long)n);
     }
 
     static /* synthetic */ Class class$(String string) {

@@ -11,12 +11,12 @@ import java.util.Iterator;
 
 public class J9SSLSessionContext {
     private Hashtable sessionTable = new Hashtable(1);
-    private static final int NO_TIMEOUT;
+    private static final int NO_TIMEOUT = 0;
     private int timeOutSeconds = 300;
-    private static final int NO_LIMIT;
+    private static final int NO_LIMIT = 0;
     private int maxCacheSize = 0;
-    private static final int MS_IN_SECOND;
-    private static final int INIT_TABLE_SIZE;
+    private static final int MS_IN_SECOND = 1000;
+    private static final int INIT_TABLE_SIZE = 1;
 
     public synchronized void addSession(SessionState sessionState) {
         this.purgeExpiredSessions();

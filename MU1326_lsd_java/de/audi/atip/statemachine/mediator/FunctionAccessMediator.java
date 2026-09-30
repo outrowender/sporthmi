@@ -11,17 +11,17 @@ import java.util.NoSuchElementException;
 
 public class FunctionAccessMediator
 extends AbstractEventMediator {
-    public static final int FS_FUNCTIONAL;
-    public static final int FS_UNAVAILABLE;
-    public static final int FS_DISABLED;
-    public static final int FS_BLOCKED1;
-    public static final int FS_BLOCKED2;
-    public static final int FS_BLOCKED3;
-    private static final int FUNCTIONAL;
-    private static final int UNAVAILABLE;
-    private static final int BLOCKED1;
-    private static final int BLOCKED2;
-    private static final int BLOCKED3;
+    public static final int FS_FUNCTIONAL = 0;
+    public static final int FS_UNAVAILABLE = 1;
+    public static final int FS_DISABLED = 2;
+    public static final int FS_BLOCKED1 = 3;
+    public static final int FS_BLOCKED2 = 4;
+    public static final int FS_BLOCKED3 = 5;
+    private static final int FUNCTIONAL = 0;
+    private static final int UNAVAILABLE = 1;
+    private static final int BLOCKED1 = 2;
+    private static final int BLOCKED2 = 3;
+    private static final int BLOCKED3 = 4;
     private int functionalAction;
     private int unavailableAction;
     private int blocked1Action;
@@ -42,7 +42,6 @@ extends AbstractEventMediator {
         this.blocked3Action = n5;
     }
 
-    @Override
     public void start() {
         this.startListening();
         this.resetPostponedAction();
@@ -50,13 +49,11 @@ extends AbstractEventMediator {
         this.started = true;
     }
 
-    @Override
     public void stop() {
         this.stopListening();
         this.started = false;
     }
 
-    @Override
     public int activate(boolean bl) {
         this.active = false;
         this.start();
@@ -64,7 +61,6 @@ extends AbstractEventMediator {
         return this.getPostponedAction();
     }
 
-    @Override
     public int reactivate(boolean bl) {
         if (bl) {
             this.active = false;
@@ -75,16 +71,15 @@ extends AbstractEventMediator {
         return super.reactivate(false);
     }
 
-    @Override
     public void processUpdate(ModelUpdateEvent modelUpdateEvent) {
         int n = modelUpdateEvent.getModelId();
         int n2 = modelUpdateEvent.getUpdateType();
-        this.manager.getEventLogChannel().log(1078071040, "mediator received model-update event (m%1.u%2) ", (long)n, (long)n2);
+        this.manager.getEventLogChannel().log(1000000, "mediator received model-update event (m%1.u%2) ", (long)n, (long)n2);
         if (this.triggerModelIDList[0] == n) {
             if (n2 == 1) {
                 this.evaluateFunctionState();
             }
-            this.manager.getEventLogChannel().log(1078071040, "mediator processed model-update event (m%1) ", (long)n);
+            this.manager.getEventLogChannel().log(1000000, "mediator processed model-update event (m%1) ", (long)n);
         }
     }
 
@@ -127,12 +122,10 @@ extends AbstractEventMediator {
         }
     }
 
-    @Override
     public int getType() {
         return 3;
     }
 
-    @Override
     public void kill() {
         if (!this.started) {
             return;

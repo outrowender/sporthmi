@@ -9,25 +9,18 @@ import de.esolutions.fw.comm.asi.hmisync.audio.VolumeLockState;
 import de.esolutions.fw.comm.asi.hmisync.audio.VolumeRange;
 
 public interface SdisAudioListener {
-    default public void updateAudioContext(AudioState audioState) {
-    }
+    public void updateAudioContext(AudioState var1);
 
-    default public void updateVolumeRange(VolumeRange volumeRange) {
-    }
+    public void updateVolumeRange(VolumeRange var1);
 
-    default public void updateVolume(int n) {
-    }
+    public void updateVolume(int var1);
 
-    default public void updateFrontAudioContext(AudioState audioState) {
-    }
+    public void updateFrontAudioContext(AudioState var1);
 
-    default public void updateAudibleState(int n) {
-    }
+    public void updateAudibleState(int var1);
 
-    default public void updateA2LSState(A2LSState a2LSState) {
-    }
+    public void updateA2LSState(A2LSState var1);
 
-    default public void updateVolumeLockState(VolumeLockState volumeLockState) {
-    }
+    public void updateVolumeLockState(VolumeLockState var1);
 }
 

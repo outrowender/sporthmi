@@ -22,27 +22,24 @@ extends AbstractCombiBrowserJob {
         this.newListSize = n;
     }
 
-    @Override
     public int getType() {
         return 6;
     }
 
-    @Override
     public String getName() {
         return "LISTSIZE";
     }
 
-    @Override
     public void start() {
         this.sendListSize(this.newListSize);
         if (!this.getCombiAdapter().getState().isBrowsingPlaybackFolder()) {
-            this.logger.log(1078071040, "[%1.start] Not browsing playback folder.", (Object)"CombiJobListSizeChanged");
+            this.logger.log(1000000, "[%1.start] Not browsing playback folder.", (Object)"CombiJobListSizeChanged");
             this.getExecutionContext().jobFinished();
             return;
         }
-        this.logger.log(14808325, "[%1.start] Browsing playback folder.", (Object)"CombiJobListSizeChanged");
+        this.logger.log(100000000, "[%1.start] Browsing playback folder.", (Object)"CombiJobListSizeChanged");
         if (this.newListSize == 0) {
-            this.logger.log(1078071040, "[%1.start] Empty list.", (Object)"CombiJobListSizeChanged");
+            this.logger.log(1000000, "[%1.start] Empty list.", (Object)"CombiJobListSizeChanged");
             this.getCombiAdapter().getState().setAbsolutePositionCurrentTrack(0);
             this.sendDetailInfo();
             this.getExecutionContext().jobFinished();
@@ -50,35 +47,31 @@ extends AbstractCombiBrowserJob {
         }
         MediaDetailInfo mediaDetailInfo = this.getCombiAdapter().getState().getCurrentDetailInfo();
         if (mediaDetailInfo == null) {
-            this.logger.log(1078071040, "[%1.start] No detail information.", (Object)"CombiJobListSizeChanged");
+            this.logger.log(1000000, "[%1.start] No detail information.", (Object)"CombiJobListSizeChanged");
             this.getExecutionContext().jobFinished();
             return;
         }
         this.getCombiAdapter().requestBrowseListByEntryId(mediaDetailInfo.getEntryID(), mediaDetailInfo.getContentType(), 1);
     }
 
-    @Override
     public void responseList(int n, MediaListEntry[] mediaListEntryArray) {
-        this.logger.log(14808325, "[%1.responseList] Receive response.", (Object)"CombiJobListSizeChanged");
+        this.logger.log(100000000, "[%1.responseList] Receive response.", (Object)"CombiJobListSizeChanged");
         MediaDetailInfo mediaDetailInfo = this.getCombiAdapter().getState().getCurrentDetailInfo();
         this.getCombiAdapter().getState().setAbsolutePositionCurrentTrack(CombiBAPUtils.getAbsolutePosition(mediaDetailInfo.getEntryID(), mediaDetailInfo.getContentType(), mediaListEntryArray, n));
         this.sendDetailInfo();
         this.getExecutionContext().jobFinished();
     }
 
-    @Override
     public void errorListRequestAborted() {
-        this.logger.log(1078071040, "[%1.errorListRequestAborted] List request aborted.", (Object)"CombiJobListSizeChanged");
+        this.logger.log(1000000, "[%1.errorListRequestAborted] List request aborted.", (Object)"CombiJobListSizeChanged");
         this.getCombiAdapter().getState().setAbsolutePositionCurrentTrack(0);
         this.sendDetailInfo();
         this.getExecutionContext().jobFinished();
     }
 
-    @Override
     public void browseFolderChanged(MediaListEntry[] mediaListEntryArray, int n) {
     }
 
-    @Override
     public void errorFolderChangeAborted() {
     }
 

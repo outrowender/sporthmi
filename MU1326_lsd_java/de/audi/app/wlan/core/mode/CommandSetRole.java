@@ -33,15 +33,13 @@ extends AbstractWlanCommand {
         }
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "CommandSetRole#execute(): role: %1", (long)this.role);
+        this.logger.log(10000000, "CommandSetRole#execute(): role: %1", (long)this.role);
         this.dsiWlan.setRole(this.role);
     }
 
-    @Override
     public void responseSetRole(int n) {
-        this.logger.log(1078071040, "CommandSetRole#responseSetRole(): result ok: %1", n == 0);
+        this.logger.log(1000000, "CommandSetRole#responseSetRole(): result ok: %1", n == 0);
         this.setMonitorStatus(1);
         this.commandList.commandFinished();
     }

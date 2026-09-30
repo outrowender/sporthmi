@@ -7,10 +7,10 @@ import de.audi.atip.metrics.GeoMetric;
 import de.esolutions.fw.util.commons.Buffer;
 
 public final class CombiBAPNaviDestination {
-    private static final String EMPTY_STRING;
-    public static final int NAVI_TYPE_NONE;
-    public static final int NAVI_TYPE_LAST_DESTINATION;
-    public static final int NAVI_TYPE_FAVORITE_DESTINATION;
+    private static final String EMPTY_STRING = "";
+    public static final int NAVI_TYPE_NONE = 0;
+    public static final int NAVI_TYPE_LAST_DESTINATION = 1;
+    public static final int NAVI_TYPE_FAVORITE_DESTINATION = 2;
     private int posID;
     private long naviID;
     private int naviType;
@@ -32,15 +32,15 @@ public final class CombiBAPNaviDestination {
     private int addressType;
 
     public CombiBAPNaviDestination() {
-        this("", "", "", "", "", "", "", "", "", 0.0f, 0.0f, 0, "", "", 255);
+        this(EMPTY_STRING, EMPTY_STRING, EMPTY_STRING, EMPTY_STRING, EMPTY_STRING, EMPTY_STRING, EMPTY_STRING, EMPTY_STRING, EMPTY_STRING, 0.0f, 0.0f, 0, EMPTY_STRING, EMPTY_STRING, 255);
     }
 
     public CombiBAPNaviDestination(String string, String string2, String string3, String string4, String string5, String string6, String string7) {
-        this("", "", string, string2, string3, string4, string5, string6, string7, 0.0f, 0.0f, 0, "", "", 255);
+        this(EMPTY_STRING, EMPTY_STRING, string, string2, string3, string4, string5, string6, string7, 0.0f, 0.0f, 0, EMPTY_STRING, EMPTY_STRING, 255);
     }
 
     public CombiBAPNaviDestination(String string, String string2, String string3, String string4, String string5, String string6, String string7, float f2, float f3, int n) {
-        this("", "", string, string2, string3, string4, string5, string6, string7, f2, f3, 0, "", "", n);
+        this(EMPTY_STRING, EMPTY_STRING, string, string2, string3, string4, string5, string6, string7, f2, f3, 0, EMPTY_STRING, EMPTY_STRING, n);
     }
 
     public CombiBAPNaviDestination(String string, String string2, String string3, String string4, String string5, String string6, String string7, String string8, String string9, float f2, float f3, int n, String string10, String string11, int n2) {
@@ -65,8 +65,8 @@ public final class CombiBAPNaviDestination {
         this.poiDescription = string10;
         this.poiCategory = string11;
         this.addressType = n4;
-        int n5 = (int)(f3 * 1611347531);
-        int n6 = (int)(f2 * 1611347531);
+        int n5 = (int)(f3 * 1.1930464E7f);
+        int n6 = (int)(f2 * 1.1930464E7f);
         this.geoMetric = new GeoMetric(n6, n5);
     }
 
@@ -152,11 +152,11 @@ public final class CombiBAPNaviDestination {
     }
 
     public String getNauticLatitude() {
-        return this.latitude == 49279 ? "" : this.geoMetric.formatLatitude();
+        return this.latitude == Float.NaN ? EMPTY_STRING : this.geoMetric.formatLatitude();
     }
 
     public String getNauticLongitude() {
-        return this.longitude == 49279 ? "" : this.geoMetric.formatLongitude();
+        return this.longitude == Float.NaN ? EMPTY_STRING : this.geoMetric.formatLongitude();
     }
 
     public int getPOIType() {

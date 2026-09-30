@@ -21,17 +21,16 @@ extends AbstractSystemCallCommand {
         this.value = (byte)SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
         int n;
-        this.logger.log(-2137614336, "[%1#execute] value=%2", (Object)this.getName(), (long)this.value);
+        this.logger.log(10000000, "[%1#execute] value=%2", (Object)this.getName(), (long)this.value);
         if (this.value != 0) {
             this.logger.log(10000, "[%1#execute] unexpected value %2", (Object)this.getName(), (long)this.value);
-            n = 1100742656;
+            n = 40001;
         } else {
             boolean bl = this.naviService.isDestTypeAvailable(5);
             boolean bl2 = this.naviService.isDestTypeAvailable(3);
-            n = bl ? (bl2 ? 1083965440 : 1285292032) : (bl2 ? 1268514816 : 1184628736);
+            n = bl ? (bl2 ? 40000 : 40012) : (bl2 ? 40011 : 40006);
         }
         this.sendResult(n);
     }

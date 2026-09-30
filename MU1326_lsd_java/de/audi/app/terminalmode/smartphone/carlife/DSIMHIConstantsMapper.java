@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  de.audi.app.terminalmode.statemachine.TMState
  */
 package de.audi.app.terminalmode.smartphone.carlife;
 
@@ -15,7 +12,7 @@ import org.dsi.ifc.carlife.AppState;
 import org.dsi.ifc.carlife.Resource;
 
 public class DSIMHIConstantsMapper {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "DSIMHIConstantsMapper";
     private final LogChannel logger;
 
     public DSIMHIConstantsMapper(LogChannel logChannel) {
@@ -31,7 +28,7 @@ public class DSIMHIConstantsMapper {
                 return Application.SPEECH;
             }
         }
-        this.logger.log(-1601830656, "[%1.mapApplication] Unknown application id %2", (Object)"DSIMHIConstantsMapper", (long)n);
+        this.logger.log(100000, "[%1.mapApplication] Unknown application id %2", (Object)LOGCLASS, (long)n);
         return Application.PHONE;
     }
 
@@ -44,7 +41,7 @@ public class DSIMHIConstantsMapper {
                 return ResourceOwner.MAINUNIT;
             }
         }
-        this.logger.log(-1601830656, "[%1.mapResourceOwner] Unknown resource owner %1", (Object)"DSIMHIConstantsMapper", (long)n);
+        this.logger.log(100000, "[%1.mapResourceOwner] Unknown resource owner %1", (Object)LOGCLASS, (long)n);
         return ResourceOwner.MAINUNIT;
     }
 
@@ -66,7 +63,7 @@ public class DSIMHIConstantsMapper {
                 return de.audi.app.terminalmode.statemachine.Resource.NOTIFICATION;
             }
         }
-        this.logger.log(-1601830656, "[%1.mapResourceOwner] Unknown resource %1", (Object)"DSIMHIConstantsMapper", (long)n);
+        this.logger.log(100000, "[%1.mapResourceOwner] Unknown resource %1", (Object)LOGCLASS, (long)n);
         return de.audi.app.terminalmode.statemachine.Resource.NOTIFICATION;
     }
 

@@ -19,8 +19,7 @@ extends EvoListRow {
         this.entryID = abstractMediaListRow.getEntryID();
     }
 
-    public abstract boolean isEnabled() {
-    }
+    public abstract boolean isEnabled();
 
     public final long getEntryID() {
         return this.entryID;

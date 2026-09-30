@@ -27,7 +27,7 @@ import org.osgi.framework.ServiceRegistration;
 public class MediaSDISPlayerASIProvider
 extends ASIHMISyncMediaAbstractBaseService
 implements IASIProvider {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "MediaSDISPlayerASIProvider";
     private final LogChannel logger;
     private final IMediaTerminal terminal;
     private volatile ServiceRegistration asiServiceRegistration;
@@ -52,155 +52,135 @@ implements IASIProvider {
     }
 
     public void init(MediaSDISSourceHandler mediaSDISSourceHandler, MediaSDISContentHandler mediaSDISContentHandler) {
-        this.logger.log(1078071040, "[%1.init]", (Object)"MediaSDISPlayerASIProvider");
+        this.logger.log(1000000, "[%1.init]", (Object)LOGCLASS);
         this.contentHandler = mediaSDISContentHandler;
         this.sourceHandler = mediaSDISSourceHandler;
         this.asiServiceRegistration = this.terminal.getServiceManager().registerService(class$de$audi$atip$agent$IASIProvider == null ? (class$de$audi$atip$agent$IASIProvider = MediaSDISPlayerASIProvider.class$("de.audi.atip.agent.IASIProvider")) : class$de$audi$atip$agent$IASIProvider, this, new Hashtable(0));
     }
 
     public void deinit() {
-        this.logger.log(1078071040, "[%1.deinit]", (Object)"MediaSDISPlayerASIProvider");
+        this.logger.log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         this.terminal.getServiceManager().unregisterService(this.asiServiceRegistration);
     }
 
-    @Override
     public IService getService() {
         return this.mediaService;
     }
 
-    @Override
     public void attachStub(IStub iStub) {
-        this.logger.log(1078071040, "[%1.attachStub] '%2'", (Object)"MediaSDISPlayerASIProvider", (Object)iStub);
+        this.logger.log(1000000, "[%1.attachStub] '%2'", (Object)LOGCLASS, (Object)iStub);
     }
 
-    @Override
     public void detachStub(IStub iStub) {
-        this.logger.log(1078071040, "[%1.detachStub] '%2'", (Object)"MediaSDISPlayerASIProvider", (Object)iStub);
+        this.logger.log(1000000, "[%1.detachStub] '%2'", (Object)LOGCLASS, (Object)iStub);
     }
 
-    @Override
-    public void activate(MediaSourceSlot mediaSourceSlot, MediaBrowserSelectionData mediaBrowserSelectionData, ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-        this.logger.log(1078071040, "[%1.setActiveSource] '%2,'%3''", (Object)"MediaSDISPlayerASIProvider", (long)mediaSourceSlot.getSource(), (long)mediaSourceSlot.getSlotIdx());
+    public void activate(MediaSourceSlot mediaSourceSlot, MediaBrowserSelectionData mediaBrowserSelectionData, ASIHMISyncMediaReply aSIHMISyncMediaReply) throws MethodException {
+        this.logger.log(1000000, "[%1.setActiveSource] '%2,'%3''", (Object)LOGCLASS, (long)mediaSourceSlot.getSource(), (long)mediaSourceSlot.getSlotIdx());
         this.contentHandler.setReplyService(aSIHMISyncMediaReply);
         this.sourceHandler.activate(MediaUtilsSDIS.getSourceTypeOfSDISSource(mediaSourceSlot.getSource()), mediaSourceSlot.getSlotIdx(), mediaBrowserSelectionData != null ? new SelectionData(mediaBrowserSelectionData) : null);
     }
 
-    @Override
-    public void pause(ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-        this.logger.log(1078071040, "[%1.pause]", (Object)"MediaSDISPlayerASIProvider");
+    public void pause(ASIHMISyncMediaReply aSIHMISyncMediaReply) throws MethodException {
+        this.logger.log(1000000, "[%1.pause]", (Object)LOGCLASS);
         this.contentHandler.setReplyService(aSIHMISyncMediaReply);
         this.contentHandler.pause();
     }
 
-    @Override
-    public void resume(ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-        this.logger.log(1078071040, "[%1.resume]", (Object)"MediaSDISPlayerASIProvider");
+    public void resume(ASIHMISyncMediaReply aSIHMISyncMediaReply) throws MethodException {
+        this.logger.log(1000000, "[%1.resume]", (Object)LOGCLASS);
         this.contentHandler.setReplyService(aSIHMISyncMediaReply);
         this.contentHandler.resume();
     }
 
-    @Override
-    public void skip(byte by, ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-        this.logger.log(1078071040, "[%1.skip] '%2'", (Object)"MediaSDISPlayerASIProvider", (long)by);
+    public void skip(byte by, ASIHMISyncMediaReply aSIHMISyncMediaReply) throws MethodException {
+        this.logger.log(1000000, "[%1.skip] '%2'", (Object)LOGCLASS, (long)by);
         this.contentHandler.setReplyService(aSIHMISyncMediaReply);
         this.contentHandler.skip(by);
     }
 
-    @Override
-    public void seek(boolean bl, ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-        this.logger.log(1078071040, "[%1.seek] '%2'", (Object)"MediaSDISPlayerASIProvider", (Object)(bl ? "FORWARD" : "BACKWARD"));
+    public void seek(boolean bl, ASIHMISyncMediaReply aSIHMISyncMediaReply) throws MethodException {
+        this.logger.log(1000000, "[%1.seek] '%2'", (Object)LOGCLASS, (Object)(bl ? "FORWARD" : "BACKWARD"));
         this.contentHandler.setReplyService(aSIHMISyncMediaReply);
         this.contentHandler.startSeek(bl);
     }
 
-    @Override
-    public void mix(boolean bl, ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-        this.logger.log(1078071040, "[%1.mix] '%2'", (Object)"MediaSDISPlayerASIProvider", (Object)(bl ? "ON" : "OFF"));
+    public void mix(boolean bl, ASIHMISyncMediaReply aSIHMISyncMediaReply) throws MethodException {
+        this.logger.log(1000000, "[%1.mix] '%2'", (Object)LOGCLASS, (Object)(bl ? "ON" : "OFF"));
         this.contentHandler.setReplyService(aSIHMISyncMediaReply);
         this.contentHandler.mix(bl);
     }
 
-    @Override
-    public void repeatTitle(boolean bl, ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-        this.logger.log(1078071040, "[%1.repeatTitle] '%2'", (Object)"MediaSDISPlayerASIProvider", (Object)(bl ? "ON" : "OFF"));
+    public void repeatTitle(boolean bl, ASIHMISyncMediaReply aSIHMISyncMediaReply) throws MethodException {
+        this.logger.log(1000000, "[%1.repeatTitle] '%2'", (Object)LOGCLASS, (Object)(bl ? "ON" : "OFF"));
         this.contentHandler.setReplyService(aSIHMISyncMediaReply);
         this.contentHandler.repeatTitle(bl);
     }
 
-    @Override
-    public void setEntry(long l, ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-        this.logger.log(1078071040, "[%1.playEntry] '%2'", (Object)"MediaSDISPlayerASIProvider", l);
+    public void setEntry(long l, ASIHMISyncMediaReply aSIHMISyncMediaReply) throws MethodException {
+        this.logger.log(1000000, "[%1.playEntry] '%2'", (Object)LOGCLASS, l);
         this.contentHandler.setReplyService(aSIHMISyncMediaReply);
         this.contentHandler.playEntry(l);
     }
 
-    @Override
-    public void setTimePosition(int n, ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-        this.logger.log(1078071040, "[%1.setTimePosition] '%2'", (Object)"MediaSDISPlayerASIProvider", (long)n);
+    public void setTimePosition(int n, ASIHMISyncMediaReply aSIHMISyncMediaReply) throws MethodException {
+        this.logger.log(1000000, "[%1.setTimePosition] '%2'", (Object)LOGCLASS, (long)n);
         this.contentHandler.setReplyService(aSIHMISyncMediaReply);
         this.contentHandler.setTimePosition(n);
     }
 
-    @Override
-    public void touchEvent(int n, int n2, int n3, int n4, int n5, ASIHMISyncMediaReply aSIHMISyncMediaReply) {
+    public void touchEvent(int n, int n2, int n3, int n4, int n5, ASIHMISyncMediaReply aSIHMISyncMediaReply) throws MethodException {
         if (n4 <= 0 || n5 <= 0 || n2 < 0 || n3 < 0) {
-            this.logger.log(1078071040, "[%1.touchEvent] Invalid coordinates.", (Object)"MediaSDISPlayerASIProvider");
+            this.logger.log(1000000, "[%1.touchEvent] Invalid coordinates.", (Object)LOGCLASS);
             return;
         }
-        this.logger.log(1078071040, "[%1.touchEvent] ", (Object)"MediaSDISPlayerASIProvider");
+        this.logger.log(1000000, "[%1.touchEvent] ", (Object)LOGCLASS);
         this.contentHandler.setReplyService(aSIHMISyncMediaReply);
         this.contentHandler.touchEvent(n == 1, n2, n3, n4, n5);
     }
 
-    @Override
-    public void executeDvdVideoCommand(int n, ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-        this.logger.log(1078071040, "[%1.executeDvdVideoCommand] ", (Object)"MediaSDISPlayerASIProvider");
+    public void executeDvdVideoCommand(int n, ASIHMISyncMediaReply aSIHMISyncMediaReply) throws MethodException {
+        this.logger.log(1000000, "[%1.executeDvdVideoCommand] ", (Object)LOGCLASS);
         this.contentHandler.setReplyService(aSIHMISyncMediaReply);
         this.contentHandler.executeMenuCommand(n);
     }
 
-    @Override
-    public void requestPlayList(int n, long l, int n2, ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-        this.logger.log(1078071040, new StringBuffer().append("[%1.requestPlayList] pIndex='").append(n).append("', pEntryID='").append(l).append("', pCount='").append(n2).append("'.").toString(), (Object)"MediaSDISPlayerASIProvider");
+    public void requestPlayList(int n, long l, int n2, ASIHMISyncMediaReply aSIHMISyncMediaReply) throws MethodException {
+        this.logger.log(1000000, new StringBuffer().append("[%1.requestPlayList] pIndex='").append(n).append("', pEntryID='").append(l).append("', pCount='").append(n2).append("'.").toString(), (Object)LOGCLASS);
         if (l == 0L) {
-            this.logger.log(1078071040, "[%1.requestPlayList] Index based request is intended. Set pEntryID to '-1'. ", (Object)"MediaSDISPlayerASIProvider");
+            this.logger.log(1000000, "[%1.requestPlayList] Index based request is intended. Set pEntryID to '-1'. ", (Object)LOGCLASS);
             l = -1L;
         }
         this.contentHandler.setReplyService(aSIHMISyncMediaReply);
         this.contentHandler.requestPlayList(new SDISPlayviewListRequest(this.logger, n, l, n2, aSIHMISyncMediaReply));
     }
 
-    @Override
-    public void setPlaySelection(MediaBrowserSelectionData mediaBrowserSelectionData, ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-        this.logger.log(1078071040, "[%1.setPlaySelection] browserID='%2', trackID='%3'", (Object)"MediaSDISPlayerASIProvider", (long)mediaBrowserSelectionData.getBrowserInstance(), mediaBrowserSelectionData.getTrackID());
+    public void setPlaySelection(MediaBrowserSelectionData mediaBrowserSelectionData, ASIHMISyncMediaReply aSIHMISyncMediaReply) throws MethodException {
+        this.logger.log(1000000, "[%1.setPlaySelection] browserID='%2', trackID='%3'", (Object)LOGCLASS, (long)mediaBrowserSelectionData.getBrowserInstance(), mediaBrowserSelectionData.getTrackID());
         this.contentHandler.setReplyService(aSIHMISyncMediaReply);
         this.contentHandler.setPlaySelection(new MediaSDISPlayerSelectionRequest(this.logger, mediaBrowserSelectionData.getBrowserInstance(), mediaBrowserSelectionData.getTrackID(), mediaBrowserSelectionData.isSeamless(), aSIHMISyncMediaReply));
     }
 
-    @Override
-    public void playMoreFrom(long l, int n, ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-        this.logger.log(1078071040, "[%1.playMoreFrom], entryID='%3'", (Object)"MediaSDISPlayerASIProvider", l);
+    public void playMoreFrom(long l, int n, ASIHMISyncMediaReply aSIHMISyncMediaReply) throws MethodException {
+        this.logger.log(1000000, "[%1.playMoreFrom], entryID='%3'", (Object)LOGCLASS, l);
         this.contentHandler.setReplyService(aSIHMISyncMediaReply);
         this.contentHandler.playMoreOf(l, n, new MediaSDISPlayMoreOfRequest(this.logger, l, n, aSIHMISyncMediaReply));
     }
 
-    @Override
-    public void stopSeek(ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-        this.logger.log(1078071040, "[%1.stopSeek]", (Object)"MediaSDISPlayerASIProvider");
+    public void stopSeek(ASIHMISyncMediaReply aSIHMISyncMediaReply) throws MethodException {
+        this.logger.log(1000000, "[%1.stopSeek]", (Object)LOGCLASS);
         this.contentHandler.setReplyService(aSIHMISyncMediaReply);
         this.contentHandler.stopSeek();
     }
 
-    @Override
-    public void toggleRepeatState(ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-        this.logger.log(-2137614336, "[%1.toggleRepeatState]", (Object)"MediaSDISPlayerASIProvider");
+    public void toggleRepeatState(ASIHMISyncMediaReply aSIHMISyncMediaReply) throws MethodException {
+        this.logger.log(10000000, "[%1.toggleRepeatState]", (Object)LOGCLASS);
         this.contentHandler.setReplyService(aSIHMISyncMediaReply);
         this.contentHandler.toggleRepeatMode();
     }
 
-    @Override
-    public void toggleShuffleState(ASIHMISyncMediaReply aSIHMISyncMediaReply) {
-        this.logger.log(-2137614336, "[%1.toggleShuffleState]", (Object)"MediaSDISPlayerASIProvider");
+    public void toggleShuffleState(ASIHMISyncMediaReply aSIHMISyncMediaReply) throws MethodException {
+        this.logger.log(10000000, "[%1.toggleShuffleState]", (Object)LOGCLASS);
         this.contentHandler.setReplyService(aSIHMISyncMediaReply);
         this.contentHandler.toggleMixMode();
     }

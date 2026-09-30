@@ -4,19 +4,14 @@
 package de.audi.remotehmi.remoteinterface;
 
 public interface IRemoteHMIBundledConnectivityPayload {
-    default public int getPopupServiceType() {
-    }
+    public int getPopupServiceType();
 
-    default public String getServiceId() {
-    }
+    public String getServiceId();
 
-    default public String getServiceContext() {
-    }
+    public String getServiceContext();
 
-    default public void setAppServiceType(int n) {
-    }
+    public void setAppServiceType(int var1);
 
-    default public int getAppServiceType() {
-    }
+    public int getAppServiceType();
 }
 

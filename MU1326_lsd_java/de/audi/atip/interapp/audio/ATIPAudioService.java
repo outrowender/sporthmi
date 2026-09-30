@@ -4,10 +4,8 @@
 package de.audi.atip.interapp.audio;
 
 public interface ATIPAudioService {
-    default public void volumeMenuEntered(int n, int n2, boolean bl) {
-    }
+    public void volumeMenuEntered(int var1, int var2, boolean var3);
 
-    default public void volumeMenuLeft() {
-    }
+    public void volumeMenuLeft();
 }
 

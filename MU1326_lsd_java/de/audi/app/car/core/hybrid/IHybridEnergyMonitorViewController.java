@@ -8,24 +8,18 @@ import org.dsi.ifc.carhybrid.HybridEnergyFlowState;
 import org.dsi.ifc.carhybrid.HybridViewOptions;
 
 public interface IHybridEnergyMonitorViewController {
-    public static final int INVALID;
+    public static final int INVALID = -1;
 
-    default public void initialize() {
-    }
+    public void initialize();
 
-    default public void setWheelDriveType(int n) {
-    }
+    public void setWheelDriveType(int var1);
 
-    default public void updateHybridViewOptions(HybridViewOptions hybridViewOptions) {
-    }
+    public void updateHybridViewOptions(HybridViewOptions var1);
 
-    default public void updateHybridEnergyFlowState(HybridEnergyFlowState hybridEnergyFlowState) {
-    }
+    public void updateHybridEnergyFlowState(HybridEnergyFlowState var1);
 
-    default public void updateHybridCharge(int n) {
-    }
+    public void updateHybridCharge(int var1);
 
-    default public void updateBatteryControlChargeState(BatteryControlChargeState batteryControlChargeState) {
-    }
+    public void updateBatteryControlChargeState(BatteryControlChargeState var1);
 }
 

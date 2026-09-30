@@ -17,12 +17,11 @@ extends AbstractSystemCallCommand {
         this.mobileSRHandler = mobileSpeechRecognitionHandler;
     }
 
-    @Override
     public void execute() {
         boolean bl = this.mobileSRHandler.isMobileSpeechRecognitionActive();
-        this.logger.log(-2137614336, "PhoneSiriActivateCommand#execute: mobileSRActive=%1", bl);
+        this.logger.log(10000000, "PhoneSiriActivateCommand#execute: mobileSRActive=%1", bl);
         if (bl || !this.mobileSRHandler.requestStartSpeechRecognition()) {
-            this.logger.log(-2137614336, "PhoneSiriActivateCommand#execute: External speech recognition not started, sending ERROR!");
+            this.logger.log(10000000, "PhoneSiriActivateCommand#execute: External speech recognition not started, sending ERROR!");
             super.sendResult(30001);
         }
         this.sdsHandlerService.switchEntertainment(false);
@@ -59,7 +58,7 @@ extends AbstractSystemCallCommand {
                 string = "UNKNOWN";
             }
         }
-        this.logger.log(-2137614336, "PhoneSiriActivateCommand#responseStartSpeechRecognition: result=%2, mobile speech recognition is %1!", (Object)string, (long)n);
+        this.logger.log(10000000, "PhoneSiriActivateCommand#responseStartSpeechRecognition: result=%2, mobile speech recognition is %1!", (Object)string, (long)n);
         super.sendResult(n == 0 ? 30000 : 30001);
     }
 }

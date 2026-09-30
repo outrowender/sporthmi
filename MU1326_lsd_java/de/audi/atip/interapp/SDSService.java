@@ -6,99 +6,110 @@ package de.audi.atip.interapp;
 import de.audi.atip.hmi.event.JoystickEvent;
 import de.audi.atip.interapp.AbstractSDSService;
 import de.audi.atip.interapp.ISDSServiceStatusListener;
-import de.audi.atip.interapp.SDSService$ScreenConnectedSDSData;
+import de.esolutions.fw.util.commons.Buffer;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public interface SDSService
 extends AbstractSDSService {
-    public static final byte SDS_ABORTER_NONE;
-    public static final byte SDS_ABORTER_VOICE_COMMAND;
-    public static final byte SDS_ABORTER_APS_OPS_RVC;
-    public static final byte SDS_ABORTER_KBD;
-    public static final byte SDS_ABORTER_WIDGET;
-    public static final byte SDS_ABORTER_ADB;
-    public static final byte SDS_ABORTER_MEDIA;
-    public static final byte SDS_ABORTER_NAVI;
-    public static final byte SDS_ABORTER_PHONE;
-    public static final byte SDS_ABORTER_TUNER;
-    public static final byte SDS_ABORTER_VOLUME_SETTING;
-    public static final byte SDS_ABORTER_ONLINE;
-    public static final byte SDS_ABORTER_POPUP;
-    public static final byte SDS_ABORTER_PTT_DOUBLE;
-    public static final byte SDS_ABORTER_PTT_LONG;
+    public static final byte SDS_ABORTER_NONE = -1;
+    public static final byte SDS_ABORTER_VOICE_COMMAND = 0;
+    public static final byte SDS_ABORTER_APS_OPS_RVC = 1;
+    public static final byte SDS_ABORTER_KBD = 2;
+    public static final byte SDS_ABORTER_WIDGET = 3;
+    public static final byte SDS_ABORTER_ADB = 4;
+    public static final byte SDS_ABORTER_MEDIA = 5;
+    public static final byte SDS_ABORTER_NAVI = 6;
+    public static final byte SDS_ABORTER_PHONE = 7;
+    public static final byte SDS_ABORTER_TUNER = 8;
+    public static final byte SDS_ABORTER_VOLUME_SETTING = 9;
+    public static final byte SDS_ABORTER_ONLINE = 10;
+    public static final byte SDS_ABORTER_POPUP = 11;
+    public static final byte SDS_ABORTER_PTT_DOUBLE = 12;
+    public static final byte SDS_ABORTER_PTT_LONG = 13;
 
-    default public void playPrioPrompt(String string) {
-    }
+    public void playPrioPrompt(String var1);
 
-    default public void itemSelected(int n, int n2) {
-    }
+    public void itemSelected(int var1, int var2);
 
-    default public void itemSelected(int n, int n2, int n3) {
-    }
+    public void itemSelected(int var1, int var2, int var3);
 
-    default public void keyTyped(int n, int n2) {
-    }
+    public void keyTyped(int var1, int var2);
 
-    default public void folderUpSelected() {
-    }
+    public void folderUpSelected();
 
-    default public void notifySpellerUserInteraction(int n) {
-    }
+    public void notifySpellerUserInteraction(int var1);
 
-    default public void abortSDSSession(boolean bl, byte by) {
-    }
+    public void abortSDSSession(boolean var1, byte var2);
 
-    default public void returnKeyPressed() {
-    }
+    public void returnKeyPressed();
 
-    default public boolean startDDSPress() {
-    }
+    public boolean startDDSPress();
 
-    default public void cancelDDSPress() {
-    }
+    public void cancelDDSPress();
 
-    default public void endDDSPress() {
-    }
+    public void endDDSPress();
 
-    default public void turnDDSWheel() {
-    }
+    public void turnDDSWheel();
 
-    default public void movedDDSJoystick(JoystickEvent joystickEvent) {
-    }
+    public void movedDDSJoystick(JoystickEvent var1);
 
-    default public void registerStatusListener(ISDSServiceStatusListener iSDSServiceStatusListener) {
-    }
+    public void registerStatusListener(ISDSServiceStatusListener var1);
 
-    default public void unregisterStatusListener(ISDSServiceStatusListener iSDSServiceStatusListener) {
-    }
+    public void unregisterStatusListener(ISDSServiceStatusListener var1);
 
-    default public void cancelTimers() {
-    }
+    public void cancelTimers();
 
-    default public void startVolumeSettingSession() {
-    }
+    public void startVolumeSettingSession();
 
-    default public void stopVolumeSettingSession() {
-    }
+    public void stopVolumeSettingSession();
 
-    default public boolean isVolumeSettingSessionActive() {
-    }
+    public boolean isVolumeSettingSessionActive();
 
-    default public void textChanged(int n, String string, char c2) {
-    }
+    public void textChanged(int var1, String var2, char var3);
 
-    default public boolean isExternalSDSActive() {
-    }
+    public boolean isExternalSDSActive();
 
-    default public void screenConnected(int n, int n2, boolean bl) {
-    }
+    public void screenConnected(int var1, int var2, boolean var3);
 
-    default public void screenConnectedWithSDSData(int n, int n2, ScreenConnectedSDSData screenConnectedSDSData) {
-    }
+    public void screenConnectedWithSDSData(int var1, int var2, ScreenConnectedSDSData var3);
 
-    default public void sendResponse(int n, int n2) {
-    }
+    public void sendResponse(int var1, int var2);
 
-    default public void updateExternalSDSActive() {
+    public void updateExternalSDSActive();
+
+    public static class ScreenConnectedSDSData {
+        private int smallStageType;
+        private static final Map SMALL_STAGE_TYPE_TO_STR = ScreenConnectedSDSData.createSmallStageTypeToStrMap();
+
+        private static Map createSmallStageTypeToStrMap() {
+            HashMap hashMap = new HashMap();
+            hashMap.put(new Integer(0), "Abbreviating");
+            hashMap.put(new Integer(1), "Omission");
+            hashMap.put(new Integer(2), "Replacing");
+            hashMap.put(new Integer(3), "Screenshot");
+            hashMap.put(new Integer(4), "Canceling");
+            hashMap.put(new Integer(6), "No Change");
+            hashMap.put(new Integer(7), "Wrap");
+            return Collections.unmodifiableMap(hashMap);
+        }
+
+        public int getSmallStageType() {
+            return this.smallStageType;
+        }
+
+        public void setSmallStageType(int n) {
+            this.smallStageType = n;
+        }
+
+        public String toString() {
+            Buffer buffer = new Buffer();
+            buffer.append("{ ");
+            buffer.append("smallStageType: ").append(SMALL_STAGE_TYPE_TO_STR.get(new Integer(this.smallStageType))).append(" (").append(this.smallStageType).append(")");
+            buffer.append(" }");
+            return buffer.toString();
+        }
     }
 }
 

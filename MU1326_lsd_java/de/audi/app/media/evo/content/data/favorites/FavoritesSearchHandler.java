@@ -17,7 +17,7 @@ import de.audi.atip.search.util.SearchResultListRow;
 
 public class FavoritesSearchHandler
 extends AbstractSearchHandlerEvo {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "FavoritesSearchHandler";
     private final IFavoritesBrowserList favoritesBrowserList;
     private final AbstractSearchResultFormatter searchResultFormatter;
 
@@ -27,27 +27,23 @@ extends AbstractSearchHandlerEvo {
         this.searchResultFormatter = new FavoritesSearchFormatter(logChannel, 10);
     }
 
-    @Override
     public void init() {
         super.init();
-        this.lc.log(1078071040, "[%1.init]", (Object)"FavoritesSearchHandler");
+        this.lc.log(1000000, "[%1.init]", (Object)LOGCLASS);
         this.registryFormatter.put(new Integer(20011), this.searchResultFormatter);
     }
 
-    @Override
     public void deinit() {
         super.deinit();
-        this.lc.log(1078071040, "[%1.searchResultSelected]", (Object)"FavoritesSearchHandler");
+        this.lc.log(1000000, "[%1.searchResultSelected]", (Object)LOGCLASS);
     }
 
-    @Override
     protected String getLogClass() {
-        return "FavoritesSearchHandler";
+        return LOGCLASS;
     }
 
-    @Override
     public void searchResultSelected(SearchResultListRow searchResultListRow, int n, int n2) {
-        this.lc.log(1078071040, "[%1.searchResultSelected]", (Object)"FavoritesSearchHandler");
+        this.lc.log(1000000, "[%1.searchResultSelected]", (Object)LOGCLASS);
         this.appSearch.addToHistory(searchResultListRow.getSearchResult());
         this.favoritesBrowserList.selectFavoriteEntry((int)searchResultListRow.getSearchResult().getDataId());
         this.mdlListSearchResults.fireEvent(n);

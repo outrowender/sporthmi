@@ -20,7 +20,6 @@ extends AbstractWlanConnection {
         super(iWlanApplication);
     }
 
-    @Override
     public void updateConnectedNetwork(String string, String string2, int n, int n2) {
         super.updateConnectedNetwork(string, string2, n, n2);
         if (n2 != 1) {
@@ -31,7 +30,6 @@ extends AbstractWlanConnection {
         }
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof IConnectAppSetup) {
@@ -41,7 +39,6 @@ extends AbstractWlanConnection {
         return super.addingService(serviceReference);
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof IConnectAppSetup) {
             this.audiConnectSetup = null;
@@ -51,7 +48,6 @@ extends AbstractWlanConnection {
         }
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
         if (object instanceof IConnectAppSetup) {
             this.audiConnectSetup = (IConnectAppSetup)object;
@@ -60,14 +56,12 @@ extends AbstractWlanConnection {
         }
     }
 
-    @Override
     public void init() {
         super.init();
         this.serviceTracker = new ServiceTracker(this.bundleContext, new String[]{(class$de$audi$app$bluetooth$core$online$IConnectAppSetup == null ? (class$de$audi$app$bluetooth$core$online$IConnectAppSetup = WlanConnection.class$("de.audi.app.bluetooth.core.online.IConnectAppSetup")) : class$de$audi$app$bluetooth$core$online$IConnectAppSetup).getName()}, (ServiceTrackerCustomizer)this);
         this.serviceTracker.open();
     }
 
-    @Override
     public void deinit() {
         this.serviceTracker.close();
         this.serviceTracker = null;

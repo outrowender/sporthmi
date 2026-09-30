@@ -3,6 +3,7 @@
  */
 package com.ibm.oti.net.www.protocol.ftp;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 
@@ -16,32 +17,26 @@ extends InputStream {
         this.controlSocket = socket;
     }
 
-    @Override
-    public int read() {
+    public int read() throws IOException {
         return this.is.read();
     }
 
-    @Override
-    public int read(byte[] byArray, int n, int n2) {
+    public int read(byte[] byArray, int n, int n2) throws IOException {
         return this.is.read(byArray, n, n2);
     }
 
-    @Override
-    public synchronized void reset() {
+    public synchronized void reset() throws IOException {
         this.is.reset();
     }
 
-    @Override
     public synchronized void mark(int n) {
         this.is.mark(n);
     }
 
-    @Override
     public boolean markSupported() {
         return this.is.markSupported();
     }
 
-    @Override
     public void close() {
         try {
             this.is.close();
@@ -53,13 +48,11 @@ extends InputStream {
         catch (Exception exception) {}
     }
 
-    @Override
-    public int available() {
+    public int available() throws IOException {
         return this.is.available();
     }
 
-    @Override
-    public long skip(long l) {
+    public long skip(long l) throws IOException {
         return this.is.skip(l);
     }
 }

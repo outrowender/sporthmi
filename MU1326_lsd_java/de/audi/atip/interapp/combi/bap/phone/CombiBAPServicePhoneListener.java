@@ -8,61 +8,42 @@ import de.audi.atip.interapp.combi.bap.phone.data.CombiBAPCallStackEntry;
 
 public interface CombiBAPServicePhoneListener
 extends CombiBAPServiceListener {
-    default public void dialNumber(String string, String string2) {
-    }
+    public void dialNumber(String var1, String var2);
 
-    default public void dialNumberFromAdbEntry(String string, String string2, CombiBAPCallStackEntry combiBAPCallStackEntry) {
-    }
+    public void dialNumberFromAdbEntry(String var1, String var2, CombiBAPCallStackEntry var3);
 
-    default public void dialService(int n) {
-    }
+    public void dialService(int var1);
 
-    default public void confirmEmergencyCall(boolean bl) {
-    }
+    public void confirmEmergencyCall(boolean var1);
 
-    default public void hangupCall(int n) {
-    }
+    public void hangupCall(int var1);
 
-    default public void acceptCall() {
-    }
+    public void acceptCall();
 
-    default public void callHold() {
-    }
+    public void callHold();
 
-    default public void resumeCall() {
-    }
+    public void resumeCall();
 
-    default public void setMicMuteState(boolean bl) {
-    }
+    public void setMicMuteState(boolean var1);
 
-    default public void releaseActiveCallAcceptWaitingCall() {
-    }
+    public void releaseActiveCallAcceptWaitingCall();
 
-    default public void swapCalls() {
-    }
+    public void swapCalls();
 
-    default public void callHoldAcceptWaitingCall() {
-    }
+    public void callHoldAcceptWaitingCall();
 
-    default public void releaseAllCallsAcceptWaitingCall() {
-    }
+    public void releaseAllCallsAcceptWaitingCall();
 
-    default public void setWaitingCallOnHold() {
-    }
+    public void setWaitingCallOnHold();
 
-    default public void joinCalls() {
-    }
+    public void joinCalls();
 
-    default public void splitCall(int n) {
-    }
+    public void splitCall(int var1);
 
-    default public void setRingToneMuteState(boolean bl) {
-    }
+    public void setRingToneMuteState(boolean var1);
 
-    default public void setAutomaticRedialActive(boolean bl) {
-    }
+    public void setAutomaticRedialActive(boolean var1);
 
-    default public void resetMissedCallsIndicator() {
-    }
+    public void resetMissedCallsIndicator();
 }
 

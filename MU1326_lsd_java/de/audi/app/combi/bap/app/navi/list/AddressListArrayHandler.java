@@ -23,13 +23,12 @@ extends AbstractManagedListHandler {
         super(abstractCombiModule, "AddressListArrayHandler");
     }
 
-    @Override
     public void updateList(CombiBAPArrayElement[] combiBAPArrayElementArray) {
         if (combiBAPArrayElementArray == null) {
             this.logChannel.log(10000, "[%1#updateList] invalid list update: newList is null", (Object)this.className);
             return;
         }
-        this.logChannel.log(-2137614336, "[%1#updateList] listSize=%2", (Object)this.className, (long)combiBAPArrayElementArray.length);
+        this.logChannel.log(10000000, "[%1#updateList] listSize=%2", (Object)this.className, (long)combiBAPArrayElementArray.length);
         this.list = combiBAPArrayElementArray;
     }
 
@@ -39,18 +38,17 @@ extends AbstractManagedListHandler {
 
     private void sendHomeAddress(GetArrayIndicationAddressList getArrayIndicationAddressList) {
         if (this.homeAddressList != null && this.homeAddressList.length != 0) {
-            this.logChannel.log(1078071040, "[%1#requestListElements] send home address destination", (Object)this.className);
+            this.logChannel.log(1000000, "[%1#requestListElements] send home address destination", (Object)this.className);
             this.updateList(this.homeAddressList);
             this.responseListElements(getArrayIndicationAddressList.getTaID(), this.homeAddressList);
         } else {
-            this.logChannel.log(-1601830656, "[%1#requestListElements] home address destination is not set", (Object)this.className);
+            this.logChannel.log(100000, "[%1#requestListElements] home address destination is not set", (Object)this.className);
             this.sendEmptyList();
         }
     }
 
-    @Override
     public void requestListElements(GetArrayIndication getArrayIndication) {
-        this.logChannel.log(-2137614336, "[%1#requestListElements] called", (Object)this.className);
+        this.logChannel.log(10000000, "[%1#requestListElements] called", (Object)this.className);
         this.setPendingRequest(getArrayIndication);
         if (getArrayIndication instanceof GetArrayIndicationAddressList) {
             int n = ((GetArrayIndicationAddressList)getArrayIndication).getOtherListType();
@@ -81,7 +79,6 @@ extends AbstractManagedListHandler {
         }
     }
 
-    @Override
     public void responseListElements(int n, CombiBAPArrayElement[] combiBAPArrayElementArray) {
         super.responseListElements(n, combiBAPArrayElementArray);
     }
@@ -106,15 +103,13 @@ extends AbstractManagedListHandler {
         return combiBAPAddressListEntryArray;
     }
 
-    @Override
     public void getNextListPos(int n, int n2) {
         super.getNextListPosForArbitraryIds(n, n2);
     }
 
-    @Override
     public void getNextListPosResult(boolean bl, int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "[%1#getNextListPosResult] called (result=%2, currentEntryID=%3,...)", (Object)this.className, (Object)(bl ? "successful" : "unsuccessful"), (long)n);
-        this.logChannel.log(-2137614336, "[%1#getNextListPosResult] ..., nextEntryID=%2, absoluteListPos=%3", (Object)this.className, (long)n2, (long)n3);
+        this.logChannel.log(10000000, "[%1#getNextListPosResult] called (result=%2, currentEntryID=%3,...)", (Object)this.className, (Object)(bl ? "successful" : "unsuccessful"), (long)n);
+        this.logChannel.log(10000000, "[%1#getNextListPosResult] ..., nextEntryID=%2, absoluteListPos=%3", (Object)this.className, (long)n2, (long)n3);
         BAPFunctionMethodFSG bAPFunctionMethodFSG = this.moduleFsg.getBAPFunctionMethodFSG(41);
         GetNextListPos_Result getNextListPos_Result = (GetNextListPos_Result)this.moduleFsg.createResultSerializer(41);
         getNextListPos_Result.getNextListPos_Result = bl ? 0 : 1;

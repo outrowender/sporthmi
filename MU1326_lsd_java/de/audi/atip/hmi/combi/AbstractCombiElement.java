@@ -19,7 +19,6 @@ public abstract class AbstractCombiElement {
         abstractCombiElement.dirty = this.dirty;
     }
 
-    public abstract void reset() {
-    }
+    public abstract void reset();
 }
 

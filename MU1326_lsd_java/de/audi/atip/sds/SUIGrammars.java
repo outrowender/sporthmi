@@ -4,12 +4,12 @@
 package de.audi.atip.sds;
 
 public class SUIGrammars {
-    public static final int SUI_TYPE_NONE;
-    public static final int SUI_TYPE_TRUFFLE_INITIAL;
-    public static final int SUI_TYPE_POI_CITY;
-    public static final int SUI_TYPE_ADDRESS;
-    public static final int SUI_TYPE_POI;
-    public static final int SUI_TYPE_CONTACT;
+    public static final int SUI_TYPE_NONE = -1;
+    public static final int SUI_TYPE_TRUFFLE_INITIAL = 0;
+    public static final int SUI_TYPE_POI_CITY = 1;
+    public static final int SUI_TYPE_ADDRESS = 2;
+    public static final int SUI_TYPE_POI = 3;
+    public static final int SUI_TYPE_CONTACT = 4;
 
     public static int getSUITypeForRule(int n) {
         switch (n) {
@@ -86,19 +86,19 @@ public class SUIGrammars {
     public static final int[] getRulesForType(int n) {
         switch (n) {
             case 0: {
-                return new int[]{18613760};
+                return new int[]{400385};
             }
             case 1: {
-                return new int[]{-451213824, -2128935424, 2082145792};
+                return new int[]{400357, 400257, 400252};
             }
             case 2: {
-                return new int[]{-499840000, -516617216, -533394432, -2112158208, -1875571712, -1892348928, -1909126144, 1848970240, 1865747456, 1832193024, 1142621696, 1327171072};
+                return new int[]{800226, 800225, 800224, 400258, 800144, 800143, 800142, 800110, 800111, 800109, 400196, 400207};
             }
             case 3: {
-                return new int[]{-2145712640, 1276839424, 1343948288};
+                return new int[]{400256, 400204, 400208};
             }
             case 4: {
-                return new int[]{1931150848, 1125844480, 1310393856};
+                return new int[]{400243, 400195, 400206};
             }
         }
         return new int[0];

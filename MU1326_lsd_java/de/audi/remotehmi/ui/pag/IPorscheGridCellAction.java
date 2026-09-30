@@ -8,7 +8,6 @@ import de.audi.remotehmi.ui.mib2.grid.IPorscheGridCell;
 
 public interface IPorscheGridCellAction
 extends IGridCellAction {
-    default public boolean modify(IPorscheGridCell iPorscheGridCell) {
-    }
+    public boolean modify(IPorscheGridCell var1);
 }
 

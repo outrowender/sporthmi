@@ -4,7 +4,6 @@
 package de.audi.app.bap.dsi;
 
 public interface IDSIServiceStateListener {
-    default public void notifyDSIAvailable(Class clazz, boolean bl) {
-    }
+    public void notifyDSIAvailable(Class var1, boolean var2);
 }
 

@@ -6,22 +6,16 @@ package de.audi.atip.interapp;
 import de.audi.atip.interapp.SDSListEntry;
 
 public interface TunerServiceListener {
-    default public String getName() {
-    }
+    public String getName();
 
-    default public void updateBandList(int[] nArray) {
-    }
+    public void updateBandList(int[] var1);
 
-    default public void updateStationList(SDSListEntry[] sDSListEntryArray, int n) {
-    }
+    public void updateStationList(SDSListEntry[] var1, int var2);
 
-    default public void updateEnsembleList(SDSListEntry[] sDSListEntryArray) {
-    }
+    public void updateEnsembleList(SDSListEntry[] var1);
 
-    default public void updateGenreList(SDSListEntry[] sDSListEntryArray) {
-    }
+    public void updateGenreList(SDSListEntry[] var1);
 
-    default public void updateChannelNumberList(SDSListEntry[] sDSListEntryArray) {
-    }
+    public void updateChannelNumberList(SDSListEntry[] var1);
 }
 

@@ -11,37 +11,26 @@ import de.audi.atip.interapp.tts.TTSSessionBasedService;
 import de.audi.atip.keyhandling.IKeyEventDistributor;
 
 public interface IHMITerminalRegistry {
-    default public HMITerminal getTerminal(int n) {
-    }
+    public HMITerminal getTerminal(int var1);
 
-    default public void registerTerminal(int n, String string, HMITerminal hMITerminal) {
-    }
+    public void registerTerminal(int var1, String var2, HMITerminal var3);
 
-    default public void setTTSService(TTSSessionBasedService tTSSessionBasedService) {
-    }
+    public void setTTSService(TTSSessionBasedService var1);
 
-    default public IRootWindow getRootWindow(int n) {
-    }
+    public IRootWindow getRootWindow(int var1);
 
-    default public void registerRootWindow(int n, IRootWindow iRootWindow) {
-    }
+    public void registerRootWindow(int var1, IRootWindow var2);
 
-    default public IDisplayManager getDisplayManager() {
-    }
+    public IDisplayManager getDisplayManager();
 
-    default public void registerDisplayManager(IDisplayManager iDisplayManager) {
-    }
+    public void registerDisplayManager(IDisplayManager var1);
 
-    default public IKeyEventDistributor getKeyEventDistributor(int n) {
-    }
+    public IKeyEventDistributor getKeyEventDistributor(int var1);
 
-    default public void registerKeyEventDistributor(int n, IKeyEventDistributor iKeyEventDistributor) {
-    }
+    public void registerKeyEventDistributor(int var1, IKeyEventDistributor var2);
 
-    default public ITerminalContext getTerminalContext(int n) {
-    }
+    public ITerminalContext getTerminalContext(int var1);
 
-    default public void registerTerminalContext(int n, ITerminalContext iTerminalContext) {
-    }
+    public void registerTerminalContext(int var1, ITerminalContext var2);
 }
 

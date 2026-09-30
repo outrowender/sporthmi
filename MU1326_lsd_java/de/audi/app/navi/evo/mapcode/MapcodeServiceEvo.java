@@ -21,7 +21,7 @@ import de.audi.tghu.navi.app.util.Util;
 
 public class MapcodeServiceEvo
 implements IMapcodeService {
-    private final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
+    private final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
     private final NavigationEnv env;
     private final ICommandListFactory commandListFactory;
     private CoreMapCodeInputManager inputManager = null;
@@ -45,7 +45,7 @@ implements IMapcodeService {
         this.mapCodeCommandListMonitor = new Monitor(this.logChannel);
         this.initMapcodeInput();
         if (!this.isInputManagerReady() && this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "***** %1 WASN'T ABLE TO CREATE THE INPUT MANAGER. MAPCODE INPUT WILL NOT BE WORKING *****", (Object)this.CLASS_NAME);
+            this.logChannel.log(100000000, "***** %1 WASN'T ABLE TO CREATE THE INPUT MANAGER. MAPCODE INPUT WILL NOT BE WORKING *****", (Object)this.CLASS_NAME);
         }
     }
 
@@ -54,7 +54,7 @@ implements IMapcodeService {
             this.inputManager = new MapcodeInputManager(this.env, this.commandListFactory, this.spellerStack, this.previewMap, this.locationDisambiguatonSequence, this.locationDisambiguatonPopupHandler);
             new MapCodeRightDrawerListener(this.env, this.mapInterface, this.locationDisambiguatonSequence, this.locationDisambiguatonPopupHandler);
         } else if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "**** %1#initMapcodeInput - region is NOT AVAILABLE ****", (Object)this.CLASS_NAME);
+            this.logChannel.log(100000000, "**** %1#initMapcodeInput - region is NOT AVAILABLE ****", (Object)this.CLASS_NAME);
         }
     }
 
@@ -62,15 +62,14 @@ implements IMapcodeService {
         return this.inputManager != null;
     }
 
-    @Override
     public void enterMapcodeScreen() {
         if (!this.mapCodeCommandListMonitor.isActive()) {
-            this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#enterMapcodeScreen - starting command list").toString());
+            this.logChannel.log(10000000, this.CLASS_NAME + "#enterMapcodeScreen - starting command list");
             CommandList commandList = this.inputManager.getMapcodeScreenListener().getStartCommandList();
             commandList.addMonitor(this.mapCodeCommandListMonitor);
-            commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#enterMapcodeScreen").toString());
+            commandList.execute(this.CLASS_NAME + "#enterMapcodeScreen");
         } else {
-            this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#enterMapcodeScreen - the command list to start map code is still running - ignoring further calls.").toString());
+            this.logChannel.log(10000000, this.CLASS_NAME + "#enterMapcodeScreen - the command list to start map code is still running - ignoring further calls.");
         }
     }
 }

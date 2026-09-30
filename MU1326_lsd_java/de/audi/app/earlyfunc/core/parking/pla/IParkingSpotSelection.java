@@ -4,10 +4,8 @@
 package de.audi.app.earlyfunc.core.parking.pla;
 
 public interface IParkingSpotSelection {
-    default public void spotSelected(int n) {
-    }
+    public void spotSelected(int var1);
 
-    default public void spotPreSelected(int n) {
-    }
+    public void spotPreSelected(int var1);
 }
 

@@ -3,29 +3,22 @@
  */
 package de.audi.atip.interapp;
 
-import de.audi.atip.phone.ITelServiceSDSListener$TelFavoriteSDSListEntry;
+import de.audi.atip.phone.ITelServiceSDSListener;
 import de.audi.atip.phone.TelServiceCallStackEntry;
 
 public interface PhoneServiceListener {
-    default public void pauseSDS() {
-    }
+    public void pauseSDS();
 
-    default public void resumeSDS(boolean bl) {
-    }
+    public void resumeSDS(boolean var1);
 
-    default public void switchEntertainment(boolean bl) {
-    }
+    public void switchEntertainment(boolean var1);
 
-    default public void phoneStateChanged() {
-    }
+    public void phoneStateChanged();
 
-    default public void favoritesListSelected(int n, boolean bl) {
-    }
+    public void favoritesListSelected(int var1, boolean var2);
 
-    default public void updateFavorites(ITelServiceSDSListener.TelFavoriteSDSListEntry[] telFavoriteSDSListEntryArray) {
-    }
+    public void updateFavorites(ITelServiceSDSListener.TelFavoriteSDSListEntry[] var1);
 
-    default public void updateCallStacks(TelServiceCallStackEntry[] telServiceCallStackEntryArray) {
-    }
+    public void updateCallStacks(TelServiceCallStackEntry[] var1);
 }
 

@@ -4,16 +4,12 @@
 package de.audi.app.connectivity.manager.contents;
 
 public interface IDeviceSelection {
-    default public int getType() {
-    }
+    public int getType();
 
-    default public String getDeviceIdentifier() {
-    }
+    public String getDeviceIdentifier();
 
-    default public String getName() {
-    }
+    public String getName();
 
-    default public boolean isConnected() {
-    }
+    public boolean isConnected();
 }
 

@@ -35,9 +35,8 @@ extends AbstractADBCommand {
         this.showPrivateAddresses = bl2;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "GetSDSAddressesCommand#execute()");
+        this.logger.log(10000000, "GetSDSAddressesCommand#execute()");
         boolean bl = this.adbDSIAccess.getEntries(new long[]{this.entryId}, 0, 0);
         if (!bl) {
             this.logger.log(10000, "GetSDSAddressesCommand#execute(): dsi call was not successful, finishing command.");
@@ -46,13 +45,12 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public void getEntriesResult(int n, AdbEntry[] adbEntryArray) {
-        this.logger.log(-2137614336, "GetSDSAddressesCommand#getEntriesResult(): success: %2, entryList: %1", (Object)adbEntryArray, (Object)ADBDbgUtils.dbgSuccessFlag(n));
+        this.logger.log(10000000, "GetSDSAddressesCommand#getEntriesResult(): success: %2, entryList: %1", (Object)adbEntryArray, (Object)ADBDbgUtils.dbgSuccessFlag(n));
         if (n == 0) {
             if (adbEntryArray.length == 1) {
                 AdbEntry adbEntry = adbEntryArray[0];
-                this.logger.log(1078071040, "GetSDSAddressesCommand#getEntriesResult(): got entry: %1", (Object)adbEntry);
+                this.logger.log(1000000, "GetSDSAddressesCommand#getEntriesResult(): got entry: %1", (Object)adbEntry);
                 ADBUtils.checkAndFixADBEntry(adbEntry, this.appAdr.getFramework());
                 if (!this.showBusinessAddresses) {
                     adbEntry.addressData[0] = new AddressData(1, "", "", "", "", "", "", false, "", 0, null, new ResourceLocator());
@@ -60,7 +58,7 @@ extends AbstractADBCommand {
                 if (!this.showPrivateAddresses) {
                     adbEntry.addressData[1] = new AddressData(2, "", "", "", "", "", "", false, "", 0, null, new ResourceLocator());
                 }
-                this.appAdr.getHMIService().getLabelModel(1303382528).setText(adbEntry.combinedName);
+                this.appAdr.getHMIService().getLabelModel(700493).setText(adbEntry.combinedName);
                 BaseListModelApp baseListModelApp = this.appAdr.getHMIService().getBaseListModel(3856);
                 AbstractADBEntryDetailsListRowBuilder.fillAddressList(adbEntry, baseListModelApp, this.sdsHandler.getRowBuilder());
                 ADBSDSAddressDetails[] aDBSDSAddressDetailsArray = GetSDSAddressesCommand.createSDSAddressDetails(baseListModelApp);

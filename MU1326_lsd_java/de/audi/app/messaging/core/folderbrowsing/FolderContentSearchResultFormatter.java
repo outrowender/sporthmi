@@ -24,7 +24,6 @@ extends AbstractSearchResultFormatter {
         this.textLookup = iTextLookup;
     }
 
-    @Override
     public SearchResultListRow formatResult(SearchResult searchResult) {
         return FolderContentSearchListRow.create(searchResult, this.entryPropertyFactory, this.msgApp.getEntryListRowDataFactory(), searchResult.getListPosition(), Times.getCurrentTime(this.msgApp.getFramework()), this.textLookup);
     }

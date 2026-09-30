@@ -7,17 +7,16 @@ import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.startup.AppStateManager;
 import de.audi.atip.startup.BundleHandler;
-import de.audi.atip.startup.ComponentState$1;
-import de.audi.atip.startup.ComponentState$CheckDependenciesJob;
-import de.audi.atip.startup.ComponentState$WaitForStartupSyncer;
 import de.audi.atip.startup.DomainHandler;
 import de.audi.atip.startup.GUIDEModuleState;
 import de.audi.atip.startup.NullModuleState;
 import de.audi.atip.startup.StartupManager;
+import de.audi.atip.startup.StartupSyncer;
 import de.audi.atip.startup.config.Component;
 import de.audi.atip.startup.config.Dependency;
 import de.audi.atip.startup.config.Domain;
 import de.audi.atip.startup.config.GuideModule;
+import de.esolutions.fw.util.commons.Buffer;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,17 +25,17 @@ import java.util.List;
 import org.osgi.framework.Bundle;
 
 public class ComponentState {
-    private static final boolean AT_END;
-    private static final boolean AT_FRONT;
-    private static final boolean SYNC;
-    private static final String[] DOMAIN_STATE_NAMES;
-    static final int DOMAIN_START_STATUS_RECOVERY;
-    static final int DOMAIN_START_STATUS_ERROR;
-    static final int DOMAIN_START_STATUS_DEFINED;
-    static final int DOMAIN_START_STATUS_STARTING;
-    static final int DOMAIN_START_STATUS_STARTED;
-    public static final int STATE_MODEL_ID_UNDEFINED;
-    public static final int LASTMODE_ID_UNDEFINED;
+    private static final boolean AT_END = false;
+    private static final boolean AT_FRONT = true;
+    private static final boolean SYNC = false;
+    private static final String[] DOMAIN_STATE_NAMES = new String[]{"Recovery", "Error", "Defined", "Starting", "Running"};
+    static final int DOMAIN_START_STATUS_RECOVERY = -2;
+    static final int DOMAIN_START_STATUS_ERROR = -1;
+    static final int DOMAIN_START_STATUS_DEFINED = 0;
+    static final int DOMAIN_START_STATUS_STARTING = 1;
+    static final int DOMAIN_START_STATUS_STARTED = 2;
+    public static final int STATE_MODEL_ID_UNDEFINED = 0;
+    public static final int LASTMODE_ID_UNDEFINED = -1;
     private final AppStateManager appStateManager;
     private boolean isStopped = false;
     private int domainFlags = 0;
@@ -255,7 +254,7 @@ public class ComponentState {
     private final void enqueueStartSubComponents(List list, boolean bl) {
         if (this.subComponentStates != null) {
             for (int i2 = 0; i2 < this.subComponentStates.length; ++i2) {
-                this.getLog().log(-2137614336, "ComponentState[%1]::enqueStartSubComponents %2", (Object)this.getComponentName(), (Object)this.subComponentStates[i2].getComponentName());
+                this.getLog().log(10000000, "ComponentState[%1]::enqueStartSubComponents %2", (Object)this.getComponentName(), (Object)this.subComponentStates[i2].getComponentName());
                 this.subComponentStates[i2].enqueueStartFull(list, bl);
             }
         }
@@ -263,7 +262,7 @@ public class ComponentState {
 
     private final void enqueueStartDependencies(List list, boolean bl) {
         if (this.dependencies != null && !this.dependencies.isEmpty()) {
-            this.getLog().log(-2137614336, "ComponentState[%1]::enqueueStartDependencies", (Object)this.getComponentName());
+            this.getLog().log(10000000, "ComponentState[%1]::enqueueStartDependencies", (Object)this.getComponentName());
             Iterator iterator = this.dependencies.iterator();
             while (iterator.hasNext()) {
                 Dependency dependency = (Dependency)iterator.next();
@@ -286,7 +285,7 @@ public class ComponentState {
      */
     private boolean checkDependencies(List list, boolean bl) {
         if (this.dependencies != null && !this.dependencies.isEmpty()) {
-            this.getLog().log(-2137614336, "ComponentState[%1]::checkDependencies(%2,%3)", (Object)this.getComponentName(), (Object)list, (Object)Boolean.toString(bl));
+            this.getLog().log(10000000, "ComponentState[%1]::checkDependencies(%2,%3)", (Object)this.getComponentName(), (Object)list, (Object)Boolean.toString(bl));
             HashMap hashMap = this.appStateManager.getNotStartedComponentMap();
             synchronized (hashMap) {
                 Iterator iterator = this.dependencies.iterator();
@@ -294,10 +293,10 @@ public class ComponentState {
                     ComponentState componentState;
                     Dependency dependency = (Dependency)iterator.next();
                     if (!dependency.isComponentDependency()) continue;
-                    this.getLog().log(-2137614336, "ComponentState[%1]:checkDependencies: %2 %3", (Object)this.getComponentName(), (Object)dependency.getDependentComponentName(), (Object)(dependency.isStartAnywayDependency() ? "start anyway" : ""));
+                    this.getLog().log(10000000, "ComponentState[%1]:checkDependencies: %2 %3", (Object)this.getComponentName(), (Object)dependency.getDependentComponentName(), (Object)(dependency.isStartAnywayDependency() ? "start anyway" : ""));
                     if (dependency.getDependentComponent() == null || dependency.isStartAnywayDependency() || (componentState = this.appStateManager.getComponentByName(dependency.getDependentComponent().getName())) == null || componentState.isRunning) continue;
                     if (list != null) {
-                        this.getLog().log(-2137614336, "ComponentState[%1]::checkDependencies(%2,%3):add", (Object)this.getComponentName(), (Object)list, (Object)Boolean.toString(bl));
+                        this.getLog().log(10000000, "ComponentState[%1]::checkDependencies(%2,%3):add", (Object)this.getComponentName(), (Object)list, (Object)Boolean.toString(bl));
                         this.appStateManager.addNotStartedDependendComponent(componentState, this.appStateManager.getDependentCompomnentStart(this.getComponentName(), list, bl));
                     }
                     return false;
@@ -314,13 +313,13 @@ public class ComponentState {
                 for (int i2 = bundleArray.length - 1; i2 >= 0; --i2) {
                     if (bundleArray[i2] == null) continue;
                     this.enqueueStartBundle(list, bundleArray[i2], bl);
-                    this.getLog().log(-2137614336, "ComponentState[%1]::enqueueStartBundles: Enqueue bundle '%2'", (Object)this.componentName, (Object)this.getBundleName(i2));
+                    this.getLog().log(10000000, "ComponentState[%1]::enqueueStartBundles: Enqueue bundle '%2'", (Object)this.componentName, (Object)this.getBundleName(i2));
                 }
             } else {
                 for (int i3 = 0; i3 < bundleArray.length; ++i3) {
                     if (bundleArray[i3] == null) continue;
                     this.enqueueStartBundle(list, bundleArray[i3], bl);
-                    this.getLog().log(-2137614336, "ComponentState[%1]::enqueueStartBundles: Enqueue bundle '%2'", (Object)this.componentName, (Object)this.getBundleName(i3));
+                    this.getLog().log(10000000, "ComponentState[%1]::enqueueStartBundles: Enqueue bundle '%2'", (Object)this.componentName, (Object)this.getBundleName(i3));
                 }
             }
         }
@@ -344,18 +343,18 @@ public class ComponentState {
     synchronized void stateUpdate() {
         if (this.isEnabled()) {
             if (this.isStarted()) {
-                this.getLog().log(1078071040, "ComponentState[%1] flag component as started", (Object)this.componentName);
+                this.getLog().log(1000000, "ComponentState[%1] flag component as started", (Object)this.componentName);
                 this.componentStarted(this.getComponentName());
                 this.isStopped = false;
             } else if (!this.isStopped()) {
-                this.getLog().log(1078071040, "ComponentState[%1] flag component as stopped", (Object)this.componentName);
+                this.getLog().log(1000000, "ComponentState[%1] flag component as stopped", (Object)this.componentName);
                 this.componentStopped(this.componentName);
                 this.isStopped = true;
             } else {
-                this.getLog().log(1078071040, "ComponentState[%1] remains not completely started ", (Object)this.componentName);
+                this.getLog().log(1000000, "ComponentState[%1] remains not completely started ", (Object)this.componentName);
             }
         } else {
-            this.getLog().log(1078071040, "ComponentState[%1] flag component as not enabled", (Object)this.componentName);
+            this.getLog().log(1000000, "ComponentState[%1] flag component as not enabled", (Object)this.componentName);
             this.componentNotEnabled(this.componentName);
         }
     }
@@ -372,7 +371,7 @@ public class ComponentState {
         if (this.bundles != null && this.bundles.length > 0) {
             for (int i2 = 0; i2 < this.bundles.length; ++i2) {
                 if (this.bundles[i2] != null && this.bundles[i2].getState() == 32) continue;
-                this.getLog().log(-2137614336, "ComponentState[%1].checkBundlesActive: bundle %2 isn't active", (Object)this.componentName, (Object)this.getBundleName(i2));
+                this.getLog().log(10000000, "ComponentState[%1].checkBundlesActive: bundle %2 isn't active", (Object)this.componentName, (Object)this.getBundleName(i2));
                 return false;
             }
         }
@@ -421,7 +420,7 @@ public class ComponentState {
         if (this.getStateModelId() != 0) {
             return this.getSysChoiceModel(n);
         }
-        this.getLog().log(-2137614336, "ComponentState::getChoiceModelApp[%1] - choice model not found", (Object)string);
+        this.getLog().log(10000000, "ComponentState::getChoiceModelApp[%1] - choice model not found", (Object)string);
         return null;
     }
 
@@ -432,13 +431,13 @@ public class ComponentState {
         ChoiceModelApp choiceModelApp = this.getChoiceModelApp(0, this.getComponentName());
         if (choiceModelApp != null) {
             if ((choiceModelApp.getValue() & 0xFFFFFD00) != 0) {
-                this.getLog().log(1078071040, "ComponentState: Application '%1' is not enabled", (Object)this.getComponentName());
+                this.getLog().log(1000000, "ComponentState: Application '%1' is not enabled", (Object)this.getComponentName());
                 return false;
             }
-            this.getLog().log(1078071040, "ComponentState: Application '%1' is enabled", (Object)this.getComponentName());
+            this.getLog().log(1000000, "ComponentState: Application '%1' is enabled", (Object)this.getComponentName());
             return true;
         }
-        this.getLog().log(1078071040, "ComponentState: No Application state model found for '%1'!", (Object)this.getComponentName());
+        this.getLog().log(1000000, "ComponentState: No Application state model found for '%1'!", (Object)this.getComponentName());
         return true;
     }
 
@@ -463,7 +462,7 @@ public class ComponentState {
     }
 
     void enqueueDomainStart(List list, int n, int n2, int n3, Runnable runnable, boolean bl, boolean bl2) {
-        this.getLog().log(1078071040, "ComponentState[%1] enqueueDomainStart( %2, 0x%3 )", (Object)this.getComponentName(), (long)n, (long)n2);
+        this.getLog().log(1000000, "ComponentState[%1] enqueueDomainStart( %2, 0x%3 )", (Object)this.getComponentName(), (long)n, (long)n2);
         if (bl || !DomainHandler.isFailed(this.domainFlags)) {
             this.appStateManager.enqueueDomainStart(list, n, n2, n3, runnable, bl, bl2, this);
         }
@@ -505,12 +504,17 @@ public class ComponentState {
         }
     }
 
-    private final Runnable getDelayedStart(List list, boolean bl) {
-        return new ComponentState$1(this, list, bl);
+    private final Runnable getDelayedStart(final List list, final boolean bl) {
+        return new Runnable(){
+
+            public void run() {
+                ComponentState.this.enqueueStart(list, true, bl);
+            }
+        };
     }
 
     public void enqueueComponentStart(List list, boolean bl, boolean bl2) {
-        this.getLog().log(1078071040, "ComponentState[%1] enqueueStart(startSubComponents:%2)", (Object)this.getComponentName(), (Object)bl2);
+        this.getLog().log(1000000, "ComponentState[%1] enqueueStart(startSubComponents:%2)", (Object)this.getComponentName(), (Object)bl2);
         if (this.isComponentEnabled()) {
             if (this.hasDependentComponents()) {
                 if (bl) {
@@ -536,26 +540,26 @@ public class ComponentState {
                 }
             }
         } else {
-            this.getLog().log(1078071040, "ComponentState[%1] enqueueStart(): application is disabled", (Object)this.getComponentName());
+            this.getLog().log(1000000, "ComponentState[%1] enqueueStart(): application is disabled", (Object)this.getComponentName());
         }
     }
 
     void enqueueStartAudio(List list) {
-        this.getLog().log(1078071040, "ComponentState[%1] startAudio()", (Object)this.getComponentName());
+        this.getLog().log(1000000, "ComponentState[%1] startAudio()", (Object)this.getComponentName());
         this.enqueueComponentStart(list, false, false);
     }
 
     void enqueueStartLastmode(List list) {
-        this.getLog().log(1078071040, "ComponentState[%1] startLastmode()", (Object)this.getComponentName());
+        this.getLog().log(1000000, "ComponentState[%1] startLastmode()", (Object)this.getComponentName());
         this.enqueueComponentStart(list, false, true);
     }
 
     private void enqueueNavSyncer(List list, boolean bl) {
-        this.enqueue(list, new ComponentState$WaitForStartupSyncer(this.getStartupManager().getSyncNav(), null), bl);
+        this.enqueue(list, new WaitForStartupSyncer(this.getStartupManager().getSyncNav()), bl);
     }
 
     void enqueueCheckDependencies(List list, boolean bl, boolean bl2) {
-        this.enqueue(list, new ComponentState$CheckDependenciesJob(this, list, bl2), bl);
+        this.enqueue(list, new CheckDependenciesJob(list, bl2), bl);
     }
 
     private void enqueueWaitAfterFullStart(List list, boolean bl) {
@@ -576,7 +580,7 @@ public class ComponentState {
     }
 
     public void enqueueStartFull(List list, boolean bl) {
-        this.getLog().log(1078071040, "ComponentState[%1] enqueueStartFull()", (Object)this.getComponentName());
+        this.getLog().log(1000000, "ComponentState[%1] enqueueStartFull()", (Object)this.getComponentName());
         this.enqueueComponentStart(list, bl, true);
     }
 
@@ -587,7 +591,7 @@ public class ComponentState {
             Iterator iterator = list2.iterator();
             while (iterator.hasNext()) {
                 ComponentState componentState = (ComponentState)iterator.next();
-                this.getLog().log(1078071040, "ComponentState[%1] enqueStartFullWithStopOnFailDependentComponents() stop on fail dependent component: %2", (Object)this.getComponentName(), (Object)componentState.getComponentName());
+                this.getLog().log(1000000, "ComponentState[%1] enqueStartFullWithStopOnFailDependentComponents() stop on fail dependent component: %2", (Object)this.getComponentName(), (Object)componentState.getComponentName());
                 componentState.enqueStartFullWithStopOnFailDependentComponents(list, bl);
             }
         }
@@ -610,13 +614,13 @@ public class ComponentState {
     public void enqueueStopApp(List list) {
         if (this.isComponentEnabled()) {
             Bundle[] bundleArray;
-            this.getLog().log(1078071040, "ComponentState[%1] stopApp()", (Object)this.getComponentName());
+            this.getLog().log(1000000, "ComponentState[%1] stopApp()", (Object)this.getComponentName());
             List list2 = this.appStateManager.getStopOnFailComponents(this.getComponentName());
             if (list2 != null) {
                 bundleArray = list2.iterator();
                 while (bundleArray.hasNext()) {
                     ComponentState componentState = (ComponentState)bundleArray.next();
-                    this.getLog().log(-2137614336, "ComponentState[%1] stopApp stopOnFail component: %2", (Object)this.getComponentName(), (Object)componentState.getComponentName());
+                    this.getLog().log(10000000, "ComponentState[%1] stopApp stopOnFail component: %2", (Object)this.getComponentName(), (Object)componentState.getComponentName());
                     componentState.enqueueStopApp(list);
                 }
             }
@@ -645,15 +649,15 @@ public class ComponentState {
     void updateDomainState(int n, int n2) {
         this.domainFlags = n2;
         if (n == this.getDomainId()) {
-            this.getLog().log(1078071040, "ComponentState[%1].updateDomainState(0x%2)", (Object)this.getComponentName(), (long)n2);
+            this.getLog().log(1000000, "ComponentState[%1].updateDomainState(0x%2)", (Object)this.getComponentName(), (long)n2);
             if (DomainHandler.isFailed(n2)) {
                 if (this.domainStartState != -1) {
-                    this.getLog().log(1078071040, "ComponentState[%1] stopApp ( Error )", (Object)this.getComponentName());
+                    this.getLog().log(1000000, "ComponentState[%1] stopApp ( Error )", (Object)this.getComponentName());
                     this.enqueueStopApp(this.getStartupManager().getShutdownQueue());
                 }
                 this.domainStartState = -1;
             } else if (this.domainStartState == -1) {
-                this.getLog().log(1078071040, "ComponentState[%1] enqueStartFullWithStopOnFailDependentComponents ( Recovery from Error )", (Object)this.getComponentName());
+                this.getLog().log(1000000, "ComponentState[%1] enqueStartFullWithStopOnFailDependentComponents ( Recovery from Error )", (Object)this.getComponentName());
                 this.enqueStartFullWithStopOnFailDependentComponents(this.getStartupManager().getDelayedQueue(), false);
             }
             if (DomainHandler.isIncluded(this.getStateFlagsMinimum(), n2)) {
@@ -661,14 +665,14 @@ public class ComponentState {
                     this.domainStartState = 2;
                 } else if (this.domainStartState == 1) {
                     this.domainStartState = 2;
-                    this.getLog().log(1078071040, "ComponentState[%1] enqueueStart ( Delayed )", (Object)this.getComponentName());
+                    this.getLog().log(1000000, "ComponentState[%1] enqueueStart ( Delayed )", (Object)this.getComponentName());
                     this.enqueueStart(this.getStartupManager().getDelayedQueue(), true, true);
                 } else if (this.domainStartState == -2) {
-                    this.getLog().log(1078071040, "ComponentState[%1] enqueStartFullWithStopOnFailDependentComponents ( Recovery )", (Object)this.getComponentName());
+                    this.getLog().log(1000000, "ComponentState[%1] enqueStartFullWithStopOnFailDependentComponents ( Recovery )", (Object)this.getComponentName());
                     this.enqueStartFullWithStopOnFailDependentComponents(this.getStartupManager().getDelayedQueue(), false);
                 }
             } else if (this.domainStartState == 2) {
-                this.getLog().log(1078071040, "ComponentState[%1] stopApp ( Recovery )", (Object)this.getComponentName());
+                this.getLog().log(1000000, "ComponentState[%1] stopApp ( Recovery )", (Object)this.getComponentName());
                 this.enqueueStopApp(this.getStartupManager().getShutdownQueue());
                 this.domainStartState = -2;
             }
@@ -785,7 +789,7 @@ public class ComponentState {
     }
 
     private void componentStarted(String string) {
-        this.getLog().log(1078071040, "ComponentState: component %1 is started!", (Object)string);
+        this.getLog().log(1000000, "ComponentState: component %1 is started!", (Object)string);
         ChoiceModelApp choiceModelApp = this.getChoiceModelApp(0, string);
         if (choiceModelApp != null && (choiceModelApp.getValue() == 0 || choiceModelApp.getValue() == 512)) {
             choiceModelApp.setValue(1);
@@ -799,7 +803,7 @@ public class ComponentState {
     private void componentStopped(String string) {
         ChoiceModelApp choiceModelApp = this.getChoiceModelApp(0, string);
         if (choiceModelApp != null && (choiceModelApp.getValue() == 1 || choiceModelApp.getValue() == 512)) {
-            this.getLog().log(1078071040, "ComponentState: component %1 is not (yet) started!", (Object)string);
+            this.getLog().log(1000000, "ComponentState: component %1 is not (yet) started!", (Object)string);
             choiceModelApp.setValue(0);
             choiceModelApp.setStatus(0);
             this.appStateManager.componentStateChanged(string, 0);
@@ -808,7 +812,7 @@ public class ComponentState {
     }
 
     private void componentNotEnabled(String string) {
-        this.getLog().log(1078071040, "ComponentState: component %1 not enabled", (Object)string);
+        this.getLog().log(1000000, "ComponentState: component %1 not enabled", (Object)string);
         ChoiceModelApp choiceModelApp = this.getChoiceModelApp(0, string);
         if (choiceModelApp != null && (choiceModelApp.getValue() == 1 || choiceModelApp.getValue() == 0)) {
             choiceModelApp.setValue(512);
@@ -817,24 +821,49 @@ public class ComponentState {
         }
     }
 
-    static /* synthetic */ void access$000(ComponentState componentState, List list, boolean bl, boolean bl2) {
-        componentState.enqueueStart(list, bl, bl2);
+    private class CheckDependenciesJob
+    implements Runnable {
+        final List queue;
+        final boolean startSubComponents;
+
+        CheckDependenciesJob(List list, boolean bl) {
+            this.queue = list;
+            this.startSubComponents = bl;
+        }
+
+        public String toString() {
+            return new Buffer(50).append("CheckDependenciesJob(").append(ComponentState.this.getComponentName()).append(')').toString();
+        }
+
+        public void run() {
+            if (ComponentState.this.checkDependencies(this.queue, this.startSubComponents)) {
+                ComponentState.this.getLog().log(10000000, "CheckDependenciesJob[%1] OK!", (Object)ComponentState.this.getComponentName());
+                if (ComponentState.this.getDomainId() > 0) {
+                    ComponentState.this.enqueueDomainStart(this.queue, ComponentState.this.getDomainId(), ComponentState.this.getStateFlagsMinimum(), ComponentState.this.getStateFlagsRequired(), ComponentState.this.getDelayedStart(this.queue, this.startSubComponents), false, true);
+                } else {
+                    ComponentState.this.enqueueStart(this.queue, true, this.startSubComponents);
+                }
+            } else {
+                ComponentState.this.getLog().log(10000000, "CheckDependenciesJob[%1] not OK!", (Object)ComponentState.this.getComponentName());
+            }
+        }
     }
 
-    static /* synthetic */ boolean access$200(ComponentState componentState, List list, boolean bl) {
-        return componentState.checkDependencies(list, bl);
-    }
+    private static class WaitForStartupSyncer
+    implements Runnable {
+        private final StartupSyncer sync;
 
-    static /* synthetic */ LogChannel access$300(ComponentState componentState) {
-        return componentState.getLog();
-    }
+        private WaitForStartupSyncer(StartupSyncer startupSyncer) {
+            this.sync = startupSyncer;
+        }
 
-    static /* synthetic */ Runnable access$400(ComponentState componentState, List list, boolean bl) {
-        return componentState.getDelayedStart(list, bl);
-    }
+        public String toString() {
+            return new Buffer(50).append("WaitForStartupSyncer(").append(this.sync).append(')').toString();
+        }
 
-    static {
-        DOMAIN_STATE_NAMES = new String[]{"Recovery", "Error", "Defined", "Starting", "Running"};
+        public void run() {
+            this.sync.waitForTrigger();
+        }
     }
 }
 

@@ -26,10 +26,10 @@ import java.util.List;
 
 public abstract class AbstractBAPFunction
 implements IBAPFunction {
-    public static final int BAP_FUNCTIONTYPE_METHOD;
-    public static final int BAP_FUNCTIONTYPE_PROPERTY;
-    public static final int BAP_FUNCTIONTYPE_ARRAY;
-    public static final int BAP_FUNCTIONTYPE_CACHE;
+    public static final int BAP_FUNCTIONTYPE_METHOD = 0;
+    public static final int BAP_FUNCTIONTYPE_PROPERTY = 1;
+    public static final int BAP_FUNCTIONTYPE_ARRAY = 2;
+    public static final int BAP_FUNCTIONTYPE_CACHE = 3;
     protected final LogChannel logChannel;
     private final LogChannel logChannelBAPData;
     protected final IBAPRequestHandler requestHandler;
@@ -52,17 +52,14 @@ implements IBAPFunction {
         this.logChannelBAPData = abstractBAPModule.getLogger().getLogBAPData(this.lsgID);
     }
 
-    @Override
     public int getFctID() {
         return this.fctID;
     }
 
-    @Override
     public String getFctIDDescription() {
         return this.fctIDDesc;
     }
 
-    @Override
     public String getLSGIDDescription() {
         return this.lsgIDDesc;
     }
@@ -81,10 +78,9 @@ implements IBAPFunction {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void processAcknowledge(int n) {
         ArrayList arrayList;
-        this.logChannel.log(14808325, "[AbstractBAPFunction#processAcknowledge]");
+        this.logChannel.log(100000000, "[AbstractBAPFunction#processAcknowledge]");
         Object object = this.acknowledgeListeners;
         synchronized (object) {
             if (this.acknowledgeListeners.isEmpty()) {
@@ -92,14 +88,13 @@ implements IBAPFunction {
             }
             arrayList = new ArrayList(this.acknowledgeListeners);
         }
-        this.logChannel.log(14808325, "[AbstractBAPFunction#processAcknowledge] function acknowledged -> inform listeners (lsgID=%1, fctID=%2, acknowledgeType=%3)", (Object)this.lsgIDDesc, (Object)this.fctIDDesc, (long)n);
+        this.logChannel.log(100000000, "[AbstractBAPFunction#processAcknowledge] function acknowledged -> inform listeners (lsgID=%1, fctID=%2, acknowledgeType=%3)", (Object)this.lsgIDDesc, (Object)this.fctIDDesc, (long)n);
         object = arrayList.iterator();
         while (object.hasNext()) {
             ((IAcknowledgeListener)object.next()).processAcknowledge(this.fctID, n);
         }
     }
 
-    @Override
     public void processIndication(int n, BAPIndicationData bAPIndicationData) {
         if (this.isIndicationTypeSupported(n)) {
             DeserializationResult deserializationResult = this.deserializeData(n, bAPIndicationData);
@@ -135,7 +130,6 @@ implements IBAPFunction {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void processIndicationError(int n) {
         ArrayList arrayList;
         this.doProcessError(n);
@@ -147,9 +141,9 @@ implements IBAPFunction {
             arrayList = new ArrayList(this.errorIndicationListeners);
         }
         if (arrayList.isEmpty()) {
-            this.logChannel.log(-2137614336, "[AbstractBAPFunction#processIndicationError] indication error ignored (lsgID=%1, fctID=%2, errorCode=%3)", (Object)this.lsgIDDesc, (Object)this.fctIDDesc, (Object)ErrorCodes.getDescription(this.lsgID, n));
+            this.logChannel.log(10000000, "[AbstractBAPFunction#processIndicationError] indication error ignored (lsgID=%1, fctID=%2, errorCode=%3)", (Object)this.lsgIDDesc, (Object)this.fctIDDesc, (Object)ErrorCodes.getDescription(this.lsgID, n));
         } else {
-            this.logChannel.log(-2137614336, "[AbstractBAPFunction#processIndicationError] indication error received -> inform listeners (lsgID=%1, fctID=%2, errorCode=%3)", (Object)this.lsgIDDesc, (Object)this.fctIDDesc, (long)n);
+            this.logChannel.log(10000000, "[AbstractBAPFunction#processIndicationError] indication error received -> inform listeners (lsgID=%1, fctID=%2, errorCode=%3)", (Object)this.lsgIDDesc, (Object)this.fctIDDesc, (long)n);
             object = arrayList.iterator();
             while (object.hasNext()) {
                 ((IErrorIndicationListener)object.next()).processIndicationError(this.fctID, n);
@@ -157,14 +151,11 @@ implements IBAPFunction {
         }
     }
 
-    protected abstract boolean isIndicationTypeSupported(int n) {
-    }
+    protected abstract boolean isIndicationTypeSupported(int var1);
 
-    protected abstract void doProcessIndication(int n, BAPEntity bAPEntity) {
-    }
+    protected abstract void doProcessIndication(int var1, BAPEntity var2);
 
-    protected abstract void doProcessError(int n) {
-    }
+    protected abstract void doProcessError(int var1);
 
     private DeserializationResult deserializeData(int n, BAPIndicationData bAPIndicationData) {
         int n2;
@@ -194,9 +185,9 @@ implements IBAPFunction {
 
     public boolean sendRequest(int n, BAPEntity bAPEntity) {
         if (bAPEntity != null) {
-            this.logChannelBAPData.log(-2137614336, "[AbstractBAPFunction#sendRequest] lsgID=%2, fctID=%3, requestType=%4, data=%1", (Object)bAPEntity, (Object)this.lsgIDDesc, (Object)this.fctIDDesc, (Object)RequestTypes.getDescription(n));
+            this.logChannelBAPData.log(10000000, "[AbstractBAPFunction#sendRequest] lsgID=%2, fctID=%3, requestType=%4, data=%1", (Object)bAPEntity, (Object)this.lsgIDDesc, (Object)this.fctIDDesc, (Object)RequestTypes.getDescription(n));
         } else {
-            this.logChannelBAPData.log(-2137614336, "[AbstractBAPFunction#sendRequest] lsgID=%1, fctID=%2, requestType=%3", (Object)this.lsgIDDesc, (Object)this.fctIDDesc, (Object)RequestTypes.getDescription(n));
+            this.logChannelBAPData.log(10000000, "[AbstractBAPFunction#sendRequest] lsgID=%1, fctID=%2, requestType=%3", (Object)this.lsgIDDesc, (Object)this.fctIDDesc, (Object)RequestTypes.getDescription(n));
         }
         return this.requestHandler.processRequest(this.lsgID, this.fctID, n, bAPEntity);
     }
@@ -219,7 +210,7 @@ implements IBAPFunction {
             }
             arrayList = new ArrayList(this.dataListeners);
         }
-        this.logChannel.log(14808325, "[AbstractBAPFunction#notifyListenersDataValidChanged] data valid status changed -> inform listeners (lsgID=%1, fctID=%2)", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
+        this.logChannel.log(100000000, "[AbstractBAPFunction#notifyListenersDataValidChanged] data valid status changed -> inform listeners (lsgID=%1, fctID=%2)", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
         object = arrayList.iterator();
         while (object.hasNext()) {
             BAPFunctionDataListener bAPFunctionDataListener = (BAPFunctionDataListener)object.next();
@@ -239,7 +230,7 @@ implements IBAPFunction {
             }
             arrayList = new ArrayList(this.dataListeners);
         }
-        this.logChannel.log(14808325, "[AbstractBAPFunction#notifyListenersDataChanged] status changed -> inform listeners (lsgID=%1, fctID=%2)", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
+        this.logChannel.log(100000000, "[AbstractBAPFunction#notifyListenersDataChanged] status changed -> inform listeners (lsgID=%1, fctID=%2)", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
         object = arrayList.iterator();
         while (object.hasNext()) {
             BAPFunctionDataListener bAPFunctionDataListener = (BAPFunctionDataListener)object.next();
@@ -259,7 +250,7 @@ implements IBAPFunction {
             }
             arrayList = new ArrayList(this.dataListeners);
         }
-        this.logChannel.log(14808325, "[AbstractBAPFunction#notifyListenersDataChanged] status not changed -> inform listeners (lsgID=%1, fctID=%2)", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
+        this.logChannel.log(100000000, "[AbstractBAPFunction#notifyListenersDataChanged] status not changed -> inform listeners (lsgID=%1, fctID=%2)", (Object)this.lsgIDDesc, (Object)this.fctIDDesc);
         object = arrayList.iterator();
         while (object.hasNext()) {
             BAPFunctionDataListener bAPFunctionDataListener = (BAPFunctionDataListener)object.next();
@@ -342,7 +333,6 @@ implements IBAPFunction {
         return buffer.toString();
     }
 
-    @Override
     public void onRemoteProcessState(RemoteProcessState remoteProcessState) {
     }
 }

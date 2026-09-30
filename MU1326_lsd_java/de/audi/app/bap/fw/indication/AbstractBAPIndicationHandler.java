@@ -25,7 +25,6 @@ implements IBAPIndicationListener {
         this.logChannel = logChannel;
     }
 
-    @Override
     public void processAcknowledge(int n, int n2) {
         if (n2 == 20) {
             this.module.getInitializationManager().notifyHMIStateAcknowledged();
@@ -37,31 +36,27 @@ implements IBAPIndicationListener {
             if (iBAPFunction == null) {
                 this.module.getRequestHandler().requestError(this.lsgID, n, 1);
             } else if (!this.module.getFunctionList().isFunctionSupported(n)) {
-                this.logChannel.log(-1601830656, "[AbstractBAPIndicationHandler#processAcknowledge] function deactivated in FunctionList (lsgID=%1, fctID=%2) -> ignore acknowledge", (Object)iBAPFunction.getLSGIDDescription(), (Object)iBAPFunction.getFctIDDescription());
+                this.logChannel.log(100000, "[AbstractBAPIndicationHandler#processAcknowledge] function deactivated in FunctionList (lsgID=%1, fctID=%2) -> ignore acknowledge", (Object)iBAPFunction.getLSGIDDescription(), (Object)iBAPFunction.getFctIDDescription());
             } else {
                 iBAPFunction.processAcknowledge(n2);
             }
         }
     }
 
-    @Override
     public void processIndication(int n, int n2, int n3, int n4) {
         BAPIndicationData bAPIndicationData = new BAPIndicationData(n2, n4);
         this.processIndication(n, n3, bAPIndicationData);
     }
 
-    @Override
     public void processIndicationByteSequence(int n, int n2, byte[] byArray) {
         BAPIndicationData bAPIndicationData = new BAPIndicationData(byArray);
         this.processIndication(n, n2, bAPIndicationData);
     }
 
-    @Override
     public void processIndicationVoid(int n, int n2) {
         this.processIndication(n, n2, null);
     }
 
-    @Override
     public void processIndicationError(int n, int n2) {
         if (!this.module.getFunctionList().isInRange(n)) {
             this.logChannel.log(10000, "[AbstractBAPIndicationHandler#processIndicationError] invalid fctID (lsgID=%1, fctID=%2), out of range -> ignore indication", (Object)LSGIDs.getDescription(this.lsgID), (Object)FunctionIDs.getDescription(this.lsgID, n));

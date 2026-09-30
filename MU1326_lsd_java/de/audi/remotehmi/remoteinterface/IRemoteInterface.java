@@ -4,13 +4,10 @@
 package de.audi.remotehmi.remoteinterface;
 
 public interface IRemoteInterface {
-    default public String getData(String string) {
-    }
+    public String getData(String var1);
 
-    default public void callFctLink(String string) {
-    }
+    public void callFctLink(String var1);
 
-    default public void setActiveInstance(String string) {
-    }
+    public void setActiveInstance(String var1);
 }
 

@@ -4,18 +4,16 @@
 package de.audi.app.bluetooth.core.accessibility;
 
 public interface ISupportedBtProfiles {
-    public static final int SERVICE_CLASS_PHONE;
-    public static final int SERVICE_CLASS_DATA;
-    public static final int SERVICE_CLASS_AUDI_CONNECT;
-    public static final int SERVICE_CLASS_MEDIA;
-    public static final int SERVICE_CLASS_OFFICE;
-    public static final int SERVICE_CLASS_MEDIA_WLAN;
-    public static final int SERVICE_CLASS_ALL;
+    public static final int SERVICE_CLASS_PHONE = 0;
+    public static final int SERVICE_CLASS_DATA = 1;
+    public static final int SERVICE_CLASS_AUDI_CONNECT = 2;
+    public static final int SERVICE_CLASS_MEDIA = 3;
+    public static final int SERVICE_CLASS_OFFICE = 4;
+    public static final int SERVICE_CLASS_MEDIA_WLAN = 5;
+    public static final int SERVICE_CLASS_ALL = 6;
 
-    default public int getConnectableServices(int n, boolean bl) {
-    }
+    public int getConnectableServices(int var1, boolean var2);
 
-    default public boolean isHfpSupportFaked() {
-    }
+    public boolean isHfpSupportFaked();
 }
 

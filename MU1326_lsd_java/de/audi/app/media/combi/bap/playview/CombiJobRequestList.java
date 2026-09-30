@@ -27,39 +27,34 @@ extends AbstractCombiPlayViewJob {
         this.count = n3;
     }
 
-    @Override
     public int getType() {
         return 2;
     }
 
-    @Override
     public String getName() {
         return "REQUESTLIST";
     }
 
-    @Override
     public void abort(boolean bl) {
-        this.logger.log(1078071040, "[%1.abort]", (Object)"CombiJobRequestList");
+        this.logger.log(1000000, "[%1.abort]", (Object)"CombiJobRequestList");
         this.getCombiAdapter().getCombiAccessor().responseList(this.transactionID, this.getCombiAdapter().getContentType(), 0, new MediaListEntry[0]);
     }
 
-    @Override
     public void start() {
         boolean bl = this.entryID != 0L ? this.getCombiAdapter().getPlayer().requestPlayViewListEntryBased(this.getCombiAdapter().getClientID(), this.entryID, this.count) : this.getCombiAdapter().getPlayer().requestPlayViewListIndexBased(this.getCombiAdapter().getClientID(), this.index, this.count);
         if (!bl) {
-            this.logger.log(1078071040, "[%1.start] List request failed.", (Object)"CombiJobRequestList");
+            this.logger.log(1000000, "[%1.start] List request failed.", (Object)"CombiJobRequestList");
             this.getCombiAdapter().getCombiAccessor().responseList(this.transactionID, this.getCombiAdapter().getContentType(), 0, new MediaListEntry[0]);
             this.getExecutionContext().jobFinished();
             return;
         }
     }
 
-    @Override
     public void responsePlayViewList(int n, MediaListEntry[] mediaListEntryArray) {
-        this.logger.log(1078071040, "[%1.responsePlayViewList]", (Object)"CombiJobRequestList");
+        this.logger.log(1000000, "[%1.responsePlayViewList]", (Object)"CombiJobRequestList");
         if (this.getCombiAdapter().getState().getAbsolutePositionCurrentTrack() == 0) {
             this.getCombiAdapter().getState().setAbsolutePositionCurrentTrack(CombiBAPUtils.getAbsolutePosition(this.getCombiAdapter().getState().getCurrentDetailInfo().getEntryID(), this.getCombiAdapter().getState().getCurrentDetailInfo().getContentType(), mediaListEntryArray, n));
-            this.logger.log(-2137614336, "[%1.responsePlayViewList] Track position not set; Updated to '%2'", (Object)"CombiJobRequestList", (long)this.getCombiAdapter().getState().getAbsolutePositionCurrentTrack());
+            this.logger.log(10000000, "[%1.responsePlayViewList] Track position not set; Updated to '%2'", (Object)"CombiJobRequestList", (long)this.getCombiAdapter().getState().getAbsolutePositionCurrentTrack());
         }
         this.getCombiAdapter().getCombiAccessor().responseList(this.transactionID, this.getCombiAdapter().getContentType(), n, mediaListEntryArray);
         if (this.getCombiAdapter().getState().isCoverUpdateBlocked() && this.getCombiAdapter().getState().getAbsolutePositionCurrentTrack() != 0) {
@@ -69,9 +64,8 @@ extends AbstractCombiPlayViewJob {
         this.getExecutionContext().jobFinished();
     }
 
-    @Override
     public void errorListRequestAborted() {
-        this.logger.log(1078071040, "[%1.errorListRequestAborted] List request aborted.", (Object)"CombiJobRequestList");
+        this.logger.log(1000000, "[%1.errorListRequestAborted] List request aborted.", (Object)"CombiJobRequestList");
         this.getCombiAdapter().getCombiAccessor().responseList(this.transactionID, this.getCombiAdapter().getContentType(), 0, new MediaListEntry[0]);
         this.getExecutionContext().jobFinished();
     }

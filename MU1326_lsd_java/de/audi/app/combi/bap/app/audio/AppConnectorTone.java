@@ -19,9 +19,8 @@ implements CombiBAPServiceTone {
         super(combiModuleAudio);
     }
 
-    @Override
     public void updateMuteState(boolean bl, boolean bl2) {
-        this.logChannel.log(1078071040, "[AppConnectorTone#updateMuteState] called (muted=%1, mutedDueToActivePhoneCall=%2)", bl, bl2);
+        this.logChannel.log(1000000, "[AppConnectorTone#updateMuteState] called (muted=%1, mutedDueToActivePhoneCall=%2)", bl, bl2);
         BAPFunctionPropertyFSG bAPFunctionPropertyFSG = this.moduleFsg.getBAPFunctionPropertyFSG(19);
         Mute_Status mute_Status = (Mute_Status)bAPFunctionPropertyFSG.getLastStatus();
         Mute_Status mute_Status2 = new Mute_Status();
@@ -36,7 +35,6 @@ implements CombiBAPServiceTone {
         bAPFunctionPropertyFSG.sendStatusIfChanged(mute_Status2);
     }
 
-    @Override
     public void updateVolumeProperties(byte by, boolean bl, boolean bl2, boolean bl3, boolean bl4, boolean bl5, boolean bl6, boolean bl7, boolean bl8) {
         Object object;
         if (this.logChannel.isDebug()) {
@@ -50,7 +48,7 @@ implements CombiBAPServiceTone {
             ((Buffer)object).append(", phoneRingingVolumeAvailable=").append(bl6);
             ((Buffer)object).append(", carParkingFaderAvailable=").append(bl7);
             ((Buffer)object).append(", readMessageVolumeAvailable=").append(bl8);
-            this.logChannel.log(-2137614336, "[AppConnectorTone#updateVolumeProperties] called (%1)", object);
+            this.logChannel.log(10000000, "[AppConnectorTone#updateVolumeProperties] called (%1)", object);
         }
         object = this.moduleFsg.getBAPFunctionPropertyFSG(14);
         FSG_Setup_Status fSG_Setup_Status = (FSG_Setup_Status)((BAPFunctionPropertyFSG)object).getLastStatus();
@@ -81,10 +79,9 @@ implements CombiBAPServiceTone {
         this.updateVolume(n, n2, n3, bl, false);
     }
 
-    @Override
     public void updateVolume(int n, int n2, int n3, boolean bl, boolean bl2) {
-        this.logChannel.log(1078071040, "[AppConnectorTone#updateVolume] called (currentVolume=%1, maxVolume=%2, volumeType=%3, ...", (long)n, (long)n2, (long)n3);
-        this.logChannel.log(1078071040, "[AppConnectorTone#updateVolume] ..., showVolumePopup=%1, volumeLockActive=%2)", bl, bl2);
+        this.logChannel.log(1000000, "[AppConnectorTone#updateVolume] called (currentVolume=%1, maxVolume=%2, volumeType=%3, ...", (long)n, (long)n2, (long)n3);
+        this.logChannel.log(1000000, "[AppConnectorTone#updateVolume] ..., showVolumePopup=%1, volumeLockActive=%2)", bl, bl2);
         CurrentVolumeExtended_Status currentVolumeExtended_Status = new CurrentVolumeExtended_Status();
         currentVolumeExtended_Status.genericVolume = n;
         currentVolumeExtended_Status.maxVolume = n2;

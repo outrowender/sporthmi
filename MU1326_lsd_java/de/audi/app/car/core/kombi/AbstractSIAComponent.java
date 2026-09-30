@@ -22,49 +22,45 @@ public abstract class AbstractSIAComponent
 extends AbstractDSICarKombiAdapter
 implements ButtonListener,
 ILanguageUpdateListener {
-    public static final short CODING_ID;
-    public static final String LOGCHANNEL_NAME;
+    public static final short CODING_ID = 13;
+    public static final String LOGCHANNEL_NAME = "App.Car.SIA";
     private volatile SIAViewOptions currentViewOptions;
     private volatile SIAServiceData currentServiceData = new SIAServiceData(0, 0, 0, 0, 0);
     private volatile SIAOilInspection currentOilInspectionData = new SIAOilInspection(0, 0, 0, 0, 0);
-    private static final int HIDE;
-    private static final int SHOW;
-    private static final int TIME_MEASURE_SINGULAR;
-    private static final int TIME_MEASURE_PLURAL;
-    private static final int TIME_MEASURE_UNDEFINED;
-    private static final int TEXT_FRAGMENT_VISIBLE_DISTANCE;
-    private static final int TEXT_FRAGMENT_VISIBLE_TIME;
-    private static final int TEXT_FRAGMENT_VISIBLE_ALL;
-    private static final int PREPOSITION_IN;
-    private static final int PREPOSITION_SINCE;
+    private static final int HIDE = 0;
+    private static final int SHOW = 1;
+    private static final int TIME_MEASURE_SINGULAR = 0;
+    private static final int TIME_MEASURE_PLURAL = 1;
+    private static final int TIME_MEASURE_UNDEFINED = 2;
+    private static final int TEXT_FRAGMENT_VISIBLE_DISTANCE = 1;
+    private static final int TEXT_FRAGMENT_VISIBLE_TIME = 2;
+    private static final int TEXT_FRAGMENT_VISIBLE_ALL = 3;
+    private static final int PREPOSITION_IN = 0;
+    private static final int PREPOSITION_SINCE = 1;
     private final ModelGroup siaHideModelGroup = new ModelGroup();
 
     public AbstractSIAComponent(ICarApplication iCarApplication) {
-        super(iCarApplication, "App.Car.SIA");
+        super(iCarApplication, LOGCHANNEL_NAME);
     }
 
-    @Override
     protected void initModels() {
-        this.getButtonModel(1311312128).setButtonListener(this);
-        this.getMetricsModel(1126959360).setMetric(new CarDistance(0.0f, 1));
-        this.getMetricsModel(1126959360).formatChanged();
-        this.getMetricsModel(1277954304).setMetric(new CarDistance(0.0f, 1));
-        this.getMetricsModel(1277954304).formatChanged();
-        this.siaHideModelGroup.add(this.getChoiceModel(1277757696));
-        this.siaHideModelGroup.add(this.getChoiceModel(1378420992));
+        this.getButtonModel(600398).setButtonListener(this);
+        this.getMetricsModel(601155).setMetric(new CarDistance(0.0f, 1));
+        this.getMetricsModel(601155).formatChanged();
+        this.getMetricsModel(601164).setMetric(new CarDistance(0.0f, 1));
+        this.getMetricsModel(601164).formatChanged();
+        this.siaHideModelGroup.add(this.getChoiceModel(600396));
+        this.siaHideModelGroup.add(this.getChoiceModel(600402));
     }
 
-    @Override
     protected void deinitModels() {
-        this.getButtonModel(1311312128).resetListener();
+        this.getButtonModel(600398).resetListener();
     }
 
-    @Override
     public CarDSIAttributesSet[] getDSIAttributesSets() {
         return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{1}, new int[]{2, 3})};
     }
 
-    @Override
     public String getCurrentViewOptions() {
         if (this.currentViewOptions == null) {
             return "no view options received yet";
@@ -72,16 +68,14 @@ ILanguageUpdateListener {
         return this.currentViewOptions.toString();
     }
 
-    protected abstract void updateMenuEntryVisibility(SIAViewOptions sIAViewOptions) {
-    }
+    protected abstract void updateMenuEntryVisibility(SIAViewOptions var1);
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
         this.logModelData("keyPressed:", n, n2, true);
         switch (n) {
             case 600398: {
                 this.resetOilInterval();
-                this.getButtonModel(1311312128).fireEvent(n3);
+                this.getButtonModel(600398).fireEvent(n3);
                 break;
             }
             default: {
@@ -90,46 +84,39 @@ ILanguageUpdateListener {
         }
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void setLanguage(Language language) {
         this.updateOilData();
         this.updateServiceData();
     }
 
-    @Override
     public void updateSIAOilInspection(SIAOilInspection sIAOilInspection, int n) {
-        this.getLogChannel().log(1078071040, "updateSIAOilInspection(%1), valid:%2", (Object)sIAOilInspection, (long)n);
+        this.getLogChannel().log(1000000, "updateSIAOilInspection(%1), valid:%2", (Object)sIAOilInspection, (long)n);
         if (n == 1) {
             this.currentOilInspectionData = sIAOilInspection;
             this.updateOilData();
         }
     }
 
-    @Override
     public void updateSIAServiceData(SIAServiceData sIAServiceData, int n) {
-        this.getLogChannel().log(1078071040, "updateSIAServiceData(%1), valid:%2", (Object)sIAServiceData, (long)n);
+        this.getLogChannel().log(1000000, "updateSIAServiceData(%1), valid:%2", (Object)sIAServiceData, (long)n);
         if (n == 1) {
             this.currentServiceData = sIAServiceData;
             this.updateServiceData();
         }
     }
 
-    @Override
     public void updateSIAViewOptions(SIAViewOptions sIAViewOptions, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "updateSIAViewOptions(%1), valid:%2", (Object)(sIAViewOptions != null ? this.formatViewOptionsLog(sIAViewOptions.toString()) : "null"), (long)n);
+            this.getLogChannel().log(1000000, "updateSIAViewOptions(%1), valid:%2", (Object)(sIAViewOptions != null ? this.formatViewOptionsLog(sIAViewOptions.toString()) : "null"), (long)n);
         }
         if (n == 1 && sIAViewOptions != null) {
             this.currentViewOptions = sIAViewOptions;
@@ -142,29 +129,29 @@ ILanguageUpdateListener {
 
     private void resetOilInterval() {
         int n = 3;
-        this.getLogChannel().log(1078071040, "dsi.resetSIAValue(%1)", (long)n);
+        this.getLogChannel().log(1000000, "dsi.resetSIAValue(%1)", (long)n);
         this.getDSI().resetSIAValue(n);
     }
 
     private void updateServiceData() {
         this.setVisibilityOfInspectionEntries();
         if (this.currentServiceData != null) {
-            this.getLogChannel().log(1078071040, "[AbstractSiaComponenti#setInspectionData] Setting Service Data to %1", (Object)this.currentServiceData);
-            this.updatePrepositionChoice(this.getChoiceModel(-1725363968), this.currentServiceData.getDistanceStatus(), this.currentServiceData.getTimeStatus());
-            this.updateTextFragmentVisibility(this.getChoiceModel(1177291008), this.currentServiceData.getDistanceStatus(), this.currentServiceData.getTimeStatus());
-            this.updateDistanceMetrics(this.getMetricsModel(1277954304), this.currentServiceData.getDistanceStatus(), this.currentServiceData.getDistanceUnit(), this.currentServiceData.getDistance());
-            this.updateTimeLabel(this.getChoiceModel(1311508736), this.getLabelModel(-1708586752), this.currentServiceData.getTimeStatus(), this.currentServiceData.getTime());
+            this.getLogChannel().log(1000000, "[AbstractSiaComponenti#setInspectionData] Setting Service Data to %1", (Object)this.currentServiceData);
+            this.updatePrepositionChoice(this.getChoiceModel(600473), this.currentServiceData.getDistanceStatus(), this.currentServiceData.getTimeStatus());
+            this.updateTextFragmentVisibility(this.getChoiceModel(601158), this.currentServiceData.getDistanceStatus(), this.currentServiceData.getTimeStatus());
+            this.updateDistanceMetrics(this.getMetricsModel(601164), this.currentServiceData.getDistanceStatus(), this.currentServiceData.getDistanceUnit(), this.currentServiceData.getDistance());
+            this.updateTimeLabel(this.getChoiceModel(601166), this.getLabelModel(600474), this.currentServiceData.getTimeStatus(), this.currentServiceData.getTime());
         }
     }
 
     private void updateOilData() {
         this.setVisibilityOfInspectionEntries();
         if (this.currentOilInspectionData != null) {
-            this.getLogChannel().log(1078071040, "[AbstractSiaComponent#setOilChangeData] Setting Oil Interval Data to %1", (Object)this.currentOilInspectionData);
-            this.updatePrepositionChoice(this.getChoiceModel(-1658255104), this.currentOilInspectionData.getDistanceStatus(), this.currentOilInspectionData.getTimeStatus());
-            this.updateTextFragmentVisibility(this.getChoiceModel(1160513792), this.currentOilInspectionData.getDistanceStatus(), this.currentOilInspectionData.getTimeStatus());
-            this.updateDistanceMetrics(this.getMetricsModel(1126959360), this.currentOilInspectionData.getDistanceStatus(), this.currentOilInspectionData.getDistanceUnit(), this.currentOilInspectionData.getDistance());
-            this.updateTimeLabel(this.getChoiceModel(1294731520), this.getLabelModel(-1641477888), this.currentOilInspectionData.getTimeStatus(), this.currentOilInspectionData.getTime());
+            this.getLogChannel().log(1000000, "[AbstractSiaComponent#setOilChangeData] Setting Oil Interval Data to %1", (Object)this.currentOilInspectionData);
+            this.updatePrepositionChoice(this.getChoiceModel(600477), this.currentOilInspectionData.getDistanceStatus(), this.currentOilInspectionData.getTimeStatus());
+            this.updateTextFragmentVisibility(this.getChoiceModel(601157), this.currentOilInspectionData.getDistanceStatus(), this.currentOilInspectionData.getTimeStatus());
+            this.updateDistanceMetrics(this.getMetricsModel(601155), this.currentOilInspectionData.getDistanceStatus(), this.currentOilInspectionData.getDistanceUnit(), this.currentOilInspectionData.getDistance());
+            this.updateTimeLabel(this.getChoiceModel(601165), this.getLabelModel(600478), this.currentOilInspectionData.getTimeStatus(), this.currentOilInspectionData.getTime());
         }
     }
 
@@ -174,7 +161,7 @@ ILanguageUpdateListener {
             n3 = 1;
         }
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractSIAComponent#updatePrepositionChoice] set preposition ChoiceModel: preposition='%1' , model='%2'", (Object)(n3 == 1 ? "since" : "in"), (Object)choiceModelApp);
+            this.getLogChannel().log(1000000, "[AbstractSIAComponent#updatePrepositionChoice] set preposition ChoiceModel: preposition='%1' , model='%2'", (Object)(n3 == 1 ? "since" : "in"), (Object)choiceModelApp);
         }
         choiceModelApp.setValue(n3);
     }
@@ -189,7 +176,7 @@ ILanguageUpdateListener {
             n3 = 1;
         }
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractSIAComponent#updateTextFragmentVisibility] set text fragment visibility ChoiceModel: value='%1' , model='%2'", (Object)new Integer(n3), (Object)choiceModelApp);
+            this.getLogChannel().log(1000000, "[AbstractSIAComponent#updateTextFragmentVisibility] set text fragment visibility ChoiceModel: value='%1' , model='%2'", (Object)new Integer(n3), (Object)choiceModelApp);
         }
         choiceModelApp.setValue(n3);
     }
@@ -200,8 +187,8 @@ ILanguageUpdateListener {
             n3 = this.getNumberOfTimeMeasure(n2);
         }
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractSIAComponent#updateTimeLabel] set time measure ChoiceModel: value='%1' , model='%2'", (Object)new Integer(n3), (Object)choiceModelApp);
-            this.getLogChannel().log(1078071040, "[AbstractSIAComponent#updateTimeLabel] set time text label: value='%1' , model='%2'", (Object)new Integer(n2), (Object)labelModelApp);
+            this.getLogChannel().log(1000000, "[AbstractSIAComponent#updateTimeLabel] set time measure ChoiceModel: value='%1' , model='%2'", (Object)new Integer(n3), (Object)choiceModelApp);
+            this.getLogChannel().log(1000000, "[AbstractSIAComponent#updateTimeLabel] set time text label: value='%1' , model='%2'", (Object)new Integer(n2), (Object)labelModelApp);
         }
         choiceModelApp.setValue(n3);
         labelModelApp.setText(String.valueOf(n2));
@@ -218,7 +205,7 @@ ILanguageUpdateListener {
         CarDistance carDistance = this.createDistanceMetric(n, n2, n3);
         carDistance.setUseInstanceUnit(true);
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractSIAComponent#updateDistanceMetrics] distanceMetric='%1' , model=%2", (Object)carDistance.format(carDistance.getUnit()), (Object)metricsModelApp);
+            this.getLogChannel().log(1000000, "[AbstractSIAComponent#updateDistanceMetrics] distanceMetric='%1' , model=%2", (Object)carDistance.format(carDistance.getUnit()), (Object)metricsModelApp);
         }
         metricsModelApp.setMetric(carDistance);
         metricsModelApp.formatChanged();
@@ -250,8 +237,8 @@ ILanguageUpdateListener {
             bl4 = this.isErrorServiceState();
         }
         boolean bl5 = bl3 && (bl4 || !bl2) || bl4 && !bl;
-        this.setVisibilityOfInspectionEntry(1277757696, bl && !bl5);
-        this.setVisibilityOfInspectionEntry(1378420992, bl2 && !bl5);
+        this.setVisibilityOfInspectionEntry(600396, bl && !bl5);
+        this.setVisibilityOfInspectionEntry(600402, bl2 && !bl5);
         this.siaHideModelGroup.flush();
     }
 
@@ -275,7 +262,6 @@ ILanguageUpdateListener {
         return this.currentViewOptions != null && this.currentOilInspectionData != null && this.currentViewOptions.getOilInspection().state == 2 && (this.currentOilInspectionData.getDistanceStatus() != 0 || this.currentOilInspectionData.getTimeStatus() != 0);
     }
 
-    @Override
     public String getName() {
         return "SIA";
     }

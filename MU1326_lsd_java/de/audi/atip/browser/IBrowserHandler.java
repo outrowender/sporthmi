@@ -12,165 +12,111 @@ import de.audi.atip.hmi.modelaccess.RangeModelApp;
 import de.audi.atip.hmi.modelaccess.VirtualButtonModelApp;
 
 public interface IBrowserHandler {
-    public static final int STATE_AVAILABLE;
-    public static final int STATE_NOT_AVAILABLE;
-    public static final int INSTANCE_UNKNOWN;
-    public static final int INSTANCE_TEST;
-    public static final int INSTANCE_DAB;
-    public static final int INSTANCE_POI;
-    public static final int INSTANCE_BOS;
-    public static final int INSTANCE_GE;
-    public static final int INSTANCE_REMOTEHMI;
-    public static final int INSTANCE_REMOTEHMI_FULLSCREEN;
-    public static final int INSTANCE_BOARDBOOK;
-    public static final int INSTANCE_COUNT;
-    public static final Integer DEVICEINSTANCE_DSIBROWSER_TEST;
-    public static final Integer DEVICEINSTANCE_DSIBROWSER_BOARDBOOK;
-    public static final Integer DEVICEINSTANCE_DSIBROWSER_DAB;
-    public static final Integer DEVICEINSTANCE_DSIBROWSER_POI;
-    public static final Integer DEVICEINSTANCE_DSIBROWSER_BOS;
-    public static final Integer DEVICEINSTANCE_DSIBROWSER_GE;
-    public static final Integer DEVICEINSTANCE_DSIBROWSER_REMOTEHMI;
-    public static final Integer DEVICEINSTANCE_DSIBROWSER_REMOTEHMI_FULLSCREEN;
+    public static final int STATE_AVAILABLE = 0;
+    public static final int STATE_NOT_AVAILABLE = 2;
+    public static final int INSTANCE_UNKNOWN = -1;
+    public static final int INSTANCE_TEST = 0;
+    public static final int INSTANCE_DAB = 1;
+    public static final int INSTANCE_POI = 2;
+    public static final int INSTANCE_BOS = 3;
+    public static final int INSTANCE_GE = 4;
+    public static final int INSTANCE_REMOTEHMI = 5;
+    public static final int INSTANCE_REMOTEHMI_FULLSCREEN = 6;
+    public static final int INSTANCE_BOARDBOOK = 7;
+    public static final int INSTANCE_COUNT = 8;
+    public static final Integer DEVICEINSTANCE_DSIBROWSER_TEST = new Integer(0);
+    public static final Integer DEVICEINSTANCE_DSIBROWSER_BOARDBOOK = new Integer(7);
+    public static final Integer DEVICEINSTANCE_DSIBROWSER_DAB = new Integer(1);
+    public static final Integer DEVICEINSTANCE_DSIBROWSER_POI = new Integer(2);
+    public static final Integer DEVICEINSTANCE_DSIBROWSER_BOS = new Integer(3);
+    public static final Integer DEVICEINSTANCE_DSIBROWSER_GE = new Integer(4);
+    public static final Integer DEVICEINSTANCE_DSIBROWSER_REMOTEHMI = new Integer(5);
+    public static final Integer DEVICEINSTANCE_DSIBROWSER_REMOTEHMI_FULLSCREEN = new Integer(6);
 
-    default public void initialize(VirtualButtonModelApp virtualButtonModelApp, ChoiceModelApp choiceModelApp, ChoiceModelApp choiceModelApp2, ChoiceModelApp choiceModelApp3, ChoiceModelApp choiceModelApp4, int n, ChoiceModelApp choiceModelApp5, ChoiceModelApp choiceModelApp6, ChoiceModelApp choiceModelApp7, ButtonModelApp buttonModelApp, ButtonModelApp buttonModelApp2, ButtonModelApp buttonModelApp3, RangeModelApp rangeModelApp, LabelModelApp labelModelApp, LabelModelApp labelModelApp2, ChoiceModelApp choiceModelApp8) {
-    }
+    public void initialize(VirtualButtonModelApp var1, ChoiceModelApp var2, ChoiceModelApp var3, ChoiceModelApp var4, ChoiceModelApp var5, int var6, ChoiceModelApp var7, ChoiceModelApp var8, ChoiceModelApp var9, ButtonModelApp var10, ButtonModelApp var11, ButtonModelApp var12, RangeModelApp var13, LabelModelApp var14, LabelModelApp var15, ChoiceModelApp var16);
 
-    default public void initialize(VirtualButtonModelApp virtualButtonModelApp, ChoiceModelApp choiceModelApp, ChoiceModelApp choiceModelApp2, ChoiceModelApp choiceModelApp3, ChoiceModelApp choiceModelApp4, int n, ChoiceModelApp choiceModelApp5, ChoiceModelApp choiceModelApp6, ChoiceModelApp choiceModelApp7, ButtonModelApp buttonModelApp, ButtonModelApp buttonModelApp2, ButtonModelApp buttonModelApp3) {
-    }
+    public void initialize(VirtualButtonModelApp var1, ChoiceModelApp var2, ChoiceModelApp var3, ChoiceModelApp var4, ChoiceModelApp var5, int var6, ChoiceModelApp var7, ChoiceModelApp var8, ChoiceModelApp var9, ButtonModelApp var10, ButtonModelApp var11, ButtonModelApp var12);
 
-    default public void initialize(VirtualButtonModelApp virtualButtonModelApp, ChoiceModelApp choiceModelApp, ChoiceModelApp choiceModelApp2, ChoiceModelApp choiceModelApp3, ChoiceModelApp choiceModelApp4, int n) {
-    }
+    public void initialize(VirtualButtonModelApp var1, ChoiceModelApp var2, ChoiceModelApp var3, ChoiceModelApp var4, ChoiceModelApp var5, int var6);
 
-    default public void setRangeModels(RangeModelApp rangeModelApp) {
-    }
+    public void setRangeModels(RangeModelApp var1);
 
-    default public void setZoomLabel(LabelModelApp labelModelApp) {
-    }
+    public void setZoomLabel(LabelModelApp var1);
 
-    default public void setLabels(LabelModelApp labelModelApp) {
-    }
+    public void setLabels(LabelModelApp var1);
 
-    default public void setModels(ChoiceModelApp choiceModelApp, ChoiceModelApp choiceModelApp2, ChoiceModelApp choiceModelApp3, ButtonModelApp buttonModelApp, ButtonModelApp buttonModelApp2, ButtonModelApp buttonModelApp3, ButtonModelApp buttonModelApp4, ButtonModelApp buttonModelApp5, ChoiceModelApp choiceModelApp4, ButtonModelApp buttonModelApp6) {
-    }
+    public void setModels(ChoiceModelApp var1, ChoiceModelApp var2, ChoiceModelApp var3, ButtonModelApp var4, ButtonModelApp var5, ButtonModelApp var6, ButtonModelApp var7, ButtonModelApp var8, ChoiceModelApp var9, ButtonModelApp var10);
 
-    default public void setBrowserSyncModel(ChoiceModelApp choiceModelApp) {
-    }
+    public void setBrowserSyncModel(ChoiceModelApp var1);
 
-    default public ChoiceModelApp getBrowserSyncModel() {
-    }
+    public ChoiceModelApp getBrowserSyncModel();
 
-    default public void setEfiUrlHandler(EfiUrlHandler efiUrlHandler) {
-    }
+    public void setEfiUrlHandler(EfiUrlHandler var1);
 
-    default public void setNotifications() {
-    }
+    public void setNotifications();
 
-    default public void loadUrl(String string, boolean bl) {
-    }
+    public void loadUrl(String var1, boolean var2);
 
-    default public void suspendBrowser() {
-    }
+    public void suspendBrowser();
 
-    default public void setLanguage(String string) {
-    }
+    public void setLanguage(String var1);
 
-    default public void setBoardBookConfigured(boolean bl) {
-    }
+    public void setBoardBookConfigured(boolean var1);
 
-    default public void setSKAvailableChoice(ChoiceModelApp choiceModelApp) {
-    }
+    public void setSKAvailableChoice(ChoiceModelApp var1);
 
-    default public void deleteHistory() {
-    }
+    public void deleteHistory();
 
-    default public void browserScreenEnteredByHistory() {
-    }
+    public void browserScreenEnteredByHistory();
 
-    default public void resumeBrowser() {
-    }
+    public void resumeBrowser();
 
-    default public void startBoardbook() {
-    }
+    public void startBoardbook();
 
-    default public int reloadUrl() {
-    }
+    public int reloadUrl();
 
-    default public void stopBrowser() {
-    }
+    public void stopBrowser();
 
-    default public void scroll(int n, int n2) {
-    }
+    public void scroll(int var1, int var2);
 
-    default public void prevFocus(int n) {
-    }
+    public void prevFocus(int var1);
 
-    default public void nextFocus(int n) {
-    }
+    public void nextFocus(int var1);
 
-    default public void setBrowserCallbackHandler(IBrowserCallbackHandler iBrowserCallbackHandler) {
-    }
+    public void setBrowserCallbackHandler(IBrowserCallbackHandler var1);
 
-    default public IBrowserCallbackHandler getBrowserCallBackHandler() {
-    }
+    public IBrowserCallbackHandler getBrowserCallBackHandler();
 
-    default public void openBoardbookStartPage() {
-    }
+    public void openBoardbookStartPage();
 
-    default public void keyboardInput(String string) {
-    }
+    public void keyboardInput(String var1);
 
-    default public String getLastActiveUrl() {
-    }
+    public String getLastActiveUrl();
 
-    default public void setLastActiveUrl(String string) {
-    }
+    public void setLastActiveUrl(String var1);
 
-    default public void wakeUp() {
-    }
+    public void wakeUp();
 
-    default public void cancelLoading() {
-    }
+    public void cancelLoading();
 
-    default public void followLink(boolean bl) {
-    }
+    public void followLink(boolean var1);
 
-    default public void goForward() {
-    }
+    public void goForward();
 
-    default public void zoom(int n, boolean bl) {
-    }
+    public void zoom(int var1, boolean var2);
 
-    default public void goBack() {
-    }
+    public void goBack();
 
-    default public void gotoHomeUrl() {
-    }
+    public void gotoHomeUrl();
 
-    default public void setBrowserSyncStatus(int n) {
-    }
+    public void setBrowserSyncStatus(int var1);
 
-    default public void resetToFactorySettings() {
-    }
+    public void resetToFactorySettings();
 
-    default public void touchScreenPressed(int n, int n2) {
-    }
+    public void touchScreenPressed(int var1, int var2);
 
-    default public void touchScreenMoved(int n, int n2, int n3, int n4) {
-    }
+    public void touchScreenMoved(int var1, int var2, int var3, int var4);
 
-    default public void setBoardBookAvailableModel(ChoiceModelApp choiceModelApp) {
-    }
-
-    static {
-        DEVICEINSTANCE_DSIBROWSER_TEST = new Integer(0);
-        DEVICEINSTANCE_DSIBROWSER_BOARDBOOK = new Integer(7);
-        DEVICEINSTANCE_DSIBROWSER_DAB = new Integer(1);
-        DEVICEINSTANCE_DSIBROWSER_POI = new Integer(2);
-        DEVICEINSTANCE_DSIBROWSER_BOS = new Integer(3);
-        DEVICEINSTANCE_DSIBROWSER_GE = new Integer(4);
-        DEVICEINSTANCE_DSIBROWSER_REMOTEHMI = new Integer(5);
-        DEVICEINSTANCE_DSIBROWSER_REMOTEHMI_FULLSCREEN = new Integer(6);
-    }
+    public void setBoardBookAvailableModel(ChoiceModelApp var1);
 }
 

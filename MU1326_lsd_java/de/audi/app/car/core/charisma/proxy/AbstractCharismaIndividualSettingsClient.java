@@ -4,10 +4,10 @@
 package de.audi.app.car.core.charisma.proxy;
 
 import de.audi.app.car.common.app.ICarApplication;
-import de.audi.app.car.core.charisma.proxy.AbstractCharismaIndividualSettingsClient$1;
 import de.audi.app.car.core.charisma.proxy.ICharismaIndividualSettingsClient;
 import de.audi.app.car.core.charisma.proxy.ICharismaIndividualSettingsProxy;
 import de.audi.atip.log.LogChannel;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
@@ -25,7 +25,25 @@ implements ICharismaIndividualSettingsClient {
     }
 
     public void initTracker() {
-        this.serviceTracker = new ServiceTracker(this.application.getBundleContext(), (class$de$audi$app$car$core$charisma$proxy$ICharismaIndividualSettingsProxy == null ? (class$de$audi$app$car$core$charisma$proxy$ICharismaIndividualSettingsProxy = AbstractCharismaIndividualSettingsClient.class$("de.audi.app.car.core.charisma.proxy.ICharismaIndividualSettingsProxy")) : class$de$audi$app$car$core$charisma$proxy$ICharismaIndividualSettingsProxy).getName(), (ServiceTrackerCustomizer)new AbstractCharismaIndividualSettingsClient$1(this));
+        this.serviceTracker = new ServiceTracker(this.application.getBundleContext(), (class$de$audi$app$car$core$charisma$proxy$ICharismaIndividualSettingsProxy == null ? (class$de$audi$app$car$core$charisma$proxy$ICharismaIndividualSettingsProxy = AbstractCharismaIndividualSettingsClient.class$("de.audi.app.car.core.charisma.proxy.ICharismaIndividualSettingsProxy")) : class$de$audi$app$car$core$charisma$proxy$ICharismaIndividualSettingsProxy).getName(), new ServiceTrackerCustomizer(){
+
+            public Object addingService(ServiceReference serviceReference) {
+                Object object = AbstractCharismaIndividualSettingsClient.this.application.getBundleContext().getService(serviceReference);
+                if (object instanceof ICharismaIndividualSettingsProxy) {
+                    AbstractCharismaIndividualSettingsClient.this.proxy = (ICharismaIndividualSettingsProxy)object;
+                    AbstractCharismaIndividualSettingsClient.this.proxy.registerClient(AbstractCharismaIndividualSettingsClient.this);
+                }
+                return object;
+            }
+
+            public void removedService(ServiceReference serviceReference, Object object) {
+                AbstractCharismaIndividualSettingsClient.this.proxy = null;
+                AbstractCharismaIndividualSettingsClient.this.application.getBundleContext().ungetService(serviceReference);
+            }
+
+            public void modifiedService(ServiceReference serviceReference, Object object) {
+            }
+        });
         this.serviceTracker.open();
     }
 

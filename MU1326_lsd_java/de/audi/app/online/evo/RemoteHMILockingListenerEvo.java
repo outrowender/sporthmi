@@ -12,10 +12,10 @@ import de.audi.tghu.online.app.remotehmi.AbstractRemoteHMILockingListener;
 
 public class RemoteHMILockingListenerEvo
 extends AbstractRemoteHMILockingListener {
-    private static final int LOCKING_NOT_CODED;
-    private static final int LOCKING_CODED_DISABLED;
-    private static final int LOCKING_CODED_GREYOUT;
-    private static final int LOCKING_CODED_INVISIBLE;
+    private static final int LOCKING_NOT_CODED = 0;
+    private static final int LOCKING_CODED_DISABLED = 1;
+    private static final int LOCKING_CODED_GREYOUT = 2;
+    private static final int LOCKING_CODED_INVISIBLE = 3;
     private final RemoteHMIServiceEvo remoteHmiService;
     private ChoiceModelApp onlineStateChoice;
     private int codedLockAction = 0;
@@ -23,15 +23,14 @@ extends AbstractRemoteHMILockingListener {
     public RemoteHMILockingListenerEvo(HMIService hMIService, RemoteHMIServiceEvo remoteHMIServiceEvo, LogChannel logChannel) {
         super(hMIService, logChannel);
         this.remoteHmiService = remoteHMIServiceEvo;
-        this.onlineStateChoice = remoteHMIServiceEvo.getModelBankAccess().getChoiceModel(1964974848);
+        this.onlineStateChoice = remoteHMIServiceEvo.getModelBankAccess().getChoiceModel(2301813);
         this.readoutCodedState();
         this.setOnlineStatus(this.isLocked());
         this.sendInitalEvent();
     }
 
-    @Override
     protected final void invokeAction(RemoteHMIAction remoteHMIAction) {
-        this.logChannel.log(1078071040, "RemoteHMILockingListenerEvo#invokeAction: action=%1.", (Object)remoteHMIAction);
+        this.logChannel.log(1000000, "RemoteHMILockingListenerEvo#invokeAction: action=%1.", (Object)remoteHMIAction);
         if (this.remoteHmiService != null && remoteHMIAction != null) {
             int n = remoteHMIAction.getType();
             if (n == 460) {
@@ -39,7 +38,7 @@ extends AbstractRemoteHMILockingListener {
             } else if (n == 461) {
                 this.setOnlineStatus(false);
             }
-            this.logChannel.log(1078071040, "RemoteHMILockingListenerEvo#invokeAction: type=%1.", (long)remoteHMIAction.getType());
+            this.logChannel.log(1000000, "RemoteHMILockingListenerEvo#invokeAction: type=%1.", (long)remoteHMIAction.getType());
             this.remoteHmiService.invokeAction(remoteHMIAction);
             if (this.sendSpeedThresholdMessages()) {
                 if (460 == remoteHMIAction.getType()) {

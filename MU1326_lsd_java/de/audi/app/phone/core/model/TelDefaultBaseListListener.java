@@ -44,13 +44,11 @@ implements BaseListModelListener {
         this.baseListModel = this.getBaseListModel(n);
     }
 
-    @Override
     public void init() {
         super.init();
         this.baseListModel.setListener(this);
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.baseListModel.resetListener();
@@ -60,31 +58,27 @@ implements BaseListModelListener {
         return this.baseListModel;
     }
 
-    @Override
     public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
         if (this.log.isDebug()) {
-            this.log.log(-2137614336, "[TelDefaultBaseListListener#itemReleased] %1", (Object)TelDefaultBaseListListener.getLogMessage(evoListRow, n, n2, n3, n4));
+            this.log.log(10000000, "[TelDefaultBaseListListener#itemReleased] %1", (Object)TelDefaultBaseListListener.getLogMessage(evoListRow, n, n2, n3, n4));
         }
     }
 
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
         if (this.log.isInfo()) {
-            this.log.log(1078071040, "[TelDefaultBaseListListener#itemSelected] %1", (Object)TelDefaultBaseListListener.getLogMessage(evoListRow, n, n2, n3, n4));
+            this.log.log(1000000, "[TelDefaultBaseListListener#itemSelected] %1", (Object)TelDefaultBaseListListener.getLogMessage(evoListRow, n, n2, n3, n4));
         }
     }
 
-    @Override
     public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
         if (this.log.isDebug()) {
-            this.log.log(-2137614336, "[TelDefaultBaseListListener#itemLongSelected] %1", (Object)TelDefaultBaseListListener.getLogMessage(evoListRow, n, n2, n3, n4));
+            this.log.log(10000000, "[TelDefaultBaseListListener#itemLongSelected] %1", (Object)TelDefaultBaseListListener.getLogMessage(evoListRow, n, n2, n3, n4));
         }
     }
 
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
         if (this.log.isDebug()) {
-            this.log.log(-2137614336, "[TelDefaultBaseListListener#itemFocused] %1", (Object)TelDefaultBaseListListener.getLogMessage(evoListRow, n, n2, n3, n4));
+            this.log.log(10000000, "[TelDefaultBaseListListener#itemFocused] %1", (Object)TelDefaultBaseListListener.getLogMessage(evoListRow, n, n2, n3, n4));
         }
     }
 }

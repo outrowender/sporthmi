@@ -4,22 +4,16 @@
 package de.audi.atip.interapp;
 
 public interface RSESettingsEventListener {
-    default public void processAudioUsageRestriction(boolean bl) {
-    }
+    public void processAudioUsageRestriction(boolean var1);
 
-    default public void processTunerUsageRestriction(boolean bl) {
-    }
+    public void processTunerUsageRestriction(boolean var1);
 
-    default public void processTVUsageRestriction(boolean bl) {
-    }
+    public void processTVUsageRestriction(boolean var1);
 
-    default public void processCDCUsageRestriction(boolean bl) {
-    }
+    public void processCDCUsageRestriction(boolean var1);
 
-    default public void processFunctionUsageRestriction(boolean bl) {
-    }
+    public void processFunctionUsageRestriction(boolean var1);
 
-    default public void processChildProtection(boolean bl) {
-    }
+    public void processChildProtection(boolean var1);
 }
 

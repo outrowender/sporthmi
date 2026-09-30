@@ -1,13 +1,8 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  de.audi.atip.utils.generics.GMap
- *  de.audi.atip.utils.generics.Generics
  */
 package de.audi.app.terminalmode.device;
 
-import de.audi.app.terminalmode.device.PhysicalDevice$ConnectState;
 import de.audi.app.terminalmode.device.TMDeviceControl;
 import de.audi.app.terminalmode.dsi.smartphoneintegration.ISmartphoneIntegrationDSIController;
 import de.audi.atip.utils.generics.GIterator;
@@ -17,20 +12,20 @@ import org.dsi.ifc.smartphoneintegration.Device;
 
 public class PhysicalDevice {
     private final Device device;
-    private final GMap deviceControlMap;
+    private final GMap<TMDeviceControl, ConnectState> deviceControlMap;
     private final ISmartphoneIntegrationDSIController dsiController;
-    private static final PhysicalDevice$ConnectState NO_INFO_AVAILABLE = new PhysicalDevice$ConnectState();
-    private static final PhysicalDevice$ConnectState CONNECTED = new PhysicalDevice$ConnectState(Boolean.TRUE);
-    private static final PhysicalDevice$ConnectState DISCONNECTED = new PhysicalDevice$ConnectState(Boolean.FALSE);
+    private static final ConnectState NO_INFO_AVAILABLE = new ConnectState();
+    private static final ConnectState CONNECTED = new ConnectState(Boolean.TRUE);
+    private static final ConnectState DISCONNECTED = new ConnectState(Boolean.FALSE);
 
     public PhysicalDevice(Device device, ISmartphoneIntegrationDSIController iSmartphoneIntegrationDSIController) {
         this.device = device;
-        this.deviceControlMap = Generics.newHashMapWithCapacity((int)2);
+        this.deviceControlMap = Generics.newHashMapWithCapacity(2);
         this.dsiController = iSmartphoneIntegrationDSIController;
     }
 
     public void addTMDeviceControl(TMDeviceControl tMDeviceControl) {
-        this.deviceControlMap.put((Object)tMDeviceControl, (Object)NO_INFO_AVAILABLE);
+        this.deviceControlMap.put(tMDeviceControl, NO_INFO_AVAILABLE);
     }
 
     public Device getDevice() {
@@ -38,11 +33,11 @@ public class PhysicalDevice {
     }
 
     public boolean disconnectDevice(TMDeviceControl tMDeviceControl) {
-        this.deviceControlMap.put((Object)tMDeviceControl, (Object)DISCONNECTED);
+        this.deviceControlMap.put(tMDeviceControl, DISCONNECTED);
         boolean bl = true;
-        GIterator gIterator = this.deviceControlMap.values().iterator();
+        GIterator<ConnectState> gIterator = this.deviceControlMap.values().iterator();
         while (gIterator.hasNext()) {
-            if (!((PhysicalDevice$ConnectState)gIterator.next()).isConnected()) continue;
+            if (!gIterator.next().isConnected()) continue;
             bl = false;
             break;
         }
@@ -53,11 +48,31 @@ public class PhysicalDevice {
     }
 
     public void connectDevice(TMDeviceControl tMDeviceControl) {
-        this.deviceControlMap.put((Object)tMDeviceControl, (Object)CONNECTED);
+        this.deviceControlMap.put(tMDeviceControl, CONNECTED);
     }
 
     public String toString() {
         return new StringBuffer().append("PhysicalDevice [device=").append(this.device).append("]").toString();
+    }
+
+    private static class ConnectState {
+        private final Boolean connected;
+
+        public ConnectState() {
+            this.connected = null;
+        }
+
+        public ConnectState(Boolean bl) {
+            this.connected = bl;
+        }
+
+        public boolean isConnectStateAvailable() {
+            return null != this.connected;
+        }
+
+        public boolean isConnected() {
+            return null == this.connected || this.connected != false;
+        }
     }
 }
 

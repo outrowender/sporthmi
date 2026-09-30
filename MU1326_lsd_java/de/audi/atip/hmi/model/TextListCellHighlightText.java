@@ -19,7 +19,6 @@ implements ListCell {
         this.highlightArea = nArray;
     }
 
-    @Override
     public String toString() {
         String string = super.toString();
         Buffer buffer = new Buffer();
@@ -30,7 +29,6 @@ implements ListCell {
         return buffer.toString();
     }
 
-    @Override
     public boolean equals(Object object) {
         if (object == this) {
             return true;
@@ -51,7 +49,6 @@ implements ListCell {
         return Arrays.equals(this.highlightArea, nArray);
     }
 
-    @Override
     public int hashCode() {
         int n = this.highlightArea == null ? 0 : this.highlightArea.hashCode();
         return n * 31 + super.hashCode();

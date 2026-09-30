@@ -24,12 +24,11 @@ extends Command {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[SdisCmdStreamStart.execute] -> DSIMediaRouter.startStreaming()");
-        this.logger.log(-2137614336, "[SdisCmdStreamStart.execute] -> clientID:%1", (long)this.clientID);
+        this.logger.log(10000000, "[SdisCmdStreamStart.execute] -> DSIMediaRouter.startStreaming()");
+        this.logger.log(10000000, "[SdisCmdStreamStart.execute] -> clientID:%1", (long)this.clientID);
         if (!this.streamState.reconfigureMediaRouterNecessary() && !this.streamState.isCurrentStreamStatusNotStarted()) {
-            this.logger.log(-2137614336, "[SdisCmdStreamStart.execute] reconfigure: %1 streamer started: %2. Nothing to do.", this.streamState.reconfigureMediaRouterNecessary(), this.streamState.isCurrentStreamStatusNotStarted());
+            this.logger.log(10000000, "[SdisCmdStreamStart.execute] reconfigure: %1 streamer started: %2. Nothing to do.", this.streamState.reconfigureMediaRouterNecessary(), this.streamState.isCurrentStreamStatusNotStarted());
             this.commandList.commandFinished();
             return;
         }
@@ -38,7 +37,7 @@ extends Command {
         SdisCmdStreamStart sdisCmdStreamStart = this;
         synchronized (sdisCmdStreamStart) {
             try {
-                super.wait(0);
+                this.wait(100L);
             }
             catch (InterruptedException interruptedException) {
                 this.logger.log(10000, "[SdisCmdStreamStart.execute] -> clientID:%1 interrupted exception %2", (long)this.clientID, (Throwable)interruptedException);
@@ -52,13 +51,13 @@ extends Command {
      */
     public void updateStreamingStatus(int n, int n2) {
         if (n != this.clientID) {
-            this.logger.log(-1601830656, "[SdisCmdStreamStart.updateStreamingStatus] ClientID mismatch %1 vs. %2", (long)this.clientID, (long)n);
+            this.logger.log(100000, "[SdisCmdStreamStart.updateStreamingStatus] ClientID mismatch %1 vs. %2", (long)this.clientID, (long)n);
             return;
         }
         this.streamState.setStreamStatus(this.streamState.getHMIStreamStatus(n2));
         SdisCmdStreamStart sdisCmdStreamStart = this;
         synchronized (sdisCmdStreamStart) {
-            super.notifyAll();
+            this.notifyAll();
         }
     }
 }

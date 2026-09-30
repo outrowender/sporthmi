@@ -7,16 +7,12 @@ import de.audi.atip.hmi.event.ModelUpdateEvent;
 import de.audi.atip.hmi.modelaccess.HMIModelGUI;
 
 public interface HMIView {
-    default public void setModel(HMIModelGUI hMIModelGUI) {
-    }
+    public void setModel(HMIModelGUI var1);
 
-    default public int getModelID() {
-    }
+    public int getModelID();
 
-    default public void setStatus(int n) {
-    }
+    public void setStatus(int var1);
 
-    default public void processModelUpdateEvent(ModelUpdateEvent modelUpdateEvent) {
-    }
+    public void processModelUpdateEvent(ModelUpdateEvent var1);
 }
 

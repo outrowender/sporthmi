@@ -31,25 +31,23 @@ implements IADBNumberCommand {
         this.adbService = aDBSDSService;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: entryIDSource=%2!", (Object)this.getName(), (long)this.entryIDSource);
+        this.logger.log(10000000, "%1#execute: entryIDSource=%2!", (Object)this.getName(), (long)this.entryIDSource);
         long l = this.adbHandler.getADBID(this.entryIDSource);
         if (l == 0L) {
-            this.logger.log(-1601830656, "%1#execute: No adbID found, returning ERROR!", (Object)this.getName());
+            this.logger.log(100000, "%1#execute: No adbID found, returning ERROR!", (Object)this.getName());
             this.sendResult(3001);
             return;
         }
         this.adbHandler.setCurrentEntryID(l);
-        this.logger.log(-2137614336, "%1#execute: adbID=%2, phoneNumberTypes=%3!", (Object)this.getName(), l, (long)this.adbHandler.getPhoneNumberTypes());
+        this.logger.log(10000000, "%1#execute: adbID=%2, phoneNumberTypes=%3!", (Object)this.getName(), l, (long)this.adbHandler.getPhoneNumberTypes());
         this.adbService.fillTelNumberList(l, this.adbHandler.getPhoneNumberTypes());
     }
 
-    @Override
     public void responseFillTelNumberList(int n, String string, int n2, String string2, int[] nArray) {
-        this.logger.log(-2137614336, "%1#responseFillTelNumberList: resultCode=%3, combinedName=%2!", (Object)this.getName(), (Object)string, (long)n);
+        this.logger.log(10000000, "%1#responseFillTelNumberList: resultCode=%3, combinedName=%2!", (Object)this.getName(), (Object)string, (long)n);
         if (n != 0) {
-            this.logger.log(-1601830656, "%1#responseFillTelNumberList: Unhandled resultCode %2, sending ERROR!", (Object)this.getName(), (long)n);
+            this.logger.log(100000, "%1#responseFillTelNumberList: Unhandled resultCode %2, sending ERROR!", (Object)this.getName(), (long)n);
             this.sendResult(3001);
             return;
         }
@@ -122,7 +120,7 @@ implements IADBNumberCommand {
                     continue block14;
                 }
                 default: {
-                    this.logger.log(-1601830656, "%1#setChoiceModelValue: unknown number type %2", (Object)this.getName(), (long)nArray[i2]);
+                    this.logger.log(100000, "%1#setChoiceModelValue: unknown number type %2", (Object)this.getName(), (long)nArray[i2]);
                 }
             }
         }

@@ -4,7 +4,6 @@
 package de.audi.atip.hmi.modelaccess;
 
 public interface ICopyTo {
-    default public boolean copyTo(ICopyTo iCopyTo) {
-    }
+    public boolean copyTo(ICopyTo var1);
 }
 

@@ -19,11 +19,10 @@ implements GeoCoordinates {
         this.addressInputForm = iAddressInputForm;
     }
 
-    @Override
     public NavLocation extractGeoCoordinates(int n, int n2, NavigationEnv navigationEnv) {
-        this.logChannel.log(-2137614336, "GeoCoordinatesAddressInputForm#extractGeoCoordinates: Called with targetModelID '%1' and targetRow '%2'", (long)n, (long)n2);
+        this.logChannel.log(10000000, "GeoCoordinatesAddressInputForm#extractGeoCoordinates: Called with targetModelID '%1' and targetRow '%2'", (long)n, (long)n2);
         if (this.addressInputForm == null) {
-            this.logChannel.log(-1601830656, "GeoCoordinatesAddressInputForm#extractGeoCoordinates: IAddressInputForm is null");
+            this.logChannel.log(100000, "GeoCoordinatesAddressInputForm#extractGeoCoordinates: IAddressInputForm is null");
             return null;
         }
         return this.addressInputForm.getBackupLocation();

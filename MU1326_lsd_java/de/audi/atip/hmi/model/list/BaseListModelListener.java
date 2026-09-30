@@ -6,16 +6,12 @@ package de.audi.atip.hmi.model.list;
 import de.audi.atip.hmi.model.list.EvoListRow;
 
 public interface BaseListModelListener {
-    default public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-    }
+    public void itemReleased(EvoListRow var1, int var2, int var3, int var4, int var5);
 
-    default public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-    }
+    public void itemSelected(EvoListRow var1, int var2, int var3, int var4, int var5);
 
-    default public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-    }
+    public void itemLongSelected(EvoListRow var1, int var2, int var3, int var4, int var5);
 
-    default public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-    }
+    public void itemFocused(EvoListRow var1, int var2, int var3, int var4, int var5);
 }
 

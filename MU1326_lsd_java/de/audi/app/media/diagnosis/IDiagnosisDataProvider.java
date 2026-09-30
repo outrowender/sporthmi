@@ -4,10 +4,8 @@
 package de.audi.app.media.diagnosis;
 
 public interface IDiagnosisDataProvider {
-    default public String getDiagKey() {
-    }
+    public String getDiagKey();
 
-    default public String getDiagValue() {
-    }
+    public String getDiagValue();
 }
 

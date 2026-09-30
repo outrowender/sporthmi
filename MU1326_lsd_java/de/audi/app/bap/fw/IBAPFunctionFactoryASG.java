@@ -13,19 +13,14 @@ import de.audi.app.bap.fw.functiontypes.RetryConfig;
 
 public interface IBAPFunctionFactoryASG
 extends IBAPFunctionFactory {
-    default public BAPFunctionGetAll createBAPFunctionGetAll(AbstractBAPModuleASG abstractBAPModuleASG, int n) {
-    }
+    public BAPFunctionGetAll createBAPFunctionGetAll(AbstractBAPModuleASG var1, int var2);
 
-    default public BAPFunctionMethodASG createBAPFunctionMethodASG(AbstractBAPModuleASG abstractBAPModuleASG, int n) {
-    }
+    public BAPFunctionMethodASG createBAPFunctionMethodASG(AbstractBAPModuleASG var1, int var2);
 
-    default public BAPFunctionPropertyASG createBAPFunctionPropertyASG(AbstractBAPModuleASG abstractBAPModuleASG, int n) {
-    }
+    public BAPFunctionPropertyASG createBAPFunctionPropertyASG(AbstractBAPModuleASG var1, int var2);
 
-    default public BAPFunctionArrayASG createBAPFunctionArrayASG(AbstractBAPModuleASG abstractBAPModuleASG, int n) {
-    }
+    public BAPFunctionArrayASG createBAPFunctionArrayASG(AbstractBAPModuleASG var1, int var2);
 
-    default public BAPFunctionArrayASG createBAPFunctionArrayASG(AbstractBAPModuleASG abstractBAPModuleASG, int n, RetryConfig retryConfig) {
-    }
+    public BAPFunctionArrayASG createBAPFunctionArrayASG(AbstractBAPModuleASG var1, int var2, RetryConfig var3);
 }
 

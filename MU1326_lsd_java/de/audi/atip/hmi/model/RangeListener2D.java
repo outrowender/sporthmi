@@ -7,7 +7,6 @@ import de.audi.atip.hmi.model.ButtonListener;
 
 public interface RangeListener2D
 extends ButtonListener {
-    default public void setValueHit(int n, int n2, int n3, int n4) {
-    }
+    public void setValueHit(int var1, int var2, int var3, int var4);
 }
 

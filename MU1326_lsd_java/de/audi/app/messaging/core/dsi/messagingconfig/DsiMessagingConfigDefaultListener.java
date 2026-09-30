@@ -31,32 +31,26 @@ DSIMessagingServiceConfigurationListener {
         return objectArray;
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
-        this.log.log(-1601830656, "[DsiMessagingConfigDefaultListener#asyncException] Not implemented.");
+        this.log.log(100000, "[DsiMessagingConfigDefaultListener#asyncException] Not implemented.");
     }
 
-    @Override
     public void setSMSCNumberResponse(int n) {
-        this.log.log(-1601830656, "[DsiMessagingConfigDefaultListener#setSMSCNumberResponse] Not implemented.");
+        this.log.log(100000, "[DsiMessagingConfigDefaultListener#setSMSCNumberResponse] Not implemented.");
     }
 
-    @Override
     public void activateStoreSmsOnSentResponse(int n) {
-        this.log.log(-1601830656, "[DsiMessagingConfigDefaultListener#activateStoreSmsOnSentResponse] Not implemented.");
+        this.log.log(100000, "[DsiMessagingConfigDefaultListener#activateStoreSmsOnSentResponse] Not implemented.");
     }
 
-    @Override
     public void setShortMessageValidityPeriodResponse(int n) {
-        this.log.log(-1601830656, "[DsiMessagingConfigDefaultListener#setShortMessageValidityPeriodResponse] Not implemented.");
+        this.log.log(100000, "[DsiMessagingConfigDefaultListener#setShortMessageValidityPeriodResponse] Not implemented.");
     }
 
-    @Override
     public void activateSMSDeliveryReportResponse(int n) {
-        this.log.log(-1601830656, "[DsiMessagingConfigDefaultListener#activateSMSDeliveryReportResponse] Not implemented.");
+        this.log.log(100000, "[DsiMessagingConfigDefaultListener#activateSMSDeliveryReportResponse] Not implemented.");
     }
 
-    @Override
     public void updateSMSCNumber(String string, int n) {
         DSIMessagingServiceConfigurationListener[] dSIMessagingServiceConfigurationListenerArray = this.getCurrentSubscribers();
         for (int i2 = 0; i2 < dSIMessagingServiceConfigurationListenerArray.length; ++i2) {
@@ -70,37 +64,30 @@ DSIMessagingServiceConfigurationListener {
         }
     }
 
-    @Override
     public void setPhoneSystemRingingVolumeResponse(int n) {
-        this.log.log(-1601830656, "[DsiMessagingConfigDefaultListener#setPhoneSystemRingingVolumeResponse] Not implemented.");
+        this.log.log(100000, "[DsiMessagingConfigDefaultListener#setPhoneSystemRingingVolumeResponse] Not implemented.");
     }
 
-    @Override
     public void setPhoneSystemRingingTypeResponse(int n) {
-        this.log.log(-1601830656, "[DsiMessagingConfigDefaultListener#setPhoneSystemRingingTypeResponse] Not implemented.");
+        this.log.log(100000, "[DsiMessagingConfigDefaultListener#setPhoneSystemRingingTypeResponse] Not implemented.");
     }
 
-    @Override
     public void activateEmailIncludeOldMailInReplyResponse(int n) {
-        this.log.log(-1601830656, "[DsiMessagingConfigDefaultListener#activateEmailIncludeOldMailInReplyResponse] Not implemented.");
+        this.log.log(100000, "[DsiMessagingConfigDefaultListener#activateEmailIncludeOldMailInReplyResponse] Not implemented.");
     }
 
-    @Override
     public void activateEmailEmptySubjectNotificationResponse(int n) {
-        this.log.log(-1601830656, "[DsiMessagingConfigDefaultListener#activateEmailEmptySubjectNotificationResponse] Not implemented.");
+        this.log.log(100000, "[DsiMessagingConfigDefaultListener#activateEmailEmptySubjectNotificationResponse] Not implemented.");
     }
 
-    @Override
     public void changeFolderViewModeResponse(int n) {
-        this.log.log(-1601830656, "[DsiMessagingConfigDefaultListener#changeFolderViewModeResponse] Not implemented.");
+        this.log.log(100000, "[DsiMessagingConfigDefaultListener#changeFolderViewModeResponse] Not implemented.");
     }
 
-    @Override
     public void restoreFactorySettingsResponse(int n) {
-        this.log.log(-1601830656, "[DsiMessagingConfigDefaultListener#restoreFactorySettingsResponse] Not implemented.");
+        this.log.log(100000, "[DsiMessagingConfigDefaultListener#restoreFactorySettingsResponse] Not implemented.");
     }
 
-    @Override
     public void updateAccountPreferences(int n, String string, int n2) {
         DSIMessagingServiceConfigurationListener[] dSIMessagingServiceConfigurationListenerArray = this.getCurrentSubscribers();
         for (int i2 = 0; i2 < dSIMessagingServiceConfigurationListenerArray.length; ++i2) {
@@ -114,7 +101,6 @@ DSIMessagingServiceConfigurationListener {
         }
     }
 
-    @Override
     public void updateSmsDeliveryReport(boolean bl, int n) {
         DSIMessagingServiceConfigurationListener[] dSIMessagingServiceConfigurationListenerArray = this.getCurrentSubscribers();
         for (int i2 = 0; i2 < dSIMessagingServiceConfigurationListenerArray.length; ++i2) {
@@ -128,7 +114,6 @@ DSIMessagingServiceConfigurationListener {
         }
     }
 
-    @Override
     public void updateStoreSmsOnSent(boolean bl, int n) {
         DSIMessagingServiceConfigurationListener[] dSIMessagingServiceConfigurationListenerArray = this.getCurrentSubscribers();
         for (int i2 = 0; i2 < dSIMessagingServiceConfigurationListenerArray.length; ++i2) {
@@ -142,7 +127,6 @@ DSIMessagingServiceConfigurationListener {
         }
     }
 
-    @Override
     public void updateShortMessageValidityPeriod(int n, int n2) {
         DSIMessagingServiceConfigurationListener[] dSIMessagingServiceConfigurationListenerArray = this.getCurrentSubscribers();
         for (int i2 = 0; i2 < dSIMessagingServiceConfigurationListenerArray.length; ++i2) {
@@ -156,7 +140,6 @@ DSIMessagingServiceConfigurationListener {
         }
     }
 
-    @Override
     public void updatePhoneSystemRingingVolume(int n, int n2) {
         DSIMessagingServiceConfigurationListener[] dSIMessagingServiceConfigurationListenerArray = this.getCurrentSubscribers();
         for (int i2 = 0; i2 < dSIMessagingServiceConfigurationListenerArray.length; ++i2) {
@@ -170,7 +153,6 @@ DSIMessagingServiceConfigurationListener {
         }
     }
 
-    @Override
     public void updatePhoneSystemRingingType(int n, int n2) {
         DSIMessagingServiceConfigurationListener[] dSIMessagingServiceConfigurationListenerArray = this.getCurrentSubscribers();
         for (int i2 = 0; i2 < dSIMessagingServiceConfigurationListenerArray.length; ++i2) {
@@ -184,7 +166,6 @@ DSIMessagingServiceConfigurationListener {
         }
     }
 
-    @Override
     public void updateEmailIncludeOldMailInReply(boolean bl, int n) {
         DSIMessagingServiceConfigurationListener[] dSIMessagingServiceConfigurationListenerArray = this.getCurrentSubscribers();
         for (int i2 = 0; i2 < dSIMessagingServiceConfigurationListenerArray.length; ++i2) {
@@ -198,7 +179,6 @@ DSIMessagingServiceConfigurationListener {
         }
     }
 
-    @Override
     public void updateEmailEmptySubjectNotification(boolean bl, int n) {
         DSIMessagingServiceConfigurationListener[] dSIMessagingServiceConfigurationListenerArray = this.getCurrentSubscribers();
         for (int i2 = 0; i2 < dSIMessagingServiceConfigurationListenerArray.length; ++i2) {
@@ -212,7 +192,6 @@ DSIMessagingServiceConfigurationListener {
         }
     }
 
-    @Override
     public void updateFolderViewMode(int n, int n2) {
         DSIMessagingServiceConfigurationListener[] dSIMessagingServiceConfigurationListenerArray = this.getCurrentSubscribers();
         for (int i2 = 0; i2 < dSIMessagingServiceConfigurationListenerArray.length; ++i2) {
@@ -226,22 +205,18 @@ DSIMessagingServiceConfigurationListener {
         }
     }
 
-    @Override
     public void responseSetSmsIndications(int n) {
-        this.log.log(-1601830656, "[DsiMessagingConfigDefaultListener#responseSetSmsIndications] Not implemented.");
+        this.log.log(100000, "[DsiMessagingConfigDefaultListener#responseSetSmsIndications] Not implemented.");
     }
 
-    @Override
     public void responseSetEmailIndications(int n) {
-        this.log.log(-1601830656, "[DsiMessagingConfigDefaultListener#responseSetEmailIndications] Not implemented.");
+        this.log.log(100000, "[DsiMessagingConfigDefaultListener#responseSetEmailIndications] Not implemented.");
     }
 
-    @Override
     public void responseSetPushSms(int n) {
-        this.log.log(-1601830656, "[DsiMessagingConfigDefaultListener#responseSetPushSms] Not implemented.");
+        this.log.log(100000, "[DsiMessagingConfigDefaultListener#responseSetPushSms] Not implemented.");
     }
 
-    @Override
     public void updateSmsIndications(boolean bl, int n) {
         DSIMessagingServiceConfigurationListener[] dSIMessagingServiceConfigurationListenerArray = this.getCurrentSubscribers();
         for (int i2 = 0; i2 < dSIMessagingServiceConfigurationListenerArray.length; ++i2) {
@@ -255,7 +230,6 @@ DSIMessagingServiceConfigurationListener {
         }
     }
 
-    @Override
     public void updateEmailIndications(boolean bl, int n) {
         DSIMessagingServiceConfigurationListener[] dSIMessagingServiceConfigurationListenerArray = this.getCurrentSubscribers();
         for (int i2 = 0; i2 < dSIMessagingServiceConfigurationListenerArray.length; ++i2) {
@@ -269,7 +243,6 @@ DSIMessagingServiceConfigurationListener {
         }
     }
 
-    @Override
     public void updatePushSms(boolean bl, int n) {
         DSIMessagingServiceConfigurationListener[] dSIMessagingServiceConfigurationListenerArray = this.getCurrentSubscribers();
         for (int i2 = 0; i2 < dSIMessagingServiceConfigurationListenerArray.length; ++i2) {

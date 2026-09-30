@@ -36,7 +36,6 @@ implements IServiceRegistry {
         }
     }
 
-    @Override
     public synchronized ServiceRegistration registerService(String string, Object object, Dictionary dictionary) {
         this.assertConnected();
         ServiceRegistration serviceRegistration = this.bundleContext.registerService(string, object, dictionary);
@@ -44,7 +43,6 @@ implements IServiceRegistry {
         return serviceRegistration;
     }
 
-    @Override
     public synchronized ServiceRegistration registerService(String[] stringArray, Object object, Dictionary dictionary) {
         this.assertConnected();
         ServiceRegistration serviceRegistration = this.bundleContext.registerService(stringArray, object, dictionary);
@@ -52,14 +50,12 @@ implements IServiceRegistry {
         return serviceRegistration;
     }
 
-    @Override
     public synchronized void addTracker(ServiceTracker serviceTracker) {
         this.assertConnected();
         serviceTracker.open();
         this.trackers.add(serviceTracker);
     }
 
-    @Override
     public synchronized void startDsiService(DsiDescriptor dsiDescriptor) {
         this.assertConnected();
         this.framework.startDSIService(dsiDescriptor.getInterfaceName(), dsiDescriptor.getInstanceId());

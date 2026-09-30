@@ -7,25 +7,18 @@ import de.audi.atip.interapp.connectivity.wlan.TrustedNetwork;
 import org.dsi.ifc.networking.Node;
 
 public interface IWlanPCoreServiceListener {
-    default public void updateRFActive(int n, int n2) {
-    }
+    public void updateRFActive(int var1, int var2);
 
-    default public void updateRole(int n, int n2) {
-    }
+    public void updateRole(int var1, int var2);
 
-    default public void responseSetRFActive() {
-    }
+    public void responseSetRFActive();
 
-    default public void responseSetRole() {
-    }
+    public void responseSetRole();
 
-    default public void updateTrustedNetworks(TrustedNetwork[] trustedNetworkArray) {
-    }
+    public void updateTrustedNetworks(TrustedNetwork[] var1);
 
-    default public void updateNodeList(Node[] nodeArray, int n) {
-    }
+    public void updateNodeList(Node[] var1, int var2);
 
-    default public void responseDeleteTrustedNetwork() {
-    }
+    public void responseDeleteTrustedNetwork();
 }
 

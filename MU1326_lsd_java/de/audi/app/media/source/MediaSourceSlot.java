@@ -25,42 +25,34 @@ implements ISourceSlot {
         this.mediaSlot = mediaSlot;
     }
 
-    @Override
     public ISource getSource() {
         return this.source;
     }
 
-    @Override
     public int getIndex() {
         return this.mediaSlot.getIndex();
     }
 
-    @Override
     public int getState() {
         return this.mediaSlot.getState();
     }
 
-    @Override
     public int getContentType() {
         return this.mediaSlot.getContentType();
     }
 
-    @Override
     public int getMediaType() {
         return this.mediaSlot.getMediaType();
     }
 
-    @Override
     public String getName() {
         return this.mediaSlot.getName();
     }
 
-    @Override
     public String getMountPoint() {
         return this.mediaSlot.getMountPoint();
     }
 
-    @Override
     public MediaFlags getFlags() {
         return this.mediaSlot.getFlags();
     }
@@ -73,67 +65,54 @@ implements ISourceSlot {
         return this.mediaSlot.getMediaID();
     }
 
-    @Override
     public String getUniqueMediaId() {
         return this.mediaSlot.getUniqueMediaId();
     }
 
-    @Override
     public boolean isLoaded() {
         return this.mediaSlot.getState() == 3;
     }
 
-    @Override
     public boolean isLoading() {
         return this.mediaSlot.getState() == 1;
     }
 
-    @Override
     public boolean isReloading() {
         return this.mediaSlot.getState() == 2;
     }
 
-    @Override
     public boolean isEmpty() {
         return this.mediaSlot.getState() == 0;
     }
 
-    @Override
     public int getError() {
         return this.mediaSlot.getError();
     }
 
-    @Override
     public int getDeviceIndex() {
         return this.mediaSlot.getDeviceIndex();
     }
 
-    @Override
     public MediaCapabilities getCapabilities() {
         return this.mediaSlot.getCapabilities();
     }
 
-    @Override
     public String getActiveSourceListIcon() {
         return null;
     }
 
-    @Override
     public String getActiveSourceListReflectionIcon() {
         return null;
     }
 
-    @Override
     public String getActiveSourceListClosedIcon() {
         return null;
     }
 
-    @Override
     public String getCaptionIcon() {
         return null;
     }
 
-    @Override
     public String getLoadingIcon() {
         return null;
     }
@@ -142,7 +121,6 @@ implements ISourceSlot {
         return this.getSource().getType() * 100 + this.getIndex();
     }
 
-    @Override
     public boolean equals(Object object) {
         if (!(object instanceof MediaSourceSlot)) {
             return false;

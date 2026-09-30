@@ -15,7 +15,6 @@ implements IOnlineSDSMyAudiService {
         super(logChannel, "OnlineSDSMyAudiService");
     }
 
-    @Override
     public AdbEntry selectContactById(long l) {
         super.log();
         return null;

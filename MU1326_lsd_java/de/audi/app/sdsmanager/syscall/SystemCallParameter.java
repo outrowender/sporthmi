@@ -26,22 +26,18 @@ implements ISystemCallParameter {
         this.value = string;
     }
 
-    @Override
     public int getType() {
         return this.type;
     }
 
-    @Override
     public Object getValue() {
         return this.value;
     }
 
-    @Override
     public boolean getBoolean() {
         return this.getType() == 1 && (Boolean)this.getValue() != false;
     }
 
-    @Override
     public int getInteger() {
         if (this.getType() == 2) {
             return (Integer)this.getValue();
@@ -49,7 +45,6 @@ implements ISystemCallParameter {
         return -1;
     }
 
-    @Override
     public String getString() {
         if (this.getType() == 3) {
             return (String)this.getValue();

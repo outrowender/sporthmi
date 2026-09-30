@@ -19,10 +19,9 @@ extends DefaultAudioListener {
         this.env = audioEnv;
         this.audioService = baseAudioService;
         this.restoreUserMute = audioEnv.getStorageAccess().getBoolean(1009, 19, false);
-        audioEnv.lcDSI.log(1078071040, "[UserMuteRestorer] restoreUserMute:%1", this.restoreUserMute);
+        audioEnv.lcDSI.log(1000000, "[UserMuteRestorer] restoreUserMute:%1", this.restoreUserMute);
     }
 
-    @Override
     public void updateAMAvailable(boolean bl) {
         if (this.amAvailable == bl) {
             return;
@@ -38,14 +37,13 @@ extends DefaultAudioListener {
         }
     }
 
-    @Override
     public void updateConnStatus(int n, int n2, int n3) {
         if (this.amAvailable && n == 8) {
             boolean bl = n2 != 5;
-            this.env.lcDSI.log(1078071040, "[UserMuteRestorer.updateConnStatus] persist mute state, muted:%1", bl);
+            this.env.lcDSI.log(1000000, "[UserMuteRestorer.updateConnStatus] persist mute state, muted:%1", bl);
             this.env.getStorageAccess().setBoolean(1009, 19, bl);
         } else {
-            this.env.lcDSI.log(1078071040, "[UserMuteRestorer.updateConnStatus] ignored for AC:%1, status:%2, amAvailable:%3", (long)n, (long)n2, this.amAvailable);
+            this.env.lcDSI.log(1000000, "[UserMuteRestorer.updateConnStatus] ignored for AC:%1, status:%2, amAvailable:%3", (long)n, (long)n2, this.amAvailable);
         }
     }
 }

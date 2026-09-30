@@ -26,7 +26,6 @@ extends AbstractListAdapterBAP {
         super(abstractCombiModule, 23, receptionListHandler);
     }
 
-    @Override
     protected void sendStatusRequest(GetArrayIndication getArrayIndication, CombiBAPArrayElement[] combiBAPArrayElementArray, StatusArray statusArray) {
         ReceptionList_StatusArray receptionList_StatusArray = (ReceptionList_StatusArray)statusArray;
         receptionList_StatusArray.elementType = ((GetArrayIndicationReceptionList)getArrayIndication).getElementType();
@@ -34,7 +33,6 @@ extends AbstractListAdapterBAP {
         super.sendStatusRequest(getArrayIndication, combiBAPArrayElementArray, receptionList_StatusArray);
     }
 
-    @Override
     protected int getCommonRecordAddress(boolean[] blArray) {
         boolean bl = blArray[0] || blArray[15];
         boolean bl2 = blArray[0] || blArray[1] || blArray[2] || blArray[6];
@@ -47,7 +45,6 @@ extends AbstractListAdapterBAP {
         return CombiBAPReceptionListEntry.getRecordAddress(bl, bl2, bl3, bl4, bl5, bl6, bl7, bl8);
     }
 
-    @Override
     protected BAPArrayElement convertArrayElement(CombiBAPArrayElement combiBAPArrayElement, ArrayHeader arrayHeader) {
         ReceptionList_Data receptionList_Data = new ReceptionList_Data(arrayHeader);
         if (combiBAPArrayElement instanceof CombiBAPReceptionListEntry) {
@@ -70,19 +67,17 @@ extends AbstractListAdapterBAP {
             receptionList_Data.name.setContent(combiBAPReceptionListEntry.getName());
             receptionList_Data.frequency.setContent(combiBAPReceptionListEntry.getFrequency());
         } else {
-            this.logChannel.log(10000, "[ReceptionListAdapterBAP#convertArrayElement] wrong dataType (expected: %1, is: %2)", (Object)(class$de$audi$atip$interapp$combi$bap$audio$data$CombiBAPReceptionListEntry == null ? (class$de$audi$atip$interapp$combi$bap$audio$data$CombiBAPReceptionListEntry = ReceptionListAdapterBAP.class$("de.audi.atip.interapp.combi.bap.audio.data.CombiBAPReceptionListEntry")) : class$de$audi$atip$interapp$combi$bap$audio$data$CombiBAPReceptionListEntry).getName(), (Object)super.getClass().getName());
+            this.logChannel.log(10000, "[ReceptionListAdapterBAP#convertArrayElement] wrong dataType (expected: %1, is: %2)", (Object)(class$de$audi$atip$interapp$combi$bap$audio$data$CombiBAPReceptionListEntry == null ? (class$de$audi$atip$interapp$combi$bap$audio$data$CombiBAPReceptionListEntry = ReceptionListAdapterBAP.class$("de.audi.atip.interapp.combi.bap.audio.data.CombiBAPReceptionListEntry")) : class$de$audi$atip$interapp$combi$bap$audio$data$CombiBAPReceptionListEntry).getName(), (Object)combiBAPArrayElement.getClass().getName());
         }
         return receptionList_Data;
     }
 
-    @Override
     protected BAPArrayElement createArrayElement(ArrayHeader arrayHeader, int n) {
         ReceptionList_Data receptionList_Data = new ReceptionList_Data(arrayHeader);
         receptionList_Data.setPos(n);
         return receptionList_Data;
     }
 
-    @Override
     protected ChangedArray createChangedArraySerializer() {
         ReceptionList_ChangedArray receptionList_ChangedArray = new ReceptionList_ChangedArray();
         receptionList_ChangedArray.elementType = ((ReceptionListHandler)this.listHandler).getListType() == 3 ? (((ReceptionListHandler)this.listHandler).isDABSortAlphabetically() ? 4 : 3) : 5;
@@ -90,7 +85,6 @@ extends AbstractListAdapterBAP {
         return receptionList_ChangedArray;
     }
 
-    @Override
     protected StatusArray createStatusArraySerializer() {
         return new ReceptionList_StatusArray();
     }

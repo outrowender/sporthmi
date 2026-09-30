@@ -25,7 +25,6 @@ TimerListener {
         eventSink = eventDispatcher;
     }
 
-    @Override
     public void processEvent(ATIPEvent aTIPEvent) {
         if (aTIPEvent.getID() == 10601) {
             this.timerListener.fireTimer(this.timer);
@@ -34,20 +33,18 @@ TimerListener {
         }
     }
 
-    @Override
     public void fireTimer(Timer timer) {
         this.timer = timer;
         eventSink.postEvent(new ATIPNotifyEvent(this, 10601));
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
         this.timer = timer;
         eventSink.postEvent(new ATIPNotifyEvent(this, 10602));
     }
 
     public String toString() {
-        return new StringBuffer().append("TimerSyncer timer: ").append(this.timer.getName()).toString();
+        return "TimerSyncer timer: " + this.timer.getName();
     }
 }
 

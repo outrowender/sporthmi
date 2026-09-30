@@ -4,16 +4,12 @@
 package de.audi.app.sdsmanager.dictation.combinedstate;
 
 public interface IDictationStateObserver {
-    default public void updateDictationState(int n) {
-    }
+    public void updateDictationState(int var1);
 
-    default public void updateDictationMaxDuration(long l) {
-    }
+    public void updateDictationMaxDuration(long var1);
 
-    default public void indicateRecordingStarted() {
-    }
+    public void indicateRecordingStarted();
 
-    default public void indicateRecordingStopped() {
-    }
+    public void indicateRecordingStopped();
 }
 

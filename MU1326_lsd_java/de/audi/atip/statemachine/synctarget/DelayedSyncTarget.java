@@ -13,7 +13,6 @@ extends AbstractSyncTarget {
         super(n, n2, syncTargetManager);
     }
 
-    @Override
     public boolean execute(SyncTargetProcessor syncTargetProcessor) {
         if (this.isActive()) {
             return syncTargetProcessor.processSyncTransition(this.transitionID);
@@ -22,7 +21,6 @@ extends AbstractSyncTarget {
         return true;
     }
 
-    @Override
     public void activated(SyncTargetProcessor syncTargetProcessor) {
         if (this.isTriggered()) {
             this.execute(syncTargetProcessor);

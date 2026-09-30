@@ -35,7 +35,7 @@ implements ADBEvoApplication {
     public AddressBookEvoApplication(IFrameworkAccess iFrameworkAccess) {
         super(iFrameworkAccess);
         new AddressBookEvoViewListener(this, this.log);
-        this.entryDetails = new AddressBookEntryDetails(this, new EntryDetailsListRowBuilder(this), this.log, this.getHMIService().getBaseListModel(1873807872), this.getHMIService().getBaseListModel(1840253440), this.getHMIService().getBaseListModel(1857030656));
+        this.entryDetails = new AddressBookEntryDetails(this, new EntryDetailsListRowBuilder(this), this.log, this.getHMIService().getBaseListModel(700527), this.getHMIService().getBaseListModel(700525), this.getHMIService().getBaseListModel(700526));
     }
 
     public void init(BundleContext bundleContext) {
@@ -55,32 +55,27 @@ implements ADBEvoApplication {
         }
     }
 
-    @Override
     protected ADBDSIDefaultListener getNewADBDSIDefaultListener(LogChannel logChannel, ADBStartupHandler aDBStartupHandler, ADBApplication aDBApplication) {
         return new AddressBookEvoDSIDefaultListener(logChannel, aDBStartupHandler, this);
     }
 
-    @Override
     public void entrySelected(ADBSearch aDBSearch, ADBSearchListRow aDBSearchListRow, int n, int n2) {
-        this.log.log(1078071040, "AddressBookEvoApplication#entrySelected(): \"%1\", entryId: %2", (Object)aDBSearchListRow.getCombinedName(), aDBSearchListRow.getEntryId());
+        this.log.log(1000000, "AddressBookEvoApplication#entrySelected(): \"%1\", entryId: %2", (Object)aDBSearchListRow.getCombinedName(), aDBSearchListRow.getEntryId());
         SetListDetailsCommand.createSetListDetailsCommand(this, aDBSearchListRow.getEntryId(), this.getAdbMode(), aDBSearchListRow, aDBSearch);
     }
 
-    @Override
     public void detailsSelected(ADBEntryDetailsListRow aDBEntryDetailsListRow, int n, int n2) {
-        this.log.log(1078071040, "AddressBookEvoApplication#detailsSelected(): \"%1\", entryId: %2", (Object)aDBEntryDetailsListRow.getCombinedName(), aDBEntryDetailsListRow.getEntryId());
+        this.log.log(1000000, "AddressBookEvoApplication#detailsSelected(): \"%1\", entryId: %2", (Object)aDBEntryDetailsListRow.getCombinedName(), aDBEntryDetailsListRow.getEntryId());
         boolean bl = EntryDetailsRowSelectionHandler.entryDetailsRowSelected(this, aDBEntryDetailsListRow);
         if (bl) {
             this.getFramework().getHmiServiceApp().getModelApp(n).fireEvent(n2);
         }
     }
 
-    @Override
     public AddressBookEntryDetails getSelectedEntryDetails() {
         return this.entryDetails;
     }
 
-    @Override
     public ADBOrganizerSearch getADBOrganizerSearch() {
         return this.adbOrganizerSearch;
     }
@@ -89,14 +84,13 @@ implements ADBEvoApplication {
         return this.adbTrufflesSearch;
     }
 
-    @Override
     public void loadMainList(int n) {
-        this.log.log(1078071040, "AddressBookEvoApplication#loadMainList(): adbMode: %1", (Object)ADBDbgUtils.dbgAdbMode(n));
+        this.log.log(1000000, "AddressBookEvoApplication#loadMainList(): adbMode: %1", (Object)ADBDbgUtils.dbgAdbMode(n));
         this.setAdbMode(n);
-        this.adbOrganizerSearch.enableFiltering(this.framework.getHmiServiceApp().getChoiceModel(1538263552).getValue() != 0);
+        this.adbOrganizerSearch.enableFiltering(this.framework.getHmiServiceApp().getChoiceModel(700507).getValue() != 0);
         this.adbOrganizerSearch.startSearch();
         if (this.adbTrufflesSearch != null) {
-            this.adbTrufflesSearch.enableFiltering(this.framework.getHmiServiceApp().getChoiceModel(1538263552).getValue() != 0);
+            this.adbTrufflesSearch.enableFiltering(this.framework.getHmiServiceApp().getChoiceModel(700507).getValue() != 0);
             this.adbTrufflesSearch.startSearch();
         }
         if (n == 2) {

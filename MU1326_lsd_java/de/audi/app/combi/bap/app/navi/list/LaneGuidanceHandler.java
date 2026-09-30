@@ -22,17 +22,14 @@ extends AbstractManagedListHandler {
         return this.displayLaneGuidance;
     }
 
-    @Override
     public void getNextListPos(int n, int n2) {
         this.logChannel.log(10000, "[%1#getNextListPos] not supported", (Object)this.className);
     }
 
-    @Override
     public void getNextListPosResult(boolean bl, int n, int n2, int n3) {
         this.logChannel.log(10000, "[%1#getNextListPosResult] not supported", (Object)this.className);
     }
 
-    @Override
     public int getIndexSize() {
         return 0;
     }

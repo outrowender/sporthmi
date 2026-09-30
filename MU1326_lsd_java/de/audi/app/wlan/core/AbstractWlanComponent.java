@@ -29,16 +29,13 @@ DSIWLANListener {
         this.wlanApplication = iWlanApplication;
     }
 
-    protected abstract int[] getAttributeNotifications() {
-    }
+    protected abstract int[] getAttributeNotifications();
 
-    @Override
     public void init() {
         this.serviceTracker = new ServiceTracker(this.bundleContext, new String[]{(class$org$dsi$ifc$networking$DSIWLAN == null ? (class$org$dsi$ifc$networking$DSIWLAN = AbstractWlanComponent.class$("org.dsi.ifc.networking.DSIWLAN")) : class$org$dsi$ifc$networking$DSIWLAN).getName()}, (ServiceTrackerCustomizer)this);
         this.serviceTracker.open();
     }
 
-    @Override
     public void deinit() {
         if (this.dsiWlan != null) {
             this.dsiWlan.clearNotification(this);
@@ -48,7 +45,6 @@ DSIWLANListener {
         this.serviceTracker = null;
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof DSIWLAN) {
@@ -59,7 +55,6 @@ DSIWLANListener {
         return null;
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object instanceof DSIWLAN) {
             this.dsiWlan = null;
@@ -67,98 +62,75 @@ DSIWLANListener {
         }
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
         if (object instanceof DSIWLAN) {
             this.dsiWlan = (DSIWLAN)object;
         }
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
     }
 
-    @Override
     public void responseAbortSearch(int n) {
     }
 
-    @Override
     public void responseConnectNetwork(String string, String string2, int n) {
     }
 
-    @Override
     public void responseDeleteTrustedNetwork(String string, String string2, int n) {
     }
 
-    @Override
     public void responseDisconnectNetwork(String string, String string2, int n) {
     }
 
-    @Override
     public void responseFactoryReset(int n) {
     }
 
-    @Override
     public void responseNetworkSearch(int n, int n2) {
     }
 
-    @Override
     public void responseSetProfile(int n) {
     }
 
-    @Override
     public void responseSetRFActive(int n) {
     }
 
-    @Override
     public void responseSetRole(int n) {
     }
 
-    @Override
     public void responseActivateWps(int n) {
     }
 
-    @Override
     public void updateConnectedNetwork(String string, String string2, int n, int n2) {
     }
 
-    @Override
     public void updateDiscoveredNetwork(DiscoveredNetwork discoveredNetwork, int n) {
     }
 
-    @Override
     public void updateNodeList(Node[] nodeArray, int n) {
     }
 
-    @Override
     public void updateProfile(Profile profile, int n) {
     }
 
-    @Override
     public void updateRFActive(int n, int n2) {
     }
 
-    @Override
     public void updateRole(int n, int n2) {
     }
 
-    @Override
     public void updateStartupState(int n, int n2) {
     }
 
-    @Override
     public void updateTrustedNetworks(String[] stringArray, String[] stringArray2, int[] nArray, int n) {
     }
 
-    @Override
     public void updateWlanEnabled(boolean bl, int n) {
     }
 
-    @Override
     public void updateWPSRunning(int n, int n2) {
     }
 
-    @Override
     public void updateWPSStoppedAndConnecting(String string, String string2, int n) {
     }
 

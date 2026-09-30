@@ -4,7 +4,6 @@
 package de.audi.app.bap.fw;
 
 public interface CommunicationUpListener {
-    default public void communicationUp() {
-    }
+    public void communicationUp();
 }
 

@@ -12,10 +12,10 @@ import de.audi.atip.statemachine.sds.TTSASR;
 
 public class JointUseDummySMM
 extends AbstractAppSMM {
-    private static final int STATE_DUMMY;
-    private static final int MAX_STATES;
-    private static final int MAX_MEDIATORS;
-    private static final int MAX_TRANSITIONS;
+    private static final int STATE_DUMMY = 1;
+    private static final int MAX_STATES = 2;
+    private static final int MAX_MEDIATORS = 0;
+    private static final int MAX_TRANSITIONS = 0;
 
     public JointUseDummySMM(IFrameworkAccess iFrameworkAccess, int n, String string, int n2, String string2, String string3) {
         this(iFrameworkAccess, n, string, 0, n2, string2, string3);
@@ -28,10 +28,9 @@ extends AbstractAppSMM {
     }
 
     private int getIDBase() {
-        return this.moduleID * -1601830656;
+        return this.moduleID * 100000;
     }
 
-    @Override
     protected void init() {
         this.topLevelStateID = this.getIDBase() + 1;
         this.popupIDList = new int[0];
@@ -57,34 +56,28 @@ extends AbstractAppSMM {
         this.reqExtStateLabelList = new String[0];
     }
 
-    @Override
     public boolean checkGuard(int n, int n2) {
         return true;
     }
 
-    @Override
     public void execEnteredAction(SMServices sMServices, int n) {
     }
 
-    @Override
     public void execEnterAction(SMServices sMServices, int n) {
         if (n == this.getIDBase() + 1) {
             sMServices.enterJointUse(this.terminalID, this.moduleID);
         }
     }
 
-    @Override
     public void execExitAction(SMServices sMServices, int n) {
         if (n == this.getIDBase() + 1) {
             sMServices.leaveJointUse(this.terminalID, this.moduleID);
         }
     }
 
-    @Override
     public void execTransitionAction(SMServices sMServices, int n, int n2) {
     }
 
-    @Override
     public void execSDForState(TTSASR tTSASR, ITTSASRContext iTTSASRContext, int n) {
     }
 }

@@ -6,16 +6,12 @@ package de.audi.atip.hmi.model;
 import de.audi.atip.hmi.model.ListRow;
 
 public interface TooltipListener {
-    default public void tooltipDataRequested(int n, int n2, int n3, boolean bl, int n4) {
-    }
+    public void tooltipDataRequested(int var1, int var2, int var3, boolean var4, int var5);
 
-    default public void tooltipDataRequested(int n, int n2, ListRow listRow, boolean bl, int n3) {
-    }
+    public void tooltipDataRequested(int var1, int var2, ListRow var3, boolean var4, int var5);
 
-    default public void tooltipVisible(int n, int n2, int n3) {
-    }
+    public void tooltipVisible(int var1, int var2, int var3);
 
-    default public void tooltipHidden(int n, int n2, int n3) {
-    }
+    public void tooltipHidden(int var1, int var2, int var3);
 }
 

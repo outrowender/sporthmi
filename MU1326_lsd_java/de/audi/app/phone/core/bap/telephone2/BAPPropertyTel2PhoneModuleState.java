@@ -108,21 +108,19 @@ extends AbstractTel2EnqueuedBAPPropertyHandler {
         super(iTelApplication, dispatcherBase);
     }
 
-    @Override
     protected boolean doProcessGlobalTelephoneStateUpdate(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
-        return iGlobalTelephoneStateStruct != null && (n == 0x3000300 || n == 0x3000100 || n == 0x3000200 || n == 0x3000400);
+        return iGlobalTelephoneStateStruct != null && (n == 196611 || n == 65539 || n == 131075 || n == 262147);
     }
 
-    @Override
     protected void updateAsync() {
         CombiBAPServicePhone2 combiBAPServicePhone2 = this.getCombiService();
         IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct = this.getTelephoneState();
         if (combiBAPServicePhone2 == null) {
-            this.log.log(-1601830656, "[BAPPropertyTel2PhoneModuleState#update] CombiBAPServicePhone is null --> NOP!");
+            this.log.log(100000, "[BAPPropertyTel2PhoneModuleState#update] CombiBAPServicePhone is null --> NOP!");
             return;
         }
         if (iGlobalTelephoneStateStruct == null) {
-            this.log.log(-1601830656, "[BAPPropertyTel2PhoneModuleState#update] state is null --> NOP!");
+            this.log.log(100000, "[BAPPropertyTel2PhoneModuleState#update] state is null --> NOP!");
             return;
         }
         int n = BAPPropertyTel2PhoneModuleState.getModuleState(iGlobalTelephoneStateStruct);
@@ -139,7 +137,7 @@ extends AbstractTel2EnqueuedBAPPropertyHandler {
             buffer.append(n3);
             buffer.append(", simState=");
             buffer.append(n4);
-            this.log.log(1078071040, "[BAPPropertyTel2PhoneModuleState#update] %1", (Object)buffer);
+            this.log.log(1000000, "[BAPPropertyTel2PhoneModuleState#update] %1", (Object)buffer);
         }
         combiBAPServicePhone2.updatePhoneModuleState(n, n2, n3, n4);
     }

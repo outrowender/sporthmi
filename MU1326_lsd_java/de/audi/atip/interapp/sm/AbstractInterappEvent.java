@@ -15,12 +15,10 @@ implements IInterappEvent {
         this.data = n2;
     }
 
-    @Override
     public int getData() {
         return this.data;
     }
 
-    @Override
     public int getId() {
         return this.id;
     }

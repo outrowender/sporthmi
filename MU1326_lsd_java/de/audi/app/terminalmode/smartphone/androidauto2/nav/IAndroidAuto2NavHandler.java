@@ -6,7 +6,6 @@ package de.audi.app.terminalmode.smartphone.androidauto2.nav;
 import de.audi.app.terminalmode.statemachine.ApplicationOwner;
 
 public interface IAndroidAuto2NavHandler {
-    default public void updateNavFocus(ApplicationOwner applicationOwner) {
-    }
+    public void updateNavFocus(ApplicationOwner var1);
 }
 

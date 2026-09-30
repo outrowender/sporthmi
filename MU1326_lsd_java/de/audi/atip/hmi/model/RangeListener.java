@@ -7,10 +7,8 @@ import de.audi.atip.hmi.model.ButtonListener;
 
 public interface RangeListener
 extends ButtonListener {
-    default public void decrement(int n, int n2, int n3) {
-    }
+    public void decrement(int var1, int var2, int var3);
 
-    default public void increment(int n, int n2, int n3) {
-    }
+    public void increment(int var1, int var2, int var3);
 }
 

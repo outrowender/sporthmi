@@ -4,7 +4,6 @@
 package de.audi.atip.interapp.phone;
 
 public interface ITelServiceEcallListener {
-    default public void responseHangupAllCalls(int n) {
-    }
+    public void responseHangupAllCalls(int var1);
 }
 

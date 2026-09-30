@@ -5,26 +5,27 @@ package de.audi.app.media.evo.content.data.favorites.persistent;
 
 import de.audi.app.media.IMediaTerminal;
 import de.audi.app.media.evo.content.data.favorites.persistent.FavoriteHeaderData;
-import de.audi.app.media.evo.content.data.favorites.persistent.FavoriteHeaderStorage$1;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.storage.AbstractStorageDataContainer;
 import de.audi.atip.storage.ValueMissingException;
 import de.esolutions.fw.util.commons.Buffer;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 
 public class FavoriteHeaderStorage
 extends AbstractStorageDataContainer {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "FavoriteHeaderStorage";
     private final LogChannel logger;
-    public static final int INVALID_PERSISTENT_KEY;
-    public static final int MAX_HEADER_DATA;
-    private static final int LIST_LAST_USED;
+    public static final int INVALID_PERSISTENT_KEY = -1;
+    public static final int MAX_HEADER_DATA = 10;
+    private static final int LIST_LAST_USED = 9;
     private volatile ArrayList favoriteHeaderDataList;
 
     public FavoriteHeaderStorage(IMediaTerminal iMediaTerminal) {
@@ -33,25 +34,25 @@ extends AbstractStorageDataContainer {
     }
 
     public void loadFavoriteHeader() {
-        this.logger.log(1078071040, "[%1.loadFavoriteHeader]", (Object)"FavoriteHeaderStorage");
+        this.logger.log(1000000, "[%1.loadFavoriteHeader]", (Object)LOGCLASS);
         this.readAndDeserialize();
     }
 
     public void saveFavoriteHeader() {
-        this.logger.log(1078071040, "[%1.saveFavoriteHeader]", (Object)"FavoriteHeaderStorage");
+        this.logger.log(1000000, "[%1.saveFavoriteHeader]", (Object)LOGCLASS);
         this.serializeAndWrite();
     }
 
     public void resetFavoriteHeader() {
-        this.logger.log(1078071040, "[%1.resetFavoriteHeader]", (Object)"FavoriteHeaderStorage");
+        this.logger.log(1000000, "[%1.resetFavoriteHeader]", (Object)LOGCLASS);
         this.favoriteHeaderDataList = new ArrayList();
         this.saveFavoriteHeader();
     }
 
     public int getPersistentKey(int n, String string) {
-        this.logger.log(1078071040, "[%1.getPersistentKey] '%2' '%3'", (Object)"FavoriteHeaderStorage", (Object)Integer.toString(n), (Object)string);
+        this.logger.log(1000000, "[%1.getPersistentKey] '%2' '%3'", (Object)LOGCLASS, (Object)Integer.toString(n), (Object)string);
         if (null == this.favoriteHeaderDataList) {
-            this.logger.log(1078071040, "[%1.getPersistentKey] Empty list.", (Object)"FavoriteHeaderStorage");
+            this.logger.log(1000000, "[%1.getPersistentKey] Empty list.", (Object)LOGCLASS);
             return -1;
         }
         for (int i2 = 0; i2 < this.favoriteHeaderDataList.size(); ++i2) {
@@ -65,9 +66,9 @@ extends AbstractStorageDataContainer {
 
     public int getNewPersistentKey(int n, String string) {
         int n2;
-        this.logger.log(1078071040, "[%1.getNewPersistentKey]", (Object)"FavoriteHeaderStorage");
+        this.logger.log(1000000, "[%1.getNewPersistentKey]", (Object)LOGCLASS);
         if (null == this.favoriteHeaderDataList) {
-            this.logger.log(1078071040, "[%1.getPersistentKey] Create new header list", (Object)"FavoriteHeaderStorage");
+            this.logger.log(1000000, "[%1.getPersistentKey] Create new header list", (Object)LOGCLASS);
             this.favoriteHeaderDataList = new ArrayList();
         }
         if (this.favoriteHeaderDataList.size() == 10) {
@@ -91,9 +92,22 @@ extends AbstractStorageDataContainer {
 
     public void updateLastUsed(int n) {
         int n2;
-        this.logger.log(1078071040, "[%1.updateLastUsed] key='%2'", (Object)"FavoriteHeaderStorage", (long)n);
+        this.logger.log(1000000, "[%1.updateLastUsed] key='%2'", (Object)LOGCLASS, (long)n);
         ArrayList arrayList = new ArrayList(this.favoriteHeaderDataList);
-        Collections.sort(arrayList, new FavoriteHeaderStorage$1(this));
+        Collections.sort(arrayList, new Comparator(){
+
+            public int compare(Object object, Object object2) {
+                FavoriteHeaderData favoriteHeaderData = (FavoriteHeaderData)object;
+                FavoriteHeaderData favoriteHeaderData2 = (FavoriteHeaderData)object2;
+                if (favoriteHeaderData.getLastUsed() < favoriteHeaderData2.getLastUsed()) {
+                    return 1;
+                }
+                if (favoriteHeaderData.getLastUsed() > favoriteHeaderData2.getLastUsed()) {
+                    return -1;
+                }
+                return 0;
+            }
+        });
         for (n2 = 0; n2 < arrayList.size(); ++n2) {
             FavoriteHeaderData favoriteHeaderData = (FavoriteHeaderData)arrayList.get(n2);
             if (null == favoriteHeaderData || favoriteHeaderData.getPersistentKey() != n) continue;
@@ -110,44 +124,39 @@ extends AbstractStorageDataContainer {
         }
     }
 
-    @Override
     protected void handleCRC32Error() {
         this.favoriteHeaderDataList = new ArrayList();
     }
 
-    @Override
     protected void handleStorageReadError(Exception exception) {
         if (exception instanceof ValueMissingException) {
             this.favoriteHeaderDataList = new ArrayList();
         }
     }
 
-    @Override
     protected void convertContainer(int n, int n2, DataInputStream dataInputStream) {
     }
 
-    @Override
-    protected void serialize(DataOutputStream dataOutputStream) {
-        this.logger.log(1078071040, "[%1.serialize]", (Object)"FavoriteHeaderStorage");
+    protected void serialize(DataOutputStream dataOutputStream) throws IOException {
+        this.logger.log(1000000, "[%1.serialize]", (Object)LOGCLASS);
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(dataOutputStream);
         objectOutputStream.writeObject(this.favoriteHeaderDataList);
     }
 
-    @Override
-    protected void deserialize(DataInputStream dataInputStream) {
-        this.logger.log(1078071040, "[%1.deserialize]", (Object)"FavoriteHeaderStorage");
+    protected void deserialize(DataInputStream dataInputStream) throws IOException {
+        this.logger.log(1000000, "[%1.deserialize]", (Object)LOGCLASS);
         ObjectInputStream objectInputStream = new ObjectInputStream(dataInputStream);
         try {
             this.favoriteHeaderDataList = (ArrayList)objectInputStream.readObject();
         }
         catch (ClassNotFoundException classNotFoundException) {
-            this.logger.log(10000, "[%1.deserialize]", (Object)"FavoriteHeaderStorage", (Throwable)classNotFoundException);
+            this.logger.log(10000, "[%1.deserialize]", (Object)LOGCLASS, (Throwable)classNotFoundException);
         }
         if (null == this.favoriteHeaderDataList) {
             this.favoriteHeaderDataList = new ArrayList();
         }
         if (this.logger.isDebug()) {
-            this.logger.log(-2137614336, "[%1.deserialize] %2", (Object)"FavoriteHeaderStorage", (Object)this.toString());
+            this.logger.log(10000000, "[%1.deserialize] %2", (Object)LOGCLASS, (Object)this.toString());
         }
     }
 

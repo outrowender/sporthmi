@@ -21,8 +21,9 @@ import de.audi.atip.hmi.model.list.BaseListModelApp;
 import de.audi.atip.hmi.model.list.BaseListModelListener;
 import de.audi.atip.hmi.model.menu.MenuModelApp;
 import de.audi.atip.hmi.modelaccess.HMIModelApp;
-import de.audi.atip.interapp.NaviService$OneshotData;
+import de.audi.atip.interapp.NaviService;
 import de.audi.atip.interapp.SDSListEntry;
+import de.audi.atip.interapp.audio.drawer.AudioDrawerContext;
 import de.audi.atip.log.LogChannel;
 import de.audi.tghu.command.CommandList;
 import de.esolutions.fw.util.commons.Buffer;
@@ -40,17 +41,17 @@ import org.dsi.ifc.speechrec.NBestListEntry;
 import org.dsi.ifc.speechrec.NBestSlot;
 
 public final class SDSUtils {
-    public static final long ID_INVALID;
-    public static final int TRANSLATION_NOT_FOUND_INT;
-    public static final int TRANSLATION_NOT_FOUND_BYTE;
-    public static final int SYSTEM_LIST_MODE_COM_DISAMBIGUATION;
-    public static final int SYSTEM_LIST_MODE_FAV_DISAMBIGUATION;
-    private static Set picklistModels;
-    private static Set lockedPicklistModels;
-    public static final int DO_NOT_GENERATE_PERMUTATIONS;
-    public static final int GENERATE_ALL_PERMUTATIONS;
-    public static final int GENERATE_SHORT_PERMUTATIONS;
-    private static final byte NIBBLE_SIZE;
+    public static final long ID_INVALID = 0L;
+    public static final int TRANSLATION_NOT_FOUND_INT = Integer.MIN_VALUE;
+    public static final int TRANSLATION_NOT_FOUND_BYTE = -128;
+    public static final int SYSTEM_LIST_MODE_COM_DISAMBIGUATION = 0;
+    public static final int SYSTEM_LIST_MODE_FAV_DISAMBIGUATION = 1;
+    private static Set picklistModels = new HashSet();
+    private static Set lockedPicklistModels = new HashSet();
+    public static final int DO_NOT_GENERATE_PERMUTATIONS = 0;
+    public static final int GENERATE_ALL_PERMUTATIONS = 1;
+    public static final int GENERATE_SHORT_PERMUTATIONS = 2;
+    private static final byte NIBBLE_SIZE = 8;
 
     private SDSUtils() {
     }
@@ -120,21 +121,21 @@ public final class SDSUtils {
     public static void handleItemSelected(int n, int n2, HMIService hMIService, ISDSApplication iSDSApplication, LogChannel logChannel) {
         BaseListModelApp baseListModelApp = hMIService.getBaseListModel(n);
         if (iSDSApplication.isListLineDataGetActive()) {
-            logChannel.log(-2137614336, "SDSUtils#handleItemSelectedForPicklist: ListLineDataGet active, selecting line #%1!", (long)n2);
+            logChannel.log(10000000, "SDSUtils#handleItemSelectedForPicklist: ListLineDataGet active, selecting line #%1!", (long)n2);
             baseListModelApp.setSelectedIndex(n2);
             if (baseListModelApp.getStatus() != 0) {
                 SDSUtils.lockPicklistModel(n, baseListModelApp, hMIService, logChannel);
             }
             iSDSApplication.sdsListLineDataGet(n, n2);
         } else if (SDSUtils.isUnlockedPicklistModel(n)) {
-            logChannel.log(-2137614336, "SDSUtils#handleItemSelected: ListLineDataGet NOT active!");
+            logChannel.log(10000000, "SDSUtils#handleItemSelected: ListLineDataGet NOT active!");
             SDSUtils.lockPicklistModel(n, baseListModelApp, hMIService, logChannel);
             iSDSApplication.entrySelected(n2);
         }
     }
 
     public static void lockPicklistModel(int n, HMIModelApp hMIModelApp, HMIService hMIService, LogChannel logChannel) {
-        logChannel.log(-2137614336, "SDSUtils#lockPicklistModel: Locking list model %1 and firing event!", (long)n);
+        logChannel.log(10000000, "SDSUtils#lockPicklistModel: Locking list model %1 and firing event!", (long)n);
         hMIModelApp.setStatus(0);
         BaseListModelApp baseListModelApp = hMIService.getBaseListModel(n);
         MenuModelApp menuModelApp = baseListModelApp.getMenu();
@@ -144,7 +145,7 @@ public final class SDSUtils {
     }
 
     public static void unlockPicklistModel(int n, IHMIServiceApp iHMIServiceApp, LogChannel logChannel) {
-        logChannel.log(-2137614336, "SDSUtils#unlockPicklistModel: Resetting cursor position to -1 and unlocking list model %1!", (long)n);
+        logChannel.log(10000000, "SDSUtils#unlockPicklistModel: Resetting cursor position to -1 and unlocking list model %1!", (long)n);
         BaseListModelApp baseListModelApp = iHMIServiceApp.getBaseListModel(n);
         if (baseListModelApp == null) {
             logChannel.log(10000, "SDSUtils#unlockPicklistModel: no base list model with that id found!");
@@ -218,29 +219,29 @@ public final class SDSUtils {
     public static long getSelectedObjectId(NBestStorageAccess nBestStorageAccess, LogChannel logChannel, int n) {
         IPicklistSlot iPicklistSlot = SDSUtils.getSelectedSlot(nBestStorageAccess, logChannel, n);
         long l = iPicklistSlot == null ? -1L : iPicklistSlot.getObjID();
-        logChannel.log(-2137614336, "SDSUtils#selectEntryFromPicklist: objID=%1!", l);
+        logChannel.log(10000000, "SDSUtils#selectEntryFromPicklist: objID=%1!", l);
         return l;
     }
 
     public static String getSelectedObjectStringId(NBestStorageAccess nBestStorageAccess, LogChannel logChannel, int n) {
         IPicklistSlot iPicklistSlot = SDSUtils.getSelectedSlot(nBestStorageAccess, logChannel, n);
         String string = iPicklistSlot == null ? "" : iPicklistSlot.getObjectStringID();
-        logChannel.log(-2137614336, "SDSUtils#selectEntryFromPicklist: objectStringID=%1!", (Object)string);
+        logChannel.log(10000000, "SDSUtils#selectEntryFromPicklist: objectStringID=%1!", (Object)string);
         return string;
     }
 
     public static String getSelectedEntryString(NBestStorageAccess nBestStorageAccess, LogChannel logChannel, int n) {
         IPicklistSlot iPicklistSlot = SDSUtils.getSelectedSlot(nBestStorageAccess, logChannel, n);
         String string = iPicklistSlot == null ? "" : iPicklistSlot.getText();
-        logChannel.log(-2137614336, "SDSUtils#selectEntryFromPicklist: slotText=%1!", (Object)string);
+        logChannel.log(10000000, "SDSUtils#selectEntryFromPicklist: slotText=%1!", (Object)string);
         return string;
     }
 
     public static IPicklistSlot getSelectedSlot(NBestStorageAccess nBestStorageAccess, LogChannel logChannel, int n) {
         IPicklist iPicklist = nBestStorageAccess.getMatchingPicklist((byte)0);
-        logChannel.log(-2137614336, "SDSUtils#getSelectedSlot: picklist=%1!", (Object)iPicklist.toString());
+        logChannel.log(10000000, "SDSUtils#getSelectedSlot: picklist=%1!", (Object)iPicklist.toString());
         int n2 = Math.max(iPicklist.getLastRecogLineNumber(), 0);
-        logChannel.log(-2137614336, "SDSUtils#getSelectedSlot: lastrecogline=%1!", (long)n2);
+        logChannel.log(10000000, "SDSUtils#getSelectedSlot: lastrecogline=%1!", (long)n2);
         return iPicklist.getSlot(n2, n);
     }
 
@@ -473,8 +474,8 @@ public final class SDSUtils {
         return objectArray == null || objectArray.length == 0;
     }
 
-    public static boolean isEmpty(NaviService$OneshotData naviService$OneshotData) {
-        return naviService$OneshotData == null || SDSUtils.isEmpty(naviService$OneshotData.getText());
+    public static boolean isEmpty(NaviService.OneshotData oneshotData) {
+        return oneshotData == null || SDSUtils.isEmpty(oneshotData.getText());
     }
 
     public static boolean isEmpty(IPicklist iPicklist) {
@@ -506,14 +507,17 @@ public final class SDSUtils {
         int n = stringArray.length;
         String[] stringArray2 = new String[n];
         for (int i2 = 0; i2 < n; ++i2) {
+            int n2;
             String[] stringArray3 = stringArray[i2];
             if (stringArray3 == null) continue;
             Buffer buffer = new Buffer();
-            for (String string : stringArray3) {
+            int n3 = stringArray3.length;
+            for (n2 = 0; n2 < n3; ++n2) {
+                String string = stringArray3[n2];
                 if (SDSUtils.isEmpty(string)) continue;
                 buffer.append(string).append(", ");
             }
-            int n2 = buffer.length();
+            n2 = buffer.length();
             stringArray2[i2] = n2 < 3 ? buffer.toString() : buffer.substring(0, n2 - 2);
         }
         return stringArray2;
@@ -536,18 +540,18 @@ public final class SDSUtils {
     }
 
     public static boolean isOnlineRecogActive(LogChannel logChannel) {
-        logChannel.log(-2137614336, "SDSUtils#isOnlineRecogActive: called");
+        logChannel.log(10000000, "SDSUtils#isOnlineRecogActive: called");
         return SDSModelAccess.isPOIOnlineRecogActive();
     }
 
     public static boolean checkReplyCodeForError(int n, LogChannel logChannel) {
         switch (n) {
             case 200: {
-                logChannel.log(-2137614336, "[SDSUtils#checkReplyCodeForError] ReplyCode indicates ABORTED - assuming no error!");
+                logChannel.log(10000000, "[SDSUtils#checkReplyCodeForError] ReplyCode indicates ABORTED - assuming no error!");
                 return false;
             }
             case 111: {
-                logChannel.log(-1601830656, "[SDSUtils#checkReplyCodeForError] ReplyCode indicates GRAMMARS PARTIALLY NOT LOADED - assuming no error!");
+                logChannel.log(100000, "[SDSUtils#checkReplyCodeForError] ReplyCode indicates GRAMMARS PARTIALLY NOT LOADED - assuming no error!");
                 return true;
             }
             case 300: {
@@ -599,34 +603,34 @@ public final class SDSUtils {
                 return true;
             }
             case 13: {
-                logChannel.log(-1601830656, "[SDSUtils#checkReplyCodeForError] ReplyCode indicates Error NO OPERATION PENDING!");
+                logChannel.log(100000, "[SDSUtils#checkReplyCodeForError] ReplyCode indicates Error NO OPERATION PENDING!");
                 return true;
             }
             case 30: {
-                logChannel.log(-1601830656, "[SDSUtils#checkReplyCodeForError] ReplyCode indicates Error NO RECOGNITION STARTED!");
+                logChannel.log(100000, "[SDSUtils#checkReplyCodeForError] ReplyCode indicates Error NO RECOGNITION STARTED!");
                 return true;
             }
             case 14: {
-                logChannel.log(-1601830656, "[SDSUtils#checkReplyCodeForError] ReplyCode indicates Error OPERATION NOT ABORTABLE!");
+                logChannel.log(100000, "[SDSUtils#checkReplyCodeForError] ReplyCode indicates Error OPERATION NOT ABORTABLE!");
                 return true;
             }
             case 32: {
-                logChannel.log(-1601830656, "[SDSUtils#checkReplyCodeForError] ReplyCode indicates Error SR ENGINE FAILURE!");
+                logChannel.log(100000, "[SDSUtils#checkReplyCodeForError] ReplyCode indicates Error SR ENGINE FAILURE!");
                 return true;
             }
         }
-        logChannel.log(-2137614336, "[SDSUtils#checkReplyCodeForError] Unhandled replyCode %1, assuming no error!", (long)n);
+        logChannel.log(10000000, "[SDSUtils#checkReplyCodeForError] Unhandled replyCode %1, assuming no error!", (long)n);
         return false;
     }
 
     public static boolean checkReplyCodeForTimeout(int n, LogChannel logChannel) {
         switch (n) {
             case 101: {
-                logChannel.log(-2137614336, "[SDSUtils#checkReplyCodeForTimeout] ReplyCode indicates Error TIMEOUT!");
+                logChannel.log(10000000, "[SDSUtils#checkReplyCodeForTimeout] ReplyCode indicates Error TIMEOUT!");
                 return true;
             }
         }
-        logChannel.log(-2137614336, "[SDSUtils#checkReplyCodeForTimeout] Unhandled replyCode %1, assuming no error!", (long)n);
+        logChannel.log(10000000, "[SDSUtils#checkReplyCodeForTimeout] Unhandled replyCode %1, assuming no error!", (long)n);
         return false;
     }
 
@@ -657,7 +661,7 @@ public final class SDSUtils {
                 return true;
             }
         }
-        logChannel.log(-2137614336, "[SDSUtils#checkReplyCodeForNonSatisfyingRecognition] Unhandled replyCode %1, assuming satisfying recognition!", (long)n);
+        logChannel.log(10000000, "[SDSUtils#checkReplyCodeForNonSatisfyingRecognition] Unhandled replyCode %1, assuming satisfying recognition!", (long)n);
         return false;
     }
 
@@ -678,7 +682,7 @@ public final class SDSUtils {
     }
 
     public static int getLowNibble(long l) {
-        return (int)(l & 0);
+        return (int)(l & 0x7FL);
     }
 
     public static int getHighNibble(long l) {
@@ -692,17 +696,17 @@ public final class SDSUtils {
     public static long getSlotObjIDForSlotIndex(IPicklistSlot iPicklistSlot, IPicklist iPicklist, LogChannel logChannel) {
         IPicklistElement iPicklistElement;
         int n = iPicklistSlot.getIndex();
-        logChannel.log(-2137614336, "SDSUtils#getSlotObjIDForSlotIndex: Lookup picklist element for slotIndex %1!", (long)n);
+        logChannel.log(10000000, "SDSUtils#getSlotObjIDForSlotIndex: Lookup picklist element for slotIndex %1!", (long)n);
         IPicklistElement iPicklistElement2 = iPicklistElement = iPicklist == null ? null : iPicklist.get(n);
         if (iPicklistElement == null) {
-            logChannel.log(-1601830656, "SDSUtils#getSlotObjID: No picklist element for slotIndex %1!", (long)n);
+            logChannel.log(100000, "SDSUtils#getSlotObjID: No picklist element for slotIndex %1!", (long)n);
             return -1L;
         }
         return iPicklistElement.getObjectID();
     }
 
     public static long[] getSlotObjIDsForGGIndex(IPicklist iPicklist, int n, LogChannel logChannel) {
-        logChannel.log(-2137614336, "[SDSUtils#getObjIDsForGGIndex] for ggIndex %1", (long)n);
+        logChannel.log(10000000, "[SDSUtils#getObjIDsForGGIndex] for ggIndex %1", (long)n);
         if (n == -1 || iPicklist == null) {
             return new long[0];
         }
@@ -713,12 +717,12 @@ public final class SDSUtils {
             IPicklistElement iPicklistElement = iPicklist.get(i2);
             if (iPicklistElement.getGraphGroupIndex() != n) continue;
             long l = iPicklistElement.getObjectID();
-            logChannel.log(-2137614336, "[SDSUtils#getObjIDsForGGIndex] found ggIndex at picklist entry index %1, id=%2", (long)i2, l);
+            logChannel.log(10000000, "[SDSUtils#getObjIDsForGGIndex] found ggIndex at picklist entry index %1, id=%2", (long)i2, l);
             lArray[n3] = l;
             ++n3;
         }
         if (n3 == 0) {
-            logChannel.log(-2137614336, "[SDSUtils#getObjIDsForGGIndex] no entries found for the ggIndex");
+            logChannel.log(10000000, "[SDSUtils#getObjIDsForGGIndex] no entries found for the ggIndex");
             return new long[0];
         }
         long[] lArray2 = new long[n3];
@@ -727,20 +731,20 @@ public final class SDSUtils {
     }
 
     public static long getSlotObjIDForGGIndex(IPicklist iPicklist, int n, LogChannel logChannel) {
-        logChannel.log(-2137614336, "[SDSUtils#getObjIDForGGIndex] for ggIndex %1", (long)n);
+        logChannel.log(10000000, "[SDSUtils#getObjIDForGGIndex] for ggIndex %1", (long)n);
         if (n == -1 || iPicklist == null) {
             return -1L;
         }
-        logChannel.log(-2137614336, "[SDSUtils#getObjIDForGGIndex] picklistFlat=%1", (Object)iPicklist);
+        logChannel.log(10000000, "[SDSUtils#getObjIDForGGIndex] picklistFlat=%1", (Object)iPicklist);
         int n2 = iPicklist.getSize();
         for (int i2 = 0; i2 < n2; ++i2) {
             IPicklistElement iPicklistElement = iPicklist.get(i2);
             if (iPicklistElement.getGraphGroupIndex() != n) continue;
             long l = iPicklistElement.getObjectID();
-            logChannel.log(-2137614336, "[SDSUtils#getObjIDForGGIndex] found ggIndex at picklist entry index %1, id=%2", (long)i2, l);
+            logChannel.log(10000000, "[SDSUtils#getObjIDForGGIndex] found ggIndex at picklist entry index %1, id=%2", (long)i2, l);
             return l;
         }
-        logChannel.log(-2137614336, "[SDSUtils#getObjIDForGGIndex] no entries found for the ggIndex");
+        logChannel.log(10000000, "[SDSUtils#getObjIDForGGIndex] no entries found for the ggIndex");
         return -1L;
     }
 
@@ -748,12 +752,12 @@ public final class SDSUtils {
         IPicklist iPicklist = nBestStorageAccess.getMatchingPicklist((byte)0);
         IPicklistSlot iPicklistSlot = iPicklist.getSlot(0, 0);
         if (iPicklistSlot == null) {
-            logChannel.log(-1601830656, "SDSUtils#getObjIDViaFirstEntryOrGG: picklist slot null!");
+            logChannel.log(100000, "SDSUtils#getObjIDViaFirstEntryOrGG: picklist slot null!");
             return -1L;
         }
         long l = iPicklistSlot.getObjID();
         if (l != -1L) {
-            logChannel.log(-2137614336, "SDSUtils#getObjIDViaFirstEntryOrGG: id=%1", l);
+            logChannel.log(10000000, "SDSUtils#getObjIDViaFirstEntryOrGG: id=%1", l);
             return l;
         }
         return SDSUtils.getObjIDForGraphGroupTitle(nBestStorageAccess, iPicklist, logChannel);
@@ -766,12 +770,12 @@ public final class SDSUtils {
             IPicklist iPicklist2 = nBestStorageAccess.getMatchingPicklist((byte)0);
             return SDSUtils.getSlotObjIDForGGIndex(iPicklist2, n, logChannel);
         }
-        logChannel.log(-1601830656, "SDSUtils#getObjIDViaFirstEntryOrGG: no valid GG-Index!");
+        logChannel.log(100000, "SDSUtils#getObjIDViaFirstEntryOrGG: no valid GG-Index!");
         return -1L;
     }
 
     public static int getSlotIndexForGGIndex(IPicklist iPicklist, int n, LogChannel logChannel) {
-        logChannel.log(-2137614336, "[SDSUtils#getSlotIndexForGGIndex] for ggIndex %1", (long)n);
+        logChannel.log(10000000, "[SDSUtils#getSlotIndexForGGIndex] for ggIndex %1", (long)n);
         if (n == -1 || iPicklist == null) {
             return -1;
         }
@@ -779,7 +783,7 @@ public final class SDSUtils {
         for (int i2 = 0; i2 < n2; ++i2) {
             IPicklistElement iPicklistElement = iPicklist.get(i2);
             if (iPicklistElement.getGraphGroupIndex() != n) continue;
-            logChannel.log(-2137614336, "[SDSUtils#getSlotIndexForGGIndex] found the ggIndex at picklist entry index %1", (long)i2);
+            logChannel.log(10000000, "[SDSUtils#getSlotIndexForGGIndex] found the ggIndex at picklist entry index %1", (long)i2);
             return i2;
         }
         return -1;
@@ -795,36 +799,36 @@ public final class SDSUtils {
         return "";
     }
 
-    public static NaviService$OneshotData matchSlotToOneshotPicklist(IPicklistSlot iPicklistSlot, IPicklist iPicklist, String[] stringArray, byte by, LogChannel logChannel) {
+    public static NaviService.OneshotData matchSlotToOneshotPicklist(IPicklistSlot iPicklistSlot, IPicklist iPicklist, String[] stringArray, byte by, LogChannel logChannel) {
         IPicklistElement iPicklistElement;
-        logChannel.log(-2137614336, "[SDSUtils#matchSlotToOneshotPicklist] for column %1", (long)by);
+        logChannel.log(10000000, "[SDSUtils#matchSlotToOneshotPicklist] for column %1", (long)by);
         if (iPicklistSlot == null || iPicklistSlot.getIndex() < 0) {
-            logChannel.log(-1601830656, "[SDSUtils#matchSlotToOneshotPicklist] -> slot or index invalid");
+            logChannel.log(100000, "[SDSUtils#matchSlotToOneshotPicklist] -> slot or index invalid");
             return null;
         }
         int n = iPicklistSlot.getIndex();
         IPicklistElement iPicklistElement2 = iPicklistElement = iPicklist == null ? null : iPicklist.get(n);
         if (iPicklistElement == null) {
-            logChannel.log(-1601830656, "[SDSUtils#matchSlotToOneshotPicklist] -> no picklist element for index %1", (long)n);
+            logChannel.log(100000, "[SDSUtils#matchSlotToOneshotPicklist] -> no picklist element for index %1", (long)n);
             return null;
         }
         if (stringArray == null) {
-            logChannel.log(-1601830656, "[SDSUtils#matchSlotToOneshotPicklist] -> invalid filter strings for column %1", (long)by);
+            logChannel.log(100000, "[SDSUtils#matchSlotToOneshotPicklist] -> invalid filter strings for column %1", (long)by);
             return null;
         }
         IPicklistSlot[] iPicklistSlotArray = iPicklistElement.getSlots();
         if (SDSUtils.areSlotsInvalidForColumn(iPicklistSlotArray, by)) {
-            logChannel.log(-1601830656, "[SDSUtils#matchSlotToOneshotPicklist] Empty/invalid slot for entry!");
+            logChannel.log(100000, "[SDSUtils#matchSlotToOneshotPicklist] Empty/invalid slot for entry!");
             return null;
         }
         boolean bl = SDSUtils.matchFilterStrings(stringArray, iPicklistSlotArray);
-        logChannel.log(-2137614336, "[SDSUtils#matchSlotToOneshotPicklist] %1 entry!", (Object)(bl ? "Matching" : "Mismatch for"));
+        logChannel.log(10000000, "[SDSUtils#matchSlotToOneshotPicklist] %1 entry!", (Object)(bl ? "Matching" : "Mismatch for"));
         if (!bl) {
             return null;
         }
         IPicklistSlot iPicklistSlot2 = iPicklistSlotArray[by];
-        NaviService$OneshotData naviService$OneshotData = iPicklistSlot2 != null ? new NaviService$OneshotData(iPicklistSlot2.getText(), iPicklistSlot2.getObjectStringID(), iPicklistSlot2.getObjID()) : new NaviService$OneshotData("", "", -1L);
-        return naviService$OneshotData;
+        NaviService.OneshotData oneshotData = iPicklistSlot2 != null ? new NaviService.OneshotData(iPicklistSlot2.getText(), iPicklistSlot2.getObjectStringID(), iPicklistSlot2.getObjID()) : new NaviService.OneshotData("", "", -1L);
+        return oneshotData;
     }
 
     public static boolean areSlotsInvalidForColumn(IPicklistSlot[] iPicklistSlotArray, int n) {
@@ -851,38 +855,38 @@ public final class SDSUtils {
     }
 
     public static void addToMatchingEntries(IPicklistElement iPicklistElement, IPicklistSlot iPicklistSlot, List list, LogChannel logChannel) {
-        logChannel.log(-2137614336, "SDSUtils#addToMatchingEntries: called");
+        logChannel.log(10000000, "SDSUtils#addToMatchingEntries: called");
         PicklistElement picklistElement = new PicklistElement(iPicklistElement.getRuleID(), 0, -1, new IPicklistSlot[]{iPicklistSlot});
-        logChannel.log(-2137614336, "SDSUtils#addToMatchingEntries: matchingElementReduced=%1!", (Object)picklistElement);
+        logChannel.log(10000000, "SDSUtils#addToMatchingEntries: matchingElementReduced=%1!", (Object)picklistElement);
         if (!list.contains(picklistElement)) {
-            logChannel.log(-2137614336, "SDSUtils#addToMatchingEntries: Adding to %1!", (Object)list);
+            logChannel.log(10000000, "SDSUtils#addToMatchingEntries: Adding to %1!", (Object)list);
             list.add(picklistElement);
             return;
         }
-        logChannel.log(-2137614336, "SDSUtils#addToMatchingEntries: Already contained in %1!", (Object)list);
+        logChannel.log(10000000, "SDSUtils#addToMatchingEntries: Already contained in %1!", (Object)list);
     }
 
     public static IPicklist thinOutEntryPicklist(IPicklist iPicklist, String[] stringArray, int n, LogChannel logChannel) {
         Object[] objectArray;
         int n2;
-        logChannel.log(-2137614336, "SDSUtils#thinOutEntryPicklist: filterStrings=%1", (Object)stringArray);
+        logChannel.log(10000000, "SDSUtils#thinOutEntryPicklist: filterStrings=%1", (Object)stringArray);
         ArrayList arrayList = new ArrayList();
         int n3 = iPicklist == null ? 0 : iPicklist.getSize();
         for (n2 = 0; n2 < n3; ++n2) {
             objectArray = iPicklist.get(n2);
             IPicklistSlot[] iPicklistSlotArray = objectArray.getSlots();
             if (SDSUtils.areSlotsInvalidForColumn(iPicklistSlotArray, n)) {
-                logChannel.log(-2137614336, "SDSUtils#thinOutEntryPicklist: %1 entry #%2!", (Object)"Empty/Invalid slot for", (long)n2);
+                logChannel.log(10000000, "SDSUtils#thinOutEntryPicklist: %1 entry #%2!", (Object)"Empty/Invalid slot for", (long)n2);
                 continue;
             }
             boolean bl = SDSUtils.matchFilterStrings(stringArray, iPicklistSlotArray);
-            logChannel.log(-2137614336, "SDSUtils#thinOutEntryPicklist: %1 for entry #%2!", (Object)(bl ? "Match" : "NO match"), (long)n2);
+            logChannel.log(10000000, "SDSUtils#thinOutEntryPicklist: %1 for entry #%2!", (Object)(bl ? "Match" : "NO match"), (long)n2);
             if (!bl) continue;
             SDSUtils.addToMatchingEntries((IPicklistElement)objectArray, iPicklistSlotArray[n], arrayList, logChannel);
         }
         n2 = arrayList.size();
         objectArray = (IPicklistElement[])arrayList.toArray(new IPicklistElement[n2]);
-        logChannel.log(-2137614336, "SDSUtils#thinOutEntryPicklist: matchingSize=%2, matchingElements=%1!", (Object)SDSUtils.toString(objectArray, false), (long)n2);
+        logChannel.log(10000000, "SDSUtils#thinOutEntryPicklist: matchingSize=%2, matchingElements=%1!", (Object)SDSUtils.toString(objectArray, false), (long)n2);
         return new Picklist((IPicklistElement[])objectArray);
     }
 
@@ -910,7 +914,9 @@ public final class SDSUtils {
             return false;
         }
         boolean bl = false;
-        for (String string2 : stringArray) {
+        int n = stringArray.length;
+        for (int i2 = 0; i2 < n; ++i2) {
+            String string2 = stringArray[i2];
             if (SDSUtils.isEmpty(string2) || !string2.equals(string)) continue;
             bl = true;
             break;
@@ -922,8 +928,10 @@ public final class SDSUtils {
         if (SDSUtils.isEmpty(nArray)) {
             return false;
         }
-        for (int n2 : nArray) {
-            if (n2 != n) continue;
+        int n2 = nArray.length;
+        for (int i2 = 0; i2 < n2; ++i2) {
+            int n3 = nArray[i2];
+            if (n3 != n) continue;
             return true;
         }
         return false;
@@ -934,7 +942,7 @@ public final class SDSUtils {
             if (n != nArray[i2][0]) continue;
             return nArray[i2][1];
         }
-        return 128;
+        return Integer.MIN_VALUE;
     }
 
     public static int reverseTranslate(int n, int[][] nArray) {
@@ -942,7 +950,7 @@ public final class SDSUtils {
             if (n != nArray[i2][1]) continue;
             return nArray[i2][0];
         }
-        return 128;
+        return Integer.MIN_VALUE;
     }
 
     public static byte translate(byte by, byte[][] byArray) {
@@ -971,12 +979,12 @@ public final class SDSUtils {
     public static int[] translateMulti(int n, int[][] nArray) {
         for (int i2 = 0; i2 < nArray.length; ++i2) {
             if (nArray[i2].length <= 2) {
-                return new int[]{128, 128};
+                return new int[]{Integer.MIN_VALUE, Integer.MIN_VALUE};
             }
             if (n != nArray[i2][0]) continue;
             return new int[]{nArray[i2][1], nArray[i2][2]};
         }
-        return new int[]{128, 128};
+        return new int[]{Integer.MIN_VALUE, Integer.MIN_VALUE};
     }
 
     public static SDSListEntry[] convertFirstSlotContentToSDSListEntryArray(IPicklistElement[] iPicklistElementArray) {
@@ -1018,16 +1026,16 @@ public final class SDSUtils {
 
     public static void printExceptionStackTrace(Exception exception, String string) {
         LogChannel logChannel = Logger.getMainLog();
-        String string2 = new StringBuffer().append(string).append(": ").toString();
-        logChannel.log(10000, new StringBuffer().append(string2).append(exception.toString()).toString());
-        logChannel.log(10000, new StringBuffer().append(string2).append("STACKTRACE:").toString());
+        String string2 = string + ": ";
+        logChannel.log(10000, string2 + exception.toString());
+        logChannel.log(10000, string2 + "STACKTRACE:");
         StackTraceElement[] stackTraceElementArray = exception.getStackTrace();
         for (int i2 = 0; i2 < stackTraceElementArray.length; ++i2) {
-            logChannel.log(10000, new StringBuffer().append(string2).append(stackTraceElementArray[i2].toString()).toString());
+            logChannel.log(10000, string2 + stackTraceElementArray[i2].toString());
         }
     }
 
-    public static String[][] convertToStringArray(LinkedList linkedList) {
+    public static String[][] convertToStringArray(LinkedList linkedList) throws ClassCastException {
         if (SDSUtils.isEmpty(linkedList)) {
             return new String[0][0];
         }
@@ -1040,7 +1048,7 @@ public final class SDSUtils {
         return stringArray;
     }
 
-    public static String convertToString(LinkedList linkedList) {
+    public static String convertToString(LinkedList linkedList) throws ClassCastException {
         if (SDSUtils.isEmpty(linkedList)) {
             return "";
         }
@@ -1059,7 +1067,7 @@ public final class SDSUtils {
     public static void storeLineData(IPicklistElement iPicklistElement, LogChannel logChannel) {
         String string = SDSUtils.getFirstSlotText(iPicklistElement, logChannel);
         if (string == null) {
-            logChannel.log(-1601830656, "SDSUtils#storeLineData: NULL first slot text!");
+            logChannel.log(100000, "SDSUtils#storeLineData: NULL first slot text!");
             return;
         }
         SDSModelAccess.setListLineDataGetModel(string);
@@ -1079,7 +1087,7 @@ public final class SDSUtils {
     public static void storeLineDataZipCode(IPicklistElement iPicklistElement, LogChannel logChannel) {
         String string = SDSUtils.getFirstSlotText(iPicklistElement, logChannel);
         if (string == null) {
-            logChannel.log(-1601830656, "SDSUtils#storeLineDataZipCode: NULL first slot text!");
+            logChannel.log(100000, "SDSUtils#storeLineDataZipCode: NULL first slot text!");
             return;
         }
         SDSUtils.storeLineDataZipCode(string, logChannel);
@@ -1089,21 +1097,21 @@ public final class SDSUtils {
         int n = string.indexOf(44);
         String string2 = n != -1 ? string.substring(0, n) : string;
         String string3 = n != -1 ? string.substring(n + 1).trim() : "";
-        logChannel.log(-2137614336, "SDSUtils#storeLineDataZipCode: zip='%1', city='%2'", (Object)string2, (Object)string3);
+        logChannel.log(10000000, "SDSUtils#storeLineDataZipCode: zip='%1', city='%2'", (Object)string2, (Object)string3);
         SDSModelAccess.setListLineDataGetModel(string2);
         SDSModelAccess.setListLineDataGetAdditionalModel(string3);
     }
 
     private static String getFirstSlotText(IPicklistElement iPicklistElement, LogChannel logChannel) {
-        logChannel.log(-2137614336, "SDSUtils#getFirstSlotText: selectedElement=%1", (Object)iPicklistElement);
+        logChannel.log(10000000, "SDSUtils#getFirstSlotText: selectedElement=%1", (Object)iPicklistElement);
         Object[] objectArray = iPicklistElement.getSlots();
         if (SDSUtils.isEmpty(objectArray)) {
-            logChannel.log(-1601830656, "SDSUtils#getFirstSlotText: selectedElement has no slots => NOP!");
+            logChannel.log(100000, "SDSUtils#getFirstSlotText: selectedElement has no slots => NOP!");
             return null;
         }
         Object object = objectArray[0];
         if (object == null) {
-            logChannel.log(-1601830656, "SDSUtils#getFirstSlotText: Empty first slot!");
+            logChannel.log(100000, "SDSUtils#getFirstSlotText: Empty first slot!");
             return null;
         }
         SDSUtils.fillSlotModelStringIDs((IPicklistSlot[])objectArray, logChannel);
@@ -1115,7 +1123,7 @@ public final class SDSUtils {
         for (int i2 = 0; i2 < n; ++i2) {
             IPicklistSlot iPicklistSlot = iPicklistSlotArray[i2];
             if (iPicklistSlot == null) {
-                logChannel.log(-1601830656, "SDSUtils#fillSlotModelStringIDs: Slot #%1 is null!", (long)i2);
+                logChannel.log(100000, "SDSUtils#fillSlotModelStringIDs: Slot #%1 is null!", (long)i2);
                 continue;
             }
             SDSModelAccess.setSlotModelStringID(i2 + 1, iPicklistSlot.getObjectStringID());
@@ -1126,16 +1134,28 @@ public final class SDSUtils {
         long l = SDSUtils.compressValues(5, 1);
         int n = SDSUtils.getLowNibble(l);
         int n2 = SDSUtils.getHighNibble(l);
-        System.out.println(new StringBuffer().append(l).append(": ").append(n).append(", ").append(n2).toString());
+        System.out.println(l + ": " + n + ", " + n2);
         String[][] stringArray2 = new String[][]{{"Test1", "Test2"}, {"Test3", "Test4"}};
         System.out.println(SDSUtils.toString(stringArray2, false));
-        long[][] lArrayArray = new long[][]{{1L, 0}, {0, 0}};
+        long[][] lArrayArray = new long[][]{{1L, 2L}, {3L, 4L}};
         System.out.println(SDSUtils.toString(lArrayArray, true));
     }
 
-    static {
-        picklistModels = new HashSet();
-        lockedPicklistModels = new HashSet();
+    public static class DialogContextToPopupToAudioDrawerTriplet {
+        public final int dialogContext;
+        public final int popupMapping;
+        public final AudioDrawerContext.Source audioDrawerContextSource;
+        public static final DialogContextToPopupToAudioDrawerTriplet[] TRIPLET_DATA = new DialogContextToPopupToAudioDrawerTriplet[]{new DialogContextToPopupToAudioDrawerTriplet(0, 100, AudioDrawerContext.SOURCE_SDS_MAIN), new DialogContextToPopupToAudioDrawerTriplet(1, 80, AudioDrawerContext.SOURCE_SDS_ADB), new DialogContextToPopupToAudioDrawerTriplet(2, 81, AudioDrawerContext.SOURCE_SDS_MEDIA), new DialogContextToPopupToAudioDrawerTriplet(3, 82, AudioDrawerContext.SOURCE_SDS_MESSAGING), new DialogContextToPopupToAudioDrawerTriplet(4, 84, AudioDrawerContext.SOURCE_SDS_NAVI), new DialogContextToPopupToAudioDrawerTriplet(5, 83, AudioDrawerContext.SOURCE_SDS_NAVI_ASIA_CNTW), new DialogContextToPopupToAudioDrawerTriplet(6, 85, AudioDrawerContext.SOURCE_SDS_NAVI_POI_ONLINE), new DialogContextToPopupToAudioDrawerTriplet(7, 86, AudioDrawerContext.SOURCE_SDS_PHONE), new DialogContextToPopupToAudioDrawerTriplet(8, 87, AudioDrawerContext.SOURCE_SDS_RHMI), new DialogContextToPopupToAudioDrawerTriplet(9, 88, AudioDrawerContext.SOURCE_SDS_TUNER), new DialogContextToPopupToAudioDrawerTriplet(10, 89, AudioDrawerContext.SOURCE_SDS_NAVI_ASIA_JP), new DialogContextToPopupToAudioDrawerTriplet(11, 90, AudioDrawerContext.SOURCE_SDS_NAVI_ASIA_KR)};
+
+        private DialogContextToPopupToAudioDrawerTriplet(int n, int n2, AudioDrawerContext.Source source) {
+            this.dialogContext = n;
+            this.popupMapping = n2;
+            this.audioDrawerContextSource = source;
+        }
+
+        public String toString() {
+            return new Buffer().append("[dialogCtxt=").append(this.dialogContext).append(", popupMappingID=").append(this.popupMapping).append(", audioDrawerCtxt=").append(this.audioDrawerContextSource).append("]").toString();
+        }
     }
 }
 

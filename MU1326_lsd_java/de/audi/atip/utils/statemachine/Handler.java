@@ -3,25 +3,24 @@
  */
 package de.audi.atip.utils.statemachine;
 
+import de.audi.atip.timer.DefaultTimerListener;
 import de.audi.atip.timer.Timer;
+import de.audi.atip.utils.dispatching.DispatcherBaseAdapter;
 import de.audi.atip.utils.dispatching.IDispatcher;
-import de.audi.atip.utils.dispatching.IDispatcher$ICancelable;
-import de.audi.atip.utils.statemachine.Handler$1;
-import de.audi.atip.utils.statemachine.Handler$2;
-import de.audi.atip.utils.statemachine.Handler$IHandlingStrategy;
-import de.audi.atip.utils.statemachine.Handler$IMessageCodeToStringConverter;
 import de.audi.atip.utils.statemachine.Message;
+import de.audi.atip.utils.statemachine.SyncronousDispatcher;
+import de.esolutions.fw.util.commons.job.DispatcherBase;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 public final class Handler {
     private final IDispatcher dispatcherBase;
-    private final Handler$IHandlingStrategy handlingStrategy;
+    private final IHandlingStrategy handlingStrategy;
     final List messageList;
-    private final Handler$IMessageCodeToStringConverter mConverter;
+    private final IMessageCodeToStringConverter mConverter;
 
-    public Handler(IDispatcher iDispatcher, Handler$IHandlingStrategy iHandlingStrategy, Handler$IMessageCodeToStringConverter iMessageCodeToStringConverter) {
+    public Handler(IDispatcher iDispatcher, IHandlingStrategy iHandlingStrategy, IMessageCodeToStringConverter iMessageCodeToStringConverter) {
         this.dispatcherBase = iDispatcher;
         this.handlingStrategy = iHandlingStrategy;
         this.mConverter = iMessageCodeToStringConverter;
@@ -33,7 +32,7 @@ public final class Handler {
     }
 
     public Message obtainMessage(Runnable runnable) {
-        return this.obtainMessage(143898342, runnable.toString(), runnable);
+        return this.obtainMessage(-424242424, runnable.toString(), runnable);
     }
 
     public Message obtainMessage(int n, Runnable runnable) {
@@ -41,7 +40,7 @@ public final class Handler {
     }
 
     public Message obtainMessage(String string, Runnable runnable) {
-        return this.obtainMessage(143898342, string, runnable);
+        return this.obtainMessage(-424242424, string, runnable);
     }
 
     /*
@@ -163,11 +162,78 @@ public final class Handler {
         }
     }
 
-    static IDispatcher$ICancelable startTimerForDelayedRunnable(Runnable runnable, long l, IDispatcher iDispatcher) {
-        Handler$1 handler$1 = new Handler$1(iDispatcher, runnable);
-        Timer timer = new Timer("delayedMsg", l, true, handler$1);
+    static IDispatcher.ICancelable startTimerForDelayedRunnable(final Runnable runnable, long l, final IDispatcher iDispatcher) {
+        DefaultTimerListener defaultTimerListener = new DefaultTimerListener(){
+
+            public void fireTimer(Timer timer) {
+                iDispatcher.execute(runnable);
+            }
+        };
+        final Timer timer = new Timer("delayedMsg", l, true, defaultTimerListener);
         timer.start();
-        return new Handler$2(timer);
+        return new IDispatcher.ICancelable(){
+
+            public void cancel() {
+                timer.cancel();
+            }
+        };
+    }
+
+    public static class HandlerBuilder {
+        private IDispatcher dispatcher = new SyncronousDispatcher();
+        private IHandlingStrategy handlingStrategy = new DefaultHandlingStrategy();
+        private IMessageCodeToStringConverter messageCodeToStringConverter = new DefaulftConverter();
+
+        public HandlerBuilder setDispatcher(IDispatcher iDispatcher) {
+            this.dispatcher = iDispatcher;
+            return this;
+        }
+
+        public HandlerBuilder setDispatcher(DispatcherBase dispatcherBase) {
+            this.dispatcher = new DispatcherBaseAdapter(dispatcherBase);
+            return this;
+        }
+
+        public HandlerBuilder setHandlingStrategy(IHandlingStrategy iHandlingStrategy) {
+            this.handlingStrategy = iHandlingStrategy;
+            return this;
+        }
+
+        public HandlerBuilder setMessageCodeToStringConverter(IMessageCodeToStringConverter iMessageCodeToStringConverter) {
+            this.messageCodeToStringConverter = iMessageCodeToStringConverter;
+            return this;
+        }
+
+        public Handler getHandler() {
+            return new Handler(this.dispatcher, this.handlingStrategy, this.messageCodeToStringConverter);
+        }
+    }
+
+    private static class DefaulftConverter
+    implements IMessageCodeToStringConverter {
+        private DefaulftConverter() {
+        }
+
+        public String messageCodeToString(int n) {
+            return Integer.toString(n);
+        }
+    }
+
+    public static interface IHandlingStrategy {
+        public void handleMessage(Message var1);
+    }
+
+    private static class DefaultHandlingStrategy
+    implements IHandlingStrategy {
+        private DefaultHandlingStrategy() {
+        }
+
+        public void handleMessage(Message message) {
+        }
+    }
+
+    public static interface IMessageCodeToStringConverter {
+        public String messageCodeToString(int var1);
     }
 }
 

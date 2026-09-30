@@ -14,19 +14,14 @@ extends CharacterConverter {
     CharacterConverterSimple() {
     }
 
-    abstract String byteTable() {
-    }
+    abstract String byteTable();
 
-    abstract String charKeys() {
-    }
+    abstract String charKeys();
 
-    abstract String charValues() {
-    }
+    abstract String charValues();
 
-    private native int convertImpl(byte[] byArray, int n, char[] cArray, int n2, int n3, String string) {
-    }
+    private native int convertImpl(byte[] var1, int var2, char[] var3, int var4, int var5, String var6);
 
-    @Override
     public int convert(byte[] byArray, int n, char[] cArray, int n2, int n3) {
         if (useNative) {
             return this.convertImpl(byArray, n, cArray, n2, n3, this.byteTable());
@@ -40,10 +35,8 @@ extends CharacterConverter {
         return n;
     }
 
-    private native byte[] convertImpl(char[] cArray, int n, int n2, String string, String string2) {
-    }
+    private native byte[] convertImpl(char[] var1, int var2, int var3, String var4, String var5);
 
-    @Override
     public byte[] convert(char[] cArray, int n, int n2) {
         if (useNative) {
             return this.convertImpl(cArray, n, n2, this.charKeys(), this.charValues());
@@ -63,7 +56,7 @@ extends CharacterConverter {
                 if (n6 >= 0) {
                     byArray[n3++] = (byte)string2.charAt(n6);
                 } else {
-                    if (c2 >= '\ud80000' && c2 < '\udc0000' && n5 + 1 < n4 && cArray[n5 + 1] >= '\udc0000' && cArray[n5 + 1] < '\ue00000') {
+                    if (c2 >= '\ud800' && c2 < '\udc00' && n5 + 1 < n4 && cArray[n5 + 1] >= '\udc00' && cArray[n5 + 1] < '\ue000') {
                         ++n5;
                     }
                     byArray[n3++] = 63;

@@ -4,19 +4,16 @@
 package de.audi.atip.interapp;
 
 public interface InfoService {
-    public static final int TIM_NOT_AVAILABLE;
-    public static final int TIM_AVAILABLE;
-    public static final int TIM_RECORDING;
-    public static final int TMC_MESSAGES_NOT_AVAILABLE;
-    public static final int TMC_MESSAGES_AVAILABLE;
+    public static final int TIM_NOT_AVAILABLE = 0;
+    public static final int TIM_AVAILABLE = 1;
+    public static final int TIM_RECORDING = 2;
+    public static final int TMC_MESSAGES_NOT_AVAILABLE = 0;
+    public static final int TMC_MESSAGES_AVAILABLE = 1;
 
-    default public int getTPInfoAvailable() {
-    }
+    public int getTPInfoAvailable();
 
-    default public void speakTmcMessages(boolean bl) {
-    }
+    public void speakTmcMessages(boolean var1);
 
-    default public void speakTIMMessages(boolean bl) {
-    }
+    public void speakTIMMessages(boolean var1);
 }
 

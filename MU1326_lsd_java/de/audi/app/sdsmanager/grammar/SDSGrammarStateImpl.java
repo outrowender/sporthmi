@@ -13,16 +13,14 @@ import java.util.TreeSet;
 
 public class SDSGrammarStateImpl
 implements ISDSGrammarState {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "SDSGrammarStateImpl";
     private LogChannel lc = Logger.getGrammarLog();
     private volatile SortedSet loadedGrammarIdSet = new TreeSet();
 
-    @Override
     public SortedSet getCurrentlyLoadedGrammarRuleIDs() {
         return this.loadedGrammarIdSet;
     }
 
-    @Override
     public void setCurrentlyLoadedGrammarRuleIDs(SortedSet sortedSet) {
         if (sortedSet == null) {
             throw new IllegalArgumentException();
@@ -33,7 +31,7 @@ implements ISDSGrammarState {
             while (iterator.hasNext()) {
                 buffer.append(iterator.next()).append(",");
             }
-            this.lc.log(-2137614336, "[%1#setCurrentlyLoadedGrammerRuleIDs] %2", (Object)"SDSGrammarStateImpl", (Object)buffer);
+            this.lc.log(10000000, "[%1#setCurrentlyLoadedGrammerRuleIDs] %2", (Object)LOGCLASS, (Object)buffer);
         }
         this.loadedGrammarIdSet = sortedSet;
     }

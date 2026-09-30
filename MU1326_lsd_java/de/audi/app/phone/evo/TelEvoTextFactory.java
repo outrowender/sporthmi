@@ -15,50 +15,49 @@ implements ITelTextFactory {
         this.hmiService = iTelApplication.getFrameworkAccess().getHmiServiceApp();
     }
 
-    @Override
     public String getText(int n) {
         switch (n) {
             case 0: {
-                return this.hmiService.getText(-1902640128);
+                return this.hmiService.getText(301198);
             }
             case 3: {
-                return this.hmiService.getText(-2137521152);
+                return this.hmiService.getText(301184);
             }
             case 1: {
-                return this.hmiService.getText(-2120743936);
+                return this.hmiService.getText(301185);
             }
             case 4: {
-                return this.hmiService.getText(2123891712);
+                return this.hmiService.getText(301182);
             }
             case 2: {
-                return this.hmiService.getText(2140668928);
+                return this.hmiService.getText(301183);
             }
             case 5: {
-                return this.hmiService.getText(10290176);
+                return this.hmiService.getText(302336);
             }
             case 7: {
-                return this.hmiService.getText(-6552576);
+                return this.hmiService.getText(302335);
             }
             case 6: {
-                return this.hmiService.getText(27067392);
+                return this.hmiService.getText(302337);
             }
             case 8: {
-                return this.hmiService.getText(597230592);
+                return this.hmiService.getText(301347);
             }
             case 9: {
-                return this.hmiService.getText(312280064);
+                return this.hmiService.getText(302354);
             }
             case 10: {
-                return this.hmiService.getText(329057280);
+                return this.hmiService.getText(302355);
             }
             case 11: {
-                return this.hmiService.getText(345834496);
+                return this.hmiService.getText(302356);
             }
             case 12: {
-                return this.hmiService.getText(362611712);
+                return this.hmiService.getText(302357);
             }
             case 13: {
-                return this.hmiService.getText(496829440);
+                return this.hmiService.getText(302365);
             }
         }
         return "";

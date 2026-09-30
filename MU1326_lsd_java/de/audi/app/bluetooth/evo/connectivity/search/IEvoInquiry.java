@@ -7,10 +7,8 @@ import de.audi.app.bluetooth.core.connectivity.search.IInquiry;
 
 public interface IEvoInquiry
 extends IInquiry {
-    default public void abortInquiry(int n) {
-    }
+    public void abortInquiry(int var1);
 
-    default public void prepareServiceSpecificInquiry(int n, boolean bl) {
-    }
+    public void prepareServiceSpecificInquiry(int var1, boolean var2);
 }
 

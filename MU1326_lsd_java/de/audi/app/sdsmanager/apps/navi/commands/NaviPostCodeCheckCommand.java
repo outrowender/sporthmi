@@ -18,14 +18,13 @@ extends AbstractSystemCallCommand {
         this.service = naviService;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[%1#execute] Requesting postcode format!", (Object)this.getName());
+        this.logger.log(10000000, "[%1#execute] Requesting postcode format!", (Object)this.getName());
         this.service.requestPostCodeFormat();
     }
 
     public void sdsPostCodeCheckResult(byte by, boolean bl) {
-        this.logger.log(-2137614336, "[%1#sdsPostCodeCheckResult] result=%3, isNumeric=%2", (Object)this.getName(), (Object)bl, (long)by);
+        this.logger.log(10000000, "[%1#sdsPostCodeCheckResult] result=%3, isNumeric=%2", (Object)this.getName(), (Object)bl, (long)by);
         if (by != 0) {
             this.sendResult(3001);
         }

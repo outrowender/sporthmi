@@ -4,22 +4,16 @@
 package de.audi.atip.interapp;
 
 public interface ADBSDSServiceListener {
-    default public void responseFillAdbPickList(int n) {
-    }
+    public void responseFillAdbPickList(int var1);
 
-    default public void responseFillTelNumberList(int n, String string, int n2, String string2, int[] nArray) {
-    }
+    public void responseFillTelNumberList(int var1, String var2, int var3, String var4, int[] var5);
 
-    default public void responseFillEmailList(int n, String string, int n2, String string2, int n3) {
-    }
+    public void responseFillEmailList(int var1, String var2, int var3, String var4, int var5);
 
-    default public void responseShowAddresses(int n, int[] nArray, String string) {
-    }
+    public void responseShowAddresses(int var1, int[] var2, String var3);
 
-    default public void responseOpenEntryDetails(int n, String string) {
-    }
+    public void responseOpenEntryDetails(int var1, String var2);
 
-    default public void responseGetEntryNames(String[] stringArray) {
-    }
+    public void responseGetEntryNames(String[] var1);
 }
 

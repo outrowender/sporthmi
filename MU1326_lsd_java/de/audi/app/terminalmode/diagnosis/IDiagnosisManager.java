@@ -8,22 +8,16 @@ import de.audi.app.terminalmode.diagnosis.IDiagnosisDataProvider;
 import java.util.List;
 
 public interface IDiagnosisManager {
-    default public void addDataProvider(int n, IDiagnosisDataProvider iDiagnosisDataProvider) {
-    }
+    public void addDataProvider(int var1, IDiagnosisDataProvider var2);
 
-    default public List getDataProviderKeys(int n) {
-    }
+    public List getDataProviderKeys(int var1);
 
-    default public IDiagnosisDataProvider getDataProvider(int n, String string) {
-    }
+    public IDiagnosisDataProvider getDataProvider(int var1, String var2);
 
-    default public void addCommandProvider(int n, IDiagnosisCommandProvider iDiagnosisCommandProvider) {
-    }
+    public void addCommandProvider(int var1, IDiagnosisCommandProvider var2);
 
-    default public List getCommandProviderKeys(int n) {
-    }
+    public List getCommandProviderKeys(int var1);
 
-    default public IDiagnosisCommandProvider getCommandProvider(int n, String string) {
-    }
+    public IDiagnosisCommandProvider getCommandProvider(int var1, String var2);
 }
 

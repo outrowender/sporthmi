@@ -19,11 +19,10 @@ extends AbstractSdisCmdSendUpdate {
         this.sdisAudioListener = sdisAudioListener;
     }
 
-    @Override
     public void execute() {
         int n = this.volumeLockState.getState();
         int n2 = this.volumeLockState.getAudioContext();
-        this.logger.log(1078071040, "[SdisCmdSendLockState.execute] lockState: %1, audioContext: %2", (long)n, (long)n2);
+        this.logger.log(1000000, "[SdisCmdSendLockState.execute] lockState: %1, audioContext: %2", (long)n, (long)n2);
         this.sdisAudioListener.updateVolumeLockState(this.volumeLockState);
         this.commandList.commandFinished();
     }

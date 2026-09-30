@@ -8,7 +8,6 @@ import com.ibm.oti.util.ExtendedResourceBundle;
 
 public class Locale_en
 extends ExtendedResourceBundle {
-    @Override
     protected Object[][] getContents() {
         Object[][] objectArray = new Object[][]{{Locale.CURRENCY, "\u00a4#,##0.00"}};
         return objectArray;

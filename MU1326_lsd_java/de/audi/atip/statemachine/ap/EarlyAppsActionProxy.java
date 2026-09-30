@@ -7,13 +7,10 @@ import de.audi.atip.statemachine.ActionProxy;
 
 public interface EarlyAppsActionProxy
 extends ActionProxy {
-    default public void volumeLoweredEntertainmnetExited(int n) {
-    }
+    public void volumeLoweredEntertainmnetExited(int var1);
 
-    default public void carMenusEnteredEarly(int n, boolean bl) {
-    }
+    public void carMenusEnteredEarly(int var1, boolean var2);
 
-    default public void phevGoodbyeEntered(int n, boolean bl) {
-    }
+    public void phevGoodbyeEntered(int var1, boolean var2);
 }
 

@@ -9,7 +9,6 @@ import de.audi.app.navi.evo.addressinput.city.CityStreetHistoryListRowBuilder;
 import de.audi.atip.hmi.model.list.EvoListRow;
 import de.audi.atip.log.LogChannel;
 import de.audi.tghu.navi.app.CityHistory;
-import de.audi.tghu.navi.app.CityHistory$HistoryForCurrentInput;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.addressinput.IAddressInputFormModelAccessHelper;
 import de.audi.tghu.navi.app.util.Util;
@@ -29,11 +28,10 @@ extends AbstractEvoMatchspellerModelAccess {
         this.historyListRowBuilder = new CityStreetHistoryListRowBuilder();
     }
 
-    protected CityHistory$HistoryForCurrentInput getMatchingHistoryEntries(String string) {
-        return new CityHistory$HistoryForCurrentInput(this.cityHistory.getMatchingLastCities(string));
+    protected CityHistory.HistoryForCurrentInput getMatchingHistoryEntries(String string) {
+        return new CityHistory.HistoryForCurrentInput(this.cityHistory.getMatchingLastCities(string));
     }
 
-    @Override
     public void onUpdateResultList(LIValueList lIValueList, long l, String string, boolean bl, int n, int n2) {
         int n3;
         EvoListRow[] evoListRowArray;
@@ -57,11 +55,11 @@ extends AbstractEvoMatchspellerModelAccess {
         }
         int n6 = n2 == 0 ? n5 : 0;
         for (n3 = 0; n3 < lIValueListElementArray.length; ++n3) {
-            evoListRowArray[n3 + n6] = new AddressInputLIValueListElementListRow(lIValueListElementArray[n3], 160082217, new int[0]);
+            evoListRowArray[n3 + n6] = new AddressInputLIValueListElementListRow(lIValueListElementArray[n3], 698976777, new int[0]);
         }
-        this.logChannel.log(-2137614336, "CityZipInputModelAccess#onUpdateResultList - updating Row-Length from %1 to %2", (long)this.previewListModelApp.getLength(), (long)((int)l + n5));
+        this.logChannel.log(10000000, "CityZipInputModelAccess#onUpdateResultList - updating Row-Length from %1 to %2", (long)this.previewListModelApp.getLength(), (long)((int)l + n5));
         this.previewListModelApp.setLength((int)l + n5);
-        this.logChannel.log(-2137614336, "CityZipInputModelAccess#onUpdateResultList the TiledList will be updated with requestID = %1, startingIndex = %2", (long)n, (long)n2);
+        this.logChannel.log(10000000, "CityZipInputModelAccess#onUpdateResultList the TiledList will be updated with requestID = %1, startingIndex = %2", (long)n, (long)n2);
         this.previewListModelApp.setRows(n, n2, evoListRowArray);
         this.matchSpellerModelApp.setMatchCount((int)l, n4);
     }

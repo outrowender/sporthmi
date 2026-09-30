@@ -8,7 +8,7 @@ import org.dsi.ifc.messaging.MessageDetails;
 
 public class ConcatenatedSMS {
     public static String checkEllipsis(MessageDetails messageDetails, LogChannel logChannel) {
-        logChannel.log(1078071040, "[ConcatenatedSMS#checkEllipsis]");
+        logChannel.log(1000000, "[ConcatenatedSMS#checkEllipsis]");
         int[] nArray = messageDetails.getSegmentLengths();
         String string = messageDetails.getBody();
         if (nArray == null || nArray.length <= 1) {
@@ -29,7 +29,7 @@ public class ConcatenatedSMS {
             return stringBuffer.toString();
         }
         catch (Exception exception) {
-            logChannel.log(-1601830656, "[ConcatenatedSMS#checkEllipsis] Modification of the bodytext failed. Return original body!");
+            logChannel.log(100000, "[ConcatenatedSMS#checkEllipsis] Modification of the bodytext failed. Return original body!");
             return string;
         }
     }

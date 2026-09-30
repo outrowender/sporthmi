@@ -8,10 +8,10 @@ import de.audi.atip.metrics.de.DistanceEntityPorsche;
 import de.esolutions.fw.util.commons.Buffer;
 
 public class DistanceEntity {
-    public static final char ONE_QUARTER;
-    public static final char ONE_THIRD;
-    public static final char ONE_HALF;
-    public static final char THREE_QUARTERS;
+    public static final char ONE_QUARTER = '\u00bc';
+    public static final char ONE_THIRD = '\u2153';
+    public static final char ONE_HALF = '\u00bd';
+    public static final char THREE_QUARTERS = '\u00be';
     public int distanceMajor = -1;
     public int distanceMinor = -1;
     public int distanceSepTextConstant = -1;
@@ -63,20 +63,20 @@ public class DistanceEntity {
     }
 
     public final float toFloat() {
-        int n = 32959;
+        float f2 = -1.0f;
         if (this.isValid) {
-            n = (int)0.0f;
+            f2 = 0.0f;
             if (this.distanceMajor >= 0) {
-                n = (int)((float)this.distanceMajor);
+                f2 = this.distanceMajor;
             }
             if (this.distanceMinor >= 0) {
-                float f2;
-                for (f2 = (float)this.distanceMinor; f2 >= 1.0f; f2 /= 8257) {
+                float f3;
+                for (f3 = (float)this.distanceMinor; f3 >= 1.0f; f3 /= 10.0f) {
                 }
-                n += f2;
+                f2 += f3;
             }
         }
-        return n;
+        return f2;
     }
 
     public void toBuffer(Buffer buffer) {

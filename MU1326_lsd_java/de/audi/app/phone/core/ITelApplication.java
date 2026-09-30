@@ -31,102 +31,75 @@ import de.mib.swdiagnosis.phone.IPhoneDiagComponent;
 import org.osgi.framework.BundleContext;
 
 public interface ITelApplication {
-    public static final int PHONE_MODULE_ID;
-    public static final String MODULE_NAME;
-    public static final String LOGCHANNEL_MAIN;
-    public static final String LOGCHANNEL_AUDIO;
-    public static final String LOGCHANNEL_AUDIO_CL;
-    public static final String LOGCHANNEL_BAP;
-    public static final String LOGCHANNEL_BAP_CL;
-    public static final String LOGCHANNEL_LOCKSTATE;
-    public static final String LOGCHANNEL_SEARCH;
-    public static final String LOGCHANNEL_DSI;
-    public static final String LOGCHANNEL_DSI_CL;
-    public static final String LOGCHANNEL_STATE;
-    public static final String LOGCHANNEL_DISPATCHER;
-    public static final String LOGCHANNEL_STATE_DISPATCHER;
-    public static final String LOGCHANNEL_STARTUP;
-    public static final String LOGCHANNEL_FAVORITES;
+    public static final int PHONE_MODULE_ID = 3;
+    public static final String MODULE_NAME = "AppPhone";
+    public static final String LOGCHANNEL_MAIN = "App.Phone.Main";
+    public static final String LOGCHANNEL_AUDIO = "App.Phone.Audio";
+    public static final String LOGCHANNEL_AUDIO_CL = "App.Phone.Audio.CL";
+    public static final String LOGCHANNEL_BAP = "App.Phone.BAP";
+    public static final String LOGCHANNEL_BAP_CL = "App.Phone.BAP.CL";
+    public static final String LOGCHANNEL_LOCKSTATE = "App.Phone.LockState";
+    public static final String LOGCHANNEL_SEARCH = "App.Phone.Search";
+    public static final String LOGCHANNEL_DSI = "App.Phone.DSI";
+    public static final String LOGCHANNEL_DSI_CL = "App.Phone.DSI.CL";
+    public static final String LOGCHANNEL_STATE = "App.Phone.State";
+    public static final String LOGCHANNEL_DISPATCHER = "App.Phone.Dispatcher";
+    public static final String LOGCHANNEL_STATE_DISPATCHER = "App.Phone.State.Dispatcher";
+    public static final String LOGCHANNEL_STARTUP = "App.Phone.Startup";
+    public static final String LOGCHANNEL_FAVORITES = "App.Phone.Favorites";
 
-    default public void init() {
-    }
+    public void init();
 
-    default public void deinit() {
-    }
+    public void deinit();
 
-    default public BundleContext getBundleContext() {
-    }
+    public BundleContext getBundleContext();
 
-    default public IFrameworkAccess getFrameworkAccess() {
-    }
+    public IFrameworkAccess getFrameworkAccess();
 
-    default public IActionProxyDispatcher getActionProxyDispatcher() {
-    }
+    public IActionProxyDispatcher getActionProxyDispatcher();
 
-    default public IGlobalTelephoneState getGlobalTelephoneStateManager() {
-    }
+    public IGlobalTelephoneState getGlobalTelephoneStateManager();
 
-    default public IPowerEventDispatcher getPowerEventDispatcher() {
-    }
+    public IPowerEventDispatcher getPowerEventDispatcher();
 
-    default public IMessageDispatcher getMessageDispatcher() {
-    }
+    public IMessageDispatcher getMessageDispatcher();
 
-    default public IPopupScreenStateDispatcher getPopupScreenStateDispatcher() {
-    }
+    public IPopupScreenStateDispatcher getPopupScreenStateDispatcher();
 
-    default public ILanguageUpdateDispatcher getLanguageUpdateDispatcher() {
-    }
+    public ILanguageUpdateDispatcher getLanguageUpdateDispatcher();
 
-    default public ITelephoneDSIAccess getTelephoneDSIAccess() {
-    }
+    public ITelephoneDSIAccess getTelephoneDSIAccess();
 
-    default public void addDiagnosisComponent(IPhoneDiagComponent iPhoneDiagComponent) {
-    }
+    public void addDiagnosisComponent(IPhoneDiagComponent var1);
 
-    default public ITelDSIResponseListener getDefaultListener() {
-    }
+    public ITelDSIResponseListener getDefaultListener();
 
-    default public ITelADBHandler getADBHandler() {
-    }
+    public ITelADBHandler getADBHandler();
 
-    default public ITelCallControl getCallControl() {
-    }
+    public ITelCallControl getCallControl();
 
-    default public ITelTextFactory getTextFactory() {
-    }
+    public ITelTextFactory getTextFactory();
 
-    default public IEmergencyTextFactory geEmergencyTextFactory() {
-    }
+    public IEmergencyTextFactory geEmergencyTextFactory();
 
-    default public ITelDialSuppServiceHandler getDialSuppServiceHandler() {
-    }
+    public ITelDialSuppServiceHandler getDialSuppServiceHandler();
 
-    default public ITelAudio getAudio() {
-    }
+    public ITelAudio getAudio();
 
-    default public ITelEPMHandler getEPMHandler() {
-    }
+    public ITelEPMHandler getEPMHandler();
 
-    default public ITelBluetoothHandler getBluetoothHandler() {
-    }
+    public ITelBluetoothHandler getBluetoothHandler();
 
-    default public void logStartupEvent(String string) {
-    }
+    public void logStartupEvent(String var1);
 
-    default public ITelDSIResponseErrorHandler getDSIDefaultResponseErrorHandler() {
-    }
+    public ITelDSIResponseErrorHandler getDSIDefaultResponseErrorHandler();
 
-    default public LogChannel getLogChannel(String string) {
-    }
+    public LogChannel getLogChannel(String var1);
 
-    default public TelEventQueue getTelEventQueue() {
-    }
+    public TelEventQueue getTelEventQueue();
 
-    default public void enqueueEvent(AbstractTelEvent abstractTelEvent) {
-    }
+    public void enqueueEvent(AbstractTelEvent var1);
 
-    default public LogChannel getStartupLogChannel() {
-    }
+    public LogChannel getStartupLogChannel();
 }
 

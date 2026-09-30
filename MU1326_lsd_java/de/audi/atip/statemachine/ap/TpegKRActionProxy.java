@@ -7,19 +7,14 @@ import de.audi.atip.statemachine.ActionProxy;
 
 public interface TpegKRActionProxy
 extends ActionProxy {
-    default public void tpegInfoMenuEntered(int n) {
-    }
+    public void tpegInfoMenuEntered(int var1);
 
-    default public void tpegEnterPreviewMapScreen(int n) {
-    }
+    public void tpegEnterPreviewMapScreen(int var1);
 
-    default public void tpegExitPreviewMapScreen(int n) {
-    }
+    public void tpegExitPreviewMapScreen(int var1);
 
-    default public void tpegEnterRRD(int n) {
-    }
+    public void tpegEnterRRD(int var1);
 
-    default public void tpegExitRRD(int n) {
-    }
+    public void tpegExitRRD(int var1);
 }
 

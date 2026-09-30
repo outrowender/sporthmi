@@ -36,19 +36,17 @@ implements IASIProvider {
         }
     }
 
-    @Override
     public IService getService() {
         return this.asiService;
     }
 
-    @Override
-    public void setAirconAC(boolean bl, ASIHMISyncCarClimateReply aSIHMISyncCarClimateReply) {
+    public void setAirconAC(boolean bl, ASIHMISyncCarClimateReply aSIHMISyncCarClimateReply) throws MethodException {
         String string = (class$org$dsi$ifc$caraircondition$DSICarAirCondition == null ? (class$org$dsi$ifc$caraircondition$DSICarAirCondition = CarClimateASIProvider.class$("org.dsi.ifc.caraircondition.DSICarAirCondition")) : class$org$dsi$ifc$caraircondition$DSICarAirCondition).getName();
         if (this.sdisBase != null && this.sdisBase.getDSI(string) != null) {
-            this.log.log(-1601830656, "[CarASIProvider#setAirconAC] DSICarAirCondition.setAirconMaxAC: acMaxOn=%1", bl);
+            this.log.log(100000, "[CarASIProvider#setAirconAC] DSICarAirCondition.setAirconMaxAC: acMaxOn=%1", bl);
             ((DSICarAirCondition)this.sdisBase.getDSI(string)).setAirconMaxAC(bl);
         } else {
-            this.log.log(-1601830656, "[CarASIProvider#setAirconAC] DSICarAirCondition not started yet.");
+            this.log.log(100000, "[CarASIProvider#setAirconAC] DSICarAirCondition not started yet.");
         }
     }
 
@@ -56,14 +54,12 @@ implements IASIProvider {
         this.sdisBase = sDISBase;
     }
 
-    @Override
     public void attachStub(IStub iStub) {
-        this.log.log(1078071040, "[attachStub] %1", (Object)iStub);
+        this.log.log(1000000, "[attachStub] %1", (Object)iStub);
     }
 
-    @Override
     public void detachStub(IStub iStub) {
-        this.log.log(1078071040, "[detachStub] %1", (Object)iStub);
+        this.log.log(1000000, "[detachStub] %1", (Object)iStub);
     }
 
     static /* synthetic */ Class class$(String string) {

@@ -3,39 +3,6 @@
  */
 package de.audi.app.bluetooth.core;
 
-import de.audi.app.bluetooth.core.BluetoothDSIListener$1;
-import de.audi.app.bluetooth.core.BluetoothDSIListener$10;
-import de.audi.app.bluetooth.core.BluetoothDSIListener$11;
-import de.audi.app.bluetooth.core.BluetoothDSIListener$12;
-import de.audi.app.bluetooth.core.BluetoothDSIListener$13;
-import de.audi.app.bluetooth.core.BluetoothDSIListener$14;
-import de.audi.app.bluetooth.core.BluetoothDSIListener$15;
-import de.audi.app.bluetooth.core.BluetoothDSIListener$16;
-import de.audi.app.bluetooth.core.BluetoothDSIListener$17;
-import de.audi.app.bluetooth.core.BluetoothDSIListener$18;
-import de.audi.app.bluetooth.core.BluetoothDSIListener$19;
-import de.audi.app.bluetooth.core.BluetoothDSIListener$2;
-import de.audi.app.bluetooth.core.BluetoothDSIListener$20;
-import de.audi.app.bluetooth.core.BluetoothDSIListener$21;
-import de.audi.app.bluetooth.core.BluetoothDSIListener$22;
-import de.audi.app.bluetooth.core.BluetoothDSIListener$23;
-import de.audi.app.bluetooth.core.BluetoothDSIListener$24;
-import de.audi.app.bluetooth.core.BluetoothDSIListener$25;
-import de.audi.app.bluetooth.core.BluetoothDSIListener$26;
-import de.audi.app.bluetooth.core.BluetoothDSIListener$27;
-import de.audi.app.bluetooth.core.BluetoothDSIListener$28;
-import de.audi.app.bluetooth.core.BluetoothDSIListener$29;
-import de.audi.app.bluetooth.core.BluetoothDSIListener$3;
-import de.audi.app.bluetooth.core.BluetoothDSIListener$30;
-import de.audi.app.bluetooth.core.BluetoothDSIListener$31;
-import de.audi.app.bluetooth.core.BluetoothDSIListener$32;
-import de.audi.app.bluetooth.core.BluetoothDSIListener$33;
-import de.audi.app.bluetooth.core.BluetoothDSIListener$4;
-import de.audi.app.bluetooth.core.BluetoothDSIListener$5;
-import de.audi.app.bluetooth.core.BluetoothDSIListener$6;
-import de.audi.app.bluetooth.core.BluetoothDSIListener$7;
-import de.audi.app.bluetooth.core.BluetoothDSIListener$8;
-import de.audi.app.bluetooth.core.BluetoothDSIListener$9;
 import de.audi.app.bluetooth.core.BluetoothDefaultListener;
 import de.audi.atip.log.LogChannel;
 import de.audi.tghu.command.CommandList;
@@ -65,281 +32,408 @@ ICommandResponseSupplier {
         this.log = logChannel;
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
         this.log.log(10000, "[BluetoothDSIListener#asyncException] called, error code: %2, error msg: %1, request type: %3 ", (Object)string, (long)n, (long)n2);
     }
 
-    @Override
-    public void deviceDisonnectionInfo(String string, String string2, int n) {
-        this.log.log(-2137614336, "[BluetoothDSIListener#deviceDisonnectionInfo] Called");
-        CommandResponse.execute(this, new BluetoothDSIListener$1(this, string, string2, n));
+    public void deviceDisonnectionInfo(final String string, final String string2, final int n) {
+        this.log.log(10000000, "[BluetoothDSIListener#deviceDisonnectionInfo] Called");
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIBluetoothListener)dSIListener).deviceDisonnectionInfo(string, string2, n);
+            }
+        });
     }
 
-    @Override
-    public void removeAuthenticationNoSupport(String string, String string2) {
-        this.log.log(-2137614336, "[BluetoothDSIListener#removeAuthenticationNoSupport] Called");
-        CommandResponse.execute(this, new BluetoothDSIListener$2(this, string, string2));
+    public void removeAuthenticationNoSupport(final String string, final String string2) {
+        this.log.log(10000000, "[BluetoothDSIListener#removeAuthenticationNoSupport] Called");
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIBluetoothListener)dSIListener).removeAuthenticationNoSupport(string, string2);
+            }
+        });
     }
 
-    @Override
-    public void responseAbortConnectService(int n) {
-        this.log.log(-2137614336, "[BluetoothDSIListener#responseAbortConnectService] Called");
-        CommandResponse.execute(this, new BluetoothDSIListener$3(this, n));
+    public void responseAbortConnectService(final int n) {
+        this.log.log(10000000, "[BluetoothDSIListener#responseAbortConnectService] Called");
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIBluetoothListener)dSIListener).responseAbortConnectService(n);
+            }
+        });
     }
 
-    @Override
-    public void responseAbortInquiry(int n) {
-        this.log.log(-2137614336, "[BluetoothDSIListener#responseAbortInquiry] Called");
-        CommandResponse.execute(this, new BluetoothDSIListener$4(this, n));
+    public void responseAbortInquiry(final int n) {
+        this.log.log(10000000, "[BluetoothDSIListener#responseAbortInquiry] Called");
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIBluetoothListener)dSIListener).responseAbortInquiry(n);
+            }
+        });
     }
 
-    @Override
-    public void responseAcceptIncomingServiceRequest(int n) {
-        this.log.log(-2137614336, "[BluetoothDSIListener#responseAcceptIncomingServiceRequest] Called");
-        CommandResponse.execute(this, new BluetoothDSIListener$5(this, n));
+    public void responseAcceptIncomingServiceRequest(final int n) {
+        this.log.log(10000000, "[BluetoothDSIListener#responseAcceptIncomingServiceRequest] Called");
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIBluetoothListener)dSIListener).responseAcceptIncomingServiceRequest(n);
+            }
+        });
     }
 
-    @Override
-    public void responseConnectService(String string, String string2, int n, int n2, int n3) {
-        this.log.log(-2137614336, "[BluetoothDSIListener#responseConnectService] Called");
-        CommandResponse.execute(this, new BluetoothDSIListener$6(this, string, string2, n, n2, n3));
+    public void responseConnectService(final String string, final String string2, final int n, final int n2, final int n3) {
+        this.log.log(10000000, "[BluetoothDSIListener#responseConnectService] Called");
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIBluetoothListener)dSIListener).responseConnectService(string, string2, n, n2, n3);
+            }
+        });
     }
 
-    @Override
-    public void responseConnectServiceToInstance(String string, String string2, int n, int n2, int n3) {
-        this.log.log(-2137614336, "[BluetoothDSIListener#responseConnectServiceToInstance] Called");
-        CommandResponse.execute(this, new BluetoothDSIListener$7(this, string, string2, n, n2, n3));
+    public void responseConnectServiceToInstance(final String string, final String string2, final int n, final int n2, final int n3) {
+        this.log.log(10000000, "[BluetoothDSIListener#responseConnectServiceToInstance] Called");
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIBluetoothListener)dSIListener).responseConnectServiceToInstance(string, string2, n, n2, n3);
+            }
+        });
     }
 
-    @Override
-    public void responseDisconnectService(String string, int n, int n2) {
-        this.log.log(-2137614336, "[BluetoothDSIListener#responseDisconnectService] Called");
-        CommandResponse.execute(this, new BluetoothDSIListener$8(this, string, n, n2));
+    public void responseDisconnectService(final String string, final int n, final int n2) {
+        this.log.log(10000000, "[BluetoothDSIListener#responseDisconnectService] Called");
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIBluetoothListener)dSIListener).responseDisconnectService(string, n, n2);
+            }
+        });
     }
 
-    @Override
-    public void responseGetServices(String string, String string2, int n, int n2) {
-        this.log.log(-2137614336, "[BluetoothDSIListener#responseGetServices] Called");
-        CommandResponse.execute(this, new BluetoothDSIListener$9(this, string, string2, n, n2));
+    public void responseGetServices(final String string, final String string2, final int n, final int n2) {
+        this.log.log(10000000, "[BluetoothDSIListener#responseGetServices] Called");
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIBluetoothListener)dSIListener).responseGetServices(string, string2, n, n2);
+            }
+        });
     }
 
-    @Override
-    public void responseInquiry(int n, int n2) {
-        this.log.log(-2137614336, "[BluetoothDSIListener#responseInquiry] Called");
-        CommandResponse.execute(this, new BluetoothDSIListener$10(this, n, n2));
+    public void responseInquiry(final int n, final int n2) {
+        this.log.log(10000000, "[BluetoothDSIListener#responseInquiry] Called");
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIBluetoothListener)dSIListener).responseInquiry(n, n2);
+            }
+        });
     }
 
-    @Override
-    public void responsePasskeyResponse(String string, String string2, int n) {
-        this.log.log(-2137614336, "[BluetoothDSIListener#responsePasskeyResponse] Called, device address: %1, device name: %2, result: %3", (Object)string, (Object)string2, (long)n);
-        CommandResponse.execute(this, new BluetoothDSIListener$11(this, string, string2, n));
+    public void responsePasskeyResponse(final String string, final String string2, final int n) {
+        this.log.log(10000000, "[BluetoothDSIListener#responsePasskeyResponse] Called, device address: %1, device name: %2, result: %3", (Object)string, (Object)string2, (long)n);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIBluetoothListener)dSIListener).responsePasskeyResponse(string, string2, n);
+            }
+        });
     }
 
-    @Override
-    public void responseReconnectSuspend(int n) {
-        this.log.log(-2137614336, "[BluetoothDSIListener#responseReconnectSuspend] Called");
-        CommandResponse.execute(this, new BluetoothDSIListener$12(this, n));
+    public void responseReconnectSuspend(final int n) {
+        this.log.log(10000000, "[BluetoothDSIListener#responseReconnectSuspend] Called");
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIBluetoothListener)dSIListener).responseReconnectSuspend(n);
+            }
+        });
     }
 
-    @Override
-    public void responseRemoveAuthentication(String string, String string2, int n) {
-        this.log.log(-2137614336, "[BluetoothDSIListener#responseRemoveAuthentication] Called");
-        CommandResponse.execute(this, new BluetoothDSIListener$13(this, string, string2, n));
+    public void responseRemoveAuthentication(final String string, final String string2, final int n) {
+        this.log.log(10000000, "[BluetoothDSIListener#responseRemoveAuthentication] Called");
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIBluetoothListener)dSIListener).responseRemoveAuthentication(string, string2, n);
+            }
+        });
     }
 
-    @Override
-    public void responseRestoreFactorySettings(int n) {
-        this.log.log(-2137614336, "[BluetoothDSIListener#responseRestoreFactorySettings] Called");
-        CommandResponse.execute(this, new BluetoothDSIListener$14(this, n));
+    public void responseRestoreFactorySettings(final int n) {
+        this.log.log(10000000, "[BluetoothDSIListener#responseRestoreFactorySettings] Called");
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIBluetoothListener)dSIListener).responseRestoreFactorySettings(n);
+            }
+        });
     }
 
-    @Override
-    public void responseSetA2DPUserSetting(int n) {
-        this.log.log(-2137614336, "[BluetoothDSIListener#responseSetA2DPUserSetting] Called, result: %1", (long)n);
-        CommandResponse.execute(this, new BluetoothDSIListener$15(this, n));
+    public void responseSetA2DPUserSetting(final int n) {
+        this.log.log(10000000, "[BluetoothDSIListener#responseSetA2DPUserSetting] Called, result: %1", (long)n);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIBluetoothListener)dSIListener).responseSetA2DPUserSetting(n);
+            }
+        });
     }
 
-    @Override
-    public void responseSetPriorizedDeviceReconnect(int n) {
-        this.log.log(-2137614336, "[BluetoothDSIListener#responseSetPriorizedDeviceReconnect] Called, result: %1", (long)n);
-        CommandResponse.execute(this, new BluetoothDSIListener$16(this, n));
+    public void responseSetPriorizedDeviceReconnect(final int n) {
+        this.log.log(10000000, "[BluetoothDSIListener#responseSetPriorizedDeviceReconnect] Called, result: %1", (long)n);
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIBluetoothListener)dSIListener).responseSetPriorizedDeviceReconnect(n);
+            }
+        });
     }
 
-    @Override
-    public void responseSwitchBTState(int n) {
-        this.log.log(-2137614336, "[BluetoothDSIListener#responseSwitchBTState] Called");
-        CommandResponse.execute(this, new BluetoothDSIListener$17(this, n));
+    public void responseSwitchBTState(final int n) {
+        this.log.log(10000000, "[BluetoothDSIListener#responseSwitchBTState] Called");
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIBluetoothListener)dSIListener).responseSwitchBTState(n);
+            }
+        });
     }
 
-    @Override
-    public void responseSetAccessibleMode(int n) {
-        this.log.log(-2137614336, "[BluetoothDSIListener#responseSetAccessibleMode] Called");
-        CommandResponse.execute(this, new BluetoothDSIListener$18(this, n));
+    public void responseSetAccessibleMode(final int n) {
+        this.log.log(10000000, "[BluetoothDSIListener#responseSetAccessibleMode] Called");
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIBluetoothListener)dSIListener).responseSetAccessibleMode(n);
+            }
+        });
     }
 
-    @Override
-    public void serviceRejectNoSupport(String string, String string2) {
-        this.log.log(-2137614336, "[BluetoothDSIListener#serviceRejectNoSupport] Called");
-        CommandResponse.execute(this, new BluetoothDSIListener$19(this, string, string2));
+    public void serviceRejectNoSupport(final String string, final String string2) {
+        this.log.log(10000000, "[BluetoothDSIListener#serviceRejectNoSupport] Called");
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIBluetoothListener)dSIListener).serviceRejectNoSupport(string, string2);
+            }
+        });
     }
 
-    @Override
-    public void updateA2DPUserSetting(boolean bl, int n) {
+    public void updateA2DPUserSetting(final boolean bl, final int n) {
         if (n == 1) {
-            this.log.log(-2137614336, "[BluetoothDSIListener#updateA2DP_UserSetting] Called");
-            CommandResponse.execute(this, new BluetoothDSIListener$20(this, bl, n));
+            this.log.log(10000000, "[BluetoothDSIListener#updateA2DP_UserSetting] Called");
+            CommandResponse.execute(this, new CommandResponse(){
+
+                public void call(DSIListener dSIListener) {
+                    ((DSIBluetoothListener)dSIListener).updateA2DPUserSetting(bl, n);
+                }
+            });
         } else {
-            this.log.log(-1601830656, "[BluetoothDSIListener#updateA2DP_UserSetting] Data is not valid, valid flag value: %1", (long)n);
+            this.log.log(100000, "[BluetoothDSIListener#updateA2DP_UserSetting] Data is not valid, valid flag value: %1", (long)n);
         }
     }
 
-    @Override
-    public void updateAccessibleMode(int n, boolean bl, int n2) {
+    public void updateAccessibleMode(final int n, final boolean bl, final int n2) {
         if (n2 == 1) {
-            this.log.log(-2137614336, "[BluetoothDSIListener#updateAccessibleMode] Called");
-            CommandResponse.execute(this, new BluetoothDSIListener$21(this, n, bl, n2));
+            this.log.log(10000000, "[BluetoothDSIListener#updateAccessibleMode] Called");
+            CommandResponse.execute(this, new CommandResponse(){
+
+                public void call(DSIListener dSIListener) {
+                    ((DSIBluetoothListener)dSIListener).updateAccessibleMode(n, bl, n2);
+                }
+            });
         } else {
-            this.log.log(-1601830656, "[BluetoothDSIListener#updateAccessibleMode] Data is not valid, valid flag value: %1", (long)n2);
+            this.log.log(100000, "[BluetoothDSIListener#updateAccessibleMode] Data is not valid, valid flag value: %1", (long)n2);
         }
     }
 
-    @Override
-    public void updateBTState(int n, int n2) {
+    public void updateBTState(final int n, final int n2) {
         if (n2 == 1) {
-            this.log.log(-2137614336, "[BluetoothDSIListener#updateBTState] Called, state: %1, validFlag: %2", (long)n, (long)n2);
-            CommandResponse.execute(this, new BluetoothDSIListener$22(this, n, n2));
+            this.log.log(10000000, "[BluetoothDSIListener#updateBTState] Called, state: %1, validFlag: %2", (long)n, (long)n2);
+            CommandResponse.execute(this, new CommandResponse(){
+
+                public void call(DSIListener dSIListener) {
+                    ((DSIBluetoothListener)dSIListener).updateBTState(n, n2);
+                }
+            });
         } else {
-            this.log.log(-1601830656, "[BluetoothDSIListener#updateBTState] Data not valid, valid flag value: %1", (long)n2);
+            this.log.log(100000, "[BluetoothDSIListener#updateBTState] Data not valid, valid flag value: %1", (long)n2);
         }
     }
 
-    @Override
-    public void updateDiscoveredDevices(DiscoveredDevice discoveredDevice, int n) {
+    public void updateDiscoveredDevices(final DiscoveredDevice discoveredDevice, final int n) {
         if (n == 1) {
-            this.log.log(-2137614336, "[BluetoothDSIListener#updateDiscoveredDevices] Called");
-            CommandResponse.execute(this, new BluetoothDSIListener$23(this, discoveredDevice, n));
+            this.log.log(10000000, "[BluetoothDSIListener#updateDiscoveredDevices] Called");
+            CommandResponse.execute(this, new CommandResponse(){
+
+                public void call(DSIListener dSIListener) {
+                    ((DSIBluetoothListener)dSIListener).updateDiscoveredDevices(discoveredDevice, n);
+                }
+            });
         } else {
-            this.log.log(-1601830656, "[BluetoothDSIListener#updateDiscoveredDevices] Data is not valid, valid flag value: %1", (long)n);
+            this.log.log(100000, "[BluetoothDSIListener#updateDiscoveredDevices] Data is not valid, valid flag value: %1", (long)n);
         }
     }
 
-    @Override
-    public void updateHUCandBTHSState(int n, int n2) {
-        this.log.log(-2137614336, "[BluetoothDSIListener#updateHUCandBTHSState] Called");
-        CommandResponse.execute(this, new BluetoothDSIListener$24(this, n, n2));
+    public void updateHUCandBTHSState(final int n, final int n2) {
+        this.log.log(10000000, "[BluetoothDSIListener#updateHUCandBTHSState] Called");
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIBluetoothListener)dSIListener).updateHUCandBTHSState(n, n2);
+            }
+        });
     }
 
-    @Override
-    public void updateIncomingServiceRequest(RequestIncomingService requestIncomingService, int n) {
+    public void updateIncomingServiceRequest(final RequestIncomingService requestIncomingService, final int n) {
         if (n == 1) {
-            this.log.log(-2137614336, "[BluetoothDSIListener#updateIncomingServiceRequest] Called");
-            CommandResponse.execute(this, new BluetoothDSIListener$25(this, requestIncomingService, n));
+            this.log.log(10000000, "[BluetoothDSIListener#updateIncomingServiceRequest] Called");
+            CommandResponse.execute(this, new CommandResponse(){
+
+                public void call(DSIListener dSIListener) {
+                    ((DSIBluetoothListener)dSIListener).updateIncomingServiceRequest(requestIncomingService, n);
+                }
+            });
         } else {
-            this.log.log(-1601830656, "[BluetoothDSIListener#updateIncomingServiceRequest] Data is not valid, valid flag value: %1", (long)n);
+            this.log.log(100000, "[BluetoothDSIListener#updateIncomingServiceRequest] Data is not valid, valid flag value: %1", (long)n);
         }
     }
 
-    @Override
-    public void updateMasterRoleRequestError(MasterRoleRequestStruct masterRoleRequestStruct, int n) {
+    public void updateMasterRoleRequestError(final MasterRoleRequestStruct masterRoleRequestStruct, final int n) {
         if (n == 1) {
-            this.log.log(-2137614336, "[BluetoothDSIListener#updateMasterRoleRequestError] Called");
-            CommandResponse.execute(this, new BluetoothDSIListener$26(this, masterRoleRequestStruct, n));
+            this.log.log(10000000, "[BluetoothDSIListener#updateMasterRoleRequestError] Called");
+            CommandResponse.execute(this, new CommandResponse(){
+
+                public void call(DSIListener dSIListener) {
+                    ((DSIBluetoothListener)dSIListener).updateMasterRoleRequestError(masterRoleRequestStruct, n);
+                }
+            });
         } else {
-            this.log.log(-1601830656, "[BluetoothDSIListener#updateMasterRoleRequestError] Data is not valid, valid flag value: %1", (long)n);
+            this.log.log(100000, "[BluetoothDSIListener#updateMasterRoleRequestError] Data is not valid, valid flag value: %1", (long)n);
         }
     }
 
-    @Override
-    public void updatePasskeyState(PasskeyStateStruct passkeyStateStruct, int n) {
+    public void updatePasskeyState(final PasskeyStateStruct passkeyStateStruct, final int n) {
         if (n == 1) {
-            this.log.log(-2137614336, "[BluetoothDSIListener#updatePasskeyState] Called");
-            CommandResponse.execute(this, new BluetoothDSIListener$27(this, passkeyStateStruct, n));
+            this.log.log(10000000, "[BluetoothDSIListener#updatePasskeyState] Called");
+            CommandResponse.execute(this, new CommandResponse(){
+
+                public void call(DSIListener dSIListener) {
+                    ((DSIBluetoothListener)dSIListener).updatePasskeyState(passkeyStateStruct, n);
+                }
+            });
         } else {
-            this.log.log(-1601830656, "[BluetoothDSIListener#updatePasskeyState] Data is not valid, valid flag value: %1", (long)n);
+            this.log.log(100000, "[BluetoothDSIListener#updatePasskeyState] Data is not valid, valid flag value: %1", (long)n);
         }
     }
 
-    @Override
-    public void updatePriorizedDeviceReconnect(boolean bl, String string, int n) {
+    public void updatePriorizedDeviceReconnect(final boolean bl, final String string, final int n) {
         if (n == 1) {
-            this.log.log(-2137614336, "[BluetoothDSIListener#updatePriorizedDeviceReconnect] Called");
-            CommandResponse.execute(this, new BluetoothDSIListener$28(this, bl, string, n));
+            this.log.log(10000000, "[BluetoothDSIListener#updatePriorizedDeviceReconnect] Called");
+            CommandResponse.execute(this, new CommandResponse(){
+
+                public void call(DSIListener dSIListener) {
+                    ((DSIBluetoothListener)dSIListener).updatePriorizedDeviceReconnect(bl, string, n);
+                }
+            });
         } else {
-            this.log.log(-1601830656, "[BluetoothDSIListener#updatePriorizedDeviceReconnect] Data is not valid, valid flag value: %1", (long)n);
+            this.log.log(100000, "[BluetoothDSIListener#updatePriorizedDeviceReconnect] Data is not valid, valid flag value: %1", (long)n);
         }
     }
 
-    @Override
-    public void updateReconnectIndicator(ReconnectInfo reconnectInfo, int n) {
+    public void updateReconnectIndicator(final ReconnectInfo reconnectInfo, final int n) {
         if (n == 1) {
-            this.log.log(-2137614336, "[BluetoothDSIListener#updateReconnectIndicator] Called");
+            this.log.log(10000000, "[BluetoothDSIListener#updateReconnectIndicator] Called");
             if (reconnectInfo == null) {
-                this.log.log(-2137614336, "[BluetoothDSIListener#updateReconnectIndicator] reconnectInfo is null! Ignoring update.");
+                this.log.log(10000000, "[BluetoothDSIListener#updateReconnectIndicator] reconnectInfo is null! Ignoring update.");
             } else {
-                CommandResponse.execute(this, new BluetoothDSIListener$29(this, reconnectInfo, n));
+                CommandResponse.execute(this, new CommandResponse(){
+
+                    public void call(DSIListener dSIListener) {
+                        ((DSIBluetoothListener)dSIListener).updateReconnectIndicator(reconnectInfo, n);
+                    }
+                });
             }
         } else {
-            this.log.log(-1601830656, "[BluetoothDSIListener#updateReconnectIndicator] Data is not valid, valid flag value: %1", (long)n);
+            this.log.log(100000, "[BluetoothDSIListener#updateReconnectIndicator] Data is not valid, valid flag value: %1", (long)n);
         }
     }
 
-    @Override
-    public void updateServiceRequestState(ServiceRequestStateStruct serviceRequestStateStruct, int n) {
+    public void updateServiceRequestState(final ServiceRequestStateStruct serviceRequestStateStruct, final int n) {
         if (n == 1) {
-            this.log.log(-2137614336, "[BluetoothDSIListener#updateServiceRequestState] Called");
-            CommandResponse.execute(this, new BluetoothDSIListener$30(this, serviceRequestStateStruct, n));
+            this.log.log(10000000, "[BluetoothDSIListener#updateServiceRequestState] Called");
+            CommandResponse.execute(this, new CommandResponse(){
+
+                public void call(DSIListener dSIListener) {
+                    ((DSIBluetoothListener)dSIListener).updateServiceRequestState(serviceRequestStateStruct, n);
+                }
+            });
         } else {
-            this.log.log(-1601830656, "[BluetoothDSIListener#updateServiceRequestState] Data is not valid, valid flag value: %1", (long)n);
+            this.log.log(100000, "[BluetoothDSIListener#updateServiceRequestState] Data is not valid, valid flag value: %1", (long)n);
         }
     }
 
-    @Override
-    public void updateSupportedBTProfiles(int n, int n2) {
+    public void updateSupportedBTProfiles(final int n, final int n2) {
         if (n2 == 1) {
-            this.log.log(-2137614336, "[BluetoothDSIListener#updateSupportedBTProfiles] Called");
-            CommandResponse.execute(this, new BluetoothDSIListener$31(this, n, n2));
+            this.log.log(10000000, "[BluetoothDSIListener#updateSupportedBTProfiles] Called");
+            CommandResponse.execute(this, new CommandResponse(){
+
+                public void call(DSIListener dSIListener) {
+                    ((DSIBluetoothListener)dSIListener).updateSupportedBTProfiles(n, n2);
+                }
+            });
         } else {
-            this.log.log(-1601830656, "[BluetoothDSIListener#updateSupportedBTProfiles] Data is not valid, valid flag value: %1", (long)n2);
+            this.log.log(100000, "[BluetoothDSIListener#updateSupportedBTProfiles] Data is not valid, valid flag value: %1", (long)n2);
         }
     }
 
-    @Override
-    public void updateTrustedDevices(TrustedDevice[] trustedDeviceArray, int n) {
+    public void updateTrustedDevices(final TrustedDevice[] trustedDeviceArray, final int n) {
         if (n == 1) {
-            this.log.log(-2137614336, "[BluetoothDSIListener#updateTrustedDevices] Called");
-            CommandResponse.execute(this, new BluetoothDSIListener$32(this, trustedDeviceArray, n));
+            this.log.log(10000000, "[BluetoothDSIListener#updateTrustedDevices] Called");
+            CommandResponse.execute(this, new CommandResponse(){
+
+                public void call(DSIListener dSIListener) {
+                    ((DSIBluetoothListener)dSIListener).updateTrustedDevices(trustedDeviceArray, n);
+                }
+            });
         } else {
-            this.log.log(-1601830656, "[BluetoothDSIListener#updateTrustedDevices] Data is not valid, valid flag value: %1", (long)n);
+            this.log.log(100000, "[BluetoothDSIListener#updateTrustedDevices] Data is not valid, valid flag value: %1", (long)n);
         }
     }
 
-    @Override
-    public void updateUserFriendlyName(String string, int n) {
+    public void updateUserFriendlyName(final String string, final int n) {
         if (n == 1) {
-            this.log.log(-2137614336, "[BluetoothDSIListener#updateUserFriendlyName] Called");
-            CommandResponse.execute(this, new BluetoothDSIListener$33(this, string, n));
+            this.log.log(10000000, "[BluetoothDSIListener#updateUserFriendlyName] Called");
+            CommandResponse.execute(this, new CommandResponse(){
+
+                public void call(DSIListener dSIListener) {
+                    ((DSIBluetoothListener)dSIListener).updateUserFriendlyName(string, n);
+                }
+            });
         } else {
-            this.log.log(-1601830656, "[BluetoothDSIListener#updateUserFriendlyName] Data is not valid, valid flag value: %1", (long)n);
+            this.log.log(100000, "[BluetoothDSIListener#updateUserFriendlyName] Data is not valid, valid flag value: %1", (long)n);
         }
     }
 
-    @Override
     public CommandList getActiveCommandList() {
         return this.cmdListManager.getActiveCommandList();
     }
 
-    @Override
     public DSIListener getDSIDefaultHandler() {
         return this.bluetoothDefaultListener;
     }
 
-    @Override
     public String getHandlerName() {
-        return super.getClass().getName();
+        return this.getClass().getName();
     }
 
-    @Override
     public LogChannel getLogChannel() {
         return this.log;
     }

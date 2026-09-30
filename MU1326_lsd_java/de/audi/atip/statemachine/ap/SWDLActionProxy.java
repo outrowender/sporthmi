@@ -7,76 +7,52 @@ import de.audi.atip.statemachine.ActionProxy;
 
 public interface SWDLActionProxy
 extends ActionProxy {
-    default public void swdlDeviceSelectEntered(int n) {
-    }
+    public void swdlDeviceSelectEntered(int var1);
 
-    default public void swdlDeviceSelectLeft(int n) {
-    }
+    public void swdlDeviceSelectLeft(int var1);
 
-    default public void swdlSelectOneRelease(int n) {
-    }
+    public void swdlSelectOneRelease(int var1);
 
-    default public void swdlAbortReadingReleases(int n) {
-    }
+    public void swdlAbortReadingReleases(int var1);
 
-    default public void swdlEntered(int n) {
-    }
+    public void swdlEntered(int var1);
 
-    default public void swdlExit(int n) {
-    }
+    public void swdlExit(int var1);
 
-    default public void swdlInterruptDownload(int n) {
-    }
+    public void swdlInterruptDownload(int var1);
 
-    default public void swdlStartWaitLostDevices(int n) {
-    }
+    public void swdlStartWaitLostDevices(int var1);
 
-    default public void swdlStopWaitLostDevices(int n) {
-    }
+    public void swdlStopWaitLostDevices(int var1);
 
-    default public void swdlLeaveSummaryChanged(int n) {
-    }
+    public void swdlLeaveSummaryChanged(int var1);
 
-    default public void swdlProgressEntered(int n) {
-    }
+    public void swdlProgressEntered(int var1);
 
-    default public void swdlProgressExit(int n) {
-    }
+    public void swdlProgressExit(int var1);
 
-    default public void swdlSummaryEntered(int n) {
-    }
+    public void swdlSummaryEntered(int var1);
 
-    default public void swdlSummaryExit(int n) {
-    }
+    public void swdlSummaryExit(int var1);
 
-    default public void swdlTriggerEntered(int n) {
-    }
+    public void swdlTriggerEntered(int var1);
 
-    default public void swdlTriggerExit(int n) {
-    }
+    public void swdlTriggerExit(int var1);
 
-    default public void swdlLeavePopupByHKReturn(int n) {
-    }
+    public void swdlLeavePopupByHKReturn(int var1);
 
-    default public void swdlModuleSelectEntered(int n) {
-    }
+    public void swdlModuleSelectEntered(int var1);
 
-    default public void swdlModuleSelectLeft(int n) {
-    }
+    public void swdlModuleSelectLeft(int var1);
 
-    default public void swdlAppBlSelectLeft(int n) {
-    }
+    public void swdlAppBlSelectLeft(int var1);
 
-    default public void swdlLoggingEntered(int n) {
-    }
+    public void swdlLoggingEntered(int var1);
 
-    default public void swdlProgressDetailEntered(int n) {
-    }
+    public void swdlProgressDetailEntered(int var1);
 
-    default public void swdlProgressDetailExit(int n) {
-    }
+    public void swdlProgressDetailExit(int var1);
 
-    default public void swdlAbortReadingMetainfo(int n) {
-    }
+    public void swdlAbortReadingMetainfo(int var1);
 }
 

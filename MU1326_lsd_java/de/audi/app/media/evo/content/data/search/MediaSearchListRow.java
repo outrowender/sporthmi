@@ -12,22 +12,22 @@ import org.dsi.ifc.search.SearchResult;
 
 public class MediaSearchListRow
 extends SearchResultListRow {
-    private static final int ROWCELLS_COUNT;
-    private static final int COL_IDX_RECORDSET;
-    private static final int COL_IDX_ICONID;
-    private static final int COL_IDX_TEXTLINE1;
-    private static final int COL_IDX_TEXTLINE2_LEFT;
-    private static final int COL_IDX_TEXTLINE2_RIGHT;
-    private static final int COL_IDX_I18N_LINE1;
-    private static final int COL_IDX_I18N_LINE2_LEFT;
-    private static final int COL_IDX_I18N_LINE2_RIGHT;
-    private static final int COL_IDX_COVERART_URL;
-    public static final int RECORDSET_FOLDER_ONE_LINE;
-    public static final int RECORDSET_FOLDER_TWO_LINES_BOTH;
-    public static final int RECORDSET_FOLDER_TWO_LINES_LEFT;
-    public static final int RECORDSET_FILE_ONE_LINE;
-    public static final int RECORDSET_FILE_TWO_LINES_BOTH;
-    public static final int RECORDSET_FILE_TWO_LINES_LEFT;
+    private static final int ROWCELLS_COUNT = 14;
+    private static final int COL_IDX_RECORDSET = 0;
+    private static final int COL_IDX_ICONID = 1;
+    private static final int COL_IDX_TEXTLINE1 = 2;
+    private static final int COL_IDX_TEXTLINE2_LEFT = 3;
+    private static final int COL_IDX_TEXTLINE2_RIGHT = 4;
+    private static final int COL_IDX_I18N_LINE1 = 5;
+    private static final int COL_IDX_I18N_LINE2_LEFT = 6;
+    private static final int COL_IDX_I18N_LINE2_RIGHT = 7;
+    private static final int COL_IDX_COVERART_URL = 13;
+    public static final int RECORDSET_FOLDER_ONE_LINE = 0;
+    public static final int RECORDSET_FOLDER_TWO_LINES_BOTH = 1;
+    public static final int RECORDSET_FOLDER_TWO_LINES_LEFT = 2;
+    public static final int RECORDSET_FILE_ONE_LINE = 3;
+    public static final int RECORDSET_FILE_TWO_LINES_BOTH = 4;
+    public static final int RECORDSET_FILE_TWO_LINES_LEFT = 5;
 
     public MediaSearchListRow(SearchResult searchResult, IMediaSearchResultLayouter iMediaSearchResultLayouter, String string) {
         super(searchResult, 14, searchResult.getListPosition());
@@ -54,7 +54,6 @@ extends SearchResultListRow {
         return 14;
     }
 
-    @Override
     public EvoListRow copy() {
         return new MediaSearchListRow(this);
     }

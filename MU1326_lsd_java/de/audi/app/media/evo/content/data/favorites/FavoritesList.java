@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FavoritesList {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "FavoritesList";
     private final LogChannel logger;
     private final List mediaFavorites;
     private final Object listMutex = new Object();
@@ -37,7 +37,7 @@ public class FavoritesList {
     public boolean addFavorite(MediaFavorite mediaFavorite) {
         Object object = this.listMutex;
         synchronized (object) {
-            this.logger.log(1078071040, "[%1.addFavorite]", (Object)"FavoritesList");
+            this.logger.log(1000000, "[%1.addFavorite]", (Object)LOGCLASS);
             if (!this.mediaFavorites.contains(mediaFavorite)) {
                 this.mediaFavorites.add(mediaFavorite);
                 return true;
@@ -52,7 +52,7 @@ public class FavoritesList {
     public void removeFavorite(MediaFavorite mediaFavorite) {
         Object object = this.listMutex;
         synchronized (object) {
-            this.logger.log(1078071040, "[%1.removeFavorite]", (Object)"FavoritesList");
+            this.logger.log(1000000, "[%1.removeFavorite]", (Object)LOGCLASS);
             this.mediaFavorites.remove(mediaFavorite);
         }
     }
@@ -63,7 +63,7 @@ public class FavoritesList {
     public void updateFavorite(MediaFavorite mediaFavorite) {
         Object object = this.listMutex;
         synchronized (object) {
-            this.logger.log(1078071040, "[%1.updateFavorite]", (Object)"FavoritesList");
+            this.logger.log(1000000, "[%1.updateFavorite]", (Object)LOGCLASS);
             int n = this.mediaFavorites.indexOf(mediaFavorite);
             if (n >= 0) {
                 this.mediaFavorites.set(n, mediaFavorite);
@@ -77,7 +77,7 @@ public class FavoritesList {
     public void moveFavorite(int n, int n2) {
         Object object = this.listMutex;
         synchronized (object) {
-            this.logger.log(1078071040, "[%1.moveFavorite]", (Object)"FavoritesList");
+            this.logger.log(1000000, "[%1.moveFavorite]", (Object)LOGCLASS);
             this.mediaFavorites.add(n2, this.mediaFavorites.remove(n));
         }
     }
@@ -130,7 +130,7 @@ public class FavoritesList {
     public void addTrigger(ModelTrigger modelTrigger) {
         Object object = this.listMutex;
         synchronized (object) {
-            this.logger.log(1078071040, "[%1.addTrigger]", (Object)"FavoritesList");
+            this.logger.log(1000000, "[%1.addTrigger]", (Object)LOGCLASS);
             this.trigger = modelTrigger;
         }
     }
@@ -141,7 +141,7 @@ public class FavoritesList {
     public ModelTrigger getAndRemoveTrigger() {
         Object object = this.listMutex;
         synchronized (object) {
-            this.logger.log(1078071040, "[%1.getAndRemoveTrigger]", (Object)"FavoritesList");
+            this.logger.log(1000000, "[%1.getAndRemoveTrigger]", (Object)LOGCLASS);
             ModelTrigger modelTrigger = this.trigger;
             this.trigger = null;
             return modelTrigger;

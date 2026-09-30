@@ -8,9 +8,9 @@ import de.audi.remotehmi.util.Util;
 import de.esolutions.fw.util.commons.Buffer;
 
 public class RemoteHMIView {
-    public static final int INPUTTYPE_NUMERIC;
-    public static final int INPUTTYPE_ALPHANUMERIC;
-    public static final int INPUTTYPE_PASSWORD;
+    public static final int INPUTTYPE_NUMERIC = 0;
+    public static final int INPUTTYPE_ALPHANUMERIC = 1;
+    public static final int INPUTTYPE_PASSWORD = 3;
     private String id;
     private int type;
     private int version;

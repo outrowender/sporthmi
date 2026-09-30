@@ -10,19 +10,14 @@ import de.audi.atip.interapp.combi.bap.audio.data.CombiBAPReceptionListEntry;
 
 public interface CombiBAPServiceTV
 extends CombiBAPServiceAudio {
-    default public void updateSourceListTv(CombiBAPAudioSource[] combiBAPAudioSourceArray) {
-    }
+    public void updateSourceListTv(CombiBAPAudioSource[] var1);
 
-    default public void updateStationListAutoUpdateInformation(boolean bl) {
-    }
+    public void updateStationListAutoUpdateInformation(boolean var1);
 
-    default public void updateTVPresetList(CombiBAPPresetListEntry[] combiBAPPresetListEntryArray) {
-    }
+    public void updateTVPresetList(CombiBAPPresetListEntry[] var1);
 
-    default public void updateTVStationList(CombiBAPReceptionListEntry[] combiBAPReceptionListEntryArray) {
-    }
+    public void updateTVStationList(CombiBAPReceptionListEntry[] var1);
 
-    default public void updateMuteState(boolean bl) {
-    }
+    public void updateMuteState(boolean var1);
 }
 

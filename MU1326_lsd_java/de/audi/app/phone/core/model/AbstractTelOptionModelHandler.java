@@ -74,46 +74,39 @@ implements OptionModelListener {
         this.listener = iTelOptionModelListener;
     }
 
-    @Override
     public void init() {
         super.init();
         this.optionsModel.setListener(this, this.targetModelID);
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.optionsModel.removeListener(this.targetModelID);
     }
 
-    protected abstract void optionSelected(EvoListRow evoListRow, int n) {
-    }
+    protected abstract void optionSelected(EvoListRow var1, int var2);
 
-    @Override
     public void keyPressed(int n, int n2, int n3, int n4, int n5) {
         if (this.log.isDebug()) {
-            this.log.log(-2137614336, "[TelOptionModelHandler#keyPressed] %1", (Object)AbstractTelOptionModelHandler.getLogMessage(n, n2, n3, n4, n5));
+            this.log.log(10000000, "[TelOptionModelHandler#keyPressed] %1", (Object)AbstractTelOptionModelHandler.getLogMessage(n, n2, n3, n4, n5));
         }
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3, int n4, int n5) {
         if (this.log.isDebug()) {
-            this.log.log(-2137614336, "[TelOptionModelHandler#keyReleased] %1", (Object)AbstractTelOptionModelHandler.getLogMessage(n, n2, n3, n4, n5));
+            this.log.log(10000000, "[TelOptionModelHandler#keyReleased] %1", (Object)AbstractTelOptionModelHandler.getLogMessage(n, n2, n3, n4, n5));
         }
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3, int n4, int n5) {
         if (this.log.isInfo()) {
-            this.log.log(1078071040, "[TelOptionModelHandler#keyTyped] %1", (Object)AbstractTelOptionModelHandler.getLogMessage(n, n2, n3, n4, n5));
+            this.log.log(1000000, "[TelOptionModelHandler#keyTyped] %1", (Object)AbstractTelOptionModelHandler.getLogMessage(n, n2, n3, n4, n5));
         }
     }
 
-    @Override
     public void customAction(int n, int n2, int n3, int n4, int n5) {
         if (this.log.isDebug()) {
-            this.log.log(-2137614336, "[TelOptionModelHandler#customAction] %1", (Object)AbstractTelOptionModelHandler.getCustomActionLogMessage(n, n2, n3, n4, n5));
+            this.log.log(10000000, "[TelOptionModelHandler#customAction] %1", (Object)AbstractTelOptionModelHandler.getCustomActionLogMessage(n, n2, n3, n4, n5));
         }
     }
 }

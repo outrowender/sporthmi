@@ -11,27 +11,27 @@ import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 
 public class NetworkStateHandler
 extends AbstractPhoneComponent {
-    protected static final int REGISTERSTATE_UNKNOWN;
-    protected static final int REGISTERSTATE_REGISTERED;
-    protected static final int REGISTERSTATE_ROAMING;
-    protected static final int REGISTERSTATE_SEARCHING;
-    protected static final int REGISTERSTATE_NOT_SEARCHING;
-    protected static final int REGISTERSTATE_DENIED;
-    protected static final int ROAMING_NO;
-    protected static final int ROAMING_YES;
-    protected static final int SIGNAL_QUALITY_INVALID;
-    protected static final int SIGNAL_QUALITY_CHOICE_NONE;
-    protected static final int SIGNAL_QUALITY_CHOICE_0;
-    protected static final int SIGNAL_QUALITY_CHOICE_1;
-    protected static final int SIGNAL_QUALITY_CHOICE_2;
-    protected static final int SIGNAL_QUALITY_CHOICE_3;
-    protected static final int SIGNAL_QUALITY_CHOICE_4;
-    protected static final int SIGNAL_QUALITY_CHOICE_5;
-    protected static final int SIGNAL_QUALITY_CHOICE_DENIED;
-    protected static final int PHONE_DATA_RATE_UNDEFINED;
-    protected static final int PHONE_DATA_RATE_GSM;
-    protected static final int PHONE_DATA_RATE_UMTS;
-    protected static final int PHONE_DATA_RATE_LTE;
+    protected static final int REGISTERSTATE_UNKNOWN = 0;
+    protected static final int REGISTERSTATE_REGISTERED = 1;
+    protected static final int REGISTERSTATE_ROAMING = 2;
+    protected static final int REGISTERSTATE_SEARCHING = 3;
+    protected static final int REGISTERSTATE_NOT_SEARCHING = 4;
+    protected static final int REGISTERSTATE_DENIED = 5;
+    protected static final int ROAMING_NO = 0;
+    protected static final int ROAMING_YES = 1;
+    protected static final int SIGNAL_QUALITY_INVALID = 255;
+    protected static final int SIGNAL_QUALITY_CHOICE_NONE = 0;
+    protected static final int SIGNAL_QUALITY_CHOICE_0 = 1;
+    protected static final int SIGNAL_QUALITY_CHOICE_1 = 2;
+    protected static final int SIGNAL_QUALITY_CHOICE_2 = 3;
+    protected static final int SIGNAL_QUALITY_CHOICE_3 = 4;
+    protected static final int SIGNAL_QUALITY_CHOICE_4 = 5;
+    protected static final int SIGNAL_QUALITY_CHOICE_5 = 6;
+    protected static final int SIGNAL_QUALITY_CHOICE_DENIED = 7;
+    protected static final int PHONE_DATA_RATE_UNDEFINED = 0;
+    protected static final int PHONE_DATA_RATE_GSM = 1;
+    protected static final int PHONE_DATA_RATE_UMTS = 2;
+    protected static final int PHONE_DATA_RATE_LTE = 3;
 
     private static void setRegisterStateChoice(ChoiceModelApp choiceModelApp, int n, int n2) {
         if (n2 == 0 && n != 5) {
@@ -103,19 +103,16 @@ extends AbstractPhoneComponent {
         super(iTelApplication, string);
     }
 
-    @Override
     public void init() {
         super.init();
         this.getApplication().getGlobalTelephoneStateManager().registerListener(this);
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.getApplication().getGlobalTelephoneStateManager().removeListener(this);
     }
 
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         this.updateDataNetworkIcons(n, iGlobalTelephoneStateStruct);
         this.updateSignalQualityIcon(n, iGlobalTelephoneStateStruct);
@@ -129,23 +126,23 @@ extends AbstractPhoneComponent {
             ChoiceModelApp choiceModelApp = this.getChoiceModel(183);
             ChoiceModelApp choiceModelApp2 = this.getChoiceModel(3897);
             if (iTelDSIMobileEquipmentDeviceState != null && iTelDSIMobileEquipmentDeviceState.isPhoneReady() && (iTelDSIMobileEquipmentDeviceState.getTelMode() == 0 || iTelDSIMobileEquipmentDeviceState.getTelMode() == 2 || iTelDSIMobileEquipmentDeviceState.getTelMode() == 1)) {
-                this.log.log(-2137614336, "NetworkStateHandler#updateDataNetworkIcons(): Data device IS ready");
+                this.log.log(10000000, "NetworkStateHandler#updateDataNetworkIcons(): Data device IS ready");
                 int n2 = iTelDSIMobileEquipmentDeviceState.getRegisterState() != null ? iTelDSIMobileEquipmentDeviceState.getRegisterState().getTelRegisterState() : 0;
                 int n3 = iTelDSIMobileEquipmentDeviceState.getSignalQuality();
                 this.setDataNadSignalQualityChoice(n3, n2);
                 NetworkStateHandler.setNetworkTypeChoice(choiceModelApp, iTelDSIMobileEquipmentDeviceState.getNetworkType());
-                this.log.log(-2137614336, "[NetworkStateHandler#setDataNadSignalQualityChoice] registerState=%1, signalQuality=%2, --> value=%3", (long)n2, (long)n3, (long)choiceModelApp2.getValue());
+                this.log.log(10000000, "[NetworkStateHandler#setDataNadSignalQualityChoice] registerState=%1, signalQuality=%2, --> value=%3", (long)n2, (long)n3, (long)choiceModelApp2.getValue());
             } else {
-                this.log.log(-2137614336, "NetworkStateHandler#updateDataNetworkIcons(): Data device IS NOT ready");
+                this.log.log(10000000, "NetworkStateHandler#updateDataNetworkIcons(): Data device IS NOT ready");
                 this.setDataNadSignalQualityChoice(255, 0);
                 NetworkStateHandler.setNetworkTypeChoice(choiceModelApp, 0);
-                this.log.log(-2137614336, "[NetworkStateHandler#setDataNadSignalQualityChoice] No nad phone ready, setting value to %1", (long)choiceModelApp2.getValue());
+                this.log.log(10000000, "[NetworkStateHandler#setDataNadSignalQualityChoice] No nad phone ready, setting value to %1", (long)choiceModelApp2.getValue());
             }
         }
     }
 
     private boolean isDataNetworkAllowed(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
-        return iGlobalTelephoneStateStruct != null && (n == 369099520 || n == 419431168 || n == 0x3000300 || n == 0xF000300 || n == 335545088 || n == 0x16000100 || n == 0x19000100 || n == 0x3000100 || n == 0xF000100 || n == 0x14000100 || n == 369099264 || n == 419430912 || n == 0x3000200 || n == 0xF000200 || n == 335544832);
+        return iGlobalTelephoneStateStruct != null && (n == 196630 || n == 196633 || n == 196611 || n == 196623 || n == 196628 || n == 65558 || n == 65561 || n == 65539 || n == 65551 || n == 65556 || n == 131094 || n == 131097 || n == 131075 || n == 131087 || n == 131092);
     }
 
     private void setDataNadSignalQualityChoice(int n, int n2) {
@@ -154,19 +151,19 @@ extends AbstractPhoneComponent {
     }
 
     private void updateSignalQualityIcon(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
-        if (iGlobalTelephoneStateStruct != null && (n == 0x19000100 || n == 0x16000100 || n == 0x3000100 || n == 0xF000100)) {
+        if (iGlobalTelephoneStateStruct != null && (n == 65561 || n == 65558 || n == 65539 || n == 65551)) {
             ChoiceModelApp choiceModelApp = this.getChoiceModel(346);
             if (iGlobalTelephoneStateStruct.isPhoneReady() && this.checkVariantSpecificConditions(iGlobalTelephoneStateStruct.getTelMode())) {
-                this.log.log(-2137614336, "[NetworkStateHandler#updateSignalQualityIcon] The phone IS ready");
+                this.log.log(10000000, "[NetworkStateHandler#updateSignalQualityIcon] The phone IS ready");
                 int n2 = iGlobalTelephoneStateStruct.getSignalQuality();
                 int n3 = iGlobalTelephoneStateStruct.getRegisterState() != null ? iGlobalTelephoneStateStruct.getRegisterState().getTelRegisterState() : 0;
-                this.log.log(-2137614336, "NetworkStateHandler#setSignalQualityChoice(): registerState %1, signalQuality %2", (long)n3, (long)n2);
+                this.log.log(10000000, "NetworkStateHandler#setSignalQualityChoice(): registerState %1, signalQuality %2", (long)n3, (long)n2);
                 NetworkStateHandler.setSignalQualityChoice(choiceModelApp, n3, n2);
-                this.log.log(-2137614336, "[NetworkStateHandler#updateSignalQualityIcon] registerState=%1, signalQuality=%2, --> value=%3", (long)n3, (long)n2, (long)choiceModelApp.getValue());
+                this.log.log(10000000, "[NetworkStateHandler#updateSignalQualityIcon] registerState=%1, signalQuality=%2, --> value=%3", (long)n3, (long)n2, (long)choiceModelApp.getValue());
             } else {
-                this.log.log(-2137614336, "[NetworkStateHandler#updateSignalQualityIcon] The phone IS NOT ready, SIGNALQUALITY_INVALID");
+                this.log.log(10000000, "[NetworkStateHandler#updateSignalQualityIcon] The phone IS NOT ready, SIGNALQUALITY_INVALID");
                 NetworkStateHandler.setSignalQualityChoice(choiceModelApp, 0, 255);
-                this.log.log(-2137614336, "[NetworkStateHandler#updateSignalQualityIcon] No phone ready, setting value to %1", (long)choiceModelApp.getValue());
+                this.log.log(10000000, "[NetworkStateHandler#updateSignalQualityIcon] No phone ready, setting value to %1", (long)choiceModelApp.getValue());
             }
         }
     }
@@ -181,7 +178,7 @@ extends AbstractPhoneComponent {
     }
 
     private void updateRegisterState(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
-        if (iGlobalTelephoneStateStruct != null && iGlobalTelephoneStateStruct.getRegisterState() != null && (n == 0x19000100 || n == 0x16000100 || n == 0x3000100 || n == 0xF000100)) {
+        if (iGlobalTelephoneStateStruct != null && iGlobalTelephoneStateStruct.getRegisterState() != null && (n == 65561 || n == 65558 || n == 65539 || n == 65551)) {
             int n2 = iGlobalTelephoneStateStruct.getSignalQuality();
             int n3 = iGlobalTelephoneStateStruct.getRegisterState().getTelRegisterState();
             if (iGlobalTelephoneStateStruct.isPhoneReady()) {
@@ -195,7 +192,7 @@ extends AbstractPhoneComponent {
     }
 
     private void updateRegisterStateDSINAD(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
-        if (iGlobalTelephoneStateStruct != null && iGlobalTelephoneStateStruct.getNadInstanceState() != null && iGlobalTelephoneStateStruct.getNadInstanceState().getRegisterState() != null && (n == 369099520 || n == 0x3000300 || n == 0xF000300 || n == 0x16000100 || n == 0x3000100 || n == 0xF000100 || n == 369099264 || n == 0x3000200 || n == 0xF000200)) {
+        if (iGlobalTelephoneStateStruct != null && iGlobalTelephoneStateStruct.getNadInstanceState() != null && iGlobalTelephoneStateStruct.getNadInstanceState().getRegisterState() != null && (n == 196630 || n == 196611 || n == 196623 || n == 65558 || n == 65539 || n == 65551 || n == 131094 || n == 131075 || n == 131087)) {
             int n2 = iGlobalTelephoneStateStruct.getNadInstanceState().getRegisterState().getTelRegisterState();
             NetworkStateHandler.setRoamingChoice(this.getChoiceModel(3899), n2);
         }

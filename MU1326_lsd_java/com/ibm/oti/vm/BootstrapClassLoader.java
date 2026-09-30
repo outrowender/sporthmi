@@ -5,7 +5,6 @@ package com.ibm.oti.vm;
 
 import com.ibm.oti.util.Msg;
 import com.ibm.oti.vm.AbstractClassLoader;
-import com.ibm.oti.vm.BootstrapClassLoader$FindClassLock;
 import com.ibm.oti.vm.VM;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -39,7 +38,7 @@ extends AbstractClassLoader {
                 throw new NoClassDefFoundError(classNotFoundException.getMessage());
             }
         }
-        findClassLock = new BootstrapClassLoader$FindClassLock();
+        findClassLock = new FindClassLock();
     }
 
     private BootstrapClassLoader() {
@@ -53,8 +52,7 @@ extends AbstractClassLoader {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public Class loadClass(String string) {
+    public Class loadClass(String string) throws ClassNotFoundException {
         Class clazz;
         Object object = findClassLock;
         synchronized (object) {
@@ -87,7 +85,6 @@ extends AbstractClassLoader {
         return singleton;
     }
 
-    @Override
     protected Package getPackage(String string) {
         if (this.packages.size() > 0) {
             this.definePackages();
@@ -95,7 +92,6 @@ extends AbstractClassLoader {
         return super.getPackage(string);
     }
 
-    @Override
     protected Package[] getPackages() {
         if (this.packages.size() > 0) {
             this.definePackages();
@@ -142,6 +138,11 @@ extends AbstractClassLoader {
         while (enumeration.hasMoreElements()) {
             String string = (String)enumeration.nextElement();
             this.definePackage(string, (Integer)hashtable.get(string));
+        }
+    }
+
+    private static class FindClassLock {
+        FindClassLock() {
         }
     }
 }

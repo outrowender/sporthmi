@@ -18,7 +18,6 @@ implements ITranscriptPreprocessor {
         this.log = logChannel;
     }
 
-    @Override
     public LinkedList preprocessTranscript(DictationValueSentence dictationValueSentence) {
         DictationValueSentenceElement dictationValueSentenceElement;
         int n;
@@ -36,7 +35,7 @@ implements ITranscriptPreprocessor {
             }
         }
         if (bl) {
-            this.log.log(-2137614336, "[TranscriptPreprocessor#preprocessTranscript] Applying HMI space insertion.");
+            this.log.log(10000000, "[TranscriptPreprocessor#preprocessTranscript] Applying HMI space insertion.");
         }
         for (n = 0; n < dictationValueSentenceElementArray.length; ++n) {
             dictationValueSentenceElement = dictationValueSentenceElementArray[n];
@@ -71,7 +70,7 @@ implements ITranscriptPreprocessor {
         LinkedList linkedList = new LinkedList();
         boolean bl = true;
         if (dictationValueSentenceElementArray == null) {
-            this.log.log(-1601830656, "[TranscriptPreprocessor#rectifyDictationElements] Element array is null.");
+            this.log.log(100000, "[TranscriptPreprocessor#rectifyDictationElements] Element array is null.");
             bl = false;
         } else {
             for (int i2 = 0; i2 < dictationValueSentenceElementArray.length; ++i2) {
@@ -102,13 +101,13 @@ implements ITranscriptPreprocessor {
     private DictationValueSentenceElement rectifyDictationElement(DictationValueSentenceElement dictationValueSentenceElement, int n) {
         DictationValueSentenceElement dictationValueSentenceElement2 = null;
         if (dictationValueSentenceElement == null) {
-            this.log.log(-1601830656, "[TranscriptPreprocessor#rectifyDictationElement] Element at index %1 is null.", (long)n);
+            this.log.log(100000, "[TranscriptPreprocessor#rectifyDictationElement] Element at index %1 is null.", (long)n);
         } else {
             String[] stringArray = dictationValueSentenceElement.getWords();
             if (stringArray == null) {
-                this.log.log(-1601830656, "[TranscriptPreprocessor#rectifyDictationElement] Word array of element at index %1 is null.", (long)n);
+                this.log.log(100000, "[TranscriptPreprocessor#rectifyDictationElement] Word array of element at index %1 is null.", (long)n);
             } else if (stringArray.length == 0) {
-                this.log.log(-1601830656, "[TranscriptPreprocessor#rectifyDictationElement] Word array of element at index %1 is empty.", (long)n);
+                this.log.log(100000, "[TranscriptPreprocessor#rectifyDictationElement] Word array of element at index %1 is empty.", (long)n);
             } else {
                 int n2 = 0;
                 for (int i2 = 0; i2 < stringArray.length; ++i2) {
@@ -116,7 +115,7 @@ implements ITranscriptPreprocessor {
                         ++n2;
                         continue;
                     }
-                    this.log.log(-1601830656, "[TranscriptPreprocessor#rectifyDictationElement] Word array of element at index %1 has a null or empty element at index %2.", (long)n, (long)i2);
+                    this.log.log(100000, "[TranscriptPreprocessor#rectifyDictationElement] Word array of element at index %1 has a null or empty element at index %2.", (long)n, (long)i2);
                 }
                 if (n2 == stringArray.length) {
                     dictationValueSentenceElement2 = dictationValueSentenceElement;

@@ -15,12 +15,10 @@ extends AbstractBAPArrayElementListASG {
         super(logChannel);
     }
 
-    @Override
     public boolean isDeleted(BAPArrayElement bAPArrayElement) {
         return bAPArrayElement instanceof DestinationsList_Data && ((DestinationsList_Data)bAPArrayElement).name.isEmptyString();
     }
 
-    @Override
     public void handleFoundElement(BAPArrayElement bAPArrayElement, int n) {
         if (this.isDeleted(bAPArrayElement)) {
             this.list.remove(n);

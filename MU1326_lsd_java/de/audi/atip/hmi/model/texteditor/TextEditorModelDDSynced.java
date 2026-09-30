@@ -23,7 +23,6 @@ implements TextEditorModelDDApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean copyTo(ICopyTo iCopyTo) {
         boolean bl = false;
         try {
@@ -39,7 +38,6 @@ implements TextEditorModelDDApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean setText(String[][] stringArray, int n) {
         boolean bl = false;
         try {
@@ -55,7 +53,6 @@ implements TextEditorModelDDApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean setText(String string, int n) {
         boolean bl = false;
         try {
@@ -71,7 +68,6 @@ implements TextEditorModelDDApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean replace(String[][] stringArray) {
         boolean bl = false;
         try {
@@ -87,7 +83,6 @@ implements TextEditorModelDDApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean replace(String string) {
         boolean bl = false;
         try {
@@ -103,7 +98,6 @@ implements TextEditorModelDDApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean append(String[][] stringArray, int n) {
         boolean bl = false;
         try {
@@ -119,7 +113,6 @@ implements TextEditorModelDDApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean append(String string, int n) {
         boolean bl = false;
         try {
@@ -135,7 +128,6 @@ implements TextEditorModelDDApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public String getLastInsertion() {
         String string = null;
         try {
@@ -151,7 +143,6 @@ implements TextEditorModelDDApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean undoLastInsertion() {
         boolean bl = false;
         try {
@@ -167,7 +158,6 @@ implements TextEditorModelDDApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public String getText() {
         String string = null;
         try {
@@ -183,7 +173,6 @@ implements TextEditorModelDDApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public String getSelectedWord() {
         String string = null;
         try {
@@ -199,7 +188,6 @@ implements TextEditorModelDDApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public String[] getAlternatives() {
         String[] stringArray = null;
         try {
@@ -215,7 +203,6 @@ implements TextEditorModelDDApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean selectAlternative(int n) {
         boolean bl = false;
         try {
@@ -231,7 +218,6 @@ implements TextEditorModelDDApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void clear() {
         try {
             this.m_wrapped.lock();
@@ -245,7 +231,6 @@ implements TextEditorModelDDApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public DoubleCursor getCursor() {
         DoubleCursor doubleCursor = null;
         try {
@@ -258,47 +243,38 @@ implements TextEditorModelDDApp {
         return doubleCursor;
     }
 
-    @Override
     public TextEditorModelDDApp getSyncedModel() {
         return this;
     }
 
-    @Override
     public boolean lock() {
         return this.m_wrapped.lock();
     }
 
-    @Override
     public void unlock() {
         this.m_wrapped.unlock();
     }
 
-    @Override
     public void resetListener() {
         this.m_wrapped.resetListener();
     }
 
-    @Override
     public void setListener(TextEditorListenerDD textEditorListenerDD) {
         this.m_wrapped.setListener(textEditorListenerDD);
     }
 
-    @Override
     public void addListener(TextEditorListenerDD textEditorListenerDD) {
         this.m_wrapped.addListener(textEditorListenerDD);
     }
 
-    @Override
     public void removeListener(TextEditorListenerDD textEditorListenerDD) {
         this.m_wrapped.removeListener(textEditorListenerDD);
     }
 
-    @Override
     public void setMaxLength(int n) {
         this.m_wrapped.setMaxLength(n);
     }
 
-    @Override
     public int getMaxLength() {
         return this.m_wrapped.getMaxLength();
     }
@@ -306,7 +282,6 @@ implements TextEditorModelDDApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean insert(String string) {
         boolean bl = false;
         try {
@@ -322,7 +297,6 @@ implements TextEditorModelDDApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean insert(String[] stringArray) {
         boolean bl = false;
         try {
@@ -338,7 +312,6 @@ implements TextEditorModelDDApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public boolean insert(String[][] stringArray) {
         boolean bl = false;
         try {
@@ -354,7 +327,6 @@ implements TextEditorModelDDApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void remove(int n, int n2, int n3) {
         try {
             this.m_wrapped.lock();
@@ -368,7 +340,6 @@ implements TextEditorModelDDApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public String validityCheck() {
         String string = null;
         try {
@@ -387,7 +358,6 @@ implements TextEditorModelDDApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setMode(int n) {
         try {
             this.m_wrapped.lock();

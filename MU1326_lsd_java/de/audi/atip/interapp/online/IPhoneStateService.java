@@ -4,7 +4,6 @@
 package de.audi.atip.interapp.online;
 
 public interface IPhoneStateService {
-    default public void updatePhoneStatus(boolean bl) {
-    }
+    public void updatePhoneStatus(boolean var1);
 }
 

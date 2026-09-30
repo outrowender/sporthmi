@@ -22,20 +22,19 @@ extends AbstractSystemCallCommand {
         this.poiOnlineService = naviSDSPOIOnlineService;
     }
 
-    @Override
     public void execute() {
         byte by = SDSUtils.translate(this.searchArea, NaviSDSUtils.poiAreaToPOIOnlineSearchArea);
-        this.logger.log(-2137614336, "%1#execute: searchArea=%2, poiArea=%3!", (Object)this.getName(), (long)this.searchArea, (long)by);
+        this.logger.log(10000000, "%1#execute: searchArea=%2, poiArea=%3!", (Object)this.getName(), (long)this.searchArea, (long)by);
         if (by == -128) {
-            this.logger.log(-1601830656, "%1#execute: Unhandled searchArea %2!", (Object)this.getName(), (long)this.searchArea);
-            this.sendResult(1100742656);
+            this.logger.log(100000, "%1#execute: Unhandled searchArea %2!", (Object)this.getName(), (long)this.searchArea);
+            this.sendResult(40001);
             return;
         }
         this.poiOnlineService.poiOnlineSetSearchArea(by);
     }
 
     public void poiOnlineSetSearchAreaResult(byte by) {
-        this.logger.log(-2137614336, "[%1.poiOnlineSetSearchAreaResult] replyCode=%2", (Object)this.getName(), (long)by);
+        this.logger.log(10000000, "[%1.poiOnlineSetSearchAreaResult] replyCode=%2", (Object)this.getName(), (long)by);
         this.sendResult(NaviSDSUtils.handlePOIOnlineReplyCodeSDS(this.logger, by, "poiOnlineSetSearchAreaResult"));
     }
 }

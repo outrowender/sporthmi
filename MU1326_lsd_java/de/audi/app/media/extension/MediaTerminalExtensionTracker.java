@@ -11,7 +11,7 @@ import java.util.Dictionary;
 
 public class MediaTerminalExtensionTracker
 extends AbstractServiceListTracker {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "MediaTerminalExtensionTracker";
     private final IMediaTerminal terminal;
     static /* synthetic */ Class class$de$audi$app$media$extension$IMediaTerminalExtension;
 
@@ -20,36 +20,30 @@ extends AbstractServiceListTracker {
         this.terminal = iMediaTerminal;
     }
 
-    @Override
     public void init() {
-        this.logger.log(1078071040, "[%1.init]", (Object)"MediaTerminalExtensionTracker");
+        this.logger.log(1000000, "[%1.init]", (Object)LOGCLASS);
         super.init();
     }
 
-    @Override
     public void deinit() {
-        this.logger.log(1078071040, "[%1.deinit]", (Object)"MediaTerminalExtensionTracker");
+        this.logger.log(1000000, "[%1.deinit]", (Object)LOGCLASS);
         super.deinit();
     }
 
-    @Override
     protected Class getTrackedServiceClass() {
         return class$de$audi$app$media$extension$IMediaTerminalExtension == null ? (class$de$audi$app$media$extension$IMediaTerminalExtension = MediaTerminalExtensionTracker.class$("de.audi.app.media.extension.IMediaTerminalExtension")) : class$de$audi$app$media$extension$IMediaTerminalExtension;
     }
 
-    @Override
     protected void serviceRemoved(Object object) {
-        this.logger.log(1078071040, "[%1.serviceRemoved] Extension removed '%2'.", (Object)"MediaTerminalExtensionTracker", object);
+        this.logger.log(1000000, "[%1.serviceRemoved] Extension removed '%2'.", (Object)LOGCLASS, object);
         ((IMediaTerminalExtension)object).deinitExtension();
     }
 
-    @Override
     protected void serviceAdded(Object object) {
-        this.logger.log(1078071040, "[%1.serviceAdded] Extension added '%2'.", (Object)"MediaTerminalExtensionTracker", object);
+        this.logger.log(1000000, "[%1.serviceAdded] Extension added '%2'.", (Object)LOGCLASS, object);
         ((IMediaTerminalExtension)object).initExtension(this.terminal);
     }
 
-    @Override
     protected boolean checkServiceProperties(Dictionary dictionary) {
         try {
             return ((Integer)dictionary.get("TERMINALID")).intValue() == this.terminal.getTerminalID();

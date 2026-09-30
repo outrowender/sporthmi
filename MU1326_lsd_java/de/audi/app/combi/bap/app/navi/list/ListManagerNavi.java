@@ -50,7 +50,6 @@ extends AbstractListManager {
         combiModuleNavi.getBAPFunctionArrayFSG(33).setArrayHandler((ArrayHandler)object);
     }
 
-    @Override
     protected int convertMostOperationState(int n) {
         switch (n) {
             case 0: {

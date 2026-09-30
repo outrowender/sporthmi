@@ -33,37 +33,30 @@ implements IVariantInfo {
         }
     }
 
-    @Override
     public String getHeadUnit() {
         return this.headUnit;
     }
 
-    @Override
     public String getType() {
         return this.type;
     }
 
-    @Override
     public String getFeatures() {
         return this.features;
     }
 
-    @Override
     public String getBrand() {
         return this.brand;
     }
 
-    @Override
     public String getTopology() {
         return this.topology;
     }
 
-    @Override
     public String getRegion() {
         return this.region;
     }
 
-    @Override
     public boolean isMMIRadio() {
         return this.isMMIRadio;
     }

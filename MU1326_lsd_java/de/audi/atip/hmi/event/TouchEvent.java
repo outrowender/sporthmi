@@ -10,19 +10,19 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class TouchEvent
 extends ATIPEvent {
-    public static final int TOUCH_EVENT_FIRST;
-    public static final int TOUCH_PAD_PRESSED;
-    public static final int TOUCH_PAD_RELEASED;
-    public static final int TOUCH_PAD_TAPPED;
-    public static final int TOUCH_PAD_DOUBLETAPPED;
-    public static final int TOUCH_PAD_CHARS_RECOGNIZED;
-    public static final int TOUCH_PAD_APPROACHED;
-    public static final int TOUCH_PAD_ABANDONED;
-    public static final int TOUCH_PAD_MOVED_ABS;
-    public static final int TOUCH_PAD_MOVED_REL;
-    public static final int TOUCH_PAD_SCROLL;
-    public static final int TOUCH_PAD_PALM;
-    public static final int TOUCH_SCREEN_LAST;
+    public static final int TOUCH_EVENT_FIRST = 10901;
+    public static final int TOUCH_PAD_PRESSED = 10904;
+    public static final int TOUCH_PAD_RELEASED = 10905;
+    public static final int TOUCH_PAD_TAPPED = 10906;
+    public static final int TOUCH_PAD_DOUBLETAPPED = 10907;
+    public static final int TOUCH_PAD_CHARS_RECOGNIZED = 10908;
+    public static final int TOUCH_PAD_APPROACHED = 10909;
+    public static final int TOUCH_PAD_ABANDONED = 10910;
+    public static final int TOUCH_PAD_MOVED_ABS = 10911;
+    public static final int TOUCH_PAD_MOVED_REL = 10912;
+    public static final int TOUCH_PAD_SCROLL = 10913;
+    public static final int TOUCH_PAD_PALM = 10914;
+    public static final int TOUCH_SCREEN_LAST = 10915;
     private long when;
     private int touchCode;
     private int x;
@@ -101,7 +101,7 @@ extends ATIPEvent {
             Buffer buffer = new Buffer().append("TouchScreenEvent: type=").append(this.type2Text()).append(", touchCode=").append(this.touchCode2Text()).append(", finger=").append(this.fingerCount).append(", deltaTime=").append(this.deltaTime).append(", x=").append(this.x).append(", y=").append(this.y);
             return buffer.toString();
         }
-        return new StringBuffer().append("TouchScreenEvent: type = ").append(this.type2Text()).append(", recognizedCharacters = ").append(this.recognizedCharacters).append(", recognizerConfidence = ").append(Util.arrayToString(this.recognizerConfidence)).toString();
+        return "TouchScreenEvent: type = " + this.type2Text() + ", recognizedCharacters = " + this.recognizedCharacters + ", recognizerConfidence = " + Util.arrayToString(this.recognizerConfidence);
     }
 
     private String touchCode2Text() {
@@ -214,7 +214,6 @@ extends ATIPEvent {
         return this.deltaTime;
     }
 
-    @Override
     public void consume() {
         super.consume();
         this.repaintNeeded = true;

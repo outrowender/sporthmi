@@ -35,7 +35,6 @@ implements CombiBAPServicePhone2Listener {
         this.addSubPhoneComponent(new BAPPropertyTel2PhoneModuleState(iTelApplication, this.bapCombiDispatcher));
     }
 
-    @Override
     public void init() {
         super.init();
         this.bapCombiDispatcher.start();
@@ -43,7 +42,6 @@ implements CombiBAPServicePhone2Listener {
         this.phoneServiceProvider.startService();
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         if (this.phoneServiceProvider != null) {

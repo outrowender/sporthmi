@@ -5,7 +5,6 @@ package de.audi.app.messaging.core.application;
 
 import de.audi.app.messaging.core.accounts.AccountManager;
 import de.audi.app.messaging.core.addressbook.MessagingAdbHandler;
-import de.audi.app.messaging.core.application.AbstractMsgApplication$1;
 import de.audi.app.messaging.core.application.MessagingHmiApplication;
 import de.audi.app.messaging.core.audio.AudioManager;
 import de.audi.app.messaging.core.callback.CallbackNumberList;
@@ -36,6 +35,7 @@ import de.audi.app.messaging.core.guide.ITextLookup;
 import de.audi.app.messaging.core.guide.ModelAccess;
 import de.audi.app.messaging.core.indication.NewMessageIndicationManager;
 import de.audi.app.messaging.core.messagingservice.MessagingService;
+import de.audi.app.messaging.core.osgi.AbstractMessagingTrackerCustomizer;
 import de.audi.app.messaging.core.osgi.IServiceRegistry;
 import de.audi.app.messaging.core.osgi.MessagingBundleContext;
 import de.audi.app.messaging.core.osgi.ServiceFilterBuilder;
@@ -58,6 +58,8 @@ import de.audi.atip.interapp.SDSService;
 import de.audi.atip.phone.ITelService;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Filter;
+import org.osgi.framework.InvalidSyntaxException;
+import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
@@ -109,7 +111,7 @@ implements IMessagingComponent {
 
     public AbstractMsgApplication(MessagingBundleContext messagingBundleContext) {
         super(messagingBundleContext, "App.Messaging.Main");
-        this.log.log(-2137614336, "[MsgApplication#MsgApplication] Creating application components.");
+        this.log.log(10000000, "[MsgApplication#MsgApplication] Creating application components.");
         this.uniqueIdDispenser = new UniqueIdDispenser(messagingBundleContext);
         this.addComponent(this.uniqueIdDispenser);
         this.executorManager = new ExecutorManager(messagingBundleContext);
@@ -190,7 +192,6 @@ implements IMessagingComponent {
         this.addComponent(this.messagingSwDiagnosis);
     }
 
-    @Override
     public void connect(IServiceRegistry iServiceRegistry) {
         try {
             super.connect(iServiceRegistry);
@@ -269,8 +270,7 @@ implements IMessagingComponent {
         return this.extractedMailAddressList;
     }
 
-    public abstract NewMessageIndicationManager getNewMessageIndicationManager() {
-    }
+    public abstract NewMessageIndicationManager getNewMessageIndicationManager();
 
     public final RecipientList getRecipientList() {
         return this.recipientList;
@@ -384,16 +384,13 @@ implements IMessagingComponent {
         this.sdsService = sDSService;
     }
 
-    protected abstract AbstractActionProxyService createActionProxyService(MessagingBundleContext messagingBundleContext) {
-    }
+    protected abstract AbstractActionProxyService createActionProxyService(MessagingBundleContext var1);
 
-    protected abstract ITextLookup createTextLookup(MessagingBundleContext messagingBundleContext) {
-    }
+    protected abstract ITextLookup createTextLookup(MessagingBundleContext var1);
 
-    protected abstract AbstractOrganizerSearch createOrganizerSearch(MessagingBundleContext messagingBundleContext) {
-    }
+    protected abstract AbstractOrganizerSearch createOrganizerSearch(MessagingBundleContext var1);
 
-    private ServiceTracker createServiceTracker() {
+    private ServiceTracker createServiceTracker() throws InvalidSyntaxException {
         ServiceFilterBuilder serviceFilterBuilder = new ServiceFilterBuilder();
         serviceFilterBuilder.beginOr();
         serviceFilterBuilder.addProperty("objectClass", (class$de$audi$atip$interapp$ADBHMIAppService == null ? (class$de$audi$atip$interapp$ADBHMIAppService = AbstractMsgApplication.class$("de.audi.atip.interapp.ADBHMIAppService")) : class$de$audi$atip$interapp$ADBHMIAppService).getName());
@@ -402,8 +399,29 @@ implements IMessagingComponent {
         serviceFilterBuilder.endOr();
         String string = serviceFilterBuilder.createFilterString();
         Filter filter = this.bundleContext.createFilter(string);
-        AbstractMsgApplication$1 abstractMsgApplication$1 = new AbstractMsgApplication$1(this, this.log, this.bundleContext);
-        return new ServiceTracker(this.bundleContext, filter, (ServiceTrackerCustomizer)abstractMsgApplication$1);
+        AbstractMessagingTrackerCustomizer abstractMessagingTrackerCustomizer = new AbstractMessagingTrackerCustomizer(this.log, this.bundleContext){
+
+            public void addService(ServiceReference serviceReference, Object object) {
+                if (object instanceof ADBHMIAppService) {
+                    AbstractMsgApplication.this.setAdbHmiAppService((ADBHMIAppService)object);
+                } else if (object instanceof ITelService) {
+                    AbstractMsgApplication.this.setTelService((ITelService)object);
+                } else {
+                    AbstractMsgApplication.this.setSdsService((SDSService)object);
+                }
+            }
+
+            public void removeService(ServiceReference serviceReference, Object object) {
+                if (object instanceof ADBHMIAppService) {
+                    AbstractMsgApplication.this.setAdbHmiAppService(null);
+                } else if (object instanceof ITelService) {
+                    AbstractMsgApplication.this.setTelService(null);
+                } else {
+                    AbstractMsgApplication.this.setSdsService(null);
+                }
+            }
+        };
+        return new ServiceTracker(this.bundleContext, filter, (ServiceTrackerCustomizer)abstractMessagingTrackerCustomizer);
     }
 
     static /* synthetic */ Class class$(String string) {
@@ -413,18 +431,6 @@ implements IMessagingComponent {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ void access$000(AbstractMsgApplication abstractMsgApplication, ADBHMIAppService aDBHMIAppService) {
-        abstractMsgApplication.setAdbHmiAppService(aDBHMIAppService);
-    }
-
-    static /* synthetic */ void access$100(AbstractMsgApplication abstractMsgApplication, ITelService iTelService) {
-        abstractMsgApplication.setTelService(iTelService);
-    }
-
-    static /* synthetic */ void access$200(AbstractMsgApplication abstractMsgApplication, SDSService sDSService) {
-        abstractMsgApplication.setSdsService(sDSService);
     }
 }
 

@@ -3,6 +3,8 @@
  */
 package de.audi.atip.utils;
 
+import java.io.IOException;
+
 public class ByteArrayReader {
     private final byte[] data;
     private int pointer = 0;
@@ -41,7 +43,7 @@ public class ByteArrayReader {
         byte by2 = this.data[this.pointer++];
         byte by3 = this.data[this.pointer++];
         byte by4 = this.data[this.pointer++];
-        return (long)n << 32 | ((long)by & 0) << 24 | ((long)by2 & 0) << 16 | ((long)by3 & 0) << 8 | (long)by4 & 0;
+        return (long)n << 32 | ((long)by & 0xFFL) << 24 | ((long)by2 & 0xFFL) << 16 | ((long)by3 & 0xFFL) << 8 | (long)by4 & 0xFFL;
     }
 
     public short readShort() {
@@ -56,12 +58,12 @@ public class ByteArrayReader {
         return ((by & 0xFF) << 8) + (by2 & 0xFF);
     }
 
-    public final String readUTF() {
+    public final String readUTF() throws IOException {
         int n = this.readUnsignedShort();
         return this.decodeUTF(n);
     }
 
-    String decodeUTF(int n) {
+    String decodeUTF(int n) throws IOException {
         byte[] byArray = new byte[n];
         this.readFully(byArray);
         StringBuffer stringBuffer = new StringBuffer("");
@@ -87,7 +89,7 @@ public class ByteArrayReader {
         return stringBuffer.toString();
     }
 
-    public final void readFully(byte[] byArray) {
+    public final void readFully(byte[] byArray) throws IOException {
         for (int i2 = 0; i2 < byArray.length; ++i2) {
             byArray[i2] = this.data[this.pointer++];
         }

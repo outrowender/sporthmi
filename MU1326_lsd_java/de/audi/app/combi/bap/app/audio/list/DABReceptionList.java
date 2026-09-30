@@ -91,7 +91,7 @@ public class DABReceptionList {
         } else if (bl2 || bl3) {
             list = this.getDABServiceList(0, bl3);
         } else {
-            this.logChannel.log(-1601830656, "[%1#getDABFlatList] include neither ensembles nor services -> return empty list", (Object)this.className);
+            this.logChannel.log(100000, "[%1#getDABFlatList] include neither ensembles nor services -> return empty list", (Object)this.className);
             list = new ArrayList(1);
         }
         return list;

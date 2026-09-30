@@ -4,7 +4,6 @@
 package de.audi.atip.audio;
 
 public interface IAudioFocusManager {
-    default public void setActiveAudioApp(int n, int n2) {
-    }
+    public void setActiveAudioApp(int var1, int var2);
 }
 

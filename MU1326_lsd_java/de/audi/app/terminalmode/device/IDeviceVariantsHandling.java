@@ -9,10 +9,8 @@ import de.audi.atip.log.LogChannel;
 import de.audi.tghu.command.CommandList;
 
 public interface IDeviceVariantsHandling {
-    default public CommandList cleanupAfterDeviceDisconnected(IContext iContext, IStateHandler iStateHandler, LogChannel logChannel, String string) {
-    }
+    public CommandList cleanupAfterDeviceDisconnected(IContext var1, IStateHandler var2, LogChannel var3, String var4);
 
-    default public void setDeviceVariantsHandler(IDeviceVariantsHandling iDeviceVariantsHandling) {
-    }
+    public void setDeviceVariantsHandler(IDeviceVariantsHandling var1);
 }
 

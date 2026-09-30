@@ -7,15 +7,15 @@ import com.ibm.j9.bluez.crypto.BigInteger;
 import com.ibm.j9.bluez.crypto.CL3Exception;
 
 public class ASN1 {
-    public static final int BIGINT;
-    public static final int BOOLEAN;
-    public static final int OIDSTR;
-    public static final int B8STR;
-    public static final int B16STR;
-    public static final int UTF8STR;
-    private static final int ANYSTR;
-    public static final int INTEGER;
-    public static final int APPSPEC;
+    public static final int BIGINT = 1;
+    public static final int BOOLEAN = 2;
+    public static final int OIDSTR = 3;
+    public static final int B8STR = 4;
+    public static final int B16STR = 5;
+    public static final int UTF8STR = 6;
+    private static final int ANYSTR = 7;
+    public static final int INTEGER = 8;
+    public static final int APPSPEC = 100;
     public int mode;
     public byte[] data;
     public int tag;
@@ -40,9 +40,9 @@ public class ASN1 {
                 var5_5 = new StringBuffer(4 * var3_3);
                 if (var3_3 > 0) {
                     var8_10 = var1_1[var2_2] & 255;
-                    var5_5.append(var8_10 / 0);
+                    var5_5.append(var8_10 / 40L);
                     var5_5.append('.');
-                    var5_5.append(var8_10 % 0);
+                    var5_5.append(var8_10 % 40L);
                     var7_11 = 1;
                     while (var7_11 < var3_3) {
                         var8_10 = 0L;
@@ -166,7 +166,7 @@ lbl75:
                 while (--n7 >= 0) {
                     char c2 = string.charAt(n7);
                     if (c2 == '.') {
-                        if (n5 == 1) throw new CL3Exception(0x3000080);
+                        if (n5 == 1) throw new CL3Exception(-2147483645);
                         n5 = 0;
                         while (n6 > 0) {
                             if (--n2 >= 0) {
@@ -178,7 +178,7 @@ lbl75:
                         n5 = 1;
                         continue;
                     }
-                    if (c2 < '0' || c2 > '9') throw new CL3Exception(0x3000080);
+                    if (c2 < '0' || c2 > '9') throw new CL3Exception(-2147483645);
                     n6 += n5 * (c2 - 48);
                     n5 *= 10;
                 }
@@ -190,7 +190,7 @@ lbl75:
                 String string = (String)object;
                 int n9 = string.length();
                 while (--n9 >= 0) {
-                    int n10 = string.charAt(n9) & 0xFFFF0000;
+                    int n10 = string.charAt(n9) & 0xFFFF;
                     if (n10 <= 127) {
                         if (--n2 < 0) continue;
                         byArray[n2] = (byte)n10;
@@ -203,7 +203,7 @@ lbl75:
                         byArray[n2 + 1] = (byte)(0x80 | n10 & 0x3F);
                         continue;
                     }
-                    if (n10 > -65536) continue;
+                    if (n10 > 65535) continue;
                     if ((n2 -= 3) >= 0) {
                         byArray[n2] = (byte)(0xE0 | n10 >> 12);
                     }
@@ -290,7 +290,7 @@ lbl75:
         return -1;
     }
 
-    private static int rdLen(byte[] byArray, int n, int n2, int[] nArray) {
+    private static int rdLen(byte[] byArray, int n, int n2, int[] nArray) throws CL3Exception {
         if (n2 == 0) {
             n2 = byArray.length;
         }
@@ -314,7 +314,7 @@ lbl75:
                 return n + n3;
             }
         }
-        throw new CL3Exception(352321664);
+        throw new CL3Exception(-2147483627);
     }
 
     public static int cntElements(byte[] byArray, int n, int n2) {
@@ -466,7 +466,7 @@ lbl75:
             }
             return n3;
         }
-        throw new CL3Exception(0x5000080);
+        throw new CL3Exception(-2147483643);
     }
 
     public static int format(String string, byte[] byArray, int n, ASN1[] aSN1Array) {
@@ -478,7 +478,7 @@ lbl75:
         int n4 = nArray[0];
         while (n3 > 0) {
             if (n4 + 2 > n2) {
-                throw new CL3Exception(352321664);
+                throw new CL3Exception(-2147483627);
             }
             if (byArray2[n4] == 0 && byArray2[n4 + 1] == 0) {
                 --n3;
@@ -665,9 +665,9 @@ lbl75:
                 break block56;
                 break;
             }
-            throw new CL3Exception(0x5000080);
+            throw new CL3Exception(-2147483643);
         }
-        throw new CL3Exception(352321664);
+        throw new CL3Exception(-2147483627);
     }
 
     public static int scan(String string, byte[] byArray, int n, int n2, ASN1[] aSN1Array) {

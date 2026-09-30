@@ -19,17 +19,14 @@ extends AbstractQueueJob {
         this.player = iPlayer;
     }
 
-    @Override
     public int getType() {
         return 0;
     }
 
-    @Override
     public String getName() {
         return this.name;
     }
 
-    @Override
     public void abort(boolean bl) {
     }
 }

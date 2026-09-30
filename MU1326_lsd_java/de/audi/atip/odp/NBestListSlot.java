@@ -27,7 +27,7 @@ public class NBestListSlot {
     }
 
     public String toString() {
-        return new StringBuffer("NBestListSlot(").append(this.slotResultID).append(", ").append(this.slotResultString).append(", ").append(this.slotObjStringID).append(")").toString();
+        return "NBestListSlot(" + this.slotResultID + ", " + this.slotResultString + ", " + this.slotObjStringID + ")";
     }
 }
 

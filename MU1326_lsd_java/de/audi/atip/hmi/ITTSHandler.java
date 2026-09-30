@@ -6,26 +6,20 @@ package de.audi.atip.hmi;
 import de.audi.atip.interapp.tts.TTSSessionBasedService;
 
 public interface ITTSHandler {
-    public static final int TAG_NONE;
-    public static final int TAG_SAY_AS;
-    public static final int TAG_PHONEME;
+    public static final int TAG_NONE = 0;
+    public static final int TAG_SAY_AS = 1;
+    public static final int TAG_PHONEME = 2;
 
-    default public void setTTSService(TTSSessionBasedService tTSSessionBasedService) {
-    }
+    public void setTTSService(TTSSessionBasedService var1);
 
-    default public void speak(int n, String string, String string2, String string3, boolean bl, int n2) {
-    }
+    public void speak(int var1, String var2, String var3, String var4, boolean var5, int var6);
 
-    default public void speak(int n, String string, String string2, String string3, String string4, boolean bl, int n2) {
-    }
+    public void speak(int var1, String var2, String var3, String var4, String var5, boolean var6, int var7);
 
-    default public void startSession(int n) {
-    }
+    public void startSession(int var1);
 
-    default public void stopSession(int n, boolean bl) {
-    }
+    public void stopSession(int var1, boolean var2);
 
-    default public void reset() {
-    }
+    public void reset();
 }
 

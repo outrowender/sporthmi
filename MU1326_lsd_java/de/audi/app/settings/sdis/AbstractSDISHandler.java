@@ -20,11 +20,11 @@ implements ButtonListener,
 ChoiceListener,
 ISDISBlockingListener,
 MsgListener {
-    public static final int CHECKBOX_ALLOW;
-    public static final int CHECKBOX_BLOCK;
-    public static final int POPUP_ALLOW;
-    public static final int POPUP_DECLINE;
-    public static final int POPUP_ON_DEMAND;
+    public static final int CHECKBOX_ALLOW = 0;
+    public static final int CHECKBOX_BLOCK = 1;
+    public static final int POPUP_ALLOW = 1;
+    public static final int POPUP_DECLINE = 2;
+    public static final int POPUP_ON_DEMAND = 0;
     private final SettingsEnv env;
     private final LogChannel log;
     private ISDISBlockingService sdisBlockingService = null;
@@ -72,7 +72,7 @@ MsgListener {
     }
 
     private final ChoiceModelApp getLockStateChoice() {
-        return this.env.getChoiceModel(-691466240);
+        return this.env.getChoiceModel(1100246);
     }
 
     private final ChoiceModelApp getBlockA2LSChoice() {
@@ -80,62 +80,59 @@ MsgListener {
     }
 
     private final ChoiceModelApp getBlockNaviChoice() {
-        return this.env.getChoiceModel(415895552);
+        return this.env.getChoiceModel(1100312);
     }
 
     private final ChoiceModelApp getBlockMediaSourceChoice() {
-        return this.env.getChoiceModel(-725020672);
+        return this.env.getChoiceModel(1100244);
     }
 
     private final ButtonModelApp getFactoryResetButton() {
-        return this.env.getButtonModel(-708243456);
+        return this.env.getButtonModel(1100245);
     }
 
     private final ButtonModelApp getResetLanguageButton() {
-        return this.env.getButtonModel(-674689024);
+        return this.env.getButtonModel(1100247);
     }
 
     private final ButtonModelApp getShowLockScreenButton() {
-        return this.env.getButtonModel(-540471296);
+        return this.env.getButtonModel(1100255);
     }
 
     private final ButtonModelApp getShowHomeScreenButton() {
-        return this.env.getButtonModel(-657911808);
+        return this.env.getButtonModel(1100248);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.getLog().log(1078071040, "AbstractSDISHandler.keyTyped(%1, %2)", (long)n, (long)n2);
+        this.getLog().log(1000000, "AbstractSDISHandler.keyTyped(%1, %2)", (long)n, (long)n2);
         switch (n) {
             case 1100245: {
-                this.getLog().log(1078071040, "AbstractSDISHandler.keyTyped: trigger factory reset");
+                this.getLog().log(1000000, "AbstractSDISHandler.keyTyped: trigger factory reset");
                 this.env.getFw().getMsgDistrib().sendMessage(85);
                 break;
             }
             case 1100247: {
-                this.getLog().log(1078071040, "AbstractSDISHandler.keyTyped: trigger Language reset");
+                this.getLog().log(1000000, "AbstractSDISHandler.keyTyped: trigger Language reset");
                 ISDISHeadUnitService iSDISHeadUnitService = this.sdisHeadUnitService;
                 if (iSDISHeadUnitService == null) break;
                 iSDISHeadUnitService.resetLanguage();
                 break;
             }
             case 1100248: {
-                this.getLog().log(1078071040, "AbstractSDISHandler.keyTyped: trigger home screen");
+                this.getLog().log(1000000, "AbstractSDISHandler.keyTyped: trigger home screen");
                 ISDISBlockingService iSDISBlockingService = this.sdisBlockingService;
                 if (iSDISBlockingService == null) break;
                 iSDISBlockingService.enterAppContext(0, "Home");
                 break;
             }
             case 1100255: {
-                this.getLog().log(1078071040, "AbstractSDISHandler.keyTyped: trigger lock screen");
+                this.getLog().log(1000000, "AbstractSDISHandler.keyTyped: trigger lock screen");
                 ISDISBlockingService iSDISBlockingService = this.sdisBlockingService;
                 if (iSDISBlockingService == null) break;
                 iSDISBlockingService.enterAppContext(0, "Lock");
@@ -144,7 +141,6 @@ MsgListener {
         }
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
@@ -168,19 +164,18 @@ MsgListener {
         return (5 & n) != 0;
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
-        this.getLog().log(1078071040, "AbstractSDISHandler.itemSelected(%1, %2, %3)", (long)n, (long)n2, (long)n3);
+        this.getLog().log(1000000, "AbstractSDISHandler.itemSelected(%1, %2, %3)", (long)n, (long)n2, (long)n3);
         ISDISBlockingService iSDISBlockingService = this.getSdisBlockingService();
         block0 : switch (n) {
             case 1100246: {
-                this.getLog().log(1078071040, "AbstractSDISHandler.itemSelected: toggle lock state choice");
+                this.getLog().log(1000000, "AbstractSDISHandler.itemSelected: toggle lock state choice");
                 if (iSDISBlockingService == null) break;
                 iSDISBlockingService.setLockState(this.isLocked(this.getCurrentLockState()) ? 0 : 1);
                 break;
             }
             case 4385: {
-                this.getLog().log(1078071040, "AbstractSDISHandler.itemSelected: set block A2LS to %1", (long)n2);
+                this.getLog().log(1000000, "AbstractSDISHandler.itemSelected: set block A2LS to %1", (long)n2);
                 int n5 = this.getCurrentBlockState();
                 switch (n2) {
                     case 0: {
@@ -192,7 +187,7 @@ MsgListener {
                         break;
                     }
                     default: {
-                        this.getLog().log(-1601830656, "AbstractSDISHandler.itemSelected; modelID = SDIS_BLOCK_STATE_A2_L_S_CHOICE: itemID = %1 not found", (long)n2);
+                        this.getLog().log(100000, "AbstractSDISHandler.itemSelected; modelID = SDIS_BLOCK_STATE_A2_L_S_CHOICE: itemID = %1 not found", (long)n2);
                     }
                 }
                 if (iSDISBlockingService == null) break;
@@ -200,7 +195,7 @@ MsgListener {
                 break;
             }
             case 1100312: {
-                this.getLog().log(1078071040, "AbstractSDISHandler.itemSelected: set block Navi to %1", (long)n2);
+                this.getLog().log(1000000, "AbstractSDISHandler.itemSelected: set block Navi to %1", (long)n2);
                 switch (n2) {
                     case 0: 
                     case 1: 
@@ -209,11 +204,11 @@ MsgListener {
                         break block0;
                     }
                 }
-                this.getLog().log(-1601830656, "AbstractSDISHandler.itemSelected; modelID = NAV_SDIS_SETTINGS_REQUEST_MODE_CHOICE: itemID = %1 not found", (long)n2);
+                this.getLog().log(100000, "AbstractSDISHandler.itemSelected; modelID = NAV_SDIS_SETTINGS_REQUEST_MODE_CHOICE: itemID = %1 not found", (long)n2);
                 break;
             }
             case 1100244: {
-                this.getLog().log(1078071040, "SDISHandler.itemSelected: set block media to %1", (long)n2);
+                this.getLog().log(1000000, "SDISHandler.itemSelected: set block media to %1", (long)n2);
                 int n6 = this.getCurrentBlockState();
                 switch (n2) {
                     case 0: {
@@ -225,7 +220,7 @@ MsgListener {
                         break;
                     }
                     default: {
-                        this.getLog().log(-1601830656, "SDISHandler.itemSelected; itemID = %1 NOT FOUND", (long)n2);
+                        this.getLog().log(100000, "SDISHandler.itemSelected; itemID = %1 NOT FOUND", (long)n2);
                     }
                 }
                 if (iSDISBlockingService == null) break;
@@ -233,34 +228,30 @@ MsgListener {
                 break;
             }
             default: {
-                this.getLog().log(-1601830656, "AbstractSDISHandler.itemSelected; modelID = %1 NOT FOUND", (long)n);
+                this.getLog().log(100000, "AbstractSDISHandler.itemSelected; modelID = %1 NOT FOUND", (long)n);
             }
         }
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void updateLockState(int n) {
-        this.getLog().log(1078071040, "AbstractSDISHandler.updateLockState( %1 )", (long)n);
+        this.getLog().log(1000000, "AbstractSDISHandler.updateLockState( %1 )", (long)n);
         this.currentLockState = n;
         this.getLockStateChoice().setValue(this.isLocked(n) ? 1 : 0);
     }
 
-    @Override
     public void updateBlockState(int n) {
-        this.getLog().log(1078071040, "AbstractSDISHandler.updateBLockState( %1 )", (long)n);
+        this.getLog().log(1000000, "AbstractSDISHandler.updateBLockState( %1 )", (long)n);
         this.currentBlockState = n;
         this.getBlockA2LSChoice().setValue(this.isA2LSBlocked(n) ? 1 : 0);
         this.getBlockMediaSourceChoice().setValue(this.isMediaSourceBlocked(n) ? 0 : 1);
     }
 
-    @Override
     public void processMsg(int n) {
         if (n == 85) {
-            this.getLog().log(1078071040, "AbstractSDISHandler: Reset sdis settings");
+            this.getLog().log(1000000, "AbstractSDISHandler: Reset sdis settings");
             int n2 = this.currentBlockState;
             n2 &= 0xFFFFFFFA;
             n2 &= 0xFFFFFFFC;

@@ -7,16 +7,12 @@ import de.vw.mib.bap.requests.AckProperty;
 import de.vw.mib.bap.requests.SetGetProperty;
 
 public interface IBAPPropertyFSGIND {
-    default public void getIND() {
-    }
+    public void getIND();
 
-    default public void setGetIND(SetGetProperty setGetProperty) {
-    }
+    public void setGetIND(SetGetProperty var1);
 
-    default public void setIND(SetGetProperty setGetProperty) {
-    }
+    public void setIND(SetGetProperty var1);
 
-    default public void ackIND(AckProperty ackProperty) {
-    }
+    public void ackIND(AckProperty var1);
 }
 

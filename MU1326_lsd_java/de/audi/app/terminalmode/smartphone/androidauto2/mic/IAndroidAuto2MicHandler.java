@@ -4,7 +4,6 @@
 package de.audi.app.terminalmode.smartphone.androidauto2.mic;
 
 public interface IAndroidAuto2MicHandler {
-    default public void microphoneUpdate(boolean bl) {
-    }
+    public void microphoneUpdate(boolean var1);
 }
 

@@ -19,32 +19,30 @@ public class ChargeComponentEvo
 extends AbstractChargeComponent
 implements IScreenStateListener,
 IMERVisibilityChangeListener {
-    private static final int ICON_STATE_FUNCTIONAL;
-    private static final int ICON_STATE_DISABLED;
-    private static final int ICON_STATE_INVISIBLE;
-    private static final int TIMER_ARRAY_SIZE;
-    private static final int ARRAY_INDEX_TIMER1;
-    private static final int ARRAY_INDEX_TIMER2;
+    private static final int ICON_STATE_FUNCTIONAL = 0;
+    private static final int ICON_STATE_DISABLED = 1;
+    private static final int ICON_STATE_INVISIBLE = 13;
+    private static final int TIMER_ARRAY_SIZE = 2;
+    private static final int ARRAY_INDEX_TIMER1 = 0;
+    private static final int ARRAY_INDEX_TIMER2 = 1;
     private ConcurrentBooleanArray lastKnownThermometerIconState = new ConcurrentBooleanArray(2);
-    public static final int CLIMATE_SYSTEM_VARIANT_NONE;
-    public static final int CLIMATE_SYSTEM_VARIANT_HEATER;
-    public static final int CLIMATE_SYSTEM_VARIANT_COOLER;
-    public static final int CLIMATE_SYSTEM_VARIANT_COMBINED;
+    public static final int CLIMATE_SYSTEM_VARIANT_NONE = 0;
+    public static final int CLIMATE_SYSTEM_VARIANT_HEATER = 1;
+    public static final int CLIMATE_SYSTEM_VARIANT_COOLER = 2;
+    public static final int CLIMATE_SYSTEM_VARIANT_COMBINED = 3;
     private ConcurrentIntArray lastKnownClimateSystemType = new ConcurrentIntArray(2);
 
     public ChargeComponentEvo(ICarApplication iCarApplication) {
         super(iCarApplication);
     }
 
-    @Override
     public void init() {
         super.init();
-        this.getApplication().getScreenStateDispatcher().addScreenStateListener(-601356032, this);
-        this.getApplication().getScreenStateDispatcher().addScreenStateListener(-584578816, this);
+        this.getApplication().getScreenStateDispatcher().addScreenStateListener(600284, this);
+        this.getApplication().getScreenStateDispatcher().addScreenStateListener(600285, this);
         this.getApplication().getMenuEntryRegistry().registerVisibilityChangeListener(this);
     }
 
-    @Override
     protected void initVisibility() {
         this.getApplication().getMenuEntryRegistry().registerMenuEntry(247, (short)41);
         this.getApplication().getMenuEntryRegistry().registerMenuEntry(248, (short)41);
@@ -64,7 +62,6 @@ IMERVisibilityChangeListener {
         }
     }
 
-    @Override
     protected void deinitVisibility() {
         this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(247);
         this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(248);
@@ -75,12 +72,10 @@ IMERVisibilityChangeListener {
         this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(242);
     }
 
-    @Override
     public int getID() {
         return 15;
     }
 
-    @Override
     protected void updateMenuEntryVisibility(BatteryControlViewOptions batteryControlViewOptions) {
         this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(247, this.getMenuEntryVisibilityState(batteryControlViewOptions.getTimer1()));
         this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(248, this.getMenuEntryVisibilityState(batteryControlViewOptions.getTimer2()));
@@ -97,7 +92,6 @@ IMERVisibilityChangeListener {
         }
     }
 
-    @Override
     protected void updateThermometerIconVisibility(int n, boolean bl) {
         if (n == 1) {
             this.lastKnownThermometerIconState.set(0, bl);
@@ -123,12 +117,10 @@ IMERVisibilityChangeListener {
         }
     }
 
-    @Override
     public int getPopUpID() {
         return -1;
     }
 
-    @Override
     protected void updateEntryVisibilityForError(BatteryControlChargeState batteryControlChargeState, BatteryControlViewOptions batteryControlViewOptions) {
         if (batteryControlChargeState.getChargeState() == 7) {
             this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(247, this.getHighestPrioVisibilityState(2, this.getMenuEntryVisibilityState(batteryControlViewOptions.getTimer1())));
@@ -150,25 +142,21 @@ IMERVisibilityChangeListener {
         return this.getApplication().getMenuEntryRegistry().getCurrentMenuEntryState(n);
     }
 
-    @Override
     public void notifyScreenFadedOut(int n) {
-        this.getLogChannel().log(1078071040, "[AuxAcComponentEvo#notifyScreenFadedOut] screenID='%1'", (long)n);
-        if (n == -601356032) {
+        this.getLogChannel().log(1000000, "[AuxAcComponentEvo#notifyScreenFadedOut] screenID='%1'", (long)n);
+        if (n == 600284) {
             this.resetPastError();
-        } else if (n == -584578816) {
+        } else if (n == 600285) {
             this.updateCurrentErrorDisclaimer(this.chargeState);
         }
     }
 
-    @Override
     public void notifyScreenVisible(int n) {
     }
 
-    @Override
     public void notifyScreenHidden(int n) {
     }
 
-    @Override
     public void notifyScreenConnected(int n) {
     }
 
@@ -187,7 +175,6 @@ IMERVisibilityChangeListener {
         return 0;
     }
 
-    @Override
     protected void updateHeatCoilIconVisibility(int n, int n2) {
         if (n == 1) {
             this.lastKnownClimateSystemType.set(0, n2);
@@ -231,7 +218,6 @@ IMERVisibilityChangeListener {
         }
     }
 
-    @Override
     public void notifyVisibilityChange(List list) {
         Object[] objectArray = list.toArray();
         for (int i2 = 0; i2 < objectArray.length; ++i2) {
@@ -264,7 +250,6 @@ IMERVisibilityChangeListener {
         this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(n, n2);
     }
 
-    @Override
     public void initUseOfMenuStructure(IMenuEntryStructure iMenuEntryStructure) {
     }
 }

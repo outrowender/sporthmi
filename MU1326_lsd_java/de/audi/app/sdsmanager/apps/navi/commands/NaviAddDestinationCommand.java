@@ -13,10 +13,10 @@ import de.audi.atip.log.LogChannel;
 
 public class NaviAddDestinationCommand
 extends AbstractSystemCallCommand {
-    private static final int ROUTE_OPTION_STOPOVER_ADD;
-    private static final int ROUTE_OPTION_STOPOVER_REPLACE;
-    private static final int ROUTE_OPTION_REPLACE_ALL;
-    private static final int ROUTE_OPTION_REPLACE_LAST_DEST;
+    private static final int ROUTE_OPTION_STOPOVER_ADD = 0;
+    private static final int ROUTE_OPTION_STOPOVER_REPLACE = 1;
+    private static final int ROUTE_OPTION_REPLACE_ALL = 2;
+    private static final int ROUTE_OPTION_REPLACE_LAST_DEST = 3;
     private final int routeOptions;
     private final NaviService naviService;
 
@@ -26,9 +26,8 @@ extends AbstractSystemCallCommand {
         this.naviService = naviService;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[%1#execute] addDestination with routeOptions=%2!", (Object)this.getName(), (long)this.routeOptions);
+        this.logger.log(10000000, "[%1#execute] addDestination with routeOptions=%2!", (Object)this.getName(), (long)this.routeOptions);
         switch (this.routeOptions) {
             case 0: {
                 this.naviService.addSelectedDestinationAtIndex(0, false);
@@ -47,16 +46,16 @@ extends AbstractSystemCallCommand {
                 break;
             }
             default: {
-                this.logger.log(-1601830656, "[%1#execute] Unknown routeOptions=%2, sending ERROR!", (Object)this.getName(), (long)this.routeOptions);
+                this.logger.log(100000, "[%1#execute] Unknown routeOptions=%2, sending ERROR!", (Object)this.getName(), (long)this.routeOptions);
                 this.sendResult(3001);
             }
         }
     }
 
     public void responseAddSelectedDestinationAtIndex(byte by) {
-        this.logger.log(-2137614336, "[%1#responseAddSelectedDestinationAtIndex] result=%2", (Object)this.getName(), (long)by);
+        this.logger.log(10000000, "[%1#responseAddSelectedDestinationAtIndex] result=%2", (Object)this.getName(), (long)by);
         int n = NaviSDSUtils.getSDSResult(by);
-        this.logger.log(-2137614336, "[%1#responseAddSelectedDestinationAtIndex] sdsRes=%2!", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "[%1#responseAddSelectedDestinationAtIndex] sdsRes=%2!", (Object)this.getName(), (long)n);
         this.sendResult(n);
     }
 }

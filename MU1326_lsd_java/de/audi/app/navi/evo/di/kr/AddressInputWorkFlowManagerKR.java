@@ -40,10 +40,9 @@ extends AbstractAddressInputWorkFlowManagerEvo {
         this.numberScreenWorkFlowManager = new AddressInputNumberScreenWorkFlowManagerKR(navigationEnv, iCommandListFactory, spellerStack);
     }
 
-    @Override
     public CommandList handleWorkFlow(CommandList commandList, int n) {
         commandList.setErrorCommand(null);
-        this.logChannel.log(-2137614336, "%1#handleWorkFlow - eventId=%2", (Object)this.CLASS_NAME, (long)n);
+        this.logChannel.log(10000000, "%1#handleWorkFlow - eventId=%2", (Object)this.CLASS_NAME, (long)n);
         if (this.isSystemKR(n)) {
             if (this.isKRMainScreen(n)) {
                 return this.mainScreenWorkFlowManager.handleWorkFlow(commandList, n);
@@ -76,7 +75,6 @@ extends AbstractAddressInputWorkFlowManagerEvo {
         return commandList;
     }
 
-    @Override
     public void setAddressInputManager(IAddressInputManager iAddressInputManager) {
         if (iAddressInputManager instanceof AddressInputManagerKR) {
             this.addressInputManager = (AddressInputManagerKR)iAddressInputManager;

@@ -6,13 +6,10 @@ package de.audi.atip.interapp.phone;
 import org.dsi.ifc.organizer.AdbEntry;
 
 public interface ITelServiceSpeedDial {
-    default public boolean isFavorite(AdbEntry adbEntry) {
-    }
+    public boolean isFavorite(AdbEntry var1);
 
-    default public boolean setFavorite(AdbEntry adbEntry) {
-    }
+    public boolean setFavorite(AdbEntry var1);
 
-    default public void removeFavorite(AdbEntry adbEntry) {
-    }
+    public void removeFavorite(AdbEntry var1);
 }
 

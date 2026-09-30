@@ -8,16 +8,12 @@ import de.audi.tghu.command.CommandList;
 import org.dsi.ifc.base.DSIListener;
 
 public interface ICommandResponseSupplier {
-    default public DSIListener getDSIDefaultHandler() {
-    }
+    public DSIListener getDSIDefaultHandler();
 
-    default public CommandList getActiveCommandList() {
-    }
+    public CommandList getActiveCommandList();
 
-    default public LogChannel getLogChannel() {
-    }
+    public LogChannel getLogChannel();
 
-    default public String getHandlerName() {
-    }
+    public String getHandlerName();
 }
 

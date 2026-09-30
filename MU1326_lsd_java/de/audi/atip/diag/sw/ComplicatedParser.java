@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  java.lang.Double
  */
 package de.audi.atip.diag.sw;
 
@@ -14,14 +11,14 @@ import java.util.StringTokenizer;
 
 public class ComplicatedParser
 implements IParamParser {
-    public static final int CLASS_TYPE_UNKNOWN;
-    public static final int CLASS_TYPE_INT;
-    public static final int CLASS_TYPE_LONG;
-    public static final int CLASS_TYPE_FLOAT;
-    public static final int CLASS_TYPE_DOUBLE;
-    public static final int CLASS_TYPE_STRING;
-    public static final int CLASS_TYPE_BOOLEAN;
-    public static final Class[][] TYPES;
+    public static final int CLASS_TYPE_UNKNOWN = -1;
+    public static final int CLASS_TYPE_INT = 0;
+    public static final int CLASS_TYPE_LONG = 1;
+    public static final int CLASS_TYPE_FLOAT = 2;
+    public static final int CLASS_TYPE_DOUBLE = 3;
+    public static final int CLASS_TYPE_STRING = 4;
+    public static final int CLASS_TYPE_BOOLEAN = 5;
+    public static final Class[][] TYPES = new Class[][]{{Integer.TYPE, Long.TYPE, Float.TYPE, Double.TYPE, class$java$lang$String == null ? (class$java$lang$String = ComplicatedParser.class$("java.lang.String")) : class$java$lang$String, Boolean.TYPE}, {array$I == null ? (array$I = ComplicatedParser.class$("[I")) : array$I, array$J == null ? (array$J = ComplicatedParser.class$("[J")) : array$J, array$F == null ? (array$F = ComplicatedParser.class$("[F")) : array$F, array$D == null ? (array$D = ComplicatedParser.class$("[D")) : array$D, array$Ljava$lang$String == null ? (array$Ljava$lang$String = ComplicatedParser.class$("[Ljava.lang.String;")) : array$Ljava$lang$String, array$Z == null ? (array$Z = ComplicatedParser.class$("[Z")) : array$Z}, {array$$I == null ? (array$$I = ComplicatedParser.class$("[[I")) : array$$I, array$$J == null ? (array$$J = ComplicatedParser.class$("[[J")) : array$$J, array$$F == null ? (array$$F = ComplicatedParser.class$("[[F")) : array$$F, array$$D == null ? (array$$D = ComplicatedParser.class$("[[D")) : array$$D, array$$Ljava$lang$String == null ? (array$$Ljava$lang$String = ComplicatedParser.class$("[[Ljava.lang.String;")) : array$$Ljava$lang$String, array$$Z == null ? (array$$Z = ComplicatedParser.class$("[[Z")) : array$$Z}, {array$$$I == null ? (array$$$I = ComplicatedParser.class$("[[[I")) : array$$$I, array$$$J == null ? (array$$$J = ComplicatedParser.class$("[[[J")) : array$$$J, array$$$F == null ? (array$$$F = ComplicatedParser.class$("[[[F")) : array$$$F, array$$$D == null ? (array$$$D = ComplicatedParser.class$("[[[D")) : array$$$D, array$$$Ljava$lang$String == null ? (array$$$Ljava$lang$String = ComplicatedParser.class$("[[[Ljava.lang.String;")) : array$$$Ljava$lang$String, array$$$Z == null ? (array$$$Z = ComplicatedParser.class$("[[[Z")) : array$$$Z}};
     static /* synthetic */ Class class$java$lang$String;
     static /* synthetic */ Class array$I;
     static /* synthetic */ Class array$J;
@@ -103,7 +100,7 @@ implements IParamParser {
                     catch (NumberFormatException numberFormatException3) {
                         try {
                             nArray2[0] = 3;
-                            double d2 = Double.parseDouble((String)string);
+                            double d2 = Double.parseDouble(string);
                             linkedList.add(Double.TYPE);
                             linkedList2.add(new Double(d2));
                             string = null;
@@ -134,7 +131,6 @@ implements IParamParser {
         return string;
     }
 
-    @Override
     public boolean parseParams(String string, LinkedList linkedList, LinkedList linkedList2) {
         boolean bl = false;
         try {
@@ -175,7 +171,7 @@ implements IParamParser {
         System.out.println(bl);
         Method method = null;
         try {
-            method = super.getClass().getMethod("testFunction", (Class[])linkedList.toArray(new Class[linkedList.size()]));
+            method = complicatedParser.getClass().getMethod("testFunction", (Class[])linkedList.toArray(new Class[linkedList.size()]));
             Object[] objectArray = linkedList2.toArray();
             method.invoke(complicatedParser, objectArray);
         }
@@ -191,10 +187,6 @@ implements IParamParser {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static {
-        TYPES = new Class[][]{{Integer.TYPE, Long.TYPE, Float.TYPE, Double.TYPE, class$java$lang$String == null ? (class$java$lang$String = ComplicatedParser.class$("java.lang.String")) : class$java$lang$String, Boolean.TYPE}, {array$I == null ? (array$I = ComplicatedParser.class$("[I")) : array$I, array$J == null ? (array$J = ComplicatedParser.class$("[J")) : array$J, array$F == null ? (array$F = ComplicatedParser.class$("[F")) : array$F, array$D == null ? (array$D = ComplicatedParser.class$("[D")) : array$D, array$Ljava$lang$String == null ? (array$Ljava$lang$String = ComplicatedParser.class$("[Ljava.lang.String;")) : array$Ljava$lang$String, array$Z == null ? (array$Z = ComplicatedParser.class$("[Z")) : array$Z}, {array$$I == null ? (array$$I = ComplicatedParser.class$("[[I")) : array$$I, array$$J == null ? (array$$J = ComplicatedParser.class$("[[J")) : array$$J, array$$F == null ? (array$$F = ComplicatedParser.class$("[[F")) : array$$F, array$$D == null ? (array$$D = ComplicatedParser.class$("[[D")) : array$$D, array$$Ljava$lang$String == null ? (array$$Ljava$lang$String = ComplicatedParser.class$("[[Ljava.lang.String;")) : array$$Ljava$lang$String, array$$Z == null ? (array$$Z = ComplicatedParser.class$("[[Z")) : array$$Z}, {array$$$I == null ? (array$$$I = ComplicatedParser.class$("[[[I")) : array$$$I, array$$$J == null ? (array$$$J = ComplicatedParser.class$("[[[J")) : array$$$J, array$$$F == null ? (array$$$F = ComplicatedParser.class$("[[[F")) : array$$$F, array$$$D == null ? (array$$$D = ComplicatedParser.class$("[[[D")) : array$$$D, array$$$Ljava$lang$String == null ? (array$$$Ljava$lang$String = ComplicatedParser.class$("[[[Ljava.lang.String;")) : array$$$Ljava$lang$String, array$$$Z == null ? (array$$$Z = ComplicatedParser.class$("[[[Z")) : array$$$Z}};
     }
 }
 

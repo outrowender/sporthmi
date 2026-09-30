@@ -5,7 +5,6 @@ package de.audi.app.messaging.core.guide;
 
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
 import de.audi.app.messaging.core.component.AbstractMessagingComponent;
-import de.audi.app.messaging.core.guide.AbstractActionProxyService$DiagPlugIn;
 import de.audi.app.messaging.core.guide.IActionProxyService;
 import de.audi.app.messaging.core.guide.IActionProxySubscriber;
 import de.audi.app.messaging.core.guide.ICoreActionProxy;
@@ -30,13 +29,11 @@ IDiagProvider {
         super(messagingBundleContext, string);
     }
 
-    @Override
     public void init(AbstractMsgApplication abstractMsgApplication) {
         super.init(abstractMsgApplication);
         abstractMsgApplication.getMessagingSwDiagnosis().registerDiagProvider(this);
     }
 
-    @Override
     public void connect(IServiceRegistry iServiceRegistry) {
         super.connect(iServiceRegistry);
         iServiceRegistry.registerService((class$de$audi$atip$statemachine$ActionProxy == null ? (class$de$audi$atip$statemachine$ActionProxy = AbstractActionProxyService.class$("de.audi.atip.statemachine.ActionProxy")) : class$de$audi$atip$statemachine$ActionProxy).getName(), (Object)this, ServiceProperties.createActionProxyServiceProperties(this.getActionProxyId()));
@@ -52,14 +49,12 @@ IDiagProvider {
         return objectArray;
     }
 
-    @Override
     public IDiagPlugIn[] createDiagPlugIns() {
-        return new IDiagPlugIn[]{new AbstractActionProxyService$DiagPlugIn(this)};
+        return new IDiagPlugIn[]{new DiagPlugIn()};
     }
 
-    @Override
     public final void parentFolderSelected(int n) {
-        this.log.log(1078071040, "[AbstractActionProxyService#parentFolderSelected]");
+        this.log.log(1000000, "[AbstractActionProxyService#parentFolderSelected]");
         IActionProxySubscriber[] iActionProxySubscriberArray = this.getCurrentSubscribers();
         for (int i2 = 0; i2 < iActionProxySubscriberArray.length; ++i2) {
             try {
@@ -72,9 +67,8 @@ IDiagProvider {
         }
     }
 
-    @Override
     public final void messageCompositionEntered(int n) {
-        this.log.log(1078071040, "[AbstractActionProxyService#messageCompositionEntered]");
+        this.log.log(1000000, "[AbstractActionProxyService#messageCompositionEntered]");
         IActionProxySubscriber[] iActionProxySubscriberArray = this.getCurrentSubscribers();
         for (int i2 = 0; i2 < iActionProxySubscriberArray.length; ++i2) {
             try {
@@ -87,9 +81,8 @@ IDiagProvider {
         }
     }
 
-    @Override
     public final void readoutScreensExited(int n) {
-        this.log.log(1078071040, "[AbstractActionProxyService#readoutScreensExited]");
+        this.log.log(1000000, "[AbstractActionProxyService#readoutScreensExited]");
         IActionProxySubscriber[] iActionProxySubscriberArray = this.getCurrentSubscribers();
         for (int i2 = 0; i2 < iActionProxySubscriberArray.length; ++i2) {
             try {
@@ -102,9 +95,8 @@ IDiagProvider {
         }
     }
 
-    @Override
     public final void templateReplacementExited(int n) {
-        this.log.log(1078071040, "[AbstractActionProxyService#templateSubstitutionExited]");
+        this.log.log(1000000, "[AbstractActionProxyService#templateSubstitutionExited]");
         IActionProxySubscriber[] iActionProxySubscriberArray = this.getCurrentSubscribers();
         for (int i2 = 0; i2 < iActionProxySubscriberArray.length; ++i2) {
             try {
@@ -117,9 +109,8 @@ IDiagProvider {
         }
     }
 
-    @Override
     public final void templateListEntered(int n) {
-        this.log.log(1078071040, "[AbstractActionProxyService#templateListEntered]");
+        this.log.log(1000000, "[AbstractActionProxyService#templateListEntered]");
         IActionProxySubscriber[] iActionProxySubscriberArray = this.getCurrentSubscribers();
         for (int i2 = 0; i2 < iActionProxySubscriberArray.length; ++i2) {
             try {
@@ -132,9 +123,8 @@ IDiagProvider {
         }
     }
 
-    @Override
     public final void onlineLicenseCheckEntered(int n) {
-        this.log.log(1078071040, "[AbstractActionProxyService#onlineLicenseCheckEntered]");
+        this.log.log(1000000, "[AbstractActionProxyService#onlineLicenseCheckEntered]");
         IActionProxySubscriber[] iActionProxySubscriberArray = this.getCurrentSubscribers();
         for (int i2 = 0; i2 < iActionProxySubscriberArray.length; ++i2) {
             try {
@@ -147,9 +137,8 @@ IDiagProvider {
         }
     }
 
-    @Override
     public final void onlineLicenseCheckExited(int n) {
-        this.log.log(1078071040, "[AbstractActionProxyService#onlineLicenseCheckExited]");
+        this.log.log(1000000, "[AbstractActionProxyService#onlineLicenseCheckExited]");
         IActionProxySubscriber[] iActionProxySubscriberArray = this.getCurrentSubscribers();
         for (int i2 = 0; i2 < iActionProxySubscriberArray.length; ++i2) {
             try {
@@ -162,9 +151,8 @@ IDiagProvider {
         }
     }
 
-    @Override
     public void officeEnteredFromMainWizard(int n) {
-        this.log.log(1078071040, "[AbstractActionProxyService#officeEnteredFromMainWizard]");
+        this.log.log(1000000, "[AbstractActionProxyService#officeEnteredFromMainWizard]");
         IActionProxySubscriber[] iActionProxySubscriberArray = this.getCurrentSubscribers();
         for (int i2 = 0; i2 < iActionProxySubscriberArray.length; ++i2) {
             try {
@@ -177,9 +165,8 @@ IDiagProvider {
         }
     }
 
-    @Override
     public void searchableViewTransition(int n, int n2, int n3) {
-        this.log.log(1078071040, "[AbstractActionProxyService#searchableViewTransition] view = %1, transitionType = %2", (long)n2, (long)n3);
+        this.log.log(1000000, "[AbstractActionProxyService#searchableViewTransition] view = %1, transitionType = %2", (long)n2, (long)n3);
         IActionProxySubscriber[] iActionProxySubscriberArray = this.getCurrentSubscribers();
         for (int i2 = 0; i2 < iActionProxySubscriberArray.length; ++i2) {
             try {
@@ -192,9 +179,8 @@ IDiagProvider {
         }
     }
 
-    @Override
     public void detailViewTransition(int n, int n2) {
-        this.log.log(1078071040, "[AbstractActionProxyService#detailViewTransition] transitionType = %1", (long)n2);
+        this.log.log(1000000, "[AbstractActionProxyService#detailViewTransition] transitionType = %1", (long)n2);
         IActionProxySubscriber[] iActionProxySubscriberArray = this.getCurrentSubscribers();
         for (int i2 = 0; i2 < iActionProxySubscriberArray.length; ++i2) {
             try {
@@ -207,9 +193,8 @@ IDiagProvider {
         }
     }
 
-    @Override
     public void messageCompositionTransition(int n, int n2) {
-        this.log.log(1078071040, "[AbstractActionProxyService#messageCompositionTransition] transitionType = %1", (long)n2);
+        this.log.log(1000000, "[AbstractActionProxyService#messageCompositionTransition] transitionType = %1", (long)n2);
         IActionProxySubscriber[] iActionProxySubscriberArray = this.getCurrentSubscribers();
         for (int i2 = 0; i2 < iActionProxySubscriberArray.length; ++i2) {
             try {
@@ -228,6 +213,16 @@ IDiagProvider {
         }
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
+        }
+    }
+
+    final class DiagPlugIn
+    implements IDiagPlugIn {
+        DiagPlugIn() {
+        }
+
+        public void cmdParentFolderSelected() {
+            AbstractActionProxyService.this.parentFolderSelected(0);
         }
     }
 }

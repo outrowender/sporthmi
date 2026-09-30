@@ -31,18 +31,16 @@ MetricsModelApp {
         this.metric = abstractMetrics;
     }
 
-    @Override
     public void resetListener() {
         this.metricsListener = DUMMY_LISTENER;
     }
 
-    @Override
     public String dumpContent() {
         Buffer buffer = new Buffer(100);
         buffer.append(super.dumpContent());
         try {
             buffer.append("\nMetrics - Metric: ");
-            buffer.append(super.getClass());
+            buffer.append(this.metric.getClass());
             buffer.append("\nMetrics - Value: ");
             buffer.append(this.metric.getValue());
             buffer.append("\nMetrics - Unit: ");
@@ -60,7 +58,6 @@ MetricsModelApp {
         return buffer.toString();
     }
 
-    @Override
     public int getModelType() {
         return 9;
     }
@@ -68,7 +65,6 @@ MetricsModelApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     protected void copy(AbstractModel abstractModel) {
         try {
             Object object = this.mutex;
@@ -84,17 +80,14 @@ MetricsModelApp {
         }
     }
 
-    @Override
     public boolean isEmpty() {
         return this.metric == null;
     }
 
-    @Override
     public AbstractMetrics getMetric() {
         return this.metric;
     }
 
-    @Override
     public void setMetricsListener(MetricsListener metricsListener) {
         this.metricsListener = metricsListener != null ? metricsListener : DUMMY_LISTENER;
     }
@@ -102,7 +95,6 @@ MetricsModelApp {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setMetric(AbstractMetrics abstractMetrics) {
         Object object = this.mutex;
         synchronized (object) {
@@ -112,12 +104,10 @@ MetricsModelApp {
         this.fireModelUpdateEvent(1);
     }
 
-    @Override
     public void formatChanged() {
         this.fireModelUpdateEvent(13);
     }
 
-    @Override
     public void metricsUpdated(int n) {
         try {
             this.metricsListener.metricsUpdated(this.id, n);

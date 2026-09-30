@@ -5,11 +5,12 @@ package de.audi.app.phone.core;
 
 import de.audi.app.phone.core.AbstractPhoneComponent;
 import de.audi.app.phone.core.ITelApplication;
-import de.audi.app.phone.core.NumberSpellerHandlerBase$1;
+import de.audi.app.phone.core.dsi.TelDefaultDSIResponseListener;
 import de.audi.app.phone.core.util.TelLoggingUtils;
 import de.audi.atip.hmi.model.SpellerListener;
 import de.audi.atip.hmi.modelaccess.SpellerModelApp;
 import de.audi.atip.interapp.SDSService;
+import org.dsi.ifc.telephoneng.SuppServiceResponseStruct;
 import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
@@ -18,7 +19,7 @@ public class NumberSpellerHandlerBase
 extends AbstractPhoneComponent
 implements ServiceTrackerCustomizer,
 SpellerListener {
-    public static final int MAX_LENGTH_TELEPHONE;
+    public static final int MAX_LENGTH_TELEPHONE = 40;
     protected volatile SDSService sdsPhoneServiceListener;
     private volatile ServiceTracker sdsPhoneServiceListenerTracker;
     static /* synthetic */ Class class$de$audi$atip$interapp$SDSService;
@@ -27,7 +28,6 @@ SpellerListener {
         super(iTelApplication, "App.Phone.Main");
     }
 
-    @Override
     public void init() {
         super.init();
         this.getSpellerModel().setSpellerListener(this);
@@ -36,7 +36,6 @@ SpellerListener {
         this.sdsPhoneServiceListenerTracker.open();
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.getSpellerModel().resetListener();
@@ -47,10 +46,9 @@ SpellerListener {
     }
 
     protected SpellerModelApp getSpellerModel() {
-        return this.getSpellerModel(-1382808576);
+        return this.getSpellerModel(300205);
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         if (serviceReference == null) {
             this.log.log(10000, "NumberSpellerHandlerBase#addingService reference is null");
@@ -69,7 +67,6 @@ SpellerListener {
         return null;
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (object == null) {
             this.log.log(10000, "NumberSpellerHandlerBase#removedService service is null");
@@ -85,23 +82,21 @@ SpellerListener {
         }
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void textChanged(int n, String string, char c2, int n2) {
         if (this.log.isInfo()) {
-            this.log.log(1078071040, "[NumberSpellerHandlerBase#textChanged] %1", (Object)TelLoggingUtils.textChanged(n, string, c2, n2));
+            this.log.log(1000000, "[NumberSpellerHandlerBase#textChanged] %1", (Object)TelLoggingUtils.textChanged(n, string, c2, n2));
         }
         if (n == this.getSpellerModel().getID()) {
             SDSService sDSService = this.sdsPhoneServiceListener;
             if (sDSService != null) {
                 if (string != null && string.length() > 0) {
-                    this.log.log(1078071040, "[NumberSpellerHandlerBase#textChanged] notifying SDS with matchTextWithNumberSequence: text=%1", (Object)string);
+                    this.log.log(1000000, "[NumberSpellerHandlerBase#textChanged] notifying SDS with matchTextWithNumberSequence: text=%1", (Object)string);
                     sDSService.textChanged(this.getSpellerModel().getID(), string, c2);
                 } else {
-                    this.log.log(1078071040, "[NumberSpellerHandlerBase#textChanged] notifying SDS with clearNumberSequence: text=%1", (Object)string);
+                    this.log.log(1000000, "[NumberSpellerHandlerBase#textChanged] notifying SDS with clearNumberSequence: text=%1", (Object)string);
                     sDSService.textChanged(this.getSpellerModel().getID(), "", '\u0000');
                 }
             } else {
@@ -110,39 +105,41 @@ SpellerListener {
         }
     }
 
-    @Override
     public void focusedCharacter(int n, char c2, int n2) {
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.log.log(1078071040, "[NumberSpellerHandlerBase#keyTyped] model=%1, key=%2, terminal=%3", (long)n, (long)n2, (long)n3);
+        this.log.log(1000000, "[NumberSpellerHandlerBase#keyTyped] model=%1, key=%2, terminal=%3", (long)n, (long)n2, (long)n3);
         if (n == this.getSpellerModel().getID()) {
             this.dialNumberInSpeller(n3);
         }
     }
 
-    @Override
     public void commandPressed(int n, int n2, int n3) {
-        this.log.log(1078071040, "[NumberSpellerHandlerBase#commandPressed] model=%1, index=%2, terminal=%3", (long)n, (long)n2, (long)n3);
+        this.log.log(1000000, "[NumberSpellerHandlerBase#commandPressed] model=%1, index=%2, terminal=%3", (long)n, (long)n2, (long)n3);
     }
 
     protected void dialNumberInSpeller(int n) {
         SpellerModelApp spellerModelApp = this.getSpellerModel();
         String string = spellerModelApp.getText();
         if (string != null && string.length() > 0) {
-            this.log.log(-2137614336, "[NumberSpellerHandlerBase#keyTyped] dialing number %1", (Object)string);
-            this.getApplication().getTelephoneDSIAccess().dialNumber(string, n, true, new NumberSpellerHandlerBase$1(this));
+            this.log.log(10000000, "[NumberSpellerHandlerBase#keyTyped] dialing number %1", (Object)string);
+            this.getApplication().getTelephoneDSIAccess().dialNumber(string, n, true, new TelDefaultDSIResponseListener(){
+
+                public void responseDialNumber(int n, int n2, SuppServiceResponseStruct suppServiceResponseStruct, int n3) {
+                    if (n2 != 0) {
+                        NumberSpellerHandlerBase.this.clearSpellerContent();
+                    }
+                }
+            });
         } else {
-            this.log.log(-2137614336, "[NumberSpellerHandlerBase#keyTyped] no number entered --> NOP!");
+            this.log.log(10000000, "[NumberSpellerHandlerBase#keyTyped] no number entered --> NOP!");
         }
     }
 
@@ -151,7 +148,7 @@ SpellerListener {
         spellerModelApp.clear();
         SDSService sDSService = this.sdsPhoneServiceListener;
         if (sDSService != null) {
-            this.log.log(-2137614336, "[NumberSpellerHandlerBase#actionProxyCallPerformed] calling clearNumberSequence in SDS");
+            this.log.log(10000000, "[NumberSpellerHandlerBase#actionProxyCallPerformed] calling clearNumberSequence in SDS");
             sDSService.textChanged(this.getSpellerModel().getID(), "", '\u0000');
         }
     }

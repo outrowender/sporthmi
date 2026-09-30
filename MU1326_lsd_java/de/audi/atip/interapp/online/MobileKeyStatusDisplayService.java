@@ -4,21 +4,17 @@
 package de.audi.atip.interapp.online;
 
 public interface MobileKeyStatusDisplayService {
-    public static final int MOBILE_KEY_BACKEND_STATE_KEY_COUNT_AVAILABLE;
-    public static final int MOBILE_KEY_BACKEND_STATE_UNKNOWN;
-    public static final int MOBILE_KEY_BACKEND_STATE_DELETING_KEY;
-    public static final int MOBILE_KEY_BACKEND_STATE_SERVICE_DEACTIVATED;
+    public static final int MOBILE_KEY_BACKEND_STATE_KEY_COUNT_AVAILABLE = 0;
+    public static final int MOBILE_KEY_BACKEND_STATE_UNKNOWN = 1;
+    public static final int MOBILE_KEY_BACKEND_STATE_DELETING_KEY = 2;
+    public static final int MOBILE_KEY_BACKEND_STATE_SERVICE_DEACTIVATED = 3;
 
-    default public void updateServiceActiveState(boolean bl) {
-    }
+    public void updateServiceActiveState(boolean var1);
 
-    default public void updateFleetModeState(boolean bl) {
-    }
+    public void updateFleetModeState(boolean var1);
 
-    default public void updateBackendState(int n) {
-    }
+    public void updateBackendState(int var1);
 
-    default public void updateKeyCount(int n) {
-    }
+    public void updateKeyCount(int var1);
 }
 

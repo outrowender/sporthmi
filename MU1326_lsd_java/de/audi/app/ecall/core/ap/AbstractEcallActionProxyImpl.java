@@ -21,7 +21,7 @@ public abstract class AbstractEcallActionProxyImpl {
     }
 
     public void init() {
-        this.getLogChannel().log(-2137614336, "AbstractEcallActionProxyImpl#init(): called");
+        this.getLogChannel().log(10000000, "AbstractEcallActionProxyImpl#init(): called");
         Hashtable hashtable = new Hashtable(1);
         hashtable.put("moduleID", new Integer(this.getActionProxyInterfaceID()));
         this.apServiceProvider.setServiceClazz(this.getActionProxyInterfaceName());
@@ -30,15 +30,13 @@ public abstract class AbstractEcallActionProxyImpl {
     }
 
     public void deinit() {
-        this.getLogChannel().log(-2137614336, "AbstractEcallActionProxyImpl#deinit(): called");
+        this.getLogChannel().log(10000000, "AbstractEcallActionProxyImpl#deinit(): called");
         this.apServiceProvider.stopService();
     }
 
-    public abstract String getActionProxyInterfaceName() {
-    }
+    public abstract String getActionProxyInterfaceName();
 
-    public abstract int getActionProxyInterfaceID() {
-    }
+    public abstract int getActionProxyInterfaceID();
 
     public LogChannel getLogChannel() {
         return this.logChannel;

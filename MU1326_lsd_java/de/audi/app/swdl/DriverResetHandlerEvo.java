@@ -12,7 +12,6 @@ extends AbstractDriverResetHandler {
         super(swdlEnv);
     }
 
-    @Override
     public void handleDriverResetError(int n) {
         this.stopReset();
         this.getSwdlEnv().getHMIService().showPartialPopup(n, 66);

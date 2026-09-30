@@ -7,127 +7,86 @@ import de.audi.atip.statemachine.ActionProxy;
 
 public interface ToneActionProxy
 extends ActionProxy {
-    default public void demute(int n) {
-    }
+    public void demute(int var1);
 
-    default public void volumeTouchpadEntered(int n) {
-    }
+    public void volumeTouchpadEntered(int var1);
 
-    default public void volumeTouchpadLeft(int n) {
-    }
+    public void volumeTouchpadLeft(int var1);
 
-    default public void volumeNavEntered(int n) {
-    }
+    public void volumeNavEntered(int var1);
 
-    default public void volumeNavExited(int n) {
-    }
+    public void volumeNavExited(int var1);
 
-    default public void volumeLoweredEntertainmentNaviEntered(int n) {
-    }
+    public void volumeLoweredEntertainmentNaviEntered(int var1);
 
-    default public void volumeLoweredEntertainmentNaviLeft(int n) {
-    }
+    public void volumeLoweredEntertainmentNaviLeft(int var1);
 
-    default public void volumeTelEntered(int n) {
-    }
+    public void volumeTelEntered(int var1);
 
-    default public void volumeTelExited(int n) {
-    }
+    public void volumeTelExited(int var1);
 
-    default public void volumeTelMsgEntered(int n) {
-    }
+    public void volumeTelMsgEntered(int var1);
 
-    default public void volumeTelMsgLeft(int n) {
-    }
+    public void volumeTelMsgLeft(int var1);
 
-    default public void volumeLoweredEntertainmentAPSEntered(int n) {
-    }
+    public void volumeLoweredEntertainmentAPSEntered(int var1);
 
-    default public void volumeLoweredEntertainmentAPSLeft(int n) {
-    }
+    public void volumeLoweredEntertainmentAPSLeft(int var1);
 
-    default public void volumeTPEntered(int n) {
-    }
+    public void volumeTPEntered(int var1);
 
-    default public void volumeTPExited(int n) {
-    }
+    public void volumeTPExited(int var1);
 
-    default public void volumeSDSEntered(int n) {
-    }
+    public void volumeSDSEntered(int var1);
 
-    default public void volumeSDSExited(int n) {
-    }
+    public void volumeSDSExited(int var1);
 
-    default public void balanceFaderLeft(int n) {
-    }
+    public void balanceFaderLeft(int var1);
 
-    default public void volumeHeartbeatEntered(int n) {
-    }
+    public void volumeHeartbeatEntered(int var1);
 
-    default public void volumeHeartbeatLeft(int n) {
-    }
+    public void volumeHeartbeatLeft(int var1);
 
-    default public void toneSettingsEntered(int n) {
-    }
+    public void toneSettingsEntered(int var1);
 
-    default public void tonePhoneEntered(int n) {
-    }
+    public void tonePhoneEntered(int var1);
 
-    default public void toneNaviEntered(int n) {
-    }
+    public void toneNaviEntered(int var1);
 
-    default public void toneAnnouncementEntered(int n) {
-    }
+    public void toneAnnouncementEntered(int var1);
 
-    default public void toneSpeechEntered(int n) {
-    }
+    public void toneSpeechEntered(int var1);
 
-    default public void toneParkingEntered(int n) {
-    }
+    public void toneParkingEntered(int var1);
 
-    default public void toneEntered(int n) {
-    }
+    public void toneEntered(int var1);
 
-    default public void toneSettingsLeft(int n) {
-    }
+    public void toneSettingsLeft(int var1);
 
-    default public void volumeRingtoneSelectionEntered(int n) {
-    }
+    public void volumeRingtoneSelectionEntered(int var1);
 
-    default public void volumeRingtoneSelectionLeft(int n) {
-    }
+    public void volumeRingtoneSelectionLeft(int var1);
 
-    default public void volumeTelMicEntered(int n) {
-    }
+    public void volumeTelMicEntered(int var1);
 
-    default public void volumeTelMicLeft(int n) {
-    }
+    public void volumeTelMicLeft(int var1);
 
-    default public void volumeTouchInitEntered(int n) {
-    }
+    public void volumeTouchInitEntered(int var1);
 
-    default public void WCMenuEntered(int n) {
-    }
+    public void WCMenuEntered(int var1);
 
-    default public void volumeWCLeft(int n) {
-    }
+    public void volumeWCLeft(int var1);
 
-    default public void volumeWCEntered(int n) {
-    }
+    public void volumeWCEntered(int var1);
 
-    default public void volumeInfoAnnouncementEntered(int n) {
-    }
+    public void volumeInfoAnnouncementEntered(int var1);
 
-    default public void volumeInfoAnnouncementLeft(int n) {
-    }
+    public void volumeInfoAnnouncementLeft(int var1);
 
-    default public void abortA2LS(int n) {
-    }
+    public void abortA2LS(int var1);
 
-    default public void a2lsPopupMediaTunerAreaEntered(int n) {
-    }
+    public void a2lsPopupMediaTunerAreaEntered(int var1);
 
-    default public void a2lsPopupMediaTunerAreaLeft(int n) {
-    }
+    public void a2lsPopupMediaTunerAreaLeft(int var1);
 }
 

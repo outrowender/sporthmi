@@ -21,28 +21,20 @@ public abstract class AbstractETCPopupManager {
         return this.framework.getHmiServiceApp();
     }
 
-    public abstract void showETCNoCardInsertedReminderPartialPopup() {
-    }
+    public abstract void showETCNoCardInsertedReminderPartialPopup();
 
-    public abstract void hideETCNoCardInsertedReminderPartialPopup() {
-    }
+    public abstract void hideETCNoCardInsertedReminderPartialPopup();
 
-    public abstract void showETCCardIStillInsertedReminderPartialPopup() {
-    }
+    public abstract void showETCCardIStillInsertedReminderPartialPopup();
 
-    public abstract void hideETCCardIStillInsertedReminderPartialPopup() {
-    }
+    public abstract void hideETCCardIStillInsertedReminderPartialPopup();
 
-    public abstract void showETCWarningPartialPopup() {
-    }
+    public abstract void showETCWarningPartialPopup();
 
-    public abstract void hideETCWarningPartialPopup() {
-    }
+    public abstract void hideETCWarningPartialPopup();
 
-    public abstract void showETCTollAmountPartialPopup() {
-    }
+    public abstract void showETCTollAmountPartialPopup();
 
-    public abstract void hideETCTollAmountPartialPopup() {
-    }
+    public abstract void hideETCTollAmountPartialPopup();
 }
 

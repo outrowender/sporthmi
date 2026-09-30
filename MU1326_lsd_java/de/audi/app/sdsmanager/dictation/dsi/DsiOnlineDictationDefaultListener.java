@@ -30,14 +30,12 @@ implements DSIOnlineDictationListener {
         return objectArray;
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
-        this.log.log(-1601830656, "[DsiOnlineDictationDefaultListener##asyncException] Not implemented.");
+        this.log.log(100000, "[DsiOnlineDictationDefaultListener##asyncException] Not implemented.");
     }
 
-    @Override
     public void dictationResult(int n) {
-        this.log.log(-2137614336, "[DsiOnlineDictationDefaultListener#dictationResult]");
+        this.log.log(10000000, "[DsiOnlineDictationDefaultListener#dictationResult]");
         DSIOnlineDictationListener[] dSIOnlineDictationListenerArray = this.getCurrentSubscribers();
         for (int i2 = 0; i2 < dSIOnlineDictationListenerArray.length; ++i2) {
             try {
@@ -50,14 +48,12 @@ implements DSIOnlineDictationListener {
         }
     }
 
-    @Override
     public void finishDictationResponse(int n) {
-        this.log.log(-1601830656, "[DsiOnlineDictationDefaultListener#finishDictationResponse] Not implemented.");
+        this.log.log(100000, "[DsiOnlineDictationDefaultListener#finishDictationResponse] Not implemented.");
     }
 
-    @Override
     public void dictationValueList(DictationValueSentence dictationValueSentence) {
-        this.log.log(-1601830656, "[DsiOnlineDictationDefaultListener#dictationValueList] Not implemented.");
+        this.log.log(100000, "[DsiOnlineDictationDefaultListener#dictationValueList] Not implemented.");
     }
 }
 

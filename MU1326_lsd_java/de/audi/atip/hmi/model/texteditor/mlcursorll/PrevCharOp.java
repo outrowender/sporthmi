@@ -12,19 +12,16 @@ implements Op {
     int[] retNoOp = new int[1];
     int[] retNotOp = new int[1];
 
-    @Override
     public int[] doOp(MLCursor mLCursor) {
         this.retOp[0] = mLCursor.getPrevChar();
         return this.retOp;
     }
 
-    @Override
     public int[] noOp(MLCursor mLCursor) {
         this.retNoOp[0] = mLCursor.getCurrentChar();
         return this.retNoOp;
     }
 
-    @Override
     public int[] doNotOp(MLCursor mLCursor) {
         this.retNotOp[0] = mLCursor.getNextChar();
         return this.retNotOp;

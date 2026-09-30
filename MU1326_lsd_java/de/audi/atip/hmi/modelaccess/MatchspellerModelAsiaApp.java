@@ -8,20 +8,12 @@ import de.audi.atip.hmi.modelaccess.MatchspellerModelApp;
 
 public interface MatchspellerModelAsiaApp
 extends MatchspellerModelApp {
-    @Override
-    default public void setValidNonAlphaNumTPCharacters(String string) {
-    }
+    public void setValidNonAlphaNumTPCharacters(String var1);
 
-    @Override
-    default public void setInitialInputMode(int n) {
-    }
+    public void setInitialInputMode(int var1);
 
-    @Override
-    default public void setAllowNonAlphaNumInput(boolean bl) {
-    }
+    public void setAllowNonAlphaNumInput(boolean var1);
 
-    @Override
-    default public void setSpellerListenerAsia(MatchspellerListenerAsia matchspellerListenerAsia) {
-    }
+    public void setSpellerListenerAsia(MatchspellerListenerAsia var1);
 }
 

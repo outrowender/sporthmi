@@ -10,13 +10,12 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class ZoomRoundingRulesPorscheEceRow
 extends RoundingRulesImpl {
-    private static final int FEET_PER_MILE;
-    private static final int[][] METRIC_METER;
-    private static final int[][] METRIC_KM;
-    private static final int[][] IMPERIAL_UK_YARDS;
-    private static final int[][] IMPERIAL_UK_MILES;
+    private static final int FEET_PER_MILE = 5280;
+    private static final int[][] METRIC_METER = new int[][]{{0, 40, 30}, {40, 62, 50}, {62, 87, 75}, {87, 125, 100}, {125, 175, 150}, {175, 250, 200}, {250, 350, 300}, {350, 450, 400}, {450, 625, 500}, {625, 875, 750}};
+    private static final int[][] METRIC_KM = new int[][]{{875, 1250, 1000}, {1250, 1750, 1500}, {1750, 2500, 2000}, {2500, 3500, 3000}, {3500, 4500, 4000}, {4500, 6250, 5000}, {6250, 8750, 7500}, {8750, 12500, 10000}, {12500, 17500, 15000}, {17500, 25000, 20000}, {25000, 35000, 30000}, {35000, 45000, 40000}, {45000, 62500, 50000}, {62500, 87500, 75000}, {87500, 125000, 100000}, {125000, 175000, 150000}, {175000, 250000, 200000}, {250000, 400000, 300000}, {400000, 625000, 500000}, {625000, 875000, 750000}, {875000, 1250000, 1000000}, {1250000, Integer.MAX_VALUE, 1500000}};
+    private static final int[][] IMPERIAL_UK_YARDS = new int[][]{{0, 40, 30}, {40, 62, 50}, {62, 87, 75}, {87, 125, 100}, {125, 175, 150}, {175, 250, 200}, {250, 370, 300}, {370, 660, 440}, {660, 1100, 880}, {1100, 1540, 1320}};
+    private static final int[][] IMPERIAL_UK_MILES = new int[][]{{1540, 2200, 1760}, {2200, 3080, 2640}, {3080, 4400, 3520}, {4400, 6160, 5280}, {6160, 7920, 7040}, {7920, 9680, 8800}, {9680, 12320, 10560}, {12320, 15840, 14080}, {15840, 22000, 17600}, {22000, 30800, 26400}, {30800, 39600, 35200}, {39600, 57200, 44000}, {57200, 79200, 70400}, {79200, 110000, 88000}, {110000, 154000, 132000}, {154000, 220000, 176000}, {220000, 352000, 264000}, {352000, 550000, 440000}, {550000, 770000, 660000}, {770000, 1100000, 880000}, {1100000, 1540000, 1320000}, {1540000, Integer.MAX_VALUE, 1760000}};
 
-    @Override
     public int roundMetric(int n, DistanceEntity distanceEntity) {
         int n2;
         int n3;
@@ -45,7 +44,7 @@ extends RoundingRulesImpl {
             distanceEntity.setValues(7, 6, 5, 0);
             return 1;
         }
-        if (n >= 875 && n < -804121856) {
+        if (n >= 875 && n < 1250000) {
             for (n5 = 0; n5 < METRIC_KM.length; ++n5) {
                 n4 = METRIC_KM[n5][0];
                 n3 = METRIC_KM[n5][1];
@@ -59,7 +58,6 @@ extends RoundingRulesImpl {
         return 1;
     }
 
-    @Override
     public int roundImperial(float f2, int n, DistanceEntity distanceEntity) {
         int n2;
         int n3;
@@ -92,7 +90,7 @@ extends RoundingRulesImpl {
                 return 4;
             }
         }
-        if (n >= 1540 && n < -1602283776) {
+        if (n >= 1540 && n < 1540000) {
             for (n5 = 0; n5 < IMPERIAL_UK_MILES.length; ++n5) {
                 n4 = IMPERIAL_UK_MILES[n5][0];
                 n3 = IMPERIAL_UK_MILES[n5][1];
@@ -107,22 +105,22 @@ extends RoundingRulesImpl {
     }
 
     protected int roundBy5Miles(int n, DistanceEntity distanceEntity) {
-        int n2 = Math.round((float)n / 56388);
+        int n2 = Math.round((float)n / 1760.0f);
         n2 = this.round(n2, 5);
         distanceEntity.setValues(n2, 1);
         return 2;
     }
 
     protected int roundBy1Mile(int n, DistanceEntity distanceEntity) {
-        int n2 = Math.round((float)n / 56388);
+        int n2 = Math.round((float)n / 1760.0f);
         distanceEntity.setValues(n2, 1);
         return 2;
     }
 
     protected int roundBy1_4Mile(int n, DistanceEntity distanceEntity) {
-        int n2 = (int)((float)n / 56388);
-        int n3 = (int)((float)n - (float)n2 * 56388);
-        int n4 = (int)((float)(n3 * 100) / 56388);
+        int n2 = (int)((float)n / 1760.0f);
+        int n3 = (int)((float)n - (float)n2 * 1760.0f);
+        int n4 = (int)((float)(n3 * 100) / 1760.0f);
         n4 = this.round(n4, 25);
         distanceEntity.setValues(n2, 7, n4, 1);
         return 2;
@@ -138,7 +136,7 @@ extends RoundingRulesImpl {
     }
 
     protected int round(int n, int n2) {
-        return (int)(Math.floor((float)n / (float)n2 + 63) * (double)n2);
+        return (int)(Math.floor((float)n / (float)n2 + 0.5f) * (double)n2);
     }
 
     private void log(String string, int n, String string2) {
@@ -148,13 +146,6 @@ extends RoundingRulesImpl {
             buffer.append("() distance:").append(n).append(string2);
             AbstractMetrics.println(buffer);
         }
-    }
-
-    static {
-        METRIC_METER = new int[][]{{0, 40, 30}, {40, 62, 50}, {62, 87, 75}, {87, 125, 100}, {125, 175, 150}, {175, 250, 200}, {250, 350, 300}, {350, 450, 400}, {450, 625, 500}, {625, 875, 750}};
-        METRIC_KM = new int[][]{{875, 1250, 1000}, {1250, 1750, 1500}, {1750, 2500, 2000}, {2500, 3500, 3000}, {3500, 4500, 4000}, {4500, 6250, 5000}, {6250, 8750, 7500}, {8750, 12500, 10000}, {12500, 17500, 15000}, {17500, 25000, 20000}, {25000, -1199046656, 30000}, {-1199046656, -928055296, 1083965440}, {-928055296, 619970560, 1354956800}, {619970560, -866844416, -131858176}, {-866844416, 1223164160, -1601830656}, {1223164160, -1733623296, -263650816}, {-1733623296, -1865415936, 1074594560}, {-1865415936, -2145778176, -527236096}, {-2145778176, 1753811200, 547424000}, {1753811200, -128381696, -1334768896}, {-128381696, -804121856, 1078071040}, {-804121856, -129, 1625495040}};
-        IMPERIAL_UK_YARDS = new int[][]{{0, 40, 30}, {40, 62, 50}, {62, 87, 75}, {87, 125, 100}, {125, 175, 150}, {175, 250, 200}, {250, 370, 300}, {370, 660, 440}, {660, 1100, 880}, {1100, 1540, 1320}};
-        IMPERIAL_UK_MILES = new int[][]{{1540, 2200, 1760}, {2200, 3080, 2640}, {3080, 4400, 3520}, {4400, 6160, 5280}, {6160, 7920, 7040}, {7920, 9680, 8800}, {9680, 12320, 10560}, {12320, 15840, 14080}, {15840, 22000, 17600}, {22000, 30800, 26400}, {30800, -1332084736, -2138505216}, {-1332084736, 1893662720, -525664256}, {1893662720, 1614086400, 0x130100}, {1614086400, -1330839296, -1068039936}, {-1330839296, -1873214976, -1610415616}, {-1873214976, 1616577280, -2136014336}, {1616577280, 0x5F0500, 0x40070400}, {0x5F0500, 1885603840, -1061812736}, {1885603840, -792786176, 538053120}, {-792786176, -523759616, -2140336896}, {-523759616, -1602283776, 1076106240}, {-1602283776, -129, 14359040}};
     }
 }
 

@@ -4,10 +4,8 @@
 package de.audi.atip.interapp;
 
 public interface WlanServiceListener {
-    default public void updateWlanState(boolean bl) {
-    }
+    public void updateWlanState(boolean var1);
 
-    default public void updateNumberOfClients(int n) {
-    }
+    public void updateNumberOfClients(int var1);
 }
 

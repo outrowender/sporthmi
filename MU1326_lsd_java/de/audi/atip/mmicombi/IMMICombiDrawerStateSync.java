@@ -4,10 +4,8 @@
 package de.audi.atip.mmicombi;
 
 public interface IMMICombiDrawerStateSync {
-    default public boolean requestDrawerState(int n) {
-    }
+    public boolean requestDrawerState(int var1);
 
-    default public int getCurrentFocus() {
-    }
+    public int getCurrentFocus();
 }
 

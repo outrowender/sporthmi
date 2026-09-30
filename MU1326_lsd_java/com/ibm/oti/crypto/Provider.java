@@ -11,17 +11,17 @@ import com.ibm.oti.crypto.TripleDESProvider;
 import java.io.IOException;
 
 public abstract class Provider {
-    public static final int ALG_DES;
-    public static final int ALG_3DES;
-    public static final int ALG_RC2;
-    public static final int ALG_RC4;
-    public static final int ALG_AES;
-    public static final int ALG_NULL;
+    public static final int ALG_DES = 1;
+    public static final int ALG_3DES = 2;
+    public static final int ALG_RC2 = 3;
+    public static final int ALG_RC4 = 4;
+    public static final int ALG_AES = 5;
+    public static final int ALG_NULL = 6;
     protected int algorithm;
     protected int effectiveKeyBitLength;
     protected boolean isDestroyed = false;
 
-    public static Provider getProvider(int n, int n2) {
+    public static Provider getProvider(int n, int n2) throws IOException {
         switch (n) {
             case 1: {
                 return new DESProvider(n2);
@@ -107,7 +107,7 @@ public abstract class Provider {
         return this.isDestroyed;
     }
 
-    public Key createKey(byte[] byArray) {
+    public Key createKey(byte[] byArray) throws IOException {
         return new Key(this, byArray);
     }
 
@@ -117,13 +117,10 @@ public abstract class Provider {
         }
     }
 
-    abstract void destroyKey(Key key) {
-    }
+    abstract void destroyKey(Key var1);
 
-    abstract void cryptInit(Key key, int n, int n2, byte[] byArray) {
-    }
+    abstract void cryptInit(Key var1, int var2, int var3, byte[] var4) throws IOException;
 
-    abstract byte[] cryptUpdate(Key key, byte[] byArray, int n, int n2, boolean bl) {
-    }
+    abstract byte[] cryptUpdate(Key var1, byte[] var2, int var3, int var4, boolean var5) throws IOException;
 }
 

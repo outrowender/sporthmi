@@ -9,13 +9,10 @@ import de.audi.remotehmi.stat.DataInterface;
 
 public interface IStaticRemoteHMI
 extends IRemoteHMI {
-    default public void setInstanceId(int n) {
-    }
+    public void setInstanceId(int var1);
 
-    default public void setListener(IRemoteHMIListener iRemoteHMIListener) {
-    }
+    public void setListener(IRemoteHMIListener var1);
 
-    default public void setDataInterface(DataInterface dataInterface) {
-    }
+    public void setDataInterface(DataInterface var1);
 }
 

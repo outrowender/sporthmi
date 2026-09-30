@@ -4,19 +4,14 @@
 package de.audi.atip.interapp.media;
 
 public interface IMediaSessionPlayer {
-    default public void resume() {
-    }
+    public void resume();
 
-    default public void pause() {
-    }
+    public void pause();
 
-    default public void stop() {
-    }
+    public void stop();
 
-    default public void seek(boolean bl) {
-    }
+    public void seek(boolean var1);
 
-    default public void skip(int n) {
-    }
+    public void skip(int var1);
 }
 

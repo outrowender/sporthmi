@@ -58,7 +58,7 @@ ADBOrganizerSearch {
     protected volatile long currentlyOpenedRowId;
     protected volatile int currentlyOpenedChildCount;
     private final Object lock = new Object();
-    protected static final char BACKSPACE;
+    protected static final char BACKSPACE = '\b';
     private volatile boolean cursorPositioningOnListUpdatesEnabled = true;
 
     public AbstractADBOrganizerSearch(TiledListModelApp tiledListModelApp, MatchspellerModelApp matchspellerModelApp, ResourceLocatorModelApp resourceLocatorModelApp, HMIModelApp hMIModelApp, ADBApplication aDBApplication, LogChannel logChannel) {
@@ -131,7 +131,6 @@ ADBOrganizerSearch {
         }
     }
 
-    @Override
     public int getCurrentSpellerHandle() {
         return this.currentSpellerHandle;
     }
@@ -140,17 +139,14 @@ ADBOrganizerSearch {
         this.cursorPositioningOnListUpdatesEnabled = bl;
     }
 
-    @Override
     public void init() {
     }
 
-    @Override
     public void deinit(BundleContext bundleContext) {
     }
 
-    @Override
     public void startSearch() {
-        this.log.log(1078071040, "AbstractADBOrganizerSearch#startSearch()");
+        this.log.log(1000000, "AbstractADBOrganizerSearch#startSearch()");
         this.resetState();
         if (this.spellerModel != null) {
             this.startSpeller();
@@ -160,20 +156,19 @@ ADBOrganizerSearch {
     }
 
     protected void startSpeller() {
-        this.log.log(1078071040, "AbstractADBOrganizerSearch#startSpeller(): viewType: %1", (Object)ADBDbgUtils.dbgViewType(this.currentViewType));
+        this.log.log(1000000, "AbstractADBOrganizerSearch#startSpeller(): viewType: %1", (Object)ADBDbgUtils.dbgViewType(this.currentViewType));
         this.spellerModel.clear();
         StartSpellerCommand.createStartSpellerCommand(this.appAdr, this, this.currentViewType, 1, this.currentSearchMode);
     }
 
     private void resetState() {
-        this.log.log(1078071040, "AbstractADBOrganizerSearch#resetState()");
+        this.log.log(1000000, "AbstractADBOrganizerSearch#resetState()");
         this.rowIsOpen = false;
     }
 
-    @Override
     public void refresh() {
         long l = this.appAdr.getFocusedEntryId();
-        this.log.log(1078071040, "AbstractADBOrganizerSearch#refresh(): focusedEntryId: %1", l);
+        this.log.log(1000000, "AbstractADBOrganizerSearch#refresh(): focusedEntryId: %1", l);
         if (l == 0L) {
             this.refreshFromStart();
         } else {
@@ -181,16 +176,14 @@ ADBOrganizerSearch {
         }
     }
 
-    @Override
     public void refreshByEntryId(long l) {
-        this.log.log(1078071040, "AbstractADBOrganizerSearch#refreshByEntryId(): entryId: %1", l);
+        this.log.log(1000000, "AbstractADBOrganizerSearch#refreshByEntryId(): entryId: %1", l);
         ViewWindowRequestInfo viewWindowRequestInfo = new ViewWindowRequestInfo(l, this.currentViewType, this.currentSpellerHandle, true);
         ViewWindowCommand.createViewWindowCommand(this.appAdr, viewWindowRequestInfo, this);
     }
 
-    @Override
     public void refreshFromStart() {
-        this.log.log(1078071040, "AbstractADBOrganizerSearch#refreshFromStart()");
+        this.log.log(1000000, "AbstractADBOrganizerSearch#refreshFromStart()");
         ViewWindowRequestInfo viewWindowRequestInfo = new ViewWindowRequestInfo(0, this.currentViewType, this.currentSpellerHandle, true, true);
         ViewWindowCommand.createViewWindowCommand(this.appAdr, viewWindowRequestInfo, this);
     }
@@ -198,19 +191,17 @@ ADBOrganizerSearch {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void refreshByPosition() {
         int n;
         Object object = this.lock;
         synchronized (object) {
             n = this.calculateAdbPositionFromListIndex(this.focusedListIndex);
         }
-        this.log.log(1078071040, "AbstractADBOrganizerSearch#refreshByPosition(): adbListPosition: %1", (long)n);
+        this.log.log(1000000, "AbstractADBOrganizerSearch#refreshByPosition(): adbListPosition: %1", (long)n);
         object = new ViewWindowRequestInfo(n, this.currentViewType, this.currentSpellerHandle, true, false);
         ViewWindowCommand.createViewWindowCommand(this.appAdr, (ViewWindowRequestInfo)object, this);
     }
 
-    @Override
     public void enableFiltering(boolean bl) {
         if (bl) {
             switch (this.appAdr.getAdbMode()) {
@@ -267,7 +258,7 @@ ADBOrganizerSearch {
             if (this.rowIsOpen && n3 < n) {
                 n += this.currentlyOpenedChildCount;
             }
-            this.log.log(1078071040, "AbstractADBOrganizerSearch#updateList(): listUpdateIndex: %1, rows.length: %2", (long)n, evoListRowArray != null ? (long)evoListRowArray.length : -1L);
+            this.log.log(1000000, "AbstractADBOrganizerSearch#updateList(): listUpdateIndex: %1, rows.length: %2", (long)n, evoListRowArray != null ? (long)evoListRowArray.length : -1L);
             baseListModelApp.setRows(viewWindowRequestInfo.getRequestId(), n, evoListRowArray);
             ModelGroup modelGroup = new ModelGroup();
             modelGroup.add(this.listModel);
@@ -277,7 +268,7 @@ ADBOrganizerSearch {
                 modelGroup.add(menuModelApp);
                 this.updateCursorPos(viewWindowRequestInfo, menuModelApp, evoListRowArray);
             } else {
-                this.log.log(-1601830656, "AbstractADBOrganizerSearch#updateList(): no menu model available, not able to control the cursor position.");
+                this.log.log(100000, "AbstractADBOrganizerSearch#updateList(): no menu model available, not able to control the cursor position.");
             }
             modelGroup.flush();
             modelGroup.removeAll();
@@ -286,11 +277,11 @@ ADBOrganizerSearch {
 
     private void updateCursorPos(ViewWindowRequestInfo viewWindowRequestInfo, MenuModelApp menuModelApp, EvoListRow[] evoListRowArray) {
         if (viewWindowRequestInfo.isResetCursorOnUpdate()) {
-            this.log.log(1078071040, "AbstractADBOrganizerSearch#updateCursorPos(): triggering cursor pos reset");
+            this.log.log(1000000, "AbstractADBOrganizerSearch#updateCursorPos(): triggering cursor pos reset");
             menuModelApp.resetFocusedItem();
             menuModelApp.trigger(ModelTrigger.RESET_CURSOR_POS);
         } else if (evoListRowArray != null && evoListRowArray.length > 0 && viewWindowRequestInfo.isClearListOnUpdate()) {
-            this.log.log(1078071040, "AbstractADBOrganizerSearch#updateCursorPos(): setting focused menu item to anchor list row");
+            this.log.log(1000000, "AbstractADBOrganizerSearch#updateCursorPos(): setting focused menu item to anchor list row");
             EvoListRow evoListRow = evoListRowArray[0];
             if (viewWindowRequestInfo.getMovement() == 3) {
                 for (int i2 = 0; i2 < evoListRowArray.length; ++i2) {
@@ -299,7 +290,7 @@ ADBOrganizerSearch {
                     break;
                 }
             }
-            this.log.log(1078071040, "AbstractADBOrganizerSearch#updateCursorPos(): refEntryId: %1, anchorRow.entryId: %2, anchorRow.uniqueId: %3", viewWindowRequestInfo.getRefEntryId(), ((ADBListRow)((Object)evoListRow)).getEntryId(), evoListRow.getUniqueID());
+            this.log.log(1000000, "AbstractADBOrganizerSearch#updateCursorPos(): refEntryId: %1, anchorRow.entryId: %2, anchorRow.uniqueId: %3", viewWindowRequestInfo.getRefEntryId(), ((ADBListRow)((Object)evoListRow)).getEntryId(), evoListRow.getUniqueID());
             menuModelApp.setFocusedItem(this.listModel.getID(), FocusAdvice.KEEP_POSITION, evoListRow.getUniqueID());
         }
     }
@@ -307,16 +298,15 @@ ADBOrganizerSearch {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setSearchResultDetails(ADBEntryDetailsListRow[] aDBEntryDetailsListRowArray, ADBSearchListRow aDBSearchListRow) {
         Object object = this.lock;
         synchronized (object) {
             if (aDBSearchListRow != null && this.listModel.getIndexForUniqueID(aDBSearchListRow.getUniqueID()) == -1) {
-                this.log.log(-1601830656, "AbstractADBOrganizerSearch#setSearchResultDetails(): parentRow couldn't be found in listModel.");
+                this.log.log(100000, "AbstractADBOrganizerSearch#setSearchResultDetails(): parentRow couldn't be found in listModel.");
                 return;
             }
             if (aDBEntryDetailsListRowArray != null && aDBEntryDetailsListRowArray.length != 0 && aDBSearchListRow != null) {
-                this.log.log(1078071040, "AbstractADBOrganizerSearch#setSearchResultDetails(): entryDetails.length: %1, parentRow.getEntryId(): %2", (long)aDBEntryDetailsListRowArray.length, aDBSearchListRow.getEntryId());
+                this.log.log(1000000, "AbstractADBOrganizerSearch#setSearchResultDetails(): entryDetails.length: %1, parentRow.getEntryId(): %2", (long)aDBEntryDetailsListRowArray.length, aDBSearchListRow.getEntryId());
                 BaseListModelApp baseListModelApp = this.listModel.getCopy();
                 if (this.rowIsOpen) {
                     baseListModelApp.removeAndClose(this.currentlyOpenedRowId, this.currentlyOpenedChildCount);
@@ -337,15 +327,13 @@ ADBOrganizerSearch {
         }
     }
 
-    @Override
     public void setRowOpenState(EvoListRow evoListRow, boolean bl, BaseListModelApp baseListModelApp) {
     }
 
-    @Override
     public void spellerResult(int n, DataSet[] dataSetArray, int n2, String string, String string2) {
         if (this.log.isDebug()) {
-            this.log.log(-2137614336, "AbstractADBOrganizerSearch#spellerResult(): validChars: %1, uniqueChars: %2, totalHits: %3", (Object)string, (Object)string2, (long)n2);
-            this.log.log(-2137614336, "AbstractADBOrganizerSearch#spellerResult(): previewListData: %1", (Object)ADBDbgUtils.dbg(dataSetArray));
+            this.log.log(10000000, "AbstractADBOrganizerSearch#spellerResult(): validChars: %1, uniqueChars: %2, totalHits: %3", (Object)string, (Object)string2, (long)n2);
+            this.log.log(10000000, "AbstractADBOrganizerSearch#spellerResult(): previewListData: %1", (Object)ADBDbgUtils.dbg(dataSetArray));
         }
         this.currentSpellerHandle = n;
         this.spellerModel.setText(string2);
@@ -354,31 +342,26 @@ ADBOrganizerSearch {
         this.refreshFromStart();
     }
 
-    @Override
     public void validateSpellerCharsResult(String string) {
-        this.log.log(1078071040, "AbstractADBOrganizerSearch#validateSpellerCharsResult(): validChars: %1", (Object)string);
+        this.log.log(1000000, "AbstractADBOrganizerSearch#validateSpellerCharsResult(): validChars: %1", (Object)string);
         this.spellerModel.setValidNonAlphaNumTPCharacters(string);
     }
 
-    @Override
     public void setValidHanziChars(String string, int n) {
-        this.log.log(1078071040, "AbstractADBOrganizerSearch#setValidHanziChars(): validHanziChars: %1, totalCount: %2", (Object)string, (long)n);
+        this.log.log(1000000, "AbstractADBOrganizerSearch#setValidHanziChars(): validHanziChars: %1, totalCount: %2", (Object)string, (long)n);
         this.spellerModel.setValidHanziChars(string, n);
     }
 
-    @Override
     public HMIModelApp getListSyncModel() {
         return this.syncModel;
     }
 
-    @Override
     public MatchspellerModelApp getSpellerModel() {
         return this.spellerModel;
     }
 
-    @Override
     public void updateAlphabeticalIndex(IndexInformation[] indexInformationArray) {
-        this.log.log(-2137614336, "AbstractADBOrganizerSearch#updateAlphabeticalIndex(): updating indices");
+        this.log.log(10000000, "AbstractADBOrganizerSearch#updateAlphabeticalIndex(): updating indices");
         this.indexInfos = indexInformationArray;
         this.updateCurrentIndex();
     }
@@ -392,13 +375,12 @@ ADBOrganizerSearch {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void itemSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
         Object object = this.lock;
         synchronized (object) {
             if (evoListRow != null && evoListRow instanceof ADBSearchListRow) {
                 ADBSearchListRow aDBSearchListRow = (ADBSearchListRow)((Object)evoListRow);
-                this.log.log(-2137614336, "AbstractADBOrganizerSearch#itemSelected( ADBSearchListRow ): \"%1\", entryId: %2", (Object)aDBSearchListRow.getCombinedName(), aDBSearchListRow.getEntryId());
+                this.log.log(10000000, "AbstractADBOrganizerSearch#itemSelected( ADBSearchListRow ): \"%1\", entryId: %2", (Object)aDBSearchListRow.getCombinedName(), aDBSearchListRow.getEntryId());
                 if (this.rowIsOpen && evoListRow.getUniqueID() == this.currentlyOpenedRowId) {
                     BaseListModelApp baseListModelApp = this.listModel.getCopy();
                     baseListModelApp.removeAndClose(this.currentlyOpenedRowId, this.currentlyOpenedChildCount);
@@ -409,7 +391,7 @@ ADBOrganizerSearch {
                     this.appAdr.entrySelected(this, aDBSearchListRow, n, n4);
                 }
             } else if (evoListRow != null && evoListRow instanceof ADBEntryDetailsListRow) {
-                this.log.log(-2137614336, "AbstractADBOrganizerSearch#itemSelected( ADBEntryDetailsListRow ): row: %1", (Object)evoListRow);
+                this.log.log(10000000, "AbstractADBOrganizerSearch#itemSelected( ADBEntryDetailsListRow ): row: %1", (Object)evoListRow);
                 this.appAdr.detailsSelected((ADBEntryDetailsListRow)evoListRow, n, n4);
             } else {
                 this.log.log(10000, "AbstractADBOrganizerSearch#itemSelected(): row is null or has an unknown type!");
@@ -417,12 +399,11 @@ ADBOrganizerSearch {
         }
     }
 
-    @Override
     public void itemFocused(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
         this.focusedListIndex = n2;
         if (evoListRow != null && evoListRow instanceof ADBListRow) {
             ADBListRow aDBListRow = (ADBListRow)((Object)evoListRow);
-            this.log.log(1078071040, "AbstractADBOrganizerSearch#itemFocused(): \"%1\", entryId: %2", (Object)aDBListRow.getCombinedName(), aDBListRow.getEntryId());
+            this.log.log(1000000, "AbstractADBOrganizerSearch#itemFocused(): \"%1\", entryId: %2", (Object)aDBListRow.getCombinedName(), aDBListRow.getEntryId());
             this.appAdr.setFocusedEntryId(aDBListRow.getEntryId());
             this.appAdr.setFocusedEntryType(aDBListRow.getEntryType());
             if (this.contactPicture != null) {
@@ -433,28 +414,23 @@ ADBOrganizerSearch {
         }
     }
 
-    @Override
     public void requestItems(int n, int n2, int n3, int n4, int n5) {
-        this.log.log(-2137614336, "AbstractADBOrganizerSearch#requestItems(): startIndex: %1, length: %2", (long)n, (long)n2);
+        this.log.log(10000000, "AbstractADBOrganizerSearch#requestItems(): startIndex: %1, length: %2", (long)n, (long)n2);
         ViewWindowRequestInfo viewWindowRequestInfo = new ViewWindowRequestInfo(n3, this.calculateAdbPositionFromListIndex(n), this.currentViewType, this.currentSpellerHandle, n2);
         ViewWindowCommand.createViewWindowCommand(this.appAdr, viewWindowRequestInfo, this);
     }
 
-    @Override
     public void unrequestItems(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemReleased(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemLongSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void textChanged(int n, String string, char c2, int n2) {
-        this.log.log(-2137614336, "AbstractADBOrganizerSearch#textChanged(): id: %2, text: %1, latestChar: %3", (Object)string, (long)n, (long)c2);
+        this.log.log(10000000, "AbstractADBOrganizerSearch#textChanged(): id: %2, text: %1, latestChar: %3", (Object)string, (long)n, (long)c2);
         if ("".equals(string)) {
             this.startSpeller();
         } else if (c2 == '\b') {
@@ -464,9 +440,8 @@ ADBOrganizerSearch {
         }
     }
 
-    @Override
     public void strokesChanged(int n, int n2, String string, char c2) {
-        this.log.log(1078071040, "AbstractADBOrganizerSearch#strokesChanged(): strokes: %1, lastStroke: %2", (Object)string, (long)c2);
+        this.log.log(1000000, "AbstractADBOrganizerSearch#strokesChanged(): strokes: %1, lastStroke: %2", (Object)string, (long)c2);
         if (c2 == '\b') {
             RemoveSpellerCharCommand.createRemoveSpellerCharCommand(this.appAdr, this, this.currentSpellerHandle);
         } else {
@@ -474,40 +449,32 @@ ADBOrganizerSearch {
         }
     }
 
-    @Override
     public void inputModeTPChanged(int n, int n2, int n3) {
-        this.log.log(-2137614336, "AbstractADBOrganizerSearch#inputModeTPChanged(): modelID: %1, mode: %2", (long)n, (long)n2);
+        this.log.log(10000000, "AbstractADBOrganizerSearch#inputModeTPChanged(): modelID: %1, mode: %2", (long)n, (long)n2);
         this.currentSearchMode = n2 == 0 ? 1 : 0;
         this.startSpeller();
     }
 
-    @Override
     public void nonAlphaNumTPCharsChanged(int n, int n2, String string) {
         ValidateSpellerCharsCommand.createValidateSpellerCharsCommand(this.appAdr, this, this.currentSpellerHandle, string, (HMIModel)((Object)this.spellerModel));
     }
 
-    @Override
     public void requestValidHanziCharsWindow(int n, int n2, int n3, int n4) {
         GetValidHanziCharsWindowCommand.createGetValidHanziCharsWindowCommand(this.appAdr, this, this.currentSpellerHandle, n3, n4);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void focusedCharacter(int n, char c2, int n2) {
     }
 
-    @Override
     public void commandPressed(int n, int n2, int n3) {
     }
 }

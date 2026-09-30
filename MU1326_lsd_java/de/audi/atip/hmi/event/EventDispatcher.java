@@ -7,25 +7,18 @@ import de.audi.atip.hmi.event.ATIPEvent;
 import de.esolutions.fw.util.commons.job.Job;
 
 public interface EventDispatcher {
-    default public Job postEvent(ATIPEvent aTIPEvent) {
-    }
+    public Job postEvent(ATIPEvent var1);
 
-    default public Job postEvent(ATIPEvent aTIPEvent, long l) {
-    }
+    public Job postEvent(ATIPEvent var1, long var2);
 
-    default public ATIPEvent peekEvent() {
-    }
+    public ATIPEvent peekEvent();
 
-    default public boolean isDispatchThread() {
-    }
+    public boolean isDispatchThread();
 
-    default public void setAdaptiveSleepingEnabled(boolean bl) {
-    }
+    public void setAdaptiveSleepingEnabled(boolean var1);
 
-    default public void doCheckedSleeping() {
-    }
+    public void doCheckedSleeping();
 
-    default public boolean doCheckedSleepingInternal() {
-    }
+    public boolean doCheckedSleepingInternal();
 }
 

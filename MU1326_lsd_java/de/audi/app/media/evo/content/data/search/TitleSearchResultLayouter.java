@@ -10,19 +10,18 @@ import org.dsi.ifc.search.SearchResult;
 
 public class TitleSearchResultLayouter
 extends AbstractSearchResultLayouter {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "TitleSearchResultLayouter";
 
     public TitleSearchResultLayouter(LogChannel logChannel) {
         super(logChannel, 3);
     }
 
-    @Override
     public TextListCellHighlightText getTextCell(SearchResult searchResult, int n) {
         if (!this.isLineRelevant(n)) {
             return null;
         }
         if (this.logger.isDebug2()) {
-            this.logger.log(14808325, "[%1.getTextCell] line='%2'", (Object)"TitleSearchResultLayouter", (long)n);
+            this.logger.log(100000000, "[%1.getTextCell] line='%2'", (Object)LOGCLASS, (long)n);
         }
         if (this.layout == 1) {
             if (n == 1) {
@@ -39,15 +38,13 @@ extends AbstractSearchResultLayouter {
         return this.getListCellForWordtype(searchResult, 15);
     }
 
-    @Override
     public int getSymbol(int n) {
         return 0;
     }
 
-    @Override
     public int getI18NValue(SearchResult searchResult, int n) {
         if (this.logger.isDebug2()) {
-            this.logger.log(-2137614336, "[%1.getI18NValue] line='%2'", (Object)"TitleSearchResultLayouter", (long)n);
+            this.logger.log(10000000, "[%1.getI18NValue] line='%2'", (Object)LOGCLASS, (long)n);
         }
         if (1 == n) {
             return TitleSearchResultLayouter.getI18NKey(searchResult.getEntryFlags() & 0x21);

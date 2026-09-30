@@ -11,11 +11,11 @@ import java.util.List;
 import org.osgi.framework.Bundle;
 
 public class GUIDEModuleState {
-    public static final int MODULE_ID_UNDEFINED;
-    public static final int SM_STATUS_ERROR;
-    protected static final int SM_STATUS_DEFINED;
-    public static final int SM_STATUS_ACTIVATED;
-    protected static final int SM_STATUS_REGISTERED;
+    public static final int MODULE_ID_UNDEFINED = -1;
+    public static final int SM_STATUS_ERROR = -1;
+    protected static final int SM_STATUS_DEFINED = 0;
+    public static final int SM_STATUS_ACTIVATED = 1;
+    protected static final int SM_STATUS_REGISTERED = 2;
     private final ComponentState componentState;
     private final Bundle smm;
     private final Bundle hmi;

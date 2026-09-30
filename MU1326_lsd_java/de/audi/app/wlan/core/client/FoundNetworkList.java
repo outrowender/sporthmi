@@ -14,11 +14,11 @@ import org.dsi.ifc.networking.DiscoveredNetwork;
 
 class FoundNetworkList
 implements IFoundNetworkList {
-    private static final int NUM_COLUMNS;
-    private static final int ID_ADDRESS;
-    private static final int ID_NAME;
-    private static final int ID_CONNECTED;
-    private static final int ID_SIGNAL;
+    private static final int NUM_COLUMNS = 4;
+    private static final int ID_ADDRESS = 0;
+    private static final int ID_NAME = 1;
+    private static final int ID_CONNECTED = 2;
+    private static final int ID_SIGNAL = 3;
     private LogChannel log;
     private final BaseListModelApp listModel;
     private final Map map;
@@ -32,9 +32,8 @@ implements IFoundNetworkList {
         this.networkList = iTrustedNetworkList;
     }
 
-    @Override
     public void add(DiscoveredNetwork discoveredNetwork) {
-        this.log.log(-2137614336, "FoundNetworkList#add(): %1, %2", (Object)discoveredNetwork.getNetworkName(), (Object)discoveredNetwork.getBssidAddress());
+        this.log.log(10000000, "FoundNetworkList#add(): %1, %2", (Object)discoveredNetwork.getNetworkName(), (Object)discoveredNetwork.getBssidAddress());
         if (this.map.put(discoveredNetwork.getBssidAddress(), discoveredNetwork) == null) {
             EvoListRow evoListRow = new EvoListRow(this.idCounter++, 4);
             evoListRow.setText(0, discoveredNetwork.getBssidAddress());
@@ -45,14 +44,12 @@ implements IFoundNetworkList {
         }
     }
 
-    @Override
     public void clear() {
         this.map.clear();
         this.listModel.removeAll();
         this.idCounter = 0;
     }
 
-    @Override
     public DiscoveredNetwork getNetwork(int n) {
         if (n >= 0 && n < this.listModel.getLength()) {
             return (DiscoveredNetwork)this.map.get(this.listModel.getRow(n).getText(0));

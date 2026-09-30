@@ -8,22 +8,16 @@ import de.audi.atip.mmicombi.exchange.MMICombiRequest;
 import de.audi.atip.mmicombi.exchange.MMICombiResponse;
 
 public interface IMMICombi {
-    default public void processMMIRequest(MMICombiRequest mMICombiRequest) {
-    }
+    public void processMMIRequest(MMICombiRequest var1);
 
-    default public void processMMIResponse(MMICombiResponse mMICombiResponse) {
-    }
+    public void processMMIResponse(MMICombiResponse var1);
 
-    default public void processMMIUpdate(MMICombiResponse mMICombiResponse) {
-    }
+    public void processMMIUpdate(MMICombiResponse var1);
 
-    default public void processMMIPopupRequest(MMICombiPopupRequest mMICombiPopupRequest) {
-    }
+    public void processMMIPopupRequest(MMICombiPopupRequest var1);
 
-    default public int generateSessionID() {
-    }
+    public int generateSessionID();
 
-    default public void cancelMMIDisplayRequestWatchDog() {
-    }
+    public void cancelMMIDisplayRequestWatchDog();
 }
 

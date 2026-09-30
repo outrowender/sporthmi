@@ -3,15 +3,22 @@
  */
 package de.audi.app.messaging.core.readout;
 
-import de.audi.app.messaging.core.readout.IReadable$1;
+import java.util.NoSuchElementException;
 
 public interface IReadable {
-    public static final IReadable EMPTY_READABLE = new IReadable$1();
+    public static final IReadable EMPTY_READABLE = new IReadable(){
 
-    default public boolean hasNextSpeakTask() {
-    }
+        public String nextSpeakTask() {
+            throw new NoSuchElementException();
+        }
 
-    default public String nextSpeakTask() {
-    }
+        public boolean hasNextSpeakTask() {
+            return false;
+        }
+    };
+
+    public boolean hasNextSpeakTask();
+
+    public String nextSpeakTask();
 }
 

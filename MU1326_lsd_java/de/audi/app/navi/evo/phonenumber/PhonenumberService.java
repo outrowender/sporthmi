@@ -18,7 +18,7 @@ import de.audi.tghu.navi.app.util.Util;
 
 public class PhonenumberService
 implements IPhonenumberService {
-    private final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
+    private final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
     private final NavigationEnv env;
     private final ICommandListFactory commandListFactory;
     private PhonenumberInputManager inputManager = null;
@@ -40,7 +40,7 @@ implements IPhonenumberService {
         this.phoneNumberCommandListMonitor = new Monitor(this.logChannel);
         this.initPhonenumberInput();
         if (!this.isInputManagerReady() && this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "***** %1 WASN'T ABLE TO CREATE THE INPUT MANAGER. PHONENUMBER INPUT WILL NOT BE WORKING *****", (Object)this.CLASS_NAME);
+            this.logChannel.log(100000000, "***** %1 WASN'T ABLE TO CREATE THE INPUT MANAGER. PHONENUMBER INPUT WILL NOT BE WORKING *****", (Object)this.CLASS_NAME);
         }
     }
 
@@ -48,7 +48,7 @@ implements IPhonenumberService {
         if (Util.isHURegionJP() || Util.isHURegionKR()) {
             this.inputManager = new PhonenumberInputManager(this.env, this.logChannel, this.commandListFactory, this.spellerStack, this.previewMap, this.startRouteGuidanceSequence, this.homeAddressHandler);
         } else if (this.logChannel.isDebug2()) {
-            this.logChannel.log(14808325, "**** %1#initPhonenumberInput - region is NOT AVAILABLE ****", (Object)this.CLASS_NAME);
+            this.logChannel.log(100000000, "**** %1#initPhonenumberInput - region is NOT AVAILABLE ****", (Object)this.CLASS_NAME);
         }
     }
 
@@ -56,15 +56,14 @@ implements IPhonenumberService {
         return this.inputManager != null;
     }
 
-    @Override
     public void enterPhonenumberScreen() {
         if (!this.phoneNumberCommandListMonitor.isActive()) {
-            this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#enterPhonenumberScreen - starting command list").toString());
+            this.logChannel.log(10000000, this.CLASS_NAME + "#enterPhonenumberScreen - starting command list");
             CommandList commandList = this.inputManager.getPhonenumberScreenListener().getStartCommandList();
             commandList.addMonitor(this.phoneNumberCommandListMonitor);
-            commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#enterPhonenumberScreen").toString());
+            commandList.execute(this.CLASS_NAME + "#enterPhonenumberScreen");
         } else {
-            this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#enterPhonenumberScreen - command list already running, ignoring further calls.").toString());
+            this.logChannel.log(10000000, this.CLASS_NAME + "#enterPhonenumberScreen - command list already running, ignoring further calls.");
         }
     }
 }

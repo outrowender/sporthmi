@@ -10,22 +10,15 @@ import de.audi.atip.hmi.modelaccess.ResourceLocatorModelGUI;
 public interface ResourceLocatorModelApp
 extends HMIModelApp,
 ResourceLocatorModelGUI {
-    public static final int UNDEFINED_ID;
-    public static final String UNDEFINED_URI;
-    public static final int STATUS_VALID;
-    public static final int STATUS_INVALID;
+    public static final int UNDEFINED_ID = -1;
+    public static final String UNDEFINED_URI = null;
+    public static final int STATUS_VALID = 0;
+    public static final int STATUS_INVALID = 1;
 
-    default public void setResourceLocator(int n, String string) {
-    }
+    public void setResourceLocator(int var1, String var2);
 
-    default public void setResourceLocator(int n, String string, int n2) {
-    }
+    public void setResourceLocator(int var1, String var2, int var3);
 
-    default public void setResourceLocator(HMIResourceLocator hMIResourceLocator) {
-    }
-
-    static {
-        UNDEFINED_URI = null;
-    }
+    public void setResourceLocator(HMIResourceLocator var1);
 }
 

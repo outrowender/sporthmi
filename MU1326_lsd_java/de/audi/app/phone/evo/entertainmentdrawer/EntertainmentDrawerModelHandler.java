@@ -34,21 +34,19 @@ public class EntertainmentDrawerModelHandler
 extends AbstractPhoneComponent {
     private List entDrwButtonsModels;
     private List entDrwDataModels;
-    public static final int MODELGROUP_INCOMING_CALL_MODELS;
-    public static final int MODELGROUP_ACTIVE_CALL_MODELS;
+    public static final int MODELGROUP_INCOMING_CALL_MODELS = 0;
+    public static final int MODELGROUP_ACTIVE_CALL_MODELS = 1;
 
     public EntertainmentDrawerModelHandler(ITelApplication iTelApplication) {
         super(iTelApplication, "App.Phone.EntertainmentDrawer");
     }
 
-    @Override
     public void init() {
         super.init();
         this.initButtonComponents();
         this.initDataComponenets();
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.deinitButtonComponents();

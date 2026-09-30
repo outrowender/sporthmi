@@ -3,35 +3,39 @@
  */
 package de.audi.app.terminalmode;
 
-import de.audi.app.terminalmode.AutomaticDeviceActivator$ActiveDeviceStateListener;
-import de.audi.app.terminalmode.AutomaticDeviceActivator$EventListener;
-import de.audi.app.terminalmode.AutomaticDeviceActivator$LastModeTracker;
 import de.audi.app.terminalmode.ITerminalModeComponent;
 import de.audi.app.terminalmode.ITerminalModeConfiguration;
+import de.audi.app.terminalmode.device.IActiveDeviceStateListener;
 import de.audi.app.terminalmode.device.IDeviceManager;
 import de.audi.app.terminalmode.device.TMDevice;
+import de.audi.app.terminalmode.events.DefaultEventListener;
 import de.audi.app.terminalmode.events.IEventBus;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.storage.IStorageAccess;
+import de.audi.atip.utils.collections.Optional;
+import de.audi.atip.utils.collections.Predicate;
+import de.audi.atip.utils.generics.GList;
+import de.audi.atip.utils.generics.Generics;
 import de.audi.atip.utils.reactive.properties.Preference;
 import de.audi.atip.utils.reactive.properties.StorageAccessPreferencesFactory;
 import de.esolutions.fw.util.commons.job.DispatcherBase;
+import de.esolutions.fw.util.commons.job.Job;
 
 public class AutomaticDeviceActivator
 implements ITerminalModeComponent {
-    private static final String LOGCLASS;
-    public static final long LASTMODE_TRACKING_DURATION;
-    private static final String LASTMODE_ID_SEPARATOR_SYMBOL;
-    private static final String NO_LASTMODE_ID;
+    private static final String LOGCLASS = "AutomaticDeviceActivator";
+    public static final long LASTMODE_TRACKING_DURATION = 20000L;
+    private static final String LASTMODE_ID_SEPARATOR_SYMBOL = "#";
+    private static final String NO_LASTMODE_ID = "no_lastmode_id";
     private final LogChannel logger;
     private final IDeviceManager deviceManager;
     private final ITerminalModeConfiguration configuration;
-    private final AutomaticDeviceActivator$ActiveDeviceStateListener activeDeviceListener;
+    private final ActiveDeviceStateListener activeDeviceListener;
     private final IEventBus eventBus;
     private volatile TMDevice activeDevice = TMDevice.INVALID;
-    private final AutomaticDeviceActivator$EventListener eventListener;
-    private final AutomaticDeviceActivator$LastModeTracker lastModeEventListener;
-    private final Preference activeDevicePreference;
+    private final EventListener eventListener;
+    private final LastModeTracker lastModeEventListener;
+    private final Preference<String> activeDevicePreference;
     private final DispatcherBase dispatcher;
 
     public AutomaticDeviceActivator(LogChannel logChannel, ITerminalModeConfiguration iTerminalModeConfiguration, IDeviceManager iDeviceManager, IEventBus iEventBus, IStorageAccess iStorageAccess, DispatcherBase dispatcherBase) {
@@ -39,14 +43,13 @@ implements ITerminalModeComponent {
         this.deviceManager = iDeviceManager;
         this.configuration = iTerminalModeConfiguration;
         this.eventBus = iEventBus;
-        this.activeDevicePreference = StorageAccessPreferencesFactory.create(logChannel, iStorageAccess).createStringPreference("activeDevicePreference", 1008, 3, "no_lastmode_id");
+        this.activeDevicePreference = StorageAccessPreferencesFactory.create(logChannel, iStorageAccess).createStringPreference("activeDevicePreference", 1008, 3, NO_LASTMODE_ID);
         this.dispatcher = dispatcherBase;
-        this.activeDeviceListener = new AutomaticDeviceActivator$ActiveDeviceStateListener(this, null);
-        this.eventListener = new AutomaticDeviceActivator$EventListener(this, null);
-        this.lastModeEventListener = new AutomaticDeviceActivator$LastModeTracker(this, null);
+        this.activeDeviceListener = new ActiveDeviceStateListener();
+        this.eventListener = new EventListener();
+        this.lastModeEventListener = new LastModeTracker();
     }
 
-    @Override
     public void init() {
         this.deviceManager.addActiveDeviceListener(this.activeDeviceListener);
         if (!this.configuration.isAutoConnect()) {
@@ -56,7 +59,6 @@ implements ITerminalModeComponent {
         }
     }
 
-    @Override
     public void deinit() {
         this.lastModeEventListener.stopLastmodeTracking();
         this.deviceManager.removeActiveDeviceListener(this.activeDeviceListener);
@@ -67,52 +69,130 @@ implements ITerminalModeComponent {
         if (bl) {
             return tMDevice.getUniqueID().address;
         }
-        return new StringBuffer().append(tMDevice.getUniqueID().address).append("#").append(tMDevice.smartphoneType().ordinal()).toString();
+        return new StringBuffer().append(tMDevice.getUniqueID().address).append(LASTMODE_ID_SEPARATOR_SYMBOL).append(tMDevice.smartphoneType().ordinal()).toString();
     }
 
-    static /* synthetic */ ITerminalModeConfiguration access$300(AutomaticDeviceActivator automaticDeviceActivator) {
-        return automaticDeviceActivator.configuration;
+    private final class EventListener
+    extends DefaultEventListener {
+        private EventListener() {
+        }
+
+        public void readyForActivation(TMDevice tMDevice) {
+            boolean bl;
+            boolean bl2 = bl = tMDevice.userAcceptState().is(TMDevice.UserAcceptState.DISCLAIMER_ACCEPTED) || AutomaticDeviceActivator.this.configuration.isAutoConnect();
+            if (bl) {
+                if (!AutomaticDeviceActivator.this.activeDevice.isValid()) {
+                    String string;
+                    String string2 = (String)AutomaticDeviceActivator.this.activeDevicePreference.get();
+                    int n = string2.lastIndexOf(AutomaticDeviceActivator.LASTMODE_ID_SEPARATOR_SYMBOL);
+                    String string3 = string = n == -1 ? string2 : string2.substring(0, n);
+                    if (string2.equals(AutomaticDeviceActivator.NO_LASTMODE_ID) || !string.equals(tMDevice.getUniqueID().address) || string2.equals(AutomaticDeviceActivator.this.getLastModeId(tMDevice, false))) {
+                        AutomaticDeviceActivator.this.logger.log(1000000, "<!> [%1.EventListener.readyForActivation] Activate known detected device %2 as %3", (Object)AutomaticDeviceActivator.LOGCLASS, (Object)tMDevice, (long)tMDevice.smartphoneType().ordinal());
+                        AutomaticDeviceActivator.this.deviceManager.control(tMDevice).activateDevice();
+                    }
+                } else {
+                    AutomaticDeviceActivator.this.logger.log(1000000, "[%1.EventListener.readyForActivation] already active - %2", (Object)AutomaticDeviceActivator.LOGCLASS, (Object)AutomaticDeviceActivator.this.activeDevice);
+                    AutomaticDeviceActivator.this.logger.log(1000000, "<!> [%1.EventListener.readyForActivation] cannot be activated right now - %2", (Object)AutomaticDeviceActivator.LOGCLASS, (Object)tMDevice);
+                    AutomaticDeviceActivator.this.deviceManager.control(tMDevice).deactivateDevice();
+                }
+            }
+        }
     }
 
-    static /* synthetic */ TMDevice access$400(AutomaticDeviceActivator automaticDeviceActivator) {
-        return automaticDeviceActivator.activeDevice;
+    private class LastModeTracker
+    extends DefaultEventListener
+    implements IActiveDeviceStateListener {
+        private volatile Job lastModeTimer = new Job("");
+        private final GList<TMDevice> devicesSkippedDuringLastmodeTracking = Generics.newArrayList();
+
+        private LastModeTracker() {
+        }
+
+        public void updateActiveDeviceState(TMDevice tMDevice) {
+            if (tMDevice.isActive()) {
+                this.startNormalOperation();
+            }
+        }
+
+        public void stopLastmodeTracking() {
+            this.lastModeTimer.cancel();
+            AutomaticDeviceActivator.this.eventBus.unregisterListener(this);
+            AutomaticDeviceActivator.this.deviceManager.removeActiveDeviceListener(this);
+            this.devicesSkippedDuringLastmodeTracking.clear();
+        }
+
+        public void startLastmodeTracking() {
+            AutomaticDeviceActivator.this.deviceManager.addActiveDeviceListener(AutomaticDeviceActivator.this.lastModeEventListener);
+            AutomaticDeviceActivator.this.eventBus.registerListener(AutomaticDeviceActivator.this.lastModeEventListener);
+            this.lastModeTimer = AutomaticDeviceActivator.this.dispatcher.execute(new Runnable(){
+
+                public void run() {
+                    Optional<TMDevice> optional = LastModeTracker.this.devicesSkippedDuringLastmodeTracking.fluent().tryFind(new Predicate<TMDevice>(){
+
+                        @Override
+                        public boolean apply(TMDevice tMDevice) {
+                            return tMDevice.connectionState().is(TMDevice.ConnectionState.ATTACHED) && tMDevice.userAcceptState().is(TMDevice.UserAcceptState.DISCLAIMER_ACCEPTED);
+                        }
+
+                        @Override
+                        public /* synthetic */ boolean apply(Object object) {
+                            return this.apply((TMDevice)object);
+                        }
+                    });
+                    if (optional.exists()) {
+                        AutomaticDeviceActivator.this.logger.log(1000000, "<!> [%1.LastModeHandler.lastModeTimer.run] Activate device which was skipped during lastmode tracking - %2", (Object)AutomaticDeviceActivator.LOGCLASS, optional);
+                        AutomaticDeviceActivator.this.deviceManager.control(optional.get()).activateDevice();
+                    }
+                    AutomaticDeviceActivator.this.logger.log(1000000, "[%1.LastModeHandler.lastModeTimer.run] Last mode tracking is finished. Resuming normal operation.", (Object)AutomaticDeviceActivator.LOGCLASS);
+                    LastModeTracker.this.startNormalOperation();
+                }
+            }, 20000L);
+        }
+
+        public void readyForActivation(TMDevice tMDevice) {
+            boolean bl;
+            boolean bl2 = bl = tMDevice.userAcceptState().is(TMDevice.UserAcceptState.DISCLAIMER_ACCEPTED) || AutomaticDeviceActivator.this.configuration.isAutoConnect();
+            if (bl) {
+                boolean bl3;
+                String string = (String)AutomaticDeviceActivator.this.activeDevicePreference.get();
+                String string2 = String.valueOf(tMDevice.smartphoneType().ordinal());
+                int n = string.lastIndexOf(AutomaticDeviceActivator.LASTMODE_ID_SEPARATOR_SYMBOL);
+                boolean bl4 = n == -1 || n != string.length() - string2.length() - 1;
+                boolean bl5 = bl3 = string.equals(AutomaticDeviceActivator.this.getLastModeId(tMDevice, bl4)) || string.equals(AutomaticDeviceActivator.NO_LASTMODE_ID);
+                if (bl3) {
+                    AutomaticDeviceActivator.this.logger.log(1000000, "<!> [%1.LastModeHandler.readyForActivation] Activate lastmode device %2", (Object)AutomaticDeviceActivator.LOGCLASS, (Object)tMDevice);
+                    AutomaticDeviceActivator.this.deviceManager.control(tMDevice).activateDevice();
+                    this.startNormalOperation();
+                } else {
+                    AutomaticDeviceActivator.this.logger.log(1000000, "<!> [%1.LastModeHandler.readyForActivation] device ready, but we are waiting for lastmode (%2) - %3", (Object)AutomaticDeviceActivator.LOGCLASS, (Object)string, (Object)tMDevice);
+                    this.devicesSkippedDuringLastmodeTracking.add(tMDevice);
+                    AutomaticDeviceActivator.this.deviceManager.control(tMDevice).deactivateDevice();
+                }
+            }
+        }
+
+        private void startNormalOperation() {
+            this.stopLastmodeTracking();
+            AutomaticDeviceActivator.this.dispatcher.execute(new Runnable(){
+
+                public void run() {
+                    AutomaticDeviceActivator.this.eventBus.registerListener(AutomaticDeviceActivator.this.eventListener);
+                }
+            });
+        }
     }
 
-    static /* synthetic */ Preference access$500(AutomaticDeviceActivator automaticDeviceActivator) {
-        return automaticDeviceActivator.activeDevicePreference;
-    }
+    private class ActiveDeviceStateListener
+    implements IActiveDeviceStateListener {
+        private ActiveDeviceStateListener() {
+        }
 
-    static /* synthetic */ String access$600(AutomaticDeviceActivator automaticDeviceActivator, TMDevice tMDevice, boolean bl) {
-        return automaticDeviceActivator.getLastModeId(tMDevice, bl);
-    }
-
-    static /* synthetic */ LogChannel access$700(AutomaticDeviceActivator automaticDeviceActivator) {
-        return automaticDeviceActivator.logger;
-    }
-
-    static /* synthetic */ IDeviceManager access$800(AutomaticDeviceActivator automaticDeviceActivator) {
-        return automaticDeviceActivator.deviceManager;
-    }
-
-    static /* synthetic */ TMDevice access$402(AutomaticDeviceActivator automaticDeviceActivator, TMDevice tMDevice) {
-        automaticDeviceActivator.activeDevice = tMDevice;
-        return automaticDeviceActivator.activeDevice;
-    }
-
-    static /* synthetic */ IEventBus access$900(AutomaticDeviceActivator automaticDeviceActivator) {
-        return automaticDeviceActivator.eventBus;
-    }
-
-    static /* synthetic */ AutomaticDeviceActivator$LastModeTracker access$1000(AutomaticDeviceActivator automaticDeviceActivator) {
-        return automaticDeviceActivator.lastModeEventListener;
-    }
-
-    static /* synthetic */ DispatcherBase access$1400(AutomaticDeviceActivator automaticDeviceActivator) {
-        return automaticDeviceActivator.dispatcher;
-    }
-
-    static /* synthetic */ AutomaticDeviceActivator$EventListener access$1500(AutomaticDeviceActivator automaticDeviceActivator) {
-        return automaticDeviceActivator.eventListener;
+        public void updateActiveDeviceState(TMDevice tMDevice) {
+            AutomaticDeviceActivator.this.activeDevice = tMDevice;
+            if (AutomaticDeviceActivator.this.activeDevice.isActive()) {
+                AutomaticDeviceActivator.this.activeDevicePreference.store(AutomaticDeviceActivator.this.getLastModeId(tMDevice, false));
+            }
+        }
     }
 }
 

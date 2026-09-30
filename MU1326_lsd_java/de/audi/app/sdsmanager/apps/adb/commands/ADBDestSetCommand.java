@@ -45,10 +45,9 @@ extends AbstractSystemCallCommand {
         return new String[0];
     }
 
-    @Override
     public void execute() {
         int n;
-        this.logger.log(-2137614336, "%1#execute: locationCategory=%2", (Object)this.getName(), (long)this.locationCategory);
+        this.logger.log(10000000, "%1#execute: locationCategory=%2", (Object)this.getName(), (long)this.locationCategory);
         switch (this.locationCategory) {
             case 1: 
             case 2: {
@@ -64,7 +63,7 @@ extends AbstractSystemCallCommand {
             this.sendResult(3001);
             return;
         }
-        this.logger.log(-2137614336, "%1#execute: navLocationType=%2", (Object)super.getName(), (long)n);
+        this.logger.log(10000000, "%1#execute: navLocationType=%2", (Object)super.getName(), (long)n);
         ADBSDSAddressDetails aDBSDSAddressDetails = this.adbService.getAddressDetails(n);
         if (aDBSDSAddressDetails == null) {
             this.logger.log(10000, "%1#execute: adbDetails is null!", (Object)super.getName());
@@ -76,7 +75,7 @@ extends AbstractSystemCallCommand {
     }
 
     private void setAddressOnNaviService(int n, ADBSDSAddressDetails aDBSDSAddressDetails) {
-        this.logger.log(-2137614336, "%1#setAddressOnNaviService: navLocType= %2", (Object)super.getName(), (long)n);
+        this.logger.log(10000000, "%1#setAddressOnNaviService: navLocType= %2", (Object)super.getName(), (long)n);
         switch (n) {
             case 4: 
             case 5: {
@@ -87,13 +86,13 @@ extends AbstractSystemCallCommand {
                     this.sendResult(3001);
                     return;
                 }
-                this.logger.log(-2137614336, "%1#setAddressOnNaviService: call setDestination() with ADB contact geo coordinate=%2", (Object)super.getName(), (Object)string);
+                this.logger.log(10000000, "%1#setAddressOnNaviService: call setDestination() with ADB contact geo coordinate=%2", (Object)super.getName(), (Object)string);
                 this.naviService.setDestination(stringArray[0], stringArray[1]);
                 break;
             }
             case 2: 
             case 3: {
-                this.logger.log(-2137614336, "%1#setAddressOnNaviService: call setLocation() with ADB contact nav address.", (Object)super.getName());
+                this.logger.log(10000000, "%1#setAddressOnNaviService: call setLocation() with ADB contact nav address.", (Object)super.getName());
                 this.naviService.setLocation(aDBSDSAddressDetails.getNavLocation());
                 break;
             }
@@ -101,7 +100,7 @@ extends AbstractSystemCallCommand {
             case 1: {
                 AdbEntry adbEntry = aDBSDSAddressDetails.getAdbEntry();
                 int n2 = aDBSDSAddressDetails.getAddressIndex();
-                this.logger.log(-2137614336, "%1#setAddressOnNaviService: call setDestination() with ADB contact postal address at idx=%2", (Object)super.getName(), (long)n2);
+                this.logger.log(10000000, "%1#setAddressOnNaviService: call setDestination() with ADB contact postal address at idx=%2", (Object)super.getName(), (long)n2);
                 this.naviService.setDestination(adbEntry, n2);
                 break;
             }
@@ -124,7 +123,7 @@ extends AbstractSystemCallCommand {
                 break;
             }
             default: {
-                this.logger.log(-2137614336, "%1#handleLineSelection: unhandled locationCategory %2!", (Object)this.getName(), (long)this.locationCategory);
+                this.logger.log(10000000, "%1#handleLineSelection: unhandled locationCategory %2!", (Object)this.getName(), (long)this.locationCategory);
                 return -1;
             }
         }
@@ -134,8 +133,8 @@ extends AbstractSystemCallCommand {
             return n2;
         }
         this.eventID = SDSUtils.translate(n2, ADBSDSUtils.detailedAddressTypes2EventId);
-        this.logger.log(-2137614336, "%1#execute: navLocType %2 mapped onto %3!", (Object)this.getName(), (long)n2, (long)this.eventID);
-        if (this.eventID == 128) {
+        this.logger.log(10000000, "%1#execute: navLocType %2 mapped onto %3!", (Object)this.getName(), (long)n2, (long)this.eventID);
+        if (this.eventID == Integer.MIN_VALUE) {
             this.logger.log(10000, "%1#execute: invalid/unhandled locationCategory!", (Object)this.getName());
             return -1;
         }
@@ -143,7 +142,7 @@ extends AbstractSystemCallCommand {
     }
 
     public void sdsDestinationSetResult(int n) {
-        this.logger.log(-2137614336, "%1#sdsDestinationSetResult: result=%2", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "%1#sdsDestinationSetResult: result=%2", (Object)this.getName(), (long)n);
         this.sendResult(n == 0 ? this.eventID : (n == 3 ? 3004 : 3001));
     }
 }

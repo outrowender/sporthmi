@@ -3,7 +3,6 @@
  */
 package de.audi.app.online.privacysettings;
 
-import de.audi.app.online.privacysettings.PrivacySettingsController$TelServiceCallback;
 import de.audi.app.online.privacysettings.PrivacySettingsModelAccess;
 import de.audi.app.online.privacysettings.PrivacySettingsStorageAccess;
 import de.audi.atip.hmi.model.ButtonListener;
@@ -12,6 +11,7 @@ import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.msg.MsgListener;
 import de.audi.atip.phone.ITelServiceConnectivity;
+import de.audi.atip.phone.ITelServiceConnectivityListener;
 import de.audi.tghu.online.app.osr.OnlineServiceRegistrationSubsystem;
 import de.audi.tghu.online.app.remotehmi.RemoteHMIService;
 import de.audi.tghu.online.app.standard.AbstractStandardController;
@@ -20,8 +20,8 @@ import de.audi.tghu.online.app.standard.IStandardController;
 public class PrivacySettingsController
 implements ButtonListener,
 MsgListener {
-    static final int PRIVACY_MODE_ON;
-    static final int PRIVACY_MODE_OFF;
+    static final int PRIVACY_MODE_ON = 1;
+    static final int PRIVACY_MODE_OFF = 0;
     private ITelServiceConnectivity telService;
     private ButtonModelApp deactivateNadButtonModel;
     private LogChannel logChannel;
@@ -50,16 +50,16 @@ MsgListener {
     }
 
     public void setPrivacyModeFeatureAvailable(boolean bl) {
-        this.logChannel.log(1078071040, "PrivacySettingsController#setPrivacyModeFeatureAvailable: %1", bl);
+        this.logChannel.log(1000000, "PrivacySettingsController#setPrivacyModeFeatureAvailable: %1", bl);
         this.privacyModeFeatureAvailable = bl;
     }
 
     public void initFromPersistence() {
         if (!this.nadModuleCoded) {
-            this.logChannel.log(1078071040, "PrivacySettingsController#initFromPersistence: No NAD module available; initializing the privacy mode using the persisted value");
+            this.logChannel.log(1000000, "PrivacySettingsController#initFromPersistence: No NAD module available; initializing the privacy mode using the persisted value");
             this.triggerPrivacyMode(this.privacySettingsStorageAccess.getPersistedPrivacyMode());
         } else {
-            this.logChannel.log(1078071040, "PrivacySettingsController#initFromPersistence: NAD module available and responsible for initializing the privacy mode");
+            this.logChannel.log(1000000, "PrivacySettingsController#initFromPersistence: NAD module available and responsible for initializing the privacy mode");
         }
     }
 
@@ -72,7 +72,6 @@ MsgListener {
         }
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
         if (n == this.deactivateNadButtonModel.getID()) {
             this.triggerSMTransition(n3, this.deactivateNadButtonModel);
@@ -85,7 +84,7 @@ MsgListener {
 
     private void triggerPrivacyMode(boolean bl) {
         if (this.isPrivacyModeActive() == bl) {
-            this.logChannel.log(-1601830656, "PrivacySettingsController#triggerPrivacyMode: Privacy mode already in requested state %1, no action", bl);
+            this.logChannel.log(100000, "PrivacySettingsController#triggerPrivacyMode: Privacy mode already in requested state %1, no action", bl);
             return;
         }
         this.triggerMainUnitPrivacySettingWithPersistence(bl);
@@ -102,7 +101,7 @@ MsgListener {
 
     private void triggerPrivacyModeFlags(boolean bl) {
         if (this.onlineServiceRegistrationSubsystem == null) {
-            this.logChannel.log(-1601830656, "PrivacySettingsController#triggerPrivacyModeFlags: No onlineServiceRegistrationSubsystem was registered, no calls are made");
+            this.logChannel.log(100000, "PrivacySettingsController#triggerPrivacyModeFlags: No onlineServiceRegistrationSubsystem was registered, no calls are made");
         } else {
             this.onlineServiceRegistrationSubsystem.triggerPrivacyMode(bl);
         }
@@ -110,36 +109,35 @@ MsgListener {
 
     private void triggerCgwDeactivation(boolean bl) {
         if (this.standardController == null) {
-            this.logChannel.log(-1601830656, "PrivacySettingsController#triggerCgwDeactivation: No cGW gateway was registered, no calls are made");
+            this.logChannel.log(100000, "PrivacySettingsController#triggerCgwDeactivation: No cGW gateway was registered, no calls are made");
         } else {
-            this.logChannel.log(-2137614336, "PrivacySettingsController#triggerCgwDeactivation: Call to deactivate cGW module");
+            this.logChannel.log(10000000, "PrivacySettingsController#triggerCgwDeactivation: Call to deactivate cGW module");
             this.standardController.triggerPrivacyMode(bl);
         }
     }
 
     private void triggerNadDeactivation(boolean bl) {
         if (this.telService == null) {
-            this.logChannel.log(-1601830656, "PrivacySettingsController#triggerNadDeactivation: No telService was registered, no calls to NAD module!");
+            this.logChannel.log(100000, "PrivacySettingsController#triggerNadDeactivation: No telService was registered, no calls to NAD module!");
         } else if (this.nadModuleCoded) {
-            this.logChannel.log(-2137614336, "PrivacySettingsController#triggerNadDeactivation: Call to deactivate NAD module");
-            this.telService.changePhoneModulePowerState(!bl, new PrivacySettingsController$TelServiceCallback(this));
+            this.logChannel.log(10000000, "PrivacySettingsController#triggerNadDeactivation: Call to deactivate NAD module");
+            this.telService.changePhoneModulePowerState(!bl, new TelServiceCallback());
         } else {
-            this.logChannel.log(1078071040, "PrivacySettingsController#triggerNadDeactivation: NAD module is not available. Do nothing.");
+            this.logChannel.log(1000000, "PrivacySettingsController#triggerNadDeactivation: NAD module is not available. Do nothing.");
         }
     }
 
     private void triggerSMTransition(int n, ButtonModelApp buttonModelApp) {
-        this.logChannel.log(-2137614336, "PrivacySettingsController#triggerSMTransition: triggering SM transition");
+        this.logChannel.log(10000000, "PrivacySettingsController#triggerSMTransition: triggering SM transition");
         buttonModelApp.fireEvent(n);
     }
 
-    @Override
     public void processMsg(int n) {
         if (!this.nadModuleCoded || this.cgwOnlyCoded || !this.privacyModeFeatureAvailable) {
-            this.logChannel.log(-1601830656, "PrivacySettingsController#processMsg: NAD power state change ignored! nad:%1 cgw:%2 privacy:%3", this.nadModuleCoded, this.cgwOnlyCoded, this.privacyModeFeatureAvailable);
+            this.logChannel.log(100000, "PrivacySettingsController#processMsg: NAD power state change ignored! nad:%1 cgw:%2 privacy:%3", this.nadModuleCoded, this.cgwOnlyCoded, this.privacyModeFeatureAvailable);
             return;
         }
-        this.logChannel.log(-2137614336, "PrivacySettingsController#processMsg: %2, current privacy mode is %1", this.isPrivacyModeActive(), (long)n);
+        this.logChannel.log(10000000, "PrivacySettingsController#processMsg: %2, current privacy mode is %1", this.isPrivacyModeActive(), (long)n);
         this.setDeactivateButtonStatus(n);
         if (n == 208 && this.isPrivacyModeActive()) {
             this.triggerMainUnitPrivacySettingWithPersistence(false);
@@ -172,7 +170,7 @@ MsgListener {
     }
 
     public void setTelService(ITelServiceConnectivity iTelServiceConnectivity) {
-        this.logChannel.log(-2137614336, "PrivacySettingsController#setTelService: %1", (Object)iTelServiceConnectivity);
+        this.logChannel.log(10000000, "PrivacySettingsController#setTelService: %1", (Object)iTelServiceConnectivity);
         this.telService = iTelServiceConnectivity;
         this.telService.requestCurrentNadModulePowerState();
     }
@@ -183,7 +181,7 @@ MsgListener {
 
     private void triggerRHMIPrivacyModeAction(boolean bl) {
         if (this.remoteHMIService == null) {
-            this.logChannel.log(1078071040, "PrivacySettingsController#triggerRHMIPrivacyModeAction: No action, RHMI not coded?");
+            this.logChannel.log(1000000, "PrivacySettingsController#triggerRHMIPrivacyModeAction: No action, RHMI not coded?");
             return;
         }
         this.remoteHMIService.triggerPrivacyMode(bl);
@@ -200,20 +198,36 @@ MsgListener {
         this.remoteHMIService = remoteHMIService;
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    static /* synthetic */ LogChannel access$000(PrivacySettingsController privacySettingsController) {
-        return privacySettingsController.logChannel;
+    final class TelServiceCallback
+    implements ITelServiceConnectivityListener {
+        TelServiceCallback() {
+        }
+
+        public void responseChangePhoneModulePowerState(int n) {
+            if (n == 0) {
+                PrivacySettingsController.this.logChannel.log(1000000, "PrivacySettingsController.TelServiceCallback#responseChangePhoneModulePowerState: Deactivate NAD module successful");
+            } else {
+                PrivacySettingsController.this.logChannel.log(100000, "PrivacySettingsController.TelServiceCallback#responseChangePhoneModulePowerState: Deactivate NAD module not successful");
+            }
+        }
+
+        public void responseTogglePhones(int n) {
+        }
+
+        public void responseSetNadRole(int n) {
+        }
+
+        public void responseSetNadMode(int n) {
+        }
     }
 }
 

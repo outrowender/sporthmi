@@ -12,7 +12,6 @@ extends AbstractMediaPlayerListener {
         super(logChannel);
     }
 
-    @Override
     public String getLogClass() {
         return "NullMediaPlayerListener";
     }

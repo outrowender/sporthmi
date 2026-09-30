@@ -7,10 +7,10 @@ import de.audi.atip.hmi.model.list.EvoListRow;
 
 public class CountrySelectionRow
 extends EvoListRow {
-    protected static final int MAX_COLUMN_COUNT;
-    protected static final int COLUMN_COUNTRY_NAME;
-    protected static final int COLUMN_RADIO_BUTTON_STATE;
-    protected static final int COLUMN_LAYOUT;
+    protected static final int MAX_COLUMN_COUNT = 3;
+    protected static final int COLUMN_COUNTRY_NAME = 0;
+    protected static final int COLUMN_RADIO_BUTTON_STATE = 1;
+    protected static final int COLUMN_LAYOUT = 2;
     private final String countryCode;
     private final String stateCode;
     private final int iconId;
@@ -32,7 +32,6 @@ extends EvoListRow {
         this.iconId = countrySelectionRow.iconId;
     }
 
-    @Override
     public EvoListRow copy() {
         return new CountrySelectionRow(this);
     }

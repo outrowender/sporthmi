@@ -7,28 +7,20 @@ import de.audi.atip.statemachine.ActionProxy;
 
 public interface EcallActionProxy
 extends ActionProxy {
-    default public void ecallAppEntered(int n) {
-    }
+    public void ecallAppEntered(int var1);
 
-    default public void ecallAppLeft(int n) {
-    }
+    public void ecallAppLeft(int var1);
 
-    default public void hkBackForOprPopupAutomatic(int n) {
-    }
+    public void hkBackForOprPopupAutomatic(int var1);
 
-    default public void sysInitConnectEntered(int n) {
-    }
+    public void sysInitConnectEntered(int var1);
 
-    default public void sysInitConnectLeft(int n) {
-    }
+    public void sysInitConnectLeft(int var1);
 
-    default public void sysInitPhoneEntered(int n) {
-    }
+    public void sysInitPhoneEntered(int var1);
 
-    default public void sysInitPhoneLeft(int n) {
-    }
+    public void sysInitPhoneLeft(int var1);
 
-    default public void btnPerformTest(int n) {
-    }
+    public void btnPerformTest(int var1);
 }
 

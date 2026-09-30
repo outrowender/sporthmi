@@ -17,13 +17,11 @@ extends Monitor {
         this.module = abstractBAPModuleFSG;
     }
 
-    @Override
     public final void epilogue(CommandList commandList) {
         this.execute();
         super.epilogue(commandList);
     }
 
-    protected abstract void execute() {
-    }
+    protected abstract void execute();
 }
 

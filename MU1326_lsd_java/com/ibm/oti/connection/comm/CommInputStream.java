@@ -19,24 +19,21 @@ extends InputStream {
         this.open = true;
     }
 
-    @Override
-    public int available() {
+    public int available() throws IOException {
         if (this.open) {
             return this.connection.available();
         }
         throw new IOException(Msg.getString("K0059"));
     }
 
-    @Override
-    public void close() {
+    public void close() throws IOException {
         if (this.open) {
             this.connection.closeStream(true);
         }
         this.open = false;
     }
 
-    @Override
-    public int read(byte[] byArray, int n, int n2) {
+    public int read(byte[] byArray, int n, int n2) throws IOException {
         if (this.open) {
             if (byArray != null) {
                 if (n >= 0 && n2 >= 0 && n <= byArray.length && byArray.length - n >= n2) {
@@ -52,8 +49,7 @@ extends InputStream {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public int read() {
+    public int read() throws IOException {
         if (this.open) {
             CommInputStream commInputStream = this;
             synchronized (commInputStream) {

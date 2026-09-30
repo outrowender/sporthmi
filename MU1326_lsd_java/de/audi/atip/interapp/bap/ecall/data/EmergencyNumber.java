@@ -3,14 +3,12 @@
  */
 package de.audi.atip.interapp.bap.ecall.data;
 
-import de.audi.atip.interapp.bap.ecall.data.EmergencyNumber$Builder;
-
 public class EmergencyNumber {
     private String id;
     private String telNumber;
 
-    public static EmergencyNumber$Builder builder() {
-        return new EmergencyNumber$Builder();
+    public static Builder builder() {
+        return new Builder();
     }
 
     private EmergencyNumber(String string, String string2) {
@@ -49,7 +47,7 @@ public class EmergencyNumber {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         EmergencyNumber emergencyNumber = (EmergencyNumber)object;
@@ -57,6 +55,25 @@ public class EmergencyNumber {
             return false;
         }
         return !(this.telNumber == null ? emergencyNumber.telNumber != null : !this.telNumber.equals(emergencyNumber.telNumber));
+    }
+
+    public static final class Builder {
+        private String id;
+        private String telNumber;
+
+        public Builder setId(String string) {
+            this.id = string;
+            return this;
+        }
+
+        public Builder setTelNumber(String string) {
+            this.telNumber = string;
+            return this;
+        }
+
+        public EmergencyNumber build() {
+            return new EmergencyNumber(this.id, this.telNumber);
+        }
     }
 }
 

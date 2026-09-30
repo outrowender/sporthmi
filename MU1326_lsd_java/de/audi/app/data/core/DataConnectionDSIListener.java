@@ -3,11 +3,6 @@
  */
 package de.audi.app.data.core;
 
-import de.audi.app.data.core.DataConnectionDSIListener$1;
-import de.audi.app.data.core.DataConnectionDSIListener$2;
-import de.audi.app.data.core.DataConnectionDSIListener$3;
-import de.audi.app.data.core.DataConnectionDSIListener$4;
-import de.audi.app.data.core.DataConnectionDSIListener$5;
 import de.audi.app.data.core.DataConnectionDefaultListener;
 import de.audi.atip.log.LogChannel;
 import de.audi.tghu.command.CommandList;
@@ -33,52 +28,67 @@ ICommandResponseSupplier {
         this.log = logChannel;
     }
 
-    @Override
     public void asyncException(int n, String string, int n2) {
         this.log.log(10000, "DataConnectionDSIListener#asyncException(): called, error code: %2, error msg: %1, request type: %3 ", (Object)string, (long)n, (long)n2);
     }
 
-    @Override
-    public void updateStateDataConnection(DataConnectionStateStruct dataConnectionStateStruct, int n) {
-        CommandResponse.execute(this, new DataConnectionDSIListener$1(this, dataConnectionStateStruct, n));
+    public void updateStateDataConnection(final DataConnectionStateStruct dataConnectionStateStruct, final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIDataConnectionListener)dSIListener).updateStateDataConnection(dataConnectionStateStruct, n);
+            }
+        });
     }
 
-    @Override
-    public void updateConnectionStateInformation(ConnectionStateInformationStruct connectionStateInformationStruct, int n) {
-        CommandResponse.execute(this, new DataConnectionDSIListener$2(this, connectionStateInformationStruct, n));
+    public void updateConnectionStateInformation(final ConnectionStateInformationStruct connectionStateInformationStruct, final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIDataConnectionListener)dSIListener).updateConnectionStateInformation(connectionStateInformationStruct, n);
+            }
+        });
     }
 
-    @Override
-    public void updateRoamingState(int n, int n2) {
-        CommandResponse.execute(this, new DataConnectionDSIListener$3(this, n, n2));
+    public void updateRoamingState(final int n, final int n2) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIDataConnectionListener)dSIListener).updateRoamingState(n, n2);
+            }
+        });
     }
 
-    @Override
-    public void updateErrorState(ApplicationErrorStruct applicationErrorStruct, int n) {
-        CommandResponse.execute(this, new DataConnectionDSIListener$4(this, applicationErrorStruct, n));
+    public void updateErrorState(final ApplicationErrorStruct applicationErrorStruct, final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIDataConnectionListener)dSIListener).updateErrorState(applicationErrorStruct, n);
+            }
+        });
     }
 
-    @Override
-    public void forceDisconnectResponse(int n) {
-        CommandResponse.execute(this, new DataConnectionDSIListener$5(this, n));
+    public void forceDisconnectResponse(final int n) {
+        CommandResponse.execute(this, new CommandResponse(){
+
+            public void call(DSIListener dSIListener) {
+                ((DSIDataConnectionListener)dSIListener).forceDisconnectResponse(n);
+            }
+        });
     }
 
-    @Override
     public CommandList getActiveCommandList() {
         return this.cmdListManager.getActiveCommandList();
     }
 
-    @Override
     public DSIListener getDSIDefaultHandler() {
         return this.dataConnectionDefaultListener;
     }
 
-    @Override
     public String getHandlerName() {
-        return super.getClass().getName();
+        return this.getClass().getName();
     }
 
-    @Override
     public LogChannel getLogChannel() {
         return this.log;
     }

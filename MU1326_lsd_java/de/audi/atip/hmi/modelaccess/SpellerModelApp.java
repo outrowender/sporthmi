@@ -9,85 +9,66 @@ import de.audi.atip.hmi.modelaccess.HMIModelApp;
 
 public interface SpellerModelApp
 extends HMIModelApp {
-    public static final int BUTTON_DEFAULT;
-    public static final int BUTTON_OFF;
-    public static final int BUTTON_ON;
-    public static final int BUTTON_OK_SPELLER;
-    public static final int EXIT_DEFAULT;
-    public static final int EXIT_OK;
-    public static final int EXIT_LIST;
-    public static final int EXIT_IMPORT;
-    public static final int EXIT_OPTIONS;
-    public static final int EXIT_SEARCH;
-    public static final int EXIT_MAX;
-    public static final int EXIT_DTMF;
-    public static final int COMMAND_SPELLER_OPENED;
-    public static final int COMMAND_SPELLER_CLOSED;
-    public static final int COMMAND_INDEX_OK;
-    public static final int COMMAND_INDEX_DIAL;
-    public static final int COMMAND_INDEX_HANGUP;
-    public static final int COMMAND_INDEX_MUTE;
-    public static final int COMMAND_INDEX_ADD_CALL;
-    public static final int COMMAND_INDEX_MERGE_CALLS;
-    public static final int COMMAND_INDEX_SPLIT_CONFERENCE;
-    public static final int COMMAND_INDEX_MAIL_BOX;
-    public static final int COMMAND_COUNT;
+    public static final int BUTTON_DEFAULT = -1;
+    public static final int BUTTON_OFF = 0;
+    public static final int BUTTON_ON = 1;
+    public static final int BUTTON_OK_SPELLER = 7;
+    public static final int EXIT_DEFAULT = -1;
+    public static final int EXIT_OK = 0;
+    public static final int EXIT_LIST = 1;
+    public static final int EXIT_IMPORT = 2;
+    public static final int EXIT_OPTIONS = 3;
+    public static final int EXIT_SEARCH = 4;
+    public static final int EXIT_MAX = 5;
+    public static final int EXIT_DTMF = 6;
+    public static final int COMMAND_SPELLER_OPENED = 4711;
+    public static final int COMMAND_SPELLER_CLOSED = 4712;
+    public static final int COMMAND_INDEX_OK = 7;
+    public static final int COMMAND_INDEX_DIAL = 10;
+    public static final int COMMAND_INDEX_HANGUP = 11;
+    public static final int COMMAND_INDEX_MUTE = 12;
+    public static final int COMMAND_INDEX_ADD_CALL = 13;
+    public static final int COMMAND_INDEX_MERGE_CALLS = 14;
+    public static final int COMMAND_INDEX_SPLIT_CONFERENCE = 15;
+    public static final int COMMAND_INDEX_MAIL_BOX = 16;
+    public static final int COMMAND_COUNT = 17;
 
-    default public void setMaxLength(int n) {
-    }
+    public void setMaxLength(int var1);
 
-    default public int getMaxLength() {
-    }
+    public int getMaxLength();
 
-    default public void setMinLength(int n) {
-    }
+    public void setMinLength(int var1);
 
-    default public int getMinLength() {
-    }
+    public int getMinLength();
 
-    default public void setSpellerListener(SpellerListener spellerListener) {
-    }
+    public void setSpellerListener(SpellerListener var1);
 
-    default public void setText(String string) {
-    }
+    public void setText(String var1);
 
-    default public String getText() {
-    }
+    public String getText();
 
-    default public void setCountryAbbreviation(String string) {
-    }
+    public void setCountryAbbreviation(String var1);
 
-    default public String getCountryAbbreviation() {
-    }
+    public String getCountryAbbreviation();
 
-    default public void clear() {
-    }
+    public void clear();
 
-    default public void setControlButtonStates(int n, int n2) {
-    }
+    public void setControlButtonStates(int var1, int var2);
 
-    default public void setExitButtonText(int n) {
-    }
+    public void setExitButtonText(int var1);
 
-    default public void setCommandAvailable(int n, boolean bl) {
-    }
+    public void setCommandAvailable(int var1, boolean var2);
 
-    default public void setCompletionText(String string) {
-    }
+    public void setCompletionText(String var1);
 
-    default public String getCompletionText() {
-    }
+    public String getCompletionText();
 
-    default public void setSuggestions(String string, String string2) {
-    }
+    public void setSuggestions(String var1, String var2);
 
-    default public void setSpellerInitiallyOpen(boolean bl) {
-    }
+    public void setSpellerInitiallyOpen(boolean var1);
 
-    default public TouchEvent getTouchEventForFollowUpScreen() {
-    }
+    public TouchEvent getTouchEventForFollowUpScreen();
 
-    default public void setTouchEventForFollowUpScreen(TouchEvent touchEvent) {
-    }
+    public void setTouchEventForFollowUpScreen(TouchEvent var1);
 }
 

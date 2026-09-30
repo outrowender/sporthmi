@@ -4,7 +4,6 @@
 package de.audi.app.messaging.core.deletemessage;
 
 public interface IDeleteMessageControllerObserver {
-    default public void indicateDeleteSimMessagesState(int n) {
-    }
+    public void indicateDeleteSimMessagesState(int var1);
 }
 

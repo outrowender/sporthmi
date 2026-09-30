@@ -21,22 +21,19 @@ implements IMediaServiceListener {
         this.connectivityManager = iConnectivityManager;
     }
 
-    @Override
     public int getTerminalID() {
         return 0;
     }
 
-    @Override
     public void sourceAvailable(int n, boolean bl) {
-        this.log.log(1078071040, "CoMaMediaServiceListener#sourceAvailable(): sourceID: %1 available: %2", (Object)String.valueOf(n), (Object)String.valueOf(bl));
+        this.log.log(1000000, "CoMaMediaServiceListener#sourceAvailable(): sourceID: %1 available: %2", (Object)String.valueOf(n), (Object)String.valueOf(bl));
     }
 
-    @Override
     public void sourceListChanged(Map map) {
-        this.log.log(1078071040, "CoMaMediaServiceListener#sourceListChanged(): %1", (Object)map);
+        this.log.log(1000000, "CoMaMediaServiceListener#sourceListChanged(): %1", (Object)map);
         Object object = map.get(new Integer(12));
         if (object == null || !(object instanceof LinkedList)) {
-            this.log.log(-1601830656, "CoMaMediaServiceListener#sourceListChanged(): IMediaServiceListener sends invalid sourceList content");
+            this.log.log(100000, "CoMaMediaServiceListener#sourceListChanged(): IMediaServiceListener sends invalid sourceList content");
             return;
         }
         LinkedList linkedList = (LinkedList)object;
@@ -48,7 +45,7 @@ implements IMediaServiceListener {
         if (CoMaMediaServiceListener.isDifferentStrings(string, this.name)) {
             this.name = string;
             this.connectivityManager.updateUPnPState(string);
-            this.log.log(1078071040, "CoMaMediaServiceListener#sourceListChanged(): UPnP name: %1", (Object)string);
+            this.log.log(1000000, "CoMaMediaServiceListener#sourceListChanged(): UPnP name: %1", (Object)string);
         }
     }
 
@@ -59,20 +56,17 @@ implements IMediaServiceListener {
         return !string.equals(string2);
     }
 
-    @Override
     public void updateActiveSource(MediaSlotInfo mediaSlotInfo, boolean bl) {
         if (mediaSlotInfo != null && mediaSlotInfo.getSourceType() == 11) {
             this.connectivityManager.updateActiveMediaDevice(1, mediaSlotInfo.getName());
         } else {
-            this.log.log(-2137614336, "CoMaMediaServiceListener#updateActiveSource(): Source is no Bluetooth device.");
+            this.log.log(10000000, "CoMaMediaServiceListener#updateActiveSource(): Source is no Bluetooth device.");
         }
     }
 
-    @Override
     public void sourceDeactivated() {
     }
 
-    @Override
     public void updatePlaybackState(int n) {
     }
 }

@@ -6,7 +6,6 @@ package de.audi.app.car.core.comfort;
 import de.audi.app.car.common.app.ICarApplication;
 import de.audi.app.car.common.comp.CarDSIAttributesSet;
 import de.audi.app.car.common.service.CarServiceProvider;
-import de.audi.app.car.core.comfort.AbstractComfortInterappControlComponent$1;
 import de.audi.app.car.core.comfort.AbstractDSICarComfortAdapter;
 import de.audi.app.car.core.comfort.LGIDataDispatcher;
 import de.audi.atip.interapp.navcar.ILGIServiceListener;
@@ -20,15 +19,34 @@ import org.dsi.ifc.tmc.LocalHazardInformation;
 
 public abstract class AbstractComfortInterappControlComponent
 extends AbstractDSICarComfortAdapter {
-    public static final String LOGCHANNEL_NAME;
+    public static final String LOGCHANNEL_NAME = "App.Car.Comfort";
     private volatile RGSViewOptions currentViewOptions;
     private LGIDataDispatcher lgiDataDispatcher;
-    private final ILGIServiceListener lgiDataListener = new AbstractComfortInterappControlComponent$1(this);
+    private final ILGIServiceListener lgiDataListener = new ILGIServiceListener(){
+
+        public void updateLocalHazardInformation(LocalHazardInformation[] localHazardInformationArray) {
+            AbstractComfortInterappControlComponent.this.getLogChannel().log(1000000, "[AbstractComfortInterappControlComponent.ILGIServiceListener#updateLocalHazardInformation] called.");
+            if (null == localHazardInformationArray) {
+                AbstractComfortInterappControlComponent.this.getLogChannel().log(10000, "[AbstractComfortInterappControlComponent.ILGIServiceListener#updateLocalHazardInformation] Invalid parameter set.");
+                return;
+            }
+            if (null == AbstractComfortInterappControlComponent.this.lgiDataDispatcher) {
+                AbstractComfortInterappControlComponent.this.getLogChannel().log(10000, "[AbstractComfortInterappControlComponent.ILGIServiceListener#updateLocalHazardInformation] Dispatcher not yet initialized.");
+                return;
+            }
+            LocalHazardInformation[] localHazardInformationArray2 = AbstractComfortInterappControlComponent.this.filterForRelevantWarnings(localHazardInformationArray);
+            if (0 == localHazardInformationArray2.length) {
+                AbstractComfortInterappControlComponent.this.lgiDataDispatcher.updateRGSLocalHazardInformation(AbstractComfortInterappControlComponent.this.createRGSLocalHazardInformation());
+                return;
+            }
+            AbstractComfortInterappControlComponent.this.lgiDataDispatcher.updateRGSLocalHazardInformation(AbstractComfortInterappControlComponent.this.createRGSLocalHazardInformation(localHazardInformationArray2));
+        }
+    };
     private CarServiceProvider lgiDataServiceProvider;
     static /* synthetic */ Class class$de$audi$atip$interapp$navcar$ILGIServiceListener;
 
     public AbstractComfortInterappControlComponent(ICarApplication iCarApplication) {
-        super(iCarApplication, "App.Car.Comfort");
+        super(iCarApplication, LOGCHANNEL_NAME);
     }
 
     private RGSLocalHazardInformation[] createRGSLocalHazardInformation() {
@@ -60,7 +78,7 @@ extends AbstractDSICarComfortAdapter {
         Vector vector = new Vector();
         for (int i2 = 0; i2 < localHazardInformationArray.length; ++i2) {
             LocalHazardInformation localHazardInformation = localHazardInformationArray[i2];
-            if (null == localHazardInformation || 0 == localHazardInformation.getEventType() || 0 < localHazardInformation.getDistance()) continue;
+            if (null == localHazardInformation || 0 == localHazardInformation.getEventType() || 4080L < localHazardInformation.getDistance()) continue;
             vector.add(localHazardInformation);
         }
         return (LocalHazardInformation[])vector.toArray(new LocalHazardInformation[vector.size()]);
@@ -91,40 +109,32 @@ extends AbstractDSICarComfortAdapter {
         }
     }
 
-    @Override
     public String getName() {
         return "Comfort Interapp Control";
     }
 
-    @Override
     public CarDSIAttributesSet[] getDSIAttributesSets() {
         return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{1}, new int[0])};
     }
 
-    @Override
     public String getCurrentViewOptions() {
         Buffer buffer = new Buffer();
         buffer.append(null == this.currentViewOptions ? "No view options received yet" : this.currentViewOptions.toString());
         return buffer.toString();
     }
 
-    @Override
     protected void initModels() {
     }
 
-    @Override
     protected void deinitModels() {
     }
 
-    @Override
     protected void initVisibility() {
     }
 
-    @Override
     protected void deinitVisibility() {
     }
 
-    @Override
     protected void dsiAvailable(boolean bl) {
         super.dsiAvailable(bl);
         if (bl) {
@@ -144,31 +154,14 @@ extends AbstractDSICarComfortAdapter {
         }
     }
 
-    @Override
     public void updateRGSViewOptions(RGSViewOptions rGSViewOptions, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractAirconInterappComponent#updateAirconViewOptionsMaster] rGSViewOptions='%1', valid='%2'", (Object)(null != rGSViewOptions ? this.formatViewOptionsLog(rGSViewOptions.toString()) : "null"), (long)n);
+            this.getLogChannel().log(1000000, "[AbstractAirconInterappComponent#updateAirconViewOptionsMaster] rGSViewOptions='%1', valid='%2'", (Object)(null != rGSViewOptions ? this.formatViewOptionsLog(rGSViewOptions.toString()) : "null"), (long)n);
         }
         if (1 == n && null != rGSViewOptions) {
             this.currentViewOptions = rGSViewOptions;
             this.primaryAttributeFirstSetReceived();
         }
-    }
-
-    static /* synthetic */ LGIDataDispatcher access$000(AbstractComfortInterappControlComponent abstractComfortInterappControlComponent) {
-        return abstractComfortInterappControlComponent.lgiDataDispatcher;
-    }
-
-    static /* synthetic */ LocalHazardInformation[] access$100(AbstractComfortInterappControlComponent abstractComfortInterappControlComponent, LocalHazardInformation[] localHazardInformationArray) {
-        return abstractComfortInterappControlComponent.filterForRelevantWarnings(localHazardInformationArray);
-    }
-
-    static /* synthetic */ RGSLocalHazardInformation[] access$200(AbstractComfortInterappControlComponent abstractComfortInterappControlComponent) {
-        return abstractComfortInterappControlComponent.createRGSLocalHazardInformation();
-    }
-
-    static /* synthetic */ RGSLocalHazardInformation[] access$300(AbstractComfortInterappControlComponent abstractComfortInterappControlComponent, LocalHazardInformation[] localHazardInformationArray) {
-        return abstractComfortInterappControlComponent.createRGSLocalHazardInformation(localHazardInformationArray);
     }
 
     static /* synthetic */ Class class$(String string) {

@@ -4,7 +4,6 @@
 package de.audi.atip.interapp.tv;
 
 public interface ITVParentActivationService {
-    default public void activateSource(int n) {
-    }
+    public void activateSource(int var1);
 }
 

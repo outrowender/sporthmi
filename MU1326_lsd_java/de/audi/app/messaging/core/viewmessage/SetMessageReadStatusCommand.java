@@ -4,8 +4,8 @@
 package de.audi.app.messaging.core.viewmessage;
 
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
+import de.audi.app.messaging.core.commands.AbstractMessagingCommand;
 import de.audi.app.messaging.core.dsi.messaging.AbstractDsiMessagingCommand;
-import de.audi.app.messaging.core.viewmessage.SetMessageReadStatusCommand$1;
 import de.audi.tghu.command.Command;
 
 public final class SetMessageReadStatusCommand
@@ -19,9 +19,8 @@ extends AbstractDsiMessagingCommand {
         this.read = bl;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[SetMessageReadStatusCommand#execute]");
+        this.logger.log(10000000, "[SetMessageReadStatusCommand#execute]");
         try {
             this.dsiMessagingAccess.setMessageReadStatusRequest(this.messageID, this.read);
         }
@@ -31,9 +30,8 @@ extends AbstractDsiMessagingCommand {
         }
     }
 
-    @Override
     public void setMessageReadStatusResponse(int n) {
-        this.logger.log(-2137614336, "[SetMessageReadStatusCommand#setMessageReadStatusCommandResponse] result = %1", (long)n);
+        this.logger.log(10000000, "[SetMessageReadStatusCommand#setMessageReadStatusCommandResponse] result = %1", (long)n);
         this.signalResult(n == 0);
     }
 
@@ -42,7 +40,7 @@ extends AbstractDsiMessagingCommand {
      */
     private void signalResult(boolean bl) {
         try {
-            this.logger.log(-2137614336, "[SetMessageReadStatusCommand#signalResult] isResultOk = %1", bl);
+            this.logger.log(10000000, "[SetMessageReadStatusCommand#signalResult] isResultOk = %1", bl);
         }
         catch (Exception exception) {
             this.logException("[SetMessageReadStatusCommand#signalResult]", exception);
@@ -52,13 +50,14 @@ extends AbstractDsiMessagingCommand {
         }
     }
 
-    @Override
     public Command getErrorCommand() {
-        return new SetMessageReadStatusCommand$1(this, this.msgApp);
-    }
+        return new AbstractMessagingCommand(this.msgApp){
 
-    static /* synthetic */ void access$000(SetMessageReadStatusCommand setMessageReadStatusCommand, boolean bl) {
-        setMessageReadStatusCommand.signalResult(bl);
+            public void execute() {
+                this.logger.log(10000000, "[SetMessageReadStatusErrorCommand#execute]");
+                SetMessageReadStatusCommand.this.signalResult(false);
+            }
+        };
     }
 }
 

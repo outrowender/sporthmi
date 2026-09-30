@@ -22,37 +22,31 @@ implements DSIBase {
         this.logClass = string;
     }
 
-    @Override
     public void setNotification(int[] nArray, DSIListener dSIListener) {
         this.lc.log(this.level, "-> [%1.setNotification] attributes %2, listener %3", (Object)this.logClass, (Object)Arrays2.toString(nArray), (Object)dSIListener);
         this.wrappee.setNotification(nArray, dSIListener);
     }
 
-    @Override
     public void setNotification(int n, DSIListener dSIListener) {
         this.lc.log(this.level, "-> [%1.setNotification] attribute %2, listener %3", (Object)this.logClass, (Object)Integer.toString(n), (Object)dSIListener);
         this.wrappee.setNotification(n, dSIListener);
     }
 
-    @Override
     public void setNotification(DSIListener dSIListener) {
         this.lc.log(this.level, "-> [%1.setNotification] %2", (Object)this.logClass, (Object)dSIListener);
         this.wrappee.setNotification(dSIListener);
     }
 
-    @Override
     public void clearNotification(int[] nArray, DSIListener dSIListener) {
         this.lc.log(this.level, "-> [%1.clearNotification] attributes %2, listener %3", (Object)this.logClass, (Object)Arrays2.toString(nArray), (Object)dSIListener);
         this.wrappee.clearNotification(nArray, dSIListener);
     }
 
-    @Override
     public void clearNotification(int n, DSIListener dSIListener) {
         this.lc.log(this.level, "-> [%1.clearNotification] attribute %2, listener %3", (Object)this.logClass, (Object)Integer.toString(n), (Object)dSIListener);
         this.wrappee.clearNotification(n, dSIListener);
     }
 
-    @Override
     public void clearNotification(DSIListener dSIListener) {
         this.lc.log(this.level, "-> [%1.clearNotification] %2", (Object)this.logClass, (Object)dSIListener);
         this.wrappee.clearNotification(dSIListener);

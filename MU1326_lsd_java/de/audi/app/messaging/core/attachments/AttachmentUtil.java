@@ -7,17 +7,17 @@ import de.audi.app.messaging.core.util.Strings;
 import org.dsi.ifc.messaging.AttachmentInformation;
 
 public final class AttachmentUtil {
-    private static final String MIME_TYPE_VCARD;
-    private static final String MIME_TYPE_X_VCARD;
-    private static final String VCARD_SUFFIX;
+    private static final String MIME_TYPE_VCARD = "text/vcard";
+    private static final String MIME_TYPE_X_VCARD = "text/x-vcard";
+    private static final String VCARD_SUFFIX = ".vcf";
 
     public static boolean isVCardAttachment(AttachmentInformation attachmentInformation) {
         String string = attachmentInformation.getMimeType();
         boolean bl = false;
         if (!Strings.isNullOrEmpty(attachmentInformation.getName())) {
-            bl = attachmentInformation.getName().endsWith(".vcf");
+            bl = attachmentInformation.getName().endsWith(VCARD_SUFFIX);
         }
-        return "text/vcard".equals(string) || "text/x-vcard".equals(string) || bl;
+        return MIME_TYPE_VCARD.equals(string) || MIME_TYPE_X_VCARD.equals(string) || bl;
     }
 
     public static boolean isSupportedAttachment(AttachmentInformation attachmentInformation) {

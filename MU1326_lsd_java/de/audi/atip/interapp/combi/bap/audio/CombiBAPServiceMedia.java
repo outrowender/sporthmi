@@ -10,34 +10,24 @@ import de.audi.atip.interapp.combi.bap.audio.data.PlayPosition;
 
 public interface CombiBAPServiceMedia
 extends CombiBAPServiceAudio {
-    default public void updateSourceListMedia(int[] nArray, CombiBAPAudioSource[][] combiBAPAudioSourceArray) {
-    }
+    public void updateSourceListMedia(int[] var1, CombiBAPAudioSource[][] var2);
 
-    default public void updateCurrentBrowseFolder(int n, String string, int n2, int n3, int n4) {
-    }
+    public void updateCurrentBrowseFolder(int var1, String var2, int var3, int var4, int var5);
 
-    default public void trackChangeIsComing() {
-    }
+    public void trackChangeIsComing();
 
-    default public void updateBrowserListSize(int n) {
-    }
+    public void updateBrowserListSize(int var1);
 
-    default public void responseMediaBrowserList(int n, CombiBAPMediaBrowserListEntry[] combiBAPMediaBrowserListEntryArray) {
-    }
+    public void responseMediaBrowserList(int var1, CombiBAPMediaBrowserListEntry[] var2);
 
-    default public void updatePlaybackFolder(boolean bl) {
-    }
+    public void updatePlaybackFolder(boolean var1);
 
-    default public void goToResult(int n, int n2) {
-    }
+    public void goToResult(int var1, int var2);
 
-    default public void updateMediaImportState(int n, int n2, boolean bl, int n3) {
-    }
+    public void updateMediaImportState(int var1, int var2, boolean var3, int var4);
 
-    default public void responseCoverArt(long l, int n, String string, int n2) {
-    }
+    public void responseCoverArt(long var1, int var3, String var4, int var5);
 
-    default public void updatePlayPosition(PlayPosition playPosition) {
-    }
+    public void updatePlayPosition(PlayPosition var1);
 }
 

@@ -19,35 +19,27 @@ extends AbstractListAdapterFastList {
         super(arrayHandler);
     }
 
-    @Override
     public int[] getDSINotifications() {
         return new int[0];
     }
 
-    @Override
     protected final DSIListener getDSIListener() {
         return this.dsiListener;
     }
 
-    @Override
     protected final Class getDSIListenerClass() {
         return class$org$dsi$ifc$kombifastlist$DSIFastListScrollingTelephoneListener == null ? (class$org$dsi$ifc$kombifastlist$DSIFastListScrollingTelephoneListener = AbstractListAdapterFastListPhone.class$("org.dsi.ifc.kombifastlist.DSIFastListScrollingTelephoneListener")) : class$org$dsi$ifc$kombifastlist$DSIFastListScrollingTelephoneListener;
     }
 
-    public abstract void setNotificationFavoriteList(boolean bl) {
-    }
+    public abstract void setNotificationFavoriteList(boolean var1);
 
-    public abstract void setNotificationCombinedNumbers(boolean bl) {
-    }
+    public abstract void setNotificationCombinedNumbers(boolean var1);
 
-    public abstract void setNotificationCurrentListSizes(boolean bl) {
-    }
+    public abstract void setNotificationCurrentListSizes(boolean var1);
 
-    public abstract void addPhonebookJob(int n, int n2, ArrayHeader arrayHeader) {
-    }
+    public abstract void addPhonebookJob(int var1, int var2, ArrayHeader var3);
 
-    public abstract void addPhonebookJobs(int n, int n2, ArrayHeader[] arrayHeaderArray) {
-    }
+    public abstract void addPhonebookJobs(int var1, int var2, ArrayHeader[] var3);
 
     static /* synthetic */ Class class$(String string) {
         try {

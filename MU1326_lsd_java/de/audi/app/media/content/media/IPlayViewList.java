@@ -9,27 +9,20 @@ import de.audi.app.media.content.media.IPlayerViewListener;
 public interface IPlayViewList
 extends IPlayerTrackListener,
 IPlayerViewListener {
-    public static final int INVALID_LIST_SIZE;
+    public static final int INVALID_LIST_SIZE = -1;
 
-    default public void activate() {
-    }
+    public void activate();
 
-    default public void deactivate() {
-    }
+    public void deactivate();
 
-    default public int getListSize() {
-    }
+    public int getListSize();
 
-    default public void setAutomaticCursorMerge(boolean bl) {
-    }
+    public void setAutomaticCursorMerge(boolean var1);
 
-    default public void blockList() {
-    }
+    public void blockList();
 
-    default public void unblockList() {
-    }
+    public void unblockList();
 
-    default public void clear() {
-    }
+    public void clear();
 }
 

@@ -13,124 +13,85 @@ import de.audi.atip.hmi.view.Screen;
 import java.io.PrintStream;
 
 public interface IScreenManager {
-    public static final boolean IS_ANIMATED_SCREEN_CHANGE;
-    public static final boolean ALWAYS_DISCONNECT_ON_SCREEN_CHANGE;
+    public static final boolean IS_ANIMATED_SCREEN_CHANGE = true;
+    public static final boolean ALWAYS_DISCONNECT_ON_SCREEN_CHANGE = true;
 
-    default public int getCurrentScreenId() {
-    }
+    public int getCurrentScreenId();
 
-    default public Screen getCurrentConnectedScreen() {
-    }
+    public Screen getCurrentConnectedScreen();
 
-    default public void lockCurrentConnectedScreen(boolean bl) {
-    }
+    public void lockCurrentConnectedScreen(boolean var1);
 
-    default public void showScreen(IScreenData iScreenData) {
-    }
+    public void showScreen(IScreenData var1);
 
-    default public void setFallbackScreen(Screen screen) {
-    }
+    public void setFallbackScreen(Screen var1);
 
-    default public IScreenData getFallbackScreenData() {
-    }
+    public IScreenData getFallbackScreenData();
 
-    default public boolean isScreenAvailable() {
-    }
+    public boolean isScreenAvailable();
 
-    default public Screen getScreen(IScreenData iScreenData) {
-    }
+    public Screen getScreen(IScreenData var1);
 
-    default public void dump(PrintStream printStream, String string) {
-    }
+    public void dump(PrintStream var1, String var2);
 
-    default public IModelConnectService getModelConnectService() {
-    }
+    public IModelConnectService getModelConnectService();
 
-    default public void refresh() {
-    }
+    public void refresh();
 
-    default public IScreenData getCurrentConnectedScreenData() {
-    }
+    public IScreenData getCurrentConnectedScreenData();
 
-    default public IScreenData getPreviousConnectedScreenData() {
-    }
+    public IScreenData getPreviousConnectedScreenData();
 
-    default public IScreenData getCurrentScreenData() {
-    }
+    public IScreenData getCurrentScreenData();
 
-    default public void showPartialPopups(int n, int[] nArray) {
-    }
+    public void showPartialPopups(int var1, int[] var2);
 
-    default public void removePartialPopups(int n, int[] nArray) {
-    }
+    public void removePartialPopups(int var1, int[] var2);
 
-    default public boolean isScreenChangeAnimationRunning(int n) {
-    }
+    public boolean isScreenChangeAnimationRunning(int var1);
 
-    default public IScreenChangeManager getScreenChangeUnit() {
-    }
+    public IScreenChangeManager getScreenChangeUnit();
 
-    default public void setScreenChangeUnit(IScreenChangeManager iScreenChangeManager) {
-    }
+    public void setScreenChangeUnit(IScreenChangeManager var1);
 
-    default public ITerminalContext getTerminalContext() {
-    }
+    public ITerminalContext getTerminalContext();
 
-    default public boolean isCurrentConnectedScreen(int n) {
-    }
+    public boolean isCurrentConnectedScreen(int var1);
 
-    default public IScreenData getTargetScreenData() {
-    }
+    public IScreenData getTargetScreenData();
 
-    default public void clearPendingScreenChange() {
-    }
+    public void clearPendingScreenChange();
 
-    default public void setPendingScreenChange(IScreenData iScreenData) {
-    }
+    public void setPendingScreenChange(IScreenData var1);
 
-    default public int getPendingScreenId() {
-    }
+    public int getPendingScreenId();
 
-    default public Screen getPendingScreen() {
-    }
+    public Screen getPendingScreen();
 
-    default public IScreenData getPendingScreenData() {
-    }
+    public IScreenData getPendingScreenData();
 
-    default public boolean isClusterAnScreenHidden(Screen screen) {
-    }
+    public boolean isClusterAnScreenHidden(Screen var1);
 
-    default public void clearCurrentConnectedScreenData() {
-    }
+    public void clearCurrentConnectedScreenData();
 
-    default public void setCurrentConnectedScreenData(IScreenData iScreenData) {
-    }
+    public void setCurrentConnectedScreenData(IScreenData var1);
 
-    default public void setCurrentScreenData(IScreenData iScreenData) {
-    }
+    public void setCurrentScreenData(IScreenData var1);
 
-    default public boolean isCurrentScreen(int n) {
-    }
+    public boolean isCurrentScreen(int var1);
 
-    default public boolean isScreenChangePending() {
-    }
+    public boolean isScreenChangePending();
 
-    default public void logToInfotainmentRecorder(int n) {
-    }
+    public void logToInfotainmentRecorder(int var1);
 
-    default public int getCurrentConnectedScreenId() {
-    }
+    public int getCurrentConnectedScreenId();
 
-    default public boolean isCluster() {
-    }
+    public boolean isCluster();
 
-    default public EventDispatcherAdmin getEventDispatcherAdmin() {
-    }
+    public EventDispatcherAdmin getEventDispatcherAdmin();
 
-    default public IFrameworkAccess getFramework() {
-    }
+    public IFrameworkAccess getFramework();
 
-    default public boolean removePartialPopupFromScreenData(int n, int n2) {
-    }
+    public boolean removePartialPopupFromScreenData(int var1, int var2);
 }
 

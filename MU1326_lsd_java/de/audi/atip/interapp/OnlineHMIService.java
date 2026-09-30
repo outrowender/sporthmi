@@ -4,12 +4,11 @@
 package de.audi.atip.interapp;
 
 public interface OnlineHMIService {
-    public static final int REMOTEHMI_LISTINPUT_ITEMTYPE_TEXTFIELD;
-    public static final int REMOTEHMI_LISTINPUT_ITEMTYPE_CHECKBOX;
-    public static final int REMOTEHMI_LISTINPUT_ITEMTYPE_ACTION;
-    public static final int REMOTEHMI_LISTINPUT_ITEMTYPE_PULLDOWN;
+    public static final int REMOTEHMI_LISTINPUT_ITEMTYPE_TEXTFIELD = 0;
+    public static final int REMOTEHMI_LISTINPUT_ITEMTYPE_CHECKBOX = 1;
+    public static final int REMOTEHMI_LISTINPUT_ITEMTYPE_ACTION = 2;
+    public static final int REMOTEHMI_LISTINPUT_ITEMTYPE_PULLDOWN = 3;
 
-    default public void updateRemoteHmiListInputScreenConfiguration(int[] nArray) {
-    }
+    public void updateRemoteHmiListInputScreenConfiguration(int[] var1);
 }
 

@@ -26,38 +26,32 @@ CarServiceTrackerListener {
         this.storedValues = new HashMap();
     }
 
-    @Override
     public void init() {
-        this.getLogChannel().log(1078071040, "[SDISConnector#init]");
+        this.getLogChannel().log(1000000, "[SDISConnector#init]");
         this.sdisCarStatusTracker.startTracking();
     }
 
-    @Override
     public void deinit() {
-        this.getLogChannel().log(1078071040, "[SDISConnector#deinit]");
+        this.getLogChannel().log(1000000, "[SDISConnector#deinit]");
         this.sdisCarStatusTracker.stopTracking();
     }
 
-    @Override
     public ISDISCarInfoDistributor getSDISCarInfoDistributor() {
         return this.statusDataDistributor;
     }
 
-    @Override
     public void serviceAvailable(Object object) {
-        this.getLogChannel().log(1078071040, "[SDISConnector#serviceAvailable] CAR SDIS service found");
+        this.getLogChannel().log(1000000, "[SDISConnector#serviceAvailable] CAR SDIS service found");
         if (object instanceof ISDISCarInfoDistributor) {
             this.statusDataDistributor = (ISDISCarInfoDistributor)object;
             this.statusDataDistributor.init(this.storedValues);
         }
     }
 
-    @Override
     public void serviceRemoved() {
         this.getLogChannel().log(1000, "[SDISConnector#serviceRemoved] service to CAR SDIS lost");
     }
 
-    @Override
     public String[] getTrackedServiceClazzName() {
         return new String[]{(class$de$audi$app$car$common$sdis$interapp$ISDISCarInfoDistributor == null ? (class$de$audi$app$car$common$sdis$interapp$ISDISCarInfoDistributor = SDISConnector.class$("de.audi.app.car.common.sdis.interapp.ISDISCarInfoDistributor")) : class$de$audi$app$car$common$sdis$interapp$ISDISCarInfoDistributor).getName()};
     }
@@ -66,7 +60,6 @@ CarServiceTrackerListener {
         return this.logChannel;
     }
 
-    @Override
     public void storeValue(int n, Object object) {
         Integer n2 = new Integer(n);
         if (!this.storedValues.containsKey(n2)) {

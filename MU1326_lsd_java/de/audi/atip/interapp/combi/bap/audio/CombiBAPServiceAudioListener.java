@@ -7,37 +7,27 @@ import de.audi.atip.interapp.combi.bap.CombiBAPServiceListener;
 
 public interface CombiBAPServiceAudioListener
 extends CombiBAPServiceListener {
-    public static final int SEEK_FORWARD;
-    public static final int SEEK_BACKWARD;
+    public static final int SEEK_FORWARD = 0;
+    public static final int SEEK_BACKWARD = 1;
 
-    default public void switchSource(int n, int n2, int n3) {
-    }
+    public void switchSource(int var1, int var2, int var3);
 
-    default public void setActiveSourceState(int n, int n2) {
-    }
+    public void setActiveSourceState(int var1, int var2);
 
-    default public void selectListEntry(int n) {
-    }
+    public void selectListEntry(int var1);
 
-    default public void selectListEntryPresetList(int n) {
-    }
+    public void selectListEntryPresetList(int var1);
 
-    default public void skip(int n) {
-    }
+    public void skip(int var1);
 
-    default public void startSeek(int n) {
-    }
+    public void startSeek(int var1);
 
-    default public void cancelSeek() {
-    }
+    public void cancelSeek();
 
-    default public void setPreferredList(int n) {
-    }
+    public void setPreferredList(int var1);
 
-    default public void getNextListPos(int n, int n2) {
-    }
+    public void getNextListPos(int var1, int var2);
 
-    default public void activateSource(int n) {
-    }
+    public void activateSource(int var1);
 }
 

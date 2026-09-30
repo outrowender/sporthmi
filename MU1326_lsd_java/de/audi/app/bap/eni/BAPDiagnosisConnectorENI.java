@@ -17,19 +17,12 @@ import de.audi.app.bap.utils.LoggingUtils;
 import de.audi.atip.interapp.bap.eni.BAPServiceENI;
 import de.audi.atip.interapp.bap.eni.BAPServiceENIListener;
 import de.audi.atip.interapp.bap.eni.data.Address;
-import de.audi.atip.interapp.bap.eni.data.Address$Builder;
 import de.audi.atip.interapp.bap.eni.data.Destination;
-import de.audi.atip.interapp.bap.eni.data.Destination$Builder;
 import de.audi.atip.interapp.bap.eni.data.License;
-import de.audi.atip.interapp.bap.eni.data.License$Builder;
 import de.audi.atip.interapp.bap.eni.data.Monitorings;
-import de.audi.atip.interapp.bap.eni.data.Monitorings$Builder;
 import de.audi.atip.interapp.bap.eni.data.RemoteProcessState;
-import de.audi.atip.interapp.bap.eni.data.RemoteProcessState$Builder;
 import de.audi.atip.interapp.bap.eni.data.Service;
-import de.audi.atip.interapp.bap.eni.data.Service$Builder;
 import de.audi.atip.interapp.bap.eni.data.SupportedRemoteProcesses;
-import de.audi.atip.interapp.bap.eni.data.SupportedRemoteProcesses$Builder;
 import de.audi.atip.interapp.bap.eni.data.User;
 import de.esolutions.fw.util.commons.Buffer;
 import de.mib.swdiagnosis.bap.AbstractBAPDiagnosisConnectorASG;
@@ -49,14 +42,14 @@ import java.util.Iterator;
 
 public final class BAPDiagnosisConnectorENI
 extends AbstractBAPDiagnosisConnectorASG {
-    private static final String SERVICE_ID_CARFINDER;
-    private static final String SERVICE_ID_REMOTE_HEATING;
-    private static final String SERVICE_ID_SPEED_ALERT;
-    private static final String SERVICE_ID_VALET_ALERT;
-    private static final String SERVICE_ID_GEO_ALERT;
-    private static final String SERVICE_ID_ECALL;
-    private static final String SERVICE_ID_DWA_PUSH;
-    private static final String SERVICE_ID_MOBILE_KEY;
+    private static final String SERVICE_ID_CARFINDER = "carfinder_v1";
+    private static final String SERVICE_ID_REMOTE_HEATING = "rheating_v1";
+    private static final String SERVICE_ID_SPEED_ALERT = "speedalert_v1";
+    private static final String SERVICE_ID_VALET_ALERT = "valetalert_v1";
+    private static final String SERVICE_ID_GEO_ALERT = "geofence_v1";
+    private static final String SERVICE_ID_ECALL = "ecall_v1";
+    private static final String SERVICE_ID_DWA_PUSH = "dwap";
+    private static final String SERVICE_ID_MOBILE_KEY = "mobile_key";
 
     public BAPDiagnosisConnectorENI(AbstractBAPApplication abstractBAPApplication, AbstractBAPModuleASG abstractBAPModuleASG) {
         super(abstractBAPApplication, abstractBAPModuleASG, "AppBapENI");
@@ -167,9 +160,9 @@ extends AbstractBAPDiagnosisConnectorASG {
     }
 
     public void cmdDeleteDestination(int n) {
-        Destination$Builder destination$Builder = Destination.builder();
-        destination$Builder.setInternalId(n);
-        this.eni().deleteDestination(destination$Builder.build());
+        Destination.Builder builder = Destination.builder();
+        builder.setInternalId(n);
+        this.eni().deleteDestination(builder.build());
     }
 
     public void cmdRemoteProcessUpdateUserList() {
@@ -189,32 +182,32 @@ extends AbstractBAPDiagnosisConnectorASG {
     }
 
     public void cmdRemoteProcessConfirmExpirationWarningForService(String string) {
-        License$Builder license$Builder = License.builder();
-        license$Builder.setActivationDate("201412011000Z");
-        license$Builder.setExpirationDate("201612011000Z");
-        license$Builder.setId("");
-        license$Builder.setState(2);
-        license$Builder.setValidityDuration("000201011000Z");
-        Service$Builder service$Builder = Service.builder();
-        service$Builder.setLicense(license$Builder.build());
-        service$Builder.setId(string);
-        this.eni().remoteProcessConfirmExpirationWarningForService(service$Builder.build());
+        License.Builder builder = License.builder();
+        builder.setActivationDate("201412011000Z");
+        builder.setExpirationDate("201612011000Z");
+        builder.setId("");
+        builder.setState(2);
+        builder.setValidityDuration("000201011000Z");
+        Service.Builder builder2 = Service.builder();
+        builder2.setLicense(builder.build());
+        builder2.setId(string);
+        this.eni().remoteProcessConfirmExpirationWarningForService(builder2.build());
     }
 
     public void cmdRemoteProcessConfirmExpirationWarningForServices(String string, String string2) {
-        License$Builder license$Builder = License.builder();
-        license$Builder.setActivationDate("201412011000Z");
-        license$Builder.setExpirationDate("201612011000Z");
-        license$Builder.setId("carfinder_v1");
-        license$Builder.setState(2);
-        license$Builder.setValidityDuration("000201011000Z");
-        Service$Builder service$Builder = Service.builder();
-        service$Builder.setId(string);
-        service$Builder.setLicense(license$Builder.build());
-        Service service = service$Builder.build();
-        service$Builder.setId(string2);
-        service$Builder.setLicense(license$Builder.build());
-        Service service2 = service$Builder.build();
+        License.Builder builder = License.builder();
+        builder.setActivationDate("201412011000Z");
+        builder.setExpirationDate("201612011000Z");
+        builder.setId(SERVICE_ID_CARFINDER);
+        builder.setState(2);
+        builder.setValidityDuration("000201011000Z");
+        Service.Builder builder2 = Service.builder();
+        builder2.setId(string);
+        builder2.setLicense(builder.build());
+        Service service = builder2.build();
+        builder2.setId(string2);
+        builder2.setLicense(builder.build());
+        Service service2 = builder2.build();
         Service[] serviceArray = new Service[]{service, service2};
         this.eni().remoteProcessConfirmExpirationWarningForServices(serviceArray);
     }
@@ -228,35 +221,35 @@ extends AbstractBAPDiagnosisConnectorASG {
     }
 
     public void cmdEnableService(int n, String string) {
-        License$Builder license$Builder = License.builder();
-        license$Builder.setActivationDate("201412011000Z");
-        license$Builder.setExpirationDate("201612011000Z");
-        license$Builder.setId("license id");
-        license$Builder.setState(2);
-        license$Builder.setValidityDuration("000201011000Z");
-        Service$Builder service$Builder = Service.builder();
-        service$Builder.setInternalId(n);
-        service$Builder.setId(string);
-        service$Builder.setName("name");
-        service$Builder.setVersion("version");
-        service$Builder.setLicense(license$Builder.build());
-        this.eni().enableService(service$Builder.build());
+        License.Builder builder = License.builder();
+        builder.setActivationDate("201412011000Z");
+        builder.setExpirationDate("201612011000Z");
+        builder.setId("license id");
+        builder.setState(2);
+        builder.setValidityDuration("000201011000Z");
+        Service.Builder builder2 = Service.builder();
+        builder2.setInternalId(n);
+        builder2.setId(string);
+        builder2.setName("name");
+        builder2.setVersion("version");
+        builder2.setLicense(builder.build());
+        this.eni().enableService(builder2.build());
     }
 
     public void cmdDisableService(int n, String string) {
-        License$Builder license$Builder = License.builder();
-        license$Builder.setActivationDate("201412011000Z");
-        license$Builder.setExpirationDate("201612011000Z");
-        license$Builder.setId("license id");
-        license$Builder.setState(2);
-        license$Builder.setValidityDuration("000201011000Z");
-        Service$Builder service$Builder = Service.builder();
-        service$Builder.setInternalId(n);
-        service$Builder.setId(string);
-        service$Builder.setName("name");
-        service$Builder.setVersion("version");
-        service$Builder.setLicense(license$Builder.build());
-        this.eni().disableService(service$Builder.build());
+        License.Builder builder = License.builder();
+        builder.setActivationDate("201412011000Z");
+        builder.setExpirationDate("201612011000Z");
+        builder.setId("license id");
+        builder.setState(2);
+        builder.setValidityDuration("000201011000Z");
+        Service.Builder builder2 = Service.builder();
+        builder2.setInternalId(n);
+        builder2.setId(string);
+        builder2.setName("name");
+        builder2.setVersion("version");
+        builder2.setLicense(builder.build());
+        this.eni().disableService(builder2.build());
     }
 
     public void cmdEnablePrivacyMode() {
@@ -268,14 +261,14 @@ extends AbstractBAPDiagnosisConnectorASG {
     }
 
     public void cmdOnDestinationList(String string, String string2, String string3, String string4) {
-        Address$Builder address$Builder = Address.builder();
-        address$Builder.setStreet(string);
-        address$Builder.setNumber(string2);
-        address$Builder.setPostalCode(string3);
-        address$Builder.setCity(string4);
-        Destination$Builder destination$Builder = Destination.builder();
-        destination$Builder.setAddress(address$Builder.build());
-        Destination[] destinationArray = new Destination[]{destination$Builder.build()};
+        Address.Builder builder = Address.builder();
+        builder.setStreet(string);
+        builder.setNumber(string2);
+        builder.setPostalCode(string3);
+        builder.setCity(string4);
+        Destination.Builder builder2 = Destination.builder();
+        builder2.setAddress(builder.build());
+        Destination[] destinationArray = new Destination[]{builder2.build()};
         this.eniListener().onDestinationList(destinationArray);
     }
 
@@ -290,37 +283,37 @@ extends AbstractBAPDiagnosisConnectorASG {
     }
 
     public void cmdOnSupportedRemoteProcesses(boolean bl, boolean bl2, boolean bl3, boolean bl4, boolean bl5, boolean bl6) {
-        SupportedRemoteProcesses$Builder supportedRemoteProcesses$Builder = SupportedRemoteProcesses.builder();
-        supportedRemoteProcesses$Builder.setUpdateUserListSupported(bl);
-        supportedRemoteProcesses$Builder.setDeleteUserListSupported(bl2);
-        supportedRemoteProcesses$Builder.setPairMainUserUsingPairingCodeSupported(bl3);
-        supportedRemoteProcesses$Builder.setPairMainUserUsingVehiclePinSupported(bl4);
-        supportedRemoteProcesses$Builder.setConfirmServiceExpirationWarningSupported(bl5);
-        supportedRemoteProcesses$Builder.setTerminateRemoteProcessSupported(bl6);
-        this.eniListener().onSupportedRemoteProcesses(supportedRemoteProcesses$Builder.build());
+        SupportedRemoteProcesses.Builder builder = SupportedRemoteProcesses.builder();
+        builder.setUpdateUserListSupported(bl);
+        builder.setDeleteUserListSupported(bl2);
+        builder.setPairMainUserUsingPairingCodeSupported(bl3);
+        builder.setPairMainUserUsingVehiclePinSupported(bl4);
+        builder.setConfirmServiceExpirationWarningSupported(bl5);
+        builder.setTerminateRemoteProcessSupported(bl6);
+        this.eniListener().onSupportedRemoteProcesses(builder.build());
     }
 
     public void cmdOnRemoteProcessState(int n, int n2, int n3, int n4) {
-        RemoteProcessState$Builder remoteProcessState$Builder = RemoteProcessState.builder();
-        remoteProcessState$Builder.setRemoteProcessKind(n);
-        remoteProcessState$Builder.setState(n2);
-        remoteProcessState$Builder.setExceptionState(n3);
-        remoteProcessState$Builder.setUserListRequestInfo(n4);
-        this.eniListener().onRemoteProcessState(remoteProcessState$Builder.build());
+        RemoteProcessState.Builder builder = RemoteProcessState.builder();
+        builder.setRemoteProcessKind(n);
+        builder.setState(n2);
+        builder.setExceptionState(n3);
+        builder.setUserListRequestInfo(n4);
+        this.eniListener().onRemoteProcessState(builder.build());
     }
 
     public void cmdOnErrorNoVerifiedAccount() {
-        RemoteProcessState$Builder remoteProcessState$Builder = RemoteProcessState.builder();
-        remoteProcessState$Builder.setRemoteProcessKind(4);
-        remoteProcessState$Builder.setState(4);
-        remoteProcessState$Builder.setExceptionState(10);
-        remoteProcessState$Builder.setUserListRequestInfo(3);
-        System.out.println(new StringBuffer().append(" Pin retry remaining ").append(remoteProcessState$Builder.build().getPinRetryRemainingCount()).toString());
-        System.out.println(new StringBuffer().append(" RemoteProcessKind ").append(remoteProcessState$Builder.build().getRemoteProcessKind()).toString());
-        System.out.println(new StringBuffer().append(" State ").append(remoteProcessState$Builder.build().getState()).toString());
-        System.out.println(new StringBuffer().append(" ExceptionState ").append(remoteProcessState$Builder.build().getExceptionState()).toString());
-        System.out.println(new StringBuffer().append(" UserListRequestInfo ").append(remoteProcessState$Builder.build().getUserListRequestInfo()).toString());
-        this.eniListener().onRemoteProcessState(remoteProcessState$Builder.build());
+        RemoteProcessState.Builder builder = RemoteProcessState.builder();
+        builder.setRemoteProcessKind(4);
+        builder.setState(4);
+        builder.setExceptionState(10);
+        builder.setUserListRequestInfo(3);
+        System.out.println(" Pin retry remaining " + builder.build().getPinRetryRemainingCount());
+        System.out.println(" RemoteProcessKind " + builder.build().getRemoteProcessKind());
+        System.out.println(" State " + builder.build().getState());
+        System.out.println(" ExceptionState " + builder.build().getExceptionState());
+        System.out.println(" UserListRequestInfo " + builder.build().getUserListRequestInfo());
+        this.eniListener().onRemoteProcessState(builder.build());
     }
 
     public void cmdOnUserListChangedArray() {
@@ -359,11 +352,11 @@ extends AbstractBAPDiagnosisConnectorASG {
     }
 
     public void cmdOnMonitorings(boolean bl, boolean bl2, boolean bl3) {
-        Monitorings$Builder monitorings$Builder = Monitorings.builder();
-        monitorings$Builder.setGeofenceEnabled(bl);
-        monitorings$Builder.setSpeedAlertEnabled(bl2);
-        monitorings$Builder.setValetAlertEnabled(bl3);
-        this.eniListener().onMonitorings(monitorings$Builder.build());
+        Monitorings.Builder builder = Monitorings.builder();
+        builder.setGeofenceEnabled(bl);
+        builder.setSpeedAlertEnabled(bl2);
+        builder.setValetAlertEnabled(bl3);
+        this.eniListener().onMonitorings(builder.build());
     }
 
     public void cmdReceiveDestinationList() {
@@ -379,38 +372,38 @@ extends AbstractBAPDiagnosisConnectorASG {
     }
 
     public void cmdReceiveServiceListFull() {
-        Service service = BAPDiagnosisConnectorENI.serviceFromDiagnosticsUIParameters("mobile_key", "mobile_key", true, true, false, 2, false, true);
-        Service service2 = BAPDiagnosisConnectorENI.serviceFromDiagnosticsUIParameters("carfinder_v1", "carfinder_v1", true, true, false, 2, false, true);
-        Service service3 = BAPDiagnosisConnectorENI.serviceFromDiagnosticsUIParameters("rheating_v1", "rheating_v1", true, true, false, 2, false, true);
-        Service service4 = BAPDiagnosisConnectorENI.serviceFromDiagnosticsUIParameters("speedalert_v1", "speedalert_v1", true, true, false, 2, true, false);
-        Service service5 = BAPDiagnosisConnectorENI.serviceFromDiagnosticsUIParameters("valetalert_v1", "valetalert_v1", true, true, false, 2, true, false);
-        Service service6 = BAPDiagnosisConnectorENI.serviceFromDiagnosticsUIParameters("geofence_v1", "geofence_v1", true, true, false, 2, true, false);
-        Service service7 = BAPDiagnosisConnectorENI.serviceFromDiagnosticsUIParameters("ecall_v1", "ecall_v1", true, true, false, 2, true, false);
-        Service service8 = BAPDiagnosisConnectorENI.serviceFromDiagnosticsUIParameters("dwap", "dwap", true, true, false, 2, false, true);
+        Service service = BAPDiagnosisConnectorENI.serviceFromDiagnosticsUIParameters(SERVICE_ID_MOBILE_KEY, SERVICE_ID_MOBILE_KEY, true, true, false, 2, false, true);
+        Service service2 = BAPDiagnosisConnectorENI.serviceFromDiagnosticsUIParameters(SERVICE_ID_CARFINDER, SERVICE_ID_CARFINDER, true, true, false, 2, false, true);
+        Service service3 = BAPDiagnosisConnectorENI.serviceFromDiagnosticsUIParameters(SERVICE_ID_REMOTE_HEATING, SERVICE_ID_REMOTE_HEATING, true, true, false, 2, false, true);
+        Service service4 = BAPDiagnosisConnectorENI.serviceFromDiagnosticsUIParameters(SERVICE_ID_SPEED_ALERT, SERVICE_ID_SPEED_ALERT, true, true, false, 2, true, false);
+        Service service5 = BAPDiagnosisConnectorENI.serviceFromDiagnosticsUIParameters(SERVICE_ID_VALET_ALERT, SERVICE_ID_VALET_ALERT, true, true, false, 2, true, false);
+        Service service6 = BAPDiagnosisConnectorENI.serviceFromDiagnosticsUIParameters(SERVICE_ID_GEO_ALERT, SERVICE_ID_GEO_ALERT, true, true, false, 2, true, false);
+        Service service7 = BAPDiagnosisConnectorENI.serviceFromDiagnosticsUIParameters(SERVICE_ID_ECALL, SERVICE_ID_ECALL, true, true, false, 2, true, false);
+        Service service8 = BAPDiagnosisConnectorENI.serviceFromDiagnosticsUIParameters(SERVICE_ID_DWA_PUSH, SERVICE_ID_DWA_PUSH, true, true, false, 2, false, true);
         Service[] serviceArray = new Service[]{service, service2, service3, service7, service6, service4, service5, service8};
         this.eniListener().onServiceList(serviceArray);
     }
 
     public void cmdReceiveServiceListSingel() {
-        ServiceList_StatusArray serviceList_StatusArray = BAPDiagnosisConnectorENI.makeBAPServiceStatusArray("carfinder_v1");
+        ServiceList_StatusArray serviceList_StatusArray = BAPDiagnosisConnectorENI.makeBAPServiceStatusArray(SERVICE_ID_CARFINDER);
         BAPFunctionArrayASG bAPFunctionArrayASG = this.moduleAsg.getFunctionRegistration().getBAPFunctionArrayASG(22);
         this.moduleAsg.getIndicationHandler().processIndicationStatusArray(bAPFunctionArrayASG, serviceList_StatusArray);
     }
 
     public void cmdReceiveServiceListRemoteHeating() {
-        ServiceList_StatusArray serviceList_StatusArray = BAPDiagnosisConnectorENI.makeBAPServiceStatusArray("rheating_v1");
+        ServiceList_StatusArray serviceList_StatusArray = BAPDiagnosisConnectorENI.makeBAPServiceStatusArray(SERVICE_ID_REMOTE_HEATING);
         BAPFunctionArrayASG bAPFunctionArrayASG = this.moduleAsg.getFunctionRegistration().getBAPFunctionArrayASG(22);
         this.moduleAsg.getIndicationHandler().processIndicationStatusArray(bAPFunctionArrayASG, serviceList_StatusArray);
     }
 
     public void cmdReceiveDWA_PUSH() {
-        ServiceList_StatusArray serviceList_StatusArray = BAPDiagnosisConnectorENI.makeBAPServiceStatusArray("dwap");
+        ServiceList_StatusArray serviceList_StatusArray = BAPDiagnosisConnectorENI.makeBAPServiceStatusArray(SERVICE_ID_DWA_PUSH);
         BAPFunctionArrayASG bAPFunctionArrayASG = this.moduleAsg.getFunctionRegistration().getBAPFunctionArrayASG(22);
         this.moduleAsg.getIndicationHandler().processIndicationStatusArray(bAPFunctionArrayASG, serviceList_StatusArray);
     }
 
     public void cmdReceiveServiceListInValidLicense() {
-        ServiceList_StatusArray serviceList_StatusArray = BAPDiagnosisConnectorENI.makeBAPServiceStatusArrayWithEmpyLicence("carfinder_v1");
+        ServiceList_StatusArray serviceList_StatusArray = BAPDiagnosisConnectorENI.makeBAPServiceStatusArrayWithEmpyLicence(SERVICE_ID_CARFINDER);
         BAPFunctionArrayASG bAPFunctionArrayASG = this.moduleAsg.getFunctionRegistration().getBAPFunctionArrayASG(22);
         this.moduleAsg.getIndicationHandler().processIndicationStatusArray(bAPFunctionArrayASG, serviceList_StatusArray);
     }
@@ -434,7 +427,7 @@ extends AbstractBAPDiagnosisConnectorASG {
     }
 
     public void cmdReceiveServiceListAlertServicesSingle() {
-        ServiceList_StatusArray serviceList_StatusArray = BAPDiagnosisConnectorENI.makeBAPServiceStatusArrayForAlertService("speedalert_v1");
+        ServiceList_StatusArray serviceList_StatusArray = BAPDiagnosisConnectorENI.makeBAPServiceStatusArrayForAlertService(SERVICE_ID_SPEED_ALERT);
         BAPFunctionArrayASG bAPFunctionArrayASG = this.moduleAsg.getFunctionRegistration().getBAPFunctionArrayASG(22);
         this.moduleAsg.getIndicationHandler().processIndicationStatusArray(bAPFunctionArrayASG, serviceList_StatusArray);
     }
@@ -461,21 +454,21 @@ extends AbstractBAPDiagnosisConnectorASG {
     }
 
     private static Service serviceFromDiagnosticsUIParameters(String string, String string2, boolean bl, boolean bl2, boolean bl3, int n, boolean bl4, boolean bl5) {
-        License$Builder license$Builder = License.builder();
-        license$Builder.setState(n);
-        license$Builder.setActivationDate("201412031000Z");
-        license$Builder.setExpirationDate("201612031000Z");
-        license$Builder.setId("id");
-        Service$Builder service$Builder = Service.builder();
-        service$Builder.setLicense(license$Builder.build());
-        service$Builder.setGPSRequired(bl4);
-        service$Builder.setId(string);
-        service$Builder.setName(string2);
-        service$Builder.setEnabled(bl);
-        service$Builder.setEnabledByUser(bl2);
-        service$Builder.setHasExpirationWarning(bl3);
-        service$Builder.setDisablingByDriverAllowed(bl5);
-        return service$Builder.build();
+        License.Builder builder = License.builder();
+        builder.setState(n);
+        builder.setActivationDate("201412031000Z");
+        builder.setExpirationDate("201612031000Z");
+        builder.setId("id");
+        Service.Builder builder2 = Service.builder();
+        builder2.setLicense(builder.build());
+        builder2.setGPSRequired(bl4);
+        builder2.setId(string);
+        builder2.setName(string2);
+        builder2.setEnabled(bl);
+        builder2.setEnabledByUser(bl2);
+        builder2.setHasExpirationWarning(bl3);
+        builder2.setDisablingByDriverAllowed(bl5);
+        return builder2.build();
     }
 
     private static DestinationsList_StatusArray makeBAPDestinationStatusArray() {
@@ -607,7 +600,7 @@ extends AbstractBAPDiagnosisConnectorASG {
         serviceList_Data.licenseId.setContent("license id");
         serviceList_Data.licenseState = 2;
         serviceList_Data.periodOfValidity.setContent("000200000000Z");
-        serviceList_Data.serviceId.setContent("ecall_v1");
+        serviceList_Data.serviceId.setContent(SERVICE_ID_ECALL);
         serviceList_Data.serviceName.setContent("eCall");
         serviceList_Data.serviceState.licenseExpirationWarning = true;
         serviceList_Data.serviceState.protectedService = false;
@@ -636,7 +629,7 @@ extends AbstractBAPDiagnosisConnectorASG {
         serviceList_Data.licenseId.setContent("license id");
         serviceList_Data.licenseState = 4;
         serviceList_Data.periodOfValidity.setContent("000200000000Z");
-        serviceList_Data.serviceId.setContent("ecall_v1");
+        serviceList_Data.serviceId.setContent(SERVICE_ID_ECALL);
         serviceList_Data.serviceName.setContent("eCall");
         serviceList_Data.serviceState.licenseExpirationWarning = false;
         serviceList_Data.serviceState.protectedService = false;
@@ -665,7 +658,7 @@ extends AbstractBAPDiagnosisConnectorASG {
         serviceList_Data.licenseId.setContent("license id");
         serviceList_Data.licenseState = 2;
         serviceList_Data.periodOfValidity.setContent("000200000000Z");
-        serviceList_Data.serviceId.setContent("ecall_v1");
+        serviceList_Data.serviceId.setContent(SERVICE_ID_ECALL);
         serviceList_Data.serviceName.setContent("eCall");
         serviceList_Data.serviceState.licenseExpirationWarning = false;
         serviceList_Data.serviceState.protectedService = false;
@@ -694,7 +687,7 @@ extends AbstractBAPDiagnosisConnectorASG {
         serviceList_Data.licenseId.setContent("license id");
         serviceList_Data.licenseState = 4;
         serviceList_Data.periodOfValidity.setContent("000200000000Z");
-        serviceList_Data.serviceId.setContent("ecall_v1");
+        serviceList_Data.serviceId.setContent(SERVICE_ID_ECALL);
         serviceList_Data.serviceName.setContent("eCall");
         serviceList_Data.serviceState.licenseExpirationWarning = true;
         serviceList_Data.serviceState.protectedService = false;
@@ -723,7 +716,7 @@ extends AbstractBAPDiagnosisConnectorASG {
         serviceList_Data.licenseId.setContent("license id");
         serviceList_Data.licenseState = 3;
         serviceList_Data.periodOfValidity.setContent("");
-        serviceList_Data.serviceId.setContent("ecall_v1");
+        serviceList_Data.serviceId.setContent(SERVICE_ID_ECALL);
         serviceList_Data.serviceName.setContent("eCall");
         serviceList_Data.serviceState.licenseExpirationWarning = true;
         serviceList_Data.serviceState.protectedService = false;

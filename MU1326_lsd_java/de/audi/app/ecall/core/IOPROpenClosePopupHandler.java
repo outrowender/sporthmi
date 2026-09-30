@@ -7,7 +7,6 @@ import de.audi.app.ecall.core.IOpenClosePopupHandler;
 
 public interface IOPROpenClosePopupHandler
 extends IOpenClosePopupHandler {
-    default public void showLicencePopup() {
-    }
+    public void showLicencePopup();
 }
 

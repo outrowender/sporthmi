@@ -44,141 +44,119 @@ implements ISoundHandlerListener {
         super(logChannel, "SoundHandlerListener");
     }
 
-    @Override
     public void updateBalance(short s) {
         this.balance = s;
         this.log();
     }
 
-    @Override
     public void updateBalanceRange(int n, int n2) {
         this.balanceMin = n;
         this.balanceMax = n2;
         this.log();
     }
 
-    @Override
     public void updateFader(short s) {
         this.fader = s;
         this.log();
     }
 
-    @Override
     public void updateFaderRange(int n, int n2) {
         this.faderMin = n;
         this.faderMax = n2;
         this.log();
     }
 
-    @Override
     public void updateBass(short s) {
         this.bass = s;
         this.log();
     }
 
-    @Override
     public void updateBassRange(int n, int n2) {
         this.bassMin = n;
         this.bassMax = n2;
         this.log();
     }
 
-    @Override
     public void updateTreble(short s) {
         this.treble = s;
         this.log();
     }
 
-    @Override
     public void updateTrebleRange(int n, int n2) {
         this.trebleMin = n;
         this.trebleMax = n2;
         this.log();
     }
 
-    @Override
     public void updateSubwoofer(short s) {
         this.subwoofer = s;
         this.log();
     }
 
-    @Override
     public void updateSubwooferRange(int n, int n2) {
         this.subwooferMin = n;
         this.subwooferMax = n2;
         this.log();
     }
 
-    @Override
     public void updateSurroundLevel(short s) {
         this.surround = s;
         this.log();
     }
 
-    @Override
     public void updateSurroundLevelRange(int n, int n2) {
         this.surroundMin = n;
         this.surroundMax = n2;
         this.log();
     }
 
-    @Override
     public void updateNoiseCompensation(short s) {
         this.noiseCompensation = s;
         this.log();
     }
 
-    @Override
     public void updateNoiseCompensationRange(int n, int n2) {
         this.noiseMin = n;
         this.noiseMax = n2;
         this.log();
     }
 
-    @Override
     public void updateAmplifier(int n) {
         this.amplifier = n;
         this.log();
     }
 
-    @Override
     public void updateThreeDMode(int n) {
         this.threeDMode = n;
         this.log("updateThreeDMode");
     }
 
-    @Override
     public void updateThreeDModeRange(int n, int n2) {
         this.three3ModeMin = n;
         this.three3ModeMax = n2;
         this.log("updateThreeDModeRange");
     }
 
-    @Override
     public void updatePresetEqList(int n) {
         this.presetEqList = n;
         this.log("updatePresetEqList");
     }
 
-    @Override
     public void updatePresetEq(int n) {
         this.presetEq = n;
         this.log("updatePresetEq");
     }
 
-    @Override
     public void updatePresetPositionList(int n) {
         this.presetList = n;
         this.log();
     }
 
-    @Override
     public void updatePresetPosition(int n) {
         this.preset = n;
         this.log();
     }
 
-    @Override
     public void distributeValuesAndRanges(ISoundHandlerListener iSoundHandlerListener) {
         iSoundHandlerListener.updateAmplifier(this.amplifier);
         iSoundHandlerListener.updateBalance(this.balance);

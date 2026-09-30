@@ -3,15 +3,13 @@
  */
 package de.audi.atip.interapp.bap.eni.data;
 
-import de.audi.atip.interapp.bap.eni.data.Monitorings$Builder;
-
 public final class Monitorings {
     private final boolean geofenceEnabled;
     private final boolean speedAlertEnabled;
     private final boolean valetAlertEnabled;
 
-    public static Monitorings$Builder builder() {
-        return new Monitorings$Builder();
+    public static Builder builder() {
+        return new Builder();
     }
 
     private Monitorings(boolean bl, boolean bl2, boolean bl3) {
@@ -47,7 +45,7 @@ public final class Monitorings {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         Monitorings monitorings = (Monitorings)object;
@@ -62,6 +60,31 @@ public final class Monitorings {
 
     public String toString() {
         return new StringBuffer().append("Monitorings [geofenceEnabled=").append(this.geofenceEnabled).append(", speedAlertEnabled=").append(this.speedAlertEnabled).append(", valetAlertEnabled=").append(this.valetAlertEnabled).append("]").toString();
+    }
+
+    public static final class Builder {
+        private boolean geofenceEnabled;
+        private boolean speedAlertEnabled;
+        private boolean valetAlertEnabled;
+
+        public Builder setGeofenceEnabled(boolean bl) {
+            this.geofenceEnabled = bl;
+            return this;
+        }
+
+        public Builder setSpeedAlertEnabled(boolean bl) {
+            this.speedAlertEnabled = bl;
+            return this;
+        }
+
+        public Builder setValetAlertEnabled(boolean bl) {
+            this.valetAlertEnabled = bl;
+            return this;
+        }
+
+        public Monitorings build() {
+            return new Monitorings(this.geofenceEnabled, this.speedAlertEnabled, this.valetAlertEnabled);
+        }
     }
 }
 

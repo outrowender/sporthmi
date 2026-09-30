@@ -54,7 +54,6 @@ PowerEventListener {
         this.sendNotification();
     }
 
-    @Override
     public final void updateDynamicVehicleInfoMidFrequent(DynamicVehicleInfoMidFrequent dynamicVehicleInfoMidFrequent, int n) {
         if (n == 1) {
             this.dynamicVehicleInfoMidFrequent = dynamicVehicleInfoMidFrequent;
@@ -62,7 +61,6 @@ PowerEventListener {
         }
     }
 
-    @Override
     public void updateDynamicVehicleInfoMidFrequentViewOptions(DynamicVehicleInfoMidFrequentViewOptions dynamicVehicleInfoMidFrequentViewOptions, int n) {
         if (n == 1) {
             this.dynamicVehicleInfoMidFrequentViewOptions = dynamicVehicleInfoMidFrequentViewOptions;
@@ -70,7 +68,6 @@ PowerEventListener {
         }
     }
 
-    @Override
     public final void updateAutomaticGearShiftTransMode(int n, int n2) {
         if (n2 == 1) {
             this.automaticGearShiftTransMode = n;
@@ -78,7 +75,6 @@ PowerEventListener {
         }
     }
 
-    @Override
     public final void updateVehicleStandstill(boolean bl, int n) {
         if (n == 1) {
             this.speedThresholdExeeded = !bl;
@@ -86,7 +82,6 @@ PowerEventListener {
         }
     }
 
-    @Override
     public final void updateParkingBrake(boolean bl, int n) {
         if (n == 1) {
             this.parkingBrakeEngaged = bl;
@@ -98,7 +93,7 @@ PowerEventListener {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public final void startEvaluationProcess() {
-        this.logChannel.log(-2137614336, "AbstractLockingEvaluator#startEvaluationProcess() --> Entered");
+        this.logChannel.log(10000000, "AbstractLockingEvaluator#startEvaluationProcess() --> Entered");
         Object object = this.MUTEX;
         synchronized (object) {
             if (LockingBitWrapper.ready()) {
@@ -108,18 +103,18 @@ PowerEventListener {
                 }
                 this.evaluateConditions();
             } else {
-                this.logChannel.log(-2137614336, "AbstractLockingEvaluator#startEvaluationProcess() - Locking Bits not ready, setting up a timer to recheck.");
+                this.logChannel.log(10000000, "AbstractLockingEvaluator#startEvaluationProcess() - Locking Bits not ready, setting up a timer to recheck.");
                 if (this.recheckLockingBitsTimer == null) {
-                    this.recheckLockingBitsTimer = new Timer("Recheck Lockingbits", 0, false, this);
+                    this.recheckLockingBitsTimer = new Timer("Recheck Lockingbits", 1000L, false, this);
                 }
                 this.recheckLockingBitsTimer.restart();
             }
         }
-        this.logChannel.log(-2137614336, "AbstractLockingEvaluator#startEvaluationProcess() <-- Exit");
+        this.logChannel.log(10000000, "AbstractLockingEvaluator#startEvaluationProcess() <-- Exit");
     }
 
     private void evaluateConditions() {
-        this.logChannel.log(-2137614336, "AbstractLockingEvaluator#evaluateConditions() --> Entered");
+        this.logChannel.log(10000000, "AbstractLockingEvaluator#evaluateConditions() --> Entered");
         if (this.logChannel.isDebug()) {
             LockingBitLogger.start(this.fw);
         } else {
@@ -131,7 +126,7 @@ PowerEventListener {
         if (n == -1 || n2 == -1) {
             if (this.logInvalidModeCounter % this.logInvalideModeThreshold == 0) {
                 this.logChannel.log(10000, "AbstractLockingEvaluator#evaluateConditions() - The bits for the locking mode are not set! Can not identify logic for evaluation. Locking will not take place!");
-                this.logChannel.log(-2137614336, "AbstractLockingEvaluator#evaluateConditions() <-- Returning for missing parameters");
+                this.logChannel.log(10000000, "AbstractLockingEvaluator#evaluateConditions() <-- Returning for missing parameters");
                 this.logInvalidModeCounter = 0;
             }
             ++this.logInvalidModeCounter;
@@ -147,33 +142,33 @@ PowerEventListener {
             bl = true;
         }
         if (bl != this.currentLockingState) {
-            this.logChannel.log(-2137614336, "AbstractLockingEvaluator#evaluateConditions() - A new locking state has been identified. Previous state=%1, new state=%2", this.currentLockingState, bl);
+            this.logChannel.log(10000000, "AbstractLockingEvaluator#evaluateConditions() - A new locking state has been identified. Previous state=%1, new state=%2", this.currentLockingState, bl);
             this.currentLockingState = bl;
             this.fw.getHMIService().getChoiceModel(5583).setValue(this.currentLockingState ? 1 : 0);
             this.sendNotification();
         }
-        this.logChannel.log(-2137614336, "AbstractLockingEvaluator#evaluateConditions() <-- Returning");
+        this.logChannel.log(10000000, "AbstractLockingEvaluator#evaluateConditions() <-- Returning");
     }
 
     private void sendNotification() {
-        this.logChannel.log(-2137614336, "AbstractLockingEvaluator#sendNotification() --> Entered");
+        this.logChannel.log(10000000, "AbstractLockingEvaluator#sendNotification() --> Entered");
         this.sendEvent();
         this.sendMessage();
-        this.logChannel.log(-2137614336, "AbstractLockingEvaluator#sendNotification() <-- Returning");
+        this.logChannel.log(10000000, "AbstractLockingEvaluator#sendNotification() <-- Returning");
     }
 
     private void sendEvent() {
-        this.logChannel.log(-2137614336, "AbstractLockingEvaluator#sendEvent() --> Entered");
+        this.logChannel.log(10000000, "AbstractLockingEvaluator#sendEvent() --> Entered");
         HMIService hMIService = this.fw.getHMIService();
         LockingEvent lockingEvent = new LockingEvent((ATIPEventListener)hMIService.getRootWindow(0), this.currentLockingState);
         hMIService.getEventDispatcher().postEvent(lockingEvent);
-        this.logChannel.log(-2137614336, "AbstractLockingEvaluator#sendEvent() <-- Returning");
+        this.logChannel.log(10000000, "AbstractLockingEvaluator#sendEvent() <-- Returning");
     }
 
     private void sendMessage() {
-        this.logChannel.log(-2137614336, "AbstractLockingEvaluator#sendMessage() --> Entered");
+        this.logChannel.log(10000000, "AbstractLockingEvaluator#sendMessage() --> Entered");
         this.fw.getMsgDistrib().sendMessage(this.currentLockingState ? 206 : 207);
-        this.logChannel.log(-2137614336, "AbstractLockingEvaluator#sendMessage() <-- Returning");
+        this.logChannel.log(10000000, "AbstractLockingEvaluator#sendMessage() <-- Returning");
     }
 
     public final void setDiagnosisTestmode(boolean bl) {
@@ -192,8 +187,8 @@ PowerEventListener {
     }
 
     public final void setDSI(DSIBase dSIBase) {
-        this.logChannel.log(-2137614336, "AbstractLockingEvaluator#setDSI(%1) --> Entered", (Object)dSIBase);
-        this.fw.getStartupMgr().logStartupEvent(new StringBuffer().append("AbstractLockingEvaluator#setDSI(").append(dSIBase).append(") --> Entered").toString());
+        this.logChannel.log(10000000, "AbstractLockingEvaluator#setDSI(%1) --> Entered", (Object)dSIBase);
+        this.fw.getStartupMgr().logStartupEvent("AbstractLockingEvaluator#setDSI(" + dSIBase + ") --> Entered");
         if (dSIBase instanceof DSIGeneralVehicleStates) {
             this.generalVehicleStateDsi = (DSIGeneralVehicleStates)dSIBase;
             this.generalVehicleStateDsi.setNotification(this);
@@ -201,11 +196,11 @@ PowerEventListener {
             this.carVehicleStateDsi = (DSICarVehicleStates)dSIBase;
             this.carVehicleStateDsi.setNotification(this);
         }
-        this.logChannel.log(-2137614336, "AbstractLockingEvaluator#setDSI() <-- Returning");
+        this.logChannel.log(10000000, "AbstractLockingEvaluator#setDSI() <-- Returning");
     }
 
     public final void releaseDSI() {
-        this.logChannel.log(-2137614336, "AbstractLockingEvaluator#releaseDSI() --> Entered");
+        this.logChannel.log(10000000, "AbstractLockingEvaluator#releaseDSI() --> Entered");
         this.fw.getStartupMgr().logStartupEvent("AbstractLockingEvaluator#releaseDSI() --> Entered");
         this.carVehicleStateDsi.clearNotification(this);
         this.carVehicleStateDsi = null;
@@ -214,35 +209,29 @@ PowerEventListener {
         this.startEvaluationProcess();
     }
 
-    protected void finalize() {
+    protected void finalize() throws Throwable {
         this.releaseDSI();
         super.finalize();
     }
 
-    @Override
     public void fireTimer(Timer timer) {
         if (timer.equals(this.recheckLockingBitsTimer)) {
             this.startEvaluationProcess();
         }
     }
 
-    @Override
     public void cancelTimer(Timer timer) {
     }
 
-    @Override
     public void notifyPowerListenerOnEnterState(int n, int n2) {
     }
 
-    @Override
     public void notifyPowerListenerOnExitState(int n, int n2) {
     }
 
-    @Override
     public void notifyPowerTriggerAction(int n, int n2) {
     }
 
-    @Override
     public void updateClampState(boolean bl, boolean bl2, boolean bl3, boolean bl4) {
         this.clamp15 = bl2;
         this.startEvaluationProcess();

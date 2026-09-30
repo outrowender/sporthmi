@@ -4,10 +4,8 @@
 package de.audi.atip.interapp;
 
 public interface IConnectivityRHMIService {
-    default public void activateSource(String string) {
-    }
+    public void activateSource(String var1);
 
-    default public void deactivateSource(String string) {
-    }
+    public void deactivateSource(String var1);
 }
 

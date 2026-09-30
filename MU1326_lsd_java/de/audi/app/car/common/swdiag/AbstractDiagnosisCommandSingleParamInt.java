@@ -12,7 +12,7 @@ extends AbstractDiagnosisCommandSingleParam {
     }
 
     public AbstractDiagnosisCommandSingleParamInt(String string, String string2, int n, boolean bl) {
-        super(string, string2, n, 2, null, 128, -129, bl);
+        super(string, string2, n, 2, null, Integer.MIN_VALUE, Integer.MAX_VALUE, bl);
     }
 
     public AbstractDiagnosisCommandSingleParamInt(String string, String string2, int n, int n2, int n3, boolean bl) {

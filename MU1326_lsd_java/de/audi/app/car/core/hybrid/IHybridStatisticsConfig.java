@@ -7,10 +7,8 @@ import java.io.Serializable;
 
 public interface IHybridStatisticsConfig
 extends Serializable {
-    default public String[] getFields() {
-    }
+    public String[] getFields();
 
-    default public String[] getValuesAsString() {
-    }
+    public String[] getValuesAsString();
 }
 

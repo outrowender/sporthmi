@@ -96,7 +96,6 @@ extends MMICombiDisplayExchangePacket {
         return this.lvdsLock;
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer(38);
         stringBuffer.append("MMICombiRequest {");

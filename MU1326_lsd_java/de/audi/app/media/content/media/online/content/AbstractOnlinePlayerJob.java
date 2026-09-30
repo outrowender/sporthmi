@@ -16,7 +16,7 @@ extends AbstractQueueJob {
     protected final LogChannel logger;
     private final String name;
     private final IOnlinePlayer onlinePlayer;
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "AbstractOnlinePlayerJob";
 
     public AbstractOnlinePlayerJob(LogChannel logChannel, String string, IOnlinePlayer iOnlinePlayer) {
         this.logger = logChannel;
@@ -28,7 +28,6 @@ extends AbstractQueueJob {
         return this.onlinePlayer;
     }
 
-    @Override
     public String getName() {
         return this.name;
     }
@@ -37,12 +36,10 @@ extends AbstractQueueJob {
         return "";
     }
 
-    @Override
     public int getType() {
         return 0;
     }
 
-    @Override
     public void abort(boolean bl) {
     }
 
@@ -82,7 +79,7 @@ extends AbstractQueueJob {
     private void updateVolumelockOnPlaybackState(int n, int n2) {
         boolean bl;
         if (n2 != 2) {
-            this.logger.log(1078071040, "[%1.updateVolumelockOnPlaybackState] buffer not filled.", (Object)"AbstractOnlinePlayerJob");
+            this.logger.log(1000000, "[%1.updateVolumelockOnPlaybackState] buffer not filled.", (Object)LOGCLASS);
             bl = false;
         } else {
             switch (n) {
@@ -93,12 +90,12 @@ extends AbstractQueueJob {
                 case 8: 
                 case 9: 
                 case 10: {
-                    this.logger.log(1078071040, "[%1.updateVolumelockOnPlaybackState]  playbackState valid.", (Object)"AbstractOnlinePlayerJob");
+                    this.logger.log(1000000, "[%1.updateVolumelockOnPlaybackState]  playbackState valid.", (Object)LOGCLASS);
                     bl = true;
                     break;
                 }
                 default: {
-                    this.logger.log(1078071040, "[%1.updateVolumelockOnPlaybackState]  playbackState invalid.", (Object)"AbstractOnlinePlayerJob");
+                    this.logger.log(1000000, "[%1.updateVolumelockOnPlaybackState]  playbackState invalid.", (Object)LOGCLASS);
                     bl = false;
                 }
             }
@@ -106,7 +103,7 @@ extends AbstractQueueJob {
         if (bl) {
             this.onlinePlayer.getAudioManager().releaseVolumelock("Player ready.");
         } else {
-            this.onlinePlayer.getAudioManager().requestVolumelock(new StringBuffer().append("Player not ready (playbackState='").append(n).append("' bufferState='").append(n2).append("'").toString());
+            this.onlinePlayer.getAudioManager().requestVolumelock("Player not ready (playbackState='" + n + "' bufferState='" + n2 + "'");
         }
     }
 
@@ -114,14 +111,14 @@ extends AbstractQueueJob {
         OnlinePlayerState onlinePlayerState = this.getPlayer().getState();
         OnlinePlayerSession onlinePlayerSession = onlinePlayerState.getActiveSession();
         if (onlinePlayerSession == null) {
-            this.logger.log(1078071040, "[%1.onBufferStateChanged] No active session.", (Object)"AbstractOnlinePlayerJob");
+            this.logger.log(1000000, "[%1.onBufferStateChanged] No active session.", (Object)LOGCLASS);
             return;
         }
         if (onlinePlayerSession.getOnState() != 1) {
-            this.logger.log(1078071040, "[%1.onBufferStateChanged] Session not active.", (Object)"AbstractOnlinePlayerJob");
+            this.logger.log(1000000, "[%1.onBufferStateChanged] Session not active.", (Object)LOGCLASS);
             return;
         }
-        this.logger.log(1078071040, "[%1.onBufferStateChanged]", (Object)"AbstractOnlinePlayerJob");
+        this.logger.log(1000000, "[%1.onBufferStateChanged]", (Object)LOGCLASS);
         this.updateVolumelockOnPlaybackState(onlinePlayerState.getPlaybackState(), onlinePlayerState.getBufferState());
         onlinePlayerSession.updateBufferState(onlinePlayerState.getBufferState(), onlinePlayerState.getBufferFillInfoPrecent());
     }
@@ -150,10 +147,10 @@ extends AbstractQueueJob {
             if (entryInfo != null && entryInfo.getEntryID() == onlinePlayerState.getCurrentEntryId()) {
                 onlinePlayerState.getActiveSession().responseDetailInfo(entryInfo.getFilename(), entryInfo.getTitle(), entryInfo.getAlbum(), entryInfo.getArtist());
             } else {
-                this.logger.log(-2137614336, "[%1.onResponseDetailInfo] pEntryInfo %2; entryId %3", (Object)"AbstractOnlinePlayerJob", (Object)entryInfo, onlinePlayerState.getCurrentEntryId());
+                this.logger.log(10000000, "[%1.onResponseDetailInfo] pEntryInfo %2; entryId %3", (Object)LOGCLASS, (Object)entryInfo, onlinePlayerState.getCurrentEntryId());
             }
         } else {
-            this.logger.log(-2137614336, "[%1.onResponseDetailInfo] session is null.", (Object)"AbstractOnlinePlayerJob");
+            this.logger.log(10000000, "[%1.onResponseDetailInfo] session is null.", (Object)LOGCLASS);
         }
     }
 

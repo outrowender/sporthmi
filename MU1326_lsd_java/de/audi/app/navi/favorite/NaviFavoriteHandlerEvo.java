@@ -8,19 +8,15 @@ import de.audi.app.navi.favorite.FavoriteLocationFormatAsia;
 import de.audi.app.navi.favorite.FavoriteLocationFormatEU;
 import de.audi.app.navi.favorite.FavoriteLocationFormatNAR;
 import de.audi.app.navi.favorite.NaviFavoriteEvoRow;
-import de.audi.app.navi.favorite.NaviFavoriteHandlerEvo$1;
-import de.audi.app.navi.favorite.NaviFavoriteHandlerEvo$2;
 import de.audi.app.navi.favorite.NaviFavoriteSearchDataProvider;
 import de.audi.atip.favorite.FavoriteListRow;
-import de.audi.atip.hmi.model.list.BaseListModelApp;
 import de.audi.atip.hmi.model.list.EvoListRow;
-import de.audi.atip.interapp.NaviADBService$LocationInputHandler;
+import de.audi.atip.interapp.NaviADBService;
 import de.audi.atip.interapp.NaviServiceListener;
 import de.audi.atip.interapp.SDSListEntry;
 import de.audi.atip.interapp.combi.bap.navi.data.CombiBAPNaviDestination;
 import de.audi.atip.interapp.combi.bap.navi.data.FormattedDestination;
 import de.audi.atip.interapp.navigation.previewmap.IPreviewMap;
-import de.audi.atip.log.LogChannel;
 import de.audi.tghu.command.CommandList;
 import de.audi.tghu.command.ICommandListFactory;
 import de.audi.tghu.navi.app.ADBInterAppService;
@@ -30,6 +26,7 @@ import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.addressinput.poi.IPoiService;
 import de.audi.tghu.navi.app.cluster.ClusterService;
 import de.audi.tghu.navi.app.cluster.CombiBAPListener;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.favorite.IFavorite;
 import de.audi.tghu.navi.app.favorite.IFavoriteLocationFormat;
 import de.audi.tghu.navi.app.favorite.NaviFavoriteHandler;
@@ -42,7 +39,7 @@ import org.osgi.framework.BundleContext;
 
 public class NaviFavoriteHandlerEvo
 extends NaviFavoriteHandler {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "NaviFavoriteHandlerEvo";
     private NavLocation navLocationNewFavorite;
     private int favoriteForEditing;
     private final HomeAddressHandler homeAddressHandler;
@@ -53,7 +50,7 @@ extends NaviFavoriteHandler {
     private final DispatcherBase dispatcher;
 
     public NaviFavoriteHandlerEvo(NavigationEnv navigationEnv, LocationSerializer locationSerializer, ICommandListFactory iCommandListFactory, IPreviewMap iPreviewMap, HomeAddressHandler homeAddressHandler, ADBInterAppService aDBInterAppService, BundleContext bundleContext, NaviServiceListener naviServiceListener, DispatcherBase dispatcherBase, CombiBAPListener combiBAPListener) {
-        super(navigationEnv, navigationEnv.getBaseListModel(-1239480832), navigationEnv.getHMIService().getOptionModel(1008731648), locationSerializer, iCommandListFactory, iPreviewMap);
+        super(navigationEnv, navigationEnv.getBaseListModel(401334), navigationEnv.getHMIService().getOptionModel(401468), locationSerializer, iCommandListFactory, iPreviewMap);
         this.homeAddressHandler = homeAddressHandler;
         this.naviServiceListener = naviServiceListener;
         this.adbInterAppService = aDBInterAppService;
@@ -65,7 +62,6 @@ extends NaviFavoriteHandler {
         this.notifyObservers();
     }
 
-    @Override
     protected IFavoriteLocationFormat initLocationFormatForRegion() {
         if (Util.isHURegionEU() || Util.isHURegionRdW()) {
             return new FavoriteLocationFormatEU(this.env);
@@ -83,9 +79,18 @@ extends NaviFavoriteHandler {
         this.poiService = iPoiService;
     }
 
-    private void startRouteGuidance(NavLocation navLocation) {
+    private void startRouteGuidance(final NavLocation navLocation) {
         CommandList commandList = this.commandListFactory.createCommandList();
-        commandList.add(new NaviFavoriteHandlerEvo$1(this, "StartRouteGuidance", navLocation));
+        commandList.add(new NavCommand("StartRouteGuidance"){
+
+            public void execute() {
+                NaviFavoriteHandlerEvo.this.log.log(10000000, "%1#startRouteGuidance - Starting route guidance to: %2", (Object)NaviFavoriteHandlerEvo.LOGCLASS, (Object)LocationFormatter.formatLocationShort(navLocation));
+                if (navLocation != null) {
+                    this.getCommandList().commandFinishedWithPostSequence(this.navigation.getStartGuidanceDependantSequence().getStartSequence(navLocation));
+                }
+                this.getCommandList().commandFinished();
+            }
+        });
         commandList.execute("StartRouteGuidanceWithFavorite");
     }
 
@@ -99,19 +104,16 @@ extends NaviFavoriteHandler {
         }
     }
 
-    @Override
     protected void addToFavorites(FavoriteListRow favoriteListRow, boolean bl) {
         super.addToFavorites(favoriteListRow, bl);
         this.setMoreThanOneFavoriteChoiceModel();
     }
 
-    @Override
     protected void removeFavorite(FavoriteListRow favoriteListRow, boolean bl) {
         super.removeFavorite(favoriteListRow, bl);
         this.setMoreThanOneFavoriteChoiceModel();
     }
 
-    @Override
     protected void removeAllFavorites(boolean bl) {
         super.removeAllFavorites(bl);
         this.setMoreThanOneFavoriteChoiceModel();
@@ -119,9 +121,9 @@ extends NaviFavoriteHandler {
 
     private void setMoreThanOneFavoriteChoiceModel() {
         if (this.getNrFavorites() > 1) {
-            this.env.getChoiceModel(-1507850752).setValue(1);
+            this.env.getChoiceModel(401574).setValue(1);
         } else {
-            this.env.getChoiceModel(-1507850752).setValue(0);
+            this.env.getChoiceModel(401574).setValue(0);
         }
     }
 
@@ -131,33 +133,29 @@ extends NaviFavoriteHandler {
         }
     }
 
-    @Override
     public void updateNaviPersistence() {
-        this.log.log(1078071040, "%1#updateNaviPersistence", (Object)"NaviFavoriteHandlerEvo");
+        this.log.log(1000000, "%1#updateNaviPersistence", (Object)LOGCLASS);
         this.updatePersistence();
     }
 
-    @Override
     protected void updatePersistence() {
         super.updatePersistence();
         this.notifyObservers();
     }
 
-    @Override
     protected void capacityReached(boolean bl) {
-        this.log.log(1078071040, "NaviFavoriteHandlerEvo#capacityReached: %1", bl);
+        this.log.log(1000000, "NaviFavoriteHandlerEvo#capacityReached: %1", bl);
         if (bl) {
-            this.env.getChoiceModel(-803273216).setValue(1);
+            this.env.getChoiceModel(401360).setValue(1);
         } else {
-            this.env.getChoiceModel(-803273216).setValue(0);
+            this.env.getChoiceModel(401360).setValue(0);
         }
     }
 
-    @Override
     public void favoriteSelected(EvoListRow evoListRow, int n, int n2, int n3, int n4) {
-        NaviADBService$LocationInputHandler naviADBService$LocationInputHandler;
-        this.log.log(1078071040, "%1#favoriteSelected model=%2, index=%3, inputMode=%4", (Object)"NaviFavoriteHandlerEvo", (long)n, (long)n2);
-        this.log.log(-2137614336, "%1#favoriteSelected, inputMode=%2", (Object)"NaviFavoriteHandlerEvo", (long)this.inputManager.getInputMode());
+        NaviADBService.LocationInputHandler locationInputHandler;
+        this.log.log(1000000, "%1#favoriteSelected model=%2, index=%3, inputMode=%4", (Object)LOGCLASS, (long)n, (long)n2);
+        this.log.log(10000000, "%1#favoriteSelected, inputMode=%2", (Object)LOGCLASS, (long)this.inputManager.getInputMode());
         byte[] byArray = ((NaviFavoriteEvoRow)evoListRow).getFavoriteLocation();
         if (this.inputManager.getInputMode() == 0) {
             NavLocation navLocation = this.locationSerializer.streamToLocation(byArray);
@@ -165,43 +163,37 @@ extends NaviFavoriteHandler {
         } else if (this.inputManager.getInputMode() == 2) {
             NavLocation navLocation = this.locationSerializer.streamToLocation(byArray);
             this.homeAddressHandler.onCreateEditHomeAddress(navLocation);
-        } else if (this.inputManager.getInputMode() == 1 && (naviADBService$LocationInputHandler = this.adbInterAppService.getCurrentLocationInputHandler()) != null) {
-            naviADBService$LocationInputHandler.updateLocation(byArray);
+        } else if (this.inputManager.getInputMode() == 1 && (locationInputHandler = this.adbInterAppService.getCurrentLocationInputHandler()) != null) {
+            locationInputHandler.updateLocation(byArray);
         }
         this.favoriteListModel.fireEvent(n4);
     }
 
-    @Override
     public void moveModeActivated() {
         super.moveModeActivated();
-        this.env.getChoiceModel(1277167104).setValue(1);
+        this.env.getChoiceModel(401484).setValue(1);
     }
 
-    @Override
     public void moveModeDeactivated() {
         super.moveModeDeactivated();
-        this.env.getChoiceModel(1277167104).setValue(0);
+        this.env.getChoiceModel(401484).setValue(0);
     }
 
-    @Override
     public NavLocation getFavoriteNavLocationByUniqueId(long l) {
         NaviFavoriteEvoRow naviFavoriteEvoRow = (NaviFavoriteEvoRow)this.favoriteListModel.getRowByUniqueID(l);
         return this.locationSerializer.streamToLocation(naviFavoriteEvoRow.getFavoriteLocation());
     }
 
-    @Override
     public byte[] getFavoriteNavLocationStreamByUniqueId(long l) {
         NaviFavoriteEvoRow naviFavoriteEvoRow = (NaviFavoriteEvoRow)this.favoriteListModel.getRowByUniqueID(l);
         return naviFavoriteEvoRow.getFavoriteLocation();
     }
 
-    @Override
     public NavLocation getFavoriteNavLocationByListIndex(int n) {
         NaviFavoriteEvoRow naviFavoriteEvoRow = (NaviFavoriteEvoRow)this.favoriteListModel.getRow(n);
         return this.locationSerializer.streamToLocation(naviFavoriteEvoRow.getFavoriteLocation());
     }
 
-    @Override
     public final SDSListEntry[] getFavoriteSDSEntries() {
         SDSListEntry[] sDSListEntryArray = new SDSListEntry[this.favoriteListModel.getLength()];
         for (int i2 = 0; i2 < this.favoriteListModel.getLength(); ++i2) {
@@ -231,9 +223,6 @@ extends NaviFavoriteHandler {
         return formattedDestinationArray;
     }
 
-    /*
-     * Handled unverifiable bytecode (illegal stack merge).
-     */
     private CombiBAPNaviDestination[] getFavoritesBapEntries() {
         CombiBAPNaviDestination[] combiBAPNaviDestinationArray = new CombiBAPNaviDestination[this.favoriteListModel.getLength()];
         for (int i2 = 0; i2 < this.favoriteListModel.getLength(); ++i2) {
@@ -241,7 +230,7 @@ extends NaviFavoriteHandler {
             String string = naviFavoriteEvoRow.getStreet() != null ? naviFavoriteEvoRow.getStreet() : "";
             String string2 = naviFavoriteEvoRow.getHouseNumber() != null ? naviFavoriteEvoRow.getHouseNumber() : "";
             string = Util.appendHouseNumberForFPK(string, string2, this.env.getFramework());
-            CombiBAPNaviDestination combiBAPNaviDestination = new CombiBAPNaviDestination("", "", string, string2, naviFavoriteEvoRow.getCity() != null ? naviFavoriteEvoRow.getCity() : "", "", "", "", "", Util.isHURegionAsia() ? 49279 : (int)ClusterService.wgs84ToDeg(naviFavoriteEvoRow.getLatitude()), Util.isHURegionAsia() ? 49279 : (int)ClusterService.wgs84ToDeg(naviFavoriteEvoRow.getLongitude()), naviFavoriteEvoRow.getType() == 1 ? 255 : 0, naviFavoriteEvoRow.getFavoriteName(), "", -1);
+            CombiBAPNaviDestination combiBAPNaviDestination = new CombiBAPNaviDestination("", "", string, string2, naviFavoriteEvoRow.getCity() != null ? naviFavoriteEvoRow.getCity() : "", "", "", "", "", Util.isHURegionAsia() ? Float.NaN : ClusterService.wgs84ToDeg(naviFavoriteEvoRow.getLatitude()), Util.isHURegionAsia() ? Float.NaN : ClusterService.wgs84ToDeg(naviFavoriteEvoRow.getLongitude()), naviFavoriteEvoRow.getType() == 1 ? 255 : 0, naviFavoriteEvoRow.getFavoriteName(), "", -1);
             combiBAPNaviDestination.setNaviType(2);
             combiBAPNaviDestination.setNaviID(naviFavoriteEvoRow.getUniqueID());
             combiBAPNaviDestinationArray[i2] = combiBAPNaviDestination;
@@ -250,44 +239,39 @@ extends NaviFavoriteHandler {
     }
 
     public void enterDestOptSaveAsFavorite() {
-        this.log.log(-2137614336, "%1#enterDestOptSaveAsFavorite navLocationNewFavorite=%2", (Object)"NaviFavoriteHandlerEvo", (Object)this.navLocationNewFavorite);
+        this.log.log(10000000, "%1#enterDestOptSaveAsFavorite navLocationNewFavorite=%2", (Object)LOGCLASS, (Object)this.navLocationNewFavorite);
         this.previewMap.setPreviewLocation(this.navLocationNewFavorite, 1, null, null);
     }
 
-    @Override
     public void addToFavorites(NavLocation navLocation, String string) {
-        this.log.log(1078071040, "%1#addToFavorites favoriteLocation=%2", (Object)"NaviFavoriteHandlerEvo", (Object)LocationFormatter.formatLocationShort(navLocation));
+        this.log.log(1000000, "%1#addToFavorites favoriteLocation=%2", (Object)LOGCLASS, (Object)LocationFormatter.formatLocationShort(navLocation));
         if (navLocation == null) {
-            this.log.log(10000, "%1#addToFavorites favorite has no NavLocation and will not be added to favorites", (Object)"NaviFavoriteHandlerEvo");
+            this.log.log(10000, "%1#addToFavorites favorite has no NavLocation and will not be added to favorites", (Object)LOGCLASS);
             return;
         }
-        this.env.getSpellerModel(1344603648).setText(string);
+        this.env.getSpellerModel(402768).setText(string);
         this.navLocationNewFavorite = navLocation;
     }
 
-    @Override
     public void addToFavorites(NavLocation navLocation) {
-        this.log.log(1078071040, "%1#addToFavorites using favoriteLocationFormat favoriteLocation=%2", (Object)"NaviFavoriteHandlerEvo", (Object)LocationFormatter.formatLocationShort(navLocation));
+        this.log.log(1000000, "%1#addToFavorites using favoriteLocationFormat favoriteLocation=%2", (Object)LOGCLASS, (Object)LocationFormatter.formatLocationShort(navLocation));
         String string = this.favoriteLocationFormat.getDefaultName(navLocation);
         if (navLocation == null) {
-            this.log.log(10000, "%1#addToFavorites favorite has no NavLocation and will not be added to favorites", (Object)"NaviFavoriteHandlerEvo");
+            this.log.log(10000, "%1#addToFavorites favorite has no NavLocation and will not be added to favorites", (Object)LOGCLASS);
             return;
         }
-        this.env.getSpellerModel(1344603648).setText(string);
+        this.env.getSpellerModel(402768).setText(string);
         this.navLocationNewFavorite = navLocation;
     }
 
-    @Override
     public EvoListRow getFavoriteRow(long l) {
         return this.favoriteListModel.getRowByUniqueID(l);
     }
 
-    @Override
     public String getFavoriteAddress(long l) {
         return this.favoriteListModel.getRowByUniqueID(l).getText(3);
     }
 
-    @Override
     public IFavorite[] getFavorites() {
         IFavorite[] iFavoriteArray = new IFavorite[this.favoriteListModel.getLength()];
         for (int i2 = 0; i2 < this.favoriteListModel.getLength(); ++i2) {
@@ -298,10 +282,10 @@ extends NaviFavoriteHandler {
 
     protected void saveNewFavorite(String string) {
         if (this.log.isDebug2()) {
-            this.log.log(14808325, "%1#saveNewFavorite favorite=%2", (Object)"NaviFavoriteHandlerEvo", (Object)string);
+            this.log.log(100000000, "%1#saveNewFavorite favorite=%2", (Object)LOGCLASS, (Object)string);
         }
         if (this.navLocationNewFavorite == null) {
-            this.log.log(10000, "%1#saveNewFavorite no valid NavLocation for favorite=%2", (Object)"NaviFavoriteHandlerEvo", (Object)string);
+            this.log.log(10000, "%1#saveNewFavorite no valid NavLocation for favorite=%2", (Object)LOGCLASS, (Object)string);
             return;
         }
         Util.setDescriptionOnLocation(this.navLocationNewFavorite, string);
@@ -314,17 +298,27 @@ extends NaviFavoriteHandler {
     protected void renameFavorite(int n) {
         this.favoriteForEditing = n;
         String string = ((NaviFavoriteEvoRow)this.favoriteListModel.getRow(n)).getFavoriteName();
-        this.env.getSpellerModel(1344603648).setText(string);
+        this.env.getSpellerModel(402768).setText(string);
     }
 
-    protected void saveEditedFavorite(String string) {
-        NaviFavoriteEvoRow naviFavoriteEvoRow = (NaviFavoriteEvoRow)this.favoriteListModel.getRow(this.favoriteForEditing);
-        this.dispatcher.execute(new NaviFavoriteHandlerEvo$2(this, naviFavoriteEvoRow, string));
+    protected void saveEditedFavorite(final String string) {
+        final NaviFavoriteEvoRow naviFavoriteEvoRow = (NaviFavoriteEvoRow)this.favoriteListModel.getRow(this.favoriteForEditing);
+        this.dispatcher.execute(new Runnable(){
+
+            public void run() {
+                NavLocation navLocation = NaviFavoriteHandlerEvo.this.locationSerializer.streamToLocation(naviFavoriteEvoRow.getFavoriteLocation());
+                Util.setDescriptionOnLocation(navLocation, string);
+                naviFavoriteEvoRow.setFavoriteLocation(NaviFavoriteHandlerEvo.this.locationSerializer.locationToStream(navLocation));
+                naviFavoriteEvoRow.setFavoriteName(string);
+                NaviFavoriteHandlerEvo.this.favoriteListModel.setRow(NaviFavoriteHandlerEvo.this.favoriteForEditing, naviFavoriteEvoRow);
+                NaviFavoriteHandlerEvo.this.notifyObservers();
+            }
+        });
     }
 
     protected void removeFavorite(int n) {
         if (this.log.isDebug2()) {
-            this.log.log(14808325, "%1#removeFavorite index=%2", (Object)"NaviFavoriteHandlerEvo", (long)n);
+            this.log.log(100000000, "%1#removeFavorite index=%2", (Object)LOGCLASS, (long)n);
         }
         FavoriteListRow favoriteListRow = (FavoriteListRow)this.favoriteListModel.getRow(n);
         this.removeFavorite(favoriteListRow, false);
@@ -333,7 +327,7 @@ extends NaviFavoriteHandler {
 
     protected void removeAll() {
         if (this.log.isDebug2()) {
-            this.log.log(14808325, "%1#removeAll", (Object)"NaviFavoriteHandlerEvo");
+            this.log.log(100000000, "%1#removeAll", (Object)LOGCLASS);
         }
         this.removeAllFavorites(false);
         this.notifyObservers();
@@ -343,7 +337,7 @@ extends NaviFavoriteHandler {
         if (this.poiService != null) {
             this.poiService.getParkingNearDestinationSequenceWithDistanceFromDestination(navLocation).execute("NaviFavoriteHandlerEvo#ParkingNearDestination");
         } else {
-            this.log.log(10000, "%1#parkingAtDestination poiService is null", (Object)"NaviFavoriteHandlerEvo");
+            this.log.log(10000, "%1#parkingAtDestination poiService is null", (Object)LOGCLASS);
         }
     }
 
@@ -351,54 +345,26 @@ extends NaviFavoriteHandler {
         if (this.poiService != null) {
             this.poiService.startPoiWithSearchContext(4, navLocation, true, true);
         } else {
-            this.log.log(10000, "%1#poiAtDestination poiService is null", (Object)"NaviFavoriteHandlerEvo");
+            this.log.log(10000, "%1#poiAtDestination poiService is null", (Object)LOGCLASS);
         }
     }
 
-    @Override
     public void resetMemorySettings() {
         if (this.log.isDebug2()) {
-            this.log.log(14808325, "%1#resetMemorySettings", (Object)"NaviFavoriteHandlerEvo");
+            this.log.log(100000000, "%1#resetMemorySettings", (Object)LOGCLASS);
         }
         this.removeAllFavorites(true);
         this.notifyObservers();
     }
 
-    @Override
     public IPoiService getPoiService() {
         return this.poiService;
     }
 
-    @Override
     public void setLocationFromADB(NavLocation navLocation) {
     }
 
-    @Override
     public void setFavoritesContext(int n) {
-    }
-
-    static /* synthetic */ LogChannel access$000(NaviFavoriteHandlerEvo naviFavoriteHandlerEvo) {
-        return naviFavoriteHandlerEvo.log;
-    }
-
-    static /* synthetic */ LocationSerializer access$100(NaviFavoriteHandlerEvo naviFavoriteHandlerEvo) {
-        return naviFavoriteHandlerEvo.locationSerializer;
-    }
-
-    static /* synthetic */ LocationSerializer access$200(NaviFavoriteHandlerEvo naviFavoriteHandlerEvo) {
-        return naviFavoriteHandlerEvo.locationSerializer;
-    }
-
-    static /* synthetic */ int access$300(NaviFavoriteHandlerEvo naviFavoriteHandlerEvo) {
-        return naviFavoriteHandlerEvo.favoriteForEditing;
-    }
-
-    static /* synthetic */ BaseListModelApp access$400(NaviFavoriteHandlerEvo naviFavoriteHandlerEvo) {
-        return naviFavoriteHandlerEvo.favoriteListModel;
-    }
-
-    static /* synthetic */ void access$500(NaviFavoriteHandlerEvo naviFavoriteHandlerEvo) {
-        naviFavoriteHandlerEvo.notifyObservers();
     }
 }
 

@@ -13,16 +13,15 @@ import de.esolutions.fw.util.commons.job.DispatcherBase;
 
 public class BAPPropertyTel2SignalQuality
 extends AbstractTel2EnqueuedBAPPropertyHandler {
-    private static final int SIGNAL_QUALITY_KOMBI_INVALID;
-    private static final int SIGNAL_QUALITY_DSI_INVALID;
-    private static final int SIGNAL_QUALITY_UNKNOWN;
+    private static final int SIGNAL_QUALITY_KOMBI_INVALID = 0;
+    private static final int SIGNAL_QUALITY_DSI_INVALID = 255;
+    private static final int SIGNAL_QUALITY_UNKNOWN = -1;
     private volatile int dataSignalQuality = -1;
 
     public BAPPropertyTel2SignalQuality(ITelApplication iTelApplication, DispatcherBase dispatcherBase) {
         super(iTelApplication, dispatcherBase);
     }
 
-    @Override
     protected boolean doProcessGlobalTelephoneStateUpdate(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         return iGlobalTelephoneStateStruct != null;
     }
@@ -41,7 +40,7 @@ extends AbstractTel2EnqueuedBAPPropertyHandler {
             buffer.append(", ");
             buffer.append("dataSignalQuality=");
             buffer.append(n4);
-            this.log.log(1078071040, "[BAPPropertyTel2SignalQuality#updateCombiWithDataSignalQuality] %1", (Object)buffer);
+            this.log.log(1000000, "[BAPPropertyTel2SignalQuality#updateCombiWithDataSignalQuality] %1", (Object)buffer);
         }
         if (TelBAPManagerTel2Utils.telModeSupportsData(n2) || !bl) {
             combiBAPServicePhone2.updateSignalQuality(n4);
@@ -49,7 +48,6 @@ extends AbstractTel2EnqueuedBAPPropertyHandler {
         }
     }
 
-    @Override
     protected void updateAsync() {
         CombiBAPServicePhone2 combiBAPServicePhone2 = this.getCombiService();
         IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct = this.getTelephoneState();
@@ -67,7 +65,7 @@ extends AbstractTel2EnqueuedBAPPropertyHandler {
                     this.updateCombiWithDataSignalQuality(combiBAPServicePhone2, n2, n3, n4, n, bl);
                 }
             } else {
-                this.log.log(-1601830656, "[BAPPropertyTel2SignalQuality#update] CombiBAPServicePhone is null --> NOP!");
+                this.log.log(100000, "[BAPPropertyTel2SignalQuality#update] CombiBAPServicePhone is null --> NOP!");
             }
         } else {
             this.log.log(10000, "BAPPropertyTel2SignalQuality#updateAsync state is null");

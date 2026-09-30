@@ -18,7 +18,7 @@ public class NullService {
 
     protected NullService(LogChannel logChannel, String string) {
         this.lc = logChannel;
-        this.loglevel = -1601830656;
+        this.loglevel = 100000;
         this.serviceName = string;
     }
 
@@ -44,7 +44,7 @@ public class NullService {
         String string3 = "";
         Package package_ = clazz.getPackage();
         if (package_ != null && (string = package_.getName()) != null && string.length() > 0) {
-            string3 = new StringBuffer().append(string).append(".").toString();
+            string3 = string + ".";
         }
         String string4 = string3.length() > 0 && string2.startsWith(string3) ? string2.substring(string3.length()) : string2;
         return string4;

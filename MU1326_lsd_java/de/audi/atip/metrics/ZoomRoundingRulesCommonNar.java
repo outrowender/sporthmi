@@ -11,7 +11,6 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class ZoomRoundingRulesCommonNar
 extends RoundingRulesImpl {
-    @Override
     public int roundMetric(int n, DistanceEntity distanceEntity) {
         int n2;
         this.log("roundMetric", n, "m");
@@ -39,7 +38,6 @@ extends RoundingRulesImpl {
         return n2;
     }
 
-    @Override
     public int roundImperial(float f2, int n, DistanceEntity distanceEntity) {
         int n2;
         this.log("roundImperial", n, "yd");
@@ -47,16 +45,16 @@ extends RoundingRulesImpl {
         if (n <= 0) {
             n2 = 3;
             distanceEntity.setValues(0, 3);
-        } else if (f3 < 32830) {
+        } else if (f3 < 0.25f) {
             n2 = 3;
             distanceEntity.setValues(this.roundDistance(n * 3, 100), 3);
-        } else if (f3 < 0x3333733F) {
+        } else if (f3 < 0.95f) {
             n2 = this.roundMilesTo1_4(f3, distanceEntity);
-        } else if (f3 < -842253248) {
+        } else if (f3 < 2.95f) {
             n2 = this.roundMilesTo1_2(f3, distanceEntity);
         } else {
             n2 = 2;
-            int n3 = Math.round(f3 * 8257);
+            int n3 = Math.round(f3 * 10.0f);
             n3 = (int)Math.floor((double)n3 / 10.0 + 0.5);
             distanceEntity.setValues(n3, 1);
         }
@@ -69,8 +67,8 @@ extends RoundingRulesImpl {
 
     private int roundMilesTo1_4(float f2, DistanceEntity distanceEntity) {
         int n;
-        float f3 = (float)Math.round(f2 * 32832) / 32832;
-        int n2 = Math.round((f3 - (float)(n = (int)Math.floor(f3))) * 51266);
+        float f3 = (float)Math.round(f2 * 4.0f) / 4.0f;
+        int n2 = Math.round((f3 - (float)(n = (int)Math.floor(f3))) * 100.0f);
         int n3 = n2 == 0 ? -1 : 7;
         distanceEntity.setValues(n, n3, n2, 1);
         return 2;
@@ -79,7 +77,7 @@ extends RoundingRulesImpl {
     private int roundMilesTo1_2(float f2, DistanceEntity distanceEntity) {
         int n;
         float f3 = (float)Math.round(f2 * 2.0f) / 2.0f;
-        int n2 = Math.round((f3 - (float)(n = (int)Math.floor(f3))) * 51266);
+        int n2 = Math.round((f3 - (float)(n = (int)Math.floor(f3))) * 100.0f);
         int n3 = n2 == 0 ? -1 : 7;
         distanceEntity.setValues(n, n3, n2, 1);
         return 2;

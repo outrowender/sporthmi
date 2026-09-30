@@ -26,9 +26,8 @@ extends AbstractADBCommand {
         this.windowSize = n3;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "GetValidHanziCharsWindowCommand#execute()");
+        this.logger.log(10000000, "GetValidHanziCharsWindowCommand#execute()");
         boolean bl = this.adbDSIAccess.getValidHanziCharsWindow(this.currentSpellerHandle, this.offset, this.windowSize);
         if (!bl) {
             this.logger.log(10000, "GetValidHanziCharsWindowCommand#execute(): dsi call was not successful, finishing command.");
@@ -37,9 +36,8 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public void getValidHanziCharsWindowResult(int n, int n2, int n3, String string, int n4) {
-        this.logger.log(-2137614336, "GetValidHanziCharsWindowCommand#getValidHanziCharsWindowResult(): success: %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
+        this.logger.log(10000000, "GetValidHanziCharsWindowCommand#getValidHanziCharsWindowResult(): success: %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
         if (n == 0) {
             this.adbSearch.setValidHanziChars(string, n4);
             this.adbSearch.getSpellerModel().setStatus(1);

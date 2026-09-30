@@ -18,7 +18,6 @@ implements IVersionInfo {
     VersionInfo() {
     }
 
-    @Override
     public String getHMIVersion() {
         if (this.hmiVersion == null) {
             this.hmiVersion = System.getProperty("HMI_Version", "???");
@@ -26,7 +25,6 @@ implements IVersionInfo {
         return this.hmiVersion;
     }
 
-    @Override
     public String getTextToolVersion() {
         if (this.textToolVersion == null) {
             this.textToolVersion = System.getProperty("TextToolVersionGUI", "???");
@@ -34,7 +32,6 @@ implements IVersionInfo {
         return this.textToolVersion;
     }
 
-    @Override
     public String getTextToolSDSVersion() {
         if (this.textToolSDSVersion == null) {
             this.textToolSDSVersion = System.getProperty("TextToolVersionSDS", "???");
@@ -42,7 +39,6 @@ implements IVersionInfo {
         return this.textToolSDSVersion;
     }
 
-    @Override
     public String getOptionDrawerVersion() {
         if (this.optionDrawerVersion == null) {
             this.optionDrawerVersion = System.getProperty("OptionDrawerVersion", "???");
@@ -50,7 +46,6 @@ implements IVersionInfo {
         return this.optionDrawerVersion;
     }
 
-    @Override
     public String getDsiIfcVersion() {
         if (this.dsiIfcVersion == null) {
             this.dsiIfcVersion = System.getProperty("DSI_IFC_Version", "???");
@@ -58,7 +53,6 @@ implements IVersionInfo {
         return this.dsiIfcVersion;
     }
 
-    @Override
     public String getFrameworkVersion() {
         if (this.frameworkVersion == null) {
             this.frameworkVersion = System.getProperty("Framwork_Version", "???");
@@ -66,7 +60,6 @@ implements IVersionInfo {
         return this.frameworkVersion;
     }
 
-    @Override
     public String getKanziVersion() {
         if (this.kanziVersion == null) {
             this.kanziVersion = System.getProperty("Kanzi_Version", "???");
@@ -74,32 +67,26 @@ implements IVersionInfo {
         return this.kanziVersion;
     }
 
-    @Override
     public String getHudsonBuildTag() {
         return System.getProperty("HUDSON_BUILD_TAG", "???");
     }
 
-    @Override
     public boolean isOfficialRelease() {
         return Boolean.getBoolean("Official_Release");
     }
 
-    @Override
     public boolean isProductionVersion() {
         return Boolean.getBoolean("IS_PRODUCTION_MODE");
     }
 
-    @Override
     public String getLangDataChecksum() {
         return System.getProperty("checksum_lang_data", "");
     }
 
-    @Override
     public String getDiagChecksum() {
         return System.getProperty("checksum_diag_jar", "");
     }
 
-    @Override
     public String getExtLogsChecksum() {
         return System.getProperty("checksum_ext_logs", "");
     }

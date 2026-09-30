@@ -26,7 +26,6 @@ ServiceTrackerCustomizer {
         this.client = iOsgiServiceClient;
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.context.getService(serviceReference);
         if (this.clazz.isInstance(object)) {
@@ -38,25 +37,21 @@ ServiceTrackerCustomizer {
         return object;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
-        this.log.log(-1601830656, "[OsgiServiceActivator] removed Service %1", (Object)this.clazz.getName());
+        this.log.log(100000, "[OsgiServiceActivator] removed Service %1", (Object)this.clazz.getName());
         this.client.setService(null);
         this.context.ungetService(serviceReference);
     }
 
-    @Override
     public void start(BundleContext bundleContext) {
         this.context = bundleContext;
         this.tracker = new ServiceTracker(bundleContext, this.clazz.getName(), (ServiceTrackerCustomizer)this);
         this.tracker.open();
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         if (this.tracker != null) {
             this.tracker.close();

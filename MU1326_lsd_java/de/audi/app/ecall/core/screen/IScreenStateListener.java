@@ -4,16 +4,12 @@
 package de.audi.app.ecall.core.screen;
 
 public interface IScreenStateListener {
-    default public void screenVisible(int n) {
-    }
+    public void screenVisible(int var1);
 
-    default public void screenHidden(int n) {
-    }
+    public void screenHidden(int var1);
 
-    default public void notifyScreenConnected(int n) {
-    }
+    public void notifyScreenConnected(int var1);
 
-    default public void notifyScreenFadedOut(int n) {
-    }
+    public void notifyScreenFadedOut(int var1);
 }
 

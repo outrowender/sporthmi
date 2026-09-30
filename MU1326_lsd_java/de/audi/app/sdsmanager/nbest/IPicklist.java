@@ -7,39 +7,28 @@ import de.audi.app.sdsmanager.nbest.IPicklistElement;
 import de.audi.app.sdsmanager.nbest.IPicklistSlot;
 
 public interface IPicklist {
-    public static final int DUMMY_RULE_ID;
+    public static final int DUMMY_RULE_ID = -1;
 
-    default public IPicklistElement get(int n) {
-    }
+    public IPicklistElement get(int var1);
 
-    default public int getPositionForSlotIndex(int n) {
-    }
+    public int getPositionForSlotIndex(int var1);
 
-    default public int getSize() {
-    }
+    public int getSize();
 
-    default public IPicklistSlot getSlot(int n, int n2) {
-    }
+    public IPicklistSlot getSlot(int var1, int var2);
 
-    default public IPicklistElement[] getElements() {
-    }
+    public IPicklistElement[] getElements();
 
-    default public int getLastRecogLineNumber() {
-    }
+    public int getLastRecogLineNumber();
 
-    default public void setLastRecogLine(boolean bl, int n) {
-    }
+    public void setLastRecogLine(boolean var1, int var2);
 
-    default public boolean isLineSelectedByNumber() {
-    }
+    public boolean isLineSelectedByNumber();
 
-    default public int[] getGraphGroupSizes() {
-    }
+    public int[] getGraphGroupSizes();
 
-    default public int[] getGraphGroupIndexes() {
-    }
+    public int[] getGraphGroupIndexes();
 
-    default public IPicklist getRearrangedPicklist(int[] nArray) {
-    }
+    public IPicklist getRearrangedPicklist(int[] var1);
 }
 

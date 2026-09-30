@@ -34,7 +34,6 @@ extends AbstractSearchResultFormatter {
         this.env = navigationEnv;
     }
 
-    @Override
     public SearchResultListRow formatResult(SearchResult searchResult) {
         NaviSearchResultListRow naviSearchResultListRow = new NaviSearchResultListRow(searchResult);
         naviSearchResultListRow.setNodeType(1);
@@ -50,7 +49,7 @@ extends AbstractSearchResultFormatter {
 
     protected void setPropertyCell(NaviSearchResultListRow naviSearchResultListRow) {
         NaviCellPropsContainer naviCellPropsContainer = new NaviCellPropsContainer();
-        naviCellPropsContainer.setCategory(-598085509);
+        naviCellPropsContainer.setCategory(2079349212);
         naviSearchResultListRow.setPropertiesColumn(new PropertyListCell(naviCellPropsContainer.getCategory(), naviCellPropsContainer.getProperties()));
     }
 
@@ -73,13 +72,13 @@ extends AbstractSearchResultFormatter {
 
     protected PropertyListCell createPropertyListCell(int n) {
         if (n == 0 || n == 1) {
-            return new PropertyListCell(1925581802, new int[0]);
+            return new PropertyListCell(-368327054, new int[0]);
         }
         if (n == 2 || n == 3) {
-            return new PropertyListCell(160082217, new int[0]);
+            return new PropertyListCell(698976777, new int[0]);
         }
         if (n == 4 || n == 5) {
-            return new PropertyListCell(-33240568, new int[0]);
+            return new PropertyListCell(147457278, new int[0]);
         }
         return null;
     }
@@ -91,7 +90,7 @@ extends AbstractSearchResultFormatter {
                 return null;
             }
             int n2 = this.env.getFramework().getSysConst(442);
-            string = new StringBuffer().append(ADBAddressUtils.getFirstDisplayLineOfPostalAddress(addressData, n2)).append(" ").append(ADBAddressUtils.getSecondDisplayLineOfPostalAddress(addressData, n2)).toString();
+            string = ADBAddressUtils.getFirstDisplayLineOfPostalAddress(addressData, n2) + " " + ADBAddressUtils.getSecondDisplayLineOfPostalAddress(addressData, n2);
         } else if (n == 2 || n == 3) {
             string = this.getLocationNameSingleLine(addressData.navLocation);
             if (Util.isEmpty(string)) {
@@ -105,7 +104,7 @@ extends AbstractSearchResultFormatter {
             int n3 = Util.degreeStringToWgs84(stringArray[1]);
             int n4 = Util.degreeStringToWgs84(stringArray[0]);
             GeoMetric geoMetric = new GeoMetric(n4, n3);
-            string = new StringBuffer().append(geoMetric.formatLatitude()).append(", ").append(geoMetric.formatLongitude()).toString();
+            string = geoMetric.formatLatitude() + ", " + geoMetric.formatLongitude();
         } else {
             return null;
         }

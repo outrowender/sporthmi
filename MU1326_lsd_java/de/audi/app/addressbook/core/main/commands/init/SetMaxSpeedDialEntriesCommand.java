@@ -18,9 +18,8 @@ extends AbstractADBCommand {
         this.maxSpeedDialEntries = n;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "SetMaxSpeedDialEntriesCommand#execute()");
+        this.logger.log(1000000, "SetMaxSpeedDialEntriesCommand#execute()");
         boolean bl = this.adbDSIAccess.setMaxSpeedDialEntries(this.maxSpeedDialEntries);
         if (!bl) {
             this.logger.log(10000, "SetMaxSpeedDialEntriesCommand#execute(): dsi call was not successful, finishing command.");
@@ -28,9 +27,8 @@ extends AbstractADBCommand {
         }
     }
 
-    @Override
     public void setMaxSpeedDialEntriesResult(int n) {
-        this.logger.log(1078071040, "SetMaxSpeedDialEntriesCommand#setMaxSpeedDialEntriesResult(): %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
+        this.logger.log(1000000, "SetMaxSpeedDialEntriesCommand#setMaxSpeedDialEntriesResult(): %1", (Object)ADBDbgUtils.dbgSuccessFlag(n));
         this.commandList.commandFinished();
     }
 

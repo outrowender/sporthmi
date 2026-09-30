@@ -16,7 +16,6 @@ implements IDemoModeModelAccess {
         this.demoModeChoiceModel = n;
     }
 
-    @Override
     public void updateDemoModeState(boolean bl) {
         if (bl) {
             this.env.getChoiceModel(this.demoModeChoiceModel).setValue(1);
@@ -25,13 +24,11 @@ implements IDemoModeModelAccess {
         }
     }
 
-    @Override
     public void setDemoStatus(int n) {
-        this.env.getChoiceModel(-1256323584).setValue(n);
+        this.env.getChoiceModel(401077).setValue(n);
         this.env.getChoiceModel(this.demoModeChoiceModel).setStatus(n);
     }
 
-    @Override
     public boolean isDemoModeActive() {
         return this.env.getChoiceModel(this.demoModeChoiceModel).getStatus() == 1;
     }

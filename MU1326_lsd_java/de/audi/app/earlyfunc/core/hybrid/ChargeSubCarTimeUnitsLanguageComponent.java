@@ -21,21 +21,18 @@ extends AbstractDSICarTimeUnitsLanguageAdapter {
         this.mainComponent = iDateTimeChangeListener;
     }
 
-    @Override
     public void updateClockTime(ClockTime clockTime, int n) {
         if (n == 1) {
             this.mainComponent.onTimeChange(clockTime);
         }
     }
 
-    @Override
     public void updateClockDate(ClockDate clockDate, int n) {
         if (n == 1) {
             this.mainComponent.onDateChange(clockDate);
         }
     }
 
-    @Override
     public void updateClockViewOptions(ClockViewOptions clockViewOptions, int n) {
         if (n == 1) {
             this.currentViewOptions = clockViewOptions;
@@ -43,34 +40,27 @@ extends AbstractDSICarTimeUnitsLanguageAdapter {
         }
     }
 
-    @Override
     public CarDSIAttributesSet[] getDSIAttributesSets() {
         return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{1}, new int[]{3, 2})};
     }
 
-    @Override
     public int getID() {
         return 1000;
     }
 
-    @Override
     public String getName() {
         return "ChargeSubCarTimeUnitsLanguageComponent";
     }
 
-    @Override
     protected void initModels() {
     }
 
-    @Override
     protected void deinitModels() {
     }
 
-    @Override
     protected void initVisibility() {
     }
 
-    @Override
     protected void deinitVisibility() {
     }
 }

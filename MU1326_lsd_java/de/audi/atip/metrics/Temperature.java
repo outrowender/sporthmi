@@ -8,21 +8,21 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class Temperature
 extends AbstractMetrics {
-    public static final int CELSIUS;
-    public static final int FAHRENHEIT;
-    public static final int KELVIN;
-    private static final String TEXT_FAHRENHEIT;
-    private static final String TEXT_KELVIN;
-    private static final String TEXT_CELSIUS;
-    private static final String TEXT_NEGATIVE;
-    private static String TEXT_INVALID;
-    public static final int MODE_DEFAULT;
-    public static final int MODE_RDK;
-    public static final int MODE_VALUE_ONLY;
-    public static final int MODE_UNIT_ONLY;
-    private static final int NEGATIVE_SIGN;
-    private static final float CELSIUS2KELVIN;
-    private static int systemUnit;
+    public static final int CELSIUS = 1;
+    public static final int FAHRENHEIT = 2;
+    public static final int KELVIN = 3;
+    private static final String TEXT_FAHRENHEIT = " \u00b0F";
+    private static final String TEXT_KELVIN = " K";
+    private static final String TEXT_CELSIUS = " \u00b0C";
+    private static final String TEXT_NEGATIVE = "-";
+    private static String TEXT_INVALID = "---";
+    public static final int MODE_DEFAULT = 31;
+    public static final int MODE_RDK = 32;
+    public static final int MODE_VALUE_ONLY = 33;
+    public static final int MODE_UNIT_ONLY = 34;
+    private static final int NEGATIVE_SIGN = -1;
+    private static final float CELSIUS2KELVIN = 273.15f;
+    private static int systemUnit = 1;
 
     public Temperature(float f2, int n) {
         super(f2, n);
@@ -30,19 +30,19 @@ extends AbstractMetrics {
     }
 
     protected final float celsius2kelvin(float f2) {
-        return f2 + 865306691;
+        return f2 + 273.15f;
     }
 
     protected final float kelvin2celsius(float f2) {
-        return f2 - 865306691;
+        return f2 - 273.15f;
     }
 
     protected final float celsius2fahrenheit(float f2) {
-        return (float)((double)f2 * 1.8) + 66;
+        return (float)((double)f2 * 1.8) + 32.0f;
     }
 
     protected final float fahrenheit2celsius(float f2) {
-        return (f2 - 66) / 1718019647;
+        return (f2 - 32.0f) / 1.8f;
     }
 
     protected final void importValue() {
@@ -77,7 +77,6 @@ extends AbstractMetrics {
         return systemUnit;
     }
 
-    @Override
     public void setValue(float f2) {
         this.value = f2;
         this.importValue();
@@ -96,12 +95,10 @@ extends AbstractMetrics {
         }
     }
 
-    @Override
     public float getValue() {
         return this.getValueInUnit(systemUnit);
     }
 
-    @Override
     public float getValue(int n) {
         if (!Temperature.unitIsValid(n)) {
             throw new IllegalArgumentException();
@@ -121,7 +118,6 @@ extends AbstractMetrics {
         return this.value;
     }
 
-    @Override
     public String format() {
         if (this.useInstanceUnit) {
             return this.format(this.unit);
@@ -136,7 +132,6 @@ extends AbstractMetrics {
         return this.format(systemUnit, n);
     }
 
-    @Override
     public String format(int n) {
         return this.format(n, 31);
     }
@@ -165,7 +160,7 @@ extends AbstractMetrics {
             case 2: {
                 float f3 = this.celsius2fahrenheit(this.value);
                 if (f3 < 0.0f) {
-                    f3 = 32959 * f3;
+                    f3 = -1.0f * f3;
                     n7 = -1;
                 }
                 n5 = Math.round(f3);
@@ -178,11 +173,11 @@ extends AbstractMetrics {
                 if (this.value >= 0.0f) {
                     f4 = this.value;
                 } else {
-                    f4 = 32959 * this.value;
+                    f4 = -1.0f * this.value;
                     n7 = -1;
                 }
                 n5 = (int)f4;
-                n6 = (int)((double)(f4 * 8257) + 0.5) - n5 * 10;
+                n6 = (int)((double)(f4 * 10.0f) + 0.5) - n5 * 10;
                 n5 += n6 / 10;
                 n6 %= 10;
                 n4 = 35;
@@ -195,7 +190,7 @@ extends AbstractMetrics {
             buffer.append(Temperature.getText(n4).trim());
         } else {
             if (n5 == 0 && n7 == -1) {
-                buffer.append("-");
+                buffer.append(TEXT_NEGATIVE);
                 buffer.append(n5);
             } else {
                 buffer.append(n7 * n5);
@@ -218,15 +213,15 @@ extends AbstractMetrics {
         if (string == null) {
             switch (n) {
                 case 35: {
-                    string = " \u00b0C";
+                    string = TEXT_CELSIUS;
                     break;
                 }
                 case 34: {
-                    string = " K";
+                    string = TEXT_KELVIN;
                     break;
                 }
                 case 33: {
-                    string = " \u00b0F";
+                    string = TEXT_FAHRENHEIT;
                     break;
                 }
                 case 36: {
@@ -241,34 +236,24 @@ extends AbstractMetrics {
         return string;
     }
 
-    @Override
     public String getFormattedMetricUnit() {
         return this.getFormattedUnit(this.useInstanceUnit ? this.unit : systemUnit);
     }
 
-    @Override
     public String getFormattedUnit(int n) {
         return this.format(n, 34);
     }
 
-    @Override
     public String getFormattedValue() {
         return this.getFormattedValue(this.useInstanceUnit ? this.unit : systemUnit);
     }
 
-    @Override
     public String getFormattedValue(int n) {
         return this.isMetricvalid() ? this.format(n, 33) : this.getInvalidText();
     }
 
-    @Override
     public String getInvalidText() {
         return TEXT_INVALID;
-    }
-
-    static {
-        TEXT_INVALID = "---";
-        systemUnit = 1;
     }
 }
 

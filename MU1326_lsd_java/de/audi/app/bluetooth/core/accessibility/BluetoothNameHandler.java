@@ -15,32 +15,30 @@ public class BluetoothNameHandler
 extends AbstractBluetoothComponent
 implements SpellerListener,
 ButtonListener {
-    private static final int MIN_LENGTH;
-    private static final int MAX_LENGTH;
-    private static final int MODEL_STATUS_ENABLE;
-    private static final int MODEL_STATUS_DISABLE;
+    private static final int MIN_LENGTH = 4;
+    private static final int MAX_LENGTH = 20;
+    private static final int MODEL_STATUS_ENABLE = 0;
+    private static final int MODEL_STATUS_DISABLE = 1;
     private final int[] attributeNotifications = new int[]{9};
     private String userFriendlyName;
-    protected final SpellerModelApp nameSpeller = this.getSpellerModel(505816576);
-    protected final SpellerModelApp nameSpeller2 = this.getSpellerModel(-819583488);
-    private final TextfieldModelApp nameTextfield = this.getTextfieldModel(489039360);
-    private final ButtonModelApp setNameButton = this.getButtonModel(522593792);
+    protected final SpellerModelApp nameSpeller = this.getSpellerModel(2500126);
+    protected final SpellerModelApp nameSpeller2 = this.getSpellerModel(2500303);
+    private final TextfieldModelApp nameTextfield = this.getTextfieldModel(2500125);
+    private final ButtonModelApp setNameButton = this.getButtonModel(2500127);
 
     public BluetoothNameHandler(IBluetoothApplication iBluetoothApplication) {
         super(iBluetoothApplication);
     }
 
-    @Override
     protected int[] getAttributeNotifications() {
         return this.attributeNotifications;
     }
 
-    @Override
     public void updateUserFriendlyName(String string, int n) {
         if (n != 1) {
             return;
         }
-        this.log.log(-2137614336, "BluetoothNameHandler#updateUserFriendlyName(): %1", (Object)string);
+        this.log.log(10000000, "BluetoothNameHandler#updateUserFriendlyName(): %1", (Object)string);
         this.userFriendlyName = string;
         this.nameSpeller.setText(string);
         this.nameSpeller2.setText(string);
@@ -52,14 +50,13 @@ ButtonListener {
         this.nameSpeller.setStatus(this.isValid(this.nameSpeller.getText()) ? 0 : 1);
     }
 
-    @Override
     public void textChanged(int n, String string, char c2, int n2) {
         if (n == this.nameSpeller.getID()) {
-            this.log.log(14808325, "BluetoothNameHandler#textChanged(): Text=\"%1\"", (Object)string);
+            this.log.log(100000000, "BluetoothNameHandler#textChanged(): Text=\"%1\"", (Object)string);
             this.nameSpeller.setText(string);
             this.updateSpellerStatus();
         } else if (n == this.nameSpeller2.getID()) {
-            this.log.log(14808325, "BluetoothNameHandler#textChanged(): Text=\"%1\"", (Object)string);
+            this.log.log(100000000, "BluetoothNameHandler#textChanged(): Text=\"%1\"", (Object)string);
             if (string.length() <= 20) {
                 this.nameSpeller.setText(string);
             }
@@ -72,9 +69,8 @@ ButtonListener {
         return string != null && string.length() >= 4 && string.length() <= 20;
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.log.log(1078071040, "BluetoothNameHandler#keyTyped(): %1", (long)n);
+        this.log.log(1000000, "BluetoothNameHandler#keyTyped(): %1", (long)n);
         if (n == this.nameTextfield.getID()) {
             this.nameSpeller.setText(this.userFriendlyName);
             this.nameSpeller2.setText(this.userFriendlyName);
@@ -91,27 +87,21 @@ ButtonListener {
         this.nameSpeller.fireEvent(n);
     }
 
-    @Override
     public void commandPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void focusedCharacter(int n, char c2, int n2) {
     }
 
-    @Override
     public void init() {
         super.init();
         this.nameSpeller.setSpellerListener(this);
@@ -124,7 +114,6 @@ ButtonListener {
         this.setNameButton.setButtonListener(this);
     }
 
-    @Override
     public void deinit() {
         this.nameSpeller.resetListener();
         this.nameSpeller2.resetListener();

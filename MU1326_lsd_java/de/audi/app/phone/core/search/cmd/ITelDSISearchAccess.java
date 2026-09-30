@@ -6,10 +6,8 @@ package de.audi.app.phone.core.search.cmd;
 import de.audi.app.phone.core.search.cmd.ITelSearchQueryListener;
 
 public interface ITelDSISearchAccess {
-    default public void scheduleQuery(String string, int[] nArray, ITelSearchQueryListener iTelSearchQueryListener) {
-    }
+    public void scheduleQuery(String var1, int[] var2, ITelSearchQueryListener var3);
 
-    default public void cancelActiveSearchQuery() {
-    }
+    public void cancelActiveSearchQuery();
 }
 

@@ -6,16 +6,12 @@ package de.audi.atip.mmicombi;
 import de.audi.atip.mmicombi.IMMICombiAnimationPlan;
 
 public interface IMMICombiAnimationPlanner {
-    default public IMMICombiAnimationPlan computeAnimationPlan(int n, int n2, int n3, int n4, int n5) {
-    }
+    public IMMICombiAnimationPlan computeAnimationPlan(int var1, int var2, int var3, int var4, int var5);
 
-    default public IMMICombiAnimationPlan getCurrentAnimationPlan() {
-    }
+    public IMMICombiAnimationPlan getCurrentAnimationPlan();
 
-    default public void deactivateAnimationPlan() {
-    }
+    public void deactivateAnimationPlan();
 
-    default public void setSkin(int n) {
-    }
+    public void setSkin(int var1);
 }
 

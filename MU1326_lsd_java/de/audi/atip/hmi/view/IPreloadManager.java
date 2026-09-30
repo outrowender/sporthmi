@@ -4,13 +4,10 @@
 package de.audi.atip.hmi.view;
 
 public interface IPreloadManager {
-    default public void addPreloadingBatch(int[] nArray) {
-    }
+    public void addPreloadingBatch(int[] var1);
 
-    default public void addPreloadingBatches(int[][] nArray) {
-    }
+    public void addPreloadingBatches(int[][] var1);
 
-    default public void start() {
-    }
+    public void start();
 }
 

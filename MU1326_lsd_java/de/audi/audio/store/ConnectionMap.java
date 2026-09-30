@@ -7,7 +7,7 @@ import de.esolutions.fw.util.commons.IntList;
 import de.esolutions.fw.util.commons.SimpleIntIntMap;
 
 public class ConnectionMap {
-    private static final int KEY_OFFSET;
+    private static final int KEY_OFFSET = 100;
     private final SimpleIntIntMap map = new SimpleIntIntMap(100);
     private final int defaultStatus;
 

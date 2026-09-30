@@ -6,13 +6,10 @@ package de.audi.atip.storagecache;
 import de.audi.atip.storagecache.CacheEventListener;
 
 public interface CacheHandler {
-    default public Object getState(String string, String string2) {
-    }
+    public Object getState(String var1, String var2);
 
-    default public void addListener(CacheEventListener cacheEventListener) {
-    }
+    public void addListener(CacheEventListener var1);
 
-    default public void removeListener(CacheEventListener cacheEventListener) {
-    }
+    public void removeListener(CacheEventListener var1);
 }
 

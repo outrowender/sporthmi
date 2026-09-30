@@ -9,16 +9,12 @@ import org.osgi.framework.ServiceRegistration;
 import org.osgi.util.tracker.ServiceTracker;
 
 public interface IServiceRegistry {
-    default public ServiceRegistration registerService(String string, Object object, Dictionary dictionary) {
-    }
+    public ServiceRegistration registerService(String var1, Object var2, Dictionary var3);
 
-    default public ServiceRegistration registerService(String[] stringArray, Object object, Dictionary dictionary) {
-    }
+    public ServiceRegistration registerService(String[] var1, Object var2, Dictionary var3);
 
-    default public void addTracker(ServiceTracker serviceTracker) {
-    }
+    public void addTracker(ServiceTracker var1);
 
-    default public void startDsiService(DsiDescriptor dsiDescriptor) {
-    }
+    public void startDsiService(DsiDescriptor var1);
 }
 

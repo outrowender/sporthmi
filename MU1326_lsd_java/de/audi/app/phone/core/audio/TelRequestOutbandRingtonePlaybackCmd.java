@@ -14,7 +14,7 @@ extends AbstractTelAudioCmd {
     private final int ringtoneID;
 
     TelRequestOutbandRingtonePlaybackCmd(LogChannel logChannel, HMIAudioService hMIAudioService, RingTonePlayer ringTonePlayer, int n) {
-        super(logChannel, new StringBuffer().append("TelRequestOutbandRingtonePlaybackCmd: ringtoneID=").append(n).toString(), hMIAudioService);
+        super(logChannel, "TelRequestOutbandRingtonePlaybackCmd: ringtoneID=" + n, hMIAudioService);
         if (ringTonePlayer == null) {
             throw new IllegalArgumentException("TelRequestOutbandRingtonePlaybackCmd#init: ringtonePlayer is null");
         }
@@ -22,16 +22,14 @@ extends AbstractTelAudioCmd {
         this.ringtoneID = n;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(1078071040, "[TelRequestOutbandRingtonePlaybackCmd#execute] playing ringtoneID=%1", (long)this.ringtoneID);
+        this.logger.log(1000000, "[TelRequestOutbandRingtonePlaybackCmd#execute] playing ringtoneID=%1", (long)this.ringtoneID);
         this.ringtonePlayer.playTone(1, this.ringtoneID);
         this.getCommandList().commandFinished();
     }
 
-    @Override
     public void state(int n) {
-        this.logger.log(1078071040, "[TelRequestOutbandRingtonePlaybackCmd#state] status=%1", (long)n);
+        this.logger.log(1000000, "[TelRequestOutbandRingtonePlaybackCmd#state] status=%1", (long)n);
     }
 }
 

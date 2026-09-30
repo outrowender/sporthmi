@@ -4,7 +4,6 @@
 package de.audi.atip.interapp.radio;
 
 public interface IGracenoteServiceListener {
-    default public void updateOnlineLookupStatus(int n) {
-    }
+    public void updateOnlineLookupStatus(int var1);
 }
 

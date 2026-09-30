@@ -15,27 +15,27 @@ import org.dsi.ifc.messaging.MessagingAccount;
 
 public final class CoreAccountListRow
 extends AbstractAccountListRow {
-    public static final int COLUMN_COUNT;
-    private static final int CELL_ID_ICON;
-    private static final int CELL_ID_ACCOUNT_DESC;
-    private static final int CELL_ID_ACCOUNT_NO;
-    private static final int CELL_ID_ACCOUNT_NAME;
-    private static final int CELL_ID_RECORDSET;
-    private static final int CELL_IDX_UNREAD_COUNT;
-    private static final int CELL_IDX_NEW_MESSAGE_COUNT;
-    private static final int CELL_IDX_SUPPORTS_SEND;
-    private static final int ICON_SMS_ACC;
-    private static final int ICON_EMAIL_ACC;
-    private static final int ICON_SMS_ACC_NEW_MSG;
-    private static final int ICON_EMAIL_ACC_NEW_MSG;
-    private static final int TEXT_CONST_SMS_ACC_INTERNAL;
-    private static final int TEXT_CONST_SMS_ACC_EXTERNAL;
-    private static final int TEXT_CONST_EMAIL_ACC_INTERNAL;
-    private static final int TEXT_CONST_EMAIL_ACC_EXTERNAL;
-    private static final int TEXT_CONST_SMS_ACC_EXTERNAL_NAME_KNOWN;
-    private static final int TEXT_CONST_EMAIL_ACC_EXTERNAL_NAME_KNOWN;
-    private static final int RECORDSET_STATIC_DESCRIPTION;
-    private static final int RECORDSET_DYNAMIC_DESCRIPTION;
+    public static final int COLUMN_COUNT = 8;
+    private static final int CELL_ID_ICON = 0;
+    private static final int CELL_ID_ACCOUNT_DESC = 2;
+    private static final int CELL_ID_ACCOUNT_NO = 1;
+    private static final int CELL_ID_ACCOUNT_NAME = 3;
+    private static final int CELL_ID_RECORDSET = 4;
+    private static final int CELL_IDX_UNREAD_COUNT = 5;
+    private static final int CELL_IDX_NEW_MESSAGE_COUNT = 6;
+    private static final int CELL_IDX_SUPPORTS_SEND = 7;
+    private static final int ICON_SMS_ACC = 0;
+    private static final int ICON_EMAIL_ACC = 1;
+    private static final int ICON_SMS_ACC_NEW_MSG = 2;
+    private static final int ICON_EMAIL_ACC_NEW_MSG = 3;
+    private static final int TEXT_CONST_SMS_ACC_INTERNAL = 0;
+    private static final int TEXT_CONST_SMS_ACC_EXTERNAL = 1;
+    private static final int TEXT_CONST_EMAIL_ACC_INTERNAL = 2;
+    private static final int TEXT_CONST_EMAIL_ACC_EXTERNAL = 3;
+    private static final int TEXT_CONST_SMS_ACC_EXTERNAL_NAME_KNOWN = 4;
+    private static final int TEXT_CONST_EMAIL_ACC_EXTERNAL_NAME_KNOWN = 5;
+    private static final int RECORDSET_STATIC_DESCRIPTION = 0;
+    private static final int RECORDSET_DYNAMIC_DESCRIPTION = 1;
     private final MessagingAccount messagingAccount;
     private final int accountNo;
     private final boolean isBasedOnBtConnection;
@@ -63,42 +63,34 @@ extends AbstractAccountListRow {
         this.setInteger(7, Accounts.supportsSend(messagingAccount) ? 1 : 0);
     }
 
-    @Override
     public EvoListRow copy() {
         return new CoreAccountListRow(this.messagingAccount, this.accountNo, this.isBasedOnBtConnection, this.btDeviceName, this.newMessages, this.newMessageCount);
     }
 
-    @Override
     public int getIconId() {
         return ((IntegerListCell)this.getCell(0)).getValue();
     }
 
-    @Override
     public int getAccountDescId() {
         return ((IntegerListCell)this.getCell(2)).getValue();
     }
 
-    @Override
     public String getAccountNo() {
         return ((TextListCell)this.getCell(1)).getText();
     }
 
-    @Override
     public MessagingAccount getMessagingAccount() {
         return this.messagingAccount;
     }
 
-    @Override
     public int getUnreadCount() {
         return ((IntegerListCell)this.getCell(5)).getValue();
     }
 
-    @Override
     public int getNewMessageCount() {
         return ((IntegerListCell)this.getCell(6)).getValue();
     }
 
-    @Override
     public boolean supportsSend() {
         return ((IntegerListCell)this.getCell(7)).getValue() == 1;
     }
@@ -126,7 +118,6 @@ extends AbstractAccountListRow {
         return buffer.toString();
     }
 
-    @Override
     public boolean equals(Object object) {
         boolean bl = false;
         try {
@@ -140,7 +131,6 @@ extends AbstractAccountListRow {
         return bl;
     }
 
-    @Override
     public int hashCode() {
         return this.getMessagingAccount().getAccountID();
     }

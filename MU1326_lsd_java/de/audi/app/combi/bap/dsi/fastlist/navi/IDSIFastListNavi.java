@@ -8,13 +8,10 @@ import org.dsi.ifc.kombifastlist.DataInitials;
 
 public interface IDSIFastListNavi
 extends IDSIFastListScrollingController {
-    default public void responseGetInitialsNavigation(int n, int n2, int n3, DataInitials[] dataInitialsArray) {
-    }
+    public void responseGetInitialsNavigation(int var1, int var2, int var3, DataInitials[] var4);
 
-    default public void pushFunctionAvailabilityNavigation(int n) {
-    }
+    public void pushFunctionAvailabilityNavigation(int var1);
 
-    default public void responseNotifyCurrentListSizesNavigation(boolean bl) {
-    }
+    public void responseNotifyCurrentListSizesNavigation(boolean var1);
 }
 

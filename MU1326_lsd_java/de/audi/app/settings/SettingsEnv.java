@@ -28,10 +28,10 @@ import de.audi.atip.storage.IStorageAccess;
 import org.osgi.framework.BundleContext;
 
 public class SettingsEnv {
-    public static final int VISIBLE;
-    public static final int INVISIBLE;
-    public static final int DISABLED;
-    public static final int DISABLED_WITH_REASON;
+    public static final int VISIBLE = 0;
+    public static final int INVISIBLE = 1;
+    public static final int DISABLED = 2;
+    public static final int DISABLED_WITH_REASON = 3;
     private final VariantMapper variantMapper = new VariantMapper();
     private IFrameworkAccess fw;
     private ILicenseBrowser licenseBrowser;
@@ -160,7 +160,7 @@ public class SettingsEnv {
     public int getETCCardRemiderTimeout() {
         int n = this.fw.getSysConst(4372);
         if (n <= 0) {
-            n = 1625948160;
+            n = 60000;
         }
         return n;
     }

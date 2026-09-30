@@ -17,16 +17,16 @@ implements ITelDSIMobileEquipmentTopologyAccess {
     protected static int getRoleIDFromSlot(int n) {
         switch (n) {
             case 0: {
-                return 256;
+                return 65536;
             }
             case 1: {
-                return 512;
+                return 131072;
             }
             case 2: {
-                return 768;
+                return 196608;
             }
         }
-        return 65535;
+        return -65536;
     }
 
     public static int getSlotIDFromRoleID(int n) {
@@ -49,7 +49,6 @@ implements ITelDSIMobileEquipmentTopologyAccess {
         this.nullTelDSIMobileEquipmentDeviceAccess = new NullTelDSIMobileEquipmentDeviceAccess(this.log);
     }
 
-    @Override
     public ITelDSIMobileEquipmentDeviceAccess getNullDeviceAccess() {
         return this.nullTelDSIMobileEquipmentDeviceAccess;
     }

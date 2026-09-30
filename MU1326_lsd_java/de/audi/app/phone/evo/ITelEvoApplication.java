@@ -10,15 +10,12 @@ import de.audi.app.phone.evo.intellicall.ITelIntellicallHandler;
 
 public interface ITelEvoApplication
 extends ITelApplication {
-    public static final String LOGCHANNEL_ENTERTAINMENT_DRAWER;
+    public static final String LOGCHANNEL_ENTERTAINMENT_DRAWER = "App.Phone.EntertainmentDrawer";
 
-    default public ITelFavoriteHandler getFavoriteHandler() {
-    }
+    public ITelFavoriteHandler getFavoriteHandler();
 
-    default public ITelIntellicallHandler getIntellicallHandler() {
-    }
+    public ITelIntellicallHandler getIntellicallHandler();
 
-    default public IEntertainmentDrawerControllerNew getNewEntertainmentDrawerController() {
-    }
+    public IEntertainmentDrawerControllerNew getNewEntertainmentDrawerController();
 }
 

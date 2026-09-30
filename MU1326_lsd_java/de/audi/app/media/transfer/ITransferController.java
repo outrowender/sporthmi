@@ -7,22 +7,17 @@ import de.audi.app.media.source.ISourceSlot;
 import de.audi.app.media.transfer.ITransferListener;
 
 public interface ITransferController {
-    public static final int TRANSFER_ENCODINGQUALITY_MAX;
-    public static final int TRANSFER_ENCODINGQUALITY_HIGH;
+    public static final int TRANSFER_ENCODINGQUALITY_MAX = 0;
+    public static final int TRANSFER_ENCODINGQUALITY_HIGH = 1;
 
-    default public void start() {
-    }
+    public void start();
 
-    default public void abort() {
-    }
+    public void abort();
 
-    default public void setEncodingQuality(int n) {
-    }
+    public void setEncodingQuality(int var1);
 
-    default public void activate(ISourceSlot iSourceSlot) {
-    }
+    public void activate(ISourceSlot var1);
 
-    default public void setTransferListener(ITransferListener iTransferListener) {
-    }
+    public void setTransferListener(ITransferListener var1);
 }
 

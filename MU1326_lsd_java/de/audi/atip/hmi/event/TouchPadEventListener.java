@@ -6,25 +6,18 @@ package de.audi.atip.hmi.event;
 import de.audi.atip.hmi.event.TouchEvent;
 
 public interface TouchPadEventListener {
-    default public void touchPadPressed(TouchEvent touchEvent) {
-    }
+    public void touchPadPressed(TouchEvent var1);
 
-    default public void touchPadReleased(TouchEvent touchEvent) {
-    }
+    public void touchPadReleased(TouchEvent var1);
 
-    default public void touchPadPositionMoved(TouchEvent touchEvent) {
-    }
+    public void touchPadPositionMoved(TouchEvent var1);
 
-    default public void touchPadCharactersRecognized(TouchEvent touchEvent) {
-    }
+    public void touchPadCharactersRecognized(TouchEvent var1);
 
-    default public void touchPadPalmRecognized(TouchEvent touchEvent) {
-    }
+    public void touchPadPalmRecognized(TouchEvent var1);
 
-    default public void touchPadApproached(TouchEvent touchEvent) {
-    }
+    public void touchPadApproached(TouchEvent var1);
 
-    default public void touchPadAbandoned(TouchEvent touchEvent) {
-    }
+    public void touchPadAbandoned(TouchEvent var1);
 }
 

@@ -6,20 +6,20 @@ package de.audi.atip.audio;
 import de.esolutions.fw.util.commons.Buffer;
 
 public final class AudioGroup {
-    public static final int MIN_GENERATED_ID;
-    public static final int MAX_GENERATED_ID;
-    private static final int OFFSET_FIXED_GROUP;
-    private static final int OFFSET_TERMINAL;
-    private static final int OFFSET_APPLICATION;
-    private static final int OFFSET_SOURCE;
-    private static final int OFFSET_MEDIUM;
-    private static final int OFFSET_SN_NUMBER;
-    private static final int FIXED;
-    public static final int FRONT;
-    public static final int REAR;
-    public static final int ALL;
-    public static final int TUNER;
-    public static final int MEDIA;
+    public static final int MIN_GENERATED_ID = 0;
+    public static final int MAX_GENERATED_ID = 1000;
+    private static final int OFFSET_FIXED_GROUP = 30;
+    private static final int OFFSET_TERMINAL = 28;
+    private static final int OFFSET_APPLICATION = 24;
+    private static final int OFFSET_SOURCE = 16;
+    private static final int OFFSET_MEDIUM = 8;
+    private static final int OFFSET_SN_NUMBER = 0;
+    private static final int FIXED = 0x40000000;
+    public static final int FRONT = 1;
+    public static final int REAR = 2;
+    public static final int ALL = 3;
+    public static final int TUNER = 1;
+    public static final int MEDIA = 2;
     private volatile int groupID;
 
     public AudioGroup(int n, int n2, int n3, int n4, int n5) {
@@ -43,7 +43,7 @@ public final class AudioGroup {
         int n8 = n3 << 16;
         int n9 = n4 << 8;
         int n10 = n5 << 0;
-        this.groupID = 0x40 | n6 | n7 | n8 | n9 | n10;
+        this.groupID = 0x40000000 | n6 | n7 | n8 | n9 | n10;
     }
 
     public int getID() {
@@ -59,10 +59,10 @@ public final class AudioGroup {
     public String toString() {
         Buffer buffer = new Buffer(100);
         int n = this.groupID & 0xFF;
-        int n2 = (this.groupID & 0xFF0000) >> 8;
-        int n3 = (this.groupID & 0xFF00) >> 16;
-        int n4 = (this.groupID & 0xF) >> 24;
-        int n5 = (this.groupID & 0x30) >> 28;
+        int n2 = (this.groupID & 0xFF00) >> 8;
+        int n3 = (this.groupID & 0xFF0000) >> 16;
+        int n4 = (this.groupID & 0xF000000) >> 24;
+        int n5 = (this.groupID & 0x30000000) >> 28;
         switch (n4) {
             case 1: {
                 buffer.append("TUNER");

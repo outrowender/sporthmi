@@ -14,12 +14,10 @@ implements ATIPAudioService {
         super(logChannel, "ATIPAudioService");
     }
 
-    @Override
     public void volumeMenuEntered(int n, int n2, boolean bl) {
         this.log();
     }
 
-    @Override
     public void volumeMenuLeft() {
         this.log();
     }

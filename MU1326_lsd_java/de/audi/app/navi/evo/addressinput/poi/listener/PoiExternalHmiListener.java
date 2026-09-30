@@ -28,21 +28,18 @@ implements ButtonListener {
         this.logChannel = navigationEnv.getPOILogChannel();
     }
 
-    @Override
     protected void registerAsListener() {
-        this.env.getButtonModel(-1826355712).setButtonListener(this);
+        this.env.getButtonModel(402579).setButtonListener(this);
     }
 
-    @Override
     public CommandList getStartCommandList() {
         return this.commandListFactory.createCommandList();
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.logChannel.log(-2137614336, "PoiExternalHmiListener#keyTyped. modelId: %1, keyId: %2 - fire model event", (long)n, (long)n2);
-        if (n == -1826355712) {
-            this.env.getChoiceModel(-1859910144).setValue(0);
+        this.logChannel.log(10000000, "PoiExternalHmiListener#keyTyped. modelId: %1, keyId: %2 - fire model event", (long)n, (long)n2);
+        if (n == 402579) {
+            this.env.getChoiceModel(402577).setValue(0);
             this.poiSearchArea.setSearchContext(0);
             this.poiSearchArea.setLocation(null);
             if (this.navigationInputModeManager.getInputMode() == 1) {
@@ -53,23 +50,18 @@ implements ButtonListener {
         this.env.fireModelEvent(n, n3);
     }
 
-    @Override
     public void itemFocused(int n, int n2, long l, int n3) {
     }
 
-    @Override
     public void preparePreviewMap() {
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 }

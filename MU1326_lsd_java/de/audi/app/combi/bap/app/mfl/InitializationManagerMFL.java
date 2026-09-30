@@ -5,16 +5,17 @@ package de.audi.app.combi.bap.app.mfl;
 
 import de.audi.app.bap.IPowerState;
 import de.audi.app.bap.dsi.bap.IDSIBAPController;
-import de.audi.app.bap.fw.AbstractBAPModule;
+import de.audi.app.bap.fw.AbstractBAPModuleFSG;
 import de.audi.app.bap.fw.AbstractBAPModuleInitializationManagerFSG;
 import de.audi.app.bap.fw.functiontypes.BAPFunctionPropertyFSG;
 import de.audi.app.bap.fw.indication.IAcknowledgeListener;
-import de.audi.app.combi.bap.app.mfl.InitializationManagerMFL$CommandResendKeyConfiguration;
 import de.audi.app.combi.bap.fw.AbstractCombiModule;
-import de.audi.atip.log.LogChannel;
+import de.audi.tghu.command.Command;
 import de.audi.tghu.command.CommandList;
 import de.esolutions.fw.util.commons.Buffer;
 import de.vw.mib.bap.generated.mfl.serializer.FSG_OperationState_Status;
+import de.vw.mib.bap.generated.mfl.serializer.KeyConfiguration_StatusAck;
+import de.vw.mib.bap.requests.StatusAckProperty;
 
 public class InitializationManagerMFL
 extends AbstractBAPModuleInitializationManagerFSG
@@ -23,15 +24,13 @@ implements IAcknowledgeListener {
         super(abstractCombiModule, bAPFunctionPropertyFSG, iDSIBAPController, iPowerState);
     }
 
-    @Override
     public void appStateChanged(String string, int n) {
         if ("Car".equals(string)) {
-            this.logChannel.log(14808325, "[InitializationManagerMFL#appStateChanged] appName=%1, value=%2", (Object)string, (long)n);
+            this.logChannel.log(100000000, "[InitializationManagerMFL#appStateChanged] appName=%1, value=%2", (Object)string, (long)n);
             this.processAppStateChanged(n);
         }
     }
 
-    @Override
     public String appStatesToString() {
         Buffer buffer = new Buffer();
         buffer.append("appStateMFL = ");
@@ -40,7 +39,6 @@ implements IAcknowledgeListener {
         return buffer.toString();
     }
 
-    @Override
     public boolean setFSGOperationStateValue(int n) {
         int n2;
         switch (n) {
@@ -73,48 +71,58 @@ implements IAcknowledgeListener {
         return false;
     }
 
-    @Override
     public boolean isOpStateNormalOperation() {
         FSG_OperationState_Status fSG_OperationState_Status = (FSG_OperationState_Status)this.fsgOperationStateFunction.getLastStatus();
         return fSG_OperationState_Status.op_State == 0;
     }
 
-    @Override
     protected void startInitialization() {
         super.startInitialization();
         this.fsgOperationStateFunction.addAcknowledgeListener(this);
     }
 
-    @Override
     public void processAcknowledge(int n, int n2) {
-        this.logChannel.log(-2137614336, "[InitializationManagerMFL#processAcknowledge] %1 %2", (long)n, (long)n2);
+        this.logChannel.log(10000000, "[InitializationManagerMFL#processAcknowledge] %1 %2", (long)n, (long)n2);
         if (n == this.fsgOperationStateFunction.getFctID() && n2 == 0) {
             if (this.isOpStateNormalOperation()) {
-                this.logChannel.log(1078071040, "[InitializationManagerMFL#processAcknowledge] opState is normal, try to resend KeyConfiguration");
+                this.logChannel.log(1000000, "[InitializationManagerMFL#processAcknowledge] opState is normal, try to resend KeyConfiguration");
                 CommandList commandList = new CommandList(this.cmdListManager);
-                commandList.add(new InitializationManagerMFL$CommandResendKeyConfiguration(this));
+                commandList.add(new CommandResendKeyConfiguration());
                 this.cmdListManager.start();
-                commandList.execute(super.getClass().getName());
+                commandList.execute(this.getClass().getName());
             }
         } else {
-            this.logChannel.log(-1601830656, "[InitializationManagerMFL#processAcknowledge] unhandled FctID %1", (long)n);
+            this.logChannel.log(100000, "[InitializationManagerMFL#processAcknowledge] unhandled FctID %1", (long)n);
         }
     }
 
-    static /* synthetic */ LogChannel access$000(InitializationManagerMFL initializationManagerMFL) {
-        return initializationManagerMFL.logChannel;
-    }
+    private final class CommandResendKeyConfiguration
+    extends Command {
+        private BAPFunctionPropertyFSG keyConfig;
 
-    static /* synthetic */ AbstractBAPModule access$100(InitializationManagerMFL initializationManagerMFL) {
-        return initializationManagerMFL.module;
-    }
+        public CommandResendKeyConfiguration() {
+            super(InitializationManagerMFL.this.logChannel);
+            this.keyConfig = ((AbstractBAPModuleFSG)InitializationManagerMFL.this.module).getBAPFunctionPropertyFSG(17);
+        }
 
-    static /* synthetic */ LogChannel access$200(InitializationManagerMFL initializationManagerMFL) {
-        return initializationManagerMFL.logChannel;
-    }
+        private boolean isDefaultKeyConfig(StatusAckProperty statusAckProperty) {
+            KeyConfiguration_StatusAck keyConfiguration_StatusAck = new KeyConfiguration_StatusAck();
+            InitializationManagerMFL.this.logChannel.log(1000000, "[InitializationManagerMFL.CommandResendKeyConfiguration#isDefaultKeyConfig] %1", (Object)statusAckProperty.toString());
+            boolean bl = false;
+            if (statusAckProperty.equalTo(keyConfiguration_StatusAck)) {
+                bl = true;
+            }
+            return bl;
+        }
 
-    static /* synthetic */ LogChannel access$300(InitializationManagerMFL initializationManagerMFL) {
-        return initializationManagerMFL.logChannel;
+        public void execute() {
+            if (!this.isDefaultKeyConfig(this.keyConfig.getLastStatusAck())) {
+                this.keyConfig.resendLastStatusAck();
+            } else {
+                InitializationManagerMFL.this.logChannel.log(1000000, "[InitializationManagerMFL.CommandResendKeyConfiguration#execute] don't resend default KeyConfiguration");
+            }
+            this.commandList.commandFinished();
+        }
     }
 }
 

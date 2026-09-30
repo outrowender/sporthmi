@@ -5,7 +5,6 @@ package de.audi.app.bap.fw.arrays;
 
 import de.audi.app.bap.fw.arrays.AbstractManagedListHandler;
 import de.audi.app.bap.fw.arrays.ArrayHandler;
-import de.audi.app.bap.fw.arrays.ArrayUtils$IndexRange;
 import de.audi.atip.interapp.combi.bap.data.CombiBAPArrayElement;
 import de.audi.atip.log.LogChannel;
 import de.esolutions.fw.util.commons.Buffer;
@@ -16,9 +15,9 @@ import java.util.Collections;
 import java.util.List;
 
 public class ArrayUtils {
-    public static final int NOT_FOUND;
-    public static final int INDEX_SIZE_8BIT;
-    public static final int INDEX_SIZE_16BIT;
+    public static final int NOT_FOUND = -1;
+    public static final int INDEX_SIZE_8BIT = 0;
+    public static final int INDEX_SIZE_16BIT = 1;
 
     public static void prepareFullRangeUpdate(ArrayHeader arrayHeader, int n) {
         arrayHeader.setFullRangeUpdate(n != 0);
@@ -73,14 +72,14 @@ public class ArrayUtils {
         if (list.isEmpty()) {
             return new CombiBAPArrayElement[0];
         }
-        ArrayUtils$IndexRange arrayUtils$IndexRange = ArrayUtils.computeRange(logChannel, list, n, n2, bl, bl2);
-        if (arrayUtils$IndexRange == null) {
-            logChannel.log(-1601830656, "[ArrayUtils#getListSection] error retrieving list section");
+        IndexRange indexRange = ArrayUtils.computeRange(logChannel, list, n, n2, bl, bl2);
+        if (indexRange == null) {
+            logChannel.log(100000, "[ArrayUtils#getListSection] error retrieving list section");
             return new CombiBAPArrayElement[0];
         }
-        Object[] objectArray = new CombiBAPArrayElement[arrayUtils$IndexRange.getSize()];
+        Object[] objectArray = new CombiBAPArrayElement[indexRange.getSize()];
         ArrayList arrayList = new ArrayList(10);
-        arrayList.addAll(list.subList(arrayUtils$IndexRange.startIndex, arrayUtils$IndexRange.endIndex + 1));
+        arrayList.addAll(list.subList(indexRange.startIndex, indexRange.endIndex + 1));
         if (bl2) {
             Collections.reverse(arrayList);
         }
@@ -88,25 +87,25 @@ public class ArrayUtils {
         return objectArray;
     }
 
-    private static ArrayUtils$IndexRange computeRange(LogChannel logChannel, List list, int n, int n2, boolean bl, boolean bl2) {
+    private static IndexRange computeRange(LogChannel logChannel, List list, int n, int n2, boolean bl, boolean bl2) {
         int n3 = list.size();
         int n4 = ArrayUtils.getIndexInList(list, n);
         if (n4 == -1) {
-            logChannel.log(-1601830656, "[ArrayUtils#computeRange] invalid BAP request sent by cluster: startPosID=%1 not found in list", (long)n);
+            logChannel.log(100000, "[ArrayUtils#computeRange] invalid BAP request sent by cluster: startPosID=%1 not found in list", (long)n);
             return null;
         }
         if (n4 == 0 && n != 0 && bl && bl2) {
-            logChannel.log(-2137614336, "[ArrayUtils#computeRange] empty range because startPosID refers to first element but shift and reverse are set", (long)n);
+            logChannel.log(10000000, "[ArrayUtils#computeRange] empty range because startPosID refers to first element but shift and reverse are set", (long)n);
             return null;
         }
         return ArrayUtils.computeRange(logChannel, n3, n4, n2, bl, bl2);
     }
 
-    public static ArrayUtils$IndexRange computeRange(LogChannel logChannel, int n, int n2, int n3, boolean bl, boolean bl2) {
+    public static IndexRange computeRange(LogChannel logChannel, int n, int n2, int n3, boolean bl, boolean bl2) {
         return ArrayUtils.computeRange(logChannel, n, n2, 0, n3, bl, bl2);
     }
 
-    public static ArrayUtils$IndexRange computeRange(LogChannel logChannel, int n, int n2, int n3, int n4, boolean bl, boolean bl2) {
+    public static IndexRange computeRange(LogChannel logChannel, int n, int n2, int n3, int n4, boolean bl, boolean bl2) {
         int n5;
         int n6 = ArrayUtils.getStartIndex(n, n2, n3, bl, bl2);
         if (bl2) {
@@ -125,7 +124,7 @@ public class ArrayUtils {
         if (n5 >= n) {
             n5 = n - 1;
         }
-        return new ArrayUtils$IndexRange(n6, n5, null);
+        return new IndexRange(n6, n5);
     }
 
     private static int getStartIndex(int n, int n2, int n3, boolean bl, boolean bl2) {
@@ -211,6 +210,20 @@ public class ArrayUtils {
             buffer.append("\n");
         }
         return buffer.toString();
+    }
+
+    public static class IndexRange {
+        public int startIndex;
+        public int endIndex;
+
+        private IndexRange(int n, int n2) {
+            this.startIndex = n;
+            this.endIndex = n2;
+        }
+
+        public int getSize() {
+            return this.endIndex - this.startIndex + 1;
+        }
     }
 }
 

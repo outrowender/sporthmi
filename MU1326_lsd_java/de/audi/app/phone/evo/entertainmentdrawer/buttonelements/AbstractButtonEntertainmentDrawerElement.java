@@ -11,9 +11,9 @@ import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 
 public abstract class AbstractButtonEntertainmentDrawerElement
 extends AbstractEntertainmentDrawerElement {
-    public static final int BUTTON_INVISIBLE;
-    public static final int BUTTON_DISABLED;
-    public static final int BUTTON_VISIBLE_ENABLED;
+    public static final int BUTTON_INVISIBLE = 0;
+    public static final int BUTTON_DISABLED = 1;
+    public static final int BUTTON_VISIBLE_ENABLED = 2;
     private final int modelGroupType;
     private IGlobalTelephoneStateStruct stateStruct;
 
@@ -22,7 +22,6 @@ extends AbstractEntertainmentDrawerElement {
         this.modelGroupType = n;
     }
 
-    @Override
     public ModelGroup updateInternalModelValues(ModelGroup modelGroup, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         this.stateStruct = iGlobalTelephoneStateStruct;
         ChoiceModelApp choiceModelApp = this.getConditionModel();
@@ -39,10 +38,8 @@ extends AbstractEntertainmentDrawerElement {
         return this.modelGroupType;
     }
 
-    public abstract ChoiceModelApp getConditionModel() {
-    }
+    public abstract ChoiceModelApp getConditionModel();
 
-    public abstract int getNewValue() {
-    }
+    public abstract int getNewValue();
 }
 

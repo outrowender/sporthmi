@@ -41,7 +41,6 @@ implements IOPSSensorArea {
         }
     }
 
-    @Override
     public void updateDistanceValues(int[] nArray) {
         for (int i2 = this.leftOuterSectorIndex; i2 <= this.rightOuterSectorIndex; ++i2) {
             ((OPSSector)this.sectors.get(i2)).applyDistanceValue(nArray[i2]);
@@ -52,7 +51,6 @@ implements IOPSSensorArea {
         this.modelGrp.flush();
     }
 
-    @Override
     public void applyStatusLvls(int[] nArray) {
         this.applyAllSectorsToStatus(nArray);
         this.updateAreaVisibility(nArray);
@@ -65,14 +63,12 @@ implements IOPSSensorArea {
         }
     }
 
-    @Override
     public void disableAllSectors() {
         this.isWholeAreaHidden = true;
         this.hideAllSectors();
         this.modelGrp.flush();
     }
 
-    @Override
     public void enableAllSectors() {
         if (this.isWholeAreaHidden) {
             this.isWholeAreaHidden = false;
@@ -81,7 +77,6 @@ implements IOPSSensorArea {
         }
     }
 
-    @Override
     public void hideAllSectors() {
         Iterator iterator = this.sectors.iterator();
         while (iterator.hasNext()) {
@@ -102,27 +97,22 @@ implements IOPSSensorArea {
         }
     }
 
-    @Override
     public int getLeftOuterSectorIndex() {
         return this.leftOuterSectorIndex;
     }
 
-    @Override
     public int getLeftInnerSectorIndex() {
         return this.leftInnerSectorIndex;
     }
 
-    @Override
     public int getRightInnerSectorIndex() {
         return this.rightInnerSectorIndex;
     }
 
-    @Override
     public int getRightOuterSectorIndex() {
         return this.rightOuterSectorIndex;
     }
 
-    @Override
     public boolean isRear() {
         return false;
     }
@@ -131,15 +121,12 @@ implements IOPSSensorArea {
         return "OPSSensorArea";
     }
 
-    @Override
     public void setRear(boolean bl) {
     }
 
-    @Override
     public void setTrailerHitched(boolean bl) {
     }
 
-    @Override
     public void setWallFlags(boolean[] blArray) {
     }
 

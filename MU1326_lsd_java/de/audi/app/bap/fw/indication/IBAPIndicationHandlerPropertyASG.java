@@ -8,10 +8,8 @@ import de.vw.mib.bap.requests.StatusAckProperty;
 import de.vw.mib.bap.requests.StatusProperty;
 
 public interface IBAPIndicationHandlerPropertyASG {
-    default public void processIndicationStatus(BAPFunctionPropertyASG bAPFunctionPropertyASG, StatusProperty statusProperty) {
-    }
+    public void processIndicationStatus(BAPFunctionPropertyASG var1, StatusProperty var2);
 
-    default public void processIndicationStatusAck(BAPFunctionPropertyASG bAPFunctionPropertyASG, StatusAckProperty statusAckProperty) {
-    }
+    public void processIndicationStatusAck(BAPFunctionPropertyASG var1, StatusAckProperty var2);
 }
 

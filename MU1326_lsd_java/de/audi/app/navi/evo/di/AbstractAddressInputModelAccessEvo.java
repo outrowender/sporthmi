@@ -9,14 +9,13 @@ import de.audi.tghu.navi.app.util.Util;
 
 public abstract class AbstractAddressInputModelAccessEvo
 implements IMatchspellerModelAccess {
-    protected final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
+    protected final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
     protected final IAddressInputFormModelAccessHelper modelAccessHelper;
 
     public AbstractAddressInputModelAccessEvo(IAddressInputFormModelAccessHelper iAddressInputFormModelAccessHelper) {
         this.modelAccessHelper = iAddressInputFormModelAccessHelper;
     }
 
-    @Override
     public void onSpellerStatusChanged(int n) {
     }
 }

@@ -6,10 +6,10 @@ package de.audi.app.terminalmode.diagnosis;
 import de.audi.app.terminalmode.IContext;
 import de.audi.app.terminalmode.diagnosis.IDiagnosisCommandProvider;
 import de.audi.app.terminalmode.diagnosis.IDiagnosisDataProvider;
-import de.audi.app.terminalmode.diagnosis.TerminalModeDiagnosis$1;
 import de.audi.app.terminalmode.osgi.AbstractServiceListTracker;
 import de.audi.atip.diag.sw.AbstractSwDiagnosis;
 import java.util.ArrayList;
+import java.util.Dictionary;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -22,7 +22,22 @@ extends AbstractSwDiagnosis {
 
     public TerminalModeDiagnosis(IContext iContext) {
         this.activeTerminalModeTerminal = iContext;
-        this.terminalModeModelBankTracker = new TerminalModeDiagnosis$1(this, iContext.getLogger().main(), iContext.getServiceManager());
+        this.terminalModeModelBankTracker = new AbstractServiceListTracker(iContext.getLogger().main(), iContext.getServiceManager()){
+
+            protected void serviceRemoved(Object object) {
+            }
+
+            protected void serviceAdded(Object object) {
+            }
+
+            protected Class getTrackedServiceClass() {
+                return class$de$audi$atip$hmi$HMIModelBank == null ? (class$de$audi$atip$hmi$HMIModelBank = TerminalModeDiagnosis.class$("de.audi.atip.hmi.HMIModelBank")) : class$de$audi$atip$hmi$HMIModelBank;
+            }
+
+            protected boolean checkServiceProperties(Dictionary dictionary) {
+                return (Integer)dictionary.get("moduleID") == 43;
+            }
+        };
     }
 
     public void init() {
@@ -33,17 +48,14 @@ extends AbstractSwDiagnosis {
         this.terminalModeModelBankTracker.deinit();
     }
 
-    @Override
     public int getId() {
         return 32;
     }
 
-    @Override
     public String getName() {
         return "AppTerminalMode";
     }
 
-    @Override
     public String[] getKeys() {
         List list = this.activeTerminalModeTerminal.getDiagnosisManager().getDataProviderKeys(0);
         ArrayList arrayList = new ArrayList();
@@ -54,13 +66,11 @@ extends AbstractSwDiagnosis {
         return (String[])arrayList.toArray(new String[arrayList.size()]);
     }
 
-    @Override
     public Object getValue(String string) {
         IDiagnosisDataProvider iDiagnosisDataProvider = this.activeTerminalModeTerminal.getDiagnosisManager().getDataProvider(0, string);
         return iDiagnosisDataProvider != null ? iDiagnosisDataProvider.getDiagValue() : "No provider found.";
     }
 
-    @Override
     public String[] getCommands() {
         ArrayList arrayList = new ArrayList();
         List list = this.activeTerminalModeTerminal.getDiagnosisManager().getCommandProviderKeys(0);
@@ -71,7 +81,6 @@ extends AbstractSwDiagnosis {
         return (String[])arrayList.toArray(new String[arrayList.size()]);
     }
 
-    @Override
     public int processCommand(String string, Object object) {
         IDiagnosisCommandProvider iDiagnosisCommandProvider = this.activeTerminalModeTerminal.getDiagnosisManager().getCommandProvider(0, string);
         if (iDiagnosisCommandProvider == null) {

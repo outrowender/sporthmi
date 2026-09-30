@@ -1,5 +1,8 @@
 /*
  * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  de.mib.swdiagnosis.phone.IPhoneDiagComponent
  */
 package de.audi.app.phone.evo.intellicall;
 
@@ -8,19 +11,19 @@ import de.audi.app.phone.core.ITelApplication;
 import de.audi.app.phone.core.ap.IActionProxyListener;
 import de.audi.app.phone.core.calllist.AbstractPhoneCall;
 import de.audi.app.phone.core.state.IGlobalTelephoneStateStruct;
-import de.audi.app.phone.evo.intellicall.IntellicallReducedMenuFocusHandler$IntellicallReducedMenuFocusHandlerDiag;
 import de.audi.atip.hmi.model.menu.MenuModelListener;
 import de.audi.atip.hmi.model.menu.focus.FocusAdvice;
 import de.audi.atip.interapp.phone.IEcallState;
+import de.mib.swdiagnosis.phone.IPhoneDiagComponent;
 import java.util.Map;
 
 public class IntellicallReducedMenuFocusHandler
 extends AbstractPhoneComponent
 implements MenuModelListener,
 IActionProxyListener {
-    private static final int ROW_IGNORE;
-    private static final int MENU_ITEM_CALL_LIST;
-    private static final int MENU_ITEM_DTMF;
+    private static final int ROW_IGNORE = -1;
+    private static final int MENU_ITEM_CALL_LIST = 300828;
+    private static final int MENU_ITEM_DTMF = 300639;
     private volatile IGlobalTelephoneStateStruct telephoneState;
 
     private static String getMenuItemName(int n) {
@@ -39,28 +42,24 @@ IActionProxyListener {
         super(iTelApplication, "App.Phone.Main");
     }
 
-    @Override
     public void init() {
         this.getApplication().getGlobalTelephoneStateManager().registerListener(this);
-        this.getMenuModel(-912915456).setListener(this);
-        this.getApplication().addDiagnosisComponent(new IntellicallReducedMenuFocusHandler$IntellicallReducedMenuFocusHandlerDiag(this, null));
+        this.getMenuModel(300745).setListener(this);
+        this.getApplication().addDiagnosisComponent(new IntellicallReducedMenuFocusHandlerDiag());
         this.getApplication().getActionProxyDispatcher().addActionProxyListener(17, this);
     }
 
-    @Override
     public void deinit() {
         this.getApplication().getGlobalTelephoneStateManager().removeListener(this);
-        this.getMenuModel(-912915456).resetListener();
+        this.getMenuModel(300745).resetListener();
     }
 
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         this.telephoneState = iGlobalTelephoneStateStruct;
     }
 
-    @Override
     public void itemFocused(int n, int n2, long l, int n3) {
-        this.log.log(-2137614336, "[IntellicallReducedMenuFocusHandler#itemFocused] %1", (Object)IntellicallReducedMenuFocusHandler.getMenuItemName(n));
+        this.log.log(10000000, "[IntellicallReducedMenuFocusHandler#itemFocused] %1", (Object)IntellicallReducedMenuFocusHandler.getMenuItemName(n));
     }
 
     private void focusMenuItem(int n, FocusAdvice focusAdvice) {
@@ -68,12 +67,12 @@ IActionProxyListener {
     }
 
     private void focusMenuItem(int n, FocusAdvice focusAdvice, long l) {
-        this.log.log(1078071040, "[IntellicallReducedMenuFocusHandler#focusMenuItem] menuItemID=%2, focusAdvice=%1, rowUniqueID=%3", (Object)focusAdvice, (Object)IntellicallReducedMenuFocusHandler.getMenuItemName(n), l);
-        this.getMenuModel(-912915456).setFocusedItem(n, focusAdvice, l);
+        this.log.log(1000000, "[IntellicallReducedMenuFocusHandler#focusMenuItem] menuItemID=%2, focusAdvice=%1, rowUniqueID=%3", (Object)focusAdvice, (Object)IntellicallReducedMenuFocusHandler.getMenuItemName(n), l);
+        this.getMenuModel(300745).setFocusedItem(n, focusAdvice, l);
     }
 
     void focusDtmf() {
-        this.focusMenuItem(1603666944, FocusAdvice.VIEWPORT_LAST_POSITION);
+        this.focusMenuItem(300639, FocusAdvice.VIEWPORT_LAST_POSITION);
     }
 
     void focusActiveCall() {
@@ -116,13 +115,34 @@ IActionProxyListener {
     }
 
     void focusCallList(int n) {
-        this.focusMenuItem(479659008, FocusAdvice.VIEWPORT_LAST_POSITION, n);
+        this.focusMenuItem(300828, FocusAdvice.VIEWPORT_LAST_POSITION, n);
     }
 
-    @Override
     public void actionProxyCallPerformed(int n, Map map) {
         if (n == 17) {
-            this.getMenuModel(-912915456).resetFocusedItem();
+            this.getMenuModel(300745).resetFocusedItem();
+        }
+    }
+
+    private class IntellicallReducedMenuFocusHandlerDiag
+    implements IPhoneDiagComponent {
+        private IntellicallReducedMenuFocusHandlerDiag() {
+        }
+
+        public void cmdIntellicallReducedFocusCallList(int n) {
+            IntellicallReducedMenuFocusHandler.this.focusCallList(n);
+        }
+
+        public void cmdIntellicallReducedFocusDTMF() {
+            IntellicallReducedMenuFocusHandler.this.focusDtmf();
+        }
+
+        public void cmdIntellicallReducedFocusActiveCall() {
+            IntellicallReducedMenuFocusHandler.this.focusActiveCall();
+        }
+
+        public void cmdIntellicallReducedFocusHeldCall() {
+            IntellicallReducedMenuFocusHandler.this.focusHeldCall();
         }
     }
 }

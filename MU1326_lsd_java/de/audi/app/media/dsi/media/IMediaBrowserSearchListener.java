@@ -4,22 +4,16 @@
 package de.audi.app.media.dsi.media;
 
 public interface IMediaBrowserSearchListener {
-    default public void responseSelectSearchResult(long l, long l2, boolean bl) {
-    }
+    public void responseSelectSearchResult(long var1, long var3, boolean var5);
 
-    default public void responseSetSearchCriteria(int n, boolean bl) {
-    }
+    public void responseSetSearchCriteria(int var1, boolean var2);
 
-    default public void responseSetSearchString(String string, boolean bl) {
-    }
+    public void responseSetSearchString(String var1, boolean var2);
 
-    default public void updateSearchSize(int n, int n2, int n3, int n4) {
-    }
+    public void updateSearchSize(int var1, int var2, int var3, int var4);
 
-    default public void updateSearchSpellerState(int n) {
-    }
+    public void updateSearchSpellerState(int var1);
 
-    default public void asyncException(int n, String string, int n2) {
-    }
+    public void asyncException(int var1, String var2, int var3);
 }
 

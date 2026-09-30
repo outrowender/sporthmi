@@ -8,14 +8,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 final class SDSDebugMsgQueueVisibleSizeEnum {
-    private static final int VALUE_SMALL;
-    private static final int VALUE_MEDIUM;
-    private static final int VALUE_LARGE;
-    private static final int VALUE_XL;
-    static final SDSDebugMsgQueueVisibleSizeEnum SMALL;
-    static final SDSDebugMsgQueueVisibleSizeEnum MEDIUM;
-    static final SDSDebugMsgQueueVisibleSizeEnum LARGE;
-    static final SDSDebugMsgQueueVisibleSizeEnum XL;
+    private static final int VALUE_SMALL = 3;
+    private static final int VALUE_MEDIUM = 8;
+    private static final int VALUE_LARGE = 13;
+    private static final int VALUE_XL = 18;
+    static final SDSDebugMsgQueueVisibleSizeEnum SMALL = new SDSDebugMsgQueueVisibleSizeEnum("SMALL", 3);
+    static final SDSDebugMsgQueueVisibleSizeEnum MEDIUM = new SDSDebugMsgQueueVisibleSizeEnum("MEDIUM", 8);
+    static final SDSDebugMsgQueueVisibleSizeEnum LARGE = new SDSDebugMsgQueueVisibleSizeEnum("LARGE", 13);
+    static final SDSDebugMsgQueueVisibleSizeEnum XL = new SDSDebugMsgQueueVisibleSizeEnum("XL", 18);
     private static Map indexToEnumMap;
     private static int largestSizeValue;
     private final int index;
@@ -49,13 +49,6 @@ final class SDSDebugMsgQueueVisibleSizeEnum {
 
     public String toString() {
         return new Buffer().append(this.name).append(" (").append(this.value).append(')').toString();
-    }
-
-    static {
-        SMALL = new SDSDebugMsgQueueVisibleSizeEnum("SMALL", 3);
-        MEDIUM = new SDSDebugMsgQueueVisibleSizeEnum("MEDIUM", 8);
-        LARGE = new SDSDebugMsgQueueVisibleSizeEnum("LARGE", 13);
-        XL = new SDSDebugMsgQueueVisibleSizeEnum("XL", 18);
     }
 }
 

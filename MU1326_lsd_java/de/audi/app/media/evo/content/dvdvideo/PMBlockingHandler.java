@@ -12,13 +12,13 @@ import de.audi.atip.hmi.model.ButtonListener;
 public class PMBlockingHandler
 implements ButtonListener,
 IMediaParentalManagementListener {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "PMBlockingHandler";
     private final DVDVideoPlayer player;
     private final IMediaLogger logger;
-    private static final int DSI_PM_LEVEL_NONE;
-    private static final int BLOCKINGSTATE_NONE;
-    private static final int BLOCKINGSTATE_TEMP;
-    private static final int BLOCKINGSTATE_MEDIUM;
+    private static final int DSI_PM_LEVEL_NONE = 0;
+    private static final int BLOCKINGSTATE_NONE = 0;
+    private static final int BLOCKINGSTATE_TEMP = 1;
+    private static final int BLOCKINGSTATE_MEDIUM = 2;
     private volatile int currentBlockingState = 0;
     private volatile int currentTempPmLevel = 0;
     private IMediaDSIBaseController dsiBaseController;
@@ -27,23 +27,23 @@ IMediaParentalManagementListener {
         this.player = dVDVideoPlayer;
         this.logger = iMediaLogger;
         this.dsiBaseController = iMediaDSIBaseController;
-        this.player.getButtonModel(-636550400).setButtonListener(this);
+        this.player.getButtonModel(200666).setButtonListener(this);
     }
 
     public void activate() {
-        this.logger.main().log(1078071040, "[%1.activate]", (Object)"PMBlockingHandler");
-        this.player.getChoiceModel(-586218752).setStatus(1);
+        this.logger.main().log(1000000, "[%1.activate]", (Object)LOGCLASS);
+        this.player.getChoiceModel(200669).setStatus(1);
         this.currentBlockingState = 0;
         this.dsiBaseController.addParentalManagementListener(this);
     }
 
     public void deactivate() {
-        this.logger.main().log(1078071040, "[%1.deactivate]", (Object)"PMBlockingHandler");
+        this.logger.main().log(1000000, "[%1.deactivate]", (Object)LOGCLASS);
         this.dsiBaseController.removeParentalManagementListener(this);
     }
 
     protected void removeTempScreen() {
-        this.logger.hmi().log(1078071040, "[%1.removeTempScreen] called. Current BlockingState is '%2'.", (Object)"PMBlockingHandler", (long)this.currentBlockingState);
+        this.logger.hmi().log(1000000, "[%1.removeTempScreen] called. Current BlockingState is '%2'.", (Object)LOGCLASS, (long)this.currentBlockingState);
         if (this.currentBlockingState == 1) {
             this.showTempPMLScreen(false);
             this.setCurrentBlockingState(0);
@@ -63,21 +63,21 @@ IMediaParentalManagementListener {
     }
 
     private void setCurrentBlockingState(int n) {
-        this.logger.hmi().log(1078071040, "[%1.setCurrentBlockingState] set to '%2'.", (Object)"PMBlockingHandler", (long)n);
+        this.logger.hmi().log(1000000, "[%1.setCurrentBlockingState] set to '%2'.", (Object)LOGCLASS, (long)n);
         this.currentBlockingState = n;
     }
 
     private void showTempPMLScreen(boolean bl) {
-        this.logger.hmi().log(1078071040, "[%1.showTempPMLScreen] '%2'", (Object)"PMBlockingHandler", (Object)bl);
+        this.logger.hmi().log(1000000, "[%1.showTempPMLScreen] '%2'", (Object)LOGCLASS, (Object)bl);
         if (bl) {
-            this.player.getChoiceModel(-586218752).setStatus(0);
+            this.player.getChoiceModel(200669).setStatus(0);
         } else {
-            this.player.getChoiceModel(-586218752).setStatus(1);
+            this.player.getChoiceModel(200669).setStatus(1);
         }
     }
 
     protected void setBlockedByTempPM(int n) {
-        this.logger.hmi().log(1078071040, "[%1.setBlockedByTempPM] '%2'", (Object)"PMBlockingHandler", (Object)new Integer(n));
+        this.logger.hmi().log(1000000, "[%1.setBlockedByTempPM] '%2'", (Object)LOGCLASS, (Object)new Integer(n));
         this.setCurrentTempPmLevel(n);
         switch (n) {
             case 0: {
@@ -94,19 +94,19 @@ IMediaParentalManagementListener {
             case 6: 
             case 7: 
             case 8: {
-                this.player.getLabelModel(-602995968).setText(Integer.toString(n));
+                this.player.getLabelModel(200668).setText(Integer.toString(n));
                 this.showTempPMLScreen(true);
                 this.setCurrentBlockingState(1);
                 break;
             }
             default: {
-                this.logger.dsi().log(-1601830656, "[%1.setBlockedByTempPM] unsupported pmLevel '%2'.", (Object)"PMBlockingHandler", (Object)new Integer(n));
+                this.logger.dsi().log(100000, "[%1.setBlockedByTempPM] unsupported pmLevel '%2'.", (Object)LOGCLASS, (Object)new Integer(n));
             }
         }
     }
 
     public void setBlockedByMediumPM(boolean bl) {
-        this.logger.hmi().log(1078071040, "[%1.setBlockedByMediumPM] '%2'", (Object)"PMBlockingHandler", (Object)bl);
+        this.logger.hmi().log(1000000, "[%1.setBlockedByMediumPM] '%2'", (Object)LOGCLASS, (Object)bl);
         if (bl) {
             if (this.getCurrentBlockingState() == 1) {
                 this.showTempPMLScreen(false);
@@ -120,9 +120,8 @@ IMediaParentalManagementListener {
         }
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
-        this.logger.hmi().log(1078071040, "[%1.keyPressed] modelID='%2'", (Object)"PMBlockingHandler", (long)n);
+        this.logger.hmi().log(1000000, "[%1.keyPressed] modelID='%2'", (Object)LOGCLASS, (long)n);
         this.player.denyTempPMLRequest();
         if (this.getCurrentBlockingState() == 1) {
             this.showTempPMLScreen(false);
@@ -130,29 +129,25 @@ IMediaParentalManagementListener {
         }
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void updateParentalML(int n) {
         if (n < 0 || n > 8) {
-            this.logger.dsi().log(-1601830656, "[%1.updateParentalML] unsupported pmLevel '%2', ignoring.", (Object)"PMBlockingHandler", (long)n);
+            this.logger.dsi().log(100000, "[%1.updateParentalML] unsupported pmLevel '%2', ignoring.", (Object)LOGCLASS, (long)n);
         }
         int n2 = this.getCurrentTempPmLevel();
         if (n == 0 || n >= n2) {
-            this.logger.hmi().log(1078071040, "[%1.updateParentalML] current temp level is '%2', new level is '%3'. Warning can be removed in background.", (Object)"PMBlockingHandler", (long)n2, (long)n);
+            this.logger.hmi().log(1000000, "[%1.updateParentalML] current temp level is '%2', new level is '%3'. Warning can be removed in background.", (Object)LOGCLASS, (long)n2, (long)n);
             this.removeTempScreen();
         } else {
-            this.logger.hmi().log(1078071040, "[%1.updateParentalML] the selected level '%3' is not enough to show the DVD. Level '%2' is required. Nothing more to do.", (Object)"PMBlockingHandler", (long)n2, (long)n);
+            this.logger.hmi().log(1000000, "[%1.updateParentalML] the selected level '%3' is not enough to show the DVD. Level '%2' is required. Nothing more to do.", (Object)LOGCLASS, (long)n2, (long)n);
         }
     }
 }

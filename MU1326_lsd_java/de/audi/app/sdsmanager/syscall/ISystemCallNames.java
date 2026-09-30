@@ -4,7 +4,6 @@
 package de.audi.app.sdsmanager.syscall;
 
 public interface ISystemCallNames {
-    default public String getName(int n) {
-    }
+    public String getName(int var1);
 }
 

@@ -31,7 +31,7 @@ implements ICopyTo {
     }
 
     public String[] getAlternatives() {
-        this.lc.log(-2137614336, "DoubleCursor#getAlternatives ");
+        this.lc.log(10000000, "DoubleCursor#getAlternatives ");
         return this.llCursor.getAlternatives();
     }
 
@@ -39,7 +39,7 @@ implements ICopyTo {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public boolean selectAlternative(int n) {
-        this.lc.log(-2137614336, "DoubleCursor#selectAlternative index:%1", (long)n);
+        this.lc.log(10000000, "DoubleCursor#selectAlternative index:%1", (long)n);
         boolean bl = false;
         try {
             this.freezeModelNotif();
@@ -59,7 +59,7 @@ implements ICopyTo {
     }
 
     public void insertChar(char c2) {
-        this.lc.log(-2137614336, "DoubleCursor#insertChar char:%1", c2);
+        this.lc.log(10000000, "DoubleCursor#insertChar char:%1", c2);
         this.freezeModelNotif();
         this.lastAppended = null;
         this.lockLL(false);
@@ -69,7 +69,7 @@ implements ICopyTo {
     }
 
     private String replaceNewline(String string) {
-        this.lc.log(-2137614336, "DoubleCursor#replaceNewline str:%1", (Object)string);
+        this.lc.log(10000000, "DoubleCursor#replaceNewline str:%1", (Object)string);
         Buffer buffer = new Buffer();
         for (int i2 = 0; i2 < string.length(); ++i2) {
             if (string.charAt(i2) == '\r' && i2 < string.length() - 1 && string.charAt(i2 + 1) == '\n') {
@@ -105,7 +105,7 @@ implements ICopyTo {
     }
 
     public void insertWord(String string) {
-        this.lc.log(-2137614336, "DoubleCursor#insertWord(String) word:%1", (Object)string);
+        this.lc.log(10000000, "DoubleCursor#insertWord(String) word:%1", (Object)string);
         string = this.replaceNewline(string);
         this.freezeModelNotif();
         this.lastAppended = null;
@@ -122,7 +122,7 @@ implements ICopyTo {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void insertWord(String[] stringArray) {
-        this.lc.log(-2137614336, "DoubleCursor#insertWord(String[]) wordWithAlt:%1", (Object)stringArray);
+        this.lc.log(10000000, "DoubleCursor#insertWord(String[]) wordWithAlt:%1", (Object)stringArray);
         try {
             this.freezeModelNotif();
             this.lastAppended = null;
@@ -140,7 +140,7 @@ implements ICopyTo {
     }
 
     private void insertWordsImpl(String[][] stringArray) {
-        this.lc.log(-2137614336, "DoubleCursor#insertWordsImpl wordWithAlt:%1", (Object)stringArray);
+        this.lc.log(10000000, "DoubleCursor#insertWordsImpl wordWithAlt:%1", (Object)stringArray);
         int n = this.sbCursor.getCursorPos();
         n = Math.max(0, n);
         for (int i2 = 0; i2 < stringArray.length; ++i2) {
@@ -154,7 +154,7 @@ implements ICopyTo {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void insertWords(String[][] stringArray) {
-        this.lc.log(-2137614336, "DoubleCursor#insertWords(String[][]) wordWithAlt:%1", (Object)stringArray);
+        this.lc.log(10000000, "DoubleCursor#insertWords(String[][]) wordWithAlt:%1", (Object)stringArray);
         try {
             this.freezeModelNotif();
             this.lastAppended = null;
@@ -171,7 +171,7 @@ implements ICopyTo {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public boolean replace(String[][] stringArray) {
-        this.lc.log(-2137614336, "DoubleCursor#replace(String[][]) alternatives:%1", (Object)stringArray);
+        this.lc.log(10000000, "DoubleCursor#replace(String[][]) alternatives:%1", (Object)stringArray);
         boolean bl = false;
         try {
             this.freezeModelNotif();
@@ -201,7 +201,7 @@ implements ICopyTo {
      */
     public boolean replace(String string) {
         boolean bl;
-        this.lc.log(-2137614336, "DoubleCursor#replace(String) string:%1", (Object)string);
+        this.lc.log(10000000, "DoubleCursor#replace(String) string:%1", (Object)string);
         boolean bl2 = bl = string != null;
         if (bl) {
             try {
@@ -227,7 +227,7 @@ implements ICopyTo {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void remove() {
-        this.lc.log(-2137614336, "DoubleCursor#remove");
+        this.lc.log(10000000, "DoubleCursor#remove");
         try {
             this.freezeModelNotif();
             this.lastAppended = null;
@@ -244,7 +244,7 @@ implements ICopyTo {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public int removeChar() {
-        this.lc.log(-2137614336, "DoubleCursor#removeChar");
+        this.lc.log(10000000, "DoubleCursor#removeChar");
         int n = -1;
         try {
             this.freezeModelNotif();
@@ -263,7 +263,7 @@ implements ICopyTo {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public int[] removeWord() {
-        this.lc.log(-2137614336, "DoubleCursor#removeWord");
+        this.lc.log(10000000, "DoubleCursor#removeWord");
         int[] nArray = MLCursor.EMPTY;
         try {
             this.freezeModelNotif();
@@ -286,7 +286,7 @@ implements ICopyTo {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void remove(int n, int n2, int n3) {
-        this.lc.log(-2137614336, "DoubleCursor#remove   start:%1   end:%2   cPosition:%3", (long)n, (long)n2, (long)n3);
+        this.lc.log(10000000, "DoubleCursor#remove   start:%1   end:%2   cPosition:%3", (long)n, (long)n2, (long)n3);
         try {
             this.freezeModelNotif();
             this.lastAppended = null;
@@ -304,7 +304,7 @@ implements ICopyTo {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void replace(String[] stringArray) {
-        this.lc.log(-2137614336, "DoubleCursor#replace(String[])  replaceString:%1", (Object)stringArray);
+        this.lc.log(10000000, "DoubleCursor#replace(String[])  replaceString:%1", (Object)stringArray);
         try {
             this.freezeModelNotif();
             this.lastAppended = null;
@@ -319,37 +319,37 @@ implements ICopyTo {
     }
 
     public int nextChar() {
-        this.lc.log(-2137614336, "DoubleCursor#nextChar");
+        this.lc.log(10000000, "DoubleCursor#nextChar");
         return this.sbCursor.getNextChar();
     }
 
     public int[] nextWord() {
-        this.lc.log(-2137614336, "DoubleCursor#nextWord");
+        this.lc.log(10000000, "DoubleCursor#nextWord");
         return this.sbCursor.getNextWord();
     }
 
     public int[] next() {
-        this.lc.log(-2137614336, "DoubleCursor#next");
+        this.lc.log(10000000, "DoubleCursor#next");
         return this.sbCursor.next();
     }
 
     public int prevChar() {
-        this.lc.log(-2137614336, "DoubleCursor#prevChar");
+        this.lc.log(10000000, "DoubleCursor#prevChar");
         return this.sbCursor.getPrevChar();
     }
 
     public int[] prevWord() {
-        this.lc.log(-2137614336, "DoubleCursor#prevWord");
+        this.lc.log(10000000, "DoubleCursor#prevWord");
         return this.sbCursor.getPrevWord();
     }
 
     public int[] prev() {
-        this.lc.log(-2137614336, "DoubleCursor#prev");
+        this.lc.log(10000000, "DoubleCursor#prev");
         return this.sbCursor.prev();
     }
 
     public String current() {
-        this.lc.log(-2137614336, "DoubleCursor#current");
+        this.lc.log(10000000, "DoubleCursor#current");
         int[] nArray = this.sbCursor.current();
         String string = null;
         if (nArray[0] != -1) {
@@ -359,33 +359,33 @@ implements ICopyTo {
     }
 
     public int[] currentIdx() {
-        this.lc.log(-2137614336, "DoubleCursor#currentIdx");
+        this.lc.log(10000000, "DoubleCursor#currentIdx");
         return this.sbCursor.current();
     }
 
     public char[] getCharArray() {
-        this.lc.log(-2137614336, "DoubleCursor#getCharArray");
+        this.lc.log(10000000, "DoubleCursor#getCharArray");
         return this.sbCursor.getCharArray();
     }
 
     public char currentChar() {
-        this.lc.log(-2137614336, "DoubleCursor#currentChar");
+        this.lc.log(10000000, "DoubleCursor#currentChar");
         int n = this.sbCursor.getCurrentChar();
         return n != -1 ? this.sbCursor.getString().charAt(n) : (char)'\u0000';
     }
 
     public int currentCharIdx() {
-        this.lc.log(-2137614336, "DoubleCursor#currentCharIdx");
+        this.lc.log(10000000, "DoubleCursor#currentCharIdx");
         return this.sbCursor.getCurrentChar();
     }
 
     public boolean stringAssertFailed(String string, String string2) {
-        this.lc.log(-2137614336, "DoubleCursor#stringAssertFailed  string1:%1   string2:%2", (Object)string, (Object)string2);
+        this.lc.log(10000000, "DoubleCursor#stringAssertFailed  string1:%1   string2:%2", (Object)string, (Object)string2);
         return !this.sCmp(string, string2);
     }
 
     public String currentWord() {
-        this.lc.log(-2137614336, "DoubleCursor#currentWord");
+        this.lc.log(10000000, "DoubleCursor#currentWord");
         String string = "";
         int[] nArray = this.sbCursor.getCurrentWord();
         if (nArray[0] != -1) {
@@ -395,12 +395,12 @@ implements ICopyTo {
     }
 
     public int[] currentWordIdx() {
-        this.lc.log(-2137614336, "DoubleCursor#currentWordIdx");
+        this.lc.log(10000000, "DoubleCursor#currentWordIdx");
         return this.sbCursor.getCurrentWord();
     }
 
     public int currentWordLen() {
-        this.lc.log(-2137614336, "DoubleCursor#currentWordLen");
+        this.lc.log(10000000, "DoubleCursor#currentWordLen");
         int[] nArray = this.sbCursor.getCurrentWord();
         int n = 0;
         if (nArray[0] != -1) {
@@ -410,13 +410,13 @@ implements ICopyTo {
     }
 
     public int getCursorPos() {
-        this.lc.log(-2137614336, "DoubleCursor#getCursorPos");
+        this.lc.log(10000000, "DoubleCursor#getCursorPos");
         this.llCursor.setCursorPos(this.sbCursor.getCursorPos());
         return this.sbCursor.getCursorPos();
     }
 
     public void setCursorPos(int n) {
-        this.lc.log(-2137614336, "DoubleCursor#setCursorPos");
+        this.lc.log(10000000, "DoubleCursor#setCursorPos");
         this.sbCursor.setCursorPos(n);
         if (!this.isLLLocked) {
             this.llCursor.setCursorPos(n);
@@ -424,49 +424,49 @@ implements ICopyTo {
     }
 
     public String getString() {
-        this.lc.log(-2137614336, "DoubleCursor#getString");
+        this.lc.log(10000000, "DoubleCursor#getString");
         return this.sbCursor.getString();
     }
 
     public int getCursorMode() {
-        this.lc.log(-2137614336, "DoubleCursor#getCursorMode");
+        this.lc.log(10000000, "DoubleCursor#getCursorMode");
         return this.sbCursor.getCursorMode();
     }
 
     public void setCursorMode(int n) {
-        this.lc.log(-2137614336, "DoubleCursor#setCursorMode  WordMode:%1", (long)n);
+        this.lc.log(10000000, "DoubleCursor#setCursorMode  WordMode:%1", (long)n);
         this.sbCursor.setCursorMode(n);
         this.llCursor.setCursorMode(n);
     }
 
     public int length() {
-        this.lc.log(-2137614336, "DoubleCursor#length");
+        this.lc.log(10000000, "DoubleCursor#length");
         return this.sbCursor.getLength();
     }
 
     public boolean isDirty() {
-        this.lc.log(-2137614336, "DoubleCursor#isDirty");
+        this.lc.log(10000000, "DoubleCursor#isDirty");
         return this.sbCursor.isDirty();
     }
 
     public void resetDirty() {
-        this.lc.log(-2137614336, "DoubleCursor#resetDirty");
+        this.lc.log(10000000, "DoubleCursor#resetDirty");
         this.sbCursor.resetDirty();
     }
 
     public int getLastFixedChar() {
-        this.lc.log(-2137614336, "DoubleCursor#getLastFixedChar");
+        this.lc.log(10000000, "DoubleCursor#getLastFixedChar");
         return this.sbCursor.getLastFixedChar();
     }
 
     public void clear() {
-        this.lc.log(-2137614336, "DoubleCursor#clear");
+        this.lc.log(10000000, "DoubleCursor#clear");
         this.sbCursor.clear();
         this.llCursor.clear();
     }
 
     public String lastAdded() {
-        this.lc.log(-2137614336, "DoubleCursor#lastAdded");
+        this.lc.log(10000000, "DoubleCursor#lastAdded");
         return this.lastAppended != null ? this.sbCursor.getString().substring(this.lastAppended[0], this.lastAppended[1]) : null;
     }
 
@@ -475,7 +475,7 @@ implements ICopyTo {
      */
     public boolean removeLastAdded() {
         boolean bl;
-        this.lc.log(-2137614336, "DoubleCursor#removeLastAdded");
+        this.lc.log(10000000, "DoubleCursor#removeLastAdded");
         boolean bl2 = bl = this.lastAppended != null;
         if (bl) {
             try {
@@ -493,11 +493,11 @@ implements ICopyTo {
     }
 
     public void lockLL(boolean bl) {
-        this.lc.log(-2137614336, "DoubleCursor#lockLL");
+        this.lc.log(10000000, "DoubleCursor#lockLL");
     }
 
     public void syncLL() {
-        this.lc.log(-2137614336, "DoubleCursor#syncLL");
+        this.lc.log(10000000, "DoubleCursor#syncLL");
         this.llCursor.setCursorMode(this.sbCursor.getCursorMode());
         if (this.llCursor.getCursorPos() != this.sbCursor.getCursorPos()) {
             this.llCursor.setCursorPos(this.sbCursor.getCursorPos());
@@ -505,30 +505,29 @@ implements ICopyTo {
     }
 
     public boolean mtxAquireLock() {
-        this.lc.log(-2137614336, "DoubleCursor#mtxAquireLock");
+        this.lc.log(10000000, "DoubleCursor#mtxAquireLock");
         return true;
     }
 
     public void mtxReleaseLock() {
-        this.lc.log(-2137614336, "DoubleCursor#mtxReleaseLock");
+        this.lc.log(10000000, "DoubleCursor#mtxReleaseLock");
     }
 
     public void freezeModelNotif() {
-        this.lc.log(-2137614336, "DoubleCursor#freezeModelNotif");
+        this.lc.log(10000000, "DoubleCursor#freezeModelNotif");
         ++this.doModelNotifications;
     }
 
     public void unfreezeModelNotif() {
-        this.lc.log(-2137614336, "DoubleCursor#unfreezeModelNotif");
+        this.lc.log(10000000, "DoubleCursor#unfreezeModelNotif");
         --this.doModelNotifications;
         if (this.doModelNotifications == 0 && this.model != null) {
             this.model.notifyTextChanged(this.sbCursor.getLastFixedChar());
         }
     }
 
-    @Override
     public boolean copyTo(ICopyTo iCopyTo) {
-        this.lc.log(-2137614336, "DoubleCursor#copyTo");
+        this.lc.log(10000000, "DoubleCursor#copyTo");
         if (!(iCopyTo instanceof DoubleCursor)) {
             return false;
         }
@@ -548,22 +547,22 @@ implements ICopyTo {
     }
 
     public String toString() {
-        this.lc.log(-2137614336, "DoubleCursor#toString");
+        this.lc.log(10000000, "DoubleCursor#toString");
         return this.print2SB(new StringBuffer()).toString();
     }
 
     public StringBuffer print2SB(StringBuffer stringBuffer) {
-        this.lc.log(-2137614336, "DoubleCursor#print2SB   buffer:%1", (Object)stringBuffer);
+        this.lc.log(10000000, "DoubleCursor#print2SB   buffer:%1", (Object)stringBuffer);
         return this.llCursor.print2SB(this.sbCursor.print2SB(stringBuffer).append("\n"));
     }
 
     private boolean sCmp(String string, String string2) {
-        this.lc.log(-2137614336, "DoubleCursor#sCmp   string1:%1   string2:%2", (Object)string, (Object)string2);
+        this.lc.log(10000000, "DoubleCursor#sCmp   string1:%1   string2:%2", (Object)string, (Object)string2);
         return string.equals(string2) || string != null && string2 != null && string.compareTo(string2) == 0;
     }
 
     public String vaildityCheck() {
-        this.lc.log(-2137614336, "DoubleCursor#vaildityCheck");
+        this.lc.log(10000000, "DoubleCursor#vaildityCheck");
         StringBuffer stringBuffer = new StringBuffer();
         String string = this.sbCursor.getString();
         String string2 = this.llCursor.getString();

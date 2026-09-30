@@ -118,7 +118,7 @@ public class ModelGroup {
     }
 
     public void flush() {
-        LC.log(-2137614336, "ModelGroup.flush()");
+        LC.log(10000000, "ModelGroup.flush()");
         ModelUpdateEvent modelUpdateEvent = this.packageEventsAndClear();
         if (modelUpdateEvent != null) {
             AbstractModelBank.getHMIservice().postModelUpdateEvent(modelUpdateEvent);
@@ -129,7 +129,7 @@ public class ModelGroup {
      * WARNING - Removed try catching itself - possible behaviour change.
      */
     public void addEvent(ModelUpdateEvent modelUpdateEvent) {
-        LC.log(-2137614336, "ModelGroup.addEvent(): id=%1, updateType=%2 ", (long)modelUpdateEvent.getID(), (long)modelUpdateEvent.getUpdateType());
+        LC.log(10000000, "ModelGroup.addEvent(): id=%1, updateType=%2 ", (long)modelUpdateEvent.getID(), (long)modelUpdateEvent.getUpdateType());
         Object[] objectArray = modelUpdateEvent.getNestedEvents();
         List list = this.eventList;
         synchronized (list) {

@@ -16,17 +16,17 @@ import org.dsi.ifc.global.ResourceLocator;
 public class DVDVideoPlayerPlayViewListRow
 extends AbstractMediaPlayViewListRow {
     private static final int[] EMPTY_PROPERTIES = new int[0];
-    private static final String EMPTY_TEXT_CELL;
-    private static final int EMPTY_INT_CELL;
-    private static final int RECORDSET_BIT_PLAYING;
-    private static final int CELL_COUNT;
-    private static final int CELL_ID_UNIQUE_ID;
-    private static final int CELL_ID_RECORD_SET;
-    private static final int CELL_ID_CHAPTER_NUMBER;
-    private static final int CELL_ID_PLAYTIME;
-    private static final int CELL_ID_PLAYTIME_REMAINING;
-    private static final int CELL_ID_PLAYTIME_PROGRESS;
-    private static final int CELL_ID_PROPERTY;
+    private static final String EMPTY_TEXT_CELL = "";
+    private static final int EMPTY_INT_CELL = 0;
+    private static final int RECORDSET_BIT_PLAYING = 1;
+    private static final int CELL_COUNT = 7;
+    private static final int CELL_ID_UNIQUE_ID = 0;
+    private static final int CELL_ID_RECORD_SET = 1;
+    private static final int CELL_ID_CHAPTER_NUMBER = 2;
+    private static final int CELL_ID_PLAYTIME = 3;
+    private static final int CELL_ID_PLAYTIME_REMAINING = 4;
+    private static final int CELL_ID_PLAYTIME_PROGRESS = 5;
+    private static final int CELL_ID_PROPERTY = 6;
     private final I18NString title;
 
     public DVDVideoPlayerPlayViewListRow(MediaListEntry mediaListEntry) {
@@ -35,10 +35,10 @@ extends AbstractMediaPlayViewListRow {
         this.setInteger(1, 0);
         this.setLong(0, mediaListEntry.getEntryID());
         this.setText(2, this.title.getI18NString());
-        this.setText(3, "");
-        this.setText(4, "");
+        this.setText(3, EMPTY_TEXT_CELL);
+        this.setText(4, EMPTY_TEXT_CELL);
         this.setInteger(5, 0);
-        this.setPropertyCell(6, new PropertyListCell(1264194613, EMPTY_PROPERTIES));
+        this.setPropertyCell(6, new PropertyListCell(890526283, EMPTY_PROPERTIES));
     }
 
     public DVDVideoPlayerPlayViewListRow(DVDVideoPlayerPlayViewListRow dVDVideoPlayerPlayViewListRow) {
@@ -46,11 +46,10 @@ extends AbstractMediaPlayViewListRow {
         this.title = dVDVideoPlayerPlayViewListRow.getTitle();
     }
 
-    @Override
     public void setTime(PlayTime playTime) {
         if (playTime == null) {
-            this.setText(3, "");
-            this.setText(4, "");
+            this.setText(3, EMPTY_TEXT_CELL);
+            this.setText(4, EMPTY_TEXT_CELL);
             this.setInteger(5, 0);
         } else {
             this.setText(3, playTime.getRestrictedPlayTimeStr());
@@ -59,32 +58,27 @@ extends AbstractMediaPlayViewListRow {
         }
     }
 
-    @Override
     public void setPlaying(boolean bl) {
         int n = this.getInteger(1);
         if (bl) {
             this.setInteger(1, n | 1);
-            this.setPropertyCell(6, new PropertyListCell(983881888, EMPTY_PROPERTIES));
+            this.setPropertyCell(6, new PropertyListCell(-1596414918, EMPTY_PROPERTIES));
         } else {
             this.setInteger(1, n & 0xFFFFFFFE);
-            this.setPropertyCell(6, new PropertyListCell(1264194613, EMPTY_PROPERTIES));
+            this.setPropertyCell(6, new PropertyListCell(890526283, EMPTY_PROPERTIES));
         }
     }
 
-    @Override
     public void setDetailInfos(MediaDetailInfo mediaDetailInfo) {
     }
 
-    @Override
     public void setCoverArt(ResourceLocator resourceLocator) {
     }
 
-    @Override
     public I18NString getTitle() {
         return this.title;
     }
 
-    @Override
     public boolean isEnabled() {
         return true;
     }
@@ -93,12 +87,10 @@ extends AbstractMediaPlayViewListRow {
         return 0;
     }
 
-    @Override
     public EvoListRow copy() {
         return new DVDVideoPlayerPlayViewListRow(this);
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer(100);
         buffer.append("[ID='");

@@ -44,7 +44,6 @@ extends CoMaRow {
         this.setInteger(0, 0);
     }
 
-    @Override
     public EvoListRow copy() {
         return new CoMaCategoryRow(this);
     }

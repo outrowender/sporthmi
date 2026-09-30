@@ -4,43 +4,30 @@
 package de.audi.app.earlyfunc.core.parking.ops;
 
 public interface IOPSSensorArea {
-    default public void updateDistanceValues(int[] nArray) {
-    }
+    public void updateDistanceValues(int[] var1);
 
-    default public void applyStatusLvls(int[] nArray) {
-    }
+    public void applyStatusLvls(int[] var1);
 
-    default public void disableAllSectors() {
-    }
+    public void disableAllSectors();
 
-    default public void enableAllSectors() {
-    }
+    public void enableAllSectors();
 
-    default public void hideAllSectors() {
-    }
+    public void hideAllSectors();
 
-    default public int getLeftOuterSectorIndex() {
-    }
+    public int getLeftOuterSectorIndex();
 
-    default public int getLeftInnerSectorIndex() {
-    }
+    public int getLeftInnerSectorIndex();
 
-    default public int getRightInnerSectorIndex() {
-    }
+    public int getRightInnerSectorIndex();
 
-    default public int getRightOuterSectorIndex() {
-    }
+    public int getRightOuterSectorIndex();
 
-    default public boolean isRear() {
-    }
+    public boolean isRear();
 
-    default public void setRear(boolean bl) {
-    }
+    public void setRear(boolean var1);
 
-    default public void setTrailerHitched(boolean bl) {
-    }
+    public void setTrailerHitched(boolean var1);
 
-    default public void setWallFlags(boolean[] blArray) {
-    }
+    public void setWallFlags(boolean[] var1);
 }
 

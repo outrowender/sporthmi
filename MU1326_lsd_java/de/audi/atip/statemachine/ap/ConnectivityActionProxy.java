@@ -7,91 +7,62 @@ import de.audi.atip.statemachine.ActionProxy;
 
 public interface ConnectivityActionProxy
 extends ActionProxy {
-    default public void connectivityDataHkTelPressed(int n) {
-    }
+    public void connectivityDataHkTelPressed(int var1);
 
-    default public void connectivityWlanAbortInquiry(int n) {
-    }
+    public void connectivityWlanAbortInquiry(int var1);
 
-    default public void connectivityBluetoothBondingExitAction(int n) {
-    }
+    public void connectivityBluetoothBondingExitAction(int var1);
 
-    default public void connectivityBluetoothBondingEntryAction(int n) {
-    }
+    public void connectivityBluetoothBondingEntryAction(int var1);
 
-    default public void connectivityDataOnlineAppEntered(int n) {
-    }
+    public void connectivityDataOnlineAppEntered(int var1);
 
-    default public void connectivityDataOnlineCheckEntered(int n) {
-    }
+    public void connectivityDataOnlineCheckEntered(int var1);
 
-    default public void connectivityDataOnlineCheckLeft(int n) {
-    }
+    public void connectivityDataOnlineCheckLeft(int var1);
 
-    default public void connectivityDataOnlinePopupLeft(int n) {
-    }
+    public void connectivityDataOnlinePopupLeft(int var1);
 
-    default public void connectivityDataOnlinePopupEntered(int n) {
-    }
+    public void connectivityDataOnlinePopupEntered(int var1);
 
-    default public void connectivityDataOnlineSetupLeft(int n) {
-    }
+    public void connectivityDataOnlineSetupLeft(int var1);
 
-    default public void connectivityDataOnlineSetupPhone(int n) {
-    }
+    public void connectivityDataOnlineSetupPhone(int var1);
 
-    default public void connectivityDataOnlineSetupCoMa(int n) {
-    }
+    public void connectivityDataOnlineSetupCoMa(int var1);
 
-    default public void connectivityDataOnlineSetupOnlineError(int n) {
-    }
+    public void connectivityDataOnlineSetupOnlineError(int var1);
 
-    default public void connectivityDataApplicationContext(int n, int n2) {
-    }
+    public void connectivityDataApplicationContext(int var1, int var2);
 
-    default public void connectivityCoMaEntered(int n) {
-    }
+    public void connectivityCoMaEntered(int var1);
 
-    default public void connectivityCoMaApplicationContext(int n, int n2) {
-    }
+    public void connectivityCoMaApplicationContext(int var1, int var2);
 
-    default public void connectivityBluetoothBondingSpeedDisclaimerEntered(int n) {
-    }
+    public void connectivityBluetoothBondingSpeedDisclaimerEntered(int var1);
 
-    default public void connectivityBluetoothInstanceEntered(int n, int n2) {
-    }
+    public void connectivityBluetoothInstanceEntered(int var1, int var2);
 
-    default public void connectivityWlanInstanceEntered(int n, int n2) {
-    }
+    public void connectivityWlanInstanceEntered(int var1, int var2);
 
-    default public void connectivityDataOnlineRequestEntered(int n, int n2) {
-    }
+    public void connectivityDataOnlineRequestEntered(int var1, int var2);
 
-    default public void connectivityCoMaInstanceEnteredSetApplicationId(int n, int n2, int n3) {
-    }
+    public void connectivityCoMaInstanceEnteredSetApplicationId(int var1, int var2, int var3);
 
-    default public void connectivitySetApplicationId(int n, int n2) {
-    }
+    public void connectivitySetApplicationId(int var1, int var2);
 
-    default public void connectivityOpenSelectionDrawerByHKReturn(int n, int n2) {
-    }
+    public void connectivityOpenSelectionDrawerByHKReturn(int var1, int var2);
 
-    default public void btBondingEntryPoint(int n, int n2) {
-    }
+    public void btBondingEntryPoint(int var1, int var2);
 
-    default public void connectivityDataOnlineAppLeft(int n) {
-    }
+    public void connectivityDataOnlineAppLeft(int var1);
 
-    default public void connectivityBlueAbortInquiry(int n) {
-    }
+    public void connectivityBlueAbortInquiry(int var1);
 
-    default public void connectivityDataInstanceEntered(int n, int n2) {
-    }
+    public void connectivityDataInstanceEntered(int var1, int var2);
 
-    default public void connectivityBlueOfficeSetupExit(int n) {
-    }
+    public void connectivityBlueOfficeSetupExit(int var1);
 
-    default public void connectivityBlueApplicationContext(int n, int n2) {
-    }
+    public void connectivityBlueApplicationContext(int var1, int var2);
 }
 

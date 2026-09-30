@@ -28,13 +28,11 @@ implements CarServiceTrackerListener {
         this.carServiceTracker = new CarServiceTracker(this, iFrameworkAccess.getBundleCxt(), logChannel);
     }
 
-    @Override
     public void init(IMenuEntryRegistry iMenuEntryRegistry) {
         super.init(iMenuEntryRegistry);
         this.carServiceTracker.startTracking();
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.carServiceTracker.stopTracking();
@@ -43,7 +41,6 @@ implements CarServiceTrackerListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void notifyComponentsInitialized() {
         this.componentsInitialized = true;
         Object object = this.mutex;
@@ -54,7 +51,6 @@ implements CarServiceTrackerListener {
         }
     }
 
-    @Override
     public MenuEntryType getType() {
         return MenuEntryType.MMICOMBI_MENU_ENTRY;
     }
@@ -62,14 +58,13 @@ implements CarServiceTrackerListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setState(int n) {
-        this.logChannel.log(1078071040, "[MenuEntryMMICombi(%1)#setState] state='%2'", (Object)this, (long)n);
+        this.logChannel.log(1000000, "[MenuEntryMMICombi(%1)#setState] state='%2'", (Object)this, (long)n);
         this.state = n;
         Object object = this.mutex;
         synchronized (object) {
             if (this.combiCarServiceListener == null) {
-                this.logChannel.log(-1601830656, "[MenuEntryMMICombi#setState] combiCarService not available");
+                this.logChannel.log(100000, "[MenuEntryMMICombi#setState] combiCarService not available");
                 return;
             }
             if (this.componentsInitialized) {
@@ -81,7 +76,6 @@ implements CarServiceTrackerListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void serviceAvailable(Object object) {
         Object object2 = this.mutex;
         synchronized (object2) {
@@ -95,7 +89,6 @@ implements CarServiceTrackerListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void serviceRemoved() {
         Object object = this.mutex;
         synchronized (object) {
@@ -103,7 +96,6 @@ implements CarServiceTrackerListener {
         }
     }
 
-    @Override
     public String[] getTrackedServiceClazzName() {
         return new String[]{(class$de$audi$atip$interapp$combi$mmisync$MMICombiMenuStatesServiceListener == null ? (class$de$audi$atip$interapp$combi$mmisync$MMICombiMenuStatesServiceListener = MenuEntryMMICombi.class$("de.audi.atip.interapp.combi.mmisync.MMICombiMenuStatesServiceListener")) : class$de$audi$atip$interapp$combi$mmisync$MMICombiMenuStatesServiceListener).getName()};
     }

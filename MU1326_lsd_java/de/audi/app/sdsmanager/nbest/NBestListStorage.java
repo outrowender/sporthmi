@@ -29,7 +29,7 @@ import org.dsi.ifc.speechrec.NBestSlot;
 
 public class NBestListStorage
 implements NBestStorageAccess {
-    private static final int DUMMY_PL_HISTORY_ID;
+    private static final int DUMMY_PL_HISTORY_ID = -100;
     private LogChannel lc = Logger.getNBestLog();
     protected PicklistHelper picklistHelper = new PicklistHelper();
     protected NBestListEntry[] currentEntries = new NBestListEntry[0];
@@ -46,7 +46,6 @@ implements NBestStorageAccess {
         this.picklistHelper = new PicklistHelper();
     }
 
-    @Override
     public boolean storeNBestList(NBestList nBestList) {
         return this.handleNBestList(NBestPreFilter.filterLowConfidenceEntries(nBestList, this.sdsAdapter, this.lc));
     }
@@ -57,9 +56,9 @@ implements NBestStorageAccess {
         this.currentEntries = nBestList2.getEntries();
         this.currentGGEntries = nBestList2.getGraphemicGroups();
         int n = this.currentEntries.length;
-        this.lc.log(-2137614336, "NBestListStorage#storeNBestList: currentEntries [%2]=\n%1", (Object)SDSUtils.toString((Object[])this.currentEntries, true), (long)n);
-        this.lc.log(-2137614336, "NBestListStorage#storeNBestList: currentGGEntries [%2] =\n%1", (Object)SDSUtils.toString((Object[])this.currentGGEntries, true), (long)this.currentGGEntries.length);
-        this.lc.log(-2137614336, "NBestListStorage#storeNBestList: SLM currentEntries[%2] = %1", (Object)SDSStatisticsDataConverter.getSLMRulesLogging(this.currentEntries), (long)n);
+        this.lc.log(10000000, "NBestListStorage#storeNBestList: currentEntries [%2]=\n%1", (Object)SDSUtils.toString((Object[])this.currentEntries, true), (long)n);
+        this.lc.log(10000000, "NBestListStorage#storeNBestList: currentGGEntries [%2] =\n%1", (Object)SDSUtils.toString((Object[])this.currentGGEntries, true), (long)this.currentGGEntries.length);
+        this.lc.log(10000000, "NBestListStorage#storeNBestList: SLM currentEntries[%2] = %1", (Object)SDSStatisticsDataConverter.getSLMRulesLogging(this.currentEntries), (long)n);
         if (n == 0) {
             return false;
         }
@@ -73,7 +72,6 @@ implements NBestStorageAccess {
         return true;
     }
 
-    @Override
     public NBestListEntry getTopEntry() {
         if (this.currentEntries == null) {
             return null;
@@ -81,63 +79,54 @@ implements NBestStorageAccess {
         return this.currentEntries[0];
     }
 
-    @Override
     public void storeCurrentPicklistInHistory() {
-        this.lc.log(-2137614336, "NBestListStorage#storeCurrentPicklistInHistory: Adding picklist to history, historySize=%1!", (long)this.plHistory.size());
+        this.lc.log(10000000, "NBestListStorage#storeCurrentPicklistInHistory: Adding picklist to history, historySize=%1!", (long)this.plHistory.size());
         this.plHistory.add(new PicklistHistoryElement(this.picklistHelper.getMatchingPicklist(0), this.picklistHelper.getMatchingPicklist(1), this.nBestListID, this.currentGGEntries));
     }
 
-    @Override
     public long getSlotObjID(int n, int n2) {
         return this.getMatchingSlot(this.getMatchingEntry(n2), n).getObjectId();
     }
 
-    @Override
     public IPicklist getMatchingPicklist(byte by) {
         return this.picklistHelper.getMatchingPicklist(by);
     }
 
-    @Override
     public String[][] getPreparedPicklistTexts(byte by) {
         return this.picklistHelper.getPreparedPicklistTexts(by);
     }
 
-    @Override
     public long[][] getPreparedPicklistObjIDs(byte by) {
         return this.picklistHelper.getPreparedPicklistObjIDs(by);
     }
 
-    @Override
     public int[] getPreparedPicklistGraphGroupSizes(byte by) {
         return this.picklistHelper.getPreparedPicklistGraphGroupSizes(by);
     }
 
-    @Override
     public int getPicklistSize(byte by) {
         return this.getMatchingPicklist(by).getSize();
     }
 
-    @Override
     public void stepBackPicklistHistory() {
-        this.lc.log(-2137614336, "[NBestListStorage#stepBackPicklistHistory] called");
+        this.lc.log(10000000, "[NBestListStorage#stepBackPicklistHistory] called");
         if (this.retrieveLatestNBestListHistory(true) == null) {
             return;
         }
         this.resetPicklistsWithHistory();
     }
 
-    @Override
     public void resetPicklistsWithHistory() {
         if (this.plHistory.isEmpty()) {
-            this.lc.log(-2137614336, "[NBestListStorage#resetPicklistsWithHistory] Current PL-History is empty -> do nothing");
+            this.lc.log(10000000, "[NBestListStorage#resetPicklistsWithHistory] Current PL-History is empty -> do nothing");
             return;
         }
         PicklistHistoryElement picklistHistoryElement = this.retrieveLatestNBestListHistory(false);
-        this.lc.log(-2137614336, "[NBestListStorage#resetPicklistsWithHistory] new history size=%1", (long)this.plHistory.size());
+        this.lc.log(10000000, "[NBestListStorage#resetPicklistsWithHistory] new history size=%1", (long)this.plHistory.size());
         if (picklistHistoryElement == null) {
             return;
         }
-        this.lc.log(-2137614336, "[NBestListStorage#resetPicklistsWithHistory] resetting picklists");
+        this.lc.log(10000000, "[NBestListStorage#resetPicklistsWithHistory] resetting picklists");
         IPicklist iPicklist = picklistHistoryElement.getFlatPicklist();
         this.picklistHelper.setMatchingPicklist(iPicklist, 0);
         this.picklistHelper.setMatchingPicklist(picklistHistoryElement.getMixedPicklist(), 1);
@@ -147,27 +136,25 @@ implements NBestStorageAccess {
         NBestUtils.setChoiceModel(iPicklist.getSize(), this.lc);
     }
 
-    @Override
     public int getLatestPicklistID() {
         PicklistHistoryElement picklistHistoryElement = this.retrieveLatestNBestListHistory(false);
         return picklistHistoryElement == null ? -100 : picklistHistoryElement.getNBestPicklistID();
     }
 
-    @Override
     public PicklistHistoryElement retrieveLatestNBestListHistory(boolean bl) {
         PicklistHistoryElement picklistHistoryElement;
         if (this.plHistory.isEmpty()) {
-            this.lc.log(-2137614336, "[NBestListStorage#retrieveLatestNBestListHistory] nBestListHistory is empty!");
+            this.lc.log(10000000, "[NBestListStorage#retrieveLatestNBestListHistory] nBestListHistory is empty!");
             return null;
         }
         int n = this.plHistory.size() - 1;
         if (bl) {
             this.printNBestListIDs();
-            this.lc.log(-2137614336, "[NBestListStorage#retrieveLatestNBestListHistory] removing last queued element!");
+            this.lc.log(10000000, "[NBestListStorage#retrieveLatestNBestListHistory] removing last queued element!");
             picklistHistoryElement = (PicklistHistoryElement)this.plHistory.remove(n);
         } else {
             this.printNBestListIDs();
-            this.lc.log(-2137614336, "[NBestListStorage#retrieveLatestNBestListHistory] getting last queued element!");
+            this.lc.log(10000000, "[NBestListStorage#retrieveLatestNBestListHistory] getting last queued element!");
             picklistHistoryElement = (PicklistHistoryElement)this.plHistory.get(n);
         }
         return picklistHistoryElement;
@@ -176,89 +163,87 @@ implements NBestStorageAccess {
     private NBestListEntry getMatchingEntry(int n) {
         int n2 = this.currentEntries.length;
         if (n >= n2) {
-            this.lc.log(-1601830656, "NBestListStorage#getMatchingEntry: Requesting %1 of %2 entries!", (long)n, (long)n2);
+            this.lc.log(100000, "NBestListStorage#getMatchingEntry: Requesting %1 of %2 entries!", (long)n, (long)n2);
             return new NBestListEntry();
         }
         NBestListEntry nBestListEntry = this.currentEntries[n];
         if (nBestListEntry == null) {
-            this.lc.log(-1601830656, "getMatchingEntry: Entry #%1 is null!", (long)n);
+            this.lc.log(100000, "getMatchingEntry: Entry #%1 is null!", (long)n);
             return new NBestListEntry();
         }
         return nBestListEntry;
     }
 
-    @Override
     public PicklistHelper getPicklistHelper() {
         return this.picklistHelper;
     }
 
     private NBestSlot getMatchingSlot(NBestListEntry nBestListEntry, int n) {
         if (nBestListEntry == null) {
-            this.lc.log(-1601830656, "NBestListStorage#getMatchingSlot: No entry given!");
+            this.lc.log(100000, "NBestListStorage#getMatchingSlot: No entry given!");
             return new NBestSlot();
         }
         NBestSlot[] nBestSlotArray = nBestListEntry.getSlots();
         if (nBestSlotArray == null) {
-            this.lc.log(-1601830656, "NBestListStorage#getMatchingSlot: Slots are null!");
+            this.lc.log(100000, "NBestListStorage#getMatchingSlot: Slots are null!");
             return new NBestSlot();
         }
         int n2 = nBestSlotArray.length;
         if (n >= n2) {
-            this.lc.log(-1601830656, "NBestListStorage#getMatchingSlot: Requesting %1 of %2 entries!", (long)n, (long)n2);
+            this.lc.log(100000, "NBestListStorage#getMatchingSlot: Requesting %1 of %2 entries!", (long)n, (long)n2);
             return new NBestSlot();
         }
         NBestSlot nBestSlot = nBestSlotArray[n];
         if (nBestSlot == null) {
-            this.lc.log(-1601830656, "NBestListStorage#getMatchingSlot: Entry #%1 is null!", (long)n);
+            this.lc.log(100000, "NBestListStorage#getMatchingSlot: Entry #%1 is null!", (long)n);
             return new NBestSlot();
         }
         return nBestSlot;
     }
 
-    @Override
     public byte getRecogResultGraphGroupType() {
-        this.lc.log(-2137614336, "[NBestListStorage#getRecogResultGraphGroupType] called");
+        this.lc.log(10000000, "[NBestListStorage#getRecogResultGraphGroupType] called");
         IPicklist iPicklist = this.getMatchingPicklist((byte)1);
         if (iPicklist == null || iPicklist.getSize() == 0) {
-            this.lc.log(-1601830656, "[NBestListStorage#getRecogResultGraphGroupType] Empty picklist!");
+            this.lc.log(100000, "[NBestListStorage#getRecogResultGraphGroupType] Empty picklist!");
             return 0;
         }
         int n = this.getLastRecogLine();
-        this.lc.log(-2137614336, "[NBestListStorage#getRecogResultGraphGroupType] lastRecogLine=%1!", (long)n);
+        this.lc.log(10000000, "[NBestListStorage#getRecogResultGraphGroupType] lastRecogLine=%1!", (long)n);
         if (n == -1) {
-            this.lc.log(-1601830656, "[NBestListStorage#getRecogResultGraphGroupType] No last recognized line!");
+            this.lc.log(100000, "[NBestListStorage#getRecogResultGraphGroupType] No last recognized line!");
             return 0;
         }
         if (iPicklist.isLineSelectedByNumber()) {
             int n2 = iPicklist.getSize();
-            this.lc.log(-2137614336, "[NBestListStorage#getRecogResultGraphGroupType] picklistSize=%1!", (long)n2);
+            this.lc.log(10000000, "[NBestListStorage#getRecogResultGraphGroupType] picklistSize=%1!", (long)n2);
             if (n2 <= n) {
-                this.lc.log(-1601830656, "[NBestListStorage#getRecogResultGraphGroupType] picklistSize=%1 <= lastRecogLine=%2!", (long)n2, (long)n);
+                this.lc.log(100000, "[NBestListStorage#getRecogResultGraphGroupType] picklistSize=%1 <= lastRecogLine=%2!", (long)n2, (long)n);
                 return 0;
             }
             IPicklistElement iPicklistElement = iPicklist.get(n);
             if (iPicklistElement == null) {
-                this.lc.log(-1601830656, "[NBestListStorage#getRecogResultGraphGroupType] Empty picklistElement #%1!", (long)n);
+                this.lc.log(100000, "[NBestListStorage#getRecogResultGraphGroupType] Empty picklistElement #%1!", (long)n);
                 return 0;
             }
             int n3 = iPicklistElement.getGraphGroupIndex();
             int n4 = iPicklistElement.getGraphGroupSize();
-            this.lc.log(-2137614336, "[NBestListStorage#getRecogResultGraphGroupType] ggIndex=%1, ggSize=%2!", (long)n3, (long)n4);
+            this.lc.log(10000000, "[NBestListStorage#getRecogResultGraphGroupType] ggIndex=%1, ggSize=%2!", (long)n3, (long)n4);
             if (n3 == -1 || n4 == 0) {
-                this.lc.log(-2137614336, "[NBestListStorage#getRecogResultGraphGroupType] picklistElement #%1 is no GG element!", (long)n);
+                this.lc.log(10000000, "[NBestListStorage#getRecogResultGraphGroupType] picklistElement #%1 is no GG element!", (long)n);
                 return 0;
             }
             return this.getDirectlySelectedGraphemicGroupType(n3);
         }
-        this.lc.log(-2137614336, "[NBestListStorage#getRecogResultGraphGroupType] GG spoken!");
+        this.lc.log(10000000, "[NBestListStorage#getRecogResultGraphGroupType] GG spoken!");
         this.resetPicklistsWithHistory();
         return this.getDirectlySelectedGraphemicGroupType(n);
     }
 
     private byte getDirectlySelectedGraphemicGroupType(int n) {
-        this.lc.log(-2137614336, "[NBestListStorage#getDirectlySelectedGraphemicGroupType] ggIndex=%1", (long)n);
+        this.lc.log(10000000, "[NBestListStorage#getDirectlySelectedGraphemicGroupType] ggIndex=%1", (long)n);
         int n2 = this.getAmountOfGraphGroupEntries(n);
-        this.lc.log(-2137614336, "[NBestListStorage#getDirectlySelectedGraphemicGroupType] fittingEntries=%1!", (long)n2);
+        this.lc.log(10000000, "[NBestListStorage#getDirectlySelectedGraphemicGroupType] fittingEntries=%1!", (long)n2);
         if (n2 > 1) {
             this.prepareGGRefinementPicklist(n, n2);
             return 1;
@@ -267,9 +252,8 @@ implements NBestStorageAccess {
         return 2;
     }
 
-    @Override
     public void prepareGGRefinementPicklist(int n, int n2) {
-        this.lc.log(-2137614336, "[NBestListStorage#prepareGGRefinementPicklist] graphgroupIndex=%1, numberOfFittingEntries=%2!", (long)n, (long)n2);
+        this.lc.log(10000000, "[NBestListStorage#prepareGGRefinementPicklist] graphgroupIndex=%1, numberOfFittingEntries=%2!", (long)n, (long)n2);
         IPicklistElement[] iPicklistElementArray = new PicklistElement[n2];
         IPicklist iPicklist = this.getMatchingPicklist((byte)0);
         int n3 = iPicklist.getSize();
@@ -277,7 +261,7 @@ implements NBestStorageAccess {
         for (int i2 = 0; i2 < n3; ++i2) {
             IPicklistElement iPicklistElement = iPicklist.get(i2);
             if (iPicklistElement == null || iPicklistElement.getGraphGroupIndex() != n || iPicklistElement.getGraphGroupSize() > 0) continue;
-            this.lc.log(-2137614336, "[NBestListStorage#prepareGGRefinementPicklist] graphemicGroupIndex[%2] = %1 => fitting entry!", (long)n, (long)i2);
+            this.lc.log(10000000, "[NBestListStorage#prepareGGRefinementPicklist] graphemicGroupIndex[%2] = %1 => fitting entry!", (long)n, (long)i2);
             iPicklistElementArray[n4] = new PicklistElement(iPicklistElement.getRuleID(), iPicklistElement.getConfidence(), 0, iPicklistElement.getGraphGroupIndex(), iPicklistElement.getSlots());
             ++n4;
         }
@@ -287,14 +271,14 @@ implements NBestStorageAccess {
     }
 
     private int getAmountOfGraphGroupEntries(int n) {
-        this.lc.log(-2137614336, "NBestListStorage#getAmountOfGraphGroupEntries: ggIndex=%1", (long)n);
+        this.lc.log(10000000, "NBestListStorage#getAmountOfGraphGroupEntries: ggIndex=%1", (long)n);
         IPicklist iPicklist = this.getMatchingPicklist((byte)0);
         int n2 = iPicklist.getSize();
         int n3 = 0;
         for (int i2 = 0; i2 < n2; ++i2) {
             IPicklistElement iPicklistElement = iPicklist.get(i2);
             if (iPicklistElement == null) {
-                this.lc.log(-1601830656, "NBestListStorage#getAmountOfGraphGroupEntries: Entry #%1 is null!", (long)i2);
+                this.lc.log(100000, "NBestListStorage#getAmountOfGraphGroupEntries: Entry #%1 is null!", (long)i2);
                 continue;
             }
             if (iPicklistElement.getGraphGroupIndex() != n) continue;
@@ -303,25 +287,23 @@ implements NBestStorageAccess {
         return n3;
     }
 
-    @Override
     public void addGGRefinementToNBestListHistory() {
-        this.lc.log(-2137614336, "[NBestListStorage#addGGRefinementToNBestListHistory] called");
+        this.lc.log(10000000, "[NBestListStorage#addGGRefinementToNBestListHistory] called");
         if (this.plHistory.isEmpty()) {
-            this.lc.log(-1601830656, "[NBestListStorage#addGGRefinementToNBestListHistory] nBestListHistory is empty!");
+            this.lc.log(100000, "[NBestListStorage#addGGRefinementToNBestListHistory] nBestListHistory is empty!");
             return;
         }
         int n = this.getLatestPicklistID();
-        this.lc.log(-2137614336, "[NBestListStorage#addGGRefinementToNBestListHistory] plHistID=%1!", (long)n);
+        this.lc.log(10000000, "[NBestListStorage#addGGRefinementToNBestListHistory] plHistID=%1!", (long)n);
         this.plHistory.add(new PicklistHistoryElement(this.picklistHelper.getMatchingPicklist(1), this.picklistHelper.getMatchingPicklist(1), n, null));
         this.printNBestListIDs();
         NBestUtils.setChoiceModel(this.currentGGEntries.length, this.lc);
     }
 
-    @Override
     public void addGGSpellingRefinementToNBestListHistory(NBestListEntry[] nBestListEntryArray) {
-        this.lc.log(-2137614336, "[NBestListStorage#addGGSpellingRefinementToNBestListHistory] called");
+        this.lc.log(10000000, "[NBestListStorage#addGGSpellingRefinementToNBestListHistory] called");
         if (this.plHistory.isEmpty()) {
-            this.lc.log(-1601830656, "[NBestListStorage#addGGSpellingRefinementToNBestListHistory] nBestListHistory is empty!");
+            this.lc.log(100000, "[NBestListStorage#addGGSpellingRefinementToNBestListHistory] nBestListHistory is empty!");
             return;
         }
         int[] nArray = new int[nBestListEntryArray.length];
@@ -332,9 +314,8 @@ implements NBestStorageAccess {
         this.printNBestListIDs();
     }
 
-    @Override
     public void resetNBestListHistory() {
-        this.lc.log(-2137614336, "[NBestListStorage#resetNBestListHistory] called");
+        this.lc.log(10000000, "[NBestListStorage#resetNBestListHistory] called");
         this.plHistory.clear();
     }
 
@@ -342,11 +323,10 @@ implements NBestStorageAccess {
         int n = this.plHistory.size();
         for (int i2 = 0; i2 < n; ++i2) {
             int n2 = ((PicklistHistoryElement)this.plHistory.get(i2)).getNBestPicklistID();
-            this.lc.log(-2137614336, "[NBestListStorage#printNBestListIDs] plHistory[%1]=%2!", (long)i2, (long)n2);
+            this.lc.log(10000000, "[NBestListStorage#printNBestListIDs] plHistory[%1]=%2!", (long)i2, (long)n2);
         }
     }
 
-    @Override
     public int getSpellingGraphGroupID() {
         if (this.spellingGraphGroupIndex == -1) {
             return this.spellingGraphGroupIndex;
@@ -354,45 +334,40 @@ implements NBestStorageAccess {
         return this.spellingGraphGroupIndex;
     }
 
-    @Override
     public void setLastRecogLine(boolean bl, int n) {
-        this.lc.log(-2137614336, "[NBestListStorage#setLastRecogLine] selectedByNumber=%1, lineNumber=%2", bl, (long)n);
+        this.lc.log(10000000, "[NBestListStorage#setLastRecogLine] selectedByNumber=%1, lineNumber=%2", bl, (long)n);
         this.setLastRecogLine(this.getMatchingPicklist((byte)0), bl, n);
         this.setLastRecogLine(this.getMatchingPicklist((byte)1), bl, n);
     }
 
     private void setLastRecogLine(IPicklist iPicklist, boolean bl, int n) {
         if (iPicklist == null) {
-            this.lc.log(-1601830656, "[NBestListStorage#setLastRecogLine] Empty picklist!");
+            this.lc.log(100000, "[NBestListStorage#setLastRecogLine] Empty picklist!");
             return;
         }
         iPicklist.setLastRecogLine(bl, n);
     }
 
-    @Override
     public int getLastRecogLine() {
         IPicklist iPicklist = this.getMatchingPicklist((byte)0);
         if (iPicklist == null) {
-            this.lc.log(-1601830656, "[NBestListStorage#getLastRecogLine] Empty picklist!");
+            this.lc.log(100000, "[NBestListStorage#getLastRecogLine] Empty picklist!");
             return -1;
         }
         int n = iPicklist.getLastRecogLineNumber();
-        this.lc.log(-2137614336, "[NBestListStorage#getLastRecogLine] lastRecogLine=%1!", (long)n);
+        this.lc.log(10000000, "[NBestListStorage#getLastRecogLine] lastRecogLine=%1!", (long)n);
         return n;
     }
 
-    @Override
     public boolean isSlotRecognition() {
         NBestSlot[] nBestSlotArray = this.getMatchingEntry(0).getSlots();
         return nBestSlotArray != null;
     }
 
-    @Override
     public String getRecognitionText(int n) {
         return this.getMatchingEntry(n).getRecognizedString();
     }
 
-    @Override
     public IPicklistSlot getSlotForPicklistElement(int n, int n2, byte by, boolean bl) {
         IPicklist iPicklist = null;
         if (bl) {
@@ -410,7 +385,6 @@ implements NBestStorageAccess {
         return iPicklist.getSlot(n2, n);
     }
 
-    @Override
     public void filterPicklistDuplicates() {
         this.picklistHelper.filterPicklistDuplicates();
     }

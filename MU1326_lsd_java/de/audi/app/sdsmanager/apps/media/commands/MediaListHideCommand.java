@@ -23,19 +23,17 @@ implements ISDSScreenFadedOutUpdatable {
         this.hmi = hMIService;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "%1#execute: called", (Object)this.getName());
+        this.logger.log(10000000, "%1#execute: called", (Object)this.getName());
         this.popupHelper.triggerPopup();
         int n = this.hmi.getCurrentPopup(0);
         if (n == SDSManagerBaseActivator.getMapping().getPopupID(20)) {
-            this.logger.log(-2137614336, "%1#execute: Media picklist is visible -> wait for fading out", (Object)this.getName());
+            this.logger.log(10000000, "%1#execute: Media picklist is visible -> wait for fading out", (Object)this.getName());
             return;
         }
         this.processingFinished();
     }
 
-    @Override
     public void updateSDSScreenFadedOut(int n) {
         this.processingFinished();
     }

@@ -27,27 +27,22 @@ TextEditorModelGUI {
         super(n, n2);
     }
 
-    @Override
     public boolean isEmpty() {
         return this.textWithAlternatives.size() == 0;
     }
 
-    @Override
     public int getModelType() {
         return 23;
     }
 
-    @Override
     public void resetListener() {
         this.textEditorListener = DUMMY_LISTENER;
     }
 
-    @Override
     public void setListener(TextEditorListener textEditorListener) {
         this.textEditorListener = textEditorListener != null ? textEditorListener : DUMMY_LISTENER;
     }
 
-    @Override
     public void openAlternativesList(int n, int n2) {
         try {
             this.textEditorListener.openAlternativesList(this.id, n, n2);
@@ -57,7 +52,6 @@ TextEditorModelGUI {
         }
     }
 
-    @Override
     public void alternativeSelected(int n, int n2, int n3) {
         try {
             this.textEditorListener.alternativeSelected(this.id, n, n2, n3);
@@ -67,7 +61,6 @@ TextEditorModelGUI {
         }
     }
 
-    @Override
     public void textChanged(int n, int n2, int n3) {
         try {
             this.textEditorListener.textChanged(this.id, n, n2, n3);
@@ -80,7 +73,6 @@ TextEditorModelGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void editedText(LinkedList linkedList) {
         Object object = this.mutex;
         synchronized (object) {
@@ -92,18 +84,15 @@ TextEditorModelGUI {
         }
     }
 
-    @Override
     public void setText(LinkedList linkedList) {
         this.editedText(linkedList);
         this.fireModelUpdateEvent(6);
     }
 
-    @Override
     public LinkedList getText() {
         return this.textWithAlternatives;
     }
 
-    @Override
     public void setTextArray(String[][] stringArray) {
         LinkedList linkedList = new LinkedList();
         if (stringArray != null) {
@@ -115,7 +104,6 @@ TextEditorModelGUI {
         this.fireModelUpdateEvent(6);
     }
 
-    @Override
     public String[][] getTextArray() {
         String[][] stringArray = new String[this.textWithAlternatives.size()][];
         Iterator iterator = this.textWithAlternatives.iterator();
@@ -127,27 +115,22 @@ TextEditorModelGUI {
         return stringArray;
     }
 
-    @Override
     public void setDictationMode(int n) {
         this.dictationMode = n;
     }
 
-    @Override
     public void setMaxLength(int n) {
         this.maxLength = n;
     }
 
-    @Override
     public int getDictationMode() {
         return this.dictationMode;
     }
 
-    @Override
     public int getMaxLength() {
         return this.maxLength;
     }
 
-    @Override
     public void commandPressed(int n, int n2) {
         try {
             this.textEditorListener.commandPressed(this.id, n, n2);

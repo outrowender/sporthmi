@@ -23,53 +23,51 @@ extends AbstractAddressInputFormModelAccessHelper {
         super(navigationEnv);
     }
 
-    @Override
     public void onUpdateLocation(NavigationEnv navigationEnv, LogChannel logChannel, NavLocation navLocation, Map map) {
         this.onUpdateLocation(navigationEnv, logChannel, null, navLocation, map);
         this.updateValueOfIsStreetCenterSelected();
         this.updateValueOfIsHouseNumberCenterSelected();
     }
 
-    @Override
     public void onUpdateLocation(NavigationEnv navigationEnv, LogChannel logChannel, GuiModelAccessDetailsNavi guiModelAccessDetailsNavi, NavLocation navLocation, Map map) {
         if (logChannel.isDebug2()) {
-            logChannel.log(14808325, "%1#onUpdateLocation with navLocation=%2", (Object)this.CLASS_NAME, (Object)LocationFormatter.formatLocationShort(navLocation));
+            logChannel.log(100000000, "%1#onUpdateLocation with navLocation=%2", (Object)this.CLASS_NAME, (Object)LocationFormatter.formatLocationShort(navLocation));
         }
         IMyLocationAccessor iMyLocationAccessor = Util.getLocationAccessor(navLocation);
         String string = AddressInputUtil.formatCompleteCityNameAsia(navigationEnv, navLocation);
         String string2 = this.getStreetName(iMyLocationAccessor);
         String string3 = this.getHouseNumber(iMyLocationAccessor);
         String string4 = iMyLocationAccessor.getJunction();
-        logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#onUpdateLocation with").append(" cityName=%1, streetName=%2, intersection=%3, houseNumber=%4").toString(), (Object)string, (Object)string2, (Object)string4, (Object)string3);
+        logChannel.log(10000000, this.CLASS_NAME + "#onUpdateLocation with" + " cityName=%1, streetName=%2, intersection=%3, houseNumber=%4", (Object)string, (Object)string2, (Object)string4, (Object)string3);
         boolean bl = this.getValueFromMap(map, "cityEnabled");
         boolean bl2 = this.getValueFromMap(map, "poiNameEnabled");
         boolean bl3 = this.getValueFromMap(map, "streetEnabled");
         boolean bl4 = this.getValueFromMap(map, "housenumberEnabled");
         boolean bl5 = this.getValueFromMap(map, "junctionEnabled");
-        logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#onUpdateLocation with cityEnabled=").append(bl).append(", locationNameEnabled=").append(bl2).append(", streetEnabled=").append(bl3).append(", housenumberEnabled=").append(bl4).append(", junctionEnabled=").append(bl5).toString());
-        navigationEnv.getTextfieldModel(236914176).setText1(string);
-        navigationEnv.getTextfieldModel(-367196672).setText1(string2);
-        navigationEnv.getTextfieldModel(572458496).setText1(string3);
-        navigationEnv.getTextfieldModel(354354688).setText1(string4);
-        navigationEnv.getChoiceModel(823854592).setValue(bl ? 1 : 0);
-        navigationEnv.getChoiceModel(304154112).setValue(bl2 ? 1 : 0);
-        navigationEnv.getChoiceModel(790300160).setValue(bl3 ? 1 : 0);
-        navigationEnv.getChoiceModel(656082432).setValue(bl5 ? 1 : 0);
-        navigationEnv.getChoiceModel(723191296).setValue(bl4 ? 1 : 0);
+        logChannel.log(10000000, this.CLASS_NAME + "#onUpdateLocation with cityEnabled=" + bl + ", locationNameEnabled=" + bl2 + ", streetEnabled=" + bl3 + ", housenumberEnabled=" + bl4 + ", junctionEnabled=" + bl5);
+        navigationEnv.getTextfieldModel(401166).setText1(string);
+        navigationEnv.getTextfieldModel(400874).setText1(string2);
+        navigationEnv.getTextfieldModel(401186).setText1(string3);
+        navigationEnv.getTextfieldModel(401173).setText1(string4);
+        navigationEnv.getChoiceModel(400177).setValue(bl ? 1 : 0);
+        navigationEnv.getChoiceModel(401682).setValue(bl2 ? 1 : 0);
+        navigationEnv.getChoiceModel(400175).setValue(bl3 ? 1 : 0);
+        navigationEnv.getChoiceModel(400167).setValue(bl5 ? 1 : 0);
+        navigationEnv.getChoiceModel(400171).setValue(bl4 ? 1 : 0);
         boolean bl6 = this.getValueFromMap(map, "routeGuidancePossible") && !Util.isEmpty(string);
-        navigationEnv.getChoiceModel(874186240).setValue(bl6 ? 1 : 0);
+        navigationEnv.getChoiceModel(400180).setValue(bl6 ? 1 : 0);
         int n = this.findCursorPositionForNavLocation(logChannel, navLocation, map);
         if (logChannel.isDebug2()) {
-            logChannel.log(14808325, "%1#onUpdateLocation - nextCursorPosition will be = %2", (Object)this.CLASS_NAME, (long)n);
+            logChannel.log(100000000, "%1#onUpdateLocation - nextCursorPosition will be = %2", (Object)this.CLASS_NAME, (long)n);
         }
-        navigationEnv.getMenuModel(-518126080).setFocusedItem(n, FocusAdvice.KEEP_POSITION, -1L);
+        navigationEnv.getMenuModel(401121).setFocusedItem(n, FocusAdvice.KEEP_POSITION, -1L);
         if (null != guiModelAccessDetailsNavi && bl6) {
             guiModelAccessDetailsNavi.onUpdateLocation(navLocation);
         }
         if (navLocation.isPositionValid()) {
-            navigationEnv.getPropertyModel(1847592448).setProperties(160082217, new int[0]);
+            navigationEnv.getPropertyModel(401518).setProperties(698976777, new int[0]);
         } else {
-            navigationEnv.getPropertyModel(1847592448).setProperties(-1, new int[0]);
+            navigationEnv.getPropertyModel(401518).setProperties(-1, new int[0]);
         }
     }
 
@@ -130,7 +128,7 @@ extends AbstractAddressInputFormModelAccessHelper {
 
     private String getStreetName(IMyLocationAccessor iMyLocationAccessor) {
         if (AddressInputStreetSequenceCN.isStreetCenterSelected()) {
-            return this.env.getTranslatedText(237438464);
+            return this.env.getTranslatedText(403214);
         }
         return iMyLocationAccessor.getStreet();
     }
@@ -143,7 +141,7 @@ extends AbstractAddressInputFormModelAccessHelper {
 
     private String getHouseNumber(IMyLocationAccessor iMyLocationAccessor) {
         if (AddressInputHouseNumberSequenceAsia.isHouseNumberCenterSelected()) {
-            return this.env.getTranslatedText(237438464);
+            return this.env.getTranslatedText(403214);
         }
         return iMyLocationAccessor.getHousenumber();
     }

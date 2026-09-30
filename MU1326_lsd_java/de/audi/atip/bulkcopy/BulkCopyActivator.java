@@ -32,11 +32,10 @@ implements ServiceTrackerCustomizer {
     static /* synthetic */ Class class$de$audi$atip$bulkcopy$IBulkCopyClient;
     static /* synthetic */ Class class$de$audi$atip$diag$sw$SwDiagnosisManager;
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         this.m_log = this.framework.getLogChannel("Fw.BulkCopy");
-        this.m_log.log(1078071040, "BulkCopyActivator.start()");
+        this.m_log.log(1000000, "BulkCopyActivator.start()");
         this.m_manager = new BulkCopyManagerImpl(this.framework, this.m_log, new int[]{1, 2});
         this.registerServices(this.m_manager);
         this.initTracker();
@@ -46,7 +45,6 @@ implements ServiceTrackerCustomizer {
         return this.m_manager;
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         if (null != this.m_tracker) {
             this.m_tracker.close();
@@ -54,12 +52,11 @@ implements ServiceTrackerCustomizer {
         super.stop(bundleContext);
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
-        this.m_log.log(1078071040, "BulkCopyActivator.addingService(..)");
+        this.m_log.log(1000000, "BulkCopyActivator.addingService(..)");
         Object object = this.getBundleContext().getService(serviceReference);
         if (object instanceof IBulkCopyClient) {
-            this.m_log.log(-2137614336, "register bulkcopyclient");
+            this.m_log.log(10000000, "register bulkcopyclient");
             try {
                 this.m_manager.registerClient((IBulkCopyClient)object);
             }
@@ -69,46 +66,44 @@ implements ServiceTrackerCustomizer {
                 return null;
             }
         } else if (object instanceof SwDiagnosisManager) {
-            this.m_log.log(-2137614336, "register me to diagnosis manager");
+            this.m_log.log(10000000, "register me to diagnosis manager");
             this.m_diag = new BulkCopyDiag((IBulkCopyManager)this.m_manager);
             ((SwDiagnosisManager)object).addDiagGateway((AbstractSwDiagnosis)this.m_diag);
         } else {
             this.getBundleContext().ungetService(serviceReference);
-            this.m_log.log(-1601830656, "adding unwanted service!");
+            this.m_log.log(100000, "adding unwanted service!");
             return null;
         }
-        this.m_log.log(-2137614336, "added service = %1", object);
+        this.m_log.log(10000000, "added service = %1", object);
         return object;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
-        this.m_log.log(1078071040, "BulkCopyActivator.removedService(..)");
+        this.m_log.log(1000000, "BulkCopyActivator.removedService(..)");
         if (object instanceof IBulkCopyClient) {
-            this.m_log.log(-2137614336, "unregister bulkcopyclient");
+            this.m_log.log(10000000, "unregister bulkcopyclient");
             this.m_manager.unregisterClient((IBulkCopyClient)object);
         } else if (object instanceof SwDiagnosisManager) {
-            this.m_log.log(-2137614336, "unregister me from diagnosis manager");
+            this.m_log.log(10000000, "unregister me from diagnosis manager");
             if (null != this.m_diag) {
                 ((SwDiagnosisManager)object).removeDiagGateway((AbstractSwDiagnosis)this.m_diag);
                 this.m_diag = null;
             }
         }
-        this.m_log.log(-2137614336, "removed service = %1", object);
+        this.m_log.log(10000000, "removed service = %1", object);
         this.getBundleContext().ungetService(serviceReference);
     }
 
     private void registerServices(BulkCopyManagerImpl bulkCopyManagerImpl) {
-        this.m_log.log(1078071040, "BulkCopyActivator.registerServices(..)");
+        this.m_log.log(1000000, "BulkCopyActivator.registerServices(..)");
         this.registerService(new String[]{(class$de$audi$atip$bulkcopy$IBulkCopyManager == null ? (class$de$audi$atip$bulkcopy$IBulkCopyManager = BulkCopyActivator.class$("de.audi.atip.bulkcopy.IBulkCopyManager")) : class$de$audi$atip$bulkcopy$IBulkCopyManager).getName(), (class$de$esolutions$fw$util$commons$error$DumpInfoProvider == null ? (class$de$esolutions$fw$util$commons$error$DumpInfoProvider = BulkCopyActivator.class$("de.esolutions.fw.util.commons.error.DumpInfoProvider")) : class$de$esolutions$fw$util$commons$error$DumpInfoProvider).getName()}, (Object)bulkCopyManagerImpl, null);
     }
 
     private void initTracker() {
-        this.m_log.log(1078071040, "BulkCopyActivator.initTracker()");
+        this.m_log.log(1000000, "BulkCopyActivator.initTracker()");
         String[] stringArray = new String[]{(class$de$audi$atip$bulkcopy$IBulkCopyClient == null ? (class$de$audi$atip$bulkcopy$IBulkCopyClient = BulkCopyActivator.class$("de.audi.atip.bulkcopy.IBulkCopyClient")) : class$de$audi$atip$bulkcopy$IBulkCopyClient).getName(), (class$de$audi$atip$diag$sw$SwDiagnosisManager == null ? (class$de$audi$atip$diag$sw$SwDiagnosisManager = BulkCopyActivator.class$("de.audi.atip.diag.sw.SwDiagnosisManager")) : class$de$audi$atip$diag$sw$SwDiagnosisManager).getName()};
         this.m_tracker = new ServiceTracker(this.getBundleContext(), stringArray, (ServiceTrackerCustomizer)this);
         this.m_tracker.open();

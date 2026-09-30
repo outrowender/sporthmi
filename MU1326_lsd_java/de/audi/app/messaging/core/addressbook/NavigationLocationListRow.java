@@ -8,10 +8,10 @@ import org.dsi.ifc.organizer.AddressData;
 
 public class NavigationLocationListRow
 extends EvoListRow {
-    private static final int COLUMN_COUNT;
-    private static final int CELL_IDX_ADDRESS_ICON;
-    private static final int CELL_IDX_ADDRESS;
-    private static final int CELL_IDX_ADDRESS_SECONDARY;
+    private static final int COLUMN_COUNT = 3;
+    private static final int CELL_IDX_ADDRESS_ICON = 0;
+    private static final int CELL_IDX_ADDRESS = 1;
+    private static final int CELL_IDX_ADDRESS_SECONDARY = 2;
     private final AddressData data;
     private final String[] address;
     private final int type;
@@ -38,7 +38,6 @@ extends EvoListRow {
         return this.type;
     }
 
-    @Override
     public EvoListRow copy() {
         return new NavigationLocationListRow(this.type, this.address, this.data);
     }

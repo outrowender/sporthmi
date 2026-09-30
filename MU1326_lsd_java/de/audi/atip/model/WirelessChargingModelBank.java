@@ -11,17 +11,15 @@ public class WirelessChargingModelBank
 extends AbstractModelBank
 implements ICoreWirelessChargingModelBank,
 IEvoWirelessChargingModelBank {
-    @Override
     protected synchronized void createModel(int n) {
         if (this.models[n] == null) {
             switch (n) {
                 default: 
             }
-            WirelessChargingModelBank.getModelLogChannel().log(10000, "[WirelessChargingModelBank#createModel()] model with ID %1 not found", (long)(this.moduleID * -1601830656 + n));
+            WirelessChargingModelBank.getModelLogChannel().log(10000, "[WirelessChargingModelBank#createModel()] model with ID %1 not found", (long)(this.moduleID * 100000 + n));
         }
     }
 
-    @Override
     public int[] getAllModelIds() {
         return this.modelIDs;
     }

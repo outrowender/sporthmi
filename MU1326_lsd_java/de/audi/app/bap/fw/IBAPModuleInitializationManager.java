@@ -13,37 +13,26 @@ public interface IBAPModuleInitializationManager
 extends ComponentStateListener,
 IDSIServiceStateListener,
 MsgListener {
-    default public void addInitStateListener(IInitStateListener iInitStateListener) {
-    }
+    public void addInitStateListener(IInitStateListener var1);
 
-    default public void updateOperationState() {
-    }
+    public void updateOperationState();
 
-    default public int getBapStackState() {
-    }
+    public int getBapStackState();
 
-    default public int getHMIState() {
-    }
+    public int getHMIState();
 
-    default public int getInitState() {
-    }
+    public int getInitState();
 
-    default public boolean isAppStateDefect() {
-    }
+    public boolean isAppStateDefect();
 
-    default public String appStatesToString() {
-    }
+    public String appStatesToString();
 
-    default public void notifyBAPStackStateChanged(int n) {
-    }
+    public void notifyBAPStackStateChanged(int var1);
 
-    default public void notifyAppServiceChanged(boolean bl) {
-    }
+    public void notifyAppServiceChanged(boolean var1);
 
-    default public void notifyHMIStateAcknowledged() {
-    }
+    public void notifyHMIStateAcknowledged();
 
-    default public void bapReset(BAPEntity bAPEntity) {
-    }
+    public void bapReset(BAPEntity var1);
 }
 

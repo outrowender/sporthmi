@@ -24,16 +24,16 @@ import de.audi.tghu.navi.app.search.IntelliDestAccess;
 public class NaviActionProxyImplEvo
 extends NaviActionProxyImplCore
 implements NaviActionProxy {
-    private static final int ENTRYPOINT_LEFTDRAWER_DESTINATION;
-    private static final int ENTRYPOINT_REMOTEHMI;
-    private static final int SEARCH_AREA_ACTIVE;
-    private static final int SEARCH_AREA_INACTIVE;
-    private static final int MAP_POI_STACK_SCREEN_INACTIVE;
-    private static final int MAP_POI_STACK_SCREEN_ACTIVE;
-    public static final int SPELLER_SCREEN_INACTIVE;
-    public static final int SPELLER_SCREEN_ACTIVE;
-    public static final int POI_NEW_AREA_SEARCH_ACTIVE;
-    public static final int POI_NEW_AREA_SEARCH_INACTIVE;
+    private static final int ENTRYPOINT_LEFTDRAWER_DESTINATION = 2;
+    private static final int ENTRYPOINT_REMOTEHMI = 3;
+    private static final int SEARCH_AREA_ACTIVE = 1;
+    private static final int SEARCH_AREA_INACTIVE = 0;
+    private static final int MAP_POI_STACK_SCREEN_INACTIVE = 0;
+    private static final int MAP_POI_STACK_SCREEN_ACTIVE = 1;
+    public static final int SPELLER_SCREEN_INACTIVE = 0;
+    public static final int SPELLER_SCREEN_ACTIVE = 1;
+    public static final int POI_NEW_AREA_SEARCH_ACTIVE = 1;
+    public static final int POI_NEW_AREA_SEARCH_INACTIVE = 0;
     protected NavigationEvo navigation;
     protected IntelliDestAccess intelliDestAccess;
     protected RouteCriteriaHMIListener routeCriteriaHMIListener;
@@ -59,453 +59,384 @@ implements NaviActionProxy {
         this.logChannelPerformance = navigationEnv.getLogChannel("App.Navi.Search.Performance");
     }
 
-    @Override
     public void enterNavDestForm(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#enterNavDestFormScreen()").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#enterNavDestFormScreen()");
         this.navigation.getInterAppService().getSDSHandler().enterNavDestForm();
-        this.env.getChoiceModel(-971307520).setValue(0);
-        this.env.getChoiceModel(1579288064).setValue(1);
+        this.env.getChoiceModel(400326).setValue(0);
+        this.env.getChoiceModel(402014).setValue(1);
     }
 
-    @Override
     public void activateMap(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#activateMap()").toString());
-        this.env.getChoiceModel(136185344).setValue(0);
+        this.logChannel.log(10000000, this.CLASS_NAME + "#activateMap()");
+        this.env.getChoiceModel(400904).setValue(0);
     }
 
-    @Override
     public void activateDestination(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#activateDestination()").toString());
-        this.env.getChoiceModel(136185344).setValue(1);
+        this.logChannel.log(10000000, this.CLASS_NAME + "#activateDestination()");
+        this.env.getChoiceModel(400904).setValue(1);
     }
 
-    @Override
     public void exitTrufflesRangeSelect(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#exitTrufflesRangeSelect()").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#exitTrufflesRangeSelect()");
         this.intelliDestAccess.exitTrufflesRangeSelect();
     }
 
-    @Override
     public void exitNavDestForm(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#exitNavDestForm").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#exitNavDestForm");
         this.navigation.getAddressInputForm().persistBackupLocation(this.navigation.getAddressInputForm().getBackupLocation());
-        this.env.getChoiceModel(1579288064).setValue(0);
+        this.env.getChoiceModel(402014).setValue(0);
     }
 
-    @Override
     public void destPOIHKReturn(int n, int n2) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#destPOIHKReturn, removeHandler: %1").toString(), (long)n2);
+        this.logChannel.log(10000000, this.CLASS_NAME + "#destPOIHKReturn, removeHandler: %1", (long)n2);
         this.poiService.destPOIHKReturn(n, n2);
     }
 
-    @Override
     public void destExitStartGuidancePopup(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#destExitStartGuidancePopup()").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#destExitStartGuidancePopup()");
         this.destinationHandler.setTransfereToNdf(false);
     }
 
-    @Override
     public void exitParkingAtDestinationScreen(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#exitParkingAtDestinationScreen()").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#exitParkingAtDestinationScreen()");
         this.poiService.destPOIHKReturn(n, 0);
     }
 
-    @Override
     public void exitPoiInput(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#exitPoiInput()").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#exitPoiInput()");
         if (this.poiService != null) {
             this.poiService.resetSearchContext();
         }
     }
 
-    @Override
     public void exitRouteCriteria(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#exitRouteCriteria()").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#exitRouteCriteria()");
         this.routeCriteriaHMIListener.routeCriteriaScreenExited();
     }
 
-    @Override
     public void exitNaviGeneralSettings(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#exitNaviGeneralSettings()").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#exitNaviGeneralSettings()");
         this.routeCriteriaHMIListener.routeCriteriaScreenExited();
     }
 
-    @Override
     public void enterDestIntellidest(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#enterDestIntellidest()").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#enterDestIntellidest()");
         this.intelliDestAccess.enterDestinationContext(0);
     }
 
-    @Override
     public void exitDestIntellidest(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#exitDestIntellidest()").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#exitDestIntellidest()");
         this.intelliDestAccess.exitDestinationContext(0);
-        this.logChannelPerformance.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#exitDestIntellidest()").toString());
+        this.logChannelPerformance.log(10000000, this.CLASS_NAME + "#exitDestIntellidest()");
     }
 
-    @Override
     public void enterDestOptContacts(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#enterDestOptContacts()").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#enterDestOptContacts()");
         this.intelliDestAccess.enterDestinationContext(4);
     }
 
-    @Override
     public void exitDestOptContacts(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#exitDestOptContacts()").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#exitDestOptContacts()");
         this.intelliDestAccess.exitDestinationContext(4);
     }
 
-    @Override
     public void enterDestOptFavorites(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#enterDestOptFavorites()").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#enterDestOptFavorites()");
         this.intelliDestAccess.enterDestinationContext(7);
     }
 
-    @Override
     public void exitDestOptFavorites(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#exitDestOptFavorites()").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#exitDestOptFavorites()");
         this.intelliDestAccess.exitDestinationContext(7);
     }
 
-    @Override
     public void enterAddAddressDestOpt(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#enterAddAddressDestOpt()").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#enterAddAddressDestOpt()");
         this.intelliDestAccess.enterDestinationContext(6);
     }
 
-    @Override
     public void exitAddAddressDestOpt(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#exitAddAddressDestOpt()").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#exitAddAddressDestOpt()");
         this.intelliDestAccess.exitDestinationContext(6);
     }
 
-    @Override
     public void enterDestLastDest(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#enterDestLastDest()").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#enterDestLastDest()");
         this.intelliDestAccess.enterDestinationContext(5);
     }
 
-    @Override
     public void exitDestLastDest(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#exitDestLastDest()").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#exitDestLastDest()");
         this.intelliDestAccess.exitDestinationContext(5);
     }
 
-    @Override
     public void enterDemoModeStartPosIntellidest(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#enterDemoModeStartPosIntellidest()").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#enterDemoModeStartPosIntellidest()");
         this.intelliDestAccess.enterDestinationContext(1);
         this.env.getInputModeManager().setInputMode(9, this.env);
     }
 
-    @Override
     public void exitDemoModeStartPosIntellidest(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#exitDemoModeStartPosIntellidest()").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#exitDemoModeStartPosIntellidest()");
         this.intelliDestAccess.exitDestinationContext(1);
     }
 
-    @Override
     public void destAddressInputHKReturn(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#destAddressInputHKReturn").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#destAddressInputHKReturn");
         this.addressInputService.destAddressInputHKReturn(n, -1, null, null);
     }
 
-    @Override
     public void navFuelFeatureActive(int n, int n2) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#navFuelFeatureActive()").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#navFuelFeatureActive()");
         this.poiService.navFuelFeatureActive(n, n2);
     }
 
-    @Override
     public void rmlExit(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#rmlExit()").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#rmlExit()");
         this.rmlListener.stop();
     }
 
-    @Override
     public void rmlEnter(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#rmlEnter()").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#rmlEnter()");
         this.rmlListener.start();
     }
 
-    @Override
     public void onlineSearchExit(int n) {
-        this.logChannel.log(1078071040, new StringBuffer().append(this.CLASS_NAME).append("#onlineSearchExit: called").toString());
+        this.logChannel.log(1000000, this.CLASS_NAME + "#onlineSearchExit: called");
         if (this.navigation.getOnlineSearchController() != null) {
             this.navigation.getOnlineSearchController().onlineSearchExit();
         } else {
-            this.logChannel.log(-1601830656, new StringBuffer().append(this.CLASS_NAME).append("#onlineSearchExit: online search controller is null").toString());
+            this.logChannel.log(100000, this.CLASS_NAME + "#onlineSearchExit: online search controller is null");
         }
     }
 
-    @Override
     public void enterRRD(int n, int n2) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#enterRRD(%1)").toString(), (long)n2);
-        int n3 = this.env.getChoiceModel(-1859910144).getValue();
+        this.logChannel.log(10000000, this.CLASS_NAME + "#enterRRD(%1)", (long)n2);
+        int n3 = this.env.getChoiceModel(402577).getValue();
         if (n3 != 2 && n3 != 4 && n3 != 3) {
             this.navigation.getRrdListener().enterRRD(n2);
         } else {
-            this.logChannel.log(1078071040, new StringBuffer().append(this.CLASS_NAME).append("#enterRRD: will not call enterRRD because no RRD is needed for searchContext vicinity").toString());
+            this.logChannel.log(1000000, this.CLASS_NAME + "#enterRRD: will not call enterRRD because no RRD is needed for searchContext vicinity");
         }
     }
 
-    @Override
     public void exitRRD(int n, int n2) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#exitRRD(%1)").toString(), (long)n2);
+        this.logChannel.log(10000000, this.CLASS_NAME + "#exitRRD(%1)", (long)n2);
         this.navigation.getRrdListener().exitRRD(n2);
     }
 
-    @Override
     public void enterTpegPOIRRD(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#enterTpegPOIRRD()").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#enterTpegPOIRRD()");
         this.navigation.getRrdListener().enterRRD(8);
     }
 
-    @Override
     public void exitTpegPOIRRD(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#exitTpegPOIRRD()").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#exitTpegPOIRRD()");
         this.navigation.getRrdListener().exitRRD(8);
     }
 
-    @Override
     public void enterTpegPOI(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#enterTpegPOI()").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#enterTpegPOI()");
     }
 
-    @Override
     public void exitTpegPOI(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#exitTpegPOI()").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#exitTpegPOI()");
     }
 
-    @Override
     public void destTpegPOIHKReturn(int n, int n2) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#destTpegPOIHKReturn, removeHandler: %1").toString(), (long)n2);
+        this.logChannel.log(10000000, this.CLASS_NAME + "#destTpegPOIHKReturn, removeHandler: %1", (long)n2);
         this.tpegPOIService.destTpegPOIHKReturn(n, n2);
     }
 
-    @Override
     public void setDestActiveContext(int n, int n2) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#setDestActiveContext(terminalID=%1, value=%2)").toString(), (long)n, (long)n2);
-        this.env.getChoiceModel(136316416).setValue(n2);
+        this.logChannel.log(10000000, this.CLASS_NAME + "#setDestActiveContext(terminalID=%1, value=%2)", (long)n, (long)n2);
+        this.env.getChoiceModel(401416).setValue(n2);
     }
 
-    @Override
     public void setMapActiveContext(int n, int n2) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#setMapActiveContext(terminalID=%1, value=%2)").toString(), (long)n, (long)n2);
-        this.env.getChoiceModel(119539200).setValue(n2);
+        this.logChannel.log(10000000, this.CLASS_NAME + "#setMapActiveContext(terminalID=%1, value=%2)", (long)n, (long)n2);
+        this.env.getChoiceModel(401415).setValue(n2);
     }
 
-    @Override
     public void enterPoiMainScreen(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#enterPoiMainScreen()").toString());
-        this.env.getChoiceModel(203425280).setValue(1);
+        this.logChannel.log(10000000, this.CLASS_NAME + "#enterPoiMainScreen()");
+        this.env.getChoiceModel(401420).setValue(1);
         super.enterPoiMainScreen(n);
     }
 
-    @Override
     public void exitPoiMainScreen(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#exitPoiMainScreen()").toString());
-        this.env.getChoiceModel(203425280).setValue(0);
+        this.logChannel.log(10000000, this.CLASS_NAME + "#exitPoiMainScreen()");
+        this.env.getChoiceModel(401420).setValue(0);
     }
 
-    @Override
     public void enterNavFavorites(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#enterNavFavorites()").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#enterNavFavorites()");
         this.intelliDestAccess.enterDestinationContext(2);
     }
 
-    @Override
     public void exitNavFavorites(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#exitNavFavorites()").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#exitNavFavorites()");
         this.naviFavoriteHandler.updateNaviPersistence();
         this.intelliDestAccess.exitDestinationContext(2);
     }
 
-    @Override
     public void setNavigationInputMode(int n, int n2) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#setNavigationInputMode - mode=%1").toString(), (long)n2);
+        this.logChannel.log(10000000, this.CLASS_NAME + "#setNavigationInputMode - mode=%1", (long)n2);
         this.env.getInputModeManager().setInputMode(n2, this.env);
     }
 
-    @Override
     public void enterDestOptMethods(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#enterDestOptMethods()").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#enterDestOptMethods()");
         this.intelliDestAccess.enterDestinationContext(3);
     }
 
-    @Override
     public void exitDestOptMethods(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#exitDestOptMethods()").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#exitDestOptMethods()");
         this.intelliDestAccess.exitDestinationContext(3);
     }
 
-    @Override
     public void onlinePOIMainEnter(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#onlinePOIMainEnter: Called ").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#onlinePOIMainEnter: Called ");
         this.navigation.getOnlineSearchController().onlinePOIMainEnter();
     }
 
-    @Override
     public void onlinePOIMainExit(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#onlinePOIMainExit: Called ").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#onlinePOIMainExit: Called ");
         this.navigation.getOnlineSearchController().onlinePOIMainExit();
     }
 
-    @Override
     public void onlineSearchEnter(int n, int n2) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#onlineSearchEnter: Called with entry point '%1'").toString(), (Object)new Integer(n2));
+        this.logChannel.log(10000000, this.CLASS_NAME + "#onlineSearchEnter: Called with entry point '%1'", (Object)new Integer(n2));
         if (n2 == 2 || n2 == 3) {
             OnlineSearchForm onlineSearchForm = ((OnlineSearchControllerEvo)this.navigation.getOnlineSearchController()).getOnlineSearchForm();
             onlineSearchForm.startNewSearch();
         }
     }
 
-    @Override
     public void confirmRouteCalcFail(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#confirmRouteCalcFail: Called ").toString());
-        this.env.getChoiceModel(-1373633024).setValue(0);
+        this.logChannel.log(10000000, this.CLASS_NAME + "#confirmRouteCalcFail: Called ");
+        this.env.getChoiceModel(401582).setValue(0);
     }
 
-    @Override
     public void enterDestIntellidestDownTransition(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#enterDestIntellidestDownTransition").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#enterDestIntellidestDownTransition");
         this.intelliDestAccess.enterDestinationContextDownTransition(0);
     }
 
-    @Override
     public void enterNavFavoritesDownTransition(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#enterNavFavoritesDownTransition").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#enterNavFavoritesDownTransition");
         this.intelliDestAccess.enterDestinationContextDownTransition(2);
     }
 
-    @Override
     public void enterDestSelectionContext(int n, int n2) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#enterDestSelectionContext('%1')").toString(), (Object)new Integer(n2));
+        this.logChannel.log(10000000, this.CLASS_NAME + "#enterDestSelectionContext('%1')", (Object)new Integer(n2));
         this.contextHmiListener.handleDestContextChange(n2);
     }
 
-    @Override
     public void setDestOptSelectionBreadcrumb(int n, int n2) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#setDestOptSelectionBreadcrumb('%1')").toString(), (Object)new Integer(n2));
-        this.env.getChoiceModel(-232782336).setValue(n2);
+        this.logChannel.log(10000000, this.CLASS_NAME + "#setDestOptSelectionBreadcrumb('%1')", (Object)new Integer(n2));
+        this.env.getChoiceModel(401650).setValue(n2);
     }
 
-    @Override
     public void returnFromConnectivity(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#returnFromConnectivity: connectivity is succesfully established and triggering download").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#returnFromConnectivity: connectivity is succesfully established and triggering download");
         this.navigation.getRemoteHMIAppsBaseListener().triggerAppListDownload();
     }
 
-    @Override
     public void returnFromConnectivityError(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#returnFromConnectivity: connectivity has problems and going to back to previous state.").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#returnFromConnectivity: connectivity has problems and going to back to previous state.");
         this.navigation.getRemoteHMIAppsBaseListener().configureModelsMiniApps(3, 48);
     }
 
-    @Override
     public void setNavDestPOIContext(int n, int n2) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#setNavDestPOIContext setting to contextId=%1").toString(), (long)n2);
-        this.env.getChoiceModel(438371840).setValue(n2);
+        this.logChannel.log(10000000, this.CLASS_NAME + "#setNavDestPOIContext setting to contextId=%1", (long)n2);
+        this.env.getChoiceModel(401690).setValue(n2);
     }
 
-    @Override
     public void setNavAddressFormContext(int n, int n2) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#setNavAddressFormContext setting to contextId=%1").toString(), (long)n2);
-        this.env.getChoiceModel(622921216).setValue(n2);
+        this.logChannel.log(10000000, this.CLASS_NAME + "#setNavAddressFormContext setting to contextId=%1", (long)n2);
+        this.env.getChoiceModel(401701).setValue(n2);
     }
 
-    @Override
     public void setMapShowDetailsContext(int n, int n2) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#setMapShowDetailsContext to contextId=%1").toString(), (long)n2);
-        this.env.getChoiceModel(673252864).setValue(n2);
+        this.logChannel.log(10000000, this.CLASS_NAME + "#setMapShowDetailsContext to contextId=%1", (long)n2);
+        this.env.getChoiceModel(401704).setValue(n2);
     }
 
-    @Override
     public void setMapPoiStackScreenActive(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#setMapPoiStackScreenActive").toString());
-        this.env.getChoiceModel(1998652928).setValue(1);
+        this.logChannel.log(10000000, this.CLASS_NAME + "#setMapPoiStackScreenActive");
+        this.env.getChoiceModel(401783).setValue(1);
     }
 
-    @Override
     public void setMapPoiStackScreenInactive(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#setMapPoiStackScreenInactive").toString());
-        this.env.getChoiceModel(1998652928).setValue(0);
+        this.logChannel.log(10000000, this.CLASS_NAME + "#setMapPoiStackScreenInactive");
+        this.env.getChoiceModel(401783).setValue(0);
     }
 
-    @Override
     public void setSpellerScreenActive(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#setSpellerScreenActive").toString());
-        this.env.getChoiceModel(-2111764992).setValue(1);
+        this.logChannel.log(10000000, this.CLASS_NAME + "#setSpellerScreenActive");
+        this.env.getChoiceModel(401794).setValue(1);
     }
 
-    @Override
     public void setSpellerScreenInactive(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#setSpellerScreenInactive").toString());
-        this.env.getChoiceModel(-2111764992).setValue(0);
+        this.logChannel.log(10000000, this.CLASS_NAME + "#setSpellerScreenInactive");
+        this.env.getChoiceModel(401794).setValue(0);
     }
 
-    @Override
     public void enterPOINewAreaSearchScreen(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#enterPOINewAreaSearchScreen()").toString());
-        this.env.getChoiceModel(-1608448512).setValue(1);
+        this.logChannel.log(10000000, this.CLASS_NAME + "#enterPOINewAreaSearchScreen()");
+        this.env.getChoiceModel(401824).setValue(1);
     }
 
-    @Override
     public void leavePOINewAreaSearchScreen(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#leavePOINewAreaSearchScreen()").toString());
-        this.env.getChoiceModel(-1608448512).setValue(0);
+        this.logChannel.log(10000000, this.CLASS_NAME + "#leavePOINewAreaSearchScreen()");
+        this.env.getChoiceModel(401824).setValue(0);
     }
 
-    @Override
     public void reenterPOIOnline(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#reenterPOIOnline()").toString());
+        this.logChannel.log(10000000, this.CLASS_NAME + "#reenterPOIOnline()");
         OnlineSearchForm onlineSearchForm = ((OnlineSearchControllerEvo)this.navigation.getOnlineSearchController()).getOnlineSearchForm();
         onlineSearchForm.getProviderHandler().updateVisibility(1);
     }
 
-    @Override
     public void setPoiActiveContext(int n, int n2) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#setPoiActiveContext - contextId=%1").toString(), (long)n2);
-        this.env.getChoiceModel(-434043392).setValue(n2);
+        this.logChannel.log(10000000, this.CLASS_NAME + "#setPoiActiveContext - contextId=%1", (long)n2);
+        this.env.getChoiceModel(401894).setValue(n2);
     }
 
-    @Override
     public void enterGeoCoordInput(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#enterGeoCoordInput - terminalID=%1").toString(), (long)n);
+        this.logChannel.log(10000000, this.CLASS_NAME + "#enterGeoCoordInput - terminalID=%1", (long)n);
         this.navigation.getGeoCoordInputHmiListener().enterGeoCoordInput(n);
     }
 
-    @Override
     public void enterDestOptSaveAsFavorite(int n) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#enterDestOptSaveAsFavorite - terminalID=%1").toString(), (long)n);
+        this.logChannel.log(10000000, this.CLASS_NAME + "#enterDestOptSaveAsFavorite - terminalID=%1", (long)n);
         this.navigation.getNaviFavoriteHmiListener().enterDestOptSaveAsFavorite();
     }
 
-    @Override
     public void setMapLicenceWeatherMapCheckResChoice(int n, int n2) {
-        this.logChannel.log(-2137614336, new StringBuffer().append(this.CLASS_NAME).append("#setMapLicenceWeatherMapCheckResChoiceModel() - value: %1 ").toString(), (long)n2);
-        this.env.getChoiceModel(2065827328).setValue(n2);
+        this.logChannel.log(10000000, this.CLASS_NAME + "#setMapLicenceWeatherMapCheckResChoiceModel() - value: %1 ", (long)n2);
+        this.env.getChoiceModel(402043).setValue(n2);
     }
 
     public void navDestEnterMapcode(int n) {
-        this.logChannel.log(14808325, new StringBuffer().append(this.CLASS_NAME).append("#navDestEnterMapcode() ").toString());
+        this.logChannel.log(100000000, this.CLASS_NAME + "#navDestEnterMapcode() ");
     }
 
     public void navDestLeaveMapcode(int n) {
-        this.logChannel.log(14808325, new StringBuffer().append(this.CLASS_NAME).append("#navDestLeaveMapcode() ").toString());
+        this.logChannel.log(100000000, this.CLASS_NAME + "#navDestLeaveMapcode() ");
     }
 
     public void navDestEnterTelephone(int n) {
-        this.logChannel.log(14808325, new StringBuffer().append(this.CLASS_NAME).append("#navDestEnterTelephone() ").toString());
+        this.logChannel.log(100000000, this.CLASS_NAME + "#navDestEnterTelephone() ");
     }
 
     public void navDestLeaveTelephone(int n) {
-        this.logChannel.log(14808325, new StringBuffer().append(this.CLASS_NAME).append("#navDestLeaveTelephone() ").toString());
+        this.logChannel.log(100000000, this.CLASS_NAME + "#navDestLeaveTelephone() ");
     }
 
-    @Override
     public void resetAudiConnectOptionState(int n) {
-        this.logChannel.log(14808325, new StringBuffer().append(this.CLASS_NAME).append("#resetAudiConnectOptionState() ").toString());
+        this.logChannel.log(100000000, this.CLASS_NAME + "#resetAudiConnectOptionState() ");
         this.navigation.getRemoteHMIAppsBaseListener().resetAudiConnectOptionState();
     }
 

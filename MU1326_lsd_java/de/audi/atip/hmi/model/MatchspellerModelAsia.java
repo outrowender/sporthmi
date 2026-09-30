@@ -27,7 +27,6 @@ MatchspellerModelAsiaGUI {
         super(n, n2);
     }
 
-    @Override
     public String dumpContent() {
         Buffer buffer = new Buffer(200);
         buffer.append(super.dumpContent());
@@ -43,7 +42,6 @@ MatchspellerModelAsiaGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     protected void copy(AbstractModel abstractModel) {
         try {
             Object object = this.mutex;
@@ -61,12 +59,10 @@ MatchspellerModelAsiaGUI {
         }
     }
 
-    @Override
     public int getModelType() {
         return 21;
     }
 
-    @Override
     public void nonAlphaNumTPCharsChanged(String string, int n) {
         try {
             ((MatchspellerListenerAsia)this.spellerListener).nonAlphaNumTPCharsChanged(this.id, n, string);
@@ -79,7 +75,6 @@ MatchspellerModelAsiaGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void setValidNonAlphaNumTPCharacters(String string) {
         Object object = this.mutex;
         synchronized (object) {
@@ -89,22 +84,18 @@ MatchspellerModelAsiaGUI {
         this.fireModelUpdateEvent(17);
     }
 
-    @Override
     public void setInitialInputMode(int n) {
         this.initialInputMode = n;
     }
 
-    @Override
     public void setAllowNonAlphaNumInput(boolean bl) {
         this.allowNonAlphaNumInput = bl;
     }
 
-    @Override
     public int getNonAlphaNumMode(int n) {
         return this.nonAlphaNumMode;
     }
 
-    @Override
     public int getInitialInputMode(int n) {
         return this.initialInputMode;
     }
@@ -112,7 +103,6 @@ MatchspellerModelAsiaGUI {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public String getValidNonAlphaNumTPCharacters(int n) {
         Object object = this.mutex;
         synchronized (object) {
@@ -120,7 +110,6 @@ MatchspellerModelAsiaGUI {
         }
     }
 
-    @Override
     public void inputModeTPChanged(int n, int n2) {
         try {
             ((MatchspellerListenerAsia)this.spellerListener).inputModeTPChanged(this.id, n, n2);
@@ -130,7 +119,6 @@ MatchspellerModelAsiaGUI {
         }
     }
 
-    @Override
     public boolean getAllowNonAlphaNumInput(int n) {
         return this.allowNonAlphaNumInput;
     }

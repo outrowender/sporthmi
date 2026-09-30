@@ -232,7 +232,7 @@ public class Inet6Util {
     }
 
     public static String addressToString(int n) {
-        return new StringBuffer(String.valueOf(n >> 24 & 0xFF)).append(".").append(n >> 16 & 0xFF).append(".").append(n >> 8 & 0xFF).append(".").append(n & 0xFF).toString();
+        return String.valueOf(n >> 24 & 0xFF) + "." + (n >> 16 & 0xFF) + "." + (n >> 8 & 0xFF) + "." + (n & 0xFF);
     }
 
     public static boolean isValidIP6Address(String string) {
@@ -328,7 +328,7 @@ public class Inet6Util {
                             return false;
                         }
                     }
-                    string2 = new StringBuffer(String.valueOf(string2)).append(c2).toString();
+                    string2 = String.valueOf(string2) + c2;
                 }
             }
             ++n6;
@@ -397,7 +397,7 @@ public class Inet6Util {
                 if (string2.length() > 2) {
                     return false;
                 }
-                string2 = new StringBuffer(String.valueOf(string2)).append(c2).toString();
+                string2 = String.valueOf(string2) + c2;
             }
             ++n2;
         }

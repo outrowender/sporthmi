@@ -3,22 +3,21 @@
  */
 package de.audi.app.onlinefunctions.bap;
 
-import de.audi.app.onlinefunctions.bap.TrafficLightInfo$Builder;
 import de.vw.mib.bap.datatypes.BAPString;
-import de.vw.mib.bap.generated.onlinefunctions.serializer.TrafficLightOnline_Info_Status$TrafficLightWarnings;
+import de.vw.mib.bap.generated.onlinefunctions.serializer.TrafficLightOnline_Info_Status;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 
 public final class TrafficLightInfo {
-    private static final byte MAX_SIDESTREETS;
+    private static final byte MAX_SIDESTREETS = 3;
     private final int trafficLight;
     private final int mainDirection;
     private final int[] sideStreetDirections;
     private final int level;
     private final int layout;
 
-    public static TrafficLightInfo$Builder builder() {
-        return new TrafficLightInfo$Builder();
+    public static Builder builder() {
+        return new Builder();
     }
 
     private TrafficLightInfo(int n, int n2, int[] nArray, int n3, int n4) {
@@ -47,7 +46,7 @@ public final class TrafficLightInfo {
         }
     }
 
-    private String convertedSideStreetDirections() {
+    private String convertedSideStreetDirections() throws UnsupportedEncodingException {
         String string;
         if (this.sideStreetDirections == null || this.sideStreetDirections.length == 0) {
             string = "";
@@ -70,9 +69,9 @@ public final class TrafficLightInfo {
         return this.level >= 0 && this.level <= 2;
     }
 
-    public void setTrafficLightWarnings(TrafficLightOnline_Info_Status$TrafficLightWarnings trafficLightOnline_Info_Status$TrafficLightWarnings) {
-        trafficLightOnline_Info_Status$TrafficLightWarnings.displayRedLightWarning1 = this.level == 1;
-        trafficLightOnline_Info_Status$TrafficLightWarnings.displayRedLightWarning2 = this.level == 2;
+    public void setTrafficLightWarnings(TrafficLightOnline_Info_Status.TrafficLightWarnings trafficLightWarnings) {
+        trafficLightWarnings.displayRedLightWarning1 = this.level == 1;
+        trafficLightWarnings.displayRedLightWarning2 = this.level == 2;
     }
 
     public int getLayout() {
@@ -108,7 +107,7 @@ public final class TrafficLightInfo {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         TrafficLightInfo trafficLightInfo = (TrafficLightInfo)object;
@@ -143,6 +142,43 @@ public final class TrafficLightInfo {
         }
         stringBuffer.append(']');
         return stringBuffer.toString();
+    }
+
+    public static final class Builder {
+        private int trafficLight;
+        private int mainDirection;
+        private int[] sideStreetDirections;
+        private int level;
+        private int layout;
+
+        public Builder setTrafficLight(int n) {
+            this.trafficLight = n;
+            return this;
+        }
+
+        public Builder setMainDirection(int n) {
+            this.mainDirection = n;
+            return this;
+        }
+
+        public Builder setSideStreetDirections(int[] nArray) {
+            this.sideStreetDirections = nArray;
+            return this;
+        }
+
+        public Builder setLevel(int n) {
+            this.level = n;
+            return this;
+        }
+
+        public Builder setLayout(int n) {
+            this.layout = n;
+            return this;
+        }
+
+        public TrafficLightInfo build() {
+            return new TrafficLightInfo(this.trafficLight, this.mainDirection, this.sideStreetDirections, this.level, this.layout);
+        }
     }
 }
 

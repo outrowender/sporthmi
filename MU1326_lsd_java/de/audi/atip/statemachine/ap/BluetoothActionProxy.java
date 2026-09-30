@@ -7,22 +7,16 @@ import de.audi.atip.statemachine.ActionProxy;
 
 public interface BluetoothActionProxy
 extends ActionProxy {
-    default public void abortConnectByHkReturn(int n) {
-    }
+    public void abortConnectByHkReturn(int var1);
 
-    default public void clearBtEntrySwitchModel(int n) {
-    }
+    public void clearBtEntrySwitchModel(int var1);
 
-    default public void bluetoothInquiryLeft(int n) {
-    }
+    public void bluetoothInquiryLeft(int var1);
 
-    default public void abortPairingByHkReturnDuringInquiry(int n) {
-    }
+    public void abortPairingByHkReturnDuringInquiry(int var1);
 
-    default public void bluetoothAppEntered(int n) {
-    }
+    public void bluetoothAppEntered(int var1);
 
-    default public void bluetoothAppLeft(int n) {
-    }
+    public void bluetoothAppLeft(int var1);
 }
 

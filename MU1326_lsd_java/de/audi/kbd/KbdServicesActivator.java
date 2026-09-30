@@ -50,20 +50,19 @@ implements ServiceTrackerCustomizer {
     static /* synthetic */ Class class$de$audi$atip$msg$MsgListener;
     static /* synthetic */ Class class$de$audi$atip$interapp$RSESettingsEventListener;
 
-    @Override
     public void start(BundleContext bundleContext) {
         super.start(bundleContext);
         this.logChannel = this.framework.getLogChannel("Fw.Kbd.Activator");
-        this.logChannel.log(1078071040, "KbdServicesActivator.start(%1)", (Object)bundleContext);
+        this.logChannel.log(1000000, "KbdServicesActivator.start(%1)", (Object)bundleContext);
         if (this.framework.getScreenRes() == 4) {
-            this.logChannel.log(-1601830656, "Patch KeyMap for MMIKombi");
+            this.logChannel.log(100000, "Patch KeyMap for MMIKombi");
             KeyMap.patchG24();
         } else if (this.framework.isPorsche()) {
             if (this.framework.isBentley()) {
-                this.logChannel.log(-1601830656, "Patch KeyMap for Bentley");
+                this.logChannel.log(100000, "Patch KeyMap for Bentley");
                 KeyMap.patchBentley();
             } else {
-                this.logChannel.log(-1601830656, "Patch KeyMap for Porsche");
+                this.logChannel.log(100000, "Patch KeyMap for Porsche");
                 KeyMap.patchPorsche();
             }
         }
@@ -79,7 +78,6 @@ implements ServiceTrackerCustomizer {
         this.tracker.open();
     }
 
-    @Override
     public void stop(BundleContext bundleContext) {
         if (this.tracker != null) {
             this.closeTracker(this.tracker);
@@ -88,10 +86,9 @@ implements ServiceTrackerCustomizer {
         super.stop(bundleContext);
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         Object object = this.getBundleContext().getService(serviceReference);
-        this.logChannel.log(1078071040, "KbdServicesActivator.addingService: %1", object);
+        this.logChannel.log(1000000, "KbdServicesActivator.addingService: %1", object);
         if (object instanceof DSIKeyPanel) {
             DSIKeyPanel dSIKeyPanel = (DSIKeyPanel)object;
             this.kbdHandler.setDSIKeyPanel(dSIKeyPanel);
@@ -114,13 +111,11 @@ implements ServiceTrackerCustomizer {
         return object;
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
-        this.logChannel.log(1078071040, "KbdServicesActivator.removedService: %1", object);
+        this.logChannel.log(1000000, "KbdServicesActivator.removedService: %1", object);
         if (object instanceof DSIKeyPanel) {
             this.kbdHandler.setDSIKeyPanel(null);
         } else if (object instanceof IEjectHandler) {

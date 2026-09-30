@@ -7,7 +7,6 @@ import de.audi.atip.statemachine.SMModule;
 
 public interface ApplicationSMM
 extends SMModule {
-    default public void setTopLevelSuperstate(int n) {
-    }
+    public void setTopLevelSuperstate(int var1);
 }
 

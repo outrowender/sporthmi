@@ -4,18 +4,16 @@
 package de.audi.atip.interapp;
 
 public interface IMessagingLicenseService {
-    public static final int RESULT_ERROR_GENERAL;
-    public static final int RESULT_ERROR_ILLEGAL_ARGUMENT;
-    public static final int RESULT_ERROR_ILLEGAL_STATE;
-    public static final int RESULT_DICTATION_LICENSE_ACTIVE;
-    public static final int RESULT_DICTATION_LICENSE_INACTIVE;
-    public static final int RESULT_DICTATION_LICENSE_EXPIRED;
-    public static final int RESULT_DICTATION_LICENSE_ACTIVE_WARNING;
+    public static final int RESULT_ERROR_GENERAL = 0;
+    public static final int RESULT_ERROR_ILLEGAL_ARGUMENT = 1;
+    public static final int RESULT_ERROR_ILLEGAL_STATE = 2;
+    public static final int RESULT_DICTATION_LICENSE_ACTIVE = 3;
+    public static final int RESULT_DICTATION_LICENSE_INACTIVE = 4;
+    public static final int RESULT_DICTATION_LICENSE_EXPIRED = 5;
+    public static final int RESULT_DICTATION_LICENSE_ACTIVE_WARNING = 6;
 
-    default public void requestOnlineDictationLicenseInfo() {
-    }
+    public void requestOnlineDictationLicenseInfo();
 
-    default public void setExpirationWarning(boolean bl) {
-    }
+    public void setExpirationWarning(boolean var1);
 }
 

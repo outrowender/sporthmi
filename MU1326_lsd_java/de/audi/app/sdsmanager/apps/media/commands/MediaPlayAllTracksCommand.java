@@ -17,14 +17,13 @@ extends AbstractSystemCallCommand {
         this.mediaSDSService = iMediaSDSService;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[%1#execute] start", (Object)this.getName());
+        this.logger.log(10000000, "[%1#execute] start", (Object)this.getName());
         this.mediaSDSService.playAllTracks();
     }
 
     public void playAllTracksResult(byte by) {
-        this.logger.log(-2137614336, "[%1#playAllTracksResult] successful=%2", (Object)this.getName(), (long)by);
+        this.logger.log(10000000, "[%1#playAllTracksResult] successful=%2", (Object)this.getName(), (long)by);
         int n = by == 0 ? 20000 : 20001;
         this.sendResult(n);
     }

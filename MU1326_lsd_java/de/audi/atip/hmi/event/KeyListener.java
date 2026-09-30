@@ -8,16 +8,12 @@ import de.audi.atip.hmi.event.KeyEvent;
 import de.audi.atip.hmi.event.WheelButtonEvent;
 
 public interface KeyListener {
-    default public void keyPressed(KeyEvent keyEvent) {
-    }
+    public void keyPressed(KeyEvent var1);
 
-    default public void keyReleased(KeyEvent keyEvent) {
-    }
+    public void keyReleased(KeyEvent var1);
 
-    default public void keyTurned(WheelButtonEvent wheelButtonEvent) {
-    }
+    public void keyTurned(WheelButtonEvent var1);
 
-    default public void keyMoved(JoystickEvent joystickEvent) {
-    }
+    public void keyMoved(JoystickEvent var1);
 }
 

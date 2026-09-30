@@ -7,25 +7,18 @@ import de.audi.app.bap.dsi.IDSIController;
 
 public interface IDSIBAPController
 extends IDSIController {
-    default public boolean isDSIBAPAvailable() {
-    }
+    public boolean isDSIBAPAvailable();
 
-    default public void getBAPState(int n) {
-    }
+    public void getBAPState(int var1);
 
-    default public void setHMIState(int n, int n2) {
-    }
+    public void setHMIState(int var1, int var2);
 
-    default public void request(int n, int n2, int n3, int n4, int n5) {
-    }
+    public void request(int var1, int var2, int var3, int var4, int var5);
 
-    default public void requestVoid(int n, int n2, int n3) {
-    }
+    public void requestVoid(int var1, int var2, int var3);
 
-    default public void requestByteSequence(int n, int n2, int n3, byte[] byArray) {
-    }
+    public void requestByteSequence(int var1, int var2, int var3, byte[] var4);
 
-    default public void requestError(int n, int n2, int n3) {
-    }
+    public void requestError(int var1, int var2, int var3);
 }
 

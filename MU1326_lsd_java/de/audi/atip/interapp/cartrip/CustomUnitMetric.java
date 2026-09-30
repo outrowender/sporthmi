@@ -8,10 +8,10 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class CustomUnitMetric
 extends AbstractMetrics {
-    private static final String SEPARATOR;
-    private static String TEXT_INVALID;
-    public static final int VALUE_FORMAT_FLOAT;
-    public static final int VALUE_FORMAT_INT;
+    private static final String SEPARATOR = " ";
+    private static String TEXT_INVALID = "---";
+    public static final int VALUE_FORMAT_FLOAT = 0;
+    public static final int VALUE_FORMAT_INT = 1;
     private int valueFormat = 0;
     private String unitString;
 
@@ -24,26 +24,22 @@ extends AbstractMetrics {
         this.valueFormat = n;
     }
 
-    @Override
     public void setValue(float f2) {
         this.value = f2;
     }
 
-    @Override
     public float getValue() {
         return this.value;
     }
 
-    @Override
     public float getValue(int n) {
         return this.value;
     }
 
-    @Override
     public String format() {
         Buffer buffer = new Buffer();
         buffer.append(this.getFormattedValue());
-        buffer.append(" ");
+        buffer.append(SEPARATOR);
         buffer.append(this.unitString);
         if (!CustomUnitMetric.contentEquals(this.lastFormat, buffer)) {
             this.lastFormat = buffer.toString();
@@ -51,22 +47,18 @@ extends AbstractMetrics {
         return this.lastFormat;
     }
 
-    @Override
     public String format(int n) {
         return this.format();
     }
 
-    @Override
     public String getFormattedMetricUnit() {
         return null != this.unitString ? this.unitString.trim() : "";
     }
 
-    @Override
     public String getFormattedUnit(int n) {
         return this.getFormattedMetricUnit();
     }
 
-    @Override
     public String getFormattedValue() {
         if (this.isMetricvalid()) {
             switch (this.valueFormat) {
@@ -79,28 +71,20 @@ extends AbstractMetrics {
         return this.getInvalidText();
     }
 
-    @Override
     public String getFormattedValue(int n) {
         return this.getFormattedValue();
     }
 
-    @Override
     public String getInvalidText() {
         return TEXT_INVALID;
     }
 
-    @Override
     public String[] getStringValueAndUnit() {
         return new String[]{this.getFormattedValue(), this.unitString};
     }
 
-    @Override
     public String[] getStringValueAndUnit(int n) {
         return this.getStringValueAndUnit();
-    }
-
-    static {
-        TEXT_INVALID = "---";
     }
 }
 

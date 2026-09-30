@@ -4,16 +4,12 @@
 package de.audi.app.media.evo.content.data;
 
 public interface IDataBrowserListChangeListener {
-    default public void browseListTypeChanged(int n) {
-    }
+    public void browseListTypeChanged(int var1);
 
-    default public void browseListLayoutChanged(int n) {
-    }
+    public void browseListLayoutChanged(int var1);
 
-    default public void browseListCategorySelected(int n) {
-    }
+    public void browseListCategorySelected(int var1);
 
-    default public void lastBrowseListCategoryChanged(int n) {
-    }
+    public void lastBrowseListCategoryChanged(int var1);
 }
 

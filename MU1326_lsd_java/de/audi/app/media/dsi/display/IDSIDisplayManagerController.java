@@ -8,19 +8,14 @@ import de.audi.app.media.dsi.display.IMediaDisplayManagerListener;
 
 public interface IDSIDisplayManagerController
 extends IDSIController {
-    default public void setDisplayManagerListener(IMediaDisplayManagerListener iMediaDisplayManagerListener) {
-    }
+    public void setDisplayManagerListener(IMediaDisplayManagerListener var1);
 
-    default public void setBrightness(int n, int n2) {
-    }
+    public void setBrightness(int var1, int var2);
 
-    default public void setContrast(int n, int n2) {
-    }
+    public void setContrast(int var1, int var2);
 
-    default public void setColor(int n, int n2) {
-    }
+    public void setColor(int var1, int var2);
 
-    default public void setTint(int n, int n2) {
-    }
+    public void setTint(int var1, int var2);
 }
 

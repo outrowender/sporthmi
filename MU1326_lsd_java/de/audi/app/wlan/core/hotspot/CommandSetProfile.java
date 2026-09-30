@@ -24,14 +24,12 @@ extends AbstractWlanCommand {
         this.profile = profile;
     }
 
-    @Override
     public void execute() {
         this.dsiWlan.setProfile(this.profile);
     }
 
-    @Override
     public void responseSetProfile(int n) {
-        this.logger.log(1078071040, "CommandSetProfile#responseSetProfile(): result=%1", (long)n);
+        this.logger.log(1000000, "CommandSetProfile#responseSetProfile(): result=%1", (long)n);
         this.commandList.commandFinished();
     }
 

@@ -9,7 +9,7 @@ import java.io.PrintStream;
 
 public class ModelException
 extends RuntimeException {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = -909269044492720309L;
     private final HMIModel model;
 
     public ModelException(HMIModel hMIModel) {
@@ -33,12 +33,10 @@ extends RuntimeException {
         return this.model.getID();
     }
 
-    @Override
     public String getMessage() {
         return new Buffer().append("[ModelID:").append(this.model.getID()).append("] ").append(super.getMessage()).toString();
     }
 
-    @Override
     public void printStackTrace(PrintStream printStream) {
         super.printStackTrace(printStream);
         printStream.println(this.model.dumpContent());

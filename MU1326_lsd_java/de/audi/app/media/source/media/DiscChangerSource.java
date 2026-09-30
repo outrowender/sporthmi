@@ -13,8 +13,8 @@ import de.audi.app.media.source.media.AbstractMediaSource;
 
 public class DiscChangerSource
 extends AbstractMediaSource {
-    private static final String LOGCLASS;
-    private static final int WILDCARD_MEDIA_ID;
+    private static final String LOGCLASS = "DiscChangerSource";
+    private static final int WILDCARD_MEDIA_ID = -1;
     private volatile boolean wildCardActivation = false;
     private volatile boolean wasWildCardActivation = false;
 
@@ -22,7 +22,6 @@ extends AbstractMediaSource {
         super(iMediaTerminal, iMediaDSIPlayerController, n, string);
     }
 
-    @Override
     public int getAudioConnection(ISourceSlot iSourceSlot) {
         if (this.getTerminal().getAudioManager().hasRearSeatAudioFocusOnly()) {
             switch (iSourceSlot.getContentType()) {
@@ -44,21 +43,19 @@ extends AbstractMediaSource {
         this.wildCardActivation = true;
     }
 
-    @Override
     public void activate(ISourceSlot iSourceSlot) {
         if (this.wildCardActivation) {
-            this.logger.main().log(1078071040, "[%1.activate] wild card activation.", (Object)"DiscChangerSource");
+            this.logger.main().log(1000000, "[%1.activate] wild card activation.", (Object)LOGCLASS);
             this.dsiPlayerController.activate(((MediaSourceSlot)iSourceSlot).getDeviceID(), -1L);
             this.wasWildCardActivation = true;
             this.wildCardActivation = false;
         } else {
-            this.logger.main().log(1078071040, "[%1.activate]", (Object)"DiscChangerSource");
+            this.logger.main().log(1000000, "[%1.activate]", (Object)LOGCLASS);
             this.wasWildCardActivation = false;
             super.activate(iSourceSlot);
         }
     }
 
-    @Override
     protected ISourceSlot getDefaultEmptySlot(int n) {
         int n2 = n == 0 || n == 1 ? 0 : (n == 2 || n == 3 ? 1 : -1);
         return new MediaSourceSlot(this, 0, n, 0, -1L, -1L, null, null, MediaFlags.EMPTY_FLAGS, MediaCapabilities.EMPTY_CAPABILITIES, 19, n2, "");

@@ -19,12 +19,10 @@ extends AbstractTel1EnqueuedBAPPropertyHandler {
         super(iTelApplication, dispatcherBase);
     }
 
-    @Override
     protected boolean doProcessGlobalTelephoneStateUpdate(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         return iGlobalTelephoneStateStruct != null && iGlobalTelephoneStateStruct.getCallLeadingDevice() != null;
     }
 
-    @Override
     protected void updateAsync() {
         ITelDSIMobileEquipmentDeviceState iTelDSIMobileEquipmentDeviceState;
         CombiBAPServicePhone combiBAPServicePhone = this.getCombiService();
@@ -33,15 +31,15 @@ extends AbstractTel1EnqueuedBAPPropertyHandler {
             if (iTelDSIMobileEquipmentDeviceState != null) {
                 int n = BapPropertyTelSignalQualityUtil.getCombiSignalQuality(iTelDSIMobileEquipmentDeviceState.getSignalQuality());
                 if (n != this.currentCombiSignalQuality) {
-                    this.log.log(1078071040, "[BAPPropertyTelSignalQuality#update] combiSignalQuality=%1", (long)n);
+                    this.log.log(1000000, "[BAPPropertyTelSignalQuality#update] combiSignalQuality=%1", (long)n);
                     combiBAPServicePhone.updateSignalQuality(n);
                     this.currentCombiSignalQuality = n;
                 }
             } else {
-                this.log.log(-1601830656, "[BAPPropertyTelSignalQuality#update] state is null --> NOP!");
+                this.log.log(100000, "[BAPPropertyTelSignalQuality#update] state is null --> NOP!");
             }
         } else {
-            this.log.log(-1601830656, "[BAPPropertyTelSignalQuality#update] CombiBAPServicePhone is null --> NOP!");
+            this.log.log(100000, "[BAPPropertyTelSignalQuality#update] CombiBAPServicePhone is null --> NOP!");
         }
     }
 }

@@ -96,7 +96,6 @@ implements CombiBAPArrayElement {
         this.attributes.set(combiBAPAudioSourceAttributes);
     }
 
-    @Override
     public int getPosID() {
         return this.posID;
     }
@@ -181,7 +180,6 @@ implements CombiBAPArrayElement {
         return n - 1;
     }
 
-    @Override
     public boolean hasSameContent(CombiBAPArrayElement combiBAPArrayElement) {
         if (combiBAPArrayElement == this) {
             return true;
@@ -193,7 +191,6 @@ implements CombiBAPArrayElement {
         return false;
     }
 
-    @Override
     public int getDiffRecordAddress(CombiBAPArrayElement combiBAPArrayElement) {
         int n = 0;
         if (this.hasSameContent(combiBAPArrayElement)) {
@@ -380,7 +377,7 @@ implements CombiBAPArrayElement {
         if (object == null) {
             return false;
         }
-        if (super.getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         CombiBAPAudioSource combiBAPAudioSource = (CombiBAPAudioSource)object;

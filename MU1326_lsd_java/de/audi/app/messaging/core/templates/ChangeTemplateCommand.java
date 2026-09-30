@@ -4,19 +4,18 @@
 package de.audi.app.messaging.core.templates;
 
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
+import de.audi.app.messaging.core.commands.AbstractMessagingCommand;
 import de.audi.app.messaging.core.dsi.messaging.AbstractDsiMessagingCommand;
-import de.audi.app.messaging.core.templates.ChangeTemplateCommand$1;
-import de.audi.app.messaging.core.templates.ChangeTemplateCommand$ResultHandler;
 import de.audi.tghu.command.Command;
 
 final class ChangeTemplateCommand
 extends AbstractDsiMessagingCommand {
-    private final ChangeTemplateCommand$ResultHandler resultHandler;
+    private final ResultHandler resultHandler;
     private final long clientRequestId;
     private final int templateID;
     private final String text;
 
-    ChangeTemplateCommand(AbstractMsgApplication abstractMsgApplication, ChangeTemplateCommand$ResultHandler resultHandler, long l, int n, String string) {
+    ChangeTemplateCommand(AbstractMsgApplication abstractMsgApplication, ResultHandler resultHandler, long l, int n, String string) {
         super(abstractMsgApplication);
         this.resultHandler = resultHandler;
         this.clientRequestId = l;
@@ -24,9 +23,8 @@ extends AbstractDsiMessagingCommand {
         this.text = string;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[ChangeTemplateCommand#execute]");
+        this.logger.log(10000000, "[ChangeTemplateCommand#execute]");
         try {
             this.dsiMessagingAccess.changeTemplateRequest(this.templateID, this.text);
         }
@@ -36,9 +34,8 @@ extends AbstractDsiMessagingCommand {
         }
     }
 
-    @Override
     public void changeTemplateResponse(int n, int n2) {
-        this.logger.log(-2137614336, "[ChangeTemplateCommand#changeTemplateResponse] result = %1, templateID = %2", (long)n, (long)n2);
+        this.logger.log(10000000, "[ChangeTemplateCommand#changeTemplateResponse] result = %1, templateID = %2", (long)n, (long)n2);
         this.signalResult(n == 0);
     }
 
@@ -48,7 +45,7 @@ extends AbstractDsiMessagingCommand {
     private void signalResult(boolean bl) {
         try {
             if (this.logger.isDebug()) {
-                this.logger.log(-2137614336, "[ChangeTemplateCommand#signalResult] clientRequestId = %1, isResultOk = %2", (Object)String.valueOf(this.clientRequestId), (Object)String.valueOf(bl));
+                this.logger.log(10000000, "[ChangeTemplateCommand#signalResult] clientRequestId = %1, isResultOk = %2", (Object)String.valueOf(this.clientRequestId), (Object)String.valueOf(bl));
             }
             this.resultHandler.handleResult(this.clientRequestId, bl);
         }
@@ -60,13 +57,18 @@ extends AbstractDsiMessagingCommand {
         }
     }
 
-    @Override
     public Command getErrorCommand() {
-        return new ChangeTemplateCommand$1(this, this.msgApp);
+        return new AbstractMessagingCommand(this.msgApp){
+
+            public void execute() {
+                this.logger.log(10000000, "[ChangeTemplateErrorCommand#execute]");
+                ChangeTemplateCommand.this.signalResult(false);
+            }
+        };
     }
 
-    static /* synthetic */ void access$000(ChangeTemplateCommand changeTemplateCommand, boolean bl) {
-        changeTemplateCommand.signalResult(bl);
+    public static interface ResultHandler {
+        public void handleResult(long var1, boolean var3);
     }
 }
 

@@ -9,12 +9,10 @@ import org.dsi.ifc.androidauto2.ServiceConfiguration;
 
 public class DSIAndroidAuto2TransferObjectFactory
 implements IDSIAndroidAuto2TransferObjectFactory {
-    @Override
     public ServiceConfiguration createServiceConfiguration() {
         return new ServiceConfiguration();
     }
 
-    @Override
     public BluetoothServiceAnnouncement createBluetoothServiceAnnouncement() {
         return new BluetoothServiceAnnouncement();
     }

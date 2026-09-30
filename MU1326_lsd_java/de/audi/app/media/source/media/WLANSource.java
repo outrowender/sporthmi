@@ -5,7 +5,6 @@ package de.audi.app.media.source.media;
 
 import de.audi.app.media.IMediaTerminal;
 import de.audi.app.media.dsi.media.IMediaDSIPlayerController;
-import de.audi.app.media.logger.IMediaLogger;
 import de.audi.app.media.osgi.IServiceTracker;
 import de.audi.app.media.source.ISourceSlot;
 import de.audi.app.media.source.MediaCapabilities;
@@ -13,18 +12,19 @@ import de.audi.app.media.source.MediaFlags;
 import de.audi.app.media.source.MediaSlot;
 import de.audi.app.media.source.MediaSourceSlot;
 import de.audi.app.media.source.media.AbstractMediaSource;
-import de.audi.app.media.source.media.WLANSource$1;
 import de.audi.app.media.source.state.SourceStateUpdate;
 import de.audi.app.media.source.state.providers.WLANState;
 import de.audi.atip.hmi.model.ButtonListener;
 import de.audi.atip.interapp.WlanService;
 import java.util.ArrayList;
 import java.util.List;
+import org.osgi.framework.ServiceReference;
+import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
 public class WLANSource
 extends AbstractMediaSource
 implements ButtonListener {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "WLANSource";
     private final int AUDIO_CONNECTION;
     private final IServiceTracker wlanServiceTracker;
     private int clampSState = 0;
@@ -48,7 +48,25 @@ implements ButtonListener {
                 this.AUDIO_CONNECTION = 20;
             }
         }
-        this.wlanServiceTracker = this.getTerminal().getServiceManager().createServiceTracker(class$de$audi$atip$interapp$WlanService == null ? (class$de$audi$atip$interapp$WlanService = WLANSource.class$("de.audi.atip.interapp.WlanService")) : class$de$audi$atip$interapp$WlanService, new WLANSource$1(this));
+        this.wlanServiceTracker = this.getTerminal().getServiceManager().createServiceTracker(class$de$audi$atip$interapp$WlanService == null ? (class$de$audi$atip$interapp$WlanService = WLANSource.class$("de.audi.atip.interapp.WlanService")) : class$de$audi$atip$interapp$WlanService, new ServiceTrackerCustomizer(){
+
+            public void removedService(ServiceReference serviceReference, Object object) {
+                WLANSource.this.logger.main().log(1000000, "[%1.removedService] WLAN service removed.", (Object)WLANSource.LOGCLASS);
+                WLANSource.this.getTerminal().getServiceManager().releaseService(serviceReference);
+                WLANSource.this.wlanService = null;
+                WLANSource.this.wlanState = null;
+            }
+
+            public void modifiedService(ServiceReference serviceReference, Object object) {
+            }
+
+            public Object addingService(ServiceReference serviceReference) {
+                WlanService wlanService = (WlanService)WLANSource.this.getTerminal().getServiceManager().getService(serviceReference);
+                WLANSource.this.logger.main().log(1000000, "[%1.addingService] WLAN service found.", (Object)WLANSource.LOGCLASS);
+                WLANSource.this.wlanService = wlanService;
+                return WLANSource.this.wlanService;
+            }
+        });
         this.originalWLANSourceSlot = (MediaSourceSlot)this.getDefaultSlot();
         this.addUpdateType(4);
         this.addUpdateType(3);
@@ -58,20 +76,18 @@ implements ButtonListener {
     }
 
     public void init() {
-        this.logger.main().log(1078071040, "[%1.init]", (Object)"WLANSource");
-        this.getButtonModel(-2112945408).setButtonListener(this);
+        this.logger.main().log(1000000, "[%1.init]", (Object)LOGCLASS);
+        this.getButtonModel(200578).setButtonListener(this);
         this.wlanServiceTracker.open();
     }
 
-    @Override
     public void deinit() {
         super.deinit();
-        this.logger.main().log(1078071040, "[%1.deinit] Deinit.", (Object)"WLANSource");
-        this.getButtonModel(-2112945408).setButtonListener(null);
+        this.logger.main().log(1000000, "[%1.deinit] Deinit.", (Object)LOGCLASS);
+        this.getButtonModel(200578).setButtonListener(null);
         this.wlanServiceTracker.close();
     }
 
-    @Override
     public int getAudioConnection(ISourceSlot iSourceSlot) {
         return this.AUDIO_CONNECTION;
     }
@@ -82,14 +98,14 @@ implements ButtonListener {
 
     private boolean updateWLANSlotState() {
         if (this.wlanState == null && !this.getTerminal().getConfiguration().isWLANStateSynchronizationDisabled()) {
-            this.logger.main().log(1078071040, "[%1.updateWLANSlotState] No WLAN state.", (Object)"WLANSource");
+            this.logger.main().log(1000000, "[%1.updateWLANSlotState] No WLAN state.", (Object)LOGCLASS);
             return false;
         }
         ArrayList arrayList = new ArrayList(1);
         if (this.clampSState == 0 || this.clampSState == 1) {
-            this.logger.main().log(1078071040, "[%1.updateWLANSlotState] CLAMP OFF", (Object)"WLANSource");
+            this.logger.main().log(1000000, "[%1.updateWLANSlotState] CLAMP OFF", (Object)LOGCLASS);
             if (this.clampSState == 1 && this.sdisEnabledByCoding) {
-                this.logger.main().log(1078071040, "[%1.updateWLANSlotState] SDIS enabled. Do not change current state.", (Object)"WLANSource");
+                this.logger.main().log(1000000, "[%1.updateWLANSlotState] SDIS enabled. Do not change current state.", (Object)LOGCLASS);
                 this.updateAdditionalWLANSlotState(arrayList);
             } else {
                 arrayList.add(new MediaSourceSlot(this, 3, 0, 0, -1L, -1L, null, null, MediaFlags.EMPTY_FLAGS, MediaCapabilities.EMPTY_CAPABILITIES, 20, -1, ""));
@@ -103,10 +119,10 @@ implements ButtonListener {
 
     private void updateAdditionalWLANSlotState(List list) {
         if (this.wlanState != null && !this.wlanState.isEnabled()) {
-            this.logger.main().log(1078071040, "[%1.updateWLANSlotState] DEACTIVATED", (Object)"WLANSource");
+            this.logger.main().log(1000000, "[%1.updateWLANSlotState] DEACTIVATED", (Object)LOGCLASS);
             list.add(new MediaSourceSlot(this, 3, 0, 0, -1L, -1L, null, null, MediaFlags.EMPTY_FLAGS, MediaCapabilities.EMPTY_CAPABILITIES, 21, -1, ""));
         } else if (this.originalWLANSourceSlot.isEmpty()) {
-            this.logger.main().log(1078071040, "[%1.updateWLANSlotState] EMPTY (deviceConnected=%2)", (Object)"WLANSource", (Object)Boolean.toString(this.deviceConnected));
+            this.logger.main().log(1000000, "[%1.updateWLANSlotState] EMPTY (deviceConnected=%2)", (Object)LOGCLASS, (Object)Boolean.toString(this.deviceConnected));
             if (!this.deviceConnected) {
                 list.add(new MediaSourceSlot(this, 3, 0, 0, -1L, -1L, null, null, MediaFlags.EMPTY_FLAGS, MediaCapabilities.EMPTY_CAPABILITIES, 29, -1, ""));
             } else {
@@ -118,78 +134,73 @@ implements ButtonListener {
     }
 
     public void activateWLAN() {
-        this.logger.main().log(1078071040, "[%1.activateWLAN] Activate WLAN.", (Object)"WLANSource");
+        this.logger.main().log(1000000, "[%1.activateWLAN] Activate WLAN.", (Object)LOGCLASS);
         WlanService wlanService = this.wlanService;
         if (wlanService == null) {
-            this.logger.main().log(-1601830656, "[%1.activateWLAN] WLAN service not available.", (Object)"WLANSource");
+            this.logger.main().log(100000, "[%1.activateWLAN] WLAN service not available.", (Object)LOGCLASS);
             return;
         }
         wlanService.switchWlanState(true);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
         switch (n) {
             case 200578: {
-                this.logger.hmi().log(1078071040, "[%1.keyTyped] WLAN activate button typed.", (Object)"WLANSource");
+                this.logger.hmi().log(1000000, "[%1.keyTyped] WLAN activate button typed.", (Object)LOGCLASS);
                 this.activateWLAN();
-                this.getModel(-2112945408).fireEvent(0);
+                this.getModel(200578).fireEvent(0);
                 break;
             }
             default: {
-                this.logger.hmi().log(-1601830656, "[%1.keyTyped] Received unexpected key-typed event for model '%2'.", (Object)"WLANSource", (long)n);
+                this.logger.hmi().log(100000, "[%1.keyTyped] Received unexpected key-typed event for model '%2'.", (Object)LOGCLASS, (long)n);
             }
         }
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public boolean processSourceStateUpdate(SourceStateUpdate sourceStateUpdate) {
         switch (sourceStateUpdate.getType()) {
             case 4: {
                 this.wlanState = (WLANState)sourceStateUpdate.getUpdate();
-                this.logger.main().log(1078071040, "[%1.processSourceStateUpdate] UPDATE_TYPE_WLAN ('%2')", (Object)"WLANSource", (Object)this.wlanState);
+                this.logger.main().log(1000000, "[%1.processSourceStateUpdate] UPDATE_TYPE_WLAN ('%2')", (Object)LOGCLASS, (Object)this.wlanState);
                 return this.updateWLANSlotState();
             }
             case 3: {
                 boolean bl = (Boolean)sourceStateUpdate.getUpdate();
-                this.logger.main().log(1078071040, "[%2.processSourceStateUpdate] UPDATE_TYPE_POWER_CLAMP_S (clampS='%1')", bl, (Object)"WLANSource");
+                this.logger.main().log(1000000, "[%2.processSourceStateUpdate] UPDATE_TYPE_POWER_CLAMP_S (clampS='%1')", bl, (Object)LOGCLASS);
                 this.clampSState = bl ? 2 : 1;
                 return this.updateWLANSlotState();
             }
             case 1: {
-                this.logger.main().log(1078071040, "[%1.processSourceStateUpdate] UPDATE_TYPE_SLOTS_LIST", (Object)"WLANSource");
+                this.logger.main().log(1000000, "[%1.processSourceStateUpdate] UPDATE_TYPE_SLOTS_LIST", (Object)LOGCLASS);
                 List list = (List)sourceStateUpdate.getUpdate();
                 this.originalWLANSourceSlot = list.isEmpty() ? (MediaSourceSlot)this.getDefaultSlot() : new MediaSourceSlot(this, (MediaSlot)list.get(0));
                 return this.updateWLANSlotState();
             }
             case 14: {
-                this.logger.main().log(1078071040, "[%1.processSourceStateUpdate] UPDATE_TYPE_WLAN_DEVICE_CONNECTED", (Object)"WLANSource");
+                this.logger.main().log(1000000, "[%1.processSourceStateUpdate] UPDATE_TYPE_WLAN_DEVICE_CONNECTED", (Object)LOGCLASS);
                 boolean bl = (Boolean)sourceStateUpdate.getUpdate();
                 if (bl != this.deviceConnected) {
                     this.deviceConnected = bl;
-                    this.logger.main().log(1078071040, "[%2.processSourceStateUpdate] UPDATE_TYPE_WLAN_DEVICE_CONNECTED ('%1')", this.deviceConnected, (Object)"WLANSource");
+                    this.logger.main().log(1000000, "[%2.processSourceStateUpdate] UPDATE_TYPE_WLAN_DEVICE_CONNECTED ('%1')", this.deviceConnected, (Object)LOGCLASS);
                     return this.updateWLANSlotState();
                 }
                 return false;
             }
             case 16: {
-                this.logger.main().log(1078071040, "[%1.processSourceStateUpdate] UPDATE_TYPE_SDIS_CONNECTED", (Object)"WLANSource");
+                this.logger.main().log(1000000, "[%1.processSourceStateUpdate] UPDATE_TYPE_SDIS_CONNECTED", (Object)LOGCLASS);
                 boolean bl = (Boolean)sourceStateUpdate.getUpdate();
                 if (bl != this.sdisConnected) {
                     this.sdisConnected = bl;
-                    this.logger.main().log(1078071040, "[%2.processSourceStateUpdate] UPDATE_TYPE_SDIS_CONNECTED ('%1')", this.sdisConnected, (Object)"WLANSource");
+                    this.logger.main().log(1000000, "[%2.processSourceStateUpdate] UPDATE_TYPE_SDIS_CONNECTED ('%1')", this.sdisConnected, (Object)LOGCLASS);
                     return this.updateWLANSlotState();
                 }
                 return false;
@@ -205,28 +216,6 @@ implements ButtonListener {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ IMediaLogger access$000(WLANSource wLANSource) {
-        return wLANSource.logger;
-    }
-
-    static /* synthetic */ WlanService access$102(WLANSource wLANSource, WlanService wlanService) {
-        wLANSource.wlanService = wlanService;
-        return wLANSource.wlanService;
-    }
-
-    static /* synthetic */ WLANState access$202(WLANSource wLANSource, WLANState wLANState) {
-        wLANSource.wlanState = wLANState;
-        return wLANSource.wlanState;
-    }
-
-    static /* synthetic */ IMediaLogger access$300(WLANSource wLANSource) {
-        return wLANSource.logger;
-    }
-
-    static /* synthetic */ WlanService access$100(WLANSource wLANSource) {
-        return wLANSource.wlanService;
     }
 }
 

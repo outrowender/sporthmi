@@ -15,17 +15,14 @@ extends ButtonModelHandlerAdapter {
         buttonModelApp.setButtonListener(this);
     }
 
-    @Override
     public void updateOnKeyPressed(int n) {
         this.getButtonModelBusiness().processKeyPressed(n, (ButtonModelHandler)this);
     }
 
-    @Override
     public void updateOnKeyReleased(int n) {
         this.getButtonModelBusiness().processKeyReleased(n, (ButtonModelHandler)this);
     }
 
-    @Override
     public void updateOnKeyTyped(int n) {
         this.getButtonModelBusiness().processKeyTyped(n, (ButtonModelHandler)this);
     }

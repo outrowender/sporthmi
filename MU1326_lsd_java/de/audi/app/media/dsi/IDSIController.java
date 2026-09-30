@@ -6,22 +6,16 @@ package de.audi.app.media.dsi;
 import de.audi.app.media.dsi.IDSIControllerStateListener;
 
 public interface IDSIController {
-    default public void init() {
-    }
+    public void init();
 
-    default public void deinit() {
-    }
+    public void deinit();
 
-    default public int getInstanceID() {
-    }
+    public int getInstanceID();
 
-    default public void startDSI() {
-    }
+    public void startDSI();
 
-    default public boolean isStarted() {
-    }
+    public boolean isStarted();
 
-    default public void setStateListener(IDSIControllerStateListener iDSIControllerStateListener) {
-    }
+    public void setStateListener(IDSIControllerStateListener var1);
 }
 

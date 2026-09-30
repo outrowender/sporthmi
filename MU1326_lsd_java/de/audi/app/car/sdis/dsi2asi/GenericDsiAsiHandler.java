@@ -9,7 +9,7 @@ import de.audi.app.car.sdis.CarSportChronoASIProvider;
 import de.audi.app.car.sdis.CarZeroEmissionASIProvider;
 import de.audi.app.car.sdis.base.ISDISFramework;
 import de.audi.app.car.sdis.dsi2asi.DsiAsiMainHandler;
-import de.audi.atip.interapp.car.Car2XObjectCollection$CarZeroEmissionEntry;
+import de.audi.atip.interapp.car.Car2XObjectCollection;
 import de.audi.atip.log.LogChannel;
 import de.esolutions.fw.comm.asi.hmisync.car.sportchrono.SCData;
 import de.esolutions.fw.comm.asi.hmisync.car.sportchrono.SCHeader;
@@ -83,28 +83,28 @@ public class GenericDsiAsiHandler {
                 break;
             }
             case 4201: {
-                Car2XObjectCollection$CarZeroEmissionEntry car2XObjectCollection$CarZeroEmissionEntry;
-                if (!(object instanceof Car2XObjectCollection$CarZeroEmissionEntry) || null == (car2XObjectCollection$CarZeroEmissionEntry = (Car2XObjectCollection$CarZeroEmissionEntry)object)) break;
+                Car2XObjectCollection.CarZeroEmissionEntry carZeroEmissionEntry;
+                if (!(object instanceof Car2XObjectCollection.CarZeroEmissionEntry) || null == (carZeroEmissionEntry = (Car2XObjectCollection.CarZeroEmissionEntry)object)) break;
                 ZeroEmissionEntry zeroEmissionEntry = new ZeroEmissionEntry();
-                zeroEmissionEntry.setValues(car2XObjectCollection$CarZeroEmissionEntry.getValues());
-                zeroEmissionEntry.setState(car2XObjectCollection$CarZeroEmissionEntry.getState());
+                zeroEmissionEntry.setValues(carZeroEmissionEntry.getValues());
+                zeroEmissionEntry.setState(carZeroEmissionEntry.getState());
                 this.dsiAsiMapper.updateZECurrentBarGraph(zeroEmissionEntry);
                 break;
             }
             case 4202: {
-                Car2XObjectCollection$CarZeroEmissionEntry[] car2XObjectCollection$CarZeroEmissionEntryArray;
-                if (!(object instanceof Car2XObjectCollection$CarZeroEmissionEntry[]) || null == (car2XObjectCollection$CarZeroEmissionEntryArray = (Car2XObjectCollection$CarZeroEmissionEntry[])object)) break;
-                ZeroEmissionEntry[] zeroEmissionEntryArray = new ZeroEmissionEntry[car2XObjectCollection$CarZeroEmissionEntryArray.length];
+                Car2XObjectCollection.CarZeroEmissionEntry[] carZeroEmissionEntryArray;
+                if (!(object instanceof Car2XObjectCollection.CarZeroEmissionEntry[]) || null == (carZeroEmissionEntryArray = (Car2XObjectCollection.CarZeroEmissionEntry[])object)) break;
+                ZeroEmissionEntry[] zeroEmissionEntryArray = new ZeroEmissionEntry[carZeroEmissionEntryArray.length];
                 for (int i2 = 0; i2 < zeroEmissionEntryArray.length; ++i2) {
                     zeroEmissionEntryArray[i2] = new ZeroEmissionEntry();
-                    zeroEmissionEntryArray[i2].setValues(car2XObjectCollection$CarZeroEmissionEntryArray[i2].getValues());
-                    zeroEmissionEntryArray[i2].setState(car2XObjectCollection$CarZeroEmissionEntryArray[i2].getState());
+                    zeroEmissionEntryArray[i2].setValues(carZeroEmissionEntryArray[i2].getValues());
+                    zeroEmissionEntryArray[i2].setState(carZeroEmissionEntryArray[i2].getState());
                 }
                 this.dsiAsiMapper.updateZEHistoryBarGraph(zeroEmissionEntryArray);
                 break;
             }
             default: {
-                this.logChannel.log(1078071040, "updateValue: content of %1 not supported", (long)n);
+                this.logChannel.log(1000000, "updateValue: content of %1 not supported", (long)n);
             }
         }
     }
@@ -136,7 +136,7 @@ public class GenericDsiAsiHandler {
                 break;
             }
             default: {
-                this.logChannel.log(1078071040, "updateViewOption: content of %1 not supported", (long)n);
+                this.logChannel.log(1000000, "updateViewOption: content of %1 not supported", (long)n);
             }
         }
     }

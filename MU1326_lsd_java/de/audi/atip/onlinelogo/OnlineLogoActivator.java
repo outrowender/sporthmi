@@ -25,24 +25,22 @@ implements ServiceTrackerCustomizer {
         super("FwLogoProvider");
         this.bundleContext = iFrameworkAccess.getBundleCxt();
         this.log = iFrameworkAccess.getLogChannel("App.Online.Main");
-        this.log.log(1078071040, "OnlineLogoActivator#OnlineLogoActivator()");
+        this.log.log(1000000, "OnlineLogoActivator#OnlineLogoActivator()");
     }
 
     public IOnlineLogoProvider getService() {
-        this.log.log(1078071040, "OnlineLogoActivator#getService()");
+        this.log.log(1000000, "OnlineLogoActivator#getService()");
         return this.service;
     }
 
-    @Override
     protected void startInternal(BundleContext bundleContext) {
-        this.log.log(1078071040, "OnlineLogoActivator#startInternal()");
+        this.log.log(1000000, "OnlineLogoActivator#startInternal()");
         this.tracker = new ServiceTracker(this.bundleContext, new String[]{(class$de$audi$atip$onlinelogo$IOnlineLogoProvider == null ? (class$de$audi$atip$onlinelogo$IOnlineLogoProvider = OnlineLogoActivator.class$("de.audi.atip.onlinelogo.IOnlineLogoProvider")) : class$de$audi$atip$onlinelogo$IOnlineLogoProvider).getName()}, (ServiceTrackerCustomizer)this);
         this.tracker.open();
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
-        this.log.log(1078071040, "OnlineLogoActivator#addingService()");
+        this.log.log(1000000, "OnlineLogoActivator#addingService()");
         Object object = this.bundleContext.getService(serviceReference);
         if (object instanceof IOnlineLogoProvider) {
             this.service = (IOnlineLogoProvider)object;
@@ -51,16 +49,14 @@ implements ServiceTrackerCustomizer {
         return null;
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
-        this.log.log(1078071040, "OnlineLogoActivator#removedService()");
+        this.log.log(1000000, "OnlineLogoActivator#removedService()");
         if (object instanceof IOnlineLogoProvider) {
             this.service = null;
         }
         this.bundleContext.ungetService(serviceReference);
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 

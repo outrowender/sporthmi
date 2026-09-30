@@ -24,9 +24,8 @@ implements IRouteGuidanceListener {
         this.logChannel = logChannel;
     }
 
-    @Override
     public void routeGuidanceRequested(Route route, NavLocation navLocation) {
-        this.logChannel.log(1078071040, "DestTransfereToNdfHandler#routeGuidanceRequested() Transfere NavLocation %1 to NDF %2 ", (Object)LocationFormatter.formatLocationShort(navLocation), (Object)Boolean.toString(this.destinationHandler.shouldTransfereToNdf()));
+        this.logChannel.log(1000000, "DestTransfereToNdfHandler#routeGuidanceRequested() Transfere NavLocation %1 to NDF %2 ", (Object)LocationFormatter.formatLocationShort(navLocation), (Object)Boolean.toString(this.destinationHandler.shouldTransfereToNdf()));
         if (navLocation == null || Util.isHURegionAsia()) {
             this.destinationHandler.setTransfereToNdf(false);
             return;
@@ -38,7 +37,6 @@ implements IRouteGuidanceListener {
         }
     }
 
-    @Override
     public void cancelStartRouteCalculation() {
     }
 }

@@ -12,7 +12,6 @@ extends EvoListRow {
         super(l, n);
     }
 
-    public abstract IFavoriteStorage getIFavorite() {
-    }
+    public abstract IFavoriteStorage getIFavorite();
 }
 

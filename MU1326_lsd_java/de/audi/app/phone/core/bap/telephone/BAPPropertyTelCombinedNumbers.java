@@ -65,12 +65,10 @@ extends AbstractTel1EnqueuedBAPPropertyHandler {
         super(iTelApplication, dispatcherBase);
     }
 
-    @Override
     protected boolean doProcessGlobalTelephoneStateUpdate(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
-        return n == 671088896;
+        return n == 65576;
     }
 
-    @Override
     protected void updateAsync() {
         IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct = this.getTelephoneState();
         if (iGlobalTelephoneStateStruct != null) {
@@ -78,7 +76,7 @@ extends AbstractTel1EnqueuedBAPPropertyHandler {
             Object[] objectArray = BAPPropertyTelCombinedNumbers.getBAPCallStackEntries(callStackEntryArray, this.getApplication().getTextFactory(), this.getTelephoneState());
             CombiBAPServicePhone combiBAPServicePhone = this.getCombiService();
             if (combiBAPServicePhone != null) {
-                this.log.log(1078071040, "[BAPPropertyTelCombinedNumbers#update] %1", (Object)TelLoggingUtils.objectArray2StringNewLines(objectArray));
+                this.log.log(1000000, "[BAPPropertyTelCombinedNumbers#update] %1", (Object)TelLoggingUtils.objectArray2StringNewLines(objectArray));
                 combiBAPServicePhone.updateCombinedNumbers((CombiBAPCallStackEntry[])objectArray);
             }
         } else {

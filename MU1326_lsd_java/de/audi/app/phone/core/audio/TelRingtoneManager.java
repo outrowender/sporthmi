@@ -1,5 +1,8 @@
 /*
  * Decompiled with CFR 0.152.
+ * 
+ * Could not load the following classes:
+ *  de.mib.swdiagnosis.phone.IPhoneDiagComponent
  */
 package de.audi.app.phone.core.audio;
 
@@ -8,8 +11,6 @@ import de.audi.app.phone.core.ITelApplication;
 import de.audi.app.phone.core.PhoneServiceProvider;
 import de.audi.app.phone.core.PhoneServiceTracker;
 import de.audi.app.phone.core.audio.TelAudioCmdManager;
-import de.audi.app.phone.core.audio.TelRingtoneManager$RingtoneMediaSession;
-import de.audi.app.phone.core.audio.TelRingtoneManager$TelAudioDiag;
 import de.audi.app.phone.core.state.IGlobalTelephoneStateListener;
 import de.audi.app.phone.core.state.IGlobalTelephoneStateStruct;
 import de.audi.app.phone.core.util.TelLoggingUtils;
@@ -21,10 +22,12 @@ import de.audi.atip.hmi.modelaccess.ListModelApp;
 import de.audi.atip.interapp.audio.ToneService;
 import de.audi.atip.interapp.media.IMediaFilePlayerService;
 import de.audi.atip.interapp.media.IMediaFilePlayerSession;
+import de.audi.atip.interapp.media.IMediaFileSessionPlayer;
+import de.audi.atip.interapp.media.IMediaSessionPlayer;
 import de.audi.atip.interapp.phone.ITelServiceMedia;
-import de.audi.atip.log.LogChannel;
 import de.audi.tghu.waveplayer.RingTonePlayer;
 import de.audi.tghu.waveplayer.WavePlayer;
+import de.mib.swdiagnosis.phone.IPhoneDiagComponent;
 import java.util.Hashtable;
 import org.osgi.framework.ServiceReference;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
@@ -35,19 +38,19 @@ implements ListListener,
 ChoiceListener,
 ServiceTrackerCustomizer,
 ITelServiceMedia {
-    private final int[] RELEVANT_ATTRIBUTES = new int[]{0x21000100, 0x21000200, 0x3000100, 0x8000100};
-    private static final int ENABLE_SET_CUSTOM_RINGTONE_OPTION;
-    private static final int DISABLE_SET_CUSTOM_RINGTONE_OPTION;
-    public static final int MEDIA_SESSION_MODE_RINGING;
-    public static final int MEDIA_SESSION_MODE_RINGTONE_LIST;
-    static final int INDEX_INDIVIDUAL_RINGTONE_DSI;
-    static final int RINGTONE_LIST_DEFAULT_LENGTH;
-    static final int INDEX_INDIVIDUAL_RINGTONE;
-    static final int DEFAULT_RINGTONE;
-    static final int RINGTONE_SELECTED;
-    static final int RINGTONE_NOT_SELECTED;
-    static final int RINGTONE_LIST_MAX_COLUMNS;
-    static final int RINGTONE_LIST_COL_CHECKBOX;
+    private final int[] RELEVANT_ATTRIBUTES = new int[]{65569, 131105, 65539, 65544};
+    private static final int ENABLE_SET_CUSTOM_RINGTONE_OPTION = 0;
+    private static final int DISABLE_SET_CUSTOM_RINGTONE_OPTION = 1;
+    public static final int MEDIA_SESSION_MODE_RINGING = 0;
+    public static final int MEDIA_SESSION_MODE_RINGTONE_LIST = 1;
+    static final int INDEX_INDIVIDUAL_RINGTONE_DSI = -1;
+    static final int RINGTONE_LIST_DEFAULT_LENGTH = 10;
+    static final int INDEX_INDIVIDUAL_RINGTONE = 10;
+    static final int DEFAULT_RINGTONE = 0;
+    static final int RINGTONE_SELECTED = 1;
+    static final int RINGTONE_NOT_SELECTED = 0;
+    static final int RINGTONE_LIST_MAX_COLUMNS = 2;
+    static final int RINGTONE_LIST_COL_CHECKBOX = 1;
     private volatile PhoneServiceProvider telServiceMediaProvider;
     private volatile String ringtonePath;
     protected volatile boolean ringtoneListEntered;
@@ -63,7 +66,7 @@ ITelServiceMedia {
     private volatile RingTonePlayer ringtonePlayer;
     private volatile PhoneServiceTracker mediaServiceTracker;
     private volatile IMediaFilePlayerService mediaService;
-    private volatile TelRingtoneManager$RingtoneMediaSession currentMediaSession;
+    private volatile RingtoneMediaSession currentMediaSession;
     private volatile boolean ringtoneListPlaybackStarted;
     static /* synthetic */ Class class$de$audi$atip$interapp$audio$ToneService;
     static /* synthetic */ Class class$de$audi$tghu$waveplayer$WavePlayer;
@@ -78,23 +81,22 @@ ITelServiceMedia {
         this.cmdManager = telAudioCmdManager;
     }
 
-    @Override
     public void init() {
         long l = this.getApplication().getFrameworkAccess().getMonotonicTime();
         super.init();
         this.registerTelServiceMedia();
         this.getApplication().getGlobalTelephoneStateManager().registerListenerForSpecificAttributeUpdate(this.RELEVANT_ATTRIBUTES, (IGlobalTelephoneStateListener)this);
-        this.getChoiceModel(-862714880).setChoiceListener(this);
-        this.getButtonModel(-896138240).setButtonListener(this);
+        this.getChoiceModel(300236).setChoiceListener(this);
+        this.getButtonModel(300746).setButtonListener(this);
         this.initRingtoneList();
-        this.getApplication().addDiagnosisComponent(new TelRingtoneManager$TelAudioDiag(this, null));
+        this.getApplication().addDiagnosisComponent(new TelAudioDiag());
         this.toneServiceTracker = new PhoneServiceTracker(this.getApplication().getBundleContext(), (class$de$audi$atip$interapp$audio$ToneService == null ? (class$de$audi$atip$interapp$audio$ToneService = TelRingtoneManager.class$("de.audi.atip.interapp.audio.ToneService")) : class$de$audi$atip$interapp$audio$ToneService).getName(), (ServiceTrackerCustomizer)this, this.log);
         this.toneServiceTracker.openTracker();
         this.wavePlayerServiceTracker = new PhoneServiceTracker(this.getApplication().getBundleContext(), (class$de$audi$tghu$waveplayer$WavePlayer == null ? (class$de$audi$tghu$waveplayer$WavePlayer = TelRingtoneManager.class$("de.audi.tghu.waveplayer.WavePlayer")) : class$de$audi$tghu$waveplayer$WavePlayer).getName(), (ServiceTrackerCustomizer)this, this.log);
         this.wavePlayerServiceTracker.openTracker();
         this.mediaServiceTracker = new PhoneServiceTracker(this.getApplication().getBundleContext(), (class$de$audi$atip$interapp$media$IMediaFilePlayerService == null ? (class$de$audi$atip$interapp$media$IMediaFilePlayerService = TelRingtoneManager.class$("de.audi.atip.interapp.media.IMediaFilePlayerService")) : class$de$audi$atip$interapp$media$IMediaFilePlayerService).getName(), (ServiceTrackerCustomizer)this, this.log);
         this.mediaServiceTracker.openTracker();
-        this.getApplication().getStartupLogChannel().log(1078071040, "[TelRingtoneManager#init] done in %1 ms", this.getApplication().getFrameworkAccess().getMonotonicTime() - l);
+        this.getApplication().getStartupLogChannel().log(1000000, "[TelRingtoneManager#init] done in %1 ms", this.getApplication().getFrameworkAccess().getMonotonicTime() - l);
     }
 
     protected void registerTelServiceMedia() {
@@ -105,8 +107,8 @@ ITelServiceMedia {
     }
 
     void initRingtoneList() {
-        this.log.log(-2137614336, "[TelRingtoneManager#initRingtoneList] called");
-        ListModelApp listModelApp = this.getListModel(-845937664);
+        this.log.log(10000000, "[TelRingtoneManager#initRingtoneList] called");
+        ListModelApp listModelApp = this.getListModel(300237);
         listModelApp.setListListener(this);
         listModelApp.clear();
         listModelApp.setMaxColumns(2);
@@ -118,15 +120,14 @@ ITelServiceMedia {
         this.setSelectedRingtone(listModelApp);
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.unregisterTelServiceMedia();
         this.getApplication().getGlobalTelephoneStateManager().removeListenerForSpecificAttributeUpdate(this.RELEVANT_ATTRIBUTES, (IGlobalTelephoneStateListener)this);
-        this.getChoiceModel(-862714880).resetListener();
-        this.getButtonModel(-896138240).resetListener();
-        this.getListModel(-845937664).clear();
-        this.getListModel(-845937664).resetListener();
+        this.getChoiceModel(300236).resetListener();
+        this.getButtonModel(300746).resetListener();
+        this.getListModel(300237).clear();
+        this.getListModel(300237).resetListener();
         if (this.toneServiceTracker != null) {
             this.toneServiceTracker.closeTracker();
             this.toneServiceTracker = null;
@@ -148,7 +149,6 @@ ITelServiceMedia {
         }
     }
 
-    @Override
     public Object addingService(ServiceReference serviceReference) {
         if (serviceReference == null) {
             this.log.log(10000, "TelRingtoneManager#addingService reference is null");
@@ -192,11 +192,9 @@ ITelServiceMedia {
         this.updateToneServiceUserDefinedRingtone();
     }
 
-    @Override
     public void modifiedService(ServiceReference serviceReference, Object object) {
     }
 
-    @Override
     public void removedService(ServiceReference serviceReference, Object object) {
         if (serviceReference == null) {
             this.log.log(10000, "TelRingtoneManager#removedService reference is null");
@@ -207,21 +205,20 @@ ITelServiceMedia {
             return;
         }
         if (object instanceof ToneService) {
-            this.log.log(1078071040, "[TelRingtoneManager#removedService] ToneService=%1", object);
+            this.log.log(1000000, "[TelRingtoneManager#removedService] ToneService=%1", object);
             this.getApplication().getBundleContext().ungetService(serviceReference);
             this.toneService = null;
         } else if (object instanceof WavePlayer) {
-            this.log.log(1078071040, "[TelRingtoneManager#removedService] WavePlayer=%1", object);
+            this.log.log(1000000, "[TelRingtoneManager#removedService] WavePlayer=%1", object);
             this.getApplication().getBundleContext().ungetService(serviceReference);
             this.ringtonePlayer = null;
         } else if (object instanceof IMediaFilePlayerService) {
-            this.log.log(1078071040, "[TelRingtoneManager#removedService] IMediaFilePlayerService=%1", object);
+            this.log.log(1000000, "[TelRingtoneManager#removedService] IMediaFilePlayerService=%1", object);
             this.getApplication().getBundleContext().ungetService(serviceReference);
             this.mediaService = null;
         }
     }
 
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         boolean bl;
         if (iGlobalTelephoneStateStruct == null) {
@@ -229,13 +226,13 @@ ITelServiceMedia {
             return;
         }
         this.telState = iGlobalTelephoneStateStruct;
-        if (n == 0x21000100) {
+        if (n == 65569) {
             this.updateSelectedRingtone(iGlobalTelephoneStateStruct.getRingtoneIndex(), iGlobalTelephoneStateStruct.getRingtonePath());
             this.updateToneServiceUserDefinedRingtone();
         }
-        if (n == 0x21000200) {
+        if (n == 131105) {
             this.setSelectedRingtoneAssociated();
-        } else if (n == 0x3000100 && (bl = iGlobalTelephoneStateStruct.inbandRingingSupported()) != this.inbandRingingSupported) {
+        } else if (n == 65539 && (bl = iGlobalTelephoneStateStruct.inbandRingingSupported()) != this.inbandRingingSupported) {
             this.inbandRingingSupported = bl;
             this.updateToneServiceRingingMode();
         }
@@ -252,7 +249,7 @@ ITelServiceMedia {
         if (toneService != null) {
             IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct = this.telState;
             if (iGlobalTelephoneStateStruct != null && iGlobalTelephoneStateStruct.getRingtonePath() != null) {
-                this.log.log(1078071040, "[TelRingtoneManager#updateToneServiceUserDefinedRingtone] url=%1", (Object)iGlobalTelephoneStateStruct.getRingtonePath());
+                this.log.log(1000000, "[TelRingtoneManager#updateToneServiceUserDefinedRingtone] url=%1", (Object)iGlobalTelephoneStateStruct.getRingtonePath());
                 toneService.updateUserDefinedRingtone(iGlobalTelephoneStateStruct.getRingtonePath(), "");
             }
         } else {
@@ -262,11 +259,11 @@ ITelServiceMedia {
 
     private void updateToneServiceRingingMode() {
         int n = this.inbandRingingSupported ? 1 : (this.selectedRingtonePrimaryDevice == 10 ? 3 : 2);
-        this.log.log(1078071040, "[TelRingtoneManager#updateToneServiceRingingMode] new ringtone scenario %1 old ringtone mode %2 selectedRingtone %3 ", (long)n, (long)this.previousRingtoneMode, (long)this.selectedRingtonePrimaryDevice);
+        this.log.log(1000000, "[TelRingtoneManager#updateToneServiceRingingMode] new ringtone scenario %1 old ringtone mode %2 selectedRingtone %3 ", (long)n, (long)this.previousRingtoneMode, (long)this.selectedRingtonePrimaryDevice);
         if (this.previousRingtoneMode != n) {
             ToneService toneService = this.toneService;
             if (toneService != null) {
-                this.log.log(1078071040, "[TelRingtoneManager#setRingtoneMode] updating ToneService with new ringtone scenario %1", (long)n);
+                this.log.log(1000000, "[TelRingtoneManager#setRingtoneMode] updating ToneService with new ringtone scenario %1", (long)n);
                 toneService.updatePhoneAudioScenario(n);
                 this.previousRingtoneMode = n;
             } else {
@@ -275,23 +272,21 @@ ITelServiceMedia {
         }
     }
 
-    @Override
     public void itemReleased(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void itemSelected(int n, int n2, int n3, int n4) {
         if (this.log.isInfo()) {
-            this.log.log(1078071040, "[TelRingtoneManager#itemSelected] %1", (Object)TelLoggingUtils.itemSelectedList(n, n2, n3, n4));
+            this.log.log(1000000, "[TelRingtoneManager#itemSelected] %1", (Object)TelLoggingUtils.itemSelectedList(n, n2, n3, n4));
         }
-        if (n == -845937664 && n2 >= 0) {
+        if (n == 300237 && n2 >= 0) {
             this.getApplication().getTelephoneDSIAccess().requestSetPhoneRingtone(n2 == 10 ? -1 : n2, this.getRingtonePath(), n4);
         }
     }
 
     public void updateSelectedRingtone(int n, String string) {
-        this.log.log(1078071040, "[TelRingtoneManager#updateSelectedRingtone] ringtoneIndex=%2, ringtonePath=%1", (Object)string, (long)n);
-        ListModelApp listModelApp = this.getListModel(-845937664);
+        this.log.log(1000000, "[TelRingtoneManager#updateSelectedRingtone] ringtoneIndex=%2, ringtonePath=%1", (Object)string, (long)n);
+        ListModelApp listModelApp = this.getListModel(300237);
         int n2 = this.selectedRingtonePrimaryDevice;
         this.selectedRingtonePrimaryDevice = n == -1 ? 10 : n;
         this.setRingtonePath(string);
@@ -327,13 +322,13 @@ ITelServiceMedia {
         }
         listModelApp.setCell(this.selectedRingtonePrimaryDevice, 1, IntegerListCell.create(1));
         listModelApp.setSelected(this.selectedRingtonePrimaryDevice);
-        this.getChoiceModel(-862714880).setValue(this.selectedRingtonePrimaryDevice);
+        this.getChoiceModel(300236).setValue(this.selectedRingtonePrimaryDevice);
         this.getChoiceModel(338).setValue(this.selectedRingtonePrimaryDevice);
     }
 
     private void playSelectedRingtone(int n, int n2) {
         if (n == n2) {
-            this.log.log(-2137614336, "[TelRingtoneManager#playSelectedRingtone] selected ringtone has not changed --> NOP!");
+            this.log.log(10000000, "[TelRingtoneManager#playSelectedRingtone] selected ringtone has not changed --> NOP!");
             return;
         }
         if (n == 10) {
@@ -349,7 +344,7 @@ ITelServiceMedia {
 
     public void startRingtoneListPlayback() {
         if (this.isRingtoneListPlaybackStarted()) {
-            this.log.log(-1601830656, "[TelRingtoneManager#abortRingtoneListPlayback] Ringtone was already started, do nothing.");
+            this.log.log(100000, "[TelRingtoneManager#abortRingtoneListPlayback] Ringtone was already started, do nothing.");
             return;
         }
         if (this.selectedRingtonePrimaryDevice == 10) {
@@ -368,7 +363,7 @@ ITelServiceMedia {
 
     public void abortRingtoneListPlayback() {
         if (!this.isRingtoneListPlaybackStarted()) {
-            this.log.log(-1601830656, "[TelRingtoneManager#abortRingtoneListPlayback] Ringtone was already aborted, do nothing.");
+            this.log.log(100000, "[TelRingtoneManager#abortRingtoneListPlayback] Ringtone was already aborted, do nothing.");
             return;
         }
         if (this.selectedRingtonePrimaryDevice == 10) {
@@ -380,38 +375,33 @@ ITelServiceMedia {
     }
 
     public void notifyMediaPlaybackError() {
-        this.log.log(-1601830656, "[TelRingtoneManager#notifyMediaPlaybackError] playback of media file not possible! Reverting to default waveplayer tone.");
+        this.log.log(100000, "[TelRingtoneManager#notifyMediaPlaybackError] playback of media file not possible! Reverting to default waveplayer tone.");
         this.getApplication().getTelephoneDSIAccess().requestSetPhoneRingtone(0, "", 0);
     }
 
-    @Override
     public void itemFocused(int n, int n2, int n3, int n4) {
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.log.log(1078071040, "[TelRingtoneManager#keyTyped] modelID=%1, keyID=%2, terminalID=%3", (long)n, (long)n2, (long)n3);
-        if (n == -862714880) {
-            ListModelApp listModelApp = this.getListModel(-845937664);
+        this.log.log(1000000, "[TelRingtoneManager#keyTyped] modelID=%1, keyID=%2, terminalID=%3", (long)n, (long)n2, (long)n3);
+        if (n == 300236) {
+            ListModelApp listModelApp = this.getListModel(300237);
             listModelApp.setSelected(this.selectedRingtonePrimaryDevice);
             this.getButtonModel(n).fireEvent(n3);
         }
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
     public void updateAMAvailable(boolean bl) {
-        this.log.log(-2137614336, "[TelRingtoneManager#updateAMAvailable] available=%1", bl);
+        this.log.log(10000000, "[TelRingtoneManager#updateAMAvailable] available=%1", bl);
     }
 
     public void ringtoneListEntered(boolean bl) {
@@ -422,7 +412,7 @@ ITelServiceMedia {
         if (bl) {
             this.startRingtoneListPlayback();
         } else if (bl2) {
-            this.log.log(1078071040, "[TelRingtoneManager#ringtoneListEntered] entered=%1, ringing=%2 --> Not aborting ringtone", bl, bl2);
+            this.log.log(1000000, "[TelRingtoneManager#ringtoneListEntered] entered=%1, ringing=%2 --> Not aborting ringtone", bl, bl2);
         } else {
             this.abortRingtoneListPlayback();
         }
@@ -433,7 +423,7 @@ ITelServiceMedia {
     }
 
     void setIndividualRingtone(String string) {
-        this.log.log(-2137614336, "[TelRingtoneManager#setIndividualRingtone] url=%1", (Object)string);
+        this.log.log(10000000, "[TelRingtoneManager#setIndividualRingtone] url=%1", (Object)string);
         this.getApplication().getTelephoneDSIAccess().requestSetPhoneRingtone(-1, string, 0);
     }
 
@@ -441,27 +431,25 @@ ITelServiceMedia {
         return this.selectedRingtonePrimaryDevice;
     }
 
-    @Override
     public void setUserDefinedRingtone(String string, String string2) {
-        this.log.log(1078071040, "[TelRingtoneManager#setUserDefinedRingtone] url=%1, title=%2", (Object)string, (Object)string2);
+        this.log.log(1000000, "[TelRingtoneManager#setUserDefinedRingtone] url=%1, title=%2", (Object)string, (Object)string2);
         this.setIndividualRingtone(string);
     }
 
-    @Override
     public void resetUserDefinedRingtone() {
         if (this.isIndividualRingtoneSelected()) {
-            this.log.log(1078071040, "[TelRingtoneManager#resetUserDefinedRingtone] Jukebox was emptied => reseting custom ringtone, selectedRingtone=%1", (long)this.getSelectedRingtone());
+            this.log.log(1000000, "[TelRingtoneManager#resetUserDefinedRingtone] Jukebox was emptied => reseting custom ringtone, selectedRingtone=%1", (long)this.getSelectedRingtone());
             this.getApplication().getTelephoneDSIAccess().requestSetPhoneRingtone(0, "", 0);
         }
     }
 
     private void setCustomRingtoneOptionVisibility(boolean bl) {
         if (bl) {
-            this.getChoiceModel(-124320768).setValue(0);
-            this.log.log(-2137614336, "[TelRingtoneManager#setCustomRingtoneOptionVisibility] enabling <Set custom ringtone> option. Setting model=%1 to value=%2", (long)0, 0L);
+            this.getChoiceModel(301048).setValue(0);
+            this.log.log(10000000, "[TelRingtoneManager#setCustomRingtoneOptionVisibility] enabling <Set custom ringtone> option. Setting model=%1 to value=%2", 301048L, 0L);
         } else {
-            this.getChoiceModel(-124320768).setValue(1);
-            this.log.log(-2137614336, "[TelRingtoneManager#setCustomRingtoneOptionVisibility] disabling <Set custom ringtone> option. Setting model=%1 to value=%2", (long)0, 1L);
+            this.getChoiceModel(301048).setValue(1);
+            this.log.log(10000000, "[TelRingtoneManager#setCustomRingtoneOptionVisibility] disabling <Set custom ringtone> option. Setting model=%1 to value=%2", 301048L, 1L);
         }
     }
 
@@ -476,77 +464,77 @@ ITelServiceMedia {
     public void startOutbandRinging(int n) {
         switch (n) {
             case 65536: {
-                this.log.log(1078071040, "[TelRingtoneManager#startOutbandRinging] incoming call --> start outband ringing at primary device.");
+                this.log.log(1000000, "[TelRingtoneManager#startOutbandRinging] incoming call --> start outband ringing at primary device.");
                 this.cmdManager.scheduleOutbandRinging(this.ringtonePlayer, this.selectedRingtonePrimaryDevice);
                 break;
             }
             case 131072: {
-                this.log.log(1078071040, "[TelRingtoneManager#startOutbandRinging] incoming call --> start outband ringing at associated device.");
+                this.log.log(1000000, "[TelRingtoneManager#startOutbandRinging] incoming call --> start outband ringing at associated device.");
                 this.cmdManager.scheduleOutbandRinging(this.ringtonePlayer, this.selectedRingtoneAssociatedDevice);
                 break;
             }
             default: {
-                this.log.log(1078071040, "[TelRingtoneManager#startOutbandRinging] (default) incoming call --> start outband ringing at primary device.");
+                this.log.log(1000000, "[TelRingtoneManager#startOutbandRinging] (default) incoming call --> start outband ringing at primary device.");
                 this.cmdManager.scheduleOutbandRinging(this.ringtonePlayer, this.selectedRingtonePrimaryDevice);
             }
         }
     }
 
     public void abortOutbandRinging() {
-        this.log.log(1078071040, "[TelRingtoneManager#abortOutbandRinging] incoming call no longer present --> aborting outband ringing.");
+        this.log.log(1000000, "[TelRingtoneManager#abortOutbandRinging] incoming call no longer present --> aborting outband ringing.");
         this.cmdManager.scheduleAbortOutbandRinging(this.ringtonePlayer);
     }
 
     public void startMediaRinging() {
-        this.log.log(1078071040, "[TelRingtoneManager#startMediaRinging] incoming call --> start media ringing.");
+        this.log.log(1000000, "[TelRingtoneManager#startMediaRinging] incoming call --> start media ringing.");
         if (this.mediaService != null) {
-            TelRingtoneManager$RingtoneMediaSession telRingtoneManager$RingtoneMediaSession;
+            RingtoneMediaSession ringtoneMediaSession;
             if (this.currentMediaSession != null && this.currentMediaSession.isSessionStarted() && this.currentMediaSession.getAudioConnection() == 95) {
-                telRingtoneManager$RingtoneMediaSession = this.currentMediaSession;
+                ringtoneMediaSession = this.currentMediaSession;
             } else if (this.currentMediaSession != null && this.currentMediaSession.isSessionStarted() && this.currentMediaSession.getAudioConnection() == 91) {
                 this.abortRingtoneListMediaPlayback();
-                telRingtoneManager$RingtoneMediaSession = new TelRingtoneManager$RingtoneMediaSession(this, 95, 0, this.getRingtonePath());
+                ringtoneMediaSession = new RingtoneMediaSession(95, 0, this.getRingtonePath());
             } else {
-                telRingtoneManager$RingtoneMediaSession = new TelRingtoneManager$RingtoneMediaSession(this, 95, 0, this.getRingtonePath());
+                ringtoneMediaSession = new RingtoneMediaSession(95, 0, this.getRingtonePath());
             }
-            this.currentMediaSession = telRingtoneManager$RingtoneMediaSession;
+            this.currentMediaSession = ringtoneMediaSession;
             this.cmdManager.scheduleMediaRinging(this.mediaService, this.currentMediaSession);
         } else {
-            this.log.log(-1601830656, "[TelRingtoneManager#startMediaRinging] media service is null --> default ringtone");
+            this.log.log(100000, "[TelRingtoneManager#startMediaRinging] media service is null --> default ringtone");
             this.cmdManager.scheduleRingingDefaultRingtoneFallback(this.ringtonePlayer);
         }
     }
 
     public void abortMediaRinging() {
-        this.log.log(1078071040, "[TelRingtoneManager#abortMediaRinging] incoming call no longer present --> aborting media ringing.");
+        this.log.log(1000000, "[TelRingtoneManager#abortMediaRinging] incoming call no longer present --> aborting media ringing.");
         this.currentMediaSession.setSessionStarted(false);
         this.cmdManager.scheduleAbortMediaRinging(this.mediaService, this.currentMediaSession, this.ringtonePlayer);
     }
 
     public void startRingtoneListOutbandPlayback() {
-        this.log.log(1078071040, "[TelRingtoneManager#startRingtoneListOutbandPlayback] ringtone=%1", (long)this.getSelectedRingtone());
+        this.log.log(1000000, "[TelRingtoneManager#startRingtoneListOutbandPlayback] ringtone=%1", (long)this.getSelectedRingtone());
         this.cmdManager.scheduleOutbandRingtoneList(this.ringtonePlayer, this.getSelectedRingtone());
     }
 
     public void startRingtoneListMediaPlayback() {
-        this.log.log(1078071040, "[TelRingtoneManager#startRingtoneListMediaPlayback] url=%1", (Object)this.getRingtonePath());
+        this.log.log(1000000, "[TelRingtoneManager#startRingtoneListMediaPlayback] url=%1", (Object)this.getRingtonePath());
         IMediaFilePlayerService iMediaFilePlayerService = this.mediaService;
         if (iMediaFilePlayerService != null) {
-            this.currentMediaSession = new TelRingtoneManager$RingtoneMediaSession(this, 91, 1, this.getRingtonePath());
+            this.currentMediaSession = new RingtoneMediaSession(91, 1, this.getRingtonePath());
             this.cmdManager.scheduleRingtoneListMediaPlayback(iMediaFilePlayerService, this.currentMediaSession);
         } else {
-            this.log.log(-1601830656, "[TelRingtoneManager#startRingtoneListMediaPlayback] media service is null --> default ringtone");
+            this.log.log(100000, "[TelRingtoneManager#startRingtoneListMediaPlayback] media service is null --> default ringtone");
             this.cmdManager.scheduleRingtoneListDefaultRingtoneFallback(this.ringtonePlayer);
         }
     }
 
     public void abortRingtoneListOutbandPlayback() {
-        this.log.log(1078071040, "[TelRingtoneManager#abortRingtoneListWavePlayerPlayback]");
+        this.log.log(1000000, "[TelRingtoneManager#abortRingtoneListWavePlayerPlayback]");
         this.cmdManager.scheduleAbortRingtoneListWavePlayerPlayback(this.ringtonePlayer);
     }
 
     public void abortRingtoneListMediaPlayback() {
-        this.log.log(1078071040, "[TelRingtoneManager#abortRingtoneListMediaPlayback]");
+        this.log.log(1000000, "[TelRingtoneManager#abortRingtoneListMediaPlayback]");
         this.currentMediaSession.setSessionStarted(false);
         this.cmdManager.scheduleAbortRingtoneListMediaPlayback(this.mediaService, this.currentMediaSession, this.ringtonePlayer);
     }
@@ -556,7 +544,7 @@ ITelServiceMedia {
     }
 
     ListModelApp getRingtoneList() {
-        return this.getListModel(-845937664);
+        return this.getListModel(300237);
     }
 
     protected boolean isRingtoneListPlaybackStarted() {
@@ -576,44 +564,85 @@ ITelServiceMedia {
         }
     }
 
-    static /* synthetic */ LogChannel access$100(TelRingtoneManager telRingtoneManager) {
-        return telRingtoneManager.log;
+    private class TelAudioDiag
+    implements IPhoneDiagComponent {
+        private TelAudioDiag() {
+        }
+
+        public void cmdSetUserDefinedRingtone(String string, String string2) {
+            TelRingtoneManager.this.setUserDefinedRingtone(string, string2);
+        }
     }
 
-    static /* synthetic */ LogChannel access$200(TelRingtoneManager telRingtoneManager) {
-        return telRingtoneManager.log;
-    }
+    private class RingtoneMediaSession
+    implements IMediaFilePlayerSession {
+        private final int audioConnection;
+        private final int mode;
+        private final String url;
+        private volatile IMediaFileSessionPlayer filePlayerSession;
+        private boolean sessionStarted;
 
-    static /* synthetic */ LogChannel access$300(TelRingtoneManager telRingtoneManager) {
-        return telRingtoneManager.log;
-    }
+        public RingtoneMediaSession(int n, int n2, String string) {
+            this.audioConnection = n;
+            this.mode = n2;
+            this.url = string;
+            this.setSessionStarted(true);
+        }
 
-    static /* synthetic */ LogChannel access$400(TelRingtoneManager telRingtoneManager) {
-        return telRingtoneManager.log;
-    }
+        public int getAudioConnection() {
+            return this.audioConnection;
+        }
 
-    static /* synthetic */ LogChannel access$500(TelRingtoneManager telRingtoneManager) {
-        return telRingtoneManager.log;
-    }
+        public int getType() {
+            return 1;
+        }
 
-    static /* synthetic */ RingTonePlayer access$600(TelRingtoneManager telRingtoneManager) {
-        return telRingtoneManager.ringtonePlayer;
-    }
+        public String getName() {
+            return "RingtoneMediaSession";
+        }
 
-    static /* synthetic */ IMediaFilePlayerService access$700(TelRingtoneManager telRingtoneManager) {
-        return telRingtoneManager.mediaService;
-    }
+        public void onActive(IMediaSessionPlayer iMediaSessionPlayer) {
+            TelRingtoneManager.this.log.log(1000000, "[TelRingtoneManager.RingtoneMediaSession#onActive] playing %1", (Object)this.url);
+            this.filePlayerSession = (IMediaFileSessionPlayer)iMediaSessionPlayer;
+            this.filePlayerSession.play(this.url, true);
+        }
 
-    static /* synthetic */ TelRingtoneManager$RingtoneMediaSession access$800(TelRingtoneManager telRingtoneManager) {
-        return telRingtoneManager.currentMediaSession;
-    }
+        public void onSuspend() {
+            TelRingtoneManager.this.log.log(1000000, "[TelRingtoneManager.RingtoneMediaSession#onSuspend]");
+        }
 
-    static /* synthetic */ TelAudioCmdManager access$900(TelRingtoneManager telRingtoneManager) {
-        return telRingtoneManager.cmdManager;
-    }
+        public void onClose() {
+            TelRingtoneManager.this.log.log(1000000, "[TelRingtoneManager.RingtoneMediaSession#onClose]");
+        }
 
-    static /* synthetic */ LogChannel access$1000(TelRingtoneManager telRingtoneManager) {
-        return telRingtoneManager.log;
+        public void updateState(int n) {
+            TelRingtoneManager.this.log.log(1000000, "[TelRingtoneManager.RingtoneMediaSession#updateState] state=%1", (long)n);
+            if (n == 6) {
+                TelRingtoneManager.this.log.log(100000, "[TelRingtoneManager.RingtoneMediaSession#updateState] STATE_STOPPED_WITH_ERROR");
+                if (this.mode == 0) {
+                    TelRingtoneManager.this.cmdManager.scheduleRingingDefaultRingtoneFallback(TelRingtoneManager.this.ringtonePlayer, TelRingtoneManager.this.mediaService, TelRingtoneManager.this.currentMediaSession);
+                } else if (this.mode == 1) {
+                    TelRingtoneManager.this.cmdManager.scheduleRingtoneListDefaultRingtoneFallback(TelRingtoneManager.this.ringtonePlayer, TelRingtoneManager.this.mediaService, TelRingtoneManager.this.currentMediaSession);
+                } else {
+                    TelRingtoneManager.this.log.log(100000, "[TelRingtoneManager.RingtoneMediaSession#updateState] unknown mode %1", (long)this.mode);
+                }
+                TelRingtoneManager.this.notifyMediaPlaybackError();
+            }
+        }
+
+        public void updatePlayPosition(int n, int n2) {
+        }
+
+        public void updateVideoContext(int n) {
+        }
+
+        public boolean isSessionStarted() {
+            return this.sessionStarted;
+        }
+
+        public void setSessionStarted(boolean bl) {
+            this.sessionStarted = bl;
+        }
     }
 }
 

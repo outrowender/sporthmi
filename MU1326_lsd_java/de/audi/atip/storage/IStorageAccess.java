@@ -6,55 +6,473 @@ package de.audi.atip.storage;
 import de.audi.atip.storage.IStorageStatistic;
 
 public interface IStorageAccess {
-    default public void setBoolean(int n, int n2, boolean bl) {
+    public void setBoolean(int var1, int var2, boolean var3);
+
+    public void setByteArray(int var1, int var2, byte[] var3);
+
+    public void setInt(int var1, int var2, int var3);
+
+    public void setLong(int var1, int var2, long var3);
+
+    public void setString(int var1, int var2, String var3);
+
+    public void setIntArray(int var1, int var2, int[] var3);
+
+    public boolean getBoolean(int var1, int var2, boolean var3);
+
+    public int getInt(int var1, int var2, int var3);
+
+    public long getLong(int var1, int var2, long var3);
+
+    public String getString(int var1, int var2, String var3);
+
+    public byte[] getByteArray(int var1, int var2, byte[] var3);
+
+    public int[] getIntArray(int var1, int var2, int[] var3);
+
+    public IStorageStatistic getStorageStatistic();
+
+    public void enterSetupScreen();
+
+    public void exitSetupScreen();
+
+    public void startReset2FactorySettings();
+
+    public void endReset2FactorySettings();
+
+    public static final class Keys {
+        public static final int STARTUP_SKIN_GEM = 1;
+        public static final int STARTUP_LASTMODE = 20;
+        public static final int STARTUP_CACHE_WORKERS = 100;
+        public static final int STARTUP_CACHE_WEATHER_SERVICE = 110;
+        public static final int STARTUP_CACHE_GOOGLE_EARTH_SERVICE = 120;
+        public static final int STARTUP_CACHE_ONLINE_TRAFFIC_SERVICE = 130;
+        public static final int STARTUP_CACHE_POI_ONLINE_SERVICE = 140;
+        public static final int STARTUP_CACHE_PRESET_LAYOUT_SERVICE = 150;
+        public static final int STARTUP_CACHE_FSC = 160;
+        public static final int STARTUP_CACHE_DEST_IMPORT = 170;
+        public static final int STARTUP_CACHE_DICTATION = 180;
+        public static final int STARTUP_CACHE_OPERATORCALL = 190;
+        public static final int STARTUP_CACHE_HOTSPOT = 200;
+        public static final int STARTUP_CACHE_CORE = 210;
+        public static final int STARTUP_CACHE_FOND = 220;
+        public static final int STARTUP_CACHE_GRACENOTE = 230;
+        public static final int STARTUP_CACHE_UOTA = 240;
+        public static final int STARTUP_TIME_FORMAT = 250;
+        public static final int STARTUP_CACHE_SATELLITE_MAPS_SERVICE = 260;
+        public static final int SWDL_DEVICE_NAMES = 5000;
+        public static final int SWDL_DISPLAY_NAME = 1;
+        public static final int SWDL_DISPLAY_NAMES = 5001;
+        public static final int SWDL_DISPLAY_VERSION = 2;
+        public static final int SWDL_DISPLAY_VERSIONS = 5002;
+        public static final int SWDL_DISPLAY_MEDIA = 5003;
+        public static final int SWDL_NAV_DB_CHOICE = 4;
+        public static final int SWDL_NAV_DB_CHOICES = 5004;
+        public static final int SWDL_VER_INFO_DATA = 5;
+        public static final int SWDL_UOTA_IGNORED_RELEASE_DESTINATION_REGIONS = 6;
+        public static final int SWDL_UOTA_DOWNLOAD_PACKAGE_INDEX = 8;
+        public static final int SWDL_UOTA_DOWNLOAD_PACKAGES_NUMBER = 9;
+        public static final int SWDL_UOTA_HIGHEST_INSTALLED_RELEASE_VERSION = 7;
+        public static final int SWDL_UOTA_INSTALLED_PACKAGE_IDS = 5007;
+        public static final int SWDL_DISPLAY_RELEASE = 5006;
+        public static final int SWDL_CODING_COPY = 100;
+        public static final int POWER_BOOTCOUNT = 2;
+        public static final int SYS_CONST_CONST = 20;
+        public static final int SYS_CONST_VISIBLE_LANG = 201;
+        public static final int SYS_CONST_DS_LANG = 202;
+        public static final int DIAG_ATTRIBS_ENG_STATE = 10;
+        public static final int DIAG_ATTRIBS_A3_KEY_PANEL_WORKAROUND = 20;
+        public static final int DIAG_ATTRIBS_G24_FPK_MODE = 24;
+        public static final int DIAG_ATTRIBS_MEM_CPU_FLAG = 100;
+        public static final int DIAG_ATTRIBS_SCREENNAME_FLAG = 101;
+        public static final int DIAG_ATTRIBS_EVENTQUEUE_FLAG = 102;
+        public static final int TUNER_LSM_ALL = 29;
+        public static final int TUNER_LSM_ALL_PAG = 30;
+        public static final int TUNER_PSFREEZEDB = 310;
+        public static final int TUNER_HISTORYLIST = 320;
+        public static final int TUNER_MEMORYLIST_NAR = 338;
+        public static final int TUNER_MEMORYLIST = 339;
+        public static final int TUNER_MEMORYLIST_PAG = 340;
+        public static final int TUNER_ITUNES_TAGGING_I = 350;
+        public static final int TUNER_ITUNES_TAGGING_II = 360;
+        public static final int MEDIA_PM_PASSWORD = 19;
+        public static final int MEDIA_PM_LEVEL = 29;
+        public static final int MEDIA_VIDEO_CONTEXT_TV = 30;
+        public static final int MEDIA_VIDEO_CONTEXT_AV1 = 40;
+        public static final int MEDIA_VIDEO_CONTEXT_AV2 = 50;
+        public static final int MEDIA_VIDEO_CONTEXT_DVD_VIDEO = 60;
+        public static final int MEDIA_VIDEO_CONTEXT_VIDEO_FILE = 70;
+        public static final int MEDIA_VIDEO_CONTEXT_AUX_AV = 80;
+        public static final int MEDIA_CONTENT_DATA_VIDEO_FORMAT = 90;
+        public static final int MEDIA_CONTENT_DATA_VIDEO_NORM = 100;
+        public static final int MEDIA_CONTENT_DATA_REPEAT_SCOPE = 110;
+        public static final int MEDIA_CONTENT_DATA_MIXING = 120;
+        public static final int MEDIA_CONTENT_CDDA_REPEAT_SCOPE = 130;
+        public static final int MEDIA_CONTENT_CDDA_MIXING = 140;
+        public static final int MEDIA_CONTENT_VIDEOSTREAM_VIDEO_FORMAT = 150;
+        public static final int MEDIA_CONTENT_VIDEOSTREAM_VIDEO_NORM = 160;
+        public static final int MEDIA_CONTENT_DVD_VIDEO_FORMAT = 170;
+        public static final int MEDIA_SOURCE_LAST_ACTIVE_SLOT = 200;
+        public static final int MEDIA_SOURCE_LAST_ACTIVE = 210;
+        public static final int MEDIA_CONTENT_SLEEP_SCREEN_ENABLED = 220;
+        public static final int MEDIA_CONTENT_DATA_REPEAT_FOLDER_SK_ACTIVE = 230;
+        public static final int MEDIA_IMPORT_ENCODING_QUALITY = 240;
+        public static final int MEDIA_FAVORITE_HEADER_DATA = 250;
+        public static final int MEDIA_FAVORITE_LIST_1 = 260;
+        public static final int MEDIA_FAVORITE_LIST_2 = 261;
+        public static final int MEDIA_FAVORITE_LIST_3 = 262;
+        public static final int MEDIA_FAVORITE_LIST_4 = 263;
+        public static final int MEDIA_FAVORITE_LIST_5 = 264;
+        public static final int MEDIA_FAVORITE_LIST_6 = 265;
+        public static final int MEDIA_FAVORITE_LIST_7 = 266;
+        public static final int MEDIA_FAVORITE_LIST_8 = 267;
+        public static final int MEDIA_FAVORITE_LIST_9 = 268;
+        public static final int MEDIA_FAVORITE_LIST_10 = 269;
+        public static final int MEDIA_PERSISTENCE = 270;
+        public static final int PHONE_RING_TONE_ID = 70;
+        public static final int PHONE_RING_TONE_INDIVIDUAL_URL = 80;
+        public static final int PHONE_SIM_CARD_ID = 90;
+        public static final int PHONE_MOBILE_ADB_DOWNLOAD = 100;
+        public static final int PHONE_ADB_SHOW_SIM = 120;
+        public static final int PHONE_FAVORITE_PROFILE_1_1 = 0x1010000;
+        public static final int PHONE_FAVORITE_PROFILE_1_2 = 0x1020000;
+        public static final int PHONE_FAVORITE_PROFILE_2_1 = 0x1030000;
+        public static final int PHONE_FAVORITE_PROFILE_2_2 = 0x1040000;
+        public static final int PHONE_FAVORITE_PROFILE_3_1 = 0x1050000;
+        public static final int PHONE_FAVORITE_PROFILE_3_2 = 0x1060000;
+        public static final int PHONE_FAVORITE_PROFILE_4_1 = 0x1070000;
+        public static final int PHONE_FAVORITE_PROFILE_4_2 = 0x1080000;
+        public static final int PHONE_FAVORITE_PROFILE_0_1 = 0x1090000;
+        public static final int PHONE_FAVORITE_PROFILE_0_2 = 0x10A0000;
+        public static final int PHONE_SIM_NAD_USAGE_TYPE_HISTORY = 110;
+        public static final int PHONE_ESIM_DATA_CONNECTION_DISCLAIMER = 111;
+        public static final int NAVI_GUIDANCE_STATUS = 10;
+        public static final int NAVI_GUIDANCE_INSIDEAREA = 20;
+        public static final int NAVI_GUIDANCE_TIME = 30;
+        public static final int NAVI_R_OW = 100;
+        public static final int NAVI_R_OF = 110;
+        public static final int NAVI_R_SR = 120;
+        public static final int NAVI_R_DR = 130;
+        public static final int NAVI_R_VGN = 140;
+        public static final int NAVI_R_VGN_C = 150;
+        public static final int NAVI_S_MC = 200;
+        public static final int NAVI_S_AZ = 210;
+        public static final int NAVI_S_MM = 220;
+        public static final int NAVI_S_AR = 230;
+        public static final int NAVI_S_OR = 240;
+        public static final int NAVI_S_AI = 250;
+        public static final int NAVI_S_TMC = 260;
+        public static final int NAVI_S_3DI = 270;
+        public static final int NAVI_S_TOPB = 280;
+        public static final int NAVI_S_CFVM = 290;
+        public static final int NAVI_S_GM = 300;
+        public static final int NAVI_S_ST = 310;
+        public static final int NAVI_S_TOPP = 320;
+        public static final int NAVI_S_3DB = 330;
+        public static final int NAVI_S_POI = 340;
+        public static final int NAVI_S_POI2 = 350;
+        public static final int NAVI_S_TIME_MODE = 360;
+        public static final int NAVI_S_TRAFFIC_SIGN_DISPLAY = 370;
+        public static final int NAVI_S_MAP_REPRESENTATION = 380;
+        public static final int NAVI_S_RSE_CONFIRM_TRANSFER = 390;
+        public static final int NAVI_S_FUEL_WARNING_RECOMMENDATION = 400;
+        public static final int NAVI_S_GE_LAYERS = 410;
+        public static final int NAVI_S_MAP_SS = 420;
+        public static final int NAVI_S_BPOI = 430;
+        public static final int NAVI_S_CROSSINGVIEW = 440;
+        public static final int NAVI_S_SAFF = 450;
+        public static final int NAVI_S_SAFC = 460;
+        public static final int NAVI_S_PICNAV = 470;
+        public static final int NAVI_M_GSH = 510;
+        public static final int NAVI_MAP_ZOOM = 600;
+        public static final int NAVI_FUNCTIONCOUNTER_VALUES = 710;
+        public static final int NAVI_POI_ONLINE_PROVIDER = 800;
+        public static final int NAVI_RECORING_STATUS = 810;
+        public static final int NAVI_RECORING_TIME = 820;
+        public static final int NAVI_IGNORE_CALIBRATION = 830;
+        public static final int NAVI_SETUP_STATE = 840;
+        public static final int NAVI_SETUP_ANNOUNCEMENTS_STATE = 841;
+        public static final int NAVI_ROUTE_STATE = 850;
+        public static final int NAVI_CLUSTER_INPUT_STATE = 860;
+        public static final int NAVI_GUIDANCE_STATE = 870;
+        public static final int NAVI_ONLINE_SEARCH_HISTORY_STATE = 880;
+        public static final int NAVI_ONLINE_SEARCH_SERVICE_STATE = 890;
+        public static final int NAVI_MAP_STATE = 900;
+        public static final int NAVI_ADDRESS_INPUT_STATE = 910;
+        public static final int NAVI_TRUFFLES_RANGE = 920;
+        public static final int NAVI_NDF_BACKUPLOCATION = 930;
+        public static final int NAVI_HOMEADDRESS = 940;
+        public static final int NAVI_OFFICEADDRESS = 941;
+        public static final int NAVI_DISCLAIMER_PERSISTENCE_STATE = 942;
+        public static final int NAVI_OFFR_DISCLAIMER_PERSISTENCE_STATE = 943;
+        public static final int NAVI_MAP_KOMBI_STATE = 950;
+        public static final int NAVI_MAP_STATE_PORSCHE = 960;
+        public static final int NAVI_MAP_KOMBI_STATE_PORSCHE = 961;
+        public static final int NAVI_PICK_HELP = 975;
+        public static final int NAVI_POI_WARNING_CATEGORIES = 980;
+        public static final int NAVI_POI_WARNING_SETTINGS = 981;
+        public static final int NAVI_ONLINETRAFFIC_SETTING = 985;
+        public static final int NAVI_GOOGLE_EARTH_LICENCE_STATE = 987;
+        public static final int NAVI_PREDICTIVE_NAVIGATION_OPERATION_MODE_STATE = 988;
+        public static final int NAVI_LAST_POS_POSITION = 989;
+        public static final int NAVI_FAVORITE_INDEX = 990;
+        public static final int NAVI_FAVORITE_1 = 991;
+        public static final int NAVI_FAVORITE_2 = 992;
+        public static final int NAVI_FAVORITE_3 = 993;
+        public static final int NAVI_FAVORITE_4 = 994;
+        public static final int NAVI_FAVORITE_5 = 995;
+        public static final int NAVI_FAVORITE_6 = 996;
+        public static final int NAVI_FAVORITE_7 = 997;
+        public static final int NAVI_FAVORITE_8 = 998;
+        public static final int NAVI_FAVORITE_9 = 999;
+        public static final int NAVI_FAVORITE_10 = 1000;
+        public static final int NAVI_FAVORITE_11 = 1001;
+        public static final int NAVI_FAVORITE_12 = 1002;
+        public static final int NAVI_FAVORITE_13 = 1003;
+        public static final int NAVI_FAVORITE_14 = 1004;
+        public static final int NAVI_FAVORITE_15 = 1005;
+        public static final int NAVI_FAVORITE_16 = 1006;
+        public static final int NAVI_FAVORITE_17 = 1007;
+        public static final int NAVI_FAVORITE_18 = 1008;
+        public static final int NAVI_FAVORITE_19 = 1009;
+        public static final int NAVI_FAVORITE_20 = 1010;
+        public static final int NAVI_FAVORITE_21 = 1011;
+        public static final int NAVI_FAVORITE_22 = 1012;
+        public static final int NAVI_FAVORITE_23 = 1013;
+        public static final int NAVI_FAVORITE_24 = 1014;
+        public static final int NAVI_FAVORITE_25 = 1015;
+        public static final int NAVI_FAVORITE_26 = 1016;
+        public static final int NAVI_FAVORITE_27 = 1017;
+        public static final int NAVI_FAVORITE_28 = 1018;
+        public static final int NAVI_FAVORITE_29 = 1019;
+        public static final int NAVI_FAVORITE_30 = 1020;
+        public static final int NAVI_FAVORITE_31 = 1021;
+        public static final int NAVI_FAVORITE_32 = 1022;
+        public static final int NAVI_FAVORITE_33 = 1023;
+        public static final int NAVI_FAVORITE_34 = 1024;
+        public static final int NAVI_FAVORITE_35 = 1025;
+        public static final int NAVI_FAVORITE_36 = 1026;
+        public static final int NAVI_FAVORITE_37 = 1027;
+        public static final int NAVI_FAVORITE_38 = 1028;
+        public static final int NAVI_FAVORITE_39 = 1029;
+        public static final int NAVI_FAVORITE_40 = 1030;
+        public static final int NAVI_FAVORITE_41 = 1031;
+        public static final int NAVI_FAVORITE_42 = 1032;
+        public static final int NAVI_FAVORITE_43 = 1033;
+        public static final int NAVI_FAVORITE_44 = 1034;
+        public static final int NAVI_FAVORITE_45 = 1035;
+        public static final int NAVI_FAVORITE_46 = 1036;
+        public static final int NAVI_FAVORITE_47 = 1037;
+        public static final int NAVI_FAVORITE_48 = 1038;
+        public static final int NAVI_FAVORITE_49 = 1039;
+        public static final int NAVI_FAVORITE_50 = 1040;
+        public static final int NAVI_TRAFFIC_MINI_MAP = 1041;
+        public static final int NAVI_SETUP_TIME_MODE = 1042;
+        public static final int NAVI_FAV_LASTMODE = 1043;
+        public static final int NAVI_OFFROAD_ROUTE_OPTIONS_STATE = 1044;
+        public static final int INFO_AUTO_REDIRECT_KEY = 10;
+        public static final int INFO_TEL_ANNOUNCEMENT_KEY = 20;
+        public static final int INFO_TMC_ANNOUNCEMENT_KEY = 30;
+        public static final int CAR_JOKER_KEY_LASTMODE = 10;
+        public static final int CAR_CHARISMA_LASTMODE = 20;
+        public static final int CAR_DRIVE_SELECT_ADDITIONAL_INFO_GPS = 30;
+        public static final int CAR_DRIVE_SELECT_ADDITIONAL_INFO_COMPASS = 31;
+        public static final int CAR_DRIVE_SELECT_ADDITIONAL_INFO_HEIGHT = 32;
+        public static final int CAR_DRIVE_SELECT_ADDITIONAL_INFO_STEERINGWHEEL_ANGLE = 33;
+        public static final int CAR_DRIVING_SCHOOL_LASTMODE = 40;
+        public static final int CAR_OPS_VIEW_MODE = 50;
+        public static final int CAR_VPS_SCREEN = 51;
+        public static final int CAR_TRIP_PERSONAL_DATA_CONFIG = 60;
+        public static final int CAR_LOGBOOK_LAST_CYCLE_DISTANCE_VALUE = 68;
+        public static final int CAR_LOGBOOK_LAST_ODOMETER_VALUE = 69;
+        public static final int CAR_LOGBOOK_SETTINGS_ON_OFF = 70;
+        public static final int CAR_LOGBOOK_SETTINGS_REMINDER_ACTIVE = 71;
+        public static final int CAR_LOGBOOK_SETTINGS_DEFAULT_TRIP_TYPE = 72;
+        public static final int CAR_LOGBOOK_SETTINGS_TRIP_CONFIGURATION = 73;
+        public static final int CAR_LOGBOOK_SETTINGS_TRIP_CONTACTPERSON = 74;
+        public static final int CAR_LOGBOOK_SETTINGS_TRIP_DESTINATION = 75;
+        public static final int CAR_LOGBOOK_SETTINGS_TRIP_DRIVER = 76;
+        public static final int CAR_LOGBOOK_SETTINGS_TRIP_PURPOSE = 77;
+        public static final int CAR_LOGBOOK_SETTINGS_TRIP_REMARKS = 78;
+        public static final int CAR_LOGBOOK_SETTINGS_TRIP_TYPE = 79;
+        public static final int CAR_ME_STATE_VIEWOPTION_AC_CIRCULATION = 80;
+        public static final int CAR_ME_STATE_VIEWOPTION_AC_HEATER = 81;
+        public static final int CAR_ME_STATE_VIEWOPTION_AC_SOLAR = 82;
+        public static final int CAR_ME_STATE_VIEWOPTION_AC_FOOTWELL_ZONE1 = 83;
+        public static final int CAR_ME_STATE_VIEWOPTION_AC_FOOTWELL_ZONE2 = 84;
+        public static final int CAR_ME_STATE_VIEWOPTION_AC_FOOTWELL_ZONE1_RH = 85;
+        public static final int CAR_ME_STATE_VIEWOPTION_AC_FOOTWELL_ZONE2_RH = 86;
+        public static final int CAR_ME_STATE_VIEWOPTION_AC_SEATVENTILATION_DRIVER = 90;
+        public static final int CAR_ME_STATE_VIEWOPTION_AC_SEATVENTILATION_CODRIVER = 91;
+        public static final int CAR_ME_STATE_VIEWOPTION_AC_SEATVENTILATION_REAR_DRIVER = 92;
+        public static final int CAR_ME_STATE_VIEWOPTION_AC_SEATVENTILATION_REAR_CODRIVER = 93;
+        public static final int CAR_ME_STATE_VIEWOPTION_AC_SEATHEATING_DRIVER = 94;
+        public static final int CAR_ME_STATE_VIEWOPTION_AC_SEATHEATING_CODRIVER = 95;
+        public static final int CAR_ME_STATE_VIEWOPTION_AC_SEATHEATING_REAR_DRIVER = 96;
+        public static final int CAR_ME_STATE_VIEWOPTION_AC_SEATHEATING_REAR_CODRIVER = 97;
+        public static final int CAR_HYBRID_STATISTICS_STS_HISTORY_CONFIG = 100;
+        public static final int CAR_HYBRID_STATISTICS_LTS_HISTORY_CONFIG = 101;
+        public static final int CAR_HYBRID_STATISTICS_STS_HISTORY = 102;
+        public static final int CAR_HYBRID_STATISTICS_LTS_KM_HISTORY = 103;
+        public static final int CAR_HYBRID_STATISTICS_LTS_MLS_HISTORY = 104;
+        public static final int CAR_SPORTCHRONO_OPTION_EXTENDED_DATA_RECORDING_ON_OFF = 110;
+        public static final int CAR_SPORTCHRONO_OPTION_DELTA_DISTANCE = 111;
+        public static final int CAR_SPORTCHRONO_OPTION_DELTA_TIME = 112;
+        public static final int CAR_SPORTCHRONO_LAST_LATITUDE = 113;
+        public static final int CAR_SPORTCHRONO_LAST_LONGITUDE = 114;
+        public static final int CAR_TRIP_LAST_SCREEN = 115;
+        public static final int CAR_SPORTCHRONO_LAST_RECORDING = 116;
+        public static final int CAR_DRIVE_SELECT_ADDITIONAL_INFO_LONGITUDINAL_TILT = 117;
+        public static final int CAR_DRIVE_SELECT_ADDITIONAL_INFO_LATERAL_TILT = 118;
+        public static final int CAR_HYBRID_PORSCHE_SELECTED_SWIPE_PAGE = 119;
+        public static final int CAR_SPORTCHRONO_OPTION_EVALUATION_MODE = 120;
+        public static final int CAR_SPORTCHRONO_OPTION_GHOST_CAR_MODE = 121;
+        public static final int CAR_SEAT_MASSAGE_R1_L_INTENSITY = 122;
+        public static final int CAR_SEAT_MASSAGE_R1_R_INTENSITY = 123;
+        public static final int CAR_DRIVE_SELECT_INDIVIDUAL_OPERATION_MODE = 124;
+        public static final int CAR_LOGBOOK_LAST_ADDRES_COUNTRY = 125;
+        public static final int CAR_LOGBOOK_LAST_ADDRES_POSTALCODE = 126;
+        public static final int CAR_LOGBOOK_LAST_ADDRES_TOWN = 127;
+        public static final int CAR_LOGBOOK_LAST_ADDRES_STREET = 128;
+        public static final int CAR_LOGBOOK_LAST_ADDRES_HOUSENO = 129;
+        public static final int TV_LAST_ACTIVE_SOURCE = 1;
+        public static final int TV_LAST_ACTIVE_LIST = 2;
+        public static final int TV_LOGOLIST = 3;
+        public static final int TV_MEMORYLIST = 19;
+        public static final int TV_LAST_ACTIVE_SERVICE = 29;
+        public static final int TV_SETTINGS = 39;
+        public static final int TV_NORM_AREA_SUBLIST = 49;
+        public static final int TERMINALMODE_DEVICE_LIST = 1;
+        public static final int TERMINALMODE_LAST_AUDIO_CONTEXT = 2;
+        public static final int TERMINALMODE_LASTMODE_DEVICE_ID = 3;
+        public static final int AUDIO_USER_MUTE_STATE = 19;
+        public static final int AUDIO_TOUCH_SOUND_STATE = 29;
+        public static final int AUDIO_WC_REMINDER = 1;
+        public static final int AUDIO_WC_POPUPS = 10;
+        public static final int SDIS_BLOCK_STATE = 10;
+        public static final int SDIS_LOCK_STATE = 20;
+        public static final int SDIS_A2LS_ON_DEMAND = 30;
+        public static final int SDIS_NAVI_REQUEST_MODE = 40;
+        public static final int SDIS_SPORTCHRONO_SETTINGS_REQUEST_MODE = 50;
+        public static final int SETTINGS_PRESET_1 = 1;
+        public static final int SETTINGS_PRESET_2 = 2;
+        public static final int SETTINGS_PRESET_3 = 3;
+        public static final int SETTINGS_PRESET_4 = 4;
+        public static final int SETTINGS_PRESET_5 = 5;
+        public static final int SETTINGS_PRESET_6 = 6;
+        public static final int SETTINGS_PRESET_7 = 7;
+        public static final int SETTINGS_PRESET_8 = 8;
+        public static final int SETTINGS_STORE_PW = 20;
+        public static final int SETTINGS_AUTOMATIC_TIME_MODE = 30;
+        public static final int SETTINGS_TIMEZONE_AUTOMATIC_MODE = 31;
+        public static final int SETTINGS_USER_HINTS = 40;
+        public static final int SETTINGS_USER_HINTS_INITIAL_POPUPS = 41;
+        public static final int SETTINGS_APPROACH_SENSOR = 45;
+        public static final int SETTINGS_FOOTER = 47;
+        public static final int SETTINGS_ARROW_HARDKEYS_ALLOCATION = 49;
+        public static final int SETTINGS_BACKGROUND = 52;
+        public static final int SETTINGS_TIME_COMPASS_MODE = 54;
+        public static final int SETTINGS_TIME_SPORT_CHRONO_MODE = 56;
+        public static final int SETTINGS_SPORT_CHRONO_ILLUMINATION_MODE = 58;
+        public static final int SETTINGS_TILES_HOME = 100;
+        public static final int SETTINGS_TIME_FORMAT = 101;
+        public static final int SETTINGS_DATE_FORMAT = 102;
+        public static final int BLUETOOTH_DISCOVERED_DEVICES = 20;
+        public static final int BLUETOOTH_LAST_BONDED_DEVICES_MAP = 40;
+        public static final int MESSAGING_EULA_ACCEPTED_IDS = 10;
+        public static final int MESSAGING_INDICATION_TONE_ENABLED = 1337;
+        public static final int ONLINE_LICENSE_WARN = 10;
+        public static final int ONLINE_OPCALL_POICALL_LIST = 19;
+        public static final int ONLINE_OPCALL_POI_LIST_01 = 20;
+        public static final int ONLINE_OPCALL_POI_LIST_02 = 21;
+        public static final int ONLINE_OPCALL_POI_LIST_03 = 22;
+        public static final int ONLINE_OPCALL_POI_LIST_04 = 23;
+        public static final int ONLINE_OPCALL_POI_LIST_05 = 24;
+        public static final int ONLINE_OPCALL_POI_LIST_06 = 25;
+        public static final int ONLINE_OPCALL_POI_LIST_07 = 26;
+        public static final int ONLINE_OPCALL_POI_LIST_08 = 27;
+        public static final int ONLINE_OPCALL_POI_LIST_09 = 28;
+        public static final int ONLINE_OPCALL_POI_LIST_10 = 29;
+        public static final int ONLINE_ESIM_LICENSE_STATE = 30;
+        public static final int ONLINE_OPCALL_POICALL_TRANSMIT_CCP = 31;
+        public static final int ONLINE_PRIVACY_MODE = 40;
+        public static final int ONLINE_SMARTCARD_PREVIOUSLY_ENABLED = 41;
+        public static final int ONLINE_PRIVACY_FEATURE = 42;
+        public static final int ENI_EXPIRATION_WARNING_CONFIRMED = 1;
+        public static final int ENI_ECALL_EXPIRED_CONFIRMED = 2;
+        public static final int SDS_BEEP_ON = 10;
+        public static final int SDS_EXPERT_MODE = 20;
+        public static final int SDS_QUICK_MODE = 30;
+        public static final int SDS_COMMAND_SCREEN = 40;
+        public static final int SDS_VOICE_BARGE_IN = 50;
+        public static final int SDS_ONLINE_DISCLAIMER_PERSISTENCE_STATE = 60;
+        public static final int SDS_TOP_ENTRY_CONFIDENCE_THRESHOLD = 70;
+        public static final int SDS_FOLLOWUP_ENTRY_CONFIDENCE_THRESHOLD = 80;
+        public static final int HOME_MSGRID1 = 1;
+        public static final int HOME_MSGRID2 = 2;
+        public static final int HOME_MSGRID3 = 3;
+        public static final int LANG_DATA = 10;
+        public static final int ETC_SETTINGS = 1;
+        public static final int VICS_SETTING = 8080;
+        public static final int MAP_WARNING_ASIA = 8081;
+        public static final int INFOKR = 8082;
+        public static final int EXLAP_ENABLED = 1;
+        public static final int EXLAP_RESTRICTION_MODE = 2;
+        public static final int VARIANT_INFO_NAME = 12;
+        public static final int PHONE_DRIVER_VERSION = 100;
+        public static final int DIAG_IDENT_VW_VERSION = 400;
+        public static final int DIAG_IDENT_TRAIN_VERSION = 401;
+        public static final int ENS_HMI_LANG = 308;
+        public static final int ENS_HMI_PAIRING_RESTRICTION = 401;
+        public static final int SIS_REGION_CODE_INFORMATION = -1073479674;
+        public static final int DIAG_UPDL_SPEED_THRESHOLD = 200;
+        public static final int DIAG_UPDL_VISIBLE_LANG = 201;
+        public static final int DIAG_UPDL_DS_LANG = 202;
+        public static final int DIAG_COD_CODING_ALL = 1;
+        public static final int DIAG_ANP_ADAPTATION = 100;
+        public static final int DIAG_ANP_ADAPTATION2 = 113;
+        public static final int DIAG_ANP_CAR_FUNCTION_ALL = 101;
+        public static final int DIAG_ANP_HMI_FUNCTION_BLOCKING = 105;
+        public static final int DIAG_ANP_IOS_AUTOSTART = 600;
     }
 
-    default public void setByteArray(int n, int n2, byte[] byArray) {
-    }
-
-    default public void setInt(int n, int n2, int n3) {
-    }
-
-    default public void setLong(int n, int n2, long l) {
-    }
-
-    default public void setString(int n, int n2, String string) {
-    }
-
-    default public void setIntArray(int n, int n2, int[] nArray) {
-    }
-
-    default public boolean getBoolean(int n, int n2, boolean bl) {
-    }
-
-    default public int getInt(int n, int n2, int n3) {
-    }
-
-    default public long getLong(int n, int n2, long l) {
-    }
-
-    default public String getString(int n, int n2, String string) {
-    }
-
-    default public byte[] getByteArray(int n, int n2, byte[] byArray) {
-    }
-
-    default public int[] getIntArray(int n, int n2, int[] nArray) {
-    }
-
-    default public IStorageStatistic getStorageStatistic() {
-    }
-
-    default public void enterSetupScreen() {
-    }
-
-    default public void exitSetupScreen() {
-    }
-
-    default public void startReset2FactorySettings() {
-    }
-
-    default public void endReset2FactorySettings() {
+    public static final class Namespace {
+        public static final int STARTUP = 256;
+        public static final int SWDL = 257;
+        public static final int POWER = 259;
+        public static final int SYS_CONST = 261;
+        public static final int DIAG_ATTRIBS = 262;
+        public static final int TUNER = 1001;
+        public static final int MEDIA = 1002;
+        public static final int PHONE = 1003;
+        public static final int NAVI = 1004;
+        public static final int INFO = 1005;
+        public static final int CAR = 1006;
+        public static final int TV = 1007;
+        public static final int TERMINALMODE = 1008;
+        public static final int AUDIO = 1009;
+        public static final int SDIS = 1010;
+        public static final int SETTINGS = 1011;
+        public static final int BLUETOOTH = 1018;
+        public static final int MESSAGING = 1019;
+        public static final int ONLINE = 1023;
+        public static final int ENI = 1024;
+        public static final int SDS = 1030;
+        public static final int HOME = 1031;
+        public static final int LANG = 1101;
+        public static final int ETC = 1111;
+        public static final int VICS = 1112;
+        public static final int MAP_WARNING_ASIA = 1113;
+        public static final int INFOKR = 1114;
+        public static final int EXLAP = 1115;
+        public static final int VARIANT_INFO = 678364556;
+        public static final int PHONE_DRIVER = 46924066;
+        public static final int DIAG_IDENT = 46924065;
+        public static final int ENS_HMI = 29229279;
+        public static final int SIS = 0;
+        public static final int DIAG_UPDL = 52166966;
+        public static final int DIAG_COD = 28180695;
+        public static final int DIAG_ANP = 28442848;
     }
 }
 

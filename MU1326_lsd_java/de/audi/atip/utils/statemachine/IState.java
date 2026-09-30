@@ -6,19 +6,15 @@ package de.audi.atip.utils.statemachine;
 import de.audi.atip.utils.statemachine.Message;
 
 public interface IState {
-    public static final boolean HANDLED;
-    public static final boolean NOT_HANDLED;
+    public static final boolean HANDLED = true;
+    public static final boolean NOT_HANDLED = false;
 
-    default public void enter(Message message) {
-    }
+    public void enter(Message var1);
 
-    default public void exit(Message message) {
-    }
+    public void exit(Message var1);
 
-    default public boolean processMessage(Message message) {
-    }
+    public boolean processMessage(Message var1);
 
-    default public String getName() {
-    }
+    public String getName();
 }
 

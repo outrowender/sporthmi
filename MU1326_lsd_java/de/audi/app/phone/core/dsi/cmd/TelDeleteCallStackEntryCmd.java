@@ -6,8 +6,8 @@ package de.audi.app.phone.core.dsi.cmd;
 import de.audi.app.phone.core.dsi.ITelDSIMobileEquipmentRequestWrapper;
 import de.audi.app.phone.core.dsi.ITelDSIResponseListener;
 import de.audi.app.phone.core.dsi.cmd.AbstractTelDSIMECommand;
-import de.audi.app.phone.core.dsi.cmd.TelDeleteCallStackEntryCmd$1;
 import de.audi.atip.log.LogChannel;
+import de.audi.tghu.command.Command;
 import de.audi.tghu.command.CommandListManager;
 import de.audi.tghu.command.Monitor;
 
@@ -23,16 +23,21 @@ extends AbstractTelDSIMECommand {
     }
 
     public void schedule(CommandListManager commandListManager, Monitor monitor) {
-        TelDeleteCallStackEntryCmd.schedule(commandListManager, this, "TelDeleteCallStackEntryCmd", new TelDeleteCallStackEntryCmd$1(this, this.logger, "TelDeleteCallStackEntryCmdError"), monitor);
+        TelDeleteCallStackEntryCmd.schedule(commandListManager, this, "TelDeleteCallStackEntryCmd", new Command(this.logger, "TelDeleteCallStackEntryCmdError"){
+
+            public void execute() {
+                this.logger.log(100000, "[TelDeleteCallStackEntryCmd.schedule().new Command() {...}#execute] Error.");
+                this.getCommandList().commandFinished();
+            }
+        }, monitor);
     }
 
-    @Override
     public void execute() {
         if (this.isDSIAvailable()) {
-            this.logger.log(1078071040, "[TelDeleteCallStackEntryCmd#execute] callList=%1, clEntryID=%2", (long)this.callList, (long)this.clEntryID);
+            this.logger.log(1000000, "[TelDeleteCallStackEntryCmd#execute] callList=%1, clEntryID=%2", (long)this.callList, (long)this.clEntryID);
             this.dsi.deleteCallstacksEntry(this.callList, this.clEntryID);
         } else {
-            this.logger.log(-1601830656, "[TelDeleteCallStackEntryCmd#execute] dsi is null --> NOP!");
+            this.logger.log(100000, "[TelDeleteCallStackEntryCmd#execute] dsi is null --> NOP!");
         }
         this.getCommandList().commandFinished();
     }

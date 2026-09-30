@@ -22,9 +22,8 @@ extends PoiResultScreenNoSpellerModelAccess {
         this.listRowBuilder = iListRowBuilder;
     }
 
-    @Override
     public void onUpdateResultList(LIValueList lIValueList, long l, String string, boolean bl) {
-        this.logChannel.log(-2137614336, "PoiSDSUidResultsModelAccess#onUpdateResultList( %2, %3, %1)", (Object)string, (Object)lIValueList, l);
+        this.logChannel.log(10000000, "PoiSDSUidResultsModelAccess#onUpdateResultList( %2, %3, %1)", (Object)string, (Object)lIValueList, l);
         if (!Util.isListValid(lIValueList) || lIValueList.getList().length == 0) {
             this.previewListModel.removeAll();
             return;
@@ -32,7 +31,7 @@ extends PoiResultScreenNoSpellerModelAccess {
         LIValueListElement[] lIValueListElementArray = lIValueList.getList();
         int n = lIValueListElementArray.length;
         BaseListModelApp baseListModelApp = this.previewListModel.getCopy();
-        this.logChannel.log(-2137614336, new StringBuffer().append("PoiSDSUidResultsModelAccess#onUpdateResultList - previewlistlength: ").append(n).toString());
+        this.logChannel.log(10000000, "PoiSDSUidResultsModelAccess#onUpdateResultList - previewlistlength: " + n);
         for (int i2 = 0; i2 < n; ++i2) {
             EvoListRow evoListRow = this.listRowBuilder.buildEvoListRow(lIValueListElementArray[i2], lIValueListElementArray[i2].getListIndex());
             baseListModelApp.append(evoListRow);
@@ -40,7 +39,6 @@ extends PoiResultScreenNoSpellerModelAccess {
         this.previewListModel.update(baseListModelApp);
     }
 
-    @Override
     public void onUpdateSearchStatus(ValueListStatus valueListStatus) {
     }
 }

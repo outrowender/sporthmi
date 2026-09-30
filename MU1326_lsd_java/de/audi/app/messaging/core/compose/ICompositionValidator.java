@@ -6,7 +6,6 @@ package de.audi.app.messaging.core.compose;
 import de.audi.app.messaging.core.compose.NewMessage;
 
 public interface ICompositionValidator {
-    default public boolean isValid(NewMessage newMessage) {
-    }
+    public boolean isValid(NewMessage var1);
 }
 

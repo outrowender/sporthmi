@@ -6,10 +6,8 @@ package de.audi.atip.statemachine;
 import de.audi.atip.statemachine.EventMediator;
 
 public interface MediatorRegistry {
-    default public void registerMediator(EventMediator eventMediator, int[] nArray) {
-    }
+    public void registerMediator(EventMediator var1, int[] var2);
 
-    default public void unregisterMediator(EventMediator eventMediator, int[] nArray) {
-    }
+    public void unregisterMediator(EventMediator var1, int[] var2);
 }
 

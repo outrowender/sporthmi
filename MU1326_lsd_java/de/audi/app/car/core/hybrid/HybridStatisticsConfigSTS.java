@@ -8,7 +8,7 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class HybridStatisticsConfigSTS
 implements IHybridStatisticsConfig {
-    private static final long serialVersionUID;
+    private static final long serialVersionUID = 1L;
     private int distanceUnit;
     private float intervalValue;
     private int bufferValidDataSize;
@@ -49,12 +49,10 @@ implements IHybridStatisticsConfig {
         this.bufferValidDataSize = n;
     }
 
-    @Override
     public String[] getFields() {
         return new String[]{"distanceUnit", "intervalValue", "bufferValidDataSize"};
     }
 
-    @Override
     public String[] getValuesAsString() {
         return new String[]{Integer.toHexString(this.distanceUnit), Float.toString(this.intervalValue), Integer.toString(this.bufferValidDataSize)};
     }

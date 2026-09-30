@@ -1,8 +1,5 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  de.audi.app.terminalmode.statemachine.TMState
  */
 package de.audi.app.terminalmode.statemachine.commands;
 
@@ -18,7 +15,7 @@ import de.audi.app.terminalmode.statemachine.commands.AbstractDSICommand;
 
 public class SendResponseModeChanged
 extends AbstractDSICommand {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "SendResponseModeChanged";
     private final IAppState[] appState;
     private final IResource[] resources;
     private final long messageId;
@@ -26,17 +23,16 @@ extends AbstractDSICommand {
     private volatile boolean ignoreUpdate = false;
 
     public SendResponseModeChanged(IContext iContext, IDSISmartphoneManager iDSISmartphoneManager, IAppState[] iAppStateArray, IResource[] iResourceArray, long l, IStateHandler iStateHandler) {
-        super(iContext.getLogger().main(), new StringBuffer().append("SendResponseModeChanged(msgId=").append(l).append(")").toString(), iContext, iDSISmartphoneManager);
+        super(iContext.getLogger().main(), "SendResponseModeChanged(msgId=" + l + ")", iContext, iDSISmartphoneManager);
         this.stateHandler = iStateHandler;
         this.appState = iAppStateArray;
         this.resources = iResourceArray;
         this.messageId = l;
     }
 
-    @Override
     public void execute() {
         if (this.ignoreUpdate) {
-            this.logger.log(1078071040, "[%1.execute] Ignore update mode.", (Object)"SendResponseModeChanged");
+            this.logger.log(1000000, "[%1.execute] Ignore update mode.", (Object)LOGCLASS);
             this.getCommandList().commandFinished();
             return;
         }
@@ -61,7 +57,7 @@ extends AbstractDSICommand {
 
     public void ignoreUpdateWithMsgId(long l) {
         this.ignoreUpdate = l == this.messageId;
-        this.logger.log(1078071040, "[%1.ignoreUpdateWithMsgId] %2", (Object)"SendResponseModeChanged", (Object)String.valueOf(this.ignoreUpdate));
+        this.logger.log(1000000, "[%1.ignoreUpdateWithMsgId] %2", (Object)LOGCLASS, (Object)String.valueOf(this.ignoreUpdate));
     }
 }
 

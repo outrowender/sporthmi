@@ -4,10 +4,8 @@
 package de.audi.app.bap.fw.request;
 
 public interface IDataTypeMapping {
-    default public int getRequestDataType(int n, int n2) {
-    }
+    public int getRequestDataType(int var1, int var2);
 
-    default public int getIndicationDataType(int n, int n2) {
-    }
+    public int getIndicationDataType(int var1, int var2);
 }
 

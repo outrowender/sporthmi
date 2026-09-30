@@ -4,52 +4,36 @@
 package de.audi.atip.browser;
 
 public interface IBrowserCallbackHandler {
-    default public void updateScrollbarX(int n, int n2, int n3, int n4) {
-    }
+    public void updateScrollbarX(int var1, int var2, int var3, int var4);
 
-    default public void updateScrollbarY(int n, int n2, int n3, int n4) {
-    }
+    public void updateScrollbarY(int var1, int var2, int var3, int var4);
 
-    default public void updateBrowserStateBusy(boolean bl) {
-    }
+    public void updateBrowserStateBusy(boolean var1);
 
-    default public void updateBrowserState(int n) {
-    }
+    public void updateBrowserState(int var1);
 
-    default public boolean scrollDown(int n) {
-    }
+    public boolean scrollDown(int var1);
 
-    default public boolean scrollUp(int n) {
-    }
+    public boolean scrollUp(int var1);
 
-    default public void indicateBrowserStateNotFound() {
-    }
+    public void indicateBrowserStateNotFound();
 
-    default public void indicateBrowserStateComplete() {
-    }
+    public void indicateBrowserStateComplete();
 
-    default public void indicateBrowserStateTimeout() {
-    }
+    public void indicateBrowserStateTimeout();
 
-    default public void javascriptAlert(String string) {
-    }
+    public void javascriptAlert(String var1);
 
-    default public boolean press() {
-    }
+    public boolean press();
 
-    default public boolean indicateEfiUrl(String string) {
-    }
+    public boolean indicateEfiUrl(String var1);
 
-    default public void belowLowerThreshold(int n) {
-    }
+    public void belowLowerThreshold(int var1);
 
-    default public void exceedsUpperThreshold(int n) {
-    }
+    public void exceedsUpperThreshold(int var1);
 
-    default public void indicateBoardbookAvailable(boolean bl) {
-    }
+    public void indicateBoardbookAvailable(boolean var1);
 
-    default public void virtualButtonBack() {
-    }
+    public void virtualButtonBack();
 }
 

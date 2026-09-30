@@ -15,7 +15,6 @@ extends AbstractCombiBAPApplication {
         super(iFrameworkAccess);
     }
 
-    @Override
     protected IPictureManager createPictureManager(IFrameworkAccess iFrameworkAccess) {
         IPictureManager iPictureManager = iFrameworkAccess.getSysConst(523) == 1 ? new PictureManagerEvo(iFrameworkAccess) : new NullPictureManager();
         return iPictureManager;

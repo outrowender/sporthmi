@@ -7,10 +7,8 @@ import de.audi.atip.sdis.IHMISyncRequests;
 
 public interface IHMISyncRadioRequests
 extends IHMISyncRequests {
-    default public void setActiveStation(int n) {
-    }
+    public void setActiveStation(int var1);
 
-    default public void setActiveBand(int n) {
-    }
+    public void setActiveBand(int var1);
 }
 

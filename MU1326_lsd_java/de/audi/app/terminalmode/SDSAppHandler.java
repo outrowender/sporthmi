@@ -1,41 +1,39 @@
 /*
  * Decompiled with CFR 0.152.
- * 
- * Could not load the following classes:
- *  de.audi.app.terminalmode.audio.IAudioManager
- *  de.audi.atip.utils.Preconditions
- *  de.audi.atip.utils.reactive.observables.Observable
  */
 package de.audi.app.terminalmode;
 
 import de.audi.app.terminalmode.IContext;
 import de.audi.app.terminalmode.ITerminalModeComponent;
-import de.audi.app.terminalmode.SDSAppHandler$1;
-import de.audi.app.terminalmode.SDSAppHandler$2;
-import de.audi.app.terminalmode.SDSAppHandler$3;
-import de.audi.app.terminalmode.SDSAppHandler$PTTLongDetected;
-import de.audi.app.terminalmode.SDSAppHandler$PTTPressed;
-import de.audi.app.terminalmode.SDSAppHandler$PTTReleasedAfterLongPress;
-import de.audi.app.terminalmode.SDSAppHandler$PTTReleasedAfterShortPress;
 import de.audi.app.terminalmode.SDSDialogState;
+import de.audi.app.terminalmode.audio.AudioConnectionState;
 import de.audi.app.terminalmode.audio.IAudioManager;
 import de.audi.app.terminalmode.audio.TMAudioConnection;
 import de.audi.app.terminalmode.device.IDeviceManager;
+import de.audi.app.terminalmode.device.TMDevice;
 import de.audi.app.terminalmode.diagnosis.IDiagnosisCommandProvider;
 import de.audi.app.terminalmode.smartphone.ISpeechRequestHandler;
 import de.audi.app.terminalmode.statemachine.Application;
+import de.audi.app.terminalmode.statemachine.ApplicationOwner;
+import de.audi.app.terminalmode.statemachine.IRequestor;
 import de.audi.app.terminalmode.statemachine.IStateHandler;
+import de.audi.app.terminalmode.statemachine.TMState;
+import de.audi.app.terminalmode.statemachine.commands.AbstractCommand;
+import de.audi.app.terminalmode.statemachine.commands.AbstractDSICommand;
 import de.audi.atip.hmi.model.ButtonListener;
 import de.audi.atip.interapp.ISDSKeyInterceptor;
 import de.audi.atip.interapp.ISDSServiceStatusListener;
+import de.audi.atip.interapp.SDSService;
 import de.audi.atip.interapp.def.NullSDSService;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.utils.Preconditions;
 import de.audi.atip.utils.generics.Consumer;
 import de.audi.atip.utils.reactive.bindings.IServiceBindings;
 import de.audi.atip.utils.reactive.observables.Observable;
+import de.audi.atip.utils.reactive.observables.Observables;
 import de.audi.atip.utils.reactive.properties.ObservableProperty;
 import de.audi.atip.utils.reactive.properties.ReadOnlyProperty;
+import de.audi.tghu.command.CommandList;
 import java.util.Hashtable;
 import org.osgi.framework.ServiceRegistration;
 
@@ -45,7 +43,7 @@ ISDSKeyInterceptor,
 ITerminalModeComponent,
 IDiagnosisCommandProvider,
 ButtonListener {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "SDSAppHandler";
     private final ISpeechRequestHandler speechRequestHandler;
     private final IStateHandler stateHandler;
     private volatile ServiceRegistration serviceRegistration;
@@ -55,13 +53,13 @@ ButtonListener {
     private final IAudioManager audioManager;
     private final IServiceBindings bindings;
     private final IDeviceManager deviceManager;
-    private static final String DIAG_PTTLONG;
+    private static final String DIAG_PTTLONG = "pttLong";
     static /* synthetic */ Class class$de$audi$atip$interapp$ISDSKeyInterceptor;
     static /* synthetic */ Class class$de$audi$atip$interapp$SDSService;
 
     public SDSAppHandler(IContext iContext, IStateHandler iStateHandler, IAudioManager iAudioManager, IServiceBindings iServiceBindings, IDeviceManager iDeviceManager) {
-        this.context = (IContext)Preconditions.checkNotNull((Object)iContext);
-        this.logger = (LogChannel)Preconditions.checkNotNull((Object)iContext.getLogger().main());
+        this.context = Preconditions.checkNotNull(iContext);
+        this.logger = Preconditions.checkNotNull(iContext.getLogger().main());
         this.speechRequestHandler = iContext.getSmartphoneDSIManager().getSpeechRequestHandler();
         this.stateHandler = iStateHandler;
         this.audioManager = iAudioManager;
@@ -69,81 +67,107 @@ ButtonListener {
         this.deviceManager = iDeviceManager;
     }
 
-    @Override
     public void init() {
-        this.logger.log(14808325, "[%1.init]", (Object)"SDSAppHandler");
+        this.logger.log(100000000, "[%1.init]", (Object)LOGCLASS);
         this.serviceRegistration = this.context.getServiceManager().registerService(class$de$audi$atip$interapp$ISDSKeyInterceptor == null ? (class$de$audi$atip$interapp$ISDSKeyInterceptor = SDSAppHandler.class$("de.audi.atip.interapp.ISDSKeyInterceptor")) : class$de$audi$atip$interapp$ISDSKeyInterceptor, this, new Hashtable(0));
         this.context.getDiagnosisManager().addCommandProvider(-1, this);
-        this.context.getButtonModel(1087647744).setButtonListener(this);
-        this.context.getButtonModel(1070870528).setButtonListener(this);
-        Observable observable = this.bindings.track(class$de$audi$atip$interapp$SDSService == null ? (class$de$audi$atip$interapp$SDSService = SDSAppHandler.class$("de.audi.atip.interapp.SDSService")) : class$de$audi$atip$interapp$SDSService, new NullSDSService(this.logger));
-        ObservableProperty observableProperty = this.audioManager.getAudioObservableForAudioConnection(TMAudioConnection.RINGTONE);
-        ObservableProperty observableProperty2 = this.audioManager.getAudioObservableForAudioConnection(TMAudioConnection.PHONE_INPUT);
-        ReadOnlyProperty readOnlyProperty = this.deviceManager.getProperties().activeDevice();
-        ReadOnlyProperty readOnlyProperty2 = this.stateHandler.getStateApplicationProperty(Application.PHONE);
-        observableProperty2.combineWith(observableProperty).combineWith(observable).combineWith(readOnlyProperty).subscribe(new SDSAppHandler$1(this));
-        readOnlyProperty2.distinctUntilChanged().combineWith(observable).combineWith(readOnlyProperty).subscribe(new SDSAppHandler$2(this));
-        observable.redirectTo((Consumer)new SDSAppHandler$3(this));
+        this.context.getButtonModel(3200064).setButtonListener(this);
+        this.context.getButtonModel(3200063).setButtonListener(this);
+        Observable<NullSDSService> observable = this.bindings.track(class$de$audi$atip$interapp$SDSService == null ? (class$de$audi$atip$interapp$SDSService = SDSAppHandler.class$("de.audi.atip.interapp.SDSService")) : class$de$audi$atip$interapp$SDSService, new NullSDSService(this.logger));
+        ObservableProperty<AudioConnectionState> observableProperty = this.audioManager.getAudioObservableForAudioConnection(TMAudioConnection.RINGTONE);
+        ObservableProperty<AudioConnectionState> observableProperty2 = this.audioManager.getAudioObservableForAudioConnection(TMAudioConnection.PHONE_INPUT);
+        ReadOnlyProperty<TMDevice> readOnlyProperty = this.deviceManager.getProperties().activeDevice();
+        ReadOnlyProperty<ApplicationOwner> readOnlyProperty2 = this.stateHandler.getStateApplicationProperty(Application.PHONE);
+        observableProperty2.combineWith(observableProperty).combineWith(observable).combineWith(readOnlyProperty).subscribe(new Observables.Consumer4<AudioConnectionState, AudioConnectionState, SDSService, TMDevice>(){
+
+            @Override
+            public void accept(AudioConnectionState audioConnectionState, AudioConnectionState audioConnectionState2, SDSService sDSService, TMDevice tMDevice) {
+                sDSService.disablePTT(tMDevice.isCarplayDevice() && (audioConnectionState.isAudible() || audioConnectionState2.isAudible()), true, (byte)10);
+            }
+
+            @Override
+            public /* synthetic */ void accept(Object object, Object object2, Object object3, Object object4) {
+                this.accept((AudioConnectionState)object, (AudioConnectionState)object2, (SDSService)object3, (TMDevice)object4);
+            }
+        });
+        readOnlyProperty2.distinctUntilChanged().combineWith(observable).combineWith(readOnlyProperty).subscribe(new Observables.Consumer3<ApplicationOwner, SDSService, TMDevice>(){
+
+            @Override
+            public void accept(ApplicationOwner applicationOwner, SDSService sDSService, TMDevice tMDevice) {
+                if (sDSService.isSDSActive() && SDSAppHandler.this.deviceManager.getActiveDevice().isCarplayDevice() && applicationOwner.is(ApplicationOwner.DEVICE)) {
+                    SDSAppHandler.this.logger.log(1000000, "[%1.Phone owner CPdevice while sds active] - disable SDS.", (Object)SDSAppHandler.LOGCLASS);
+                    sDSService.disablePTT(true, true, (byte)10);
+                }
+            }
+
+            @Override
+            public /* synthetic */ void accept(Object object, Object object2, Object object3) {
+                this.accept((ApplicationOwner)object, (SDSService)object2, (TMDevice)object3);
+            }
+        });
+        observable.redirectTo((Consumer<NullSDSService>)new Consumer<SDSService>(){
+
+            @Override
+            public void accept(SDSService sDSService) {
+                sDSService.registerStatusListener(SDSAppHandler.this);
+            }
+
+            @Override
+            public /* synthetic */ void accept(Object object) {
+                this.accept((SDSService)object);
+            }
+        });
     }
 
-    @Override
     public void deinit() {
-        this.logger.log(1078071040, "[%1.deinit]", (Object)"SDSAppHandler");
-        this.context.getButtonModel(1087647744).setButtonListener(null);
-        this.context.getButtonModel(1070870528).setButtonListener(null);
+        this.logger.log(1000000, "[%1.deinit]", (Object)LOGCLASS);
+        this.context.getButtonModel(3200064).setButtonListener(null);
+        this.context.getButtonModel(3200063).setButtonListener(null);
         this.context.getServiceManager().unregisterService(this.serviceRegistration);
     }
 
-    @Override
     public void notifySDSDialogStarted() {
-        this.logger.log(1078071040, "[%1.notifySDSDialogStarted]", (Object)"SDSAppHandler");
+        this.logger.log(1000000, "[%1.notifySDSDialogStarted]", (Object)LOGCLASS);
         this.context.getCommandListHelper().create().addSingle(new SDSDialogState(this.context, true, this.stateHandler)).execute("SDSAppHandler.notifySDSDialogStarted");
     }
 
-    @Override
     public void notifySDSDialogEnded() {
-        this.logger.log(1078071040, "[%1.notifySDSDialogEnded]", (Object)"SDSAppHandler");
+        this.logger.log(1000000, "[%1.notifySDSDialogEnded]", (Object)LOGCLASS);
         this.context.getCommandListHelper().create().addSingle(new SDSDialogState(this.context, false, this.stateHandler)).execute("SDSAppHandler.notifySDSDialogEnded");
     }
 
-    @Override
     public void notifySDSDialogAborting() {
     }
 
-    @Override
     public void pttPressed() {
-        this.logger.log(1078071040, "<- [%1.pttPressed]", (Object)"SDSAppHandler");
-        this.context.getCommandListHelper().create().addSingle(new SDSAppHandler$PTTPressed(this, this.logger, this.context)).execute("[SDSAppHandler.pttPressed] -> PTTPressed");
+        this.logger.log(1000000, "<- [%1.pttPressed]", (Object)LOGCLASS);
+        this.context.getCommandListHelper().create().addSingle(new PTTPressed(this.logger, this.context)).execute("[SDSAppHandler.pttPressed] -> PTTPressed");
     }
 
-    @Override
     public void pttReleasedAfterShortPress() {
-        this.logger.log(1078071040, "<- [%1.pttReleasedAfterShortPress]", (Object)"SDSAppHandler");
-        this.context.getCommandListHelper().create().addSingle(new SDSAppHandler$PTTReleasedAfterShortPress(this, this.logger, this.context)).execute("[SDSAppHandler.pttReleasedAfterShortPress] -> PTTShort");
+        this.logger.log(1000000, "<- [%1.pttReleasedAfterShortPress]", (Object)LOGCLASS);
+        this.context.getCommandListHelper().create().addSingle(new PTTReleasedAfterShortPress(this.logger, this.context)).execute("[SDSAppHandler.pttReleasedAfterShortPress] -> PTTShort");
     }
 
-    @Override
     public void pttLongDetected() {
-        this.logger.log(1078071040, "<- [%1.pttLongDetected]", (Object)"SDSAppHandler");
-        this.context.getCommandListHelper().create().addSingle(new SDSAppHandler$PTTLongDetected(this, this.context)).execute("[SDSAppHandler.pttLongDetected] -> PTTLongDetected");
+        this.logger.log(1000000, "<- [%1.pttLongDetected]", (Object)LOGCLASS);
+        this.context.getCommandListHelper().create().addSingle(new PTTLongDetected(this.context)).execute("[SDSAppHandler.pttLongDetected] -> PTTLongDetected");
     }
 
-    @Override
     public void pttReleasedAfterLongPress() {
-        this.logger.log(1078071040, "<- [%1.pttReleasedAfterLongPress]", (Object)"SDSAppHandler");
-        this.context.getCommandListHelper().create().addSingle(new SDSAppHandler$PTTReleasedAfterLongPress(this, this.logger, this.context)).execute("[SDSAppHandler.pttReleasedAfterLongPress] -> PTTReleasedAfterLongPress");
+        this.logger.log(1000000, "<- [%1.pttReleasedAfterLongPress]", (Object)LOGCLASS);
+        this.context.getCommandListHelper().create().addSingle(new PTTReleasedAfterLongPress(this.logger, this.context)).execute("[SDSAppHandler.pttReleasedAfterLongPress] -> PTTReleasedAfterLongPress");
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
         switch (n) {
             case 3200064: {
-                this.logger.log(1078071040, "[%1.keyPressed] PTT short", (Object)"SDSAppHandler");
+                this.logger.log(1000000, "[%1.keyPressed] PTT short", (Object)LOGCLASS);
                 this.pttPressed();
                 break;
             }
             case 3200063: {
-                this.logger.log(1078071040, "[%1.keyPressed] PTT long", (Object)"SDSAppHandler");
+                this.logger.log(1000000, "[%1.keyPressed] PTT long", (Object)LOGCLASS);
                 this.isPTTLongDetected = true;
                 this.pttLongDetected();
                 break;
@@ -151,17 +175,16 @@ ButtonListener {
         }
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
         switch (n) {
             case 3200064: {
                 if (this.isPTTLongDetected) {
-                    this.logger.log(1078071040, "[%1.keyReleased] PTT long", (Object)"SDSAppHandler");
+                    this.logger.log(1000000, "[%1.keyReleased] PTT long", (Object)LOGCLASS);
                     this.pttReleasedAfterLongPress();
                     this.isPTTLongDetected = false;
                     break;
                 }
-                this.logger.log(1078071040, "[%1.keyReleased] PTT short", (Object)"SDSAppHandler");
+                this.logger.log(1000000, "[%1.keyReleased] PTT short", (Object)LOGCLASS);
                 this.pttReleasedAfterShortPress();
                 break;
             }
@@ -171,22 +194,18 @@ ButtonListener {
         }
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
     }
 
-    @Override
     public String[] getDiagKeys() {
-        return new String[]{"pttLong"};
+        return new String[]{DIAG_PTTLONG};
     }
 
-    @Override
     public void executeDiagCommand(String string, String[] stringArray) {
-        if ("pttLong".equals(string)) {
+        if (DIAG_PTTLONG.equals(string)) {
             this.pttPressed();
             this.pttLongDetected();
         }
@@ -201,20 +220,69 @@ ButtonListener {
         }
     }
 
-    static /* synthetic */ IDeviceManager access$000(SDSAppHandler sDSAppHandler) {
-        return sDSAppHandler.deviceManager;
+    private class PTTPressed
+    extends AbstractCommand {
+        public PTTPressed(LogChannel logChannel, IContext iContext) {
+            super(logChannel, "PTTPressed", iContext);
+        }
+
+        public void execute() {
+            if (SDSAppHandler.this.stateHandler.getCurrentState().isAppFree(Application.SPEECH)) {
+                SDSAppHandler.this.speechRequestHandler.prewarm();
+            }
+            this.getCommandList().commandFinished();
+        }
     }
 
-    static /* synthetic */ LogChannel access$100(SDSAppHandler sDSAppHandler) {
-        return sDSAppHandler.logger;
+    private class PTTLongDetected
+    extends AbstractDSICommand {
+        private static final String LOGCLASS = "PTTLongDetected";
+
+        public PTTLongDetected(IContext iContext) {
+            super(iContext.getLogger().main(), LOGCLASS, iContext, iContext.getSmartphoneDSIManager());
+        }
+
+        public void execute() {
+            if (SDSAppHandler.this.stateHandler.getCurrentState().isAppFree(Application.SPEECH) || SDSAppHandler.this.stateHandler.getCurrentState().isAppOwnerDevice(Application.SPEECH)) {
+                this.logger.log(1000000, "[%1.execute] speech is free", (Object)LOGCLASS);
+                SDSAppHandler.this.speechRequestHandler.startSpeechSession();
+                TMState tMState = SDSAppHandler.this.stateHandler.getCurrentState();
+                tMState.setOwnerForApplication(Application.SPEECH, ApplicationOwner.DEVICE);
+                CommandList commandList = SDSAppHandler.this.stateHandler.changeState(tMState, IRequestor.MAINUNIT, -1L);
+                this.getCommandList().commandFinishedWithPostSequence(commandList);
+            } else {
+                this.logger.log(1000000, "[%1.execute] speech not free", (Object)LOGCLASS);
+                this.getCommandList().commandFinished();
+            }
+        }
     }
 
-    static /* synthetic */ IStateHandler access$200(SDSAppHandler sDSAppHandler) {
-        return sDSAppHandler.stateHandler;
+    private class PTTReleasedAfterLongPress
+    extends AbstractCommand {
+        public PTTReleasedAfterLongPress(LogChannel logChannel, IContext iContext) {
+            super(logChannel, "PTTReleasedAfterLongPress", iContext);
+        }
+
+        public void execute() {
+            SDSAppHandler.this.speechRequestHandler.pttReleasedAfterLongPress();
+            this.getCommandList().commandFinished();
+        }
     }
 
-    static /* synthetic */ ISpeechRequestHandler access$300(SDSAppHandler sDSAppHandler) {
-        return sDSAppHandler.speechRequestHandler;
+    private class PTTReleasedAfterShortPress
+    extends AbstractCommand {
+        public PTTReleasedAfterShortPress(LogChannel logChannel, IContext iContext) {
+            super(logChannel, "PTTReleasedAfterShortPress", iContext);
+        }
+
+        public void execute() {
+            if (SDSAppHandler.this.stateHandler.getCurrentState().isAppOwnerDevice(Application.SPEECH)) {
+                SDSAppHandler.this.speechRequestHandler.abortActiveSpeechSession();
+            } else if (SDSAppHandler.this.stateHandler.getCurrentState().isAppFree(Application.SPEECH)) {
+                SDSAppHandler.this.speechRequestHandler.cancelPrewarm();
+            }
+            this.getCommandList().commandFinished();
+        }
     }
 }
 

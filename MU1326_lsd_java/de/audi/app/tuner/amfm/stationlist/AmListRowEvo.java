@@ -17,18 +17,18 @@ import de.audi.tuner.app.amfm.stationlist.RecordSets;
 
 public class AmListRowEvo
 extends AmListRow {
-    private static final int INDEX_PROPERTIES;
-    private static final int INDEX_DEFAULT_IMAGE_ID;
-    private static final int INDEX_ARTIST;
-    private static final int INDEX_TITLE;
-    private static final int INDEX_ALBUM;
-    private static final int INDEX_DASH;
-    private static final int INDEX_ARTIST_ICON;
-    private static final int INDEX_TITLE_ICON;
-    private static final int INDEX_ALBUM_ICON;
-    private static final int INDEX_ITUNES_ICON;
-    private static final int INDEX_RADIOTEXT_ICON;
-    public static final int NUM_COLS;
+    private static final int INDEX_PROPERTIES = 8;
+    private static final int INDEX_DEFAULT_IMAGE_ID = 9;
+    private static final int INDEX_ARTIST = 10;
+    private static final int INDEX_TITLE = 11;
+    private static final int INDEX_ALBUM = 12;
+    private static final int INDEX_DASH = 13;
+    private static final int INDEX_ARTIST_ICON = 14;
+    private static final int INDEX_TITLE_ICON = 15;
+    private static final int INDEX_ALBUM_ICON = 16;
+    private static final int INDEX_ITUNES_ICON = 17;
+    private static final int INDEX_RADIOTEXT_ICON = 18;
+    public static final int NUM_COLS = 19;
     private final RadioRowProperties props;
 
     public AmListRowEvo(AMFMStation aMFMStation, RecordSets recordSets, int n) {
@@ -36,7 +36,7 @@ extends AmListRow {
         this.props = new RadioRowProperties();
         this.props.setNameFreezed(aMFMStation.isPsFreezed());
         this.props.setNoRadioText(!aMFMStation.isHd());
-        this.props.setCategory(aMFMStation.isHd() ? -376755059 : 220659906);
+        this.props.setCategory(aMFMStation.isHd() ? -1926460439 : -1040177395);
         this.props.setScrollingPS(aMFMStation.isScrollingPS());
         this.setPropertyCell(8, new PropertyListCell(this.props.getCategory(), this.props.toArray()));
         this.setInteger(9, 4);
@@ -49,12 +49,10 @@ extends AmListRow {
         this.props = amListRowEvo.props;
     }
 
-    @Override
     public EvoListRow copy() {
         return new AmListRowEvo(this);
     }
 
-    @Override
     public void setStationActive(boolean bl) {
         this.props.setActive(bl);
         this.setPropertyCell(8, new PropertyListCell(this.props.getCategory(), this.props.toArray()));
@@ -64,7 +62,6 @@ extends AmListRow {
         }
     }
 
-    @Override
     public final void setProgramData(AMFMStation aMFMStation, int n, TunerStatus tunerStatus) {
         Object object;
         ArtistAndTitlePair artistAndTitlePair = aMFMStation.getArtistAndTitlePair();

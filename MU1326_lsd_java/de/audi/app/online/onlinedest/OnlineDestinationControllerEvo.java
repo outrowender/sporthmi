@@ -13,9 +13,8 @@ extends OnlineDestinationController {
         super(logChannel, iFrameworkAccess);
     }
 
-    @Override
     protected int getNewDistinationsAvailablePopupId() {
-        return 1712857856;
+        return 2300006;
     }
 }
 

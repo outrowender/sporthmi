@@ -79,9 +79,8 @@ extends AbstractCombiModule {
         this.propertiesToWaitForRGActDeact.rgActDeactSyncFinished();
     }
 
-    @Override
     protected void initModuleComponents() {
-        this.logChannel.log(-2137614336, "[CombiModuleNavi#initModuleComponents]");
+        this.logChannel.log(10000000, "[CombiModuleNavi#initModuleComponents]");
         this.indicationHandler = new BAPIndicationHandlerNavi(this);
         this.functionRegistration = CombiModuleNavi.customInitialize(new FunctionRegistrationNavi(this));
         this.initializationManager = new InitializationManagerNavi(this, this.getBAPFunctionPropertyFSG(15), this.bapApplication.getDSIBAPController(), this.bapApplication.getPowerState());
@@ -100,37 +99,30 @@ extends AbstractCombiModule {
         return functionRegistrationNavi;
     }
 
-    @Override
     protected void initServiceManager(BundleContext bundleContext) {
         this.serviceManager = new ServiceManagerNavi(this, bundleContext);
     }
 
-    @Override
     protected void initDiagnosisConnector() {
         this.diagnosisConnectorFsg = new CombiDiagnosisConnectorNavi((AbstractCombiBAPApplication)this.bapApplication, this);
     }
 
-    @Override
     public String getLSGDescription() {
         return "0x32 (NAVI)";
     }
 
-    @Override
     public IFunctionIDs getFunctionIDs() {
         return new FunctionIDsNavi();
     }
 
-    @Override
     public IErrorCodes getErrorIDs() {
         return new ErrorCodesNavi();
     }
 
-    @Override
     public int[] getErrorMapping() {
         return ERROR_MAPPING;
     }
 
-    @Override
     public IDataTypeMapping getDataTypeMapping() {
         return new DataTypeMappingNavi();
     }

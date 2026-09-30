@@ -4,88 +4,60 @@
 package de.audi.atip.base;
 
 public interface IAppSystem {
-    default public void fireInitialEvent() {
-    }
+    public void fireInitialEvent();
 
-    default public void fireHKReturn(int n) {
-    }
+    public void fireHKReturn(int var1);
 
-    default public void fireHKSelection(int n) {
-    }
+    public void fireHKSelection(int var1);
 
-    default public void fireJoystickLeft(int n) {
-    }
+    public void fireJoystickLeft(int var1);
 
-    default public void jumpToCustomerDownload(int n) {
-    }
+    public void jumpToCustomerDownload(int var1);
 
-    default public void cancelCustomerDownload(int n) {
-    }
+    public void cancelCustomerDownload(int var1);
 
-    default public boolean isEventContextSensitive(int n) {
-    }
+    public boolean isEventContextSensitive(int var1);
 
-    default public boolean isEventSubterminalSensitive(int n) {
-    }
+    public boolean isEventSubterminalSensitive(int var1);
 
-    default public void showNoPowerPopups(int n) {
-    }
+    public void showNoPowerPopups(int var1);
 
-    default public void showBlackScreenLEDsOn(int n) {
-    }
+    public void showBlackScreenLEDsOn(int var1);
 
-    default public void showBlackScreenLEDsOff(int n) {
-    }
+    public void showBlackScreenLEDsOff(int var1);
 
-    default public void showQ21Warning(int n) {
-    }
+    public void showQ21Warning(int var1);
 
-    default public void removeQ21Warning(int n) {
-    }
+    public void removeQ21Warning(int var1);
 
-    default public void showCritcalTemperature(int n) {
-    }
+    public void showCritcalTemperature(int var1);
 
-    default public void removeCritcalTemperature(int n) {
-    }
+    public void removeCritcalTemperature(int var1);
 
-    default public void showTelMaxWarning(int n) {
-    }
+    public void showTelMaxWarning(int var1);
 
-    default public void removeTelMaxWarning(int n) {
-    }
+    public void removeTelMaxWarning(int var1);
 
-    default public void showStandbyWarning(int n) {
-    }
+    public void showStandbyWarning(int var1);
 
-    default public void removeStandbyWarning(int n) {
-    }
+    public void removeStandbyWarning(int var1);
 
-    default public void showLegalDisclaimer(int n) {
-    }
+    public void showLegalDisclaimer(int var1);
 
-    default public void removeLegalDisclaimer(int n) {
-    }
+    public void removeLegalDisclaimer(int var1);
 
-    default public void switch2Tuner() {
-    }
+    public void switch2Tuner();
 
-    default public void switch2Media() {
-    }
+    public void switch2Media();
 
-    default public void showSdsStatusPopup(int n) {
-    }
+    public void showSdsStatusPopup(int var1);
 
-    default public void showDiagPopup(int n) {
-    }
+    public void showDiagPopup(int var1);
 
-    default public void removeDiagPopup(int n) {
-    }
+    public void removeDiagPopup(int var1);
 
-    default public void showEngineOffPopup(int n) {
-    }
+    public void showEngineOffPopup(int var1);
 
-    default public void removeEngineOffPopup(int n) {
-    }
+    public void removeEngineOffPopup(int var1);
 }
 

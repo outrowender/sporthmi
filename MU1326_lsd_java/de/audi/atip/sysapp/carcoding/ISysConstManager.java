@@ -13,40 +13,28 @@ import de.audi.atip.sysapp.carcoding.SperrFlags;
 import de.esolutions.fw.util.commons.SimpleIntIntMap;
 
 public interface ISysConstManager {
-    default public int getSysConst(int n) {
-    }
+    public int getSysConst(int var1);
 
-    default public String dumpCarData() {
-    }
+    public String dumpCarData();
 
-    default public Coding getCarCoding() {
-    }
+    public Coding getCarCoding();
 
-    default public Adaptation getAdaptationANP() {
-    }
+    public Adaptation getAdaptationANP();
 
-    default public CarFuncAdap getCarFuncAdaptation() {
-    }
+    public CarFuncAdap getCarFuncAdaptation();
 
-    default public LoadSpeedThreshold getSpeedThresholdUPDL() {
-    }
+    public LoadSpeedThreshold getSpeedThresholdUPDL();
 
-    default public SperrFlags getSperrFlags() {
-    }
+    public SperrFlags getSperrFlags();
 
-    default public IVariantInfo getVariantInfo() {
-    }
+    public IVariantInfo getVariantInfo();
 
-    default public void initSysConstants(SimpleIntIntMap simpleIntIntMap, ICodingReader iCodingReader) {
-    }
+    public void initSysConstants(SimpleIntIntMap var1, ICodingReader var2);
 
-    default public int getHMIInternalPopupPrio(int n, int n2) {
-    }
+    public int getHMIInternalPopupPrio(int var1, int var2);
 
-    default public void storeSwdlCopy() {
-    }
+    public void storeSwdlCopy();
 
-    default public void clearSwdlCopy() {
-    }
+    public void clearSwdlCopy();
 }
 

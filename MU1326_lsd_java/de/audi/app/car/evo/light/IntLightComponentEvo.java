@@ -8,7 +8,6 @@ import de.audi.app.car.common.screenstate.IScreenStateListener;
 import de.audi.app.car.core.light.AbstractIntLightComponent;
 import de.audi.app.car.core.light.IntLightColorListBusiness;
 import de.audi.app.car.core.light.IntLightSetEvaluator;
-import de.audi.app.car.core.light.IntLightSetEvaluator$SingleZoneIdentity;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import org.dsi.ifc.carlight.IntLightViewOptions;
 import org.dsi.ifc.global.CarViewOption;
@@ -16,7 +15,7 @@ import org.dsi.ifc.global.CarViewOption;
 public class IntLightComponentEvo
 extends AbstractIntLightComponent
 implements IScreenStateListener {
-    private static final int INDIVIDUAL_BRIGHTNESS_STEPS;
+    private static final int INDIVIDUAL_BRIGHTNESS_STEPS = 20;
     CarViewOption singleRotaryViewOption = null;
     CarViewOption lastVisible = null;
     boolean isAllSetSyncMode = false;
@@ -25,57 +24,52 @@ implements IScreenStateListener {
         super(iCarApplication);
     }
 
-    @Override
     public void init() {
         super.init();
-        this.getApplication().getScreenStateDispatcher().addScreenStateListener(-567867136, this);
+        this.getApplication().getScreenStateDispatcher().addScreenStateListener(600030, this);
     }
 
-    @Override
     protected void initBusiness() {
         super.initBusiness();
         this.ambientColorListBusiness = new IntLightColorListBusiness(this.getDSI(), this.getLogChannel(), this.ambientColorListModel);
     }
 
-    @Override
     protected int getIndividualBrightnessStepWidth() {
         return 20;
     }
 
-    @Override
     public void deinit() {
-        this.getApplication().getScreenStateDispatcher().removeScreenStateListener(-567867136, this);
+        this.getApplication().getScreenStateDispatcher().removeScreenStateListener(600030, this);
         super.deinit();
     }
 
-    @Override
     protected void updateMenuEntryVisibility(IntLightViewOptions intLightViewOptions, IntLightSetEvaluator intLightSetEvaluator) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[IntLightComponentEvo#updateMenuEntryVisibility] %1", (Object)intLightViewOptions);
-            this.getLogChannel().log(1078071040, "[IntLightComponentEvo#updateMenuEntryVisibility] %1", (Object)intLightSetEvaluator);
+            this.getLogChannel().log(1000000, "[IntLightComponentEvo#updateMenuEntryVisibility] %1", (Object)intLightViewOptions);
+            this.getLogChannel().log(1000000, "[IntLightComponentEvo#updateMenuEntryVisibility] %1", (Object)intLightSetEvaluator);
         }
         boolean bl = this.isIndividualSingle(intLightViewOptions, intLightSetEvaluator);
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(153618688, 1);
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600073, 1);
         if (!bl) {
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-2060973824, this.getMenuEntryVisibilityState(new CarViewOption[]{intLightViewOptions.getIntLightActiveProfile(), intLightViewOptions.getIntLightIlluminationProfile1()}));
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-2044196608, this.getMenuEntryVisibilityState(new CarViewOption[]{intLightViewOptions.getIntLightActiveProfile(), intLightViewOptions.getIntLightIlluminationProfile2()}));
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-2027419392, this.getMenuEntryVisibilityState(new CarViewOption[]{intLightViewOptions.getIntLightActiveProfile(), intLightViewOptions.getIntLightIlluminationProfile3()}));
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-2010642176, this.getMenuEntryVisibilityState(new CarViewOption[]{intLightViewOptions.getIntLightActiveProfile(), intLightViewOptions.getIntLightIlluminationProfile4()}));
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1993864960, this.getMenuEntryVisibilityState(new CarViewOption[]{intLightViewOptions.getIntLightActiveProfile(), intLightViewOptions.getIntLightIlluminationProfile5()}));
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1977087744, this.getMenuEntryVisibilityState(new CarViewOption[]{intLightViewOptions.getIntLightActiveProfile(), intLightViewOptions.getIntLightIlluminationProfile6()}));
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1960310528, this.getMenuEntryVisibilityState(new CarViewOption[]{intLightViewOptions.getIntLightActiveProfile(), intLightViewOptions.getIntLightIlluminationProfile7()}));
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1943533312, this.getMenuEntryVisibilityState(new CarViewOption[]{intLightViewOptions.getIntLightActiveProfile(), intLightViewOptions.getIntLightIlluminationProfile8()}));
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600197, this.getMenuEntryVisibilityState(new CarViewOption[]{intLightViewOptions.getIntLightActiveProfile(), intLightViewOptions.getIntLightIlluminationProfile1()}));
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600198, this.getMenuEntryVisibilityState(new CarViewOption[]{intLightViewOptions.getIntLightActiveProfile(), intLightViewOptions.getIntLightIlluminationProfile2()}));
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600199, this.getMenuEntryVisibilityState(new CarViewOption[]{intLightViewOptions.getIntLightActiveProfile(), intLightViewOptions.getIntLightIlluminationProfile3()}));
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600200, this.getMenuEntryVisibilityState(new CarViewOption[]{intLightViewOptions.getIntLightActiveProfile(), intLightViewOptions.getIntLightIlluminationProfile4()}));
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600201, this.getMenuEntryVisibilityState(new CarViewOption[]{intLightViewOptions.getIntLightActiveProfile(), intLightViewOptions.getIntLightIlluminationProfile5()}));
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600202, this.getMenuEntryVisibilityState(new CarViewOption[]{intLightViewOptions.getIntLightActiveProfile(), intLightViewOptions.getIntLightIlluminationProfile6()}));
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600203, this.getMenuEntryVisibilityState(new CarViewOption[]{intLightViewOptions.getIntLightActiveProfile(), intLightViewOptions.getIntLightIlluminationProfile7()}));
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600204, this.getMenuEntryVisibilityState(new CarViewOption[]{intLightViewOptions.getIntLightActiveProfile(), intLightViewOptions.getIntLightIlluminationProfile8()}));
         } else {
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-2060973824, 1);
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-2044196608, 1);
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-2027419392, 1);
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-2010642176, 1);
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1993864960, 1);
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1977087744, 1);
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1960310528, 1);
-            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(-1943533312, 1);
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600197, 1);
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600198, 1);
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600199, 1);
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600200, 1);
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600201, 1);
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600202, 1);
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600203, 1);
+            this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600204, 1);
         }
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(170395904, this.getMenuEntryVisibilityState(this.singleRotaryViewOption));
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600074, this.getMenuEntryVisibilityState(this.singleRotaryViewOption));
         this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(340, this.getMenuEntryVisibilityState(intLightViewOptions.getIntLightAmbientLightColor()));
         this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(342, this.getMenuEntryVisibilityState(intLightViewOptions.getIntLightContourLightColor()));
         this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(341, this.getMenuEntryVisibilityState(intLightSetEvaluator.getContourBrightnessViewOption()));
@@ -87,7 +81,7 @@ implements IScreenStateListener {
     }
 
     private boolean isIndividualSingle(IntLightViewOptions intLightViewOptions, IntLightSetEvaluator intLightSetEvaluator) {
-        this.getLogChannel().log(1078071040, "[IntLightComponentEvo#isIndividualSingle]");
+        this.getLogChannel().log(1000000, "[IntLightComponentEvo#isIndividualSingle]");
         this.singleRotaryViewOption = new CarViewOption(0, 0);
         int n = this.countVisibleProfiles(intLightViewOptions);
         if (n == 1) {
@@ -95,37 +89,37 @@ implements IScreenStateListener {
             this.setSingleRotaryMode(true, 0);
             this.singleRotaryViewOption = this.lastVisible;
             this.lastVisible = null;
-            this.getLogChannel().log(1078071040, "[IntLightComponentEvo#isIndividualSingle] One profile mode: VO: %1", (Object)this.singleRotaryViewOption);
+            this.getLogChannel().log(1000000, "[IntLightComponentEvo#isIndividualSingle] One profile mode: VO: %1", (Object)this.singleRotaryViewOption);
             return true;
         }
         if (n > 1) {
             this.setProfilesMode(true);
             this.setSingleRotaryMode(false, 0);
             this.lastVisible = null;
-            this.getLogChannel().log(1078071040, "[IntLightComponentEvo#isIndividualSingle] Profiles mode");
+            this.getLogChannel().log(1000000, "[IntLightComponentEvo#isIndividualSingle] Profiles mode");
             return false;
         }
         boolean bl = intLightSetEvaluator.hasAllSetsSyncSet() ? !intLightSetEvaluator.hasStandardSetSet() : intLightSetEvaluator.hasStandardSetSet();
         this.isAllSetSyncMode = intLightSetEvaluator.hasAllSetsSyncSet();
         this.setProfilesMode(!bl);
-        ChoiceModelApp choiceModelApp = this.getApplication().getFrameworkAccess().getHMIService().getChoiceModel(-785381120);
+        ChoiceModelApp choiceModelApp = this.getApplication().getFrameworkAccess().getHMIService().getChoiceModel(602321);
         choiceModelApp.setValue(0);
         if (bl) {
             int n2 = intLightSetEvaluator.getAllSetsSyncSetNumber() + intLightSetEvaluator.getStandardSetSetNumber();
             this.setSingleRotaryMode(false, n2);
             this.setSingleSetViewOptions(n2, intLightViewOptions);
-            this.getLogChannel().log(1078071040, "[IntLightComponentEvo#isIndividualSingle] AllsetSync/Standardset activeSet: %1", (long)n2);
+            this.getLogChannel().log(1000000, "[IntLightComponentEvo#isIndividualSingle] AllsetSync/Standardset activeSet: %1", (long)n2);
             return true;
         }
         if (intLightSetEvaluator.getSingleIlluminatinSetId().getZoneIdentifier() != 0) {
-            IntLightSetEvaluator$SingleZoneIdentity intLightSetEvaluator$SingleZoneIdentity = intLightSetEvaluator.getSingleIlluminatinSetId();
-            choiceModelApp.setValue(intLightSetEvaluator$SingleZoneIdentity.getZoneIdentifier());
-            this.setSingleRotaryMode(false, intLightSetEvaluator$SingleZoneIdentity.getSetNumber());
-            this.setSingleSetViewOptions(intLightSetEvaluator$SingleZoneIdentity.getSetNumber(), intLightViewOptions);
-            this.getLogChannel().log(1078071040, "[IntLightComponentEvo#isIndividualSingle] Single set active, activeSet: %1", (long)intLightSetEvaluator$SingleZoneIdentity.getSetNumber());
+            IntLightSetEvaluator.SingleZoneIdentity singleZoneIdentity = intLightSetEvaluator.getSingleIlluminatinSetId();
+            choiceModelApp.setValue(singleZoneIdentity.getZoneIdentifier());
+            this.setSingleRotaryMode(false, singleZoneIdentity.getSetNumber());
+            this.setSingleSetViewOptions(singleZoneIdentity.getSetNumber(), intLightViewOptions);
+            this.getLogChannel().log(1000000, "[IntLightComponentEvo#isIndividualSingle] Single set active, activeSet: %1", (long)singleZoneIdentity.getSetNumber());
             return true;
         }
-        this.getLogChannel().log(1078071040, "[IntLightComponentEvo#isIndividualSingle] check configuration!");
+        this.getLogChannel().log(1000000, "[IntLightComponentEvo#isIndividualSingle] check configuration!");
         this.setSingleRotaryMode(false, 0);
         return false;
     }
@@ -165,10 +159,10 @@ implements IScreenStateListener {
                 break;
             }
             default: {
-                this.getLogChannel().log(-1601830656, "SetNumber to high or negative or 0!");
+                this.getLogChannel().log(100000, "SetNumber to high or negative or 0!");
             }
         }
-        this.getLogChannel().log(1078071040, "[IntLightComponentEvo#setSingleSetViewOptions] ViewOption: %1", (Object)this.singleRotaryViewOption);
+        this.getLogChannel().log(1000000, "[IntLightComponentEvo#setSingleSetViewOptions] ViewOption: %1", (Object)this.singleRotaryViewOption);
     }
 
     private int countVisibleProfiles(IntLightViewOptions intLightViewOptions) {
@@ -208,19 +202,18 @@ implements IScreenStateListener {
         return n;
     }
 
-    @Override
     protected void initVisibility() {
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(153618688, (short)1);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-2060973824, (short)1);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-2044196608, (short)1);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-2027419392, (short)1);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-2010642176, (short)1);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-1993864960, (short)1);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-1977087744, (short)1);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-1960310528, (short)1);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(-1943533312, (short)1);
-        this.getApplication().getMenuEntryRegistry().registerMenuEntry(170395904, (short)1);
-        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(170395904, 1);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600073, (short)1);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600197, (short)1);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600198, (short)1);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600199, (short)1);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600200, (short)1);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600201, (short)1);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600202, (short)1);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600203, (short)1);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600204, (short)1);
+        this.getApplication().getMenuEntryRegistry().registerMenuEntry(600074, (short)1);
+        this.getApplication().getMenuEntryRegistry().updateMenuEntryVisibility(600074, 1);
         this.getApplication().getMenuEntryRegistry().registerMenuEntry(340, (short)1);
         this.getApplication().getMenuEntryRegistry().registerMenuEntry(341, (short)1);
         this.getApplication().getMenuEntryRegistry().registerMenuEntry(342, (short)1);
@@ -231,18 +224,17 @@ implements IScreenStateListener {
         this.getApplication().getMenuEntryRegistry().registerMenuEntry(347, (short)1);
     }
 
-    @Override
     protected void deinitVisibility() {
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(153618688);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-2060973824);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-2044196608);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-2027419392);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-2010642176);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-1993864960);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-1977087744);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-1960310528);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(-1943533312);
-        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(170395904);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600073);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600197);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600198);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600199);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600200);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600201);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600202);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600203);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600204);
+        this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(600074);
         this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(340);
         this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(341);
         this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(342);
@@ -253,29 +245,24 @@ implements IScreenStateListener {
         this.getApplication().getMenuEntryRegistry().deregisterMenuEntry(347);
     }
 
-    @Override
     public int getID() {
         return 33;
     }
 
-    @Override
     public void notifyScreenVisible(int n) {
     }
 
-    @Override
     public void notifyScreenHidden(int n) {
     }
 
-    @Override
     public void notifyScreenConnected(int n) {
-        if (n == -567867136) {
+        if (n == 600030) {
             this.inOneBrightnessScreen = true;
         }
     }
 
-    @Override
     public void notifyScreenFadedOut(int n) {
-        if (n == -567867136) {
+        if (n == 600030) {
             this.inOneBrightnessScreen = false;
             this.singleRotaryBusiness.resetEventWatcher();
         }

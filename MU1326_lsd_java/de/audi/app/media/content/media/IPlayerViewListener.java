@@ -8,31 +8,24 @@ import de.audi.app.media.dsi.media.MediaListEntry;
 import org.dsi.ifc.global.ResourceLocator;
 
 public interface IPlayerViewListener {
-    public static final int FLAGS_NONE;
-    public static final int FLAGS_NO_PLAYABLE_FILE_AVAILABLE;
-    public static final int FLAGS_METADATA_UPDATE;
-    public static final int FLAGS_COVERART_UPDATE;
-    public static final int FLAG_SYNTHETIC_SUPPRESS_PROPAGATION;
+    public static final int FLAGS_NONE = 0;
+    public static final int FLAGS_NO_PLAYABLE_FILE_AVAILABLE = 1;
+    public static final int FLAGS_METADATA_UPDATE = 2;
+    public static final int FLAGS_COVERART_UPDATE = 4;
+    public static final int FLAG_SYNTHETIC_SUPPRESS_PROPAGATION = 4096;
 
-    default public int getClientID() {
-    }
+    public int getClientID();
 
-    default public void responsePlayView(int n, MediaListEntry[] mediaListEntryArray, int n2) {
-    }
+    public void responsePlayView(int var1, MediaListEntry[] var2, int var3);
 
-    default public void listInvalidated() {
-    }
+    public void listInvalidated();
 
-    default public void listChanged(boolean bl, long l, int n, int n2) {
-    }
+    public void listChanged(boolean var1, long var2, int var4, int var5);
 
-    default public void listChangeOnSelection(boolean bl) {
-    }
+    public void listChangeOnSelection(boolean var1);
 
-    default public void errorListRequestAborted() {
-    }
+    public void errorListRequestAborted();
 
-    default public void notifySameTrackSelected(MediaDetailInfo mediaDetailInfo, ResourceLocator resourceLocator) {
-    }
+    public void notifySameTrackSelected(MediaDetailInfo var1, ResourceLocator var2);
 }
 

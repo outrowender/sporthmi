@@ -7,11 +7,13 @@ import de.audi.app.phone.core.AbstractPhoneComponent;
 import de.audi.app.phone.core.ITelApplication;
 import de.audi.app.phone.core.calllist.AbstractPhoneCall;
 import de.audi.app.phone.core.dsi.ITelDSIMobileEquipmentDeviceState;
+import de.audi.app.phone.core.event.AbstractTelEvent;
+import de.audi.app.phone.core.lang.AbstractTelLangaugeUpdateListener;
 import de.audi.app.phone.core.state.CallStateStruct;
 import de.audi.app.phone.core.state.IGlobalTelephoneStateStruct;
 import de.audi.app.phone.core.util.PhoneUtils;
-import de.audi.app.phone.evo.entertainmentdrawer.EntertainmentDrawaerClosedStatusLineHandler$StatusLineHandlerLanguageUpdateListener;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
+import de.audi.atip.i18n.Language;
 import de.audi.atip.interapp.bap.ecall.data.PhoneCall;
 import de.audi.atip.interapp.phone.IEcallState;
 
@@ -21,24 +23,21 @@ extends AbstractPhoneComponent {
 
     public EntertainmentDrawaerClosedStatusLineHandler(ITelApplication iTelApplication) {
         super(iTelApplication, "App.Phone.EntertainmentDrawer");
-        this.addSubPhoneComponent(new EntertainmentDrawaerClosedStatusLineHandler$StatusLineHandlerLanguageUpdateListener(this, iTelApplication));
+        this.addSubPhoneComponent(new StatusLineHandlerLanguageUpdateListener(iTelApplication));
     }
 
-    @Override
     public void init() {
         super.init();
         this.getApplication().getGlobalTelephoneStateManager().registerListener(this);
     }
 
-    @Override
     public void deinit() {
         super.deinit();
         this.getApplication().getGlobalTelephoneStateManager().removeListener(this);
     }
 
-    @Override
     public void updateGlobalTelephoneStateProperty(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
-        if (n == 0x8000100 || n == 0x8000200 || n == 0x8000300 || n == 0xC000400) {
+        if (n == 65544 || n == 131080 || n == 196616 || n == 262156) {
             this.stateStruct = iGlobalTelephoneStateStruct;
             this.refreshDrawerLabel();
         }
@@ -50,14 +49,14 @@ extends AbstractPhoneComponent {
         } else if (this.stateStruct != null && this.stateStruct.getConnectedGatewayState() != null && this.stateStruct.getConnectedGatewayState().isLowPrioritySOSEmergencyCallType()) {
             this.setupEntartainmentDrawerLabelForLowPrioritySOSCall(this.stateStruct.getConnectedGatewayState());
         } else {
-            this.log.log(-2137614336, "EntertainmentDrawaerClosedStatusLineHandler#updateGlobalTelephoneStateProperty(): customer call is't allowed.");
+            this.log.log(10000000, "EntertainmentDrawaerClosedStatusLineHandler#updateGlobalTelephoneStateProperty(): customer call is't allowed.");
         }
     }
 
     private void setupEntartainmentDrawerLabelForLowPrioritySOSCall(IEcallState iEcallState) {
-        this.log.log(1078071040, "EntertainmentDrawaerClosedStatusLineHandler#setupEntartainmentDrawerLabelForLowPrioritySOSCall()");
+        this.log.log(1000000, "EntertainmentDrawaerClosedStatusLineHandler#setupEntartainmentDrawerLabelForLowPrioritySOSCall()");
         this.setupCallStateIconForEDEcall(iEcallState.getCall());
-        this.getLabelModel(2140603392).setText(PhoneUtils.getSOSCallTextConstant(this.getApplication().geEmergencyTextFactory(), iEcallState.getEmergencyNumberToBeDialed()));
+        this.getLabelModel(300927).setText(PhoneUtils.getSOSCallTextConstant(this.getApplication().geEmergencyTextFactory(), iEcallState.getEmergencyNumberToBeDialed()));
     }
 
     private void setupEntartainmentDrawerLabel(IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
@@ -80,7 +79,7 @@ extends AbstractPhoneComponent {
             } else if (callStateStruct2.isHasOnHoldCall()) {
                 this.refreshUIModelsForCall(iTelDSIMobileEquipmentDeviceState, callStateStruct2.getHeldCall());
             } else {
-                this.log.log(-1601830656, "[EntertainmentDrawaerClosedStatusLineHandler#setupEntartainmentDrawerLabel] NOP %1", (Object)callStateStruct2);
+                this.log.log(100000, "[EntertainmentDrawaerClosedStatusLineHandler#setupEntartainmentDrawerLabel] NOP %1", (Object)callStateStruct2);
             }
         }
     }
@@ -125,17 +124,39 @@ extends AbstractPhoneComponent {
     }
 
     private ChoiceModelApp getEntertainmentDrawerCallStateIconChoiceModel() {
-        return this.getChoiceModel(-1751710720);
+        return this.getChoiceModel(300951);
     }
 
     private void setupTextForEntartainmentDrawerLabel(ITelDSIMobileEquipmentDeviceState iTelDSIMobileEquipmentDeviceState, AbstractPhoneCall abstractPhoneCall) {
         String string = iTelDSIMobileEquipmentDeviceState.getDisplayName(abstractPhoneCall);
-        this.log.log(-2137614336, "EntertainmentDrawaerClosedStatusLineHandler#setupTextForEntartainmentDrawerLabel(): closed status line Text: %1", (Object)string);
-        this.getLabelModel(2140603392).setText(string);
+        this.log.log(10000000, "EntertainmentDrawaerClosedStatusLineHandler#setupTextForEntartainmentDrawerLabel(): closed status line Text: %1", (Object)string);
+        this.getLabelModel(300927).setText(string);
     }
 
-    static /* synthetic */ void access$100(EntertainmentDrawaerClosedStatusLineHandler entertainmentDrawaerClosedStatusLineHandler) {
-        entertainmentDrawaerClosedStatusLineHandler.refreshDrawerLabel();
+    private static class CallStateIconValues {
+        public static final int ACTIVE_CALL = 0;
+        public static final int HELD_CALL = 1;
+        public static final int NO_CALL = 2;
+
+        private CallStateIconValues() {
+        }
+    }
+
+    private class StatusLineHandlerLanguageUpdateListener
+    extends AbstractTelLangaugeUpdateListener {
+        public StatusLineHandlerLanguageUpdateListener(ITelApplication iTelApplication) {
+            super(iTelApplication, "App.Phone.EntertainmentDrawer");
+        }
+
+        public void setLanguage(Language language) {
+            this.log.log(1000000, "[EntertainmentDrawaerClosedStatusLineHandler.StatusLineHandlerLanguageUpdateListener#setLanguage] refreshing 'conference' text value.");
+            this.getApplication().enqueueEvent(new AbstractTelEvent("StatusLineHandlerLanguageUpdateListener", "refreshing 'conference' text value."){
+
+                public void run() {
+                    EntertainmentDrawaerClosedStatusLineHandler.this.refreshDrawerLabel();
+                }
+            });
+        }
     }
 }
 

@@ -6,19 +6,14 @@ package de.audi.atip.hmi.model;
 import de.audi.atip.hmi.model.ListRow;
 
 public interface AbstractListModelListener {
-    default public void itemFocused(int n, ListRow listRow, int n2, int n3) {
-    }
+    public void itemFocused(int var1, ListRow var2, int var3, int var4);
 
-    default public void itemSelected(int n, ListRow listRow, int n2) {
-    }
+    public void itemSelected(int var1, ListRow var2, int var3);
 
-    default public void rebuildListFromStart(int n, int n2) {
-    }
+    public void rebuildListFromStart(int var1, int var2);
 
-    default public void rebuildListFromEnd(int n, int n2) {
-    }
+    public void rebuildListFromEnd(int var1, int var2);
 
-    default public void scrollingActive(int n, boolean bl, int n2) {
-    }
+    public void scrollingActive(int var1, boolean var2, int var3);
 }
 

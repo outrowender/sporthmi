@@ -29,13 +29,12 @@ extends AbstractGetEntryCommand {
         this.adbSearch = aDBSearch;
     }
 
-    @Override
     protected boolean handleGetEntryResult(AdbEntry adbEntry) {
         if (adbEntry == null) {
             this.logger.log(10000, "SetListDetailsCommand#handleGetEntryResult(): entry is null");
             return false;
         }
-        this.logger.log(1078071040, "SetListDetailsCommand#handleGetEntryResult(): entry: %1", (Object)ADBDbgUtils.dbgShort(adbEntry));
+        this.logger.log(1000000, "SetListDetailsCommand#handleGetEntryResult(): entry: %1", (Object)ADBDbgUtils.dbgShort(adbEntry));
         ADBEntryDetailsListRow[] aDBEntryDetailsListRowArray = null;
         switch (this.adbMode) {
             case 0: {

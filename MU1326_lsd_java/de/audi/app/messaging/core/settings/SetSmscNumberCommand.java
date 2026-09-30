@@ -6,7 +6,6 @@ package de.audi.app.messaging.core.settings;
 import de.audi.app.messaging.core.application.AbstractMsgApplication;
 import de.audi.app.messaging.core.commands.ICommandCallback;
 import de.audi.app.messaging.core.dsi.messagingconfig.AbstractDsiMessagingConfigCommand;
-import de.audi.app.messaging.core.settings.SetSmscNumberCommand$Result;
 
 public final class SetSmscNumberCommand
 extends AbstractDsiMessagingConfigCommand {
@@ -24,9 +23,8 @@ extends AbstractDsiMessagingConfigCommand {
         return this.oldSmscNumber;
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-2137614336, "[SetSmscNumberCommand#execute]");
+        this.logger.log(10000000, "[SetSmscNumberCommand#execute]");
         try {
             this.dsiMessagingConfigAccess.setSMSCNumberRequest(this.smscNumber);
         }
@@ -36,10 +34,21 @@ extends AbstractDsiMessagingConfigCommand {
         }
     }
 
-    @Override
     public void setSMSCNumberResponse(int n) {
-        this.logger.log(-2137614336, "[SetSmscNumberCommand#setSMSCNumberResponse] result = %1", (long)n);
-        this.setResult(new SetSmscNumberCommand$Result(this, n, null));
+        this.logger.log(10000000, "[SetSmscNumberCommand#setSMSCNumberResponse] result = %1", (long)n);
+        this.setResult(new Result(n));
+    }
+
+    public final class Result {
+        private final int resultCode;
+
+        private Result(int n) {
+            this.resultCode = n;
+        }
+
+        public int getResultCode() {
+            return this.resultCode;
+        }
     }
 }
 

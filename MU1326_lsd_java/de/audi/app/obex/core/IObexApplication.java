@@ -7,8 +7,8 @@ import de.audi.app.connectivity.core.IApplication;
 
 public interface IObexApplication
 extends IApplication {
-    public static final String MODULE_NAME;
-    public static final String LOGCHANNEL;
-    public static final String LOGCHANNEL_CMD;
+    public static final String MODULE_NAME = "AppObex";
+    public static final String LOGCHANNEL = "App.Obex.Main";
+    public static final String LOGCHANNEL_CMD = "App.Obex.Commands";
 }
 

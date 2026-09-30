@@ -135,103 +135,103 @@ public class ADBDbgUtils {
     public static String dbgValidFlag(int n) {
         switch (n) {
             case 1: {
-                return new StringBuffer().append(n).append(" (valid)").toString();
+                return n + " (valid)";
             }
             case 2: {
-                return new StringBuffer().append(n).append(" (invalid)").toString();
+                return n + " (invalid)";
             }
         }
-        return new StringBuffer().append(n).append(" (unknown)").toString();
+        return n + " (unknown)";
     }
 
     public static String dbgSuccessFlag(int n) {
         switch (n) {
             case 0: {
-                return new StringBuffer().append(n).append(" (OK)").toString();
+                return n + " (OK)";
             }
             case 1: {
-                return new StringBuffer().append(n).append(" (Internal Error)").toString();
+                return n + " (Internal Error)";
             }
             case 2: {
-                return new StringBuffer().append(n).append(" (Wrong Parameter)").toString();
+                return n + " (Wrong Parameter)";
             }
             case 3: {
-                return new StringBuffer().append(n).append(" (Wrong State)").toString();
+                return n + " (Wrong State)";
             }
             case 4: {
-                return new StringBuffer().append(n).append(" (Function Unavailable)").toString();
+                return n + " (Function Unavailable)";
             }
             case 5: {
-                return new StringBuffer().append(n).append(" (Full Entries)").toString();
+                return n + " (Full Entries)";
             }
             case 6: {
-                return new StringBuffer().append(n).append(" (Full Mem)").toString();
+                return n + " (Full Mem)";
             }
         }
-        return new StringBuffer().append(n).append(" (unknown)").toString();
+        return n + " (unknown)";
     }
 
     public static String dbgAdbState(int n) {
         switch (n) {
             case 1: {
-                return new StringBuffer().append(n).append(" (init)").toString();
+                return n + " (init)";
             }
             case 2: {
-                return new StringBuffer().append(n).append(" (ready)").toString();
+                return n + " (ready)";
             }
             case 3: {
-                return new StringBuffer().append(n).append(" (shutdown)").toString();
+                return n + " (shutdown)";
             }
             case 0: {
-                return new StringBuffer().append(n).append(" (undefined)").toString();
+                return n + " (undefined)";
             }
         }
-        return new StringBuffer().append(n).append(" (unknown)").toString();
+        return n + " (unknown)";
     }
 
     public static String dbgEntryType(int n) {
         switch (n) {
             case 0: {
-                return new StringBuffer().append(n).append(" (LOC)").toString();
+                return n + " (LOC)";
             }
             case 1: {
-                return new StringBuffer().append(n).append(" (ME)").toString();
+                return n + " (ME)";
             }
             case 2: {
-                return new StringBuffer().append(n).append(" (SIM)").toString();
+                return n + " (SIM)";
             }
             case 3: {
-                return new StringBuffer().append(n).append(" (OPP)").toString();
+                return n + " (OPP)";
             }
             case 4: {
-                return new StringBuffer().append(n).append(" (COM)").toString();
+                return n + " (COM)";
             }
         }
-        return new StringBuffer().append(n).append(" (unknown)").toString();
+        return n + " (unknown)";
     }
 
     public static String dbgInvalidDataReason(int n) {
         switch (n) {
             case 4: {
-                return new StringBuffer().append(n).append(" (new filter)").toString();
+                return n + " (new filter)";
             }
             case 3: {
-                return new StringBuffer().append(n).append(" (new sort order)").toString();
+                return n + " (new sort order)";
             }
             case 5: {
-                return new StringBuffer().append(n).append(" (opp finished)").toString();
+                return n + " (opp finished)";
             }
             case 2: {
-                return new StringBuffer().append(n).append(" (download complete)").toString();
+                return n + " (download complete)";
             }
             case 1: {
-                return new StringBuffer().append(n).append(" (profile switch)").toString();
+                return n + " (profile switch)";
             }
             case 0: {
-                return new StringBuffer().append(n).append(" (unspecific)").toString();
+                return n + " (unspecific)";
             }
         }
-        return new StringBuffer().append(n).append(" (unknown)").toString();
+        return n + " (unknown)";
     }
 
     public static String dbg(EntryMeter[] entryMeterArray) {
@@ -250,106 +250,106 @@ public class ADBDbgUtils {
     public static String dbgMovement(int n) {
         switch (n) {
             case 0: {
-                return new StringBuffer().append(n).append(" (current page)").toString();
+                return n + " (current page)";
             }
             case 3: {
-                return new StringBuffer().append(n).append(" (current plus previous page)").toString();
+                return n + " (current plus previous page)";
             }
             case 4: {
-                return new StringBuffer().append(n).append(" (first page)").toString();
+                return n + " (first page)";
             }
             case 6: {
-                return new StringBuffer().append(n).append(" (goto position)").toString();
+                return n + " (goto position)";
             }
             case 5: {
-                return new StringBuffer().append(n).append(" (last page)").toString();
+                return n + " (last page)";
             }
             case 1: {
-                return new StringBuffer().append(n).append(" (next page)").toString();
+                return n + " (next page)";
             }
             case 2: {
-                return new StringBuffer().append(n).append(" (previous page)").toString();
+                return n + " (previous page)";
             }
         }
-        return new StringBuffer().append(n).append(" (unknown)").toString();
+        return n + " (unknown)";
     }
 
     public static String dbgViewType(int n) {
         switch (n) {
             case 0: {
-                return new StringBuffer().append(n).append(" (all)").toString();
+                return n + " (all)";
             }
             case 6: {
-                return new StringBuffer().append(n).append(" (com)").toString();
+                return n + " (com)";
             }
             case 7: {
-                return new StringBuffer().append(n).append(" (loc)").toString();
+                return n + " (loc)";
             }
             case 8: {
-                return new StringBuffer().append(n).append(" (me)").toString();
+                return n + " (me)";
             }
             case 2: {
-                return new StringBuffer().append(n).append(" (navi)").toString();
+                return n + " (navi)";
             }
             case 10: {
-                return new StringBuffer().append(n).append(" (opp)").toString();
+                return n + " (opp)";
             }
             case 1: {
-                return new StringBuffer().append(n).append(" (phone)").toString();
+                return n + " (phone)";
             }
             case 9: {
-                return new StringBuffer().append(n).append(" (sim)").toString();
+                return n + " (sim)";
             }
             case 4: {
-                return new StringBuffer().append(n).append(" (speed dials)").toString();
+                return n + " (speed dials)";
             }
             case 3: {
-                return new StringBuffer().append(n).append(" (top destinations)").toString();
+                return n + " (top destinations)";
             }
             case 5: {
-                return new StringBuffer().append(n).append(" (vt)").toString();
+                return n + " (vt)";
             }
             case 12: {
-                return new StringBuffer().append(n).append(" (sd card 1)").toString();
+                return n + " (sd card 1)";
             }
             case 13: {
-                return new StringBuffer().append(n).append(" (sd card 2)").toString();
+                return n + " (sd card 2)";
             }
             case 11: {
-                return new StringBuffer().append(n).append(" (usb stick)").toString();
+                return n + " (usb stick)";
             }
         }
-        return new StringBuffer().append(n).append(" (unknown)").toString();
+        return n + " (unknown)";
     }
 
     public static String dbgStartupState(int n) {
         switch (n) {
             case 1: {
-                return new StringBuffer().append(n).append(" (DSIAdbList available)").toString();
+                return n + " (DSIAdbList available)";
             }
             case 4: {
-                return new StringBuffer().append(n).append(" (profile info received)").toString();
+                return n + " (profile info received)";
             }
             case 8: {
-                return new StringBuffer().append(n).append(" (DSIAdbInit available)").toString();
+                return n + " (DSIAdbInit available)";
             }
             case 16: {
-                return new StringBuffer().append(n).append(" (adb state init received)").toString();
+                return n + " (adb state init received)";
             }
             case 32: {
-                return new StringBuffer().append(n).append(" (adb state ready received)").toString();
+                return n + " (adb state ready received)";
             }
             case 64: {
-                return new StringBuffer().append(n).append(" (DSIAdbEdit available)").toString();
+                return n + " (DSIAdbEdit available)";
             }
             case 128: {
-                return new StringBuffer().append(n).append(" (DSIAdbSetup available)").toString();
+                return n + " (DSIAdbSetup available)";
             }
             case 256: {
-                return new StringBuffer().append(n).append(" (DSIAdbVCardExchange available)").toString();
+                return n + " (DSIAdbVCardExchange available)";
             }
         }
-        return new StringBuffer().append(n).append(" (unknown)").toString();
+        return n + " (unknown)";
     }
 
     public static String dbg(ResourceLocator[] resourceLocatorArray) {
@@ -376,135 +376,135 @@ public class ADBDbgUtils {
     public static String dbgFailureReason(int n) {
         switch (n) {
             case 0: {
-                return new StringBuffer().append(n).append(" (OK)").toString();
+                return n + " (OK)";
             }
             case 1: {
-                return new StringBuffer().append(n).append(" (adb full entries)").toString();
+                return n + " (adb full entries)";
             }
             case 2: {
-                return new StringBuffer().append(n).append(" (adb full mem)").toString();
+                return n + " (adb full mem)";
             }
             case 3: {
-                return new StringBuffer().append(n).append(" (media removed)").toString();
+                return n + " (media removed)";
             }
             case 4: {
-                return new StringBuffer().append(n).append(" (media readonly)").toString();
+                return n + " (media readonly)";
             }
             case 5: {
-                return new StringBuffer().append(n).append(" (wrong format)").toString();
+                return n + " (wrong format)";
             }
             case 6: {
-                return new StringBuffer().append(n).append(" (duplicates)").toString();
+                return n + " (duplicates)";
             }
             case 7: {
-                return new StringBuffer().append(n).append(" (invalid location)").toString();
+                return n + " (invalid location)";
             }
             case 8: {
-                return new StringBuffer().append(n).append(" (bt lost)").toString();
+                return n + " (bt lost)";
             }
         }
-        return new StringBuffer().append(n).append(" (unknown)").toString();
+        return n + " (unknown)";
     }
 
     public static int getLLDbg(int n) {
-        return n == 1 ? -2137614336 : 14808325;
+        return n == 1 ? 10000000 : 100000000;
     }
 
     public static int getLLInfo(int n) {
-        return n == 1 ? 1078071040 : 14808325;
+        return n == 1 ? 1000000 : 100000000;
     }
 
     public static String dbgAdbMode(int n) {
         switch (n) {
             case 0: {
-                return new StringBuffer().append(n).append(" (tel)").toString();
+                return n + " (tel)";
             }
             case 1: {
-                return new StringBuffer().append(n).append(" (nav)").toString();
+                return n + " (nav)";
             }
             case 2: {
-                return new StringBuffer().append(n).append(" (mail)").toString();
+                return n + " (mail)";
             }
         }
-        return new StringBuffer().append(n).append(" (unknown)").toString();
+        return n + " (unknown)";
     }
 
     public static String dbgSortOrder(int n) {
         switch (n) {
             case 0: {
-                return new StringBuffer().append(n).append(" (default, not to be used!)").toString();
+                return n + " (default, not to be used!)";
             }
             case 2: {
-                return new StringBuffer().append(n).append(" (firstname lastname)").toString();
+                return n + " (firstname lastname)";
             }
             case 3: {
-                return new StringBuffer().append(n).append(" (lastname, firstname)").toString();
+                return n + " (lastname, firstname)";
             }
             case 1: {
-                return new StringBuffer().append(n).append(" (name firstname)").toString();
+                return n + " (name firstname)";
             }
         }
-        return new StringBuffer().append(n).append(" (unknown)").toString();
+        return n + " (unknown)";
     }
 
     public static String dbgDownloadState(int n) {
         switch (n) {
             case 0: {
-                return new StringBuffer().append(n).append(" (pending)").toString();
+                return n + " (pending)";
             }
             case 1: {
-                return new StringBuffer().append(n).append(" (active all)").toString();
+                return n + " (active all)";
             }
             case 2: {
-                return new StringBuffer().append(n).append(" (active contacts first)").toString();
+                return n + " (active contacts first)";
             }
             case 3: {
-                return new StringBuffer().append(n).append(" (active pictures)").toString();
+                return n + " (active pictures)";
             }
             case 4: {
-                return new StringBuffer().append(n).append(" (finished new data)").toString();
+                return n + " (finished new data)";
             }
             case 5: {
-                return new StringBuffer().append(n).append(" (finished unchanged)").toString();
+                return n + " (finished unchanged)";
             }
             case 6: {
-                return new StringBuffer().append(n).append(" (unfinished)").toString();
+                return n + " (unfinished)";
             }
         }
-        return new StringBuffer().append(n).append(" (unknown)").toString();
+        return n + " (unknown)";
     }
 
     public static String dbgAdbSDSServiceResultCode(int n) {
         switch (n) {
             case 0: {
-                return new StringBuffer().append(n).append(" (RESULT_OK)").toString();
+                return n + " (RESULT_OK)";
             }
             case 1: {
-                return new StringBuffer().append(n).append(" (RESULT_ERROR)").toString();
+                return n + " (RESULT_ERROR)";
             }
         }
-        return new StringBuffer().append(n).append(" (unknown)").toString();
+        return n + " (unknown)";
     }
 
     public static String dbgCombiPbState(int n) {
         switch (n) {
             case 0: {
-                return new StringBuffer().append(n).append(" (DOWNLOAD_STATE_NO_PHONE_BOOK_AVAILABLE)").toString();
+                return n + " (DOWNLOAD_STATE_NO_PHONE_BOOK_AVAILABLE)";
             }
             case 1: {
-                return new StringBuffer().append(n).append(" (DOWNLOAD_STATE_CURRENTLY_BEING_LOADED)").toString();
+                return n + " (DOWNLOAD_STATE_CURRENTLY_BEING_LOADED)";
             }
             case 2: {
-                return new StringBuffer().append(n).append(" (DOWNLOAD_STATE_COMPLETELY_LOADED_FROM_MOBILE_TO_UHV)").toString();
+                return n + " (DOWNLOAD_STATE_COMPLETELY_LOADED_FROM_MOBILE_TO_UHV)";
             }
             case 3: {
-                return new StringBuffer().append(n).append(" (DOWNLOAD_STATE_INCOMPLETELY_LOADED_DOWNLOADED_ENTRIES_AVAILABLE)").toString();
+                return n + " (DOWNLOAD_STATE_INCOMPLETELY_LOADED_DOWNLOADED_ENTRIES_AVAILABLE)";
             }
             case 4: {
-                return new StringBuffer().append(n).append(" (DOWNLOAD_STATE_DOWNLOAD_ABORTED_ONLY_TEMPORARY_INDICATION)").toString();
+                return n + " (DOWNLOAD_STATE_DOWNLOAD_ABORTED_ONLY_TEMPORARY_INDICATION)";
             }
         }
-        return new StringBuffer().append(n).append(" (unknown)").toString();
+        return n + " (unknown)";
     }
 }
 

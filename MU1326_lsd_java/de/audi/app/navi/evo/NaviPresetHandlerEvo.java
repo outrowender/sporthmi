@@ -22,27 +22,25 @@ extends NaviPresetHandler {
         this.createExtractors(searchResultAsyncNavLocationExtractor);
     }
 
-    @Override
     public int getType() {
         return 1;
     }
 
-    @Override
     public int[] getModelIds() {
-        return new int[]{220202496, -1239480832, -937359872, -1541470720, 0x200600, -518060544, -870316544, 1310721536, -1390344704, -1340013056, DIScreensEvo.getDiEuCityZipScreenTiledListModel(), DIScreensEvo.getDiEuStreetScreenTiledListModel(), DIScreensEvo.getDiEuRefinementScreenTiledListModel(), DIScreensEvo.getDiEuHousenumberMatchSpellerScreenTiledListModel(), DIScreensEvo.getDiEuJunctionScreenTiledListModel(), DIScreensEvo.getDiJpPrefectureScreenTiledListModel(), DIScreensEvo.getDiJpPlacenameScreenTiledListModel(), DIScreensEvo.getDiJpWardScreenTiledListModel(), DIScreensEvo.getDiJpChomeScreenTiledListModel(), DIScreensEvo.getDiKrProvinceScreenTiledListModel(), DIScreensEvo.getDiKrCityScreenTiledListModel(), DIScreensEvo.getDiKrWardScreenTiledListModel(), DIScreensEvo.getDiKrTownStreetScreenTiledListModel(), PoiScreensEvo.getPoiResultScreeNoSpellerListModel(), PoiScreensEvo.getPoiResultScreenWithSpellerListModel(), PoiScreensEvo.getPoiResultScreenWithMatchSpellerTiledListModel(), PoiScreensEvo.getPoiBrandResultScreenNoSpellerListModel(), PoiScreensEvo.getPoiParentChildResultScreenListModel(), -635566592, -1625356800, -1860041216, -1809709568, 2065761792};
+        return new int[]{401421, 401334, 401864, 401316, 401408, 401377, 401612, 401486, 401837, 401840, DIScreensEvo.getDiEuCityZipScreenTiledListModel(), DIScreensEvo.getDiEuStreetScreenTiledListModel(), DIScreensEvo.getDiEuRefinementScreenTiledListModel(), DIScreensEvo.getDiEuHousenumberMatchSpellerScreenTiledListModel(), DIScreensEvo.getDiEuJunctionScreenTiledListModel(), DIScreensEvo.getDiJpPrefectureScreenTiledListModel(), DIScreensEvo.getDiJpPlacenameScreenTiledListModel(), DIScreensEvo.getDiJpWardScreenTiledListModel(), DIScreensEvo.getDiJpChomeScreenTiledListModel(), DIScreensEvo.getDiKrProvinceScreenTiledListModel(), DIScreensEvo.getDiKrCityScreenTiledListModel(), DIScreensEvo.getDiKrWardScreenTiledListModel(), DIScreensEvo.getDiKrTownStreetScreenTiledListModel(), PoiScreensEvo.getPoiResultScreeNoSpellerListModel(), PoiScreensEvo.getPoiResultScreenWithSpellerListModel(), PoiScreensEvo.getPoiResultScreenWithMatchSpellerTiledListModel(), PoiScreensEvo.getPoiBrandResultScreenNoSpellerListModel(), PoiScreensEvo.getPoiParentChildResultScreenListModel(), 401114, 401311, 402065, 402068, 401787};
     }
 
     private final void createExtractors(SearchResultAsyncNavLocationExtractor searchResultAsyncNavLocationExtractor) {
         NaviFavoriteEvoNavLocationExtractor naviFavoriteEvoNavLocationExtractor = new NaviFavoriteEvoNavLocationExtractor(this.commandListFactory);
-        this.registerRowExtractor(-1239480832, naviFavoriteEvoNavLocationExtractor);
-        this.registerRowExtractor(-937359872, naviFavoriteEvoNavLocationExtractor);
+        this.registerRowExtractor(401334, naviFavoriteEvoNavLocationExtractor);
+        this.registerRowExtractor(401864, naviFavoriteEvoNavLocationExtractor);
         SearchResultNavLocationExtractor searchResultNavLocationExtractor = new SearchResultNavLocationExtractor(searchResultAsyncNavLocationExtractor);
-        this.registerRowExtractor(-1541470720, searchResultNavLocationExtractor);
-        this.registerRowExtractor(0x200600, searchResultNavLocationExtractor);
-        this.registerRowExtractor(-518060544, searchResultNavLocationExtractor);
-        this.registerRowExtractor(-870316544, searchResultNavLocationExtractor);
-        this.registerRowExtractor(1310721536, searchResultNavLocationExtractor);
-        this.registerRowExtractor(220202496, searchResultNavLocationExtractor);
+        this.registerRowExtractor(401316, searchResultNavLocationExtractor);
+        this.registerRowExtractor(401408, searchResultNavLocationExtractor);
+        this.registerRowExtractor(401377, searchResultNavLocationExtractor);
+        this.registerRowExtractor(401612, searchResultNavLocationExtractor);
+        this.registerRowExtractor(401486, searchResultNavLocationExtractor);
+        this.registerRowExtractor(401421, searchResultNavLocationExtractor);
         LiValueListNavLocationExtractor liValueListNavLocationExtractor = new LiValueListNavLocationExtractor(this.commandListFactory);
         this.registerRowExtractor(DIScreensEvo.getDiEuCityZipScreenTiledListModel(), liValueListNavLocationExtractor);
         this.registerRowExtractor(DIScreensEvo.getDiEuStreetScreenTiledListModel(), liValueListNavLocationExtractor);
@@ -58,18 +56,18 @@ extends NaviPresetHandler {
         this.registerRowExtractor(DIScreensEvo.getDiKrCityScreenTiledListModel(), liValueListNavLocationExtractor);
         this.registerRowExtractor(DIScreensEvo.getDiKrWardScreenTiledListModel(), liValueListNavLocationExtractor);
         this.registerRowExtractor(DIScreensEvo.getDiKrTownStreetScreenTiledListModel(), liValueListNavLocationExtractor);
-        this.registerRowExtractor(-1390344704, liValueListNavLocationExtractor);
-        this.registerRowExtractor(-1340013056, liValueListNavLocationExtractor);
+        this.registerRowExtractor(401837, liValueListNavLocationExtractor);
+        this.registerRowExtractor(401840, liValueListNavLocationExtractor);
         this.registerRowExtractor(PoiScreensEvo.getPoiParentChildResultScreenListModel(), liValueListNavLocationExtractor);
         this.registerRowExtractor(PoiScreensEvo.getPoiResultScreenWithSpellerListModel(), liValueListNavLocationExtractor);
         this.registerRowExtractor(PoiScreensEvo.getPoiResultScreenWithMatchSpellerTiledListModel(), liValueListNavLocationExtractor);
         this.registerRowExtractor(PoiScreensEvo.getPoiBrandResultScreenNoSpellerListModel(), liValueListNavLocationExtractor);
         this.registerRowExtractor(PoiScreensEvo.getPoiResultScreeNoSpellerListModel(), liValueListNavLocationExtractor);
-        this.registerRowExtractor(-635566592, liValueListNavLocationExtractor);
-        this.registerRowExtractor(-1625356800, liValueListNavLocationExtractor);
-        this.registerRowExtractor(-1860041216, liValueListNavLocationExtractor);
-        this.registerRowExtractor(-1809709568, liValueListNavLocationExtractor);
-        this.registerRowExtractor(2065761792, liValueListNavLocationExtractor);
+        this.registerRowExtractor(401114, liValueListNavLocationExtractor);
+        this.registerRowExtractor(401311, liValueListNavLocationExtractor);
+        this.registerRowExtractor(402065, liValueListNavLocationExtractor);
+        this.registerRowExtractor(402068, liValueListNavLocationExtractor);
+        this.registerRowExtractor(401787, liValueListNavLocationExtractor);
     }
 }
 

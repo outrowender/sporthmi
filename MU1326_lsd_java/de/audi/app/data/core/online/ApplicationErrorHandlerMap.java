@@ -65,7 +65,6 @@ extends AbstractApplicationErrorHandler {
         this.orange = annoyingOrange;
     }
 
-    @Override
     void updateErrorState(int n, int n2) {
         this.errorMmi = n;
         this.errorShown = false;
@@ -74,12 +73,10 @@ extends AbstractApplicationErrorHandler {
         }
     }
 
-    @Override
     void updateApplicationState(int n, boolean bl, boolean bl2) {
         this.active = n == 2;
     }
 
-    @Override
     void notifyErrorShown(int n, int n2) {
         boolean bl = this.errorMmi == n2 && n2 != 14;
         boolean bl2 = this.errorShown = n == 0 || bl ? true : this.errorShown;
@@ -88,7 +85,6 @@ extends AbstractApplicationErrorHandler {
         }
     }
 
-    @Override
     boolean isActionRequired() {
         return this.active && ApplicationErrorHandlerMap.isError(this.errorMmi) && !this.errorShown && this.orange.isStartupOverAndClampOn() && !this.isReconnectBlocking() && !this.errorSuppressed(this.errorMmi);
     }

@@ -3,7 +3,6 @@
  */
 package de.audi.app.navi.evo.online.myaudi;
 
-import de.audi.app.navi.evo.online.myaudi.DestinationImportHandlerEvo$1;
 import de.audi.app.navi.evo.online.myaudi.DestinationImportListenerEvo;
 import de.audi.atip.hmi.model.ListCell;
 import de.audi.atip.hmi.model.TextListCell;
@@ -34,9 +33,8 @@ extends NaviMyAudiImportImpl {
         this.destinationImportListener = new DestinationImportListenerEvo(navigationEnv, this);
     }
 
-    @Override
     public void fillEntryDetailsModels(OnlineAdbEntry onlineAdbEntry) {
-        this.logChannel.log(-2137614336, "%1#fillEntryDetailsModels() - entry=%2", (Object)this.CLASS_NAME, (Object)onlineAdbEntry);
+        this.logChannel.log(10000000, "%1#fillEntryDetailsModels() - entry=%2", (Object)this.CLASS_NAME, (Object)onlineAdbEntry);
         AdbEntry adbEntry = onlineAdbEntry.getAdbEntry();
         String string = onlineAdbEntry.getAdditionalDescription();
         this.currentSelectedBusinessDestination = null;
@@ -70,20 +68,19 @@ extends NaviMyAudiImportImpl {
         }
         NaviMyAudiImportUtil.fillTelNumberList(adbEntry, this.telephoneNumbersListModel, this.logChannel);
         if (Util.isEmpty(string)) {
-            this.logChannel.log(-2137614336, "%1#fillEntryDetailsModels - no additional information available", (Object)this.CLASS_NAME);
-            this.env.getChoiceModel(-702478848).setValue(0);
+            this.logChannel.log(10000000, "%1#fillEntryDetailsModels - no additional information available", (Object)this.CLASS_NAME);
+            this.env.getChoiceModel(401878).setValue(0);
         } else {
-            this.logChannel.log(-2137614336, "%1#fillEntryDetailsModels - additional information available", (Object)this.CLASS_NAME);
-            this.env.getChoiceModel(-702478848).setValue(1);
+            this.logChannel.log(10000000, "%1#fillEntryDetailsModels - additional information available", (Object)this.CLASS_NAME);
+            this.env.getChoiceModel(401878).setValue(1);
             this.additionalInfoLabel.setText(string);
         }
     }
 
-    @Override
     protected void fillResultListModel(OnlineAdbEntry[] onlineAdbEntryArray) {
         for (int i2 = 0; i2 < onlineAdbEntryArray.length; ++i2) {
             OnlineAdbEntry onlineAdbEntry = onlineAdbEntryArray[i2];
-            this.logChannel.log(-2137614336, "%1#storeAddressList - appending listmodel with entry=%2, isImport", (Object)this.CLASS_NAME, (Object)onlineAdbEntry.getAdbEntry(), (Object)new Boolean(onlineAdbEntry.isImport()));
+            this.logChannel.log(10000000, "%1#storeAddressList - appending listmodel with entry=%2, isImport", (Object)this.CLASS_NAME, (Object)onlineAdbEntry.getAdbEntry(), (Object)new Boolean(onlineAdbEntry.isImport()));
             EvoListRow evoListRow = new EvoListRow(i2, 4);
             onlineAdbEntry.setRowId(i2);
             evoListRow.setText(1, onlineAdbEntry.getAdbEntry().getCombinedName());
@@ -93,7 +90,6 @@ extends NaviMyAudiImportImpl {
         }
     }
 
-    @Override
     public void updateAddressList(OnlineAdbEntry[] onlineAdbEntryArray) {
         for (int i2 = 0; i2 < onlineAdbEntryArray.length; ++i2) {
             OnlineAdbEntry onlineAdbEntry = onlineAdbEntryArray[i2];
@@ -104,28 +100,32 @@ extends NaviMyAudiImportImpl {
         }
     }
 
-    @Override
     public void saveInAddressBook() {
-        this.env.getChoiceModel(1310852608).setValue(0);
+        this.env.getChoiceModel(401998).setValue(0);
         this.memoryErrorAppeard = false;
         this.importedEntries = 0;
         this.notImportedAdbEntries.clear();
         CommandList commandList = this.commandListFactory.createCommandList();
-        this.logChannel.log(-2137614336, "%1#saveInAddressBook", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#saveInAddressBook", (Object)this.CLASS_NAME);
         if (this.adbHmiAppService != null) {
             int n = this.myAudiResultList.getLength();
             for (int i2 = 0; i2 < n; ++i2) {
                 OnlineAdbEntry onlineAdbEntry = (OnlineAdbEntry)this.adbEntries.get(i2);
-                this.logChannel.log(-2137614336, "%1#saveInAddressBook - creating command entry=%2 import: %3", (Object)this.CLASS_NAME, (Object)onlineAdbEntry, (Object)new Boolean(onlineAdbEntry.isImport()));
+                this.logChannel.log(10000000, "%1#saveInAddressBook - creating command entry=%2 import: %3", (Object)this.CLASS_NAME, (Object)onlineAdbEntry, (Object)new Boolean(onlineAdbEntry.isImport()));
                 if (!onlineAdbEntry.isImport()) continue;
                 if (this.importedAdbEntries.contains(new Long(onlineAdbEntry.getAdbEntry().getEntryId()))) {
-                    this.logChannel.log(-2137614336, "%1#saveInAddressBook - entry was already imported %2", (Object)this.CLASS_NAME, (Object)onlineAdbEntry);
+                    this.logChannel.log(10000000, "%1#saveInAddressBook - entry was already imported %2", (Object)this.CLASS_NAME, (Object)onlineAdbEntry);
                     continue;
                 }
-                NaviMyAudiSaveToAdbCommand naviMyAudiSaveToAdbCommand = new NaviMyAudiSaveToAdbCommand(this.logChannel, onlineAdbEntry.getAdbEntry(), this.adbHmiAppService, new DestinationImportHandlerEvo$1(this));
+                NaviMyAudiSaveToAdbCommand naviMyAudiSaveToAdbCommand = new NaviMyAudiSaveToAdbCommand(this.logChannel, onlineAdbEntry.getAdbEntry(), this.adbHmiAppService, new NaviMyAudiSaveToAdbCommand.IAdbImportListener(){
+
+                    public void adbImportResult(long l, boolean bl, boolean bl2, boolean bl3) {
+                        DestinationImportHandlerEvo.this.checkCurrentImportStatus(l, bl, bl2, bl3);
+                    }
+                });
                 commandList.add(naviMyAudiSaveToAdbCommand);
             }
-            this.logChannel.log(1078071040, "%1#saveInAddressBook - executing saveInAdbCommandList. Size: %1", (long)commandList.size());
+            this.logChannel.log(1000000, "%1#saveInAddressBook - executing saveInAdbCommandList. Size: %1", (long)commandList.size());
             if (commandList.size() == 0) {
                 this.resultOkWithoutContacts();
                 return;

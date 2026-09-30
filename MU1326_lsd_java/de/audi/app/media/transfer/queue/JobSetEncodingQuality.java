@@ -12,7 +12,7 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class JobSetEncodingQuality
 extends AbstractJobTransfer {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "TransferJobSetEncodingQuality";
     private final int encodingQuality;
 
     public JobSetEncodingQuality(LogChannel logChannel, TransferController transferController, MediaDSIRecorderControllerImpl mediaDSIRecorderControllerImpl, AbstractMediaBrowser abstractMediaBrowser, int n) {
@@ -20,17 +20,14 @@ extends AbstractJobTransfer {
         this.encodingQuality = n;
     }
 
-    @Override
     public int getType() {
         return 1;
     }
 
-    @Override
     public String getName() {
         return "SetEncodingQuality";
     }
 
-    @Override
     public void start() {
         int n = 0;
         switch (this.encodingQuality) {
@@ -46,32 +43,28 @@ extends AbstractJobTransfer {
         this.getMediaDSIRecorder().setEncodingQuality(n);
     }
 
-    @Override
     public void abort(boolean bl) {
-        this.logger.log(1078071040, "[%1.abort]", (Object)"TransferJobSetEncodingQuality");
+        this.logger.log(1000000, "[%1.abort]", (Object)LOGCLASS);
         if (bl) {
             this.getTransferController().removeTransferState(4);
             this.getMediaDSIRecorder().abortImport();
         }
     }
 
-    @Override
     public void asyncException(int n, int n2) {
-        this.logger.log(-1601830656, "[%1.asyncException] requestType='%2' errorCode='%3'", (Object)"TransferJobSetEncodingQuality", (long)n, (long)n2);
+        this.logger.log(100000, "[%1.asyncException] requestType='%2' errorCode='%3'", (Object)LOGCLASS, (long)n, (long)n2);
         this.getTransferListener().encodingQualityChanged(true, -1);
     }
 
-    @Override
     public void encodingQualityChanged(int n) {
-        this.logger.log(1078071040, "[%1.encodingQualityChanged]", (Object)"TransferJobSetEncodingQuality");
+        this.logger.log(1000000, "[%1.encodingQualityChanged]", (Object)LOGCLASS);
         this.getTransferListener().encodingQualityChanged(false, n);
         this.getTransferController().setTransferState(4);
         this.jobFinished();
     }
 
-    @Override
     public void importStatusChanged(int n) {
-        this.logger.log(1078071040, "[%1.importStatusChanged]", (Object)"TransferJobSetEncodingQuality");
+        this.logger.log(1000000, "[%1.importStatusChanged]", (Object)LOGCLASS);
         if (0 == n) {
             this.getTransferController().setTransferState(1);
             this.getTransferListener().readyForTransfer();
@@ -79,9 +72,8 @@ extends AbstractJobTransfer {
         }
     }
 
-    @Override
     public void deletionStatusChanged(int n) {
-        this.logger.log(1078071040, "[%1.deletionStatusChanged]", (Object)"TransferJobSetEncodingQuality");
+        this.logger.log(1000000, "[%1.deletionStatusChanged]", (Object)LOGCLASS);
         if (0 == n) {
             this.getTransferController().setTransferState(1);
             this.getTransferListener().readyForTransfer();
@@ -89,7 +81,6 @@ extends AbstractJobTransfer {
         }
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer();
         buffer.append("[name=");

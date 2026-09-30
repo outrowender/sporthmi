@@ -18,7 +18,6 @@ implements IAudioFocusManager {
         this.level = n;
     }
 
-    @Override
     public void setActiveAudioApp(int n, int n2) {
         this.lc.log(this.level, "-> [IAudioFocusManager.setActiveAudioApp] terminalId %2, appId %1", (Object)IAudioFocusManagerLoggingDecorator.appIdToString(n2), (long)n);
         this.wrappee.setActiveAudioApp(n, n2);

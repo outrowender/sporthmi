@@ -6,13 +6,22 @@ package de.audi.app.messaging.core.compose;
 import de.audi.app.messaging.core.recipients.RecipientListRow;
 
 public interface ISelectedRecipientListObserver {
-    default public void indicateRecipientsCleared() {
-    }
+    public void indicateRecipientsCleared();
 
-    default public void indicateRecipientsAdded(RecipientListRow[] recipientListRowArray) {
-    }
+    public void indicateRecipientsAdded(RecipientListRow[] var1);
 
-    default public void indicateRecipientsRemoved(RecipientListRow[] recipientListRowArray) {
+    public void indicateRecipientsRemoved(RecipientListRow[] var1);
+
+    public static class EmptyImplementation
+    implements ISelectedRecipientListObserver {
+        public void indicateRecipientsCleared() {
+        }
+
+        public void indicateRecipientsAdded(RecipientListRow[] recipientListRowArray) {
+        }
+
+        public void indicateRecipientsRemoved(RecipientListRow[] recipientListRowArray) {
+        }
     }
 }
 

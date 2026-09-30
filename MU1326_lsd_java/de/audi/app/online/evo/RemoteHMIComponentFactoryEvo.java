@@ -19,32 +19,26 @@ import de.audi.tghu.online.app.remotehmi.sds.HMISpeechTTSListener;
 
 public class RemoteHMIComponentFactoryEvo
 extends RemoteHMIComponentFactory {
-    @Override
     public ContextManagerComponent createContextManagerComponent() {
         return new ContextManagerComponentEvo();
     }
 
-    @Override
     public NaviComponent createNaviComponent() {
         return new NaviComponentEvo();
     }
 
-    @Override
     public HMISpeechASRListener createASRListener() {
         return new HMISpeechASRListenerEvo();
     }
 
-    @Override
     public HMISpeechTTSListener createTTSComponent() {
         return new HMISpeechTTSListenerEvo();
     }
 
-    @Override
     public RemoteHMIBrowserComponent createBrowserComponent() {
         return new RemoteHMIBrowserComponentEvo();
     }
 
-    @Override
     public RemoteHMIAnimationComponent createAnimationComponent() {
         return new RemoteHMIAnimationComponentEvo();
     }

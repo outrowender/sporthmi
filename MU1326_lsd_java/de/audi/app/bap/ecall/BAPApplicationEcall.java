@@ -13,7 +13,6 @@ extends AbstractBAPApplication {
         super(iFrameworkAccess, new LoggerEcall(iFrameworkAccess));
     }
 
-    @Override
     public String getName() {
         return "Ecall";
     }

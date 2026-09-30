@@ -6,18 +6,19 @@ package de.audi.app.phone.evo.intellicall;
 import de.audi.app.phone.core.ITelApplication;
 import de.audi.app.phone.core.callstacks.AbstractCallStackEntryRow;
 import de.audi.app.phone.core.callstacks.AbstractCallStackHandler;
+import de.audi.app.phone.core.dsi.TelDefaultDSIResponseListener;
 import de.audi.app.phone.core.interapp.TelMessagingServiceHandler;
+import de.audi.app.phone.core.model.TelDefaultButtonListener;
 import de.audi.app.phone.core.util.PhoneUtils;
 import de.audi.app.phone.core.util.TelLoggingUtils;
 import de.audi.app.phone.evo.ITelEvoApplication;
 import de.audi.app.phone.evo.callstacks.TelEvoCallStackRow;
-import de.audi.app.phone.evo.intellicall.IntellicallCombinedCallStackHandler$1;
-import de.audi.app.phone.evo.intellicall.IntellicallCombinedCallStackHandler$DeleteAllCallStacksButtonListener;
 import de.audi.atip.hmi.model.BaseListRow;
 import de.audi.atip.hmi.model.OptionModelListener;
 import de.audi.atip.hmi.modelaccess.ListModelApp;
 import de.audi.atip.interapp.phone.TelFavoriteStruct;
 import org.dsi.ifc.telephoneng.CallStackEntry;
+import org.dsi.ifc.telephoneng.SuppServiceResponseStruct;
 
 public class IntellicallCombinedCallStackHandler
 extends AbstractCallStackHandler
@@ -28,60 +29,54 @@ implements OptionModelListener {
         super((ITelApplication)iTelEvoApplication, 10);
         this.messagingServiceHandler = new TelMessagingServiceHandler(iTelEvoApplication);
         this.addSubPhoneComponent(this.messagingServiceHandler);
-        this.addSubPhoneComponent(new IntellicallCombinedCallStackHandler$DeleteAllCallStacksButtonListener(this, iTelEvoApplication));
+        this.addSubPhoneComponent(new DeleteAllCallStacksButtonListener(iTelEvoApplication));
     }
 
-    @Override
     public void init() {
         super.init();
-        this.getOptionModel(-946469888).setListener(this, -1718287360);
-        this.getOptionModel(-1751776256).setListener(this, -1718287360);
-        this.getOptionModel(-1198128128).setListener(this, -1718287360);
-        this.getOptionModel(379061248).setListener(this, -1718287360);
-        this.getOptionModel(-996801536).setListener(this, -1718287360);
-        this.getOptionModel(680985600).setListener(this, -1718287360);
-        this.getOptionModel(664208384).setListener(this, -1718287360);
-        this.getOptionModel(-1936391168).setListener(this, -1718287360);
-        this.getOptionModel(-1936391168).setListener(this, -1265302528);
-        this.getOptionModel(680985600).setListener(this, -1265302528);
-        this.getOptionModel(-1751776256).setListener(this, -1265302528);
+        this.getOptionModel(300743).setListener(this, 300441);
+        this.getOptionModel(300695).setListener(this, 300441);
+        this.getOptionModel(300728).setListener(this, 300441);
+        this.getOptionModel(301078).setListener(this, 300441);
+        this.getOptionModel(300740).setListener(this, 300441);
+        this.getOptionModel(300840).setListener(this, 300441);
+        this.getOptionModel(300839).setListener(this, 300441);
+        this.getOptionModel(300428).setListener(this, 300441);
+        this.getOptionModel(300428).setListener(this, 300468);
+        this.getOptionModel(300840).setListener(this, 300468);
+        this.getOptionModel(300695).setListener(this, 300468);
     }
 
-    @Override
     public void deinit() {
         super.deinit();
-        this.getOptionModel(-946469888).removeListener(-1718287360);
-        this.getOptionModel(-1751776256).removeListener(-1718287360);
-        this.getOptionModel(-1198128128).removeListener(-1718287360);
-        this.getOptionModel(379061248).removeListener(-1718287360);
-        this.getOptionModel(-996801536).removeListener(-1718287360);
-        this.getOptionModel(680985600).removeListener(-1718287360);
-        this.getOptionModel(664208384).removeListener(-1718287360);
-        this.getOptionModel(-1936391168).removeListener(-1718287360);
-        this.getOptionModel(-1936391168).removeListener(-1265302528);
-        this.getOptionModel(680985600).removeListener(-1265302528);
-        this.getOptionModel(-1751776256).removeListener(-1265302528);
+        this.getOptionModel(300743).removeListener(300441);
+        this.getOptionModel(300695).removeListener(300441);
+        this.getOptionModel(300728).removeListener(300441);
+        this.getOptionModel(301078).removeListener(300441);
+        this.getOptionModel(300740).removeListener(300441);
+        this.getOptionModel(300840).removeListener(300441);
+        this.getOptionModel(300839).removeListener(300441);
+        this.getOptionModel(300428).removeListener(300441);
+        this.getOptionModel(300428).removeListener(300468);
+        this.getOptionModel(300840).removeListener(300468);
+        this.getOptionModel(300695).removeListener(300468);
     }
 
-    @Override
     protected ListModelApp getCombinedNumbersList() {
-        return this.getListModel(-1718287360);
+        return this.getListModel(300441);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3, int n4, int n5) {
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3, int n4, int n5) {
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3, int n4, int n5) {
         if (this.log.isInfo()) {
-            this.log.log(1078071040, "[IntellicallCombinedCallStackHandler#keyTyped] %1", (Object)TelLoggingUtils.keyTypedOption(n, n2, n3, n4, n5));
+            this.log.log(1000000, "[IntellicallCombinedCallStackHandler#keyTyped] %1", (Object)TelLoggingUtils.keyTypedOption(n, n2, n3, n4, n5));
         }
-        if (n2 == -1718287360) {
+        if (n2 == 300441) {
             TelEvoCallStackRow telEvoCallStackRow = (TelEvoCallStackRow)this.getListModel(n2).getRow(n3);
             String string = telEvoCallStackRow.getDisplayName();
             CallStackEntry callStackEntry = telEvoCallStackRow.getCallStackEntry();
@@ -93,7 +88,7 @@ implements OptionModelListener {
                 }
                 case 300695: {
                     ((ITelEvoApplication)this.getApplication()).getFavoriteHandler().addToFavorites(new TelFavoriteStruct(PhoneUtils.getDisplayName(string, string2), string2, callStackEntry.getAdbNumberType()));
-                    this.getOptionModel(-1751776256).fireEvent(n5);
+                    this.getOptionModel(300695).fireEvent(n5);
                     break;
                 }
                 case 300728: {
@@ -106,9 +101,9 @@ implements OptionModelListener {
                 }
                 case 300740: {
                     if (string2 == null) break;
-                    this.getButtonModel(1922368512).setStatus(string2.length() > 0 ? 1 : 0);
-                    this.getSpellerModel(-2003434496).setText(string2);
-                    this.getOptionModel(-996801536).fireEvent(n5);
+                    this.getButtonModel(300402).setStatus(string2.length() > 0 ? 1 : 0);
+                    this.getSpellerModel(300680).setText(string2);
+                    this.getOptionModel(300740).fireEvent(n5);
                     break;
                 }
                 case 300743: {
@@ -129,8 +124,8 @@ implements OptionModelListener {
                     break;
                 }
             }
-        } else if (n2 == -1265302528) {
-            String string = this.getLabelModel(-1282079744).getText();
+        } else if (n2 == 300468) {
+            String string = this.getLabelModel(300467).getText();
             switch (n) {
                 case 300428: {
                     ((ITelEvoApplication)this.getApplication()).getIntellicallHandler().dialNumber(string, n5);
@@ -138,7 +133,7 @@ implements OptionModelListener {
                 }
                 case 300695: {
                     ((ITelEvoApplication)this.getApplication()).getFavoriteHandler().addToFavorites(new TelFavoriteStruct(string, string, 0));
-                    this.getOptionModel(-1751776256).fireEvent(n5);
+                    this.getOptionModel(300695).fireEvent(n5);
                     break;
                 }
                 case 300840: {
@@ -148,16 +143,22 @@ implements OptionModelListener {
                 }
             }
         } else {
-            this.log.log(1078071040, "[IntellicallCombinedCallStackHandler#keyTyped] NOP!");
+            this.log.log(1000000, "[IntellicallCombinedCallStackHandler#keyTyped] NOP!");
         }
     }
 
-    @Override
-    protected void callEntry(CallStackEntry callStackEntry, int n) {
+    protected void callEntry(final CallStackEntry callStackEntry, int n) {
         if (callStackEntry != null) {
-            ((ITelEvoApplication)this.getApplication()).getIntellicallHandler().dialNumberFromCallStackEntry(callStackEntry, n, new IntellicallCombinedCallStackHandler$1(this, callStackEntry));
+            ((ITelEvoApplication)this.getApplication()).getIntellicallHandler().dialNumberFromCallStackEntry(callStackEntry, n, new TelDefaultDSIResponseListener(){
+
+                public void responseDialNumber(int n, int n2, SuppServiceResponseStruct suppServiceResponseStruct, int n3) {
+                    if (n == 0) {
+                        IntellicallCombinedCallStackHandler.this.callStackEntryDialed(callStackEntry);
+                    }
+                }
+            });
         } else {
-            this.log.log(-1601830656, "[IntellicallCombinedCallStackHandler#keyTyped] no call stack entry available!");
+            this.log.log(100000, "[IntellicallCombinedCallStackHandler#keyTyped] no call stack entry available!");
         }
     }
 
@@ -172,7 +173,7 @@ implements OptionModelListener {
                 this.messagingServiceHandler.prepareSendSMS(string);
             }
         } else {
-            this.log.log(-1601830656, "[IntellicallCombinedCallStackHandler#prepareSendSMS] no call stack entry available!");
+            this.log.log(100000, "[IntellicallCombinedCallStackHandler#prepareSendSMS] no call stack entry available!");
         }
     }
 
@@ -180,35 +181,28 @@ implements OptionModelListener {
         this.messagingServiceHandler.prepareSendEmail(l);
     }
 
-    @Override
     protected void callStackEntryDialed(CallStackEntry callStackEntry) {
-        this.log.log(-2137614336, "IntellicallCombinedCallStackHandler#callStackEntryDialed(): entry=%1", (Object)callStackEntry);
+        this.log.log(10000000, "IntellicallCombinedCallStackHandler#callStackEntryDialed(): entry=%1", (Object)callStackEntry);
         PhoneUtils.triggerJumpToPhone(this.getApplication().getFrameworkAccess().getHmiServiceApp());
     }
 
-    @Override
     protected void updateMissedNumbers(CallStackEntry[] callStackEntryArray) {
     }
 
-    @Override
     protected void updateLastAnsweredNumbers(CallStackEntry[] callStackEntryArray) {
     }
 
-    @Override
     protected void updateLastDialedNumbers(CallStackEntry[] callStackEntryArray) {
     }
 
-    @Override
     protected BaseListRow getCallStackRow(CallStackEntry callStackEntry) {
         return new TelEvoCallStackRow(callStackEntry, this.log, this.telephoneState);
     }
 
-    @Override
     protected void callStackEntrySelected(int n, AbstractCallStackEntryRow abstractCallStackEntryRow, int n2, int n3) {
         this.callEntry(abstractCallStackEntryRow.getCallStackEntry(), n3);
     }
 
-    @Override
     protected void updateCallStackEntries() {
         CallStackEntry[] callStackEntryArray = this.telephoneState.getCombinedCallStackEntries();
         if (callStackEntryArray != null) {
@@ -216,8 +210,20 @@ implements OptionModelListener {
         }
     }
 
-    @Override
     public void customAction(int n, int n2, int n3, int n4, int n5) {
+    }
+
+    private class DeleteAllCallStacksButtonListener
+    extends TelDefaultButtonListener {
+        public DeleteAllCallStacksButtonListener(ITelApplication iTelApplication) {
+            super(iTelApplication, 300727);
+        }
+
+        public void keyTyped(int n, int n2, int n3) {
+            this.log.log(1000000, "[IntellicallCombinedCallStackHandler.DeleteAllCallStacksButtonListener#keyTyped] deleting all call stacks.");
+            this.getApplication().getTelephoneDSIAccess().deleteAllCallStacks(3, n3);
+            this.fireEvent(n3);
+        }
     }
 }
 

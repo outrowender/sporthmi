@@ -15,7 +15,7 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public class JobActivateSource
 extends AbstractJobTransfer {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "TransferJobActivateSource";
     private final ISourceSlot slot;
     private final ISourceSlot activeSlot;
     private volatile boolean isAborted = false;
@@ -26,55 +26,48 @@ extends AbstractJobTransfer {
         this.activeSlot = iSourceSlot2;
     }
 
-    @Override
     public int getType() {
         return 2;
     }
 
-    @Override
     public String getName() {
         return "ActivateSource";
     }
 
-    @Override
     public void browserActivated(ISourceSlot iSourceSlot, IBrowseListContext iBrowseListContext) {
-        this.logger.log(1078071040, "[%1.browserActivated]", (Object)"TransferJobActivateSource");
+        this.logger.log(1000000, "[%1.browserActivated]", (Object)LOGCLASS);
         this.getTransferController().setTransferState(2);
         this.getTransferListener().activationSuccessful(iSourceSlot, iBrowseListContext);
         this.jobFinished();
     }
 
-    @Override
     public void browserDeactivated(ISourceSlot iSourceSlot) {
-        this.logger.log(1078071040, "[%1.browserDeactivated]", (Object)"TransferJobActivateSource");
+        this.logger.log(1000000, "[%1.browserDeactivated]", (Object)LOGCLASS);
         this.getTransferListener().activationFailed(iSourceSlot);
         this.getTransferBrowser().deactivate();
         this.jobFinished();
     }
 
-    @Override
     public void sourceSlotActivated(MediaSourceSlot mediaSourceSlot) {
-        this.logger.log(1078071040, "[%1.sourceSlotActivated]", (Object)"TransferJobActivateSource");
+        this.logger.log(1000000, "[%1.sourceSlotActivated]", (Object)LOGCLASS);
         if (!((Object)this.slot).equals(mediaSourceSlot)) {
             this.getTransferListener().activationFailed(this.slot);
         }
     }
 
-    @Override
     public void asyncException(int n, int n2) {
         switch (n) {
             case 1000: {
-                this.logger.log(-1601830656, "[%1.asyncException] setActiveMedia: function not supported. Activation failed.", (Object)"TransferJobActivateSource");
+                this.logger.log(100000, "[%1.asyncException] setActiveMedia: function not supported. Activation failed.", (Object)LOGCLASS);
                 this.getTransferListener().activationFailed(this.slot);
                 break;
             }
             default: {
-                this.logger.log(-1601830656, "[%1.asyncException] No handling of exception supported at this point.", (Object)"TransferJobActivateSource");
+                this.logger.log(100000, "[%1.asyncException] No handling of exception supported at this point.", (Object)LOGCLASS);
             }
         }
     }
 
-    @Override
     public void importStatusChanged(int n) {
         switch (n) {
             case 7: {
@@ -90,7 +83,6 @@ extends AbstractJobTransfer {
         }
     }
 
-    @Override
     public void deletionStatusChanged(int n) {
         switch (n) {
             case 7: {
@@ -106,26 +98,24 @@ extends AbstractJobTransfer {
         }
     }
 
-    @Override
     public void start() {
         if (!this.slot.isLoaded()) {
-            this.logger.log(1078071040, "[%1.start] Slot is %2, activation failed.", (Object)"TransferJobActivateSource", (Object)(this.slot.isLoading() || this.slot.isReloading() ? "on loading" : "empty"));
+            this.logger.log(1000000, "[%1.start] Slot is %2, activation failed.", (Object)LOGCLASS, (Object)(this.slot.isLoading() || this.slot.isReloading() ? "on loading" : "empty"));
             this.getTransferListener().activationFailed(this.slot);
             this.jobFinished();
             return;
         }
         if (((Object)this.slot).equals(this.activeSlot)) {
-            this.logger.log(1078071040, "[%1.start] Activate the browser.", (Object)"TransferJobActivateSource");
+            this.logger.log(1000000, "[%1.start] Activate the browser.", (Object)LOGCLASS);
             this.getTransferBrowser().activate(this.slot);
         } else {
-            this.logger.log(1078071040, "[%1.start] Activate slot on recorder.", (Object)"TransferJobActivateSource");
+            this.logger.log(1000000, "[%1.start] Activate slot on recorder.", (Object)LOGCLASS);
             this.getMediaDSIRecorder().setActiveMedia((MediaSourceSlot)this.slot);
         }
     }
 
-    @Override
     public void abort(boolean bl) {
-        this.logger.log(1078071040, "[%1.abort]", (Object)"TransferJobActivateSource");
+        this.logger.log(1000000, "[%1.abort]", (Object)LOGCLASS);
         if (bl) {
             this.isAborted = true;
             this.getMediaDSIRecorder().abortDelete();
@@ -134,7 +124,6 @@ extends AbstractJobTransfer {
         }
     }
 
-    @Override
     public String toString() {
         Buffer buffer = new Buffer();
         buffer.append("[name=");

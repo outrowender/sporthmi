@@ -4,15 +4,14 @@
 package de.audi.app.earlyfunc.core.hybrid;
 
 import de.audi.app.earlyfunc.core.hybrid.ChargePopupHandler;
-import de.audi.app.earlyfunc.core.hybrid.GoodbyePopupHKTimerController$1;
 import de.audi.atip.base.IFrameworkAccess;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.timer.Timer;
 import de.audi.atip.timer.TimerListener;
 
 public class GoodbyePopupHKTimerController {
-    private static final long GOODBYE_POPUP_TIMEOUT;
-    private static final long GOODBYE_POPUP_EXTENDED_TIMEOUT;
+    private static final long GOODBYE_POPUP_TIMEOUT = 120000L;
+    private static final long GOODBYE_POPUP_EXTENDED_TIMEOUT = 240000L;
     private ChargePopupHandler popupHandler = null;
     private IFrameworkAccess framework;
     private LogChannel logChannel = null;
@@ -39,19 +38,19 @@ public class GoodbyePopupHKTimerController {
     public synchronized void resetActivated() {
         if (this.timerCanceledPrematurely) {
             long l;
-            int n;
+            long l2;
             if (this.timer != null) {
                 this.timer.cancel();
             }
-            if ((n = 0 - (l = this.framework.getMonotonicTime() - this.start)) > 0L) {
-                this.timer = new Timer("GOODBYE_POPUP_EXTENDED_TIMER", n, true, this.createTimerListener());
+            if ((l2 = 240000L - (l = this.framework.getMonotonicTime() - this.start)) > 0L) {
+                this.timer = new Timer("GOODBYE_POPUP_EXTENDED_TIMER", l2, true, this.createTimerListener());
                 this.timer.start();
             }
         } else {
             if (this.timer != null) {
                 this.timer.cancel();
             }
-            this.timer = new Timer("GOODBYE_POPUP_TIMER", 0, true, this.createTimerListener());
+            this.timer = new Timer("GOODBYE_POPUP_TIMER", 120000L, true, this.createTimerListener());
             this.timer.start();
             this.start = this.framework.getMonotonicTime();
             this.timerCanceledPrematurely = true;
@@ -59,17 +58,22 @@ public class GoodbyePopupHKTimerController {
     }
 
     private TimerListener createTimerListener() {
-        GoodbyePopupHKTimerController$1 goodbyePopupHKTimerController$1 = new GoodbyePopupHKTimerController$1(this);
-        return goodbyePopupHKTimerController$1;
-    }
+        TimerListener timerListener = new TimerListener(){
+            private boolean shouldFire = true;
 
-    static /* synthetic */ ChargePopupHandler access$000(GoodbyePopupHKTimerController goodbyePopupHKTimerController) {
-        return goodbyePopupHKTimerController.popupHandler;
-    }
+            public void fireTimer(Timer timer) {
+                if (this.shouldFire) {
+                    GoodbyePopupHKTimerController.this.popupHandler.removePopup();
+                    GoodbyePopupHKTimerController.this.timerCanceledPrematurely = false;
+                }
+            }
 
-    static /* synthetic */ boolean access$102(GoodbyePopupHKTimerController goodbyePopupHKTimerController, boolean bl) {
-        goodbyePopupHKTimerController.timerCanceledPrematurely = bl;
-        return goodbyePopupHKTimerController.timerCanceledPrematurely;
+            public void cancelTimer(Timer timer) {
+                this.shouldFire = false;
+                GoodbyePopupHKTimerController.this.timerCanceledPrematurely = true;
+            }
+        };
+        return timerListener;
     }
 }
 

@@ -20,15 +20,14 @@ extends Range2DModelEventBusinessAdapter {
         this.focus = intLightCurrentFocus;
     }
 
-    @Override
     public boolean processKeyTyped(int n, ButtonModelHandler buttonModelHandler) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[IntLightRange2DBusiness#processKeyTyped] Key has been typed");
+            this.getLogChannel().log(1000000, "[IntLightRange2DBusiness#processKeyTyped] Key has been typed");
         }
         Range2DModelHandler range2DModelHandler = (Range2DModelHandler)buttonModelHandler;
-        this.getLogChannel().log(1078071040, "[IntLightRange2DBusiness#processKeyTyped] last profile: %1 current focus on %2 -> mappedProfile %3", (long)range2DModelHandler.getRange2DModel().getValueX(), (long)this.focus.getFocus(), (long)this.profileMapping[this.focus.getFocus()]);
+        this.getLogChannel().log(1000000, "[IntLightRange2DBusiness#processKeyTyped] last profile: %1 current focus on %2 -> mappedProfile %3", (long)range2DModelHandler.getRange2DModel().getValueX(), (long)this.focus.getFocus(), (long)this.profileMapping[this.focus.getFocus()]);
         if (range2DModelHandler.getRange2DModel().getValueX() != this.focus.getFocus()) {
-            this.getLogChannel().log(1078071040, "dsi.setIntLightActiveProfile %1", (long)this.focus.getFocus());
+            this.getLogChannel().log(1000000, "dsi.setIntLightActiveProfile %1", (long)this.focus.getFocus());
             this.getDSICarLight().setIntLightActiveProfile(this.focus.getFocus());
         } else {
             buttonModelHandler.fireEvent();

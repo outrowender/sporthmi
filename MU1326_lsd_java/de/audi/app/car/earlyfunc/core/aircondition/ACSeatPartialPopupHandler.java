@@ -12,12 +12,11 @@ import de.audi.atip.log.LogChannel;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map$Entry;
 import org.dsi.ifc.caraircondition.AirconContent;
 
 public class ACSeatPartialPopupHandler
 implements IPartialPopupListener {
-    public static final int POPUP_INVALID;
+    public static final int POPUP_INVALID = -1;
     private final ICarApplication application;
     private final AbstractACSeatPopupComponent component;
     private final LogChannel logChannel;
@@ -49,7 +48,7 @@ implements IPartialPopupListener {
     private void initServiceProvider(int[] nArray) {
         this.popinIDsForCallbacks = nArray;
         this.partialPopinServiceProvider = new CarServiceProvider((class$de$audi$atip$hmi$view$IPartialPopupListener == null ? (class$de$audi$atip$hmi$view$IPartialPopupListener = ACSeatPartialPopupHandler.class$("de.audi.atip.hmi.view.IPartialPopupListener")) : class$de$audi$atip$hmi$view$IPartialPopupListener).getName(), this, null, this.application.getBundleContext(), this.logChannel);
-        this.logChannel.log(1078071040, "[ACSeatPartialPopupHandler#initServiceProvider] start IPartialPopupListener Service");
+        this.logChannel.log(1000000, "[ACSeatPartialPopupHandler#initServiceProvider] start IPartialPopupListener Service");
         this.partialPopinServiceProvider.startService();
     }
 
@@ -60,9 +59,8 @@ implements IPartialPopupListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void partialPopupVisible(int n, int n2) {
-        this.logChannel.log(1078071040, "[ACSeatPartialPopupHandler#partialPopupVisible] id = %1", (long)n);
+        this.logChannel.log(1000000, "[ACSeatPartialPopupHandler#partialPopupVisible] id = %1", (long)n);
         boolean bl = false;
         Object object = this.mutex;
         synchronized (object) {
@@ -70,16 +68,16 @@ implements IPartialPopupListener {
             if (this.visiblePPIDs.containsKey(n3) && this.get(this.visiblePPIDs, n3) != n) {
                 this.visiblePPIDs.put(n3, new Integer(n));
                 this.pendingPPIDsForShow.remove(n3);
-                this.logChannel.log(1078071040, "[ACSeatPartialPopupHandler#partialPopupVisible] Zone:%1 HMI(%2)->APP(): not sending show to FSG", (Object)n3, (long)n);
+                this.logChannel.log(1000000, "[ACSeatPartialPopupHandler#partialPopupVisible] Zone:%1 HMI(%2)->APP(): not sending show to FSG", (Object)n3, (long)n);
             } else {
                 this.visiblePPIDs.put(n3, new Integer(n));
                 this.pendingPPIDsForShow.remove(n3);
                 if (!this.isWaitRequired(this.pendingPPIDsForShow, n3)) {
-                    this.logChannel.log(1078071040, "[ACSeatPartialPopupHandler#partialPopupVisible] Zone:%1 HMI(%2)->APP(): showAirconPopup", (Object)n3, (long)n);
+                    this.logChannel.log(1000000, "[ACSeatPartialPopupHandler#partialPopupVisible] Zone:%1 HMI(%2)->APP(): showAirconPopup", (Object)n3, (long)n);
                     AirconContent airconContent = this.builAirconContent(this.visiblePPIDs);
                     this.component.showAirconPopup(airconContent);
                 } else {
-                    this.logChannel.log(1078071040, "[ACSeatPartialPopupHandler#partialPopupVisible] Zone:%1 HMI(%2)->APP(): waiting for mirror popup", (Object)n3, (long)n);
+                    this.logChannel.log(1000000, "[ACSeatPartialPopupHandler#partialPopupVisible] Zone:%1 HMI(%2)->APP(): waiting for mirror popup", (Object)n3, (long)n);
                 }
             }
             if (this.pendingPPIDsForShow.isEmpty()) {
@@ -94,15 +92,14 @@ implements IPartialPopupListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void partialPopupHidden(int n, int n2) {
-        this.logChannel.log(1078071040, "[ACSeatPartialPopupHandler#partialPopupHidden] id = %1", (long)n);
+        this.logChannel.log(1000000, "[ACSeatPartialPopupHandler#partialPopupHidden] id = %1", (long)n);
         boolean bl = false;
         Object object = this.mutex;
         synchronized (object) {
             Integer n3 = new Integer(this.component.getZoneFromPPID(n));
             if (this.pendingPPIDsForShow.containsKey(n3) && this.get(this.pendingPPIDsForShow, n3) == n && (!this.visiblePPIDs.containsKey(n3) || this.get(this.visiblePPIDs, n3) != n)) {
-                this.logChannel.log(1078071040, "[ACSeatPartialPopupHandler#partialPopupHidden] Zone:%1 HMI(%2)->APP(): showAirconPopup - NONE", (Object)n3, (long)n);
+                this.logChannel.log(1000000, "[ACSeatPartialPopupHandler#partialPopupHidden] Zone:%1 HMI(%2)->APP(): showAirconPopup - NONE", (Object)n3, (long)n);
                 this.pendingPPIDsForShow.remove(n3);
                 if (this.pendingPPIDsForShow.isEmpty()) {
                     AirconContent airconContent = this.builAirconContent(this.visiblePPIDs);
@@ -122,21 +119,20 @@ implements IPartialPopupListener {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void partialPopupRemoved(int n, int n2) {
-        this.logChannel.log(1078071040, "[ACSeatPartialPopupHandler#partialPopupRemoved] id = %1", (long)n);
+        this.logChannel.log(1000000, "[ACSeatPartialPopupHandler#partialPopupRemoved] id = %1", (long)n);
         boolean bl = false;
         Object object = this.mutex;
         synchronized (object) {
             Integer n3 = new Integer(this.component.getZoneFromPPID(n));
             if (this.pendingPPIDsForShow.containsKey(n3)) {
-                this.logChannel.log(1078071040, "[ACSeatPartialPopupHandler#partialPopupRemoved] Zone:%1 HMI(%2)->APP(): not sending cancel to FSG", (Object)n3, (long)n);
+                this.logChannel.log(1000000, "[ACSeatPartialPopupHandler#partialPopupRemoved] Zone:%1 HMI(%2)->APP(): not sending cancel to FSG", (Object)n3, (long)n);
                 if (this.pendingPPIDsForCancel.containsKey(n3) && this.get(this.pendingPPIDsForCancel, n3) == n) {
-                    this.logChannel.log(1078071040, "[ACSeatPartialPopupHandler#partialPopupRemoved] Zone:%1 HMI(%2)->APP(): euque needed for pendingPPIDsForCancel, because popup has been canceled");
+                    this.logChannel.log(1000000, "[ACSeatPartialPopupHandler#partialPopupRemoved] Zone:%1 HMI(%2)->APP(): euque needed for pendingPPIDsForCancel, because popup has been canceled");
                     this.pendingPPIDsForCancel.remove(n3);
                 }
                 if (this.get(this.pendingPPIDsForShow, n3) == n) {
-                    this.logChannel.log(1078071040, "[ACSeatPartialPopupHandler#partialPopupRemoved] Zone:%1 HMI(%2)->APP(): euque needed for pendingPPIDsForShow, because popup has been canceled");
+                    this.logChannel.log(1000000, "[ACSeatPartialPopupHandler#partialPopupRemoved] Zone:%1 HMI(%2)->APP(): euque needed for pendingPPIDsForShow, because popup has been canceled");
                     this.pendingPPIDsForShow.remove(n3);
                 }
                 if (this.pendingPPIDsForCancel.isEmpty() && this.pendingPPIDsForShow.isEmpty() || this.visiblePPIDs.isEmpty()) {
@@ -144,24 +140,24 @@ implements IPartialPopupListener {
                 }
             } else if (this.pendingPPIDsForCancel.isEmpty()) {
                 if (!this.visiblePPIDs.isEmpty()) {
-                    this.logChannel.log(1078071040, "[ACSeatPartialPopupHandler#partialPopupRemoved] Zone:%1 HMI(%2)->APP(): cancelAirconPopup", (Object)n3, (long)n);
+                    this.logChannel.log(1000000, "[ACSeatPartialPopupHandler#partialPopupRemoved] Zone:%1 HMI(%2)->APP(): cancelAirconPopup", (Object)n3, (long)n);
                     AirconContent airconContent = this.builAirconContent(this.visiblePPIDs);
                     this.visiblePPIDs.clear();
                     this.component.cancelAirconPopup(airconContent, 1);
                     bl = true;
                 } else {
-                    this.logChannel.log(1078071040, "[ACSeatPartialPopupHandler#partialPopupRemoved] Zone:%1 HMI(%2)->APP(): Popup may have been previously canceled", (Object)n3, (long)n);
+                    this.logChannel.log(1000000, "[ACSeatPartialPopupHandler#partialPopupRemoved] Zone:%1 HMI(%2)->APP(): Popup may have been previously canceled", (Object)n3, (long)n);
                 }
             } else {
                 this.visiblePPIDs.remove(n3);
                 if (this.pendingPPIDsForCancel.size() == 1 || !this.isWaitRequired(this.visiblePPIDs, n3)) {
-                    this.logChannel.log(1078071040, "[ACSeatPartialPopupHandler#partialPopupRemoved] Zone:%1 HMI(%2)->APP(): cancelAirconPopup", (Object)n3, (long)n);
+                    this.logChannel.log(1000000, "[ACSeatPartialPopupHandler#partialPopupRemoved] Zone:%1 HMI(%2)->APP(): cancelAirconPopup", (Object)n3, (long)n);
                     AirconContent airconContent = this.builAirconContent(this.pendingPPIDsForCancel);
                     this.pendingPPIDsForCancel.clear();
                     this.component.cancelAirconPopup(airconContent, 0);
                     bl = true;
                 } else {
-                    this.logChannel.log(1078071040, "[ACSeatPartialPopupHandler#requestACPopup] Zone:%1 HMI(%2)->APP(): waiting for mirror popup", (Object)n3, (long)n);
+                    this.logChannel.log(1000000, "[ACSeatPartialPopupHandler#requestACPopup] Zone:%1 HMI(%2)->APP(): waiting for mirror popup", (Object)n3, (long)n);
                 }
             }
         }
@@ -170,7 +166,6 @@ implements IPartialPopupListener {
         }
     }
 
-    @Override
     public int[] getPPIDsForCallbacks() {
         if (this.popinIDsForCallbacks == null) {
             return new int[0];
@@ -178,7 +173,6 @@ implements IPartialPopupListener {
         return this.popinIDsForCallbacks;
     }
 
-    @Override
     public void partialPopupListenerRegistered(int n, int n2, boolean bl) {
     }
 
@@ -226,7 +220,7 @@ implements IPartialPopupListener {
         if (n != 0 && this.visiblePPIDs.containsKey(n2)) {
             this.processAirconZone(n, n2);
         } else {
-            this.logChannel.log(1078071040, "[ACSeatPartialPopupHandler#processAirconZoneUpdate] Zone:%1 : Ignore update because no popup visible or requested popup is NONE", (Object)n2);
+            this.logChannel.log(1000000, "[ACSeatPartialPopupHandler#processAirconZoneUpdate] Zone:%1 : Ignore update because no popup visible or requested popup is NONE", (Object)n2);
         }
     }
 
@@ -234,7 +228,7 @@ implements IPartialPopupListener {
         Integer n3 = this.component.getPPIDfromContent(n2, n);
         if (n != 0) {
             if (n3 == -1) {
-                this.logChannel.log(1078071040, "[ACSeatPartialPopupHandler#processAirconZone] Popup from Zone=%1 with DSI-ID=%2 is not supported", (Object)n2, (long)n);
+                this.logChannel.log(1000000, "[ACSeatPartialPopupHandler#processAirconZone] Popup from Zone=%1 with DSI-ID=%2 is not supported", (Object)n2, (long)n);
                 return;
             }
             if (!this.visiblePPIDs.containsKey(n2) || !n3.equals(this.visiblePPIDs.get(n2))) {
@@ -243,16 +237,16 @@ implements IPartialPopupListener {
                 }
                 this.pendingPPIDsForShow.put(n2, n3);
                 this.application.getFrameworkAccess().getHMIService().showPartialPopup(0, n3);
-                this.logChannel.log(1078071040, "[ACSeatPartialPopupHandler#processAirconZone] Zone:%1 APP(%2)->HMI(%3): showPartialPopup", (Object)n2, (long)n, (long)n3.intValue());
+                this.logChannel.log(1000000, "[ACSeatPartialPopupHandler#processAirconZone] Zone:%1 APP(%2)->HMI(%3): showPartialPopup", (Object)n2, (long)n, (long)n3.intValue());
             } else {
-                this.logChannel.log(1078071040, "[ACSeatPartialPopupHandler#processAirconZone] Zone:%1 : Ignore update because popup already visible", (Object)n2);
+                this.logChannel.log(1000000, "[ACSeatPartialPopupHandler#processAirconZone] Zone:%1 : Ignore update because popup already visible", (Object)n2);
             }
         } else if (this.visiblePPIDs.containsKey(n2)) {
             this.pendingPPIDsForCancel.put(n2, this.visiblePPIDs.get(n2));
             this.application.getFrameworkAccess().getHMIService().removePartialPopup(0, this.get(this.visiblePPIDs, n2));
-            this.logChannel.log(1078071040, "[ACSeatPartialPopupHandler#processAirconZone] Zone:%1 APP(%2)->HMI(%3): removePartialPopup", (Object)n2, (long)n, (long)((Integer)this.visiblePPIDs.get(n2)).intValue());
+            this.logChannel.log(1000000, "[ACSeatPartialPopupHandler#processAirconZone] Zone:%1 APP(%2)->HMI(%3): removePartialPopup", (Object)n2, (long)n, (long)((Integer)this.visiblePPIDs.get(n2)).intValue());
         } else {
-            this.logChannel.log(1078071040, "[ACSeatPartialPopupHandler#processAirconZone] Zone:%1 : Ignore update because no popup visible", (Object)n2);
+            this.logChannel.log(1000000, "[ACSeatPartialPopupHandler#processAirconZone] Zone:%1 : Ignore update because no popup visible", (Object)n2);
         }
     }
 
@@ -306,21 +300,20 @@ implements IPartialPopupListener {
     private void enqueuPopupsForFlush(Map map, Map map2) {
         Iterator iterator = map2.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            map.put(map$Entry.getKey(), map$Entry.getValue());
+            Map.Entry entry = (Map.Entry)iterator.next();
+            map.put(entry.getKey(), entry.getValue());
         }
     }
 
     private void cancelPopupsFromQueue(Map map) {
         Iterator iterator = map.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map$Entry map$Entry = (Map$Entry)iterator.next();
-            Integer n = (Integer)map$Entry.getValue();
+            Map.Entry entry = (Map.Entry)iterator.next();
+            Integer n = (Integer)entry.getValue();
             this.application.getFrameworkAccess().getHMIService().removePartialPopup(0, n);
         }
     }
 
-    @Override
     public void informAboutPPCoordinates(int n, int n2, int n3, int n4, int n5, int n6) {
     }
 

@@ -14,16 +14,16 @@ import de.esolutions.fw.util.commons.SimpleIntIntMap;
 
 public class DVDVideoSettingsSubtitle
 extends AbstractSettingsList {
-    private static final String LOGCLASS;
+    private static final String LOGCLASS = "DVDVideoSettingsSubtitle";
     private final BaseListModelApp subtitleList;
     private final LabelModelApp previewNumber;
     private final ChoiceModelApp previewLanguage;
     private final IMediaDSIPlayerController dsiPlayer;
-    private static final int SUBTITLE_LIST_COLUMNS;
-    private static final int SUBTITLE_LIST_COL_LANGUAGE_NAME;
-    private static final int SUBTITLE_LIST_COL_LANGUAGE_NUMBER;
-    private static final int SUBTITLE_LIST_COL_LANGUAGE_CODE;
-    private static final int SUBTITLE_LIST_COL_SELECTION;
+    private static final int SUBTITLE_LIST_COLUMNS = 4;
+    private static final int SUBTITLE_LIST_COL_LANGUAGE_NAME = 0;
+    private static final int SUBTITLE_LIST_COL_LANGUAGE_NUMBER = 1;
+    private static final int SUBTITLE_LIST_COL_LANGUAGE_CODE = 3;
+    private static final int SUBTITLE_LIST_COL_SELECTION = 2;
 
     public DVDVideoSettingsSubtitle(IMediaTerminal iMediaTerminal, IMediaDSIPlayerController iMediaDSIPlayerController, BaseListModelApp baseListModelApp, ChoiceModelApp choiceModelApp, LabelModelApp labelModelApp) {
         super(iMediaTerminal);
@@ -35,17 +35,14 @@ extends AbstractSettingsList {
         this.subtitleList.removeAll();
     }
 
-    @Override
     protected int getCheckboxColumn() {
         return 2;
     }
 
-    @Override
     protected BaseListModelApp getListModel() {
         return this.subtitleList;
     }
 
-    @Override
     protected void entrySelected(int n) {
         this.dsiPlayer.setSubtitleLanguage(n);
     }
@@ -64,7 +61,7 @@ extends AbstractSettingsList {
     }
 
     public void updateActiveSubtitle(int n) {
-        this.logger.main().log(1078071040, "[%1.updateActiveSubtitle] activeSubtitleIdx='%2'.", (Object)"DVDVideoSettingsSubtitle", (long)n);
+        this.logger.main().log(1000000, "[%1.updateActiveSubtitle] activeSubtitleIdx='%2'.", (Object)LOGCLASS, (long)n);
         if (this.updateActiveEntry(n)) {
             String string = this.subtitleList.getRow(n).getText(1);
             int n2 = this.subtitleList.getRow(n).getInteger(3);
@@ -94,7 +91,7 @@ extends AbstractSettingsList {
     protected int[] trimToLanguageCodes(int[] nArray) {
         int[] nArray2 = new int[nArray.length];
         for (int i2 = 0; i2 < nArray.length; ++i2) {
-            nArray2[i2] = nArray[i2] & 0xFFFF0000;
+            nArray2[i2] = nArray[i2] & 0xFFFF;
         }
         return nArray2;
     }

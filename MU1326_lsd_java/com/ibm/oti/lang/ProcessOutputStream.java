@@ -4,6 +4,7 @@
 package com.ibm.oti.lang;
 
 import java.io.FileDescriptor;
+import java.io.IOException;
 import java.io.OutputStream;
 
 class ProcessOutputStream
@@ -15,23 +16,21 @@ extends OutputStream {
         ProcessOutputStream.oneTimeInitialization();
     }
 
-    private static native void oneTimeInitialization() {
-    }
+    private static native void oneTimeInitialization();
 
     protected ProcessOutputStream(long l) {
         this.setFDImpl(this.fd, l);
         this.handle = l;
     }
 
-    protected void finalize() {
+    protected void finalize() throws Throwable {
         this.close();
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void close() {
+    public void close() throws IOException {
         ProcessOutputStream processOutputStream = this;
         synchronized (processOutputStream) {
             if (this.handle == -1L) {
@@ -42,17 +41,14 @@ extends OutputStream {
         }
     }
 
-    private native void closeImpl() {
-    }
+    private native void closeImpl();
 
-    private native void setFDImpl(FileDescriptor fileDescriptor, long l) {
-    }
+    private native void setFDImpl(FileDescriptor var1, long var2);
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void write(byte[] byArray) {
+    public void write(byte[] byArray) throws IOException {
         ProcessOutputStream processOutputStream = this;
         synchronized (processOutputStream) {
             this.writeImpl(byArray, 0, byArray.length, this.handle);
@@ -62,8 +58,7 @@ extends OutputStream {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void write(byte[] byArray, int n, int n2) {
+    public void write(byte[] byArray, int n, int n2) throws IOException {
         ProcessOutputStream processOutputStream = this;
         synchronized (processOutputStream) {
             if (this.handle == -1L) {
@@ -76,8 +71,7 @@ extends OutputStream {
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
-    public void write(int n) {
+    public void write(int n) throws IOException {
         byte[] byArray = new byte[]{(byte)n};
         ProcessOutputStream processOutputStream = this;
         synchronized (processOutputStream) {
@@ -85,7 +79,6 @@ extends OutputStream {
         }
     }
 
-    private native void writeImpl(byte[] byArray, int n, int n2, long l) {
-    }
+    private native void writeImpl(byte[] var1, int var2, int var3, long var4);
 }
 

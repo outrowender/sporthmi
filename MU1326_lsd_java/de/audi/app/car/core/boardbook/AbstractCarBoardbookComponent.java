@@ -21,8 +21,8 @@ public abstract class AbstractCarBoardbookComponent
 extends AbstractCarComponent
 implements CarServiceTrackerListener,
 ITelStateListener {
-    public static final short CODING_ID;
-    private static final String LOGCHANNEL_NAME;
+    public static final short CODING_ID = 111;
+    private static final String LOGCHANNEL_NAME = "App.Car.Boardbook";
     private final String LOGCLASS = (class$de$audi$app$car$core$boardbook$AbstractCarBoardbookComponent == null ? (class$de$audi$app$car$core$boardbook$AbstractCarBoardbookComponent = AbstractCarBoardbookComponent.class$("de.audi.app.car.core.boardbook.AbstractCarBoardbookComponent")) : class$de$audi$app$car$core$boardbook$AbstractCarBoardbookComponent).getName();
     private CarServiceTracker browserTracker;
     private CarServiceProvider telStateService;
@@ -38,11 +38,10 @@ ITelStateListener {
     static /* synthetic */ Class class$de$audi$atip$mmicombi$IViewSizeManager;
 
     public AbstractCarBoardbookComponent(ICarApplication iCarApplication) {
-        super(iCarApplication, "App.Car.Boardbook");
+        super(iCarApplication, LOGCHANNEL_NAME);
         this.fwAccess = iCarApplication.getFrameworkAccess();
     }
 
-    @Override
     public void init() {
         super.init();
         this.browserTracker = new CarServiceTracker(this, this.getApplication().getBundleContext(), this.getLogChannel());
@@ -51,7 +50,6 @@ ITelStateListener {
         this.telStateService.startService();
     }
 
-    @Override
     public void deinit() {
         this.browserTracker.stopTracking();
         this.telStateService.stopService();
@@ -59,53 +57,42 @@ ITelStateListener {
         super.deinit();
     }
 
-    @Override
     public String getName() {
         return "Boardbook";
     }
 
-    @Override
     public CarDSIAttributesSet[] getDSIAttributesSets() {
         return new CarDSIAttributesSet[0];
     }
 
-    @Override
     public String getCurrentViewOptions() {
         return null;
     }
 
-    @Override
     public void initModels() {
     }
 
-    @Override
     public void deinitModels() {
     }
 
-    @Override
     public void initVisibility() {
     }
 
-    @Override
     public void deinitVisibility() {
     }
 
-    @Override
     public String getDSIListenerClassName() {
         return null;
     }
 
-    @Override
     public String getDSIClassName() {
         return null;
     }
 
-    @Override
     public boolean isUsingDSI() {
         return false;
     }
 
-    @Override
     public void serviceAvailable(Object object) {
         if (object instanceof IBrowserHandler) {
             if (this.browserTracker.getServiceInstance().equals(IBrowserHandler.DEVICEINSTANCE_DSIBROWSER_BOARDBOOK)) {
@@ -127,7 +114,6 @@ ITelStateListener {
         }
     }
 
-    @Override
     public void serviceRemoved() {
         if (this.boardbookHandler != null) {
             this.boardbookHandler.setMediaService(null);
@@ -139,21 +125,20 @@ ITelStateListener {
         this.boardbookHandler.returnFromVideoToBoardbook();
     }
 
-    @Override
     public String[] getTrackedServiceClazzName() {
         return new String[]{(class$de$audi$atip$browser$IBrowserHandler == null ? (class$de$audi$atip$browser$IBrowserHandler = AbstractCarBoardbookComponent.class$("de.audi.atip.browser.IBrowserHandler")) : class$de$audi$atip$browser$IBrowserHandler).getName(), (class$de$audi$atip$interapp$media$IMediaFilePlayerService == null ? (class$de$audi$atip$interapp$media$IMediaFilePlayerService = AbstractCarBoardbookComponent.class$("de.audi.atip.interapp.media.IMediaFilePlayerService")) : class$de$audi$atip$interapp$media$IMediaFilePlayerService).getName(), (class$de$audi$atip$mmicombi$IViewSizeManager == null ? (class$de$audi$atip$mmicombi$IViewSizeManager = AbstractCarBoardbookComponent.class$("de.audi.atip.mmicombi.IViewSizeManager")) : class$de$audi$atip$mmicombi$IViewSizeManager).getName()};
     }
 
     protected void startBoardbook() {
         if (this.browserHandler != null) {
-            this.getLogChannel().log(1078071040, "%1#startBoardbook()", (Object)this.LOGCLASS);
+            this.getLogChannel().log(1000000, "%1#startBoardbook()", (Object)this.LOGCLASS);
             this.browserHandler.resumeBrowser();
         }
     }
 
     protected void stopBoardbook() {
         if (this.browserHandler != null) {
-            this.getLogChannel().log(1078071040, "%1#stopBoardbook()", (Object)this.LOGCLASS);
+            this.getLogChannel().log(1000000, "%1#stopBoardbook()", (Object)this.LOGCLASS);
             this.browserHandler.suspendBrowser();
         }
     }
@@ -163,16 +148,16 @@ ITelStateListener {
     }
 
     private void initializeBrowser() {
-        this.browserHandler.initialize(this.getVirtualButtonModel(1680673024), this.getChoiceModel(-1171584768), this.getChoiceModel(-1188361984), this.getChoiceModel(-1138030336), this.getChoiceModel(-1154807552), 5);
-        this.browserHandler.setLabels(this.getLabelModel(-869594880));
-        this.browserHandler.setModels(null, this.getChoiceModel(-886372096), this.getChoiceModel(-903149312), this.getButtonModel(-1020589824), this.getButtonModel(-936703744), this.getButtonModel(-1205139200), this.getButtonModel(-1993602816), this.getButtonModel(-1976825600), this.getChoiceModel(137234688), this.getButtonModel(640551168));
-        this.browserHandler.setRangeModels(this.getRangeModel(-953480960));
-        this.browserHandler.setZoomLabel(this.getLabelModel(-852817664));
-        this.browserHandler.setBoardBookAvailableModel(this.getChoiceModel(-1238693632));
+        this.browserHandler.initialize(this.getVirtualButtonModel(601444), this.getChoiceModel(601018), this.getChoiceModel(601017), this.getChoiceModel(601020), this.getChoiceModel(601019), 5);
+        this.browserHandler.setLabels(this.getLabelModel(601036));
+        this.browserHandler.setModels(null, this.getChoiceModel(601035), this.getChoiceModel(601034), this.getButtonModel(601027), this.getButtonModel(601032), this.getButtonModel(601016), this.getButtonModel(601225), this.getButtonModel(601226), this.getChoiceModel(601608), this.getButtonModel(601638));
+        this.browserHandler.setRangeModels(this.getRangeModel(601031));
+        this.browserHandler.setZoomLabel(this.getLabelModel(601037));
+        this.browserHandler.setBoardBookAvailableModel(this.getChoiceModel(601014));
         this.boardbookHandler.setBrowserHandler(this.browserHandler);
-        this.boardbookHandler.initializeModels(this.getButtonModel(-1104475904), this.getChoiceModel(-1121253120), this.getLabelModel(-1037367040), this.getLabelModel(-1054144256), this.getLabelModel(-1087698688), this.getRangeModel(-1070921472));
-        this.boardbookHandler.setErrorChoiceModel(this.getChoiceModel(-987035392));
-        this.boardbookHandler.setErrorButtonModel(this.getButtonModel(-970258176));
+        this.boardbookHandler.initializeModels(this.getButtonModel(601022), this.getChoiceModel(601021), this.getLabelModel(601026), this.getLabelModel(601025), this.getLabelModel(601023), this.getRangeModel(601024));
+        this.boardbookHandler.setErrorChoiceModel(this.getChoiceModel(601029));
+        this.boardbookHandler.setErrorButtonModel(this.getButtonModel(601030));
         if (this.mediaService != null) {
             this.boardbookHandler.setMediaService(this.mediaService);
         }
@@ -183,7 +168,7 @@ ITelStateListener {
         BoardbookEfiUrlHandler boardbookEfiUrlHandler = new BoardbookEfiUrlHandler(this.getLogChannel(), this.boardbookHandler);
         this.browserHandler.setEfiUrlHandler(boardbookEfiUrlHandler);
         this.browserHandler.setBoardBookConfigured(true);
-        this.getLogChannel().log(1078071040, "IBrowserHandler initialized");
+        this.getLogChannel().log(1000000, "IBrowserHandler initialized");
     }
 
     static /* synthetic */ Class class$(String string) {

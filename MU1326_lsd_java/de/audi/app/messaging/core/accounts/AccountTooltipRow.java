@@ -11,15 +11,15 @@ import de.audi.atip.hmi.model.TextListCell;
 
 final class AccountTooltipRow
 extends ListRow {
-    static final int COLUMN_COUNT;
-    static final int RECORDSET_COUNT;
-    static final int RECORDSET_FIRST_ROW;
-    static final int RECORDSET_SECOND_ROW;
-    private static final int CELL_ID_ICON;
-    private static final int CELL_ID_ACCOUNT_DESC;
-    private static final int CELL_ID_ACCOUNT_NO;
-    private static final int CELL_ID_ACCOUNT_NAME;
-    private static final int CELL_ID_RECORDSET;
+    static final int COLUMN_COUNT = 5;
+    static final int RECORDSET_COUNT = 2;
+    static final int RECORDSET_FIRST_ROW = 0;
+    static final int RECORDSET_SECOND_ROW = 1;
+    private static final int CELL_ID_ICON = 0;
+    private static final int CELL_ID_ACCOUNT_DESC = 2;
+    private static final int CELL_ID_ACCOUNT_NO = 1;
+    private static final int CELL_ID_ACCOUNT_NAME = 3;
+    private static final int CELL_ID_RECORDSET = 4;
 
     AccountTooltipRow(AbstractAccountListRow abstractAccountListRow, int n) {
         ListCell[] listCellArray = new ListCell[5];
@@ -38,7 +38,6 @@ extends ListRow {
         return ((IntegerListCell)this.getCell(4)).getValue();
     }
 
-    @Override
     public boolean equals(Object object) {
         boolean bl = false;
         try {
@@ -52,7 +51,6 @@ extends ListRow {
         return bl;
     }
 
-    @Override
     public int hashCode() {
         return this.getRecordset();
     }

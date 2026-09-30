@@ -15,18 +15,15 @@ implements IAudioStateListener {
         super(iMediaTerminal);
     }
 
-    @Override
     public void audioStateChanged(AudioState audioState) {
         if (audioState.getState() == 2) {
             this.getTerminal().getAudioManager().fadeTo();
         }
     }
 
-    @Override
     public void audioFocusChanged(boolean bl) {
     }
 
-    @Override
     public void rearSeatAudioFocusChanged(boolean bl) {
     }
 }

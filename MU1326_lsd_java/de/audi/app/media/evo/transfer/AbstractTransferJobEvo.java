@@ -15,12 +15,12 @@ import de.esolutions.fw.util.commons.Buffer;
 
 public abstract class AbstractTransferJobEvo
 extends AbstractQueueJob {
-    protected static final int JOB_NONE;
-    protected static final int JOB_CHANGE_ENCODING_QUALITY;
-    protected static final int JOB_SOURCE_ACTIVATION;
-    protected static final int JOB_TRANSFER_RUNNING;
-    protected static final int JOB_TRANSFER_RESUME;
-    protected static final int JOB_TRANSFER_ABORT;
+    protected static final int JOB_NONE = 0;
+    protected static final int JOB_CHANGE_ENCODING_QUALITY = 1;
+    protected static final int JOB_SOURCE_ACTIVATION = 2;
+    protected static final int JOB_TRANSFER_RUNNING = 3;
+    protected static final int JOB_TRANSFER_RESUME = 4;
+    protected static final int JOB_TRANSFER_ABORT = 5;
     protected final LogChannel logger;
     protected final ITransferController transferController;
     protected final EvoTransferController evoTransferController;
@@ -33,7 +33,6 @@ extends AbstractQueueJob {
         this.transferState = evoTransferState;
     }
 
-    @Override
     public void abort(boolean bl) {
     }
 
@@ -47,52 +46,36 @@ extends AbstractQueueJob {
         return buffer.toString();
     }
 
-    public abstract void browseModeChanged(boolean bl, int n) {
-    }
+    public abstract void browseModeChanged(boolean var1, int var2);
 
-    public abstract void addSelectionResult(boolean bl, int n, int n2, boolean bl2, long l, long l2, long l3, long l4) {
-    }
+    public abstract void addSelectionResult(boolean var1, int var2, int var3, boolean var4, long var5, long var7, long var9, long var11);
 
-    public abstract void readyForTransfer() {
-    }
+    public abstract void readyForTransfer();
 
-    public abstract void activationFailed(ISourceSlot iSourceSlot) {
-    }
+    public abstract void activationFailed(ISourceSlot var1);
 
-    public abstract void activationSuccessful(ISourceSlot iSourceSlot, IBrowseListContext iBrowseListContext) {
-    }
+    public abstract void activationSuccessful(ISourceSlot var1, IBrowseListContext var2);
 
-    public abstract void startFailed() {
-    }
+    public abstract void startFailed();
 
-    public abstract void importAborted(long l, long l2, long l3, boolean bl) {
-    }
+    public abstract void importAborted(long var1, long var3, long var5, boolean var7);
 
-    public abstract void importFinished(long l, long l2, long l3, boolean bl) {
-    }
+    public abstract void importFinished(long var1, long var3, long var5, boolean var7);
 
-    public abstract void importWillBeResumed() {
-    }
+    public abstract void importWillBeResumed();
 
-    public abstract void importIsSuspended() {
-    }
+    public abstract void importIsSuspended();
 
-    public abstract void deletionFinished() {
-    }
+    public abstract void deletionFinished();
 
-    public abstract void deletionAborted() {
-    }
+    public abstract void deletionAborted();
 
-    public abstract void encodingQualityChanged(boolean bl, int n) {
-    }
+    public abstract void encodingQualityChanged(boolean var1, int var2);
 
-    public abstract void browseFolderChanged(boolean bl, MediaListEntry[] mediaListEntryArray, int n) {
-    }
+    public abstract void browseFolderChanged(boolean var1, MediaListEntry[] var2, int var3);
 
-    public abstract void responseList(boolean bl, MediaListEntry[] mediaListEntryArray, int n) {
-    }
+    public abstract void responseList(boolean var1, MediaListEntry[] var2, int var3);
 
-    public abstract boolean isWaiting() {
-    }
+    public abstract boolean isWaiting();
 }
 

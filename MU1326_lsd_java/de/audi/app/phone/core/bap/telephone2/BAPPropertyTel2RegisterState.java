@@ -22,7 +22,6 @@ extends AbstractTel2EnqueuedBAPPropertyHandler {
         super(iTelApplication, dispatcherBase);
     }
 
-    @Override
     protected boolean doProcessGlobalTelephoneStateUpdate(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         return iGlobalTelephoneStateStruct != null;
     }
@@ -46,10 +45,10 @@ extends AbstractTel2EnqueuedBAPPropertyHandler {
     protected void updateRegisterState(int n, int n2, int n3) {
         CombiBAPServicePhone2 combiBAPServicePhone2 = this.getCombiService();
         if (combiBAPServicePhone2 != null) {
-            this.log.log(1078071040, "[BAPPropertyTel2RegisterState#updateRegisterState] updating combi: combiRegisterState=%1, combiNetworkType=%2", (long)n, (long)n2);
+            this.log.log(1000000, "[BAPPropertyTel2RegisterState#updateRegisterState] updating combi: combiRegisterState=%1, combiNetworkType=%2", (long)n, (long)n2);
             combiBAPServicePhone2.updateRegisterState(n, n2, n3);
         } else {
-            this.log.log(-1601830656, "[BAPPropertyTel2RegisterState#updateRegisterState] CombiBAPServicePhone2 is null --> NOP!");
+            this.log.log(100000, "[BAPPropertyTel2RegisterState#updateRegisterState] CombiBAPServicePhone2 is null --> NOP!");
         }
     }
 
@@ -57,7 +56,6 @@ extends AbstractTel2EnqueuedBAPPropertyHandler {
         return iTelDSIMobileEquipmentDeviceState != null ? iTelDSIMobileEquipmentDeviceState.getNetworkType() : 0;
     }
 
-    @Override
     protected void updateAsync() {
         IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct = this.getTelephoneState();
         int n = BAPPropertyRegisterStateUtil.getCombiRegisterState(this.getRegisterState(iGlobalTelephoneStateStruct));

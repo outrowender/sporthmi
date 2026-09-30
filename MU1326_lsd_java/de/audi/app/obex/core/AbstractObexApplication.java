@@ -22,21 +22,18 @@ implements IObexApplication {
 
     protected AbstractObexApplication(IFrameworkAccess iFrameworkAccess, BundleContext bundleContext, IConnectivity iConnectivity) {
         super(iFrameworkAccess, bundleContext, "App.Obex.Main", "App.Obex.Commands", "AppObex");
-        this.log.log(-2137614336, "AbstractObexApplication#AbstractObexApplication(): OBEX application created.");
+        this.log.log(10000000, "AbstractObexApplication#AbstractObexApplication(): OBEX application created.");
         this.connectivity = iConnectivity;
     }
 
-    @Override
     protected void registerDSIListener() {
     }
 
-    @Override
     protected void startDSI() {
         this.framework.startDSIService((class$org$dsi$ifc$bluetooth$DSIObexAuthentication == null ? (class$org$dsi$ifc$bluetooth$DSIObexAuthentication = AbstractObexApplication.class$("org.dsi.ifc.bluetooth.DSIObexAuthentication")) : class$org$dsi$ifc$bluetooth$DSIObexAuthentication).getName(), 0);
         this.framework.startDSIService((class$org$dsi$ifc$bluetooth$DSIObjectPush == null ? (class$org$dsi$ifc$bluetooth$DSIObjectPush = AbstractObexApplication.class$("org.dsi.ifc.bluetooth.DSIObjectPush")) : class$org$dsi$ifc$bluetooth$DSIObjectPush).getName(), 0);
     }
 
-    @Override
     public ConnectivityDiag getDiag() {
         return this.connectivity.getDiagnosis();
     }

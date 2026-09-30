@@ -37,9 +37,8 @@ BAPFunctionDataListener {
         super(abstractCombiModule, bAPFunctionPropertyFSG, iDSIBAPController, iPowerState);
     }
 
-    @Override
     public void appStateChanged(String string, int n) {
-        this.logChannel.log(14808325, "[InitializationManagerAudio#appStateChanged] appName=%1, value=%2", (Object)string, (long)n);
+        this.logChannel.log(100000000, "[InitializationManagerAudio#appStateChanged] appName=%1, value=%2", (Object)string, (long)n);
         if ("Media".equals(string)) {
             if (this.appStateMedia != n) {
                 this.appStateMedia = n;
@@ -50,7 +49,7 @@ BAPFunctionDataListener {
                 this.appStateTuner = n;
                 this.appStateTunerOrMediaChanged(n);
                 if (this.appStateTuner == 1) {
-                    this.logChannel.log(-2137614336, "[InitializationManagerAudio#appStateChanged] tuner was initialized; resend info for active band");
+                    this.logChannel.log(10000000, "[InitializationManagerAudio#appStateChanged] tuner was initialized; resend info for active band");
                     CombiBAPServiceTunerListener combiBAPServiceTunerListener = (CombiBAPServiceTunerListener)this.module.getAppServiceListener("Tuner");
                     if (combiBAPServiceTunerListener != null) {
                         combiBAPServiceTunerListener.resendAllInfoForActiveBand();
@@ -85,7 +84,6 @@ BAPFunctionDataListener {
         super.processAppStateChanged(n2);
     }
 
-    @Override
     public String appStatesToString() {
         Buffer buffer = new Buffer();
         buffer.append("appStateTuner = ");
@@ -112,32 +110,30 @@ BAPFunctionDataListener {
         return this.appStateSDS == 0;
     }
 
-    @Override
     public void notifyAudioApplicationInFocusChanged(int n) {
         if (this.isOpStateNormalOperation()) {
             if (n == 0) {
                 if (this.appStateTuner != 1) {
-                    this.logChannel.log(-2137614336, "[InitializationManagerAudio#notifyActiveAudioApplicationChanged] tuner not initialized yet -> please wait");
+                    this.logChannel.log(10000000, "[InitializationManagerAudio#notifyActiveAudioApplicationChanged] tuner not initialized yet -> please wait");
                     ((AppConnectorTuner)this.module.getAppConnectors().get("Tuner")).updateActiveInfoState(19);
                 }
             } else if (n == 1) {
                 if (this.appStateMedia != 1) {
-                    this.logChannel.log(-2137614336, "[InitializationManagerAudio#notifyActiveAudioApplicationChanged] media not initialized yet -> please wait");
+                    this.logChannel.log(10000000, "[InitializationManagerAudio#notifyActiveAudioApplicationChanged] media not initialized yet -> please wait");
                     ((AppConnectorMedia)this.module.getAppConnectors().get("Media")).updateActiveInfoState(19);
                 }
             } else if (n == 2) {
                 if (this.appStateTV != 1) {
-                    this.logChannel.log(-2137614336, "[InitializationManagerAudio#notifyActiveAudioApplicationChanged] TV not initialized yet -> please wait");
+                    this.logChannel.log(10000000, "[InitializationManagerAudio#notifyActiveAudioApplicationChanged] TV not initialized yet -> please wait");
                     ((AppConnectorTV)this.module.getAppConnectors().get("TV")).updateActiveInfoState(19);
                 }
             } else if (n == 3 && this.appStateTerminalMode != 1) {
-                this.logChannel.log(-2137614336, "[InitializationManagerAudio#notifyActiveAudioApplicationChanged] TV not initialized yet -> please wait");
+                this.logChannel.log(10000000, "[InitializationManagerAudio#notifyActiveAudioApplicationChanged] TV not initialized yet -> please wait");
                 ((AppConnectorTerminalMode)this.module.getAppConnectors().get("TerminalMode")).updateActiveInfoState(19);
             }
         }
     }
 
-    @Override
     public boolean setFSGOperationStateValue(int n) {
         int n2;
         switch (n) {
@@ -176,35 +172,30 @@ BAPFunctionDataListener {
         return bl;
     }
 
-    @Override
     protected boolean isRequiredDataForOpStateNormalAvailable() {
         boolean bl = false;
         if (((AbstractBAPModuleFSG)this.module).getBAPFunctionArrayFSG(32).isDataValid()) {
             bl = true;
             ((AbstractBAPModuleFSG)this.module).getBAPFunctionArrayFSG(32).removeDataListener(this);
         } else {
-            this.logChannel.log(-2137614336, "[InitializationManagerAudio#isRequiredDataForOpStateNormalAvailable] source list not available yet");
+            this.logChannel.log(10000000, "[InitializationManagerAudio#isRequiredDataForOpStateNormalAvailable] source list not available yet");
         }
         return bl;
     }
 
-    @Override
     public boolean isOpStateNormalOperation() {
         FSG_OperationState_Status fSG_OperationState_Status = (FSG_OperationState_Status)this.fsgOperationStateFunction.getLastStatus();
         return fSG_OperationState_Status.op_State == 0;
     }
 
-    @Override
     public void notifyDataValidChanged(int n, boolean bl) {
-        this.logChannel.log(-2137614336, "[InitializationManagerAudio#notifyDataValidChanged] data valid status changed for fctID=%1 -> update operation state", (Object)FunctionIDs.getDescription(this.module.getLSGID(), n));
+        this.logChannel.log(10000000, "[InitializationManagerAudio#notifyDataValidChanged] data valid status changed for fctID=%1 -> update operation state", (Object)FunctionIDs.getDescription(this.module.getLSGID(), n));
         this.updateOperationState();
     }
 
-    @Override
     public void notifyDataChanged(int n) {
     }
 
-    @Override
     public void notifyDataUpdatedNoChange(int n) {
     }
 }

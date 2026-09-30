@@ -17,12 +17,10 @@ extends NaviSDISStartGuidanceHandler {
         super(logChannel, navigationEnv, iStartGuidanceToDestinationSequence, iRouteCriteriaManager, iRouteManager, iCommandListFactory);
     }
 
-    @Override
     protected void showGuidanceRequestPopUp() {
         this.env.getFramework().getHmiServiceApp().showPartialPopup(0, 179);
     }
 
-    @Override
     protected void hideGuidanceRequestPopUp() {
         this.env.getFramework().getHmiServiceApp().removePartialPopup(0, 179);
     }

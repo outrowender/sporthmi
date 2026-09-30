@@ -3,8 +3,6 @@
  */
 package de.audi.app.media.util;
 
-import de.audi.app.media.util.CopyOnWriteArrayList$CopyOnWriteListIterator;
-import de.audi.app.media.util.CopyOnWriteArrayList$CopyOnWriteSubList;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -29,14 +27,12 @@ RandomAccess {
         this.realList = new ArrayList(collection);
     }
 
-    @Override
     public synchronized void add(int n, Object object) {
         ArrayList arrayList = new ArrayList(this.realList);
         arrayList.add(n, object);
         this.realList = arrayList;
     }
 
-    @Override
     public synchronized boolean add(Object object) {
         ArrayList arrayList = new ArrayList(this.realList.size() + 1);
         arrayList.addAll(this.realList);
@@ -45,7 +41,6 @@ RandomAccess {
         return true;
     }
 
-    @Override
     public synchronized boolean addAll(int n, Collection collection) {
         ArrayList arrayList = new ArrayList(this.realList);
         arrayList.addAll(n, collection);
@@ -53,7 +48,6 @@ RandomAccess {
         return !collection.isEmpty();
     }
 
-    @Override
     public synchronized boolean addAll(Collection collection) {
         ArrayList arrayList = new ArrayList(this.realList.size() + collection.size());
         arrayList.addAll(this.realList);
@@ -62,7 +56,6 @@ RandomAccess {
         return !collection.isEmpty();
     }
 
-    @Override
     public synchronized void clear() {
         ArrayList arrayList = new ArrayList();
         arrayList.clear();
@@ -70,52 +63,42 @@ RandomAccess {
         this.realList = arrayList;
     }
 
-    @Override
     public boolean contains(Object object) {
         return this.realList.contains(object);
     }
 
-    @Override
     public boolean containsAll(Collection collection) {
         return this.realList.containsAll(collection);
     }
 
-    @Override
     public Object get(int n) {
         return this.realList.get(n);
     }
 
-    @Override
     public int indexOf(Object object) {
         return this.realList.indexOf(object);
     }
 
-    @Override
     public boolean isEmpty() {
         return this.realList.isEmpty();
     }
 
-    @Override
     public Iterator iterator() {
-        return new CopyOnWriteArrayList$CopyOnWriteListIterator(this, this.realList.listIterator());
+        return new CopyOnWriteListIterator(this.realList.listIterator());
     }
 
-    @Override
     public int lastIndexOf(Object object) {
         return this.realList.lastIndexOf(object);
     }
 
-    @Override
     public ListIterator listIterator() {
-        return new CopyOnWriteArrayList$CopyOnWriteListIterator(this, this.realList.listIterator());
+        return new CopyOnWriteListIterator(this.realList.listIterator());
     }
 
-    @Override
     public ListIterator listIterator(int n) {
-        return new CopyOnWriteArrayList$CopyOnWriteListIterator(this, this.realList.listIterator(n));
+        return new CopyOnWriteListIterator(this.realList.listIterator(n));
     }
 
-    @Override
     public synchronized Object remove(int n) {
         ArrayList arrayList = new ArrayList(this.realList);
         Object object = arrayList.remove(n);
@@ -124,7 +107,6 @@ RandomAccess {
         return object;
     }
 
-    @Override
     public synchronized boolean remove(Object object) {
         ArrayList arrayList = new ArrayList(this.realList);
         boolean bl = arrayList.remove(object);
@@ -133,7 +115,6 @@ RandomAccess {
         return bl;
     }
 
-    @Override
     public synchronized boolean removeAll(Collection collection) {
         ArrayList arrayList = new ArrayList(this.realList);
         boolean bl = arrayList.removeAll(collection);
@@ -142,7 +123,6 @@ RandomAccess {
         return bl;
     }
 
-    @Override
     public synchronized boolean retainAll(Collection collection) {
         ArrayList arrayList = new ArrayList(this.realList);
         boolean bl = arrayList.retainAll(collection);
@@ -151,7 +131,6 @@ RandomAccess {
         return bl;
     }
 
-    @Override
     public synchronized Object set(int n, Object object) {
         ArrayList arrayList = new ArrayList(this.realList);
         Object object2 = arrayList.set(n, object);
@@ -159,22 +138,18 @@ RandomAccess {
         return object2;
     }
 
-    @Override
     public int size() {
         return this.realList.size();
     }
 
-    @Override
     public List subList(int n, int n2) {
-        return new CopyOnWriteArrayList$CopyOnWriteSubList(this, this.realList.subList(n, n2));
+        return new CopyOnWriteSubList(this.realList.subList(n, n2));
     }
 
-    @Override
     public Object[] toArray() {
         return this.realList.toArray();
     }
 
-    @Override
     public Object[] toArray(Object[] objectArray) {
         return this.realList.toArray(objectArray);
     }
@@ -191,12 +166,10 @@ RandomAccess {
         return this.realList.toString();
     }
 
-    @Override
     public boolean equals(Object object) {
         return this.realList.equals(object);
     }
 
-    @Override
     public int hashCode() {
         return this.realList.hashCode();
     }
@@ -207,6 +180,153 @@ RandomAccess {
             return true;
         }
         return false;
+    }
+
+    private class CopyOnWriteSubList
+    implements List,
+    RandomAccess {
+        private final List realSubList;
+
+        public CopyOnWriteSubList(List list) {
+            this.realSubList = list;
+        }
+
+        public void add(int n, Object object) {
+            throw new UnsupportedOperationException("not supported by CopyOnWriteArrayList");
+        }
+
+        public boolean add(Object object) {
+            throw new UnsupportedOperationException("not supported by CopyOnWriteArrayList");
+        }
+
+        public boolean addAll(int n, Collection collection) {
+            throw new UnsupportedOperationException("not supported by CopyOnWriteArrayList");
+        }
+
+        public boolean addAll(Collection collection) {
+            throw new UnsupportedOperationException("not supported by CopyOnWriteArrayList");
+        }
+
+        public void clear() {
+            throw new UnsupportedOperationException("not supported by CopyOnWriteArrayList");
+        }
+
+        public boolean contains(Object object) {
+            return this.realSubList.contains(object);
+        }
+
+        public boolean containsAll(Collection collection) {
+            return this.realSubList.containsAll(collection);
+        }
+
+        public Object get(int n) {
+            return this.realSubList.get(n);
+        }
+
+        public int indexOf(Object object) {
+            return this.realSubList.indexOf(object);
+        }
+
+        public boolean isEmpty() {
+            return this.realSubList.isEmpty();
+        }
+
+        public Iterator iterator() {
+            return new CopyOnWriteListIterator(this.realSubList.listIterator());
+        }
+
+        public int lastIndexOf(Object object) {
+            return this.realSubList.lastIndexOf(object);
+        }
+
+        public ListIterator listIterator() {
+            return new CopyOnWriteListIterator(this.realSubList.listIterator());
+        }
+
+        public ListIterator listIterator(int n) {
+            return new CopyOnWriteListIterator(this.realSubList.listIterator(n));
+        }
+
+        public Object remove(int n) {
+            throw new UnsupportedOperationException("not supported by CopyOnWriteArrayList");
+        }
+
+        public boolean remove(Object object) {
+            throw new UnsupportedOperationException("not supported by CopyOnWriteArrayList");
+        }
+
+        public boolean removeAll(Collection collection) {
+            throw new UnsupportedOperationException("not supported by CopyOnWriteArrayList");
+        }
+
+        public boolean retainAll(Collection collection) {
+            throw new UnsupportedOperationException("not supported by CopyOnWriteArrayList");
+        }
+
+        public Object set(int n, Object object) {
+            throw new UnsupportedOperationException("not supported by CopyOnWriteArrayList");
+        }
+
+        public int size() {
+            return this.realSubList.size();
+        }
+
+        public List subList(int n, int n2) {
+            return new CopyOnWriteSubList(this.realSubList.subList(n, n2));
+        }
+
+        public Object[] toArray() {
+            return this.realSubList.toArray();
+        }
+
+        public Object[] toArray(Object[] objectArray) {
+            return this.realSubList.toArray(objectArray);
+        }
+    }
+
+    private class CopyOnWriteListIterator
+    implements ListIterator {
+        private final ListIterator realListIterator;
+
+        public CopyOnWriteListIterator(ListIterator listIterator) {
+            this.realListIterator = listIterator;
+        }
+
+        public void add(Object object) {
+            throw new UnsupportedOperationException("not supported by CopyOnWriteArrayList");
+        }
+
+        public boolean hasNext() {
+            return this.realListIterator.hasNext();
+        }
+
+        public boolean hasPrevious() {
+            return this.realListIterator.hasPrevious();
+        }
+
+        public Object next() {
+            return this.realListIterator.next();
+        }
+
+        public int nextIndex() {
+            return this.realListIterator.nextIndex();
+        }
+
+        public Object previous() {
+            return this.realListIterator.previous();
+        }
+
+        public int previousIndex() {
+            return this.realListIterator.previousIndex();
+        }
+
+        public void remove() {
+            throw new UnsupportedOperationException("not supported by CopyOnWriteArrayList");
+        }
+
+        public void set(Object object) {
+            throw new UnsupportedOperationException("not supported by CopyOnWriteArrayList");
+        }
     }
 }
 

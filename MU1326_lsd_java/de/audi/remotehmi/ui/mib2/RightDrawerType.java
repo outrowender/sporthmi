@@ -8,10 +8,8 @@ import java.util.List;
 
 public interface RightDrawerType
 extends DeepCloneable {
-    default public List getEntriesList() {
-    }
+    public List getEntriesList();
 
-    default public String getTypeName() {
-    }
+    public String getTypeName();
 }
 

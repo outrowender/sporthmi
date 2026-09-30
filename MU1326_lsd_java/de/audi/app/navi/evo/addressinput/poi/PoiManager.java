@@ -3,10 +3,6 @@
  */
 package de.audi.app.navi.evo.addressinput.poi;
 
-import de.audi.app.navi.evo.addressinput.poi.PoiManager$1;
-import de.audi.app.navi.evo.addressinput.poi.PoiManager$2;
-import de.audi.app.navi.evo.addressinput.poi.PoiManager$3;
-import de.audi.app.navi.evo.addressinput.poi.PoiManager$4;
 import de.audi.app.navi.evo.addressinput.poi.PoiScreensEvo;
 import de.audi.app.navi.evo.addressinput.poi.listener.AbstractPoiRightDrawerHmiListener;
 import de.audi.app.navi.evo.addressinput.poi.listener.AbstractPoiScreenHmiListener;
@@ -70,13 +66,13 @@ import de.audi.tghu.navi.app.addressinput.poi.sequences.PoiResultScreenNoSpeller
 import de.audi.tghu.navi.app.addressinput.poi.sequences.PoiResultScreenWithMatchSpellerInputSequence;
 import de.audi.tghu.navi.app.addressinput.poi.sequences.PoiResultScreenWithMatchSpellerInputSequenceAsia;
 import de.audi.tghu.navi.app.addressinput.poi.sequences.PoiResultScreenWithSpellerInputSequence;
+import de.audi.tghu.navi.app.command.NavCommand;
 import de.audi.tghu.navi.app.command.ResetSpellerStackCommand;
 import de.audi.tghu.navi.app.details.IDetailsScreen;
 import de.audi.tghu.navi.app.favorite.INaviFavoriteHandler;
 import de.audi.tghu.navi.app.guidance.IVehicle;
 import de.audi.tghu.navi.app.li.IAdditionalStateInfo;
 import de.audi.tghu.navi.app.li.SpellerStack;
-import de.audi.tghu.navi.app.li.SpellerStack$StackElement;
 import de.audi.tghu.navi.app.li.sc.SpellerContext;
 import de.audi.tghu.navi.app.map.MapInterface;
 import de.audi.tghu.navi.app.navlocationextractor.AsyncNavLocationExtractor;
@@ -127,7 +123,7 @@ implements IShowHideResetSearchArea {
         this.detailsScreen = iDetailsScreen;
         this.extractor = new LiValueListAsyncNavLocationExtractor(iCommandListFactory);
         this.rrdListener = iRRDListener;
-        this.searchAreaVisibleChoice = navigationEnv.getChoiceModel(1210189312);
+        this.searchAreaVisibleChoice = navigationEnv.getChoiceModel(401992);
         this.poiCommandListMonitor = new Monitor(this.logChannel);
         this.showSearchArea();
         this.initListeners();
@@ -293,14 +289,13 @@ implements IShowHideResetSearchArea {
         return new PoiExternalHmiListener(this.env, this, this.previewMapInterface, this.poiSearchArea, this.commandListFactory);
     }
 
-    @Override
     public void updatePoiSubstringSearchStatus(ValueListStatus valueListStatus) {
-        this.logChannel.log(-2137614336, "%1#updatePoiSubstringSearchStatus(%2)", (Object)this.CLASS_NAME, (Object)valueListStatus);
+        this.logChannel.log(10000000, "%1#updatePoiSubstringSearchStatus(%2)", (Object)this.CLASS_NAME, (Object)valueListStatus);
         SpellerContext spellerContext = this.spellerStack.getActiveSC();
         if (spellerContext != null) {
             int n;
             int n2 = spellerContext.getContextID();
-            this.logChannel.log(-2137614336, "%1#updatePoiSubstringSearchStatus() - activeContextId=%2", (Object)this.CLASS_NAME, (long)n2);
+            this.logChannel.log(10000000, "%1#updatePoiSubstringSearchStatus() - activeContextId=%2", (Object)this.CLASS_NAME, (long)n2);
             PoiResultScreenWithSpellerInputSequence poiResultScreenWithSpellerInputSequence = this.poiResultScreenWithSpellerHmiListener.getPoiResultScreenWithSpellerInputSequence();
             PoiResultScreenNoSpellerInputSequence poiResultScreenNoSpellerInputSequence = this.poiResultScreenNoSpellerHmiListener.getPoiResultScreenNoSpellerInputSequence();
             PoiBrandResultScreenNoSpellerInputSequence poiBrandResultScreenNoSpellerInputSequence = this.poiBrandResultScreenNoSpellerHmiListener.getPoiBrandResultScreenNoSpellerInputSequence();
@@ -325,7 +320,7 @@ implements IShowHideResetSearchArea {
             } else if (n2 == poiParentChildCategoryScreenInputSequence.getSpellerContextId()) {
                 this.activeListener = this.poiParentChildScreenHmiListener;
             } else {
-                this.logChannel.log(-1601830656, "%1#updatePoiSubstringSearchStatus - active context id available but matching was not possible.", (Object)this.CLASS_NAME);
+                this.logChannel.log(100000, "%1#updatePoiSubstringSearchStatus - active context id available but matching was not possible.", (Object)this.CLASS_NAME);
             }
             if (this.isSearchStarted(valueListStatus) && this.activeListener != null) {
                 this.activeListener.updateSearchStarted();
@@ -337,7 +332,7 @@ implements IShowHideResetSearchArea {
                 this.previewMapPosible = false;
             }
         } else {
-            this.logChannel.log(-2137614336, "%1#updatePoiSubstringSearchStatus() was called but there is no active speller context.", (Object)this.CLASS_NAME);
+            this.logChannel.log(10000000, "%1#updatePoiSubstringSearchStatus() was called but there is no active speller context.", (Object)this.CLASS_NAME);
         }
     }
 
@@ -349,10 +344,9 @@ implements IShowHideResetSearchArea {
         this.updatePoiSubstringSearchStatus(this.initialSubstringSearchStatus);
     }
 
-    @Override
     public void destPOIHKReturn(int n, int n2) {
-        this.logChannel.log(-2137614336, "%1#destPOIHKReturn(%2, %3)", (Object)this.CLASS_NAME, (long)n, (long)n2);
-        SpellerStack$StackElement spellerStack$StackElement = null;
+        this.logChannel.log(10000000, "%1#destPOIHKReturn(%2, %3)", (Object)this.CLASS_NAME, (long)n, (long)n2);
+        SpellerStack.StackElement stackElement = null;
         boolean bl = false;
         switch (n2) {
             case 1: {
@@ -360,23 +354,23 @@ implements IShowHideResetSearchArea {
                 break;
             }
             case 201: {
-                spellerStack$StackElement = this.spellerStack.pop();
-                if (this.env.getChoiceModel(1902080).getValue() != 1) break;
-                spellerStack$StackElement = this.spellerStack.pop();
-                if (this.env.getChoiceModel(18679296).getValue() != 1) break;
-                spellerStack$StackElement = this.spellerStack.pop();
+                stackElement = this.spellerStack.pop();
+                if (this.env.getChoiceModel(400640).getValue() != 1) break;
+                stackElement = this.spellerStack.pop();
+                if (this.env.getChoiceModel(400641).getValue() != 1) break;
+                stackElement = this.spellerStack.pop();
                 break;
             }
             case 501: {
-                spellerStack$StackElement = this.spellerStack.pop();
-                if (this.env.getChoiceModel(18679296).getValue() != 1) break;
-                spellerStack$StackElement = this.spellerStack.pop();
+                stackElement = this.spellerStack.pop();
+                if (this.env.getChoiceModel(400641).getValue() != 1) break;
+                stackElement = this.spellerStack.pop();
                 break;
             }
             case 601: {
-                spellerStack$StackElement = this.spellerStack.pop();
-                if (this.env.getChoiceModel(-1541732864).getValue() == 1) {
-                    spellerStack$StackElement = this.spellerStack.pop();
+                stackElement = this.spellerStack.pop();
+                if (this.env.getChoiceModel(400292).getValue() == 1) {
+                    stackElement = this.spellerStack.pop();
                 }
                 if (this.poiWorkFlowManager.getSpellerScreenBreadcrumb(this.env) != 6) break;
                 this.poiWorkFlowManager.setSpellerScreenBreadcrumb(this.env, -1);
@@ -386,35 +380,41 @@ implements IShowHideResetSearchArea {
                 break;
             }
             default: {
-                spellerStack$StackElement = this.spellerStack.pop();
+                stackElement = this.spellerStack.pop();
             }
         }
         this.resetPoiSubstringSearchStatus();
         if (bl) {
-            this.logChannel.log(-2137614336, "%1#destPOIHKReturn: starting poi main screen", (Object)this.CLASS_NAME);
+            this.logChannel.log(10000000, "%1#destPOIHKReturn: starting poi main screen", (Object)this.CLASS_NAME);
             this.startPoiMainScreen(true, false);
-        } else if (spellerStack$StackElement != null) {
+        } else if (stackElement != null) {
             boolean bl2;
-            this.logChannel.log(-2137614336, "%1#destPOIHKReturn: Element popped from SpellerStack: %2", (Object)this.CLASS_NAME, (Object)spellerStack$StackElement);
+            this.logChannel.log(10000000, "%1#destPOIHKReturn: Element popped from SpellerStack: %2", (Object)this.CLASS_NAME, (Object)stackElement);
             CommandList commandList = this.commandListFactory.createCommandList(0);
-            commandList.add(new LIRestoreStateCommand(spellerStack$StackElement));
+            commandList.add(new LIRestoreStateCommand(stackElement));
             boolean bl3 = n2 == 601;
             boolean bl4 = false;
             SpellerContext spellerContext = this.spellerStack.getActiveSC();
             if (spellerContext != null) {
                 bl4 = spellerContext.getContextID() == 14;
             }
-            boolean bl5 = this.env.getChoiceModel(-1541732864).getValue() > 1;
+            boolean bl5 = this.env.getChoiceModel(400292).getValue() > 1;
             boolean bl6 = bl2 = this.poiSearchArea.getSearchContext() == 1;
             if (!Util.isHURegionAsia() && bl2 && bl5 && bl3 && bl4) {
                 IPoiBrandScreenModelAccess iPoiBrandScreenModelAccess = this.getPoiBrandScreenHmiListener().getPoiBrandScreenInputSequence().getPoiBrandScreenModelAccess();
                 commandList.add(new PoiModelStartCommand(iPoiBrandScreenModelAccess));
                 commandList.add(new NewModelUpdateFullListCommand(iPoiBrandScreenModelAccess, this.commandListFactory));
             }
-            commandList.add(new PoiManager$1(this, new StringBuffer().append(this.CLASS_NAME).append("#destPOIHKReturn#preparePreviewMap").toString()));
+            commandList.add(new NavCommand(new StringBuffer().append(this.CLASS_NAME).append("#destPOIHKReturn#preparePreviewMap").toString()){
+
+                public void execute() {
+                    PoiManager.this.preparePreviewMapForCurrentScreen();
+                    this.getCommandList().commandFinished();
+                }
+            });
             commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#destPOIHKReturn").toString());
         } else if (n2 != 1206) {
-            this.logChannel.log(-1601830656, "%1#destPOIHKReturn: Element popped from SpellerStack but element is null!", (Object)this.CLASS_NAME);
+            this.logChannel.log(100000, "%1#destPOIHKReturn: Element popped from SpellerStack but element is null!", (Object)this.CLASS_NAME);
         }
     }
 
@@ -430,7 +430,7 @@ implements IShowHideResetSearchArea {
         SpellerContext spellerContext = this.spellerStack.getActiveSC();
         if (spellerContext != null) {
             int n = spellerContext.getContextID();
-            this.logChannel.log(-2137614336, "%1#preparePreviewMapForCurrentScreen() - trying to update preview map for context id: '%2'", (Object)this.CLASS_NAME, (long)n);
+            this.logChannel.log(10000000, "%1#preparePreviewMapForCurrentScreen() - trying to update preview map for context id: '%2'", (Object)this.CLASS_NAME, (long)n);
             if (n == this.poiMainScreenHmiListener.getPoiMainScreenInputSequence().getSpellerContextId() || n == 105) {
                 this.poiMainScreenHmiListener.preparePreviewMap();
             } else if (n == this.poiResultScreenWithSpellerHmiListener.getPoiResultScreenWithSpellerInputSequence().getSpellerContextId()) {
@@ -455,41 +455,56 @@ implements IShowHideResetSearchArea {
             } else if (n == this.poiParentChildResultScreenHmiListener.getParentChildResultScreenInputSequence().getSpellerContextId()) {
                 this.poiParentChildResultScreenHmiListener.preparePreviewMap();
             } else if (n != 54) {
-                this.logChannel.log(-1601830656, "%1#preparePreviewMapForCurrentScreen() - found no match for context id: '%2'. Unable to update the preview map.", (Object)this.CLASS_NAME, (long)n);
+                this.logChannel.log(100000, "%1#preparePreviewMapForCurrentScreen() - found no match for context id: '%2'. Unable to update the preview map.", (Object)this.CLASS_NAME, (long)n);
             }
         }
     }
 
-    @Override
     public void startPoiMainScreen(boolean bl, boolean bl2) {
         this.startPoiMainScreen(bl, bl2, 10, null);
     }
 
-    private synchronized void startPoiMainScreen(boolean bl, boolean bl2, int n, IAdditionalStateInfo iAdditionalStateInfo) {
+    private synchronized void startPoiMainScreen(boolean bl, final boolean bl2, int n, IAdditionalStateInfo iAdditionalStateInfo) {
         if (!this.poiCommandListMonitor.isActive()) {
-            this.logChannel.log(-2137614336, "%1#startPoiMainScreen - command list is not running, starting POI", (Object)this.CLASS_NAME);
+            this.logChannel.log(10000000, "%1#startPoiMainScreen - command list is not running, starting POI", (Object)this.CLASS_NAME);
             CommandList commandList = this.commandListFactory.createCommandList();
             if (iAdditionalStateInfo != null) {
                 commandList.put("SEARCH_AREA_RESTORABLE", iAdditionalStateInfo);
             }
-            commandList.add(new PoiManager$2(this, "Initial calls for starting POI main screen", bl2));
+            commandList.add(new NavCommand("Initial calls for starting POI main screen"){
+
+                public void execute() {
+                    PoiManager.this.resetPreviewMapsForAllListeners();
+                    if (bl2) {
+                        PoiManager.this.hideSearchArea();
+                    } else {
+                        PoiManager.this.showSearchArea();
+                    }
+                    this.getCommandList().commandFinished();
+                }
+            });
             if (bl) {
                 commandList.add(new ResetSpellerStackCommand());
             }
             commandList.addMonitor(this.poiCommandListMonitor);
             this.executePoiSelectionEvent(commandList, n);
         } else {
-            this.logChannel.log(-2137614336, "%1#startPoiMainScreen - the command list to start POI is still running - ignoring further calls.", (Object)this.CLASS_NAME);
+            this.logChannel.log(10000000, "%1#startPoiMainScreen - the command list to start POI is still running - ignoring further calls.", (Object)this.CLASS_NAME);
         }
     }
 
     public void startPoiAreaCityInputSequence(IPoiSearchAreaHandler iPoiSearchAreaHandler, PoiAreaCityZipInputModelAccess poiAreaCityZipInputModelAccess) {
         CommandList commandList = this.commandListFactory.createCommandList();
-        commandList.add(new PoiManager$3(this));
+        commandList.add(new NavCommand(){
+
+            public void execute() {
+                PoiManager.this.startPoiMainScreen(true, false);
+                this.getCommandList().commandFinished();
+            }
+        });
         iPoiSearchAreaHandler.startPoiAreaCityZipInputSequence(poiAreaCityZipInputModelAccess, commandList, true);
     }
 
-    @Override
     public synchronized void allowRestartOfRRDCalculation() {
         int n = this.poiSearchArea.getSearchContext();
         switch (n) {
@@ -498,35 +513,40 @@ implements IShowHideResetSearchArea {
             case 4: {
                 this.allowRestartRRDCalculation = false;
                 if (!this.logChannel.isDebug2()) break;
-                this.logChannel.log(14808325, "%1#allowRestartOfRRDCalculation not allowed SearchContext: %2", (Object)this.CLASS_NAME, (long)n);
+                this.logChannel.log(100000000, "%1#allowRestartOfRRDCalculation not allowed SearchContext: %2", (Object)this.CLASS_NAME, (long)n);
                 break;
             }
             case 0: 
             case 1: 
             case 5: {
                 if (this.logChannel.isDebug2()) {
-                    this.logChannel.log(14808325, "%1#allowRestartOfRRDCalculation allowed SearchContext: %2", (Object)this.CLASS_NAME, (long)n);
+                    this.logChannel.log(100000000, "%1#allowRestartOfRRDCalculation allowed SearchContext: %2", (Object)this.CLASS_NAME, (long)n);
                 }
                 this.allowRestartRRDCalculation = true;
                 break;
             }
             default: {
-                this.logChannel.log(1078071040, "%1#allowRestartOfRRDCalculation no valid searchContext : %2", (Object)this.CLASS_NAME, (long)n);
+                this.logChannel.log(1000000, "%1#allowRestartOfRRDCalculation no valid searchContext : %2", (Object)this.CLASS_NAME, (long)n);
             }
         }
     }
 
     public synchronized void restartRRDForCurrentContext() {
-        this.logChannel.log(-2137614336, "%1#restartRRDForCurrentContext - allowRestartRRDCalculation=%2", (Object)this.CLASS_NAME, (Object)this.allowRestartRRDCalculation);
+        this.logChannel.log(10000000, "%1#restartRRDForCurrentContext - allowRestartRRDCalculation=%2", (Object)this.CLASS_NAME, (Object)this.allowRestartRRDCalculation);
         if (this.allowRestartRRDCalculation) {
             this.allowRestartRRDCalculation = false;
             CommandList commandList = this.commandListFactory.createCommandList();
-            commandList.add(new PoiManager$4(this, "Restart RRD"));
+            commandList.add(new NavCommand("Restart RRD"){
+
+                public void execute() {
+                    PoiManager.this.rrdListener.enterRRD(PoiManager.this.getRRDListType());
+                    this.getCommandList().commandFinished();
+                }
+            });
             commandList.execute(new StringBuffer().append(this.CLASS_NAME).append("#restartRRDForCurrentContext").toString());
         }
     }
 
-    @Override
     public void exitRRD() {
         this.rrdListener.exitRRD(this.getRRDListType());
     }
@@ -544,18 +564,16 @@ implements IShowHideResetSearchArea {
                 n = 1;
             }
         } else {
-            this.logChannel.log(-2137614336, "%1#getRRDListType - active Speller Context is null.", (Object)this.CLASS_NAME);
+            this.logChannel.log(10000000, "%1#getRRDListType - active Speller Context is null.", (Object)this.CLASS_NAME);
         }
-        this.logChannel.log(-2137614336, "%1#getRRDListType - listType=%2", (Object)this.CLASS_NAME, (long)n);
+        this.logChannel.log(10000000, "%1#getRRDListType - listType=%2", (Object)this.CLASS_NAME, (long)n);
         return n;
     }
 
-    @Override
     public void hideSearchArea() {
         this.searchAreaVisibleChoice.setValue(0);
     }
 
-    @Override
     public void showSearchArea() {
         this.searchAreaVisibleChoice.setValue(1);
     }
@@ -574,32 +592,14 @@ implements IShowHideResetSearchArea {
         return this.commandListFactory.createCommandList();
     }
 
-    @Override
     public void showPoiDetailScreen(NavLocation navLocation) {
         this.detailsScreen.enterDetailsScreen(navLocation);
     }
 
-    @Override
     public void resetPoiSearchArea() {
         if (this.poiSearchArea.getSearchContext() == 1 && !this.inputModeManager.isSdsActive()) {
             this.poiSearchArea.setSearchContext(0);
         }
-    }
-
-    static /* synthetic */ void access$000(PoiManager poiManager) {
-        poiManager.preparePreviewMapForCurrentScreen();
-    }
-
-    static /* synthetic */ void access$100(PoiManager poiManager) {
-        poiManager.resetPreviewMapsForAllListeners();
-    }
-
-    static /* synthetic */ int access$200(PoiManager poiManager) {
-        return poiManager.getRRDListType();
-    }
-
-    static /* synthetic */ IRRDListener access$300(PoiManager poiManager) {
-        return poiManager.rrdListener;
     }
 }
 

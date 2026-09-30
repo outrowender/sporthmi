@@ -7,9 +7,9 @@ import de.audi.atip.mmicombi.exchange.MMICombiPopupExchangePacket;
 
 public class MMICombiPopupRequest
 extends MMICombiPopupExchangePacket {
-    public static final int REQUEST_TYPE_SHOW_POPUP;
-    public static final int REQUEST_TYPE_REMOVE_POPUP;
-    public static final int REQUEST_TYPE_QUIT_POPUP;
+    public static final int REQUEST_TYPE_SHOW_POPUP = 1;
+    public static final int REQUEST_TYPE_REMOVE_POPUP = 2;
+    public static final int REQUEST_TYPE_QUIT_POPUP = 3;
     private int requestType;
 
     public MMICombiPopupRequest(int n, int n2, int n3, int n4, int n5, int n6, int n7) {
@@ -21,7 +21,6 @@ extends MMICombiPopupExchangePacket {
         return this.requestType;
     }
 
-    @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer(57);
         stringBuffer.append("MMICombiPopupRequest {");

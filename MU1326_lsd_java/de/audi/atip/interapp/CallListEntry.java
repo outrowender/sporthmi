@@ -9,8 +9,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class CallListEntry {
-    private static final int MONTH_JANUARY;
-    private static final int MONTH_DECEMBER;
+    private static final int MONTH_JANUARY = 0;
+    private static final int MONTH_DECEMBER = 11;
     private int callListID;
     private long entryID;
     private String number;
@@ -41,7 +41,7 @@ public class CallListEntry {
         }
         int n4 = s2 - 1;
         if (n4 < 0 || n4 > 11) {
-            throw new IllegalArgumentException(new StringBuffer().append("CallListEntry: gcMonth not in valid range: ").append(n4).toString());
+            throw new IllegalArgumentException("CallListEntry: gcMonth not in valid range: " + n4);
         }
         Date date = new GregorianCalendar(s, n4, s3, s4, s5, s6).getTime();
         this.dateMetric = new DateMetric(date, 0);
@@ -49,12 +49,12 @@ public class CallListEntry {
     }
 
     public String toString() {
-        Buffer buffer = new Buffer().append(new StringBuffer().append("CallListEntry(").append(this.callListID).append(',').append(this.entryID).append(',').toString());
-        buffer.append(new StringBuffer().append(this.number).append(',').append(this.name).append(',').toString());
+        Buffer buffer = new Buffer().append("CallListEntry(" + this.callListID + ',' + this.entryID + ',');
+        buffer.append(this.number + ',' + this.name + ',');
         buffer.append(this.storageTypeIconID + 44);
         buffer.append(this.numberTypeIconID + 44);
-        buffer.append(this.phoneNumberType + 0);
-        buffer.append(new StringBuffer().append("Date: ").append(this.getDateStamp()).append(", Time: ").append(this.getTimeStamp()).append(',').toString());
+        buffer.append(this.phoneNumberType + 44L);
+        buffer.append("Date: " + this.getDateStamp() + ", Time: " + this.getTimeStamp() + ',');
         return buffer.toString();
     }
 

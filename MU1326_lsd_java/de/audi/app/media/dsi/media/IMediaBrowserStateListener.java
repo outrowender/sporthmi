@@ -7,31 +7,22 @@ import de.audi.app.media.dsi.media.MediaListEntry;
 import org.dsi.ifc.global.CharacterInfo;
 
 public interface IMediaBrowserStateListener {
-    default public void updateBrowseFolder(MediaListEntry[] mediaListEntryArray) {
-    }
+    public void updateBrowseFolder(MediaListEntry[] var1);
 
-    default public void updateBrowseMode(int n) {
-    }
+    public void updateBrowseMode(int var1);
 
-    default public void updateContentFilter(int n) {
-    }
+    public void updateContentFilter(int var1);
 
-    default public void updateListSize(int n, int n2) {
-    }
+    public void updateListSize(int var1, int var2);
 
-    default public void selectionResult(int n, int n2, boolean bl, long l, long l2, long l3, long l4, long l5) {
-    }
+    public void selectionResult(int var1, int var2, boolean var3, long var4, long var6, long var8, long var10, long var12);
 
-    default public void errorFolderChange() {
-    }
+    public void errorFolderChange();
 
-    default public void errorSelection() {
-    }
+    public void errorSelection();
 
-    default public void errorBrowseMode() {
-    }
+    public void errorBrowseMode();
 
-    default public void updateAlphabeticalIndex(CharacterInfo[] characterInfoArray) {
-    }
+    public void updateAlphabeticalIndex(CharacterInfo[] var1);
 }
 

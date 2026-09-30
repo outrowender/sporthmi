@@ -40,7 +40,7 @@ extends AbstractADBHandler {
         if (indexInformationArray != null) {
             for (int i2 = 0; i2 < indexInformationArray.length; ++i2) {
                 if (indexInformationArray[i2] == null || indexInformationArray[i2].getViewtype() != 1) continue;
-                this.log.log(1078071040, "CombiADBHandler#updateAlphabeticalIndex(): received alphabeticalIndex for view type PHONE.");
+                this.log.log(1000000, "CombiADBHandler#updateAlphabeticalIndex(): received alphabeticalIndex for view type PHONE.");
                 this.alphabeticalIndex = indexInformationArray[i2];
             }
         }
@@ -63,31 +63,26 @@ extends AbstractADBHandler {
         return n;
     }
 
-    @Override
     public int getInitStartupCompleteMask() {
         return 229;
     }
 
-    @Override
     public void handleInvalidData(int n, boolean bl) {
-        this.log.log(1078071040, "CombiADBHandler#handleInvalidData(): reason: %1", (Object)ADBDbgUtils.dbgInvalidDataReason(n));
+        this.log.log(1000000, "CombiADBHandler#handleInvalidData(): reason: %1", (Object)ADBDbgUtils.dbgInvalidDataReason(n));
         GetCombiViewSizeCommand.createGetCombiViewSizeCommand(this, true, false);
     }
 
-    @Override
     protected ADBDSIDefaultListener getNewADBDSIDefaultListener(LogChannel logChannel, ADBStartupHandler aDBStartupHandler, ADBApplication aDBApplication) {
         return new CombiADBDSIDefaultListener(logChannel, aDBStartupHandler, this);
     }
 
-    @Override
     public void setAdbReady(boolean bl) {
         this.combiStateHandler.setAdbReady(bl);
         GetCombiViewSizeCommand.createGetCombiViewSizeCommand(this, true, false);
     }
 
-    @Override
     public void updateDownloadState(int n, int n2) {
-        this.log.log(1078071040, "CombiADBHandler#updateDownloadState(): downloadState: %1, failureReason: %2", (Object)ADBDbgUtils.dbgDownloadState(n), (Object)ADBDbgUtils.dbgFailureReason(n2));
+        this.log.log(1000000, "CombiADBHandler#updateDownloadState(): downloadState: %1, failureReason: %2", (Object)ADBDbgUtils.dbgDownloadState(n), (Object)ADBDbgUtils.dbgFailureReason(n2));
         this.combiStateHandler.setDownloadActive(ADBUtils.isDownloadStateActive(n));
         if (n == 0) {
             this.combiStateHandler.resetDownloadProgress();

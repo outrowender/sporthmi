@@ -10,13 +10,6 @@ import de.audi.app.earlyfunc.core.parking.pla.AbstractParkingSystemPLAComponent;
 import de.audi.app.earlyfunc.core.parking.pla.IPLAInterappServiceHandler;
 import de.audi.app.earlyfunc.core.parking.pla.IPLAPopinHandler;
 import de.audi.app.earlyfunc.core.parking.pla.PLAInterappStatus;
-import de.audi.app.earlyfunc.core.parking.pla.PLAPopinHandler$1;
-import de.audi.app.earlyfunc.core.parking.pla.PLAPopinHandler$2;
-import de.audi.app.earlyfunc.core.parking.pla.PLAPopinHandler$3;
-import de.audi.app.earlyfunc.core.parking.pla.PLAPopinHandler$4;
-import de.audi.app.earlyfunc.core.parking.pla.PLAPopinHandler$5;
-import de.audi.app.earlyfunc.core.parking.pla.PLAPopinHandler$AbstractPlaSMState;
-import de.audi.app.earlyfunc.core.parking.pla.PLAPopinHandler$PlaSMTransition;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
 import de.audi.atip.log.LogChannel;
 import org.dsi.ifc.carparkingsystem.DisplayContent;
@@ -24,28 +17,152 @@ import org.dsi.ifc.carparkingsystem.PDCPLAStatus;
 
 public class PLAPopinHandler
 implements IPLAPopinHandler {
-    private static final boolean PLA_INACTIVE;
-    private static final boolean PLA_ACTIVE;
-    public static final int SCREEN_PLA_NONE;
-    public static final int SCREEN_SEARCH_SELECTION;
-    public static final int SCREEN_IN_OUT_ACTIVE_OPS_STANDALONE;
-    private static final int STATE_ID_PLA_IDLE;
-    private static final int STATE_ID_PLA_BIG;
-    private static final int STATE_ID_PLA_IN_OUT_ACTIVE_PDC_UNKNOWN;
-    private static final int STATE_ID_PLA_IN_OUT_ACTIVE_VPS;
-    private static final int STATE_ID_PLA_IN_OUT_ACTIVE_OPS;
-    private static final int ACTION_NONE;
-    private static final int ACTION_UPDATE_CONTENT;
-    private static final int ACTION_HIJACK_PARKING_CONTROLLER;
-    private static final int ACTION_RELEASE_PARKING_CONTROLLER;
-    private static final int ACTION_SIGNAL_OPS_VPS_STATE;
-    private static final int ACTION_SWITCH_SCREEN;
-    private final PLAPopinHandler$AbstractPlaSMState statePlaIdle = new PLAPopinHandler$1(this, 0, 0, false, "STATE_PLA_IDLE");
-    private final PLAPopinHandler$AbstractPlaSMState statePlaBig = new PLAPopinHandler$2(this, 1, 1, true, "STATE_PLA_BIG");
-    private final PLAPopinHandler$AbstractPlaSMState statePlaInOutActivePdcUnknown = new PLAPopinHandler$3(this, 2, 0, false, "STATE_PLA_IN_OUT_ACTIVE_PDC_UNKNOWN");
-    private final PLAPopinHandler$AbstractPlaSMState statePlaInOutActiveVps = new PLAPopinHandler$4(this, 3, 0, true, "STATE_PLA_IN_OUT_ACTIVE_VPS");
-    private final PLAPopinHandler$AbstractPlaSMState statePlaInOutActiveOps = new PLAPopinHandler$5(this, 4, 2, true, "STATE_PLA_IN_OUT_ACTIVE_OPS");
-    private final PLAPopinHandler$PlaSMTransition[] plaStateTransitions = new PLAPopinHandler$PlaSMTransition[]{new PLAPopinHandler$PlaSMTransition(this, 0, 1, new int[]{2, 4}), new PLAPopinHandler$PlaSMTransition(this, 1, 0, new int[]{3}), new PLAPopinHandler$PlaSMTransition(this, 0, 4, new int[]{2, 4}), new PLAPopinHandler$PlaSMTransition(this, 4, 0, new int[]{3}), new PLAPopinHandler$PlaSMTransition(this, 0, 3, new int[]{4}), new PLAPopinHandler$PlaSMTransition(this, 3, 0, new int[]{0}), new PLAPopinHandler$PlaSMTransition(this, 0, 4, new int[]{2, 4}), new PLAPopinHandler$PlaSMTransition(this, 4, 0, new int[]{3}), new PLAPopinHandler$PlaSMTransition(this, 0, 2, new int[]{2}), new PLAPopinHandler$PlaSMTransition(this, 2, 0, new int[]{3}), new PLAPopinHandler$PlaSMTransition(this, 1, 4, new int[]{5}), new PLAPopinHandler$PlaSMTransition(this, 4, 1, new int[]{5}), new PLAPopinHandler$PlaSMTransition(this, 1, 3, new int[]{3, 4}), new PLAPopinHandler$PlaSMTransition(this, 3, 1, new int[]{2, 4}), new PLAPopinHandler$PlaSMTransition(this, 2, 4, new int[]{2}), new PLAPopinHandler$PlaSMTransition(this, 4, 2, new int[]{3}), new PLAPopinHandler$PlaSMTransition(this, 2, 3, new int[]{0}), new PLAPopinHandler$PlaSMTransition(this, 2, 1, new int[]{2, 4}), new PLAPopinHandler$PlaSMTransition(this, 3, 4, new int[]{2, 4}), new PLAPopinHandler$PlaSMTransition(this, 4, 3, new int[]{3, 4})};
+    private static final boolean PLA_INACTIVE = false;
+    private static final boolean PLA_ACTIVE = true;
+    public static final int SCREEN_PLA_NONE = 0;
+    public static final int SCREEN_SEARCH_SELECTION = 1;
+    public static final int SCREEN_IN_OUT_ACTIVE_OPS_STANDALONE = 2;
+    private static final int STATE_ID_PLA_IDLE = 0;
+    private static final int STATE_ID_PLA_BIG = 1;
+    private static final int STATE_ID_PLA_IN_OUT_ACTIVE_PDC_UNKNOWN = 2;
+    private static final int STATE_ID_PLA_IN_OUT_ACTIVE_VPS = 3;
+    private static final int STATE_ID_PLA_IN_OUT_ACTIVE_OPS = 4;
+    private static final int ACTION_NONE = 0;
+    private static final int ACTION_UPDATE_CONTENT = 1;
+    private static final int ACTION_HIJACK_PARKING_CONTROLLER = 2;
+    private static final int ACTION_RELEASE_PARKING_CONTROLLER = 3;
+    private static final int ACTION_SIGNAL_OPS_VPS_STATE = 4;
+    private static final int ACTION_SWITCH_SCREEN = 5;
+    private final AbstractPlaSMState statePlaIdle = new AbstractPlaSMState(0, 0, false, "STATE_PLA_IDLE"){
+
+        protected void processVpsOpsPopupUpdate(DisplayContent displayContent, boolean bl) {
+            PLAPopinHandler.this.switchSreen(this, 0);
+            PLAPopinHandler.this.canceledByHMI = false;
+            PLAPopinHandler.this.setQueuedDisplayContent(null);
+            PLAPopinHandler.this.removePopupRequest(this);
+            PLAPopinHandler.this.removeOPSPartialPopupSuppression(this);
+        }
+
+        protected void hijackParkingController() {
+        }
+
+        protected void releaseParkingController() {
+        }
+    };
+    private final AbstractPlaSMState statePlaBig = new AbstractPlaSMState(1, 1, true, "STATE_PLA_BIG"){
+
+        protected void processVpsOpsPopupUpdate(DisplayContent displayContent, boolean bl) {
+            if (PLAPopinHandler.this.controller.hasVPSContent(displayContent)) {
+                PLAPopinHandler.this.setQueuedDisplayContent(displayContent);
+                int n = this.getPLAReplacementPopupID(displayContent);
+                if (bl) {
+                    DisplayContent displayContent2 = new DisplayContent();
+                    displayContent2.popup = n;
+                    displayContent2.view = displayContent.view;
+                    displayContent2.screen = displayContent.screen;
+                    displayContent2.mode = displayContent.mode;
+                    PLAPopinHandler.this.logChannel.log(1000000, "[AbstractPlaSMState('%1')#processVpsOpsPopupUpdate] controller.changeDisplayContent('%2')", (Object)this, (Object)displayContent2);
+                    PLAPopinHandler.this.controller.changeDisplayContent(displayContent2, false);
+                } else {
+                    displayContent.popup = n;
+                    PLAPopinHandler.this.logChannel.log(1000000, "[AbstractPlaSMState('%1')#processVpsOpsPopupUpdate] changed DisplayContent for dsi.showParkingPopup() to '%2'", (Object)this, (Object)displayContent);
+                }
+            } else if (displayContent.popup == 0 || !bl && !PLAPopinHandler.this.controller.hasOPSContent(displayContent)) {
+                PLAPopinHandler.this.setQueuedDisplayContent(null);
+            }
+        }
+
+        protected void hijackParkingController() {
+            PLAPopinHandler.this.switchSreen(this, 1);
+            PLAPopinHandler.this.setPLAPopupControlActive(this, true);
+            PLAPopinHandler.this.application.getFrameworkAccess().getPowerMgr().setExtendedPowerState(140, 0);
+            PLAPopinHandler.this.addOPSPartialPopupSuppression(this);
+            PLAPopinHandler.this.addPopupRequest(this);
+        }
+
+        protected void releaseParkingController() {
+            PLAPopinHandler.this.setPLAPopupControlActive(this, false);
+            if (PLAPopinHandler.this.canceledByHMI) {
+                PLAPopinHandler.this.canceledByHMI = false;
+                if (PLAPopinHandler.this.opsActive) {
+                    return;
+                }
+            }
+            if (PLAPopinHandler.this.getQueuedDisplayContent() != null) {
+                DisplayContent displayContent = PLAPopinHandler.this.getQueuedDisplayContent();
+                PLAPopinHandler.this.changeRevokingVPSDisplayContent(displayContent);
+                PLAPopinHandler.this.logChannel.log(1000000, "[AbstractPlaSMState('%1')#releaseParkingController] controller.changeDisplayContent('%2','true')", (Object)this, (Object)displayContent);
+                PLAPopinHandler.this.controller.changeDisplayContent(displayContent, true);
+                PLAPopinHandler.this.setQueuedDisplayContent(null);
+            } else {
+                PLAPopinHandler.this.removePopupRequest(this);
+                PLAPopinHandler.this.removeOPSPartialPopupSuppression(this);
+                if (!PLAPopinHandler.this.opsActive) {
+                    PLAPopinHandler.this.application.getFrameworkAccess().getPowerMgr().setExtendedPowerState(142, 0);
+                }
+            }
+        }
+    };
+    private final AbstractPlaSMState statePlaInOutActivePdcUnknown = new AbstractPlaSMState(2, 0, false, "STATE_PLA_IN_OUT_ACTIVE_PDC_UNKNOWN"){
+
+        protected void processVpsOpsPopupUpdate(DisplayContent displayContent, boolean bl) {
+        }
+
+        protected void hijackParkingController() {
+            PLAPopinHandler.this.setPLAPopupControlActive(this, true);
+        }
+
+        protected void releaseParkingController() {
+            PLAPopinHandler.this.setPLAPopupControlActive(this, false);
+        }
+    };
+    private final AbstractPlaSMState statePlaInOutActiveVps = new AbstractPlaSMState(3, 0, true, "STATE_PLA_IN_OUT_ACTIVE_VPS"){
+
+        protected void processVpsOpsPopupUpdate(DisplayContent displayContent, boolean bl) {
+            if (bl) {
+                if (PLAPopinHandler.this.controller.hasVPSContent(displayContent)) {
+                    PLAPopinHandler.this.switchSreen(this, 0);
+                    PLAPopinHandler.this.removeOPSPartialPopupSuppression(this);
+                    PLAPopinHandler.this.removePopupRequest(this);
+                }
+            } else {
+                PLAPopinHandler.this.setPLAPopupControlActive(this, false);
+            }
+        }
+
+        protected void hijackParkingController() {
+        }
+
+        protected void releaseParkingController() {
+            PLAPopinHandler.this.setPLAPopupControlActive(this, false);
+        }
+    };
+    private final AbstractPlaSMState statePlaInOutActiveOps = new AbstractPlaSMState(4, 2, true, "STATE_PLA_IN_OUT_ACTIVE_OPS"){
+
+        protected void processVpsOpsPopupUpdate(DisplayContent displayContent, boolean bl) {
+            if (PLAPopinHandler.this.controller.hasOPSContent(displayContent) && !PLAPopinHandler.this.controller.hasVPSContent(displayContent)) {
+                PLAPopinHandler.this.switchSreen(this, 2);
+                PLAPopinHandler.this.addOPSPartialPopupSuppression(this);
+                PLAPopinHandler.this.addPopupRequest(this);
+            }
+        }
+
+        protected void hijackParkingController() {
+            PLAPopinHandler.this.setPLAPopupControlActive(this, true);
+        }
+
+        protected void releaseParkingController() {
+            PLAPopinHandler.this.setPLAPopupControlActive(this, false);
+            if (PLAPopinHandler.this.opsActive && PLAPopinHandler.this.canceledByHMI) {
+                PLAPopinHandler.this.canceledByHMI = false;
+                return;
+            }
+            PLAPopinHandler.this.removePopupRequest(this);
+            PLAPopinHandler.this.removeOPSPartialPopupSuppression(this);
+            PLAPopinHandler.this.switchSreen(this, 0);
+        }
+    };
+    private final PlaSMTransition[] plaStateTransitions = new PlaSMTransition[]{new PlaSMTransition(0, 1, new int[]{2, 4}), new PlaSMTransition(1, 0, new int[]{3}), new PlaSMTransition(0, 4, new int[]{2, 4}), new PlaSMTransition(4, 0, new int[]{3}), new PlaSMTransition(0, 3, new int[]{4}), new PlaSMTransition(3, 0, new int[]{0}), new PlaSMTransition(0, 4, new int[]{2, 4}), new PlaSMTransition(4, 0, new int[]{3}), new PlaSMTransition(0, 2, new int[]{2}), new PlaSMTransition(2, 0, new int[]{3}), new PlaSMTransition(1, 4, new int[]{5}), new PlaSMTransition(4, 1, new int[]{5}), new PlaSMTransition(1, 3, new int[]{3, 4}), new PlaSMTransition(3, 1, new int[]{2, 4}), new PlaSMTransition(2, 4, new int[]{2}), new PlaSMTransition(4, 2, new int[]{3}), new PlaSMTransition(2, 3, new int[]{0}), new PlaSMTransition(2, 1, new int[]{2, 4}), new PlaSMTransition(3, 4, new int[]{2, 4}), new PlaSMTransition(4, 3, new int[]{3, 4})};
     private boolean opsActive = false;
     private boolean canceledByHMI = false;
     private DisplayContent lastReceivedParkingPopupContent = new DisplayContent();
@@ -53,7 +170,7 @@ implements IPLAPopinHandler {
     private PDCPLAStatus currentPLAState = new PDCPLAStatus();
     private final IParkingSystemController controller;
     private final AbstractParkingSystemPLAComponent plaParkingSystem;
-    private PLAPopinHandler$AbstractPlaSMState currentPlaSMState;
+    private AbstractPlaSMState currentPlaSMState;
     private final LogChannel logChannel;
     private final ICarApplication application;
     private final IPLAInterappServiceHandler plaWidgetComHandler;
@@ -68,11 +185,9 @@ implements IPLAPopinHandler {
         this.currentPlaSMState = this.statePlaIdle;
     }
 
-    @Override
     public void init() {
     }
 
-    @Override
     public void deinit() {
     }
 
@@ -89,7 +204,7 @@ implements IPLAPopinHandler {
     }
 
     private void setQueuedDisplayContent(DisplayContent displayContent) {
-        this.logChannel.log(1078071040, "[PLAPopinHandler#setQueuedDsiplayContent] queuedDisplayContent='%2'", (Object)this, (Object)displayContent);
+        this.logChannel.log(1000000, "[PLAPopinHandler#setQueuedDsiplayContent] queuedDisplayContent='%2'", (Object)this, (Object)displayContent);
         this.queuedDisplayContent = displayContent != null ? new DisplayContent(displayContent.getPopup(), displayContent.getScreen(), displayContent.getView(), displayContent.getMode()) : displayContent;
     }
 
@@ -105,10 +220,9 @@ implements IPLAPopinHandler {
     }
 
     private boolean isTopViewAvailable() {
-        return this.application.getFrameworkAccess().getHMIService().getChoiceModel(-771022848).getValue() == 0;
+        return this.application.getFrameworkAccess().getHMIService().getChoiceModel(2100178).getValue() == 0;
     }
 
-    @Override
     public void updateVpsOpsPopup(DisplayContent displayContent, boolean bl) {
         this.setLastReceivedParkingPopupContent(displayContent, bl);
         PDCPLAStatus pDCPLAStatus = this.getCurrentPLAState();
@@ -127,7 +241,6 @@ implements IPLAPopinHandler {
         this.currentPlaSMState.updateVpsOpsPopup(displayContent, bl);
     }
 
-    @Override
     public void updatePDCPLAStatus(PDCPLAStatus pDCPLAStatus) {
         this.setCurrentPLAState(pDCPLAStatus);
         boolean bl = this.updatePLAWidgetState(this.isOpsActive(), pDCPLAStatus);
@@ -174,28 +287,28 @@ implements IPLAPopinHandler {
         return true;
     }
 
-    private void setPLAPopupControlActive(PLAPopinHandler$AbstractPlaSMState pLAPopinHandler$AbstractPlaSMState, boolean bl) {
-        this.logChannel.log(1078071040, "[AbstractPlaSMState('%1')#setPLAPopupControlActive] active='%2'", (Object)pLAPopinHandler$AbstractPlaSMState, (Object)bl);
+    private void setPLAPopupControlActive(AbstractPlaSMState abstractPlaSMState, boolean bl) {
+        this.logChannel.log(1000000, "[AbstractPlaSMState('%1')#setPLAPopupControlActive] active='%2'", (Object)abstractPlaSMState, (Object)bl);
         this.controller.notifyParkingSystemActive(this.plaParkingSystem, bl);
     }
 
-    private void addOPSPartialPopupSuppression(PLAPopinHandler$AbstractPlaSMState pLAPopinHandler$AbstractPlaSMState) {
-        this.logChannel.log(1078071040, "[AbstractPlaSMState('%1')#addOPSPartialPopupSuppression] popupID='%2'", (Object)pLAPopinHandler$AbstractPlaSMState, (long)this.plaParkingSystem.getPLAPartialPopupID());
+    private void addOPSPartialPopupSuppression(AbstractPlaSMState abstractPlaSMState) {
+        this.logChannel.log(1000000, "[AbstractPlaSMState('%1')#addOPSPartialPopupSuppression] popupID='%2'", (Object)abstractPlaSMState, (long)this.plaParkingSystem.getPLAPartialPopupID());
         this.controller.addPopupRequestSuppression(new ParkingPopupIdentifier(1, this.plaParkingSystem.getPLAPartialPopupID()), this.plaParkingSystem);
     }
 
-    private void removeOPSPartialPopupSuppression(PLAPopinHandler$AbstractPlaSMState pLAPopinHandler$AbstractPlaSMState) {
-        this.logChannel.log(1078071040, "[AbstractPlaSMState('%1')#removeOPSPartialPopupSuppression] popupID='%2'", (Object)pLAPopinHandler$AbstractPlaSMState, (long)this.plaParkingSystem.getPLAPartialPopupID());
+    private void removeOPSPartialPopupSuppression(AbstractPlaSMState abstractPlaSMState) {
+        this.logChannel.log(1000000, "[AbstractPlaSMState('%1')#removeOPSPartialPopupSuppression] popupID='%2'", (Object)abstractPlaSMState, (long)this.plaParkingSystem.getPLAPartialPopupID());
         this.controller.removePopupRequestSuppression(new ParkingPopupIdentifier(1, this.plaParkingSystem.getPLAPartialPopupID()), this.plaParkingSystem);
     }
 
-    private void addPopupRequest(PLAPopinHandler$AbstractPlaSMState pLAPopinHandler$AbstractPlaSMState) {
-        this.logChannel.log(1078071040, "[AbstractPlaSMState('%1')#addPopupRequest] popupID='%2'", (Object)pLAPopinHandler$AbstractPlaSMState, (Object)this.plaParkingSystem.getHMIPopupID(0));
+    private void addPopupRequest(AbstractPlaSMState abstractPlaSMState) {
+        this.logChannel.log(1000000, "[AbstractPlaSMState('%1')#addPopupRequest] popupID='%2'", (Object)abstractPlaSMState, (Object)this.plaParkingSystem.getHMIPopupID(0));
         this.controller.addPopupRequest(this.plaParkingSystem.getHMIPopupID(0), this.plaParkingSystem);
     }
 
-    private void removePopupRequest(PLAPopinHandler$AbstractPlaSMState pLAPopinHandler$AbstractPlaSMState) {
-        this.logChannel.log(1078071040, "[AbstractPlaSMState('%1')#removePopupRequest] popupID='%2'", (Object)pLAPopinHandler$AbstractPlaSMState, (Object)this.plaParkingSystem.getHMIPopupID(0));
+    private void removePopupRequest(AbstractPlaSMState abstractPlaSMState) {
+        this.logChannel.log(1000000, "[AbstractPlaSMState('%1')#removePopupRequest] popupID='%2'", (Object)abstractPlaSMState, (Object)this.plaParkingSystem.getHMIPopupID(0));
         this.controller.removePopupRequest(this.plaParkingSystem.getHMIPopupID(0), this.plaParkingSystem);
     }
 
@@ -215,18 +328,18 @@ implements IPLAPopinHandler {
     }
 
     private void updateMode(int n, boolean bl) {
-        this.logChannel.log(1078071040, "[PLAPopinHandler#updateMode] mode='%1'", (long)n);
-        PLAPopinHandler$AbstractPlaSMState pLAPopinHandler$AbstractPlaSMState = this.determineTargetState(n, bl);
-        int[] nArray = this.getActionList(this.currentPlaSMState.getId(), pLAPopinHandler$AbstractPlaSMState.getId());
-        this.logChannel.log(1078071040, "[PLAPopinHandler#updateMode] execute actions for transition from currentState='%1' to targetState='%2': actions='%3'", (Object)this.currentPlaSMState, (Object)pLAPopinHandler$AbstractPlaSMState, (Object)nArray);
+        this.logChannel.log(1000000, "[PLAPopinHandler#updateMode] mode='%1'", (long)n);
+        AbstractPlaSMState abstractPlaSMState = this.determineTargetState(n, bl);
+        int[] nArray = this.getActionList(this.currentPlaSMState.getId(), abstractPlaSMState.getId());
+        this.logChannel.log(1000000, "[PLAPopinHandler#updateMode] execute actions for transition from currentState='%1' to targetState='%2': actions='%3'", (Object)this.currentPlaSMState, (Object)abstractPlaSMState, (Object)nArray);
         block6: for (int i2 = 0; i2 < nArray.length; ++i2) {
             switch (nArray[i2]) {
                 case 5: {
-                    this.switchSreen(pLAPopinHandler$AbstractPlaSMState, PLAPopinHandler$AbstractPlaSMState.access$1400(pLAPopinHandler$AbstractPlaSMState));
+                    this.switchSreen(abstractPlaSMState, abstractPlaSMState.getScreen());
                     continue block6;
                 }
                 case 2: {
-                    pLAPopinHandler$AbstractPlaSMState.hijackParkingController();
+                    abstractPlaSMState.hijackParkingController();
                     continue block6;
                 }
                 case 3: {
@@ -234,17 +347,17 @@ implements IPLAPopinHandler {
                     continue block6;
                 }
                 case 4: {
-                    pLAPopinHandler$AbstractPlaSMState.updateVpsOpsPopup(this.getLastReceivedParkingPopupContent(), this.isContentShown);
+                    abstractPlaSMState.updateVpsOpsPopup(this.getLastReceivedParkingPopupContent(), this.isContentShown);
                     continue block6;
                 }
             }
         }
-        this.currentPlaSMState = pLAPopinHandler$AbstractPlaSMState;
+        this.currentPlaSMState = abstractPlaSMState;
     }
 
-    private void switchSreen(PLAPopinHandler$AbstractPlaSMState pLAPopinHandler$AbstractPlaSMState, int n) {
-        this.logChannel.log(1078071040, "[AbstractPlaSMState('%1')#switchSreen] screen='%2'", (Object)pLAPopinHandler$AbstractPlaSMState, (long)n);
-        ChoiceModelApp choiceModelApp = this.application.getFrameworkAccess().getHmiServiceApp().getChoiceModel(2047614976);
+    private void switchSreen(AbstractPlaSMState abstractPlaSMState, int n) {
+        this.logChannel.log(1000000, "[AbstractPlaSMState('%1')#switchSreen] screen='%2'", (Object)abstractPlaSMState, (long)n);
+        ChoiceModelApp choiceModelApp = this.application.getFrameworkAccess().getHmiServiceApp().getChoiceModel(2100346);
         choiceModelApp.forceUpdate(false);
         choiceModelApp.setValue(n);
         this.plaParkingSystem.notifyPlaOpsStandaloneVisibleState(n == 2);
@@ -253,15 +366,15 @@ implements IPLAPopinHandler {
     private int[] getActionList(int n, int n2) {
         if (n != n2) {
             for (int i2 = 0; i2 < this.plaStateTransitions.length; ++i2) {
-                PLAPopinHandler$PlaSMTransition pLAPopinHandler$PlaSMTransition = this.plaStateTransitions[i2];
-                if (pLAPopinHandler$PlaSMTransition.getSourceState() != n || pLAPopinHandler$PlaSMTransition.getTargetState() != n2) continue;
-                return pLAPopinHandler$PlaSMTransition.getActions();
+                PlaSMTransition plaSMTransition = this.plaStateTransitions[i2];
+                if (plaSMTransition.getSourceState() != n || plaSMTransition.getTargetState() != n2) continue;
+                return plaSMTransition.getActions();
             }
         }
         return new int[0];
     }
 
-    private PLAPopinHandler$AbstractPlaSMState determineTargetState(int n, boolean bl) {
+    private AbstractPlaSMState determineTargetState(int n, boolean bl) {
         if (bl) {
             return this.statePlaBig;
         }
@@ -277,76 +390,88 @@ implements IPLAPopinHandler {
         return this.statePlaIdle;
     }
 
-    @Override
     public void setCanceledByHMI() {
         this.canceledByHMI = true;
     }
 
-    @Override
     public boolean isPlaInOutActiveOpsStandalone() {
-        ChoiceModelApp choiceModelApp = this.application.getFrameworkAccess().getHmiServiceApp().getChoiceModel(2047614976);
+        ChoiceModelApp choiceModelApp = this.application.getFrameworkAccess().getHmiServiceApp().getChoiceModel(2100346);
         return choiceModelApp.getValue() == 2;
     }
 
-    static /* synthetic */ void access$000(PLAPopinHandler pLAPopinHandler, PLAPopinHandler$AbstractPlaSMState abstractPlaSMState, int n) {
-        pLAPopinHandler.switchSreen(abstractPlaSMState, n);
+    private class PlaSMTransition {
+        private final int sourceState;
+        private final int targetState;
+        private final int[] actions;
+
+        PlaSMTransition(int n, int n2, int[] nArray) {
+            this.sourceState = n;
+            this.targetState = n2;
+            this.actions = nArray;
+        }
+
+        int getSourceState() {
+            return this.sourceState;
+        }
+
+        int getTargetState() {
+            return this.targetState;
+        }
+
+        int[] getActions() {
+            return this.actions;
+        }
     }
 
-    static /* synthetic */ boolean access$102(PLAPopinHandler pLAPopinHandler, boolean bl) {
-        pLAPopinHandler.canceledByHMI = bl;
-        return pLAPopinHandler.canceledByHMI;
-    }
+    abstract class AbstractPlaSMState {
+        private final int id;
+        private final String stateName;
+        private final int screen;
+        private final boolean plaActive;
 
-    static /* synthetic */ void access$200(PLAPopinHandler pLAPopinHandler, DisplayContent displayContent) {
-        pLAPopinHandler.setQueuedDisplayContent(displayContent);
-    }
+        AbstractPlaSMState(int n, int n2, boolean bl, String string) {
+            this.id = n;
+            this.screen = n2;
+            this.plaActive = bl;
+            this.stateName = string;
+        }
 
-    static /* synthetic */ void access$300(PLAPopinHandler pLAPopinHandler, PLAPopinHandler$AbstractPlaSMState abstractPlaSMState) {
-        pLAPopinHandler.removePopupRequest(abstractPlaSMState);
-    }
+        int getId() {
+            return this.id;
+        }
 
-    static /* synthetic */ void access$400(PLAPopinHandler pLAPopinHandler, PLAPopinHandler$AbstractPlaSMState abstractPlaSMState) {
-        pLAPopinHandler.removeOPSPartialPopupSuppression(abstractPlaSMState);
-    }
+        private int getScreen() {
+            return this.screen;
+        }
 
-    static /* synthetic */ IParkingSystemController access$500(PLAPopinHandler pLAPopinHandler) {
-        return pLAPopinHandler.controller;
-    }
+        private boolean isPlaActive() {
+            return this.plaActive;
+        }
 
-    static /* synthetic */ LogChannel access$600(PLAPopinHandler pLAPopinHandler) {
-        return pLAPopinHandler.logChannel;
-    }
+        private String getStateName() {
+            return this.stateName;
+        }
 
-    static /* synthetic */ void access$700(PLAPopinHandler pLAPopinHandler, PLAPopinHandler$AbstractPlaSMState abstractPlaSMState, boolean bl) {
-        pLAPopinHandler.setPLAPopupControlActive(abstractPlaSMState, bl);
-    }
+        public String toString() {
+            StringBuffer stringBuffer = new StringBuffer(30);
+            stringBuffer.append(this.getStateName()).append('(').append(this.getId()).append(')');
+            return stringBuffer.toString();
+        }
 
-    static /* synthetic */ ICarApplication access$800(PLAPopinHandler pLAPopinHandler) {
-        return pLAPopinHandler.application;
-    }
+        public int getPLAReplacementPopupID(DisplayContent displayContent) {
+            return 15;
+        }
 
-    static /* synthetic */ void access$900(PLAPopinHandler pLAPopinHandler, PLAPopinHandler$AbstractPlaSMState abstractPlaSMState) {
-        pLAPopinHandler.addOPSPartialPopupSuppression(abstractPlaSMState);
-    }
+        public void updateVpsOpsPopup(DisplayContent displayContent, boolean bl) {
+            PLAPopinHandler.this.logChannel.log(1000000, "[AbstractPlaSMState('%1')#updateVpsOpsPopup] content='%2' , displayed='%3'", (Object)this, (Object)displayContent, (Object)bl);
+            this.processVpsOpsPopupUpdate(displayContent, bl);
+        }
 
-    static /* synthetic */ void access$1000(PLAPopinHandler pLAPopinHandler, PLAPopinHandler$AbstractPlaSMState abstractPlaSMState) {
-        pLAPopinHandler.addPopupRequest(abstractPlaSMState);
-    }
+        protected abstract void processVpsOpsPopupUpdate(DisplayContent var1, boolean var2);
 
-    static /* synthetic */ boolean access$100(PLAPopinHandler pLAPopinHandler) {
-        return pLAPopinHandler.canceledByHMI;
-    }
+        protected abstract void hijackParkingController();
 
-    static /* synthetic */ boolean access$1100(PLAPopinHandler pLAPopinHandler) {
-        return pLAPopinHandler.opsActive;
-    }
-
-    static /* synthetic */ DisplayContent access$1200(PLAPopinHandler pLAPopinHandler) {
-        return pLAPopinHandler.getQueuedDisplayContent();
-    }
-
-    static /* synthetic */ void access$1300(PLAPopinHandler pLAPopinHandler, DisplayContent displayContent) {
-        pLAPopinHandler.changeRevokingVPSDisplayContent(displayContent);
+        protected abstract void releaseParkingController();
     }
 }
 

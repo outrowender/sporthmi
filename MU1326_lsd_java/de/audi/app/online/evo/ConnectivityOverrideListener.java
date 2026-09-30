@@ -21,34 +21,30 @@ implements ButtonListener {
         this.modelBankAccess = onlineModelBankAccess;
         this.logChannel = logChannel;
         this.remotehmiService = remoteHMIService;
-        ButtonModelApp buttonModelApp = onlineModelBankAccess.getButtonModel(874324736);
+        ButtonModelApp buttonModelApp = onlineModelBankAccess.getButtonModel(2301236);
         buttonModelApp.setButtonListener(this);
     }
 
-    @Override
     public void keyPressed(int n, int n2, int n3) {
-        this.logChannel.log(1078071040, "ConnectivityOverrideListener#keyPressed: called for modelID %1, keyID %2", (long)n, (long)n2);
-        RemoteHMIAction remoteHMIAction = this.remotehmiService.getAction(1195308805);
+        this.logChannel.log(1000000, "ConnectivityOverrideListener#keyPressed: called for modelID %1, keyID %2", (long)n, (long)n2);
+        RemoteHMIAction remoteHMIAction = this.remotehmiService.getAction(100089415);
         this.remotehmiService.invokeAction(remoteHMIAction);
-        ChoiceModelApp choiceModelApp = this.modelBankAccess.getChoiceModel(907813632);
+        ChoiceModelApp choiceModelApp = this.modelBankAccess.getChoiceModel(2300982);
         choiceModelApp.setValue(1);
-        ButtonModelApp buttonModelApp = this.modelBankAccess.getButtonModel(874324736);
+        ButtonModelApp buttonModelApp = this.modelBankAccess.getButtonModel(2301236);
         buttonModelApp.fireEvent(0);
     }
 
-    @Override
     public void keyReleased(int n, int n2, int n3) {
-        this.logChannel.log(1078071040, "ConnectivityOverrideListener#keyReleased: called for modelID %1, keyID %2", (long)n, (long)n2);
+        this.logChannel.log(1000000, "ConnectivityOverrideListener#keyReleased: called for modelID %1, keyID %2", (long)n, (long)n2);
     }
 
-    @Override
     public void keyTyped(int n, int n2, int n3) {
-        this.logChannel.log(1078071040, "ConnectivityOverrideListener#keyTyped: called for modelID %1, keyID %2", (long)n, (long)n2);
+        this.logChannel.log(1000000, "ConnectivityOverrideListener#keyTyped: called for modelID %1, keyID %2", (long)n, (long)n2);
     }
 
-    @Override
     public void keyLongTyped(int n, int n2, int n3) {
-        this.logChannel.log(1078071040, "ConnectivityOverrideListener#keyLongTyped: called for modelID %1, keyID %2", (long)n, (long)n2);
+        this.logChannel.log(1000000, "ConnectivityOverrideListener#keyLongTyped: called for modelID %1, keyID %2", (long)n, (long)n2);
     }
 }
 

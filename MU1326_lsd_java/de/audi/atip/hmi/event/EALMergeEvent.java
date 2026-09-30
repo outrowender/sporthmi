@@ -24,7 +24,7 @@ extends ATIPEvent {
     }
 
     public String toString() {
-        return new StringBuffer().append("EALMergeEvent: nodeName = ").append(this.nodeName).toString();
+        return "EALMergeEvent: nodeName = " + this.nodeName;
     }
 }
 

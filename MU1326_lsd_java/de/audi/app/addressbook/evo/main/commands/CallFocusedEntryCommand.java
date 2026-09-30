@@ -21,7 +21,6 @@ extends AbstractGetEntryCommand {
         this.appAdr = addressBookEvoApplication;
     }
 
-    @Override
     protected boolean handleGetEntryResult(AdbEntry adbEntry) {
         BaseListModelApp baseListModelApp = this.appAdr.getSelectedEntryDetails().getTelNumberList();
         if (baseListModelApp.getLength() == 1) {

@@ -13,28 +13,28 @@ import org.dsi.ifc.search.Token;
 
 public abstract class AbstractSearchResultLayouter
 implements IMediaSearchResultLayouter {
-    private static final String LOGCLASS;
-    protected static final int NO_SYMBOL;
-    protected static final int SYMBOL_TITLE;
-    protected static final int SYMBOL_ALBUM;
-    protected static final int SYMBOL_ARTIST;
-    protected static final int SYMBOL_VIDEO;
-    protected static final int SYMBOL_GENRE;
-    protected static final int SYMBOL_PLAYLIST;
-    protected static final int SYMBOL_FOLDER;
-    protected static final int SYMBOL_COMPOSER;
-    protected static final int SYMBOL_PODCAST;
-    protected static final int SYMBOL_AUDIOBOOK;
-    public static final int EF_MEDIA_NOT_INTERNATIONALIZED;
-    public static final int EF_MEDIA_UNKNOWN_TITLE;
-    public static final int EF_MEDIA_UNKNOWN_ARTIST;
-    public static final int EF_MEDIA_VARIOUS_ARTISTS;
-    public static final int EF_MEDIA_UNKNOWN_ALBUM;
-    public static final int EF_MEDIA_UNKNOWN_GENRE;
-    public static final int EF_MEDIA_CDDA_TRACK;
-    public static final int EF_MEDIA_UNKNOWN_COMPOSER;
-    public static final int EF_MEDIA_UNKNOWN_COMPOSERS;
-    public static final int I18N_NO_VALUE;
+    private static final String LOGCLASS = "AbstractSearchResultLayouter";
+    protected static final int NO_SYMBOL = -1;
+    protected static final int SYMBOL_TITLE = 0;
+    protected static final int SYMBOL_ALBUM = 1;
+    protected static final int SYMBOL_ARTIST = 2;
+    protected static final int SYMBOL_VIDEO = 3;
+    protected static final int SYMBOL_GENRE = 4;
+    protected static final int SYMBOL_PLAYLIST = 5;
+    protected static final int SYMBOL_FOLDER = 6;
+    protected static final int SYMBOL_COMPOSER = 7;
+    protected static final int SYMBOL_PODCAST = 8;
+    protected static final int SYMBOL_AUDIOBOOK = 9;
+    public static final int EF_MEDIA_NOT_INTERNATIONALIZED = 0;
+    public static final int EF_MEDIA_UNKNOWN_TITLE = 1;
+    public static final int EF_MEDIA_UNKNOWN_ARTIST = 2;
+    public static final int EF_MEDIA_VARIOUS_ARTISTS = 4;
+    public static final int EF_MEDIA_UNKNOWN_ALBUM = 8;
+    public static final int EF_MEDIA_UNKNOWN_GENRE = 16;
+    public static final int EF_MEDIA_CDDA_TRACK = 32;
+    public static final int EF_MEDIA_UNKNOWN_COMPOSER = 64;
+    public static final int EF_MEDIA_UNKNOWN_COMPOSERS = 128;
+    public static final int I18N_NO_VALUE = 99;
     protected final LogChannel logger;
     protected volatile int layout;
 
@@ -43,16 +43,14 @@ implements IMediaSearchResultLayouter {
         this.layout = n;
     }
 
-    @Override
     public void setLayout(int n) {
         this.layout = n;
     }
 
-    @Override
     public int getRecordSet(int n) {
         int n2;
         if (this.logger.isDebug2()) {
-            this.logger.log(14808325, "[%1.getRecordSet]", (Object)"AbstractSearchResultLayouter");
+            this.logger.log(100000000, "[%1.getRecordSet]", (Object)LOGCLASS);
         }
         switch (this.layout) {
             case 1: {
@@ -104,7 +102,7 @@ implements IMediaSearchResultLayouter {
         Token[] tokenArray;
         Token token;
         if (this.logger.isDebug2()) {
-            this.logger.log(14808325, "[%1.getListCellForWordtype] type='%2'", (Object)"AbstractSearchResultLayouter", (Object)AbstractSearchResultLayouter.getWordTypeString(n));
+            this.logger.log(100000000, "[%1.getListCellForWordtype] type='%2'", (Object)LOGCLASS, (Object)AbstractSearchResultLayouter.getWordTypeString(n));
         }
         if (AbstractSearchResultFormatter.isEmpty(token = AbstractSearchResultFormatter.getTokenForType(tokenArray = searchResult.getTokens(), n))) {
             return null;
@@ -184,7 +182,7 @@ implements IMediaSearchResultLayouter {
                 break;
             }
             default: {
-                string = new StringBuffer().append("NOT A MEDIA WORDTYPE: ").append(n).toString();
+                string = "NOT A MEDIA WORDTYPE: " + n;
             }
         }
         return string;

@@ -7,22 +7,16 @@ import de.audi.atip.interapp.bap.eni.data.MobileKeyCount;
 import de.audi.atip.interapp.bap.remoteservices.data.VTANData;
 
 public interface ENIMobileKeyListener {
-    default public void onMobileDeviceKeyCount(MobileKeyCount mobileKeyCount) {
-    }
+    public void onMobileDeviceKeyCount(MobileKeyCount var1);
 
-    default public void onVTANAuthDataFinished(boolean bl, String string) {
-    }
+    public void onVTANAuthDataFinished(boolean var1, String var2);
 
-    default public void onRemoteProcessGetVtan(int n, int n2) {
-    }
+    public void onRemoteProcessGetVtan(int var1, int var2);
 
-    default public void onRemoteProcessFinished(boolean bl) {
-    }
+    public void onRemoteProcessFinished(boolean var1);
 
-    default public void onVtanDataEncrypted(String string) {
-    }
+    public void onVtanDataEncrypted(String var1);
 
-    default public void onVTANDecryptionFinished(boolean bl, VTANData vTANData) {
-    }
+    public void onVTANDecryptionFinished(boolean var1, VTANData var2);
 }
 

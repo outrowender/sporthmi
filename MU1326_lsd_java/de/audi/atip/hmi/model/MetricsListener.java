@@ -4,7 +4,6 @@
 package de.audi.atip.hmi.model;
 
 public interface MetricsListener {
-    default public void metricsUpdated(int n, int n2) {
-    }
+    public void metricsUpdated(int var1, int var2);
 }
 

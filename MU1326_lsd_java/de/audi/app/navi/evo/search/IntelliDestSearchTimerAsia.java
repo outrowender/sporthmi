@@ -4,40 +4,49 @@
 package de.audi.app.navi.evo.search;
 
 import de.audi.app.navi.evo.search.IIntelliDestSearchTimer;
-import de.audi.app.navi.evo.search.IntelliDestSearchTimerAsia$1;
 import de.audi.atip.log.LogChannel;
 import de.audi.atip.timer.Timer;
+import de.audi.atip.timer.TimerListener;
 import de.audi.tghu.navi.app.NavigationEnv;
 
 public class IntelliDestSearchTimerAsia
 implements IIntelliDestSearchTimer {
-    private static final int ASIA_SEARCH_BUTTON_TIMERDELAY;
-    private static final int SHOW;
+    private static final int ASIA_SEARCH_BUTTON_TIMERDELAY = 10000;
+    private static final int SHOW = 1;
     protected Timer timerAsia;
     public NavigationEnv env;
     public LogChannel logChannel;
     static /* synthetic */ Class class$de$audi$app$navi$evo$search$IntelliDestSearchTimerAsia;
 
-    protected IntelliDestSearchTimerAsia(NavigationEnv navigationEnv, LogChannel logChannel) {
+    protected IntelliDestSearchTimerAsia(NavigationEnv navigationEnv, final LogChannel logChannel) {
         this.env = navigationEnv;
         this.logChannel = logChannel;
-        IntelliDestSearchTimerAsia$1 intelliDestSearchTimerAsia$1 = new IntelliDestSearchTimerAsia$1(this, logChannel);
-        this.timerAsia = new Timer("IntelliDestSearchTimerAsia", 5, logChannel, intelliDestSearchTimerAsia$1, 0, false);
+        TimerListener timerListener = new TimerListener(){
+
+            public void fireTimer(Timer timer) {
+                if (logChannel != null) {
+                    logChannel.log(10000000, "%1#fireTimer() -> displayOnlineSearchButton()", (Object)(class$de$audi$app$navi$evo$search$IntelliDestSearchTimerAsia == null ? (class$de$audi$app$navi$evo$search$IntelliDestSearchTimerAsia = IntelliDestSearchTimerAsia.class$("de.audi.app.navi.evo.search.IntelliDestSearchTimerAsia")) : class$de$audi$app$navi$evo$search$IntelliDestSearchTimerAsia).getName());
+                }
+                IntelliDestSearchTimerAsia.this.displayOnlineSearchButton();
+            }
+
+            public void cancelTimer(Timer timer) {
+            }
+        };
+        this.timerAsia = new Timer("IntelliDestSearchTimerAsia", 5, logChannel, timerListener, 10000L, false);
     }
 
-    @Override
     public void restart() {
         this.timerAsia.restart();
-        this.env.getChoiceModel(-1306327552).setValue(0);
+        this.env.getChoiceModel(402354).setValue(0);
     }
 
-    @Override
     public void stop() {
         this.timerAsia.cancel();
     }
 
     private void displayOnlineSearchButton() {
-        this.env.getChoiceModel(-1306327552).setValue(1);
+        this.env.getChoiceModel(402354).setValue(1);
     }
 
     static /* synthetic */ Class class$(String string) {
@@ -47,10 +56,6 @@ implements IIntelliDestSearchTimer {
         catch (ClassNotFoundException classNotFoundException) {
             throw new NoClassDefFoundError().initCause(classNotFoundException);
         }
-    }
-
-    static /* synthetic */ void access$000(IntelliDestSearchTimerAsia intelliDestSearchTimerAsia) {
-        intelliDestSearchTimerAsia.displayOnlineSearchButton();
     }
 }
 

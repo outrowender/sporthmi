@@ -8,67 +8,46 @@ import de.audi.atip.interapp.bap.ecall.data.PhoneCall;
 
 public interface BAPServiceEcall
 extends BAPService {
-    default public void setAudioSource(int n) {
-    }
+    public void setAudioSource(int var1);
 
-    default public void hangupCall(PhoneCall phoneCall) {
-    }
+    public void hangupCall(PhoneCall var1);
 
-    default public void hangupAllActiveCalls() {
-    }
+    public void hangupAllActiveCalls();
 
-    default public void hangupAllHeldCalls() {
-    }
+    public void hangupAllHeldCalls();
 
-    default public void hangupAllActiveAndHeldCalls() {
-    }
+    public void hangupAllActiveAndHeldCalls();
 
-    default public void hangupAllCalls() {
-    }
+    public void hangupAllCalls();
 
-    default public void acceptCall() {
-    }
+    public void acceptCall();
 
-    default public void acceptServiceRequest(int n) {
-    }
+    public void acceptServiceRequest(int var1);
 
-    default public void rejectServiceRequest(int n) {
-    }
+    public void rejectServiceRequest(int var1);
 
-    default public void rejectAllServiceRequests() {
-    }
+    public void rejectAllServiceRequests();
 
-    default public void terminateServiceRequest(int n) {
-    }
+    public void terminateServiceRequest(int var1);
 
-    default public void startBreakdownCall() {
-    }
+    public void startBreakdownCall();
 
-    default public void startInfoCall() {
-    }
+    public void startInfoCall();
 
-    default public void startManualEmergencyCall() {
-    }
+    public void startManualEmergencyCall();
 
-    default public void startTestMode() {
-    }
+    public void startTestMode();
 
-    default public void getCallState() {
-    }
+    public void getCallState();
 
-    default public void getServiceRequest() {
-    }
+    public void getServiceRequest();
 
-    default public void getServiceState() {
-    }
+    public void getServiceState();
 
-    default public void getSupportedServices() {
-    }
+    public void getSupportedServices();
 
-    default public void getFunctionalState() {
-    }
+    public void getFunctionalState();
 
-    default public void dialNumber(String string) {
-    }
+    public void dialNumber(String var1);
 }
 

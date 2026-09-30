@@ -6,12 +6,12 @@ package de.audi.app.car.core.aircondition;
 import de.audi.app.car.common.adapter.AbstractDSICarAirConditionAdapter;
 import de.audi.app.car.common.app.ICarApplication;
 import de.audi.app.car.common.comp.CarDSIAttributesSet;
-import de.audi.app.car.core.aircondition.AbstractAirconSeatComponent$1;
 import de.audi.app.car.core.aircondition.AirconConfig;
 import de.audi.app.car.core.aircondition.IAirconConstants;
 import de.audi.app.car.core.aircondition.SeatACRotaryToGraphicMapper;
 import de.audi.app.car.core.app.AbstractRangeToChoiceModelMapper;
 import de.audi.app.car.core.app.RangeModelWatcherTimer;
+import de.audi.atip.hmi.model.DefaultRangeListener;
 import de.audi.atip.hmi.model.RangeListener;
 import de.audi.atip.hmi.modelaccess.RangeModelApp;
 import de.audi.atip.log.LogChannel;
@@ -22,14 +22,63 @@ import org.dsi.ifc.caraircondition.AirconRowViewOptions;
 public abstract class AbstractAirconSeatComponent
 extends AbstractDSICarAirConditionAdapter
 implements IAirconConstants {
-    public static final short CODING_ID;
-    public static final String LOGCHANNEL_NAME;
-    public static final String DSI_LOGCHANNEL_NAME;
-    private static final int FUNCTIONTYPE_VENTILATION;
-    private static final int FUNCTIONTYPE_HEATING;
+    public static final short CODING_ID = 8;
+    public static final String LOGCHANNEL_NAME = "App.Car.AirCondition.Seat";
+    public static final String DSI_LOGCHANNEL_NAME = "App.Car.AirCondition.DSI";
+    private static final int FUNCTIONTYPE_VENTILATION = 1;
+    private static final int FUNCTIONTYPE_HEATING = 2;
     private final LogChannel dsiLogChannel;
     protected AirconConfig config = new AirconConfig();
-    private final RangeListener rangeListener = new AbstractAirconSeatComponent$1(this);
+    private final RangeListener rangeListener = new DefaultRangeListener(){
+
+        public void keyPressed(int n, int n2, int n3) {
+            AbstractAirconSeatComponent.this.getLogChannel().log(1000000, "[AbstractAirConditionSeatComponent#keyPressed] modelID='%1'", (long)n);
+            switch (n) {
+                case 600656: {
+                    AbstractAirconSeatComponent.this.getRangeModel(600656).fireEvent(n3);
+                    break;
+                }
+                case 600655: {
+                    AbstractAirconSeatComponent.this.getRangeModel(600655).fireEvent(n3);
+                    break;
+                }
+                case 600658: {
+                    AbstractAirconSeatComponent.this.getRangeModel(600658).fireEvent(n3);
+                    break;
+                }
+                case 600657: {
+                    AbstractAirconSeatComponent.this.getRangeModel(600657).fireEvent(n3);
+                    break;
+                }
+                case 600652: {
+                    AbstractAirconSeatComponent.this.getRangeModel(600652).fireEvent(n3);
+                    break;
+                }
+                case 600651: {
+                    AbstractAirconSeatComponent.this.getRangeModel(600651).fireEvent(n3);
+                    break;
+                }
+                case 600654: {
+                    AbstractAirconSeatComponent.this.getRangeModel(600654).fireEvent(n3);
+                    break;
+                }
+                case 600653: {
+                    AbstractAirconSeatComponent.this.getRangeModel(600653).fireEvent(n3);
+                    break;
+                }
+            }
+        }
+
+        public void decrement(int n, int n2, int n3) {
+            AbstractAirconSeatComponent.this.getLogChannel().log(10000000, "[AbstractAirconSeatComponent] RangeListener (modelID='%1') decrement: steps:%2", (long)n, (long)n2);
+            AbstractAirconSeatComponent.this.modifyRange(n, -n2, n3);
+        }
+
+        public void increment(int n, int n2, int n3) {
+            AbstractAirconSeatComponent.this.getLogChannel().log(10000000, "[AbstractAirconSeatComponent] RangeListener (modelID='%1') increment: steps:%2", (long)n, (long)n2);
+            AbstractAirconSeatComponent.this.modifyRange(n, n2, n3);
+        }
+    };
     protected volatile AirconMasterViewOptions currentViewOptionsMaster;
     protected volatile AirconRowViewOptions currentViewOptionsRow1;
     protected volatile AirconRowViewOptions currentViewOptionsRow2;
@@ -52,8 +101,8 @@ implements IAirconConstants {
     private AbstractRangeToChoiceModelMapper codriverRearSeatRangeWatcherHeatingMapper;
 
     public AbstractAirconSeatComponent(ICarApplication iCarApplication) {
-        super(iCarApplication, "App.Car.AirCondition.Seat");
-        this.dsiLogChannel = iCarApplication.getFrameworkAccess().getLogChannel("App.Car.AirCondition.DSI");
+        super(iCarApplication, LOGCHANNEL_NAME);
+        this.dsiLogChannel = iCarApplication.getFrameworkAccess().getLogChannel(DSI_LOGCHANNEL_NAME);
     }
 
     public LogChannel getLogChannelDSI() {
@@ -77,12 +126,12 @@ implements IAirconConstants {
             if (-1 != n5 && -1 != n6) {
                 switch (n6) {
                     case 1: {
-                        this.getLogChannelDSI().log(1078071040, "---> DSI.setAirconSeatVentilationDistribution(%1, %2)", (long)n5, (long)n4);
+                        this.getLogChannelDSI().log(1000000, "---> DSI.setAirconSeatVentilationDistribution(%1, %2)", (long)n5, (long)n4);
                         this.getDSI().setAirconSeatVentilationDistribution(n5, n4);
                         break;
                     }
                     case 2: {
-                        this.getLogChannelDSI().log(1078071040, "---> DSI.setAirconSeatHeaterDistribution(%1, %2)", (long)n5, (long)n4);
+                        this.getLogChannelDSI().log(1000000, "---> DSI.setAirconSeatHeaterDistribution(%1, %2)", (long)n5, (long)n4);
                         this.getDSI().setAirconSeatHeaterDistribution(n5, n4);
                         break;
                     }
@@ -199,23 +248,18 @@ implements IAirconConstants {
         return -1;
     }
 
-    protected abstract void updateMenuEntryVisibility(AirconMasterViewOptions airconMasterViewOptions) {
-    }
+    protected abstract void updateMenuEntryVisibility(AirconMasterViewOptions var1);
 
-    protected abstract void updateMenuEntryVisibility(int n, AirconRowViewOptions airconRowViewOptions) {
-    }
+    protected abstract void updateMenuEntryVisibility(int var1, AirconRowViewOptions var2);
 
-    @Override
     public String getName() {
         return "AirCondition Seat Control";
     }
 
-    @Override
     public CarDSIAttributesSet[] getDSIAttributesSets() {
         return new CarDSIAttributesSet[]{new CarDSIAttributesSet(0, new int[]{92, 93}, new int[]{69, 70, 63, 64}), new CarDSIAttributesSet(1, new int[]{92, 94}, new int[]{71, 72, 65, 66})};
     }
 
-    @Override
     public String getCurrentViewOptions() {
         Buffer buffer = new Buffer();
         buffer.append("Master: ");
@@ -229,58 +273,55 @@ implements IAirconConstants {
         return buffer.toString();
     }
 
-    @Override
     protected void initModels() {
-        this.driverSeatRangeWatcherVentilationMapper = new SeatACRotaryToGraphicMapper(this.getChoiceModel(523110656), this.config.getSeatDistributionRangeMin(), this.config.getSeatDistributionRangeMax(), this.config.getSeatDistributionRangeStep());
-        this.codriverSeatRangeWatcherVentilationMapper = new SeatACRotaryToGraphicMapper(this.getChoiceModel(456001792), this.config.getSeatDistributionRangeMin(), this.config.getSeatDistributionRangeMax(), this.config.getSeatDistributionRangeStep());
-        this.driverRearSeatRangeWatcherVentilationMapper = new SeatACRotaryToGraphicMapper(this.getChoiceModel(422447360), this.config.getSeatDistributionRangeMin(), this.config.getSeatDistributionRangeMax(), this.config.getSeatDistributionRangeStep());
-        this.codriverRearSeatRangeWatcherVentilationMapper = new SeatACRotaryToGraphicMapper(this.getChoiceModel(439224576), this.config.getSeatDistributionRangeMin(), this.config.getSeatDistributionRangeMax(), this.config.getSeatDistributionRangeStep());
-        this.driverSeatRangeWatcherVentilation = new RangeModelWatcherTimer("AC_SEAT_AC_VENTILATION_DRIVER_RANGE", this.getRangeModel(1277823232), 0, this.driverSeatRangeWatcherVentilationMapper, this.getLogChannel());
-        this.codriverSeatRangeWatcherVentilation = new RangeModelWatcherTimer("AC_SEAT_AC_VENTILATION_CO_DRIVER_RANGE", this.getRangeModel(1261046016), 0, this.codriverSeatRangeWatcherVentilationMapper, this.getLogChannel());
-        this.driverRearSeatRangeWatcherVentilation = new RangeModelWatcherTimer("AC_SEAT_AC_VENTILATION_REAR_DRIVER_RANGE", this.getRangeModel(1311377664), 0, this.driverRearSeatRangeWatcherVentilationMapper, this.getLogChannel());
-        this.codriverRearSeatRangeWatcherVentilation = new RangeModelWatcherTimer("AC_SEAT_AC_VENTILATION_REAR_CODRIVER_RANGE", this.getRangeModel(1294600448), 0, this.codriverRearSeatRangeWatcherVentilationMapper, this.getLogChannel());
-        this.getRangeModel(1277823232).setLimits(this.config.getSeatDistributionRangeMin(), this.config.getSeatDistributionRangeMax(), this.config.getSeatDistributionRangeStep());
-        this.getRangeModel(1277823232).setRangeListener(this.rangeListener);
-        this.getRangeModel(1261046016).setLimits(this.config.getSeatDistributionRangeMin(), this.config.getSeatDistributionRangeMax(), this.config.getSeatDistributionRangeStep());
-        this.getRangeModel(1261046016).setRangeListener(this.rangeListener);
-        this.getRangeModel(1311377664).setLimits(this.config.getSeatDistributionRangeMin(), this.config.getSeatDistributionRangeMax(), this.config.getSeatDistributionRangeStep());
-        this.getRangeModel(1311377664).setRangeListener(this.rangeListener);
-        this.getRangeModel(1294600448).setLimits(this.config.getSeatDistributionRangeMin(), this.config.getSeatDistributionRangeMax(), this.config.getSeatDistributionRangeStep());
-        this.getRangeModel(1294600448).setRangeListener(this.rangeListener);
-        this.driverSeatRangeWatcherHeatingMapper = new SeatACRotaryToGraphicMapper(this.getChoiceModel(472779008), this.config.getSeatDistributionRangeMin(), this.config.getSeatDistributionRangeMax(), this.config.getSeatDistributionRangeStep());
-        this.codriverSeatRangeWatcherHeatingMapper = new SeatACRotaryToGraphicMapper(this.getChoiceModel(489556224), this.config.getSeatDistributionRangeMin(), this.config.getSeatDistributionRangeMax(), this.config.getSeatDistributionRangeStep());
-        this.driverRearSeatRangeWatcherHeatingMapper = new SeatACRotaryToGraphicMapper(this.getChoiceModel(506333440), this.config.getSeatDistributionRangeMin(), this.config.getSeatDistributionRangeMax(), this.config.getSeatDistributionRangeStep());
-        this.codriverRearSeatRangeWatcherHeatingMapper = new SeatACRotaryToGraphicMapper(this.getChoiceModel(405670144), this.config.getSeatDistributionRangeMin(), this.config.getSeatDistributionRangeMax(), this.config.getSeatDistributionRangeStep());
-        this.driverSeatRangeWatcherHeating = new RangeModelWatcherTimer("AC_SEATHEATING_DRIVER_RANGE", this.getRangeModel(1344932096), 0, this.driverSeatRangeWatcherHeatingMapper, this.getLogChannel());
-        this.codriverSeatRangeWatcherHeating = new RangeModelWatcherTimer("AC_SEATHEATING_CODRIVER_RANGE", this.getRangeModel(1328154880), 0, this.codriverSeatRangeWatcherHeatingMapper, this.getLogChannel());
-        this.driverRearSeatRangeWatcherHeating = new RangeModelWatcherTimer("AC_SEATHEATING_REAR_DRIVER_RANGE", this.getRangeModel(1378486528), 0, this.driverRearSeatRangeWatcherHeatingMapper, this.getLogChannel());
-        this.codriverRearSeatRangeWatcherHeating = new RangeModelWatcherTimer("AC_SEATHEATING_REAR_CODRIVER_RANGE", this.getRangeModel(1361709312), 0, this.codriverRearSeatRangeWatcherHeatingMapper, this.getLogChannel());
-        this.getRangeModel(1344932096).setLimits(this.config.getSeatDistributionRangeMin(), this.config.getSeatDistributionRangeMax(), this.config.getSeatDistributionRangeStep());
-        this.getRangeModel(1344932096).setRangeListener(this.rangeListener);
-        this.getRangeModel(1328154880).setLimits(this.config.getSeatDistributionRangeMin(), this.config.getSeatDistributionRangeMax(), this.config.getSeatDistributionRangeStep());
-        this.getRangeModel(1328154880).setRangeListener(this.rangeListener);
-        this.getRangeModel(1378486528).setLimits(this.config.getSeatDistributionRangeMin(), this.config.getSeatDistributionRangeMax(), this.config.getSeatDistributionRangeStep());
-        this.getRangeModel(1378486528).setRangeListener(this.rangeListener);
-        this.getRangeModel(1361709312).setLimits(this.config.getSeatDistributionRangeMin(), this.config.getSeatDistributionRangeMax(), this.config.getSeatDistributionRangeStep());
-        this.getRangeModel(1361709312).setRangeListener(this.rangeListener);
+        this.driverSeatRangeWatcherVentilationMapper = new SeatACRotaryToGraphicMapper(this.getChoiceModel(601631), this.config.getSeatDistributionRangeMin(), this.config.getSeatDistributionRangeMax(), this.config.getSeatDistributionRangeStep());
+        this.codriverSeatRangeWatcherVentilationMapper = new SeatACRotaryToGraphicMapper(this.getChoiceModel(601627), this.config.getSeatDistributionRangeMin(), this.config.getSeatDistributionRangeMax(), this.config.getSeatDistributionRangeStep());
+        this.driverRearSeatRangeWatcherVentilationMapper = new SeatACRotaryToGraphicMapper(this.getChoiceModel(601625), this.config.getSeatDistributionRangeMin(), this.config.getSeatDistributionRangeMax(), this.config.getSeatDistributionRangeStep());
+        this.codriverRearSeatRangeWatcherVentilationMapper = new SeatACRotaryToGraphicMapper(this.getChoiceModel(601626), this.config.getSeatDistributionRangeMin(), this.config.getSeatDistributionRangeMax(), this.config.getSeatDistributionRangeStep());
+        this.driverSeatRangeWatcherVentilation = new RangeModelWatcherTimer("AC_SEAT_AC_VENTILATION_DRIVER_RANGE", this.getRangeModel(600652), 1000L, this.driverSeatRangeWatcherVentilationMapper, this.getLogChannel());
+        this.codriverSeatRangeWatcherVentilation = new RangeModelWatcherTimer("AC_SEAT_AC_VENTILATION_CO_DRIVER_RANGE", this.getRangeModel(600651), 1000L, this.codriverSeatRangeWatcherVentilationMapper, this.getLogChannel());
+        this.driverRearSeatRangeWatcherVentilation = new RangeModelWatcherTimer("AC_SEAT_AC_VENTILATION_REAR_DRIVER_RANGE", this.getRangeModel(600654), 1000L, this.driverRearSeatRangeWatcherVentilationMapper, this.getLogChannel());
+        this.codriverRearSeatRangeWatcherVentilation = new RangeModelWatcherTimer("AC_SEAT_AC_VENTILATION_REAR_CODRIVER_RANGE", this.getRangeModel(600653), 1000L, this.codriverRearSeatRangeWatcherVentilationMapper, this.getLogChannel());
+        this.getRangeModel(600652).setLimits(this.config.getSeatDistributionRangeMin(), this.config.getSeatDistributionRangeMax(), this.config.getSeatDistributionRangeStep());
+        this.getRangeModel(600652).setRangeListener(this.rangeListener);
+        this.getRangeModel(600651).setLimits(this.config.getSeatDistributionRangeMin(), this.config.getSeatDistributionRangeMax(), this.config.getSeatDistributionRangeStep());
+        this.getRangeModel(600651).setRangeListener(this.rangeListener);
+        this.getRangeModel(600654).setLimits(this.config.getSeatDistributionRangeMin(), this.config.getSeatDistributionRangeMax(), this.config.getSeatDistributionRangeStep());
+        this.getRangeModel(600654).setRangeListener(this.rangeListener);
+        this.getRangeModel(600653).setLimits(this.config.getSeatDistributionRangeMin(), this.config.getSeatDistributionRangeMax(), this.config.getSeatDistributionRangeStep());
+        this.getRangeModel(600653).setRangeListener(this.rangeListener);
+        this.driverSeatRangeWatcherHeatingMapper = new SeatACRotaryToGraphicMapper(this.getChoiceModel(601628), this.config.getSeatDistributionRangeMin(), this.config.getSeatDistributionRangeMax(), this.config.getSeatDistributionRangeStep());
+        this.codriverSeatRangeWatcherHeatingMapper = new SeatACRotaryToGraphicMapper(this.getChoiceModel(601629), this.config.getSeatDistributionRangeMin(), this.config.getSeatDistributionRangeMax(), this.config.getSeatDistributionRangeStep());
+        this.driverRearSeatRangeWatcherHeatingMapper = new SeatACRotaryToGraphicMapper(this.getChoiceModel(601630), this.config.getSeatDistributionRangeMin(), this.config.getSeatDistributionRangeMax(), this.config.getSeatDistributionRangeStep());
+        this.codriverRearSeatRangeWatcherHeatingMapper = new SeatACRotaryToGraphicMapper(this.getChoiceModel(601624), this.config.getSeatDistributionRangeMin(), this.config.getSeatDistributionRangeMax(), this.config.getSeatDistributionRangeStep());
+        this.driverSeatRangeWatcherHeating = new RangeModelWatcherTimer("AC_SEATHEATING_DRIVER_RANGE", this.getRangeModel(600656), 1000L, this.driverSeatRangeWatcherHeatingMapper, this.getLogChannel());
+        this.codriverSeatRangeWatcherHeating = new RangeModelWatcherTimer("AC_SEATHEATING_CODRIVER_RANGE", this.getRangeModel(600655), 1000L, this.codriverSeatRangeWatcherHeatingMapper, this.getLogChannel());
+        this.driverRearSeatRangeWatcherHeating = new RangeModelWatcherTimer("AC_SEATHEATING_REAR_DRIVER_RANGE", this.getRangeModel(600658), 1000L, this.driverRearSeatRangeWatcherHeatingMapper, this.getLogChannel());
+        this.codriverRearSeatRangeWatcherHeating = new RangeModelWatcherTimer("AC_SEATHEATING_REAR_CODRIVER_RANGE", this.getRangeModel(600657), 1000L, this.codriverRearSeatRangeWatcherHeatingMapper, this.getLogChannel());
+        this.getRangeModel(600656).setLimits(this.config.getSeatDistributionRangeMin(), this.config.getSeatDistributionRangeMax(), this.config.getSeatDistributionRangeStep());
+        this.getRangeModel(600656).setRangeListener(this.rangeListener);
+        this.getRangeModel(600655).setLimits(this.config.getSeatDistributionRangeMin(), this.config.getSeatDistributionRangeMax(), this.config.getSeatDistributionRangeStep());
+        this.getRangeModel(600655).setRangeListener(this.rangeListener);
+        this.getRangeModel(600658).setLimits(this.config.getSeatDistributionRangeMin(), this.config.getSeatDistributionRangeMax(), this.config.getSeatDistributionRangeStep());
+        this.getRangeModel(600658).setRangeListener(this.rangeListener);
+        this.getRangeModel(600657).setLimits(this.config.getSeatDistributionRangeMin(), this.config.getSeatDistributionRangeMax(), this.config.getSeatDistributionRangeStep());
+        this.getRangeModel(600657).setRangeListener(this.rangeListener);
     }
 
-    @Override
     protected void deinitModels() {
-        this.getRangeModel(1277823232).resetListener();
-        this.getRangeModel(1261046016).resetListener();
-        this.getRangeModel(1311377664).resetListener();
-        this.getRangeModel(1294600448).resetListener();
-        this.getRangeModel(1344932096).resetListener();
-        this.getRangeModel(1328154880).resetListener();
-        this.getRangeModel(1378486528).resetListener();
-        this.getRangeModel(1361709312).resetListener();
+        this.getRangeModel(600652).resetListener();
+        this.getRangeModel(600651).resetListener();
+        this.getRangeModel(600654).resetListener();
+        this.getRangeModel(600653).resetListener();
+        this.getRangeModel(600656).resetListener();
+        this.getRangeModel(600655).resetListener();
+        this.getRangeModel(600658).resetListener();
+        this.getRangeModel(600657).resetListener();
     }
 
-    @Override
     public void updateAirconViewOptionsMaster(AirconMasterViewOptions airconMasterViewOptions, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractAirconSeatComponent#updateAirconViewOptionsMaster] airconMasterViewOptions='%1', valid='%2'", (Object)(null != airconMasterViewOptions ? this.formatViewOptionsLog(airconMasterViewOptions.toString()) : "null"), (long)n);
+            this.getLogChannel().log(1000000, "[AbstractAirconSeatComponent#updateAirconViewOptionsMaster] airconMasterViewOptions='%1', valid='%2'", (Object)(null != airconMasterViewOptions ? this.formatViewOptionsLog(airconMasterViewOptions.toString()) : "null"), (long)n);
         }
         if (1 == n && null != airconMasterViewOptions) {
             this.currentViewOptionsMaster = airconMasterViewOptions;
@@ -290,10 +331,9 @@ implements IAirconConstants {
         }
     }
 
-    @Override
     public void updateAirconViewOptionsRow1(AirconRowViewOptions airconRowViewOptions, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractAirconSeatComponent#updateAirconViewOptionsRow1] airconRowViewOptions='%1', valid='%2'", (Object)(null != airconRowViewOptions ? this.formatViewOptionsLog(airconRowViewOptions.toString()) : "null"), (long)n);
+            this.getLogChannel().log(1000000, "[AbstractAirconSeatComponent#updateAirconViewOptionsRow1] airconRowViewOptions='%1', valid='%2'", (Object)(null != airconRowViewOptions ? this.formatViewOptionsLog(airconRowViewOptions.toString()) : "null"), (long)n);
         }
         if (1 == n && null != airconRowViewOptions) {
             this.currentViewOptionsRow1 = airconRowViewOptions;
@@ -302,10 +342,9 @@ implements IAirconConstants {
         }
     }
 
-    @Override
     public void updateAirconViewOptionsRow2(AirconRowViewOptions airconRowViewOptions, int n) {
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[AbstractAirconComponent#updateAirconViewOptionsRow2] airconRowViewOptions='%1', valid='%2'", (Object)(null != airconRowViewOptions ? this.formatViewOptionsLog(airconRowViewOptions.toString()) : "null"), (long)n);
+            this.getLogChannel().log(1000000, "[AbstractAirconComponent#updateAirconViewOptionsRow2] airconRowViewOptions='%1', valid='%2'", (Object)(null != airconRowViewOptions ? this.formatViewOptionsLog(airconRowViewOptions.toString()) : "null"), (long)n);
         }
         if (1 == n && null != airconRowViewOptions) {
             this.currentViewOptionsRow2 = airconRowViewOptions;
@@ -314,9 +353,8 @@ implements IAirconConstants {
         }
     }
 
-    @Override
     public void updateAirconSeatHeaterDistributionZone1(int n, int n2) {
-        this.getLogChannel().log(1078071040, "[AbstractAirconSeatComponent#updateAirconSeatHeaterDistributionZone1] distribution='%1', valid='%2'", (long)n, (long)n2);
+        this.getLogChannel().log(1000000, "[AbstractAirconSeatComponent#updateAirconSeatHeaterDistributionZone1] distribution='%1', valid='%2'", (long)n, (long)n2);
         if (1 == n2) {
             if (!this.isDriverSideRight()) {
                 this.driverSeatRangeWatcherHeating.setValidValue(n);
@@ -326,9 +364,8 @@ implements IAirconConstants {
         }
     }
 
-    @Override
     public void updateAirconSeatHeaterDistributionZone2(int n, int n2) {
-        this.getLogChannel().log(1078071040, "[AbstractAirconSeatComponent#updateAirconSeatHeaterDistributionZone2] distribution='%1', valid='%2'", (long)n, (long)n2);
+        this.getLogChannel().log(1000000, "[AbstractAirconSeatComponent#updateAirconSeatHeaterDistributionZone2] distribution='%1', valid='%2'", (long)n, (long)n2);
         if (this.isDriverSideRight()) {
             this.driverSeatRangeWatcherHeating.setValidValue(n);
         } else {
@@ -336,9 +373,8 @@ implements IAirconConstants {
         }
     }
 
-    @Override
     public void updateAirconSeatHeaterDistributionZone3(int n, int n2) {
-        this.getLogChannel().log(1078071040, "[AbstractAirconSeatComponent#updateAirconSeatHeaterDistributionZone3] distribution='%1', valid='%2'", (long)n, (long)n2);
+        this.getLogChannel().log(1000000, "[AbstractAirconSeatComponent#updateAirconSeatHeaterDistributionZone3] distribution='%1', valid='%2'", (long)n, (long)n2);
         if (1 == n2) {
             if (!this.isDriverSideRight()) {
                 this.driverRearSeatRangeWatcherHeating.setValidValue(n);
@@ -348,9 +384,8 @@ implements IAirconConstants {
         }
     }
 
-    @Override
     public void updateAirconSeatHeaterDistributionZone4(int n, int n2) {
-        this.getLogChannel().log(1078071040, "[AbstractAirconSeatComponent#updateAirconSeatHeaterDistributionZone4] distribution='%1', valid='%2'", (long)n, (long)n2);
+        this.getLogChannel().log(1000000, "[AbstractAirconSeatComponent#updateAirconSeatHeaterDistributionZone4] distribution='%1', valid='%2'", (long)n, (long)n2);
         if (this.isDriverSideRight()) {
             this.driverRearSeatRangeWatcherHeating.setValidValue(n);
         } else {
@@ -358,9 +393,8 @@ implements IAirconConstants {
         }
     }
 
-    @Override
     public void updateAirconSeatVentilationDistributionZone1(int n, int n2) {
-        this.getLogChannel().log(1078071040, "[AbstractAirconSeatComponent#updateAirconSeatVentilationDistributionZone1] distribution='%1', valid='%2'", (long)n, (long)n2);
+        this.getLogChannel().log(1000000, "[AbstractAirconSeatComponent#updateAirconSeatVentilationDistributionZone1] distribution='%1', valid='%2'", (long)n, (long)n2);
         if (!this.isDriverSideRight()) {
             this.driverSeatRangeWatcherVentilation.setValidValue(n);
         } else {
@@ -368,9 +402,8 @@ implements IAirconConstants {
         }
     }
 
-    @Override
     public void updateAirconSeatVentilationDistributionZone2(int n, int n2) {
-        this.getLogChannel().log(1078071040, "[AbstractAirconSeatComponent#updateAirconSeatVentilationDistributionZone2] distribution='%1', valid='%2'", (long)n, (long)n2);
+        this.getLogChannel().log(1000000, "[AbstractAirconSeatComponent#updateAirconSeatVentilationDistributionZone2] distribution='%1', valid='%2'", (long)n, (long)n2);
         if (this.isDriverSideRight()) {
             this.driverSeatRangeWatcherVentilation.setValidValue(n);
         } else {
@@ -378,9 +411,8 @@ implements IAirconConstants {
         }
     }
 
-    @Override
     public void updateAirconSeatVentilationDistributionZone3(int n, int n2) {
-        this.getLogChannel().log(1078071040, "[AbstractAirconSeatComponent#updateAirconSeatVentilationDistributionZone3] distribution='%1', valid='%2'", (long)n, (long)n2);
+        this.getLogChannel().log(1000000, "[AbstractAirconSeatComponent#updateAirconSeatVentilationDistributionZone3] distribution='%1', valid='%2'", (long)n, (long)n2);
         if (!this.isDriverSideRight()) {
             this.driverRearSeatRangeWatcherVentilation.setValidValue(n);
         } else {
@@ -388,50 +420,13 @@ implements IAirconConstants {
         }
     }
 
-    @Override
     public void updateAirconSeatVentilationDistributionZone4(int n, int n2) {
-        this.getLogChannel().log(1078071040, "[AbstractAirconSeatComponent#updateAirconSeatVentilationDistributionZone4] distribution='%1', valid='%2'", (long)n, (long)n2);
+        this.getLogChannel().log(1000000, "[AbstractAirconSeatComponent#updateAirconSeatVentilationDistributionZone4] distribution='%1', valid='%2'", (long)n, (long)n2);
         if (this.isDriverSideRight()) {
             this.driverRearSeatRangeWatcherVentilation.setValidValue(n);
         } else {
             this.codriverRearSeatRangeWatcherVentilation.setValidValue(n);
         }
-    }
-
-    static /* synthetic */ RangeModelApp access$000(AbstractAirconSeatComponent abstractAirconSeatComponent, int n) {
-        return abstractAirconSeatComponent.getRangeModel(n);
-    }
-
-    static /* synthetic */ RangeModelApp access$100(AbstractAirconSeatComponent abstractAirconSeatComponent, int n) {
-        return abstractAirconSeatComponent.getRangeModel(n);
-    }
-
-    static /* synthetic */ RangeModelApp access$200(AbstractAirconSeatComponent abstractAirconSeatComponent, int n) {
-        return abstractAirconSeatComponent.getRangeModel(n);
-    }
-
-    static /* synthetic */ RangeModelApp access$300(AbstractAirconSeatComponent abstractAirconSeatComponent, int n) {
-        return abstractAirconSeatComponent.getRangeModel(n);
-    }
-
-    static /* synthetic */ RangeModelApp access$400(AbstractAirconSeatComponent abstractAirconSeatComponent, int n) {
-        return abstractAirconSeatComponent.getRangeModel(n);
-    }
-
-    static /* synthetic */ RangeModelApp access$500(AbstractAirconSeatComponent abstractAirconSeatComponent, int n) {
-        return abstractAirconSeatComponent.getRangeModel(n);
-    }
-
-    static /* synthetic */ RangeModelApp access$600(AbstractAirconSeatComponent abstractAirconSeatComponent, int n) {
-        return abstractAirconSeatComponent.getRangeModel(n);
-    }
-
-    static /* synthetic */ RangeModelApp access$700(AbstractAirconSeatComponent abstractAirconSeatComponent, int n) {
-        return abstractAirconSeatComponent.getRangeModel(n);
-    }
-
-    static /* synthetic */ void access$800(AbstractAirconSeatComponent abstractAirconSeatComponent, int n, int n2, int n3) {
-        abstractAirconSeatComponent.modifyRange(n, n2, n3);
     }
 }
 

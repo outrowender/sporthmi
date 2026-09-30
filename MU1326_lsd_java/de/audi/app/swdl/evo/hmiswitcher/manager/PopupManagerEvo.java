@@ -14,21 +14,17 @@ extends AbstractPopupManager {
         super(swdlEnv, abstractSwdlJoinedDownloadState, swdlDSIHandlerProgress);
     }
 
-    @Override
     protected void fireSMEventTriggerDownloadAborting(int n) {
     }
 
-    @Override
     protected int getSwdlPopupID() {
-        return -1594877696;
+        return 1700000;
     }
 
-    @Override
     protected void showSwdlPopup(int n) {
         this.getHMIService().showPopup(this.getSwdlPopupID(), n);
     }
 
-    @Override
     protected void hideSwdlPopup(int n) {
         this.getHMIService().removePopup(this.getSwdlPopupID(), n);
     }

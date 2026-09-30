@@ -22,7 +22,6 @@ implements IAddressInputModelAccess {
         this.modelAccessHelper = iAddressInputFormModelAccessHelper;
     }
 
-    @Override
     public void onStart(NavLocation navLocation) {
         if (navLocation == null) {
             this.logChannel.log(10000, "AddressInputFormModelAccess#onElementSelected the given navLocation is null");
@@ -30,7 +29,6 @@ implements IAddressInputModelAccess {
         }
     }
 
-    @Override
     public void onUpdateLocation(NavLocation navLocation, Map map) {
         this.modelAccessHelper.onUpdateLocation(this.env, this.logChannel, navLocation, map);
     }

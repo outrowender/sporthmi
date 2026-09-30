@@ -7,10 +7,8 @@ import de.audi.atip.statemachine.sds.ITTSASRContext;
 
 public interface ITTSASRAppContext
 extends ITTSASRContext {
-    default public void addToGrammar(int n, String string) {
-    }
+    public void addToGrammar(int var1, String var2);
 
-    default public String getSRGSString(int n) {
-    }
+    public String getSRGSString(int var1);
 }
 

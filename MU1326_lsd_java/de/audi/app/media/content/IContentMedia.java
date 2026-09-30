@@ -8,7 +8,6 @@ import de.audi.app.media.content.media.IPlayer;
 
 public interface IContentMedia
 extends IContent {
-    default public IPlayer getPlayer() {
-    }
+    public IPlayer getPlayer();
 }
 

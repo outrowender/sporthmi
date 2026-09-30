@@ -8,14 +8,14 @@ import de.audi.atip.interapp.displaymanager.Cropping;
 import org.dsi.ifc.displaymanagement.DSIDisplayManagement;
 
 public class DSIMgnHandler {
-    public static final int RATIO_4_3;
-    public static final int RATIO_16_9;
-    public static final int RATIO_15_9;
-    public static final int RATIO_47_20;
-    public static final int RATIO_ZOOM;
-    public static final int CROPPING_BASE_FULLSCREEN;
-    public static final int CROPPING_BASE_1440_640_360_1;
-    public static final int CROPPING_BASE_1440_640_360_2;
+    public static final int RATIO_4_3 = 0;
+    public static final int RATIO_16_9 = 1;
+    public static final int RATIO_15_9 = 2;
+    public static final int RATIO_47_20 = 3;
+    public static final int RATIO_ZOOM = 4;
+    public static final int CROPPING_BASE_FULLSCREEN = 0;
+    public static final int CROPPING_BASE_1440_640_360_1 = 1;
+    public static final int CROPPING_BASE_1440_640_360_2 = 2;
     private final IFrameworkAccess frameworkAccess;
 
     public DSIMgnHandler(IFrameworkAccess iFrameworkAccess) {
@@ -57,12 +57,12 @@ public class DSIMgnHandler {
                     return new int[]{1920, 580};
                 }
             }
-            throw new IllegalArgumentException(new StringBuffer().append("No valid system screen resolution set: ").append(n2).toString());
+            throw new IllegalArgumentException("No valid system screen resolution set: " + n2);
         }
         if (n == 1 || n == 2) {
             return new int[]{640, 360};
         }
-        throw new IllegalArgumentException(new StringBuffer().append("No valid video cropping base set: ").append(n).toString());
+        throw new IllegalArgumentException("No valid video cropping base set: " + n);
     }
 
     public Cropping getCropping(int n) {

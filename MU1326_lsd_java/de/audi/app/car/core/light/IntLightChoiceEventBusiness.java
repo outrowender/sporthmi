@@ -16,11 +16,10 @@ extends ChoiceModelEventBusinessAdapter {
         super(dSICarLight, logChannel);
     }
 
-    @Override
     public boolean processItemSelected(HandlerTransactionData handlerTransactionData, ChoiceModelHandler choiceModelHandler) {
         IntLightChoiceHandlerTransactionData intLightChoiceHandlerTransactionData = (IntLightChoiceHandlerTransactionData)handlerTransactionData;
         if (this.getLogChannel().isInfo()) {
-            this.getLogChannel().log(1078071040, "[IntLightChoiceEventBusiness#processItemSelected] Profile wit id = %1 has been selected", (long)intLightChoiceHandlerTransactionData.getNewSelected());
+            this.getLogChannel().log(1000000, "[IntLightChoiceEventBusiness#processItemSelected] Profile wit id = %1 has been selected", (long)intLightChoiceHandlerTransactionData.getNewSelected());
         }
         if (intLightChoiceHandlerTransactionData.getNewSelected() > 0 && intLightChoiceHandlerTransactionData.getNewSelected() < 9) {
             if (intLightChoiceHandlerTransactionData.getNewSelected() == intLightChoiceHandlerTransactionData.getOldSelected()) {

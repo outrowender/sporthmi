@@ -7,7 +7,6 @@ import de.audi.atip.hmi.model.ListListener;
 import de.audi.atip.hmi.modelaccess.ListModelApp;
 import de.audi.atip.log.LogChannel;
 import de.audi.tghu.navi.app.CityHistory;
-import de.audi.tghu.navi.app.CityHistory$HistoryEntry;
 import de.audi.tghu.navi.app.NavigationEnv;
 import de.audi.tghu.navi.app.addressinput.poi.modelaccess.IHistoryRowBuilder;
 import de.audi.tghu.navi.app.addressinput.poi.searcharea.IPoiSearchAreaModelAccess;
@@ -21,34 +20,33 @@ import org.dsi.ifc.navigation.LICityHistoryEntry;
 
 public class PoiSearchAreaModelAccess
 implements IPoiSearchAreaModelAccess {
-    private static final int MAX_HISTORY_RESULTS;
-    private static final int CHOICE_ENABLED;
-    private static final int CHOICE_DISABLED;
-    private static final int SUBTITLE_DYNAMIC_OFFSET;
-    private static final int SUBTITLE_STATIC_OFFSET;
+    private static final int MAX_HISTORY_RESULTS = 3;
+    private static final int CHOICE_ENABLED = 0;
+    private static final int CHOICE_DISABLED = 1;
+    private static final int SUBTITLE_DYNAMIC_OFFSET = 6;
+    private static final int SUBTITLE_STATIC_OFFSET = 0;
     private final NavigationEnv env;
     private final CityHistory cityHistory;
     private final IHistoryRowBuilder listRowBuilder;
     private final ListModelApp historyListModelApp;
     private final LogChannel logChannel;
-    private final String CLASS_NAME = Util.getClassNameFromPackageName(super.getClass());
-    static final int LOCATION_VICINITY;
-    static final int ALONG_ROUTE;
-    static final int DEST_VICINITY;
-    static final int STOP_OVER_VICINITY;
-    static final int COUNRTY_CITY_VICINITY;
+    private final String CLASS_NAME = Util.getClassNameFromPackageName(this.getClass());
+    static final int LOCATION_VICINITY = 0;
+    static final int ALONG_ROUTE = 1;
+    static final int DEST_VICINITY = 2;
+    static final int STOP_OVER_VICINITY = 3;
+    static final int COUNRTY_CITY_VICINITY = 4;
 
     public PoiSearchAreaModelAccess(NavigationEnv navigationEnv, CityHistory cityHistory, IHistoryRowBuilder iHistoryRowBuilder, ListListener listListener) {
         this.env = navigationEnv;
         this.logChannel = navigationEnv.getPOILogChannel();
         this.cityHistory = cityHistory;
         this.listRowBuilder = iHistoryRowBuilder;
-        this.historyListModelApp = navigationEnv.getListModel(-2028272128);
+        this.historyListModelApp = navigationEnv.getListModel(400263);
         this.historyListModelApp.setMaxColumns(iHistoryRowBuilder.getColumnCount());
         this.historyListModelApp.setListListener(listListener);
     }
 
-    @Override
     public void onUpdateSearchArea(PoiSearchArea poiSearchArea, boolean bl, int n) {
         this.onUpdateSearchArea(poiSearchArea);
         this.setChoiceRouteActive(bl);
@@ -58,20 +56,19 @@ implements IPoiSearchAreaModelAccess {
 
     private void setChoiceRouteActive(boolean bl) {
         int n = bl ? 0 : 1;
-        this.env.getChoiceModel(-1793128960).setValue(n);
+        this.env.getChoiceModel(401301).setValue(n);
     }
 
     private void setChoiceStopOverActive(boolean bl, int n) {
         int n2 = bl && n > 1 ? 0 : 1;
-        this.env.getChoiceModel(-1759574528).setValue(n2);
+        this.env.getChoiceModel(401303).setValue(n2);
     }
 
     private void setChoiceDestinationActive(boolean bl, int n) {
         int n2 = bl && n > 0 ? 0 : 1;
-        this.env.getChoiceModel(-1776351744).setValue(n2);
+        this.env.getChoiceModel(401302).setValue(n2);
     }
 
-    @Override
     public void onUpdateSearchArea(PoiSearchArea poiSearchArea) {
         int n = 0;
         String string = null;
@@ -118,11 +115,11 @@ implements IPoiSearchAreaModelAccess {
             }
         }
         if (string != null) {
-            this.env.getLabelModel(471795200).setText(string);
+            this.env.getLabelModel(401180).setText(string);
         }
-        this.env.getChoiceModel(-1859910144).setValue(n);
-        int n2 = this.env.getChoiceModel(1075709440).getValue() == 0 ? 0 : 6;
-        this.env.getChoiceModel(606406144).setValue(n + n2);
+        this.env.getChoiceModel(402577).setValue(n);
+        int n2 = this.env.getChoiceModel(400960).getValue() == 0 ? 0 : 6;
+        this.env.getChoiceModel(402724).setValue(n + n2);
     }
 
     private String getCountry(NavLocation navLocation) {
@@ -142,7 +139,6 @@ implements IPoiSearchAreaModelAccess {
         return null;
     }
 
-    @Override
     public void onStart(NavLocation navLocation) {
         if (navLocation == null) {
             this.logChannel.log(10000, "%1#onStart - the given navLocation is null", (Object)this.CLASS_NAME);
@@ -155,41 +151,39 @@ implements IPoiSearchAreaModelAccess {
         if (Util.isEmpty(string)) {
             string = LocationFormatter.formatCountry(navLocation);
         }
-        this.env.getTextfieldModel(-1776613888).setText1(string);
+        this.env.getTextfieldModel(400278).setText1(string);
         this.onUpdateHistoryList();
     }
 
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */
-    @Override
     public void onUpdateHistoryList() {
-        this.logChannel.log(-2137614336, "%1#updateHistoryList", (Object)this.CLASS_NAME);
+        this.logChannel.log(10000000, "%1#updateHistoryList", (Object)this.CLASS_NAME);
         List list = this.cityHistory.getAllMatchingLastCities(false);
-        this.logChannel.log(-2137614336, "%1#updateHistoryList - matching entries: %2", (Object)this.CLASS_NAME, (Object)list);
+        this.logChannel.log(10000000, "%1#updateHistoryList - matching entries: %2", (Object)this.CLASS_NAME, (Object)list);
         int n = 0;
         if (list != null) {
             n = Math.min(list.size(), 3);
         }
-        this.logChannel.log(-2137614336, "%1#updateHistoryList - previewLength: %2", (Object)this.CLASS_NAME, (long)n);
+        this.logChannel.log(10000000, "%1#updateHistoryList - previewLength: %2", (Object)this.CLASS_NAME, (long)n);
         this.historyListModelApp.beginTransaction();
         try {
             this.historyListModelApp.clear();
             for (int i2 = 0; i2 < n; ++i2) {
-                CityHistory$HistoryEntry cityHistory$HistoryEntry = (CityHistory$HistoryEntry)list.get(i2);
-                this.logChannel.log(-2137614336, "%1#updateHistoryList - entry: %2", (Object)this.CLASS_NAME, (Object)cityHistory$HistoryEntry);
-                LICityHistoryEntry lICityHistoryEntry = (LICityHistoryEntry)cityHistory$HistoryEntry.getEntry();
-                this.logChannel.log(-2137614336, "%1#updateHistoryList - lastCity: %2", (Object)this.CLASS_NAME, (Object)lICityHistoryEntry);
+                CityHistory.HistoryEntry historyEntry = (CityHistory.HistoryEntry)list.get(i2);
+                this.logChannel.log(10000000, "%1#updateHistoryList - entry: %2", (Object)this.CLASS_NAME, (Object)historyEntry);
+                LICityHistoryEntry lICityHistoryEntry = (LICityHistoryEntry)historyEntry.getEntry();
+                this.logChannel.log(10000000, "%1#updateHistoryList - lastCity: %2", (Object)this.CLASS_NAME, (Object)lICityHistoryEntry);
                 this.historyListModelApp.addRow(this.listRowBuilder.buildListRow(lICityHistoryEntry));
             }
         }
         finally {
-            this.logChannel.log(-2137614336, "%1#updateHistoryList - end transaction", (Object)this.CLASS_NAME);
+            this.logChannel.log(10000000, "%1#updateHistoryList - end transaction", (Object)this.CLASS_NAME);
             this.historyListModelApp.endTransaction();
         }
     }
 
-    @Override
     public void onElementSelected(NavLocation navLocation) {
         if (navLocation == null) {
             this.logChannel.log(10000, "%1#updateHistoryList#onElementSelected the given navLocation is null", (Object)this.CLASS_NAME);

@@ -7,67 +7,46 @@ import de.audi.atip.statemachine.ActionProxy;
 
 public interface TVActionProxy
 extends ActionProxy {
-    default public void tvSeekModeLeft(int n) {
-    }
+    public void tvSeekModeLeft(int var1);
 
-    default public void tvParentalRatingLeft(int n) {
-    }
+    public void tvParentalRatingLeft(int var1);
 
-    default public void leaveOptionScreen(int n) {
-    }
+    public void leaveOptionScreen(int var1);
 
-    default public void tvTxtEntered(int n) {
-    }
+    public void tvTxtEntered(int var1);
 
-    default public void hmiActivatedTV(int n) {
-    }
+    public void hmiActivatedTV(int var1);
 
-    default public void hmiDeactivatedTV(int n) {
-    }
+    public void hmiDeactivatedTV(int var1);
 
-    default public void terminalModeLeft(int n) {
-    }
+    public void terminalModeLeft(int var1);
 
-    default public void tvDataBroadcastEntered(int n) {
-    }
+    public void tvDataBroadcastEntered(int var1);
 
-    default public void tvEPGEntered(int n) {
-    }
+    public void tvEPGEntered(int var1);
 
-    default public void tvTeletextEntered(int n) {
-    }
+    public void tvTeletextEntered(int var1);
 
-    default public void tvVisualAudioEntered(int n) {
-    }
+    public void tvVisualAudioEntered(int var1);
 
-    default public void tvEngineeringEntered(int n) {
-    }
+    public void tvEngineeringEntered(int var1);
 
-    default public void tvCasDisclaimerEntered(int n) {
-    }
+    public void tvCasDisclaimerEntered(int var1);
 
-    default public void tvFullscreenEntered(int n) {
-    }
+    public void tvFullscreenEntered(int var1);
 
-    default public void tvFullscreenLeft(int n) {
-    }
+    public void tvFullscreenLeft(int var1);
 
-    default public void tvParentalRatingDisclaimerEntered(int n) {
-    }
+    public void tvParentalRatingDisclaimerEntered(int var1);
 
-    default public void enterOptionScreen(int n) {
-    }
+    public void enterOptionScreen(int var1);
 
-    default public void tvShowOsd(int n) {
-    }
+    public void tvShowOsd(int var1);
 
-    default public void tvEwsPopupClosed(int n) {
-    }
+    public void tvEwsPopupClosed(int var1);
 
-    default public void avFullscreenEntered(int n) {
-    }
+    public void avFullscreenEntered(int var1);
 
-    default public void avFullscreenLeft(int n) {
-    }
+    public void avFullscreenLeft(int var1);
 }
 

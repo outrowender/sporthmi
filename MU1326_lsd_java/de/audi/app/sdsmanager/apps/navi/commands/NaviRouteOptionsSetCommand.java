@@ -13,9 +13,9 @@ import de.audi.atip.log.LogChannel;
 
 public class NaviRouteOptionsSetCommand
 extends AbstractSystemCallCommand {
-    private static final byte NAVI_ROUTE_SEMIDYN_AUTO;
-    private static final byte NAVI_NAVI_ROUTE_SEMIDYN_MANUAL;
-    private static final byte NAVI_NAVI_ROUTE_SEMIDYN_OFF;
+    private static final byte NAVI_ROUTE_SEMIDYN_AUTO = 0;
+    private static final byte NAVI_NAVI_ROUTE_SEMIDYN_MANUAL = 1;
+    private static final byte NAVI_NAVI_ROUTE_SEMIDYN_OFF = 2;
     private final NaviService service;
     private final byte routeOption;
 
@@ -25,36 +25,35 @@ extends AbstractSystemCallCommand {
         this.routeOption = (byte)SDSUtils.retrieveInteger(iSystemCallParameterArray, 0);
     }
 
-    @Override
     public void execute() {
-        this.logger.log(-1601830656, "[%1#execute] routeOption=%2!", (Object)this.getName(), (long)this.routeOption);
+        this.logger.log(100000, "[%1#execute] routeOption=%2!", (Object)this.getName(), (long)this.routeOption);
         switch (this.routeOption) {
             case 0: {
-                this.logger.log(-2137614336, "[%1#execute] Semidynamic Auto route requested!", (Object)this.getName());
+                this.logger.log(10000000, "[%1#execute] Semidynamic Auto route requested!", (Object)this.getName());
                 this.service.setRouteOptionDynamic(0);
                 break;
             }
             case 1: {
-                this.logger.log(-2137614336, "[%1#execute] Semidynamic Manual route requested!", (Object)this.getName());
+                this.logger.log(10000000, "[%1#execute] Semidynamic Manual route requested!", (Object)this.getName());
                 this.service.setRouteOptionDynamic(1);
                 break;
             }
             case 2: {
-                this.logger.log(-2137614336, "[%1#execute] Semidynamic Off route requested!", (Object)this.getName());
+                this.logger.log(10000000, "[%1#execute] Semidynamic Off route requested!", (Object)this.getName());
                 this.service.setRouteOptionDynamic(2);
                 break;
             }
             default: {
-                this.logger.log(-1601830656, "[%1#execute] Unhandled routeOption %2!", (Object)this.getName(), (long)this.routeOption);
+                this.logger.log(100000, "[%1#execute] Unhandled routeOption %2!", (Object)this.getName(), (long)this.routeOption);
                 this.sendResult(3001);
             }
         }
     }
 
     public void responseSetRouteOption(byte by) {
-        this.logger.log(-2137614336, "[%1#responseSetRouteOption] result=%2", (Object)this.getName(), (long)by);
+        this.logger.log(10000000, "[%1#responseSetRouteOption] result=%2", (Object)this.getName(), (long)by);
         int n = NaviSDSUtils.getGenericSDSResult(by);
-        this.logger.log(-2137614336, "[%1#responseSetRouteOption] sdsRes=%2!", (Object)this.getName(), (long)n);
+        this.logger.log(10000000, "[%1#responseSetRouteOption] sdsRes=%2!", (Object)this.getName(), (long)n);
         this.sendResult(n);
     }
 }

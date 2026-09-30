@@ -25,7 +25,6 @@ extends Monitor {
         this.stopRequested = false;
     }
 
-    @Override
     public void epilogue(CommandList commandList) {
         super.epilogue(commandList);
         if (!this.isActive()) {
@@ -33,23 +32,20 @@ extends Monitor {
         }
     }
 
-    @Override
     public boolean processCommand(Command command) {
         if (command == this.monitoredCommand) {
-            this.logChannel.log(1078071040, "DelayedStopMonitor#processCommand() - monitored command: %2 passed (stopRequested: %1) ", this.stopRequested, (Object)command);
+            this.logChannel.log(1000000, "DelayedStopMonitor#processCommand() - monitored command: %2 passed (stopRequested: %1) ", this.stopRequested, (Object)command);
             this.monitoredCommandPassed = true;
         }
         return !this.stopRequested || !this.monitoredCommandPassed;
     }
 
-    @Override
     public boolean stopMonitoredLists(String string) {
-        this.logChannel.log(1078071040, "DelayedStopMonitor#stopMonitoredLists() - monitored command passed: %1", this.monitoredCommandPassed);
+        this.logChannel.log(1000000, "DelayedStopMonitor#stopMonitoredLists() - monitored command passed: %1", this.monitoredCommandPassed);
         this.stopRequested = true;
         return super.stopMonitoredLists(string);
     }
 
-    @Override
     protected boolean checkStop(CommandList commandList) {
         return this.stopRequested && this.monitoredCommandPassed;
     }

@@ -4,22 +4,16 @@
 package de.audi.atip.hmi.modelaccess;
 
 public interface HMIModelBase {
-    default public int getID() {
-    }
+    public int getID();
 
-    default public String getName() {
-    }
+    public String getName();
 
-    default public int getStatus() {
-    }
+    public int getStatus();
 
-    default public int getHints() {
-    }
+    public int getHints();
 
-    default public String dumpContent() {
-    }
+    public String dumpContent();
 
-    default public int getTerminalID() {
-    }
+    public int getTerminalID();
 }
 

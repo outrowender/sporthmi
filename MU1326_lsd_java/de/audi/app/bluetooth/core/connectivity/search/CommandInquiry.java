@@ -11,7 +11,7 @@ import org.dsi.ifc.bluetooth.DSIBluetooth;
 
 final class CommandInquiry
 extends AbstractBluetoothCommand {
-    private static final long TIMEOUT;
+    private static final long TIMEOUT = 90000L;
     private IInquiry inquiry;
     static /* synthetic */ Class class$de$audi$app$bluetooth$core$connectivity$search$CommandInquiry;
 
@@ -25,46 +25,41 @@ extends AbstractBluetoothCommand {
         this.inquiry = iInquiry;
     }
 
-    @Override
     public long getTimeout() {
-        return 0;
+        return 90000L;
     }
 
-    @Override
     public void execute() {
         if (this.dsiBluetooth != null) {
             this.dsiBluetooth.requestInquiry(48, 50, 2);
         } else {
-            this.logger.log(-1601830656, "CommandInquiry#execute(): dsiBluetooth is NULL");
+            this.logger.log(100000, "CommandInquiry#execute(): dsiBluetooth is NULL");
             this.commandList.commandFinished();
         }
     }
 
-    @Override
     public void abort() {
-        this.logger.log(-1601830656, "CommandInquiry#abort()");
+        this.logger.log(100000, "CommandInquiry#abort()");
         this.inquiry.inquiryEnded(2);
     }
 
-    @Override
     public void responseInquiry(int n, int n2) {
-        this.logger.log(1078071040, "CommandInquiry#responseInquiry(): result=%1", (long)n2);
+        this.logger.log(1000000, "CommandInquiry#responseInquiry(): result=%1", (long)n2);
         this.inquiryEnded(n2);
     }
 
     void abortInquiry() {
         if (this.dsiBluetooth != null) {
-            this.logger.log(1078071040, "CommandInquiry#abortInquiry()");
+            this.logger.log(1000000, "CommandInquiry#abortInquiry()");
             this.dsiBluetooth.abortInquiry();
         } else {
-            this.logger.log(-1601830656, "CommandInquiry#abortInquiry(): dsiBluetooth is NULL");
+            this.logger.log(100000, "CommandInquiry#abortInquiry(): dsiBluetooth is NULL");
             this.commandList.commandFinished();
         }
     }
 
-    @Override
     public void responseAbortInquiry(int n) {
-        this.logger.log(1078071040, "CommandInquiry#responseAbortInquiry(): result=%1", (long)n);
+        this.logger.log(1000000, "CommandInquiry#responseAbortInquiry(): result=%1", (long)n);
         this.inquiryEnded(n);
     }
 

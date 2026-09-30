@@ -51,8 +51,8 @@ public class SystemSDISEnv {
     final String getHUSwVersion() {
         byte[] byArray;
         String string = null;
-        string = this.getFramework().isSimulator() ? "WinTV" : (this.getFramework().getStartupMgr().isRebootToDownload() ? "UNDEF" : ((byArray = this.getStorageMgr().getByteArray(553765890, 401, new byte[0])).length > 10 ? new String(byArray) : this.getStorageMgr().getString(553765890, 401, "UNDEF")));
-        this.getLog().log(-1601830656, "[MasterControlASIProvider.getHUSwVersion] returns %1", (Object)string);
+        string = this.getFramework().isSimulator() ? "WinTV" : (this.getFramework().getStartupMgr().isRebootToDownload() ? "UNDEF" : ((byArray = this.getStorageMgr().getByteArray(46924065, 401, new byte[0])).length > 10 ? new String(byArray) : this.getStorageMgr().getString(46924065, 401, "UNDEF")));
+        this.getLog().log(100000, "[MasterControlASIProvider.getHUSwVersion] returns %1", (Object)string);
         return string;
     }
 

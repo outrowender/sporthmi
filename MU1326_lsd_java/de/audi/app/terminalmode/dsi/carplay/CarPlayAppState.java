@@ -18,17 +18,14 @@ implements IDSIAppState {
         super(n, n2, n3);
     }
 
-    @Override
     public int getDSIAppStateId() {
         return CarPlayAppState.mapAppIdHMI2Carplay(this.getAppStateId());
     }
 
-    @Override
     public int getDSIOwner() {
         return CarPlayAppState.mapOwnerHMI2CarPlay(this.getOwner());
     }
 
-    @Override
     public int getDSISpeechMode() {
         return CarPlayAppState.mapSpeechModeHMI2Carplay(this.getSpeechMode());
     }

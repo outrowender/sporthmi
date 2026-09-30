@@ -19,12 +19,10 @@ extends AbstractTel1EnqueuedBAPPropertyHandler {
         super(iTelApplication, dispatcherBase);
     }
 
-    @Override
     protected boolean doProcessGlobalTelephoneStateUpdate(int n, IGlobalTelephoneStateStruct iGlobalTelephoneStateStruct) {
         return iGlobalTelephoneStateStruct != null && iGlobalTelephoneStateStruct.getCallLeadingDevice() != null;
     }
 
-    @Override
     protected void updateAsync() {
         CombiBAPServicePhone combiBAPServicePhone = this.getCombiService();
         ITelDSIMobileEquipmentDeviceState iTelDSIMobileEquipmentDeviceState = this.getCallLeadingDeviceState();
@@ -36,15 +34,15 @@ extends AbstractTel1EnqueuedBAPPropertyHandler {
                 int n2 = string2 != null && string2.length() > 0 ? 1 : 0;
                 TelBapNetworkProviderStruct telBapNetworkProviderStruct = new TelBapNetworkProviderStruct(n2, string2, n, string);
                 if (!telBapNetworkProviderStruct.equals(this.networkProviderStruct)) {
-                    this.log.log(1078071040, "[BAPPropertyTelNetworkProvider#update] %1", (Object)telBapNetworkProviderStruct);
+                    this.log.log(1000000, "[BAPPropertyTelNetworkProvider#update] %1", (Object)telBapNetworkProviderStruct);
                     combiBAPServicePhone.updateNetworkProvider(telBapNetworkProviderStruct.getNetworkProviderState(), telBapNetworkProviderStruct.getNetworkProviderName(), telBapNetworkProviderStruct.getServiceProviderState(), telBapNetworkProviderStruct.getServiceProviderName());
                     this.networkProviderStruct = telBapNetworkProviderStruct;
                 }
             } else {
-                this.log.log(-1601830656, "[BAPPropertyTelNetworkProvider#update] state is null --> NOP!");
+                this.log.log(100000, "[BAPPropertyTelNetworkProvider#update] state is null --> NOP!");
             }
         } else {
-            this.log.log(-1601830656, "[BAPPropertyTelNetworkProvider#update] CombiBAPServicePhone is null --> NOP!");
+            this.log.log(100000, "[BAPPropertyTelNetworkProvider#update] CombiBAPServicePhone is null --> NOP!");
         }
     }
 }

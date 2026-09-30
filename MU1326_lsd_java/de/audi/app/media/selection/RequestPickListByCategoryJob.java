@@ -13,35 +13,31 @@ import de.audi.atip.log.LogChannel;
 
 public class RequestPickListByCategoryJob
 extends DataSelectionByCategoryJob {
-    public static final String KEY_PICKLIST_LISTENER;
-    public static final String KEY_PICKLIST_ENTRIES;
-    static final String LOGCLASS;
+    public static final String KEY_PICKLIST_LISTENER = "KEY_PICKLIST_LISTENER";
+    public static final String KEY_PICKLIST_ENTRIES = "KEY_PICKLIST_ENTRIES";
+    static final String LOGCLASS = "RequestPickListByCategoryJob";
     final IPickListListener picklistListener;
 
     public RequestPickListByCategoryJob(LogChannel logChannel, SelectionBrowser selectionBrowser, IDataSelectionContext iDataSelectionContext, IPlayer iPlayer) {
         super(logChannel, selectionBrowser, iDataSelectionContext, iPlayer);
-        this.picklistListener = (IPickListListener)iDataSelectionContext.getParameter("KEY_PICKLIST_LISTENER", null);
+        this.picklistListener = (IPickListListener)iDataSelectionContext.getParameter(KEY_PICKLIST_LISTENER, null);
     }
 
-    @Override
     public String getName() {
-        return "RequestPickListByCategoryJob";
+        return LOGCLASS;
     }
 
-    @Override
     public void performSelection() {
-        this.logger.log(1078071040, "[%1.performSelection] requestPicklist", (Object)"RequestPickListByCategoryJob");
-        this.selectionBrowser.requestPickList((long[])this.selectionContainer.getParameter("KEY_PICKLIST_ENTRIES", new long[0]));
+        this.logger.log(1000000, "[%1.performSelection] requestPicklist", (Object)LOGCLASS);
+        this.selectionBrowser.requestPickList((long[])this.selectionContainer.getParameter(KEY_PICKLIST_ENTRIES, new long[0]));
     }
 
-    @Override
     public void responsePicklist(boolean bl, MediaListEntry[] mediaListEntryArray) {
-        this.logger.log(1078071040, "[%1.responsePicklist] responsePicklist '%2'", (Object)"RequestPickListByCategoryJob", (Object)bl);
+        this.logger.log(1000000, "[%1.responsePicklist] responsePicklist '%2'", (Object)LOGCLASS, (Object)bl);
         this.notifyPickListListener(!bl, mediaListEntryArray);
         this.finishJob();
     }
 
-    @Override
     public void abort(boolean bl) {
         if (bl) {
             this.notifyPickListListener(false, null);
@@ -49,12 +45,10 @@ extends DataSelectionByCategoryJob {
         super.abort(bl);
     }
 
-    @Override
     protected void browseModeError() {
         this.abort(true);
     }
 
-    @Override
     protected void browseFolderError() {
         this.abort(true);
     }

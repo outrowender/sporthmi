@@ -4,19 +4,14 @@
 package de.audi.app.earlyfunc.core.parking;
 
 public interface IParkingPopupHandler {
-    default public void registerPopup(int n) {
-    }
+    public void registerPopup(int var1);
 
-    default public void unregisterPopup(int n) {
-    }
+    public void unregisterPopup(int var1);
 
-    default public void showPopup(int n) {
-    }
+    public void showPopup(int var1);
 
-    default public void removeCurrentPopup(int n) {
-    }
+    public void removeCurrentPopup(int var1);
 
-    default public boolean isPopupActive() {
-    }
+    public boolean isPopupActive();
 }
 

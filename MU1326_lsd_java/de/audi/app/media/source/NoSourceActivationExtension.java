@@ -9,7 +9,6 @@ import de.audi.app.media.source.ISourceSlot;
 
 public class NoSourceActivationExtension
 implements ISourceActivationExtension {
-    @Override
     public boolean slotsChanged(ISource[] iSourceArray, ISourceSlot iSourceSlot) {
         return false;
     }

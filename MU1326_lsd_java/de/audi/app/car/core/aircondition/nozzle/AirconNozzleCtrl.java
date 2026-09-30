@@ -6,9 +6,6 @@ package de.audi.app.car.core.aircondition.nozzle;
 import de.audi.app.car.common.exception.ValueConverterStrategyException;
 import de.audi.app.car.common.util.DefaultValueConverterStrategy;
 import de.audi.app.car.common.util.IValueConverterStrategy;
-import de.audi.app.car.core.aircondition.nozzle.AirconNozzleCtrl$1;
-import de.audi.app.car.core.aircondition.nozzle.AirconNozzleCtrl$DefaultStyleConverterStrategy;
-import de.audi.app.car.core.aircondition.nozzle.AirconNozzleCtrl$InvertValueConverterStrategy;
 import de.audi.app.car.core.aircondition.nozzle.AirconNozzleState;
 import de.audi.app.car.core.aircondition.nozzle.IAirconNozzleCtrl;
 import de.audi.atip.hmi.modelaccess.ChoiceModelApp;
@@ -22,8 +19,35 @@ import org.dsi.ifc.caraircondition.AirconNozzleListStyles;
 public class AirconNozzleCtrl
 extends AirconNozzleState
 implements IAirconNozzleCtrl {
-    private static final long TIMEOUT;
-    private final DefaultTimerListener timerListener = new AirconNozzleCtrl$1(this);
+    private static final long TIMEOUT = 1000L;
+    private final DefaultTimerListener timerListener = new DefaultTimerListener(){
+
+        public void fireTimer(Timer timer) {
+            if (timer.equals(AirconNozzleCtrl.this.airflowTimer)) {
+                if (!AirconNozzleCtrl.this.isCtrlOverwrite(0)) {
+                    AirconNozzleCtrl.this.airflowDirty = true;
+                    AirconNozzleCtrl.this.updateAirflowModelData(false);
+                } else {
+                    AirconNozzleCtrl.this.airflowTimer.restart();
+                }
+            } else if (timer.equals(AirconNozzleCtrl.this.positionTimer)) {
+                if (!AirconNozzleCtrl.this.isCtrlOverwrite(1) && !AirconNozzleCtrl.this.isCtrlOverwrite(2)) {
+                    AirconNozzleCtrl.this.horizontalPositionDirty = true;
+                    AirconNozzleCtrl.this.verticalPositionDirty = true;
+                    AirconNozzleCtrl.this.updatePositionModelData(false);
+                } else {
+                    AirconNozzleCtrl.this.positionTimer.restart();
+                }
+            } else if (timer.equals(AirconNozzleCtrl.this.styleTimer)) {
+                if (!AirconNozzleCtrl.this.isCtrlOverwrite(3)) {
+                    AirconNozzleCtrl.this.styleDirty = true;
+                    AirconNozzleCtrl.this.updateStyleModelData(false);
+                } else {
+                    AirconNozzleCtrl.this.styleTimer.restart();
+                }
+            }
+        }
+    };
     private final LogChannel logChannel;
     private final boolean[] syncPredictedDisplay = new boolean[4];
     private final boolean[] ctrlOverwrite = new boolean[4];
@@ -31,9 +55,9 @@ implements IAirconNozzleCtrl {
     private final Timer positionTimer;
     private final Timer styleTimer;
     private IValueConverterStrategy airflowConverterStrategy = new DefaultValueConverterStrategy();
-    private IValueConverterStrategy horizontalConverterStrategy = new AirconNozzleCtrl$InvertValueConverterStrategy(this);
+    private IValueConverterStrategy horizontalConverterStrategy = new InvertValueConverterStrategy();
     private IValueConverterStrategy verticalConverterStrategy = new DefaultValueConverterStrategy();
-    private IValueConverterStrategy styleConverterStrategy = new AirconNozzleCtrl$DefaultStyleConverterStrategy(this);
+    private IValueConverterStrategy styleConverterStrategy = new DefaultStyleConverterStrategy();
     private RangeModelApp airflowModel;
     private RangeModel2DApp positionModel;
     private ChoiceModelApp styleModel;
@@ -45,9 +69,9 @@ implements IAirconNozzleCtrl {
     public AirconNozzleCtrl(int n, String string, int n2, int n3, int n4, int n5, LogChannel logChannel) {
         super(n, string, n2, n3, n4, n5);
         this.logChannel = logChannel;
-        this.airflowTimer = new Timer(new StringBuffer().append(string).append("_airflowTimer").toString(), 0, true, this.timerListener);
-        this.positionTimer = new Timer(new StringBuffer().append(string).append("_positionTimer").toString(), 0, true, this.timerListener);
-        this.styleTimer = new Timer(new StringBuffer().append(string).append("_styleTimer").toString(), 0, true, this.timerListener);
+        this.airflowTimer = new Timer(new StringBuffer().append(string).append("_airflowTimer").toString(), 1000L, true, this.timerListener);
+        this.positionTimer = new Timer(new StringBuffer().append(string).append("_positionTimer").toString(), 1000L, true, this.timerListener);
+        this.styleTimer = new Timer(new StringBuffer().append(string).append("_styleTimer").toString(), 1000L, true, this.timerListener);
     }
 
     public void setConverterStrategy(int n, IValueConverterStrategy iValueConverterStrategy) {
@@ -92,35 +116,35 @@ implements IAirconNozzleCtrl {
         }
     }
 
-    public int convertAirflowHMI2DSI(int n) {
+    public int convertAirflowHMI2DSI(int n) throws ValueConverterStrategyException {
         return (Integer)this.airflowConverterStrategy.getDSIValue(new Integer(n));
     }
 
-    public int convertAirflowVerticalDSI2HMI(int n) {
+    public int convertAirflowVerticalDSI2HMI(int n) throws ValueConverterStrategyException {
         return (Integer)this.airflowConverterStrategy.getHMIValue(new Integer(n));
     }
 
-    public int convertHorizontalPositionHMI2DSI(int n) {
+    public int convertHorizontalPositionHMI2DSI(int n) throws ValueConverterStrategyException {
         return (Integer)this.horizontalConverterStrategy.getDSIValue(new Integer(n));
     }
 
-    public int convertHorizontalPositionDSI2HMI(int n) {
+    public int convertHorizontalPositionDSI2HMI(int n) throws ValueConverterStrategyException {
         return (Integer)this.horizontalConverterStrategy.getHMIValue(new Integer(n));
     }
 
-    public int convertVerticalPositionHMI2DSI(int n) {
+    public int convertVerticalPositionHMI2DSI(int n) throws ValueConverterStrategyException {
         return (Integer)this.verticalConverterStrategy.getDSIValue(new Integer(n));
     }
 
-    public int convertVerticalPositionDSI2HMI(int n) {
+    public int convertVerticalPositionDSI2HMI(int n) throws ValueConverterStrategyException {
         return (Integer)this.verticalConverterStrategy.getHMIValue(new Integer(n));
     }
 
-    public AirconNozzleListStyles convertStyleHMI2DSI(int n) {
+    public AirconNozzleListStyles convertStyleHMI2DSI(int n) throws ValueConverterStrategyException {
         return (AirconNozzleListStyles)this.styleConverterStrategy.getDSIValue(new Integer(n));
     }
 
-    public int convertStyleDSI2HMI(AirconNozzleListStyles airconNozzleListStyles) {
+    public int convertStyleDSI2HMI(AirconNozzleListStyles airconNozzleListStyles) throws ValueConverterStrategyException {
         return (Integer)this.styleConverterStrategy.getHMIValue(airconNozzleListStyles);
     }
 
@@ -162,7 +186,7 @@ implements IAirconNozzleCtrl {
                 return;
             }
             if (null != this.positionModel) {
-                this.logChannel.log(14808325, "[AirconNozzleCtrl(%1)#updatePositionModelData] horizontal='%2', vertical='%3'", (Object)this.getName(), (long)n2, (long)n);
+                this.logChannel.log(100000000, "[AirconNozzleCtrl(%1)#updatePositionModelData] horizontal='%2', vertical='%3'", (Object)this.getName(), (long)n2, (long)n);
                 this.positionModel.setValue(n, n2);
             }
             this.horizontalPositionDirty = false;
@@ -191,29 +215,24 @@ implements IAirconNozzleCtrl {
         }
     }
 
-    @Override
     public void setModels(RangeModelApp rangeModelApp, RangeModel2DApp rangeModel2DApp, ChoiceModelApp choiceModelApp) {
         this.airflowModel = rangeModelApp;
         this.positionModel = rangeModel2DApp;
         this.styleModel = choiceModelApp;
     }
 
-    @Override
     public final RangeModelApp getAirflowModel() {
         return this.airflowModel;
     }
 
-    @Override
     public final RangeModel2DApp getPositionModel() {
         return this.positionModel;
     }
 
-    @Override
     public final ChoiceModelApp getStyleModel() {
         return this.styleModel;
     }
 
-    @Override
     public void setAirflow(int n, boolean bl) {
         this.setAirflow(n, bl, false);
     }
@@ -223,7 +242,7 @@ implements IAirconNozzleCtrl {
         this.airflowDirty = true;
         if (this.syncPredictedDisplay[0] && !this.isWaitingForAcknowledge(0)) {
             if (this.airflowTimer.isRunning() && !bl2) {
-                this.logChannel.log(-2137614336, "[AirconNozzleCtrl(%1)#setAirflow] Timer is still running.", (Object)this.getName());
+                this.logChannel.log(10000000, "[AirconNozzleCtrl(%1)#setAirflow] Timer is still running.", (Object)this.getName());
             } else {
                 this.updateAirflowModelData(bl2);
             }
@@ -237,7 +256,6 @@ implements IAirconNozzleCtrl {
         }
     }
 
-    @Override
     public void setHorizontalPosition(int n, boolean bl) {
         this.setHorizontalPosition(n, bl, false);
     }
@@ -247,7 +265,7 @@ implements IAirconNozzleCtrl {
         this.horizontalPositionDirty = true;
         if (this.syncPredictedDisplay[1] && !this.isWaitingForAcknowledge(1)) {
             if (this.positionTimer.isRunning() && !bl2) {
-                this.logChannel.log(-2137614336, "[AirconNozzleCtrl(%1)#setHorizontalPosition] Timer is still running.", (Object)this.getName());
+                this.logChannel.log(10000000, "[AirconNozzleCtrl(%1)#setHorizontalPosition] Timer is still running.", (Object)this.getName());
             } else {
                 this.updatePositionModelData(bl2);
             }
@@ -261,7 +279,6 @@ implements IAirconNozzleCtrl {
         }
     }
 
-    @Override
     public void setVerticalPosition(int n, boolean bl) {
         this.setVerticalPosition(n, bl, false);
     }
@@ -271,7 +288,7 @@ implements IAirconNozzleCtrl {
         this.verticalPositionDirty = true;
         if (this.syncPredictedDisplay[2] && !this.isWaitingForAcknowledge(2)) {
             if (this.positionTimer.isRunning() && !bl2) {
-                this.logChannel.log(-2137614336, "[AirconNozzleCtrl(%1)#setVerticalPosition] Timer is still running.", (Object)this.getName());
+                this.logChannel.log(10000000, "[AirconNozzleCtrl(%1)#setVerticalPosition] Timer is still running.", (Object)this.getName());
             } else {
                 this.updatePositionModelData(bl2);
             }
@@ -285,7 +302,6 @@ implements IAirconNozzleCtrl {
         }
     }
 
-    @Override
     public void setPosition(int n, int n2, boolean bl) {
         this.setPosition(n, n2, bl, false);
     }
@@ -301,7 +317,7 @@ implements IAirconNozzleCtrl {
         boolean bl3 = this.syncPredictedDisplay[1];
         if (bl3 && !this.isWaitingForAcknowledge(1) && !this.isWaitingForAcknowledge(2)) {
             if (this.positionTimer.isRunning() && !bl2) {
-                this.logChannel.log(-2137614336, "[AirconNozzleCtrl(%1)#setPosition] Timer is still running.", (Object)this.getName());
+                this.logChannel.log(10000000, "[AirconNozzleCtrl(%1)#setPosition] Timer is still running.", (Object)this.getName());
             } else {
                 this.updatePositionModelData(bl2);
             }
@@ -315,7 +331,6 @@ implements IAirconNozzleCtrl {
         }
     }
 
-    @Override
     public void setStyle(AirconNozzleListStyles airconNozzleListStyles, boolean bl) {
         this.setStyle(airconNozzleListStyles, bl, false);
     }
@@ -325,7 +340,7 @@ implements IAirconNozzleCtrl {
         this.styleDirty = true;
         if (this.syncPredictedDisplay[3] && !this.isWaitingForAcknowledge(3)) {
             if (this.styleTimer.isRunning() && !bl2) {
-                this.logChannel.log(-2137614336, "[AirconNozzleCtrl(%1)#setStyle] Timer is still running.", (Object)this.getName());
+                this.logChannel.log(10000000, "[AirconNozzleCtrl(%1)#setStyle] Timer is still running.", (Object)this.getName());
             } else {
                 this.updateStyleModelData(bl2);
             }
@@ -339,48 +354,53 @@ implements IAirconNozzleCtrl {
         }
     }
 
-    static /* synthetic */ Timer access$000(AirconNozzleCtrl airconNozzleCtrl) {
-        return airconNozzleCtrl.airflowTimer;
+    public class InvertValueConverterStrategy
+    implements IValueConverterStrategy {
+        public Object getDSIValue(Object object) {
+            return new Integer(-((Integer)object).intValue());
+        }
+
+        public Object getHMIValue(Object object) {
+            return new Integer(-((Integer)object).intValue());
+        }
     }
 
-    static /* synthetic */ boolean access$102(AirconNozzleCtrl airconNozzleCtrl, boolean bl) {
-        airconNozzleCtrl.airflowDirty = bl;
-        return airconNozzleCtrl.airflowDirty;
-    }
+    public class DefaultStyleConverterStrategy
+    implements IValueConverterStrategy {
+        public Object getDSIValue(Object object) {
+            switch ((Integer)object) {
+                case 0: {
+                    return new AirconNozzleListStyles(false, false, false, true);
+                }
+                case 1: {
+                    return new AirconNozzleListStyles(false, false, true, false);
+                }
+                case 2: {
+                    return new AirconNozzleListStyles(false, true, false, false);
+                }
+                case 3: {
+                    return new AirconNozzleListStyles(true, false, false, false);
+                }
+            }
+            return new AirconNozzleListStyles();
+        }
 
-    static /* synthetic */ void access$200(AirconNozzleCtrl airconNozzleCtrl, boolean bl) {
-        airconNozzleCtrl.updateAirflowModelData(bl);
-    }
-
-    static /* synthetic */ Timer access$300(AirconNozzleCtrl airconNozzleCtrl) {
-        return airconNozzleCtrl.positionTimer;
-    }
-
-    static /* synthetic */ boolean access$402(AirconNozzleCtrl airconNozzleCtrl, boolean bl) {
-        airconNozzleCtrl.horizontalPositionDirty = bl;
-        return airconNozzleCtrl.horizontalPositionDirty;
-    }
-
-    static /* synthetic */ boolean access$502(AirconNozzleCtrl airconNozzleCtrl, boolean bl) {
-        airconNozzleCtrl.verticalPositionDirty = bl;
-        return airconNozzleCtrl.verticalPositionDirty;
-    }
-
-    static /* synthetic */ void access$600(AirconNozzleCtrl airconNozzleCtrl, boolean bl) {
-        airconNozzleCtrl.updatePositionModelData(bl);
-    }
-
-    static /* synthetic */ Timer access$700(AirconNozzleCtrl airconNozzleCtrl) {
-        return airconNozzleCtrl.styleTimer;
-    }
-
-    static /* synthetic */ boolean access$802(AirconNozzleCtrl airconNozzleCtrl, boolean bl) {
-        airconNozzleCtrl.styleDirty = bl;
-        return airconNozzleCtrl.styleDirty;
-    }
-
-    static /* synthetic */ void access$900(AirconNozzleCtrl airconNozzleCtrl, boolean bl) {
-        airconNozzleCtrl.updateStyleModelData(bl);
+        public Object getHMIValue(Object object) {
+            AirconNozzleListStyles airconNozzleListStyles = (AirconNozzleListStyles)object;
+            if (!airconNozzleListStyles.isInterval() && !airconNozzleListStyles.isFocus() && !airconNozzleListStyles.isDiffuse() && airconNozzleListStyles.isManual()) {
+                return new Integer(0);
+            }
+            if (!airconNozzleListStyles.isInterval() && !airconNozzleListStyles.isFocus() && airconNozzleListStyles.isDiffuse() && !airconNozzleListStyles.isManual()) {
+                return new Integer(1);
+            }
+            if (!airconNozzleListStyles.isInterval() && airconNozzleListStyles.isFocus() && !airconNozzleListStyles.isDiffuse() && !airconNozzleListStyles.isManual()) {
+                return new Integer(2);
+            }
+            if (airconNozzleListStyles.isInterval() && !airconNozzleListStyles.isFocus() && !airconNozzleListStyles.isDiffuse() && !airconNozzleListStyles.isManual()) {
+                return new Integer(3);
+            }
+            return new Integer(-1);
+        }
     }
 }
 

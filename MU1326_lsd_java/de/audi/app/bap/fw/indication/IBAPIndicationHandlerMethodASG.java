@@ -7,7 +7,6 @@ import de.audi.app.bap.fw.functiontypes.BAPFunctionMethodASG;
 import de.vw.mib.bap.requests.ResultMethod;
 
 public interface IBAPIndicationHandlerMethodASG {
-    default public void processIndicationResult(BAPFunctionMethodASG bAPFunctionMethodASG, ResultMethod resultMethod) {
-    }
+    public void processIndicationResult(BAPFunctionMethodASG var1, ResultMethod var2);
 }
 

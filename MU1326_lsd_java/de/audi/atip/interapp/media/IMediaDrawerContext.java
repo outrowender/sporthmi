@@ -7,7 +7,6 @@ import de.audi.atip.interapp.media.IMediaDrawerContextListener;
 import java.util.List;
 
 public interface IMediaDrawerContext {
-    default public void setDrawerElements(List list, IMediaDrawerContextListener iMediaDrawerContextListener) {
-    }
+    public void setDrawerElements(List var1, IMediaDrawerContextListener var2);
 }
 
